@@ -1,18 +1,1288 @@
 {
-  "CLUSTER NODES": {
+  "ACL": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported"
+  },
+  "ACL CAT": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL DELUSER": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL DRYRUN": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL GENPASS": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL GETUSER": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL HELP": {
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL LIST": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL LOAD": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL LOG": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL SAVE": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL SETUSER": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL USERS": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ACL WHOAMI": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "ASKING": {
+    "redis_py": "unsupported",
+    "go-redis": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
   },
-  "ACL HELP": {
-    "go-redis": "generic_only"
+  "AUTH": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "BGREWRITEAOF": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "BGSAVE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported"
+  },
+  "CLIENT CACHING": {
+    "go-redis": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT GETNAME": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported"
+  },
+  "CLIENT GETREDIR": {
+    "go-redis": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT ID": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported"
+  },
+  "CLIENT INFO": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT KILL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT LIST": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT NO-EVICT": {
+    "go-redis": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT NO-TOUCH": {
+    "go-redis": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT PAUSE": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT REPLY": {
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT SETINFO": {
+    "node_redis": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT SETNAME": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported"
+  },
+  "CLIENT TRACKING": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT TRACKINGINFO": {
+    "go-redis": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT UNBLOCK": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLIENT UNPAUSE": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER ADDSLOTS": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER ADDSLOTSRANGE": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER BUMPEPOCH": {
+    "redis_py": "unsupported",
+    "go-redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER COUNT-FAILURE-REPORTS": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER COUNTKEYSINSLOT": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER DELSLOTS": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER DELSLOTSRANGE": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER FAILOVER": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER FLUSHSLOTS": {
+    "redis_py": "unsupported",
+    "go-redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER FORGET": {
+    "redis_py": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER GETKEYSINSLOT": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER HELP": {
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER INFO": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
   },
   "CLUSTER KEYSLOT": {
-    "nredisstack_sync": "unsupported"
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
   },
-  "QUIT": {
-    "go-redis": "unsupported"
+  "CLUSTER LINKS": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER MEET": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER MIGRATION": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER MYID": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER MYSHARDID": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER NODES": {
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER REPLICAS": {
+    "go-redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER REPLICATE": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER RESET": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER SAVECONFIG": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER SET-CONFIG-EPOCH": {
+    "go-redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER SETSLOT": {
+    "go-redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER SHARDS": {
+    "node_redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER SLAVES": {
+    "redis_py": "generic_only",
+    "node_redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER SLOT-STATS": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER SLOTS": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CLUSTER SYNCSLOTS": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "COMMAND": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "COMMAND COUNT": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "COMMAND DOCS": {
+    "go-redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "COMMAND GETKEYS": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "COMMAND GETKEYSANDFLAGS": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "COMMAND HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "COMMAND INFO": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "COMMAND LIST": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CONFIG": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CONFIG GET": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CONFIG HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CONFIG RESETSTAT": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CONFIG REWRITE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "CONFIG SET": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "DBSIZE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "DEBUG": {
+    "node_redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "ECHO": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "EVAL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "EVALSHA": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "EVALSHA_RO": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "EVAL_RO": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FAILOVER": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FCALL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FCALL_RO": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FT.AGGREGATE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.ALIASADD": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.ALIASDEL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.ALIASUPDATE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.ALTER": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.CURSOR DEL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.CURSOR READ": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.DICTADD": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.DICTDEL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.DICTDUMP": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.DROPINDEX": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.EXPLAIN": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.EXPLAINCLI": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
+  },
+  "FT.HYBRID": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.INFO": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.PROFILE": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.SEARCH": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.SPELLCHECK": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.SUGADD": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.SUGDEL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.SUGGET": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.SUGLEN": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.SYNDUMP": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.SYNUPDATE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT.TAGVALS": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FT._LIST": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "FUNCTION DELETE": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FUNCTION DUMP": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FUNCTION FLUSH": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FUNCTION HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "php": "generic_only"
+  },
+  "FUNCTION KILL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FUNCTION LIST": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FUNCTION LOAD": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FUNCTION RESTORE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "FUNCTION STATS": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "HELLO": {
+    "jedis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "HOTKEYS": {
+    "jedis": "unsupported",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "INFO": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LASTSAVE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LATENCY": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LATENCY DOCTOR": {
+    "go-redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LATENCY GRAPH": {
+    "go-redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LATENCY HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LATENCY HISTOGRAM": {
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LATENCY HISTORY": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LATENCY LATEST": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LATENCY RESET": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "LOLWUT": {
+    "go-redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MEMORY": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MEMORY DOCTOR": {
+    "go-redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MEMORY HELP": {
+    "redis_py": "unsupported",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MEMORY MALLOC-STATS": {
+    "go-redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MEMORY PURGE": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MEMORY STATS": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MEMORY USAGE": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MODULE": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MODULE HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MODULE LIST": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MODULE LOAD": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MODULE LOADEX": {
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "MODULE UNLOAD": {
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
   },
   "MONITOR": {
-    "nredisstack_sync": "unsupported"
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "PSYNC": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "node_redis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "PUBSUB CHANNELS": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "PUBSUB HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "PUBSUB NUMPAT": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "PUBSUB NUMSUB": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "PUBSUB SHARDCHANNELS": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "PUBSUB SHARDNUMSUB": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "QUIT": {
+    "go-redis": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "READONLY": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "READWRITE": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "REPLCONF": {
+    "redis_py": "unsupported",
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "node_redis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "REPLICAOF": {
+    "nredisstack_sync": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "RESET": {
+    "go-redis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "RESTORE-ASKING": {
+    "redis_py": "generic_only",
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "ROLE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SAVE": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SCRIPT DEBUG": {
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "SCRIPT EXISTS": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SCRIPT FLUSH": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SCRIPT HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "SCRIPT KILL": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
+  "SELECT": {
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SHUTDOWN": {
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SLAVEOF": {
+    "node_redis": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SLOWLOG": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "node_redis": "generic_only",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SLOWLOG GET": {
+    "node_redis": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SLOWLOG HELP": {
+    "redis_py": "generic_only",
+    "jedis": "generic_only",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "generic_only",
+    "lettuce_async": "generic_only",
+    "lettuce_reactive": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SLOWLOG LEN": {
+    "node_redis": "generic_only",
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SLOWLOG RESET": {
+    "node_redis": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SSUBSCRIBE": {
+    "redis_rs_sync": "generic_only"
+  },
+  "SUNSUBSCRIBE": {
+    "redis_rs_sync": "generic_only"
+  },
+  "SWAPDB": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "SYNC": {
+    "jedis": "unsupported",
+    "go-redis": "unsupported",
+    "node_redis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "unsupported",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "TIME": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "TRIMSLOTS": {
+    "redis_py": "generic_only",
+    "jedis": "unsupported",
+    "go-redis": "generic_only",
+    "node_redis": "generic_only",
+    "lettuce_sync": "unsupported",
+    "lettuce_async": "unsupported",
+    "lettuce_reactive": "unsupported",
+    "nredisstack_sync": "unsupported",
+    "nredisstack_async": "unsupported",
+    "php": "generic_only",
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
   }
 }
