@@ -16,13 +16,8 @@ weight: 20
 ---
 
 Use an Amazon DynamoDB global table with multi-Region strong consistency (MRSC) to coordinate
-leader election between Redis Data Integration (RDI) disaster recovery (DR) sites. A global
-table using the default multi-Region eventual consistency mode cannot prevent two sites from
-acquiring the lease. RDI refuses to start with such a table, or with a table whose key isn't a
-single string named `id`. If RDI can't describe the table, for example without the
-`dynamodb:DescribeTable` permission, it logs a message and skips these checks. With a
-single-Region table, RDI only logs a message at startup, and the lease doesn't survive the loss
-of that Region.
+leader election between Redis Data Integration (RDI) disaster recovery (DR) sites. All sites
+must use the same table and key name, with each site using a replica Region it can reach.
 
 Before you begin, [create the RDI database at both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites).
 The commands use the Amazon Web Services (AWS) command-line interface (CLI), authenticated
@@ -137,6 +132,10 @@ lease owner from a failed conditional write.
 Allow outbound Hypertext Transfer Protocol Secure (HTTPS) access from each operator to
 `dynamodb.<aws-replica-region>.amazonaws.com`.
 
+Choose one of these identity options for each operator.
+
+### Default credential provider chain
+
 RDI uses the AWS default credential provider chain when you omit a credentials file.
 Configure the identity in the operator's environment, not only in your local shell. On Amazon
 Elastic Kubernetes Service (EKS), use
@@ -153,8 +152,31 @@ operator:
       eks.amazonaws.com/role-arn: arn:aws:iam::<aws-account-id>:role/<operator-role>
 ```
 
-An operator running outside AWS can use an AWS shared credentials file passed when
-installing RDI.
+### Shared credentials file
+
+An operator running outside AWS can use an AWS shared credentials file. Append this option
+to each site's command in [Install RDI and check access](#install-rdi-and-check-access),
+using that site's file:
+
+```text
+--set-file operator.leaderElection.dynamoDBLease.credentials="<aws-credentials-file>"
+```
+
+For example, the file can contain:
+
+```ini
+[default]
+aws_access_key_id = <access-key-id>
+aws_secret_access_key = <secret-access-key>
+```
+
+If the credentials are temporary, also include their `aws_session_token`. Renew temporary
+credentials before they expire. RDI reads the file only at startup, so restart the operator
+after you replace it:
+
+```bash
+kubectl --context "<site-kube-context>" --namespace rdi rollout restart deployment/rdi-operator
+```
 
 After creating the lease resource and granting access, return to
 [Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
@@ -197,9 +219,8 @@ operator:
 ```
 
 Use identical `tableName` and `keyName` values at both sites, distinct `instanceID` values,
-and each site's selected replica Region. RDI doesn't check that the Region is a replica rather
-than the witness. The `keyName` default is `rdi-lease`. To use one table for several DR
-setups, see
+and each site's selected replica Region. `keyName` defaults to `rdi-lease`. To use one table
+for several DR setups, see
 [Share a lease store between DR setups](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#share-a-lease-store-between-dr-setups).
 RDI creates the lease item.
 
@@ -217,42 +238,8 @@ RDI creates the lease item.
      --values rdi-values-site-b.yaml
    ```
 
-   If you use an AWS shared credentials file, append this option to each site's command,
-   using that site's file:
-
-   ```text
-   --set-file operator.leaderElection.dynamoDBLease.credentials="<aws-credentials-file>"
-   ```
-
-   For example, the file can contain:
-
-   ```ini
-   [default]
-   aws_access_key_id = <access-key-id>
-   aws_secret_access_key = <secret-access-key>
-   ```
-
-   If the credentials are temporary, also include their `aws_session_token`. Renew temporary
-   credentials before they expire. RDI reads the file only at startup, so restart the operator
-   after you replace it:
-
-   ```bash
-   kubectl --context "<site-kube-context>" --namespace rdi rollout restart deployment/rdi-operator
-   ```
-
-1. Check the operator at each site:
-
-   ```bash
-   kubectl --context "<site-a-kube-context>" --namespace rdi get pods
-   kubectl --context "<site-b-kube-context>" --namespace rdi get pods
-   kubectl --context "<site-a-kube-context>" --namespace rdi logs deployment/rdi-operator
-   kubectl --context "<site-b-kube-context>" --namespace rdi logs deployment/rdi-operator
-   ```
-
-   Check for authentication, permission, table-schema, consistency, or connectivity errors. See
-   [Operator log messages](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#operator-log-messages).
-   A successful `describe-table` from your shell does not confirm the operator's runtime
-   permissions.
+   If you use a [shared credentials file](#shared-credentials-file), append its `--set-file`
+   option to each site's command.
 
 Continue with [Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets)
 to configure RDI CLI contexts and confirm that one instance is the leader and the other is

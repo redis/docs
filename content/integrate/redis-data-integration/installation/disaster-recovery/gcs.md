@@ -26,9 +26,8 @@ that can create buckets and grant access. The RDI operator needs separate runtim
 
 ## Create the bucket
 
-Create a dual-region or multi-region bucket. A single-region bucket does not protect the lease
-against the loss of that region. RDI doesn't
-reject a single-region bucket; it only logs a message at startup. Choose a location using
+Create a dual-region or multi-region bucket, so that the lease survives the loss of a region.
+Choose a location using
 [Cloud Storage bucket locations](https://cloud.google.com/storage/docs/locations).
 
 ```bash
@@ -38,25 +37,21 @@ gcloud storage buckets create "gs://<lease-bucket>" \
   --uniform-bucket-level-access
 ```
 
-The bucket name must be globally unique. For example, use `NAM4` for a predefined dual-region
-location or `US` for a multi-region location. See
+The bucket name must be globally unique. For `--location`, use a predefined dual-region
+location such as `NAM4` or a multi-region location such as `US`. See
 [`gcloud storage buckets create`](https://cloud.google.com/sdk/gcloud/reference/storage/buckets/create)
 for custom dual-region locations.
 
 RDI creates the lease object; do not create it yourself.
 
-> [!WARNING]
-> Don't apply an Object Lifecycle Management rule that deletes the lease object, such as a rule
-> that deletes objects by age. RDI creates the lease object once and then only updates it, so
-> such a rule eventually deletes it. Another site can then take over, and two sites can briefly
-> lead.
+See [Protect the lease](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#protect-the-lease)
+for the warning about deleting a lease, including through lifecycle rules.
 
 ## Grant the operator access
 
 The operator's Google Cloud identity needs to create, read, update, and overwrite the lease
 object. The bucket-scoped `roles/storage.objectUser` role provides these permissions. The
-`roles/storage.legacyBucketReader` role lets RDI check the bucket's location at startup;
-without it, RDI skips the check. See
+`roles/storage.legacyBucketReader` role lets RDI check the bucket's location at startup. See
 [Cloud Storage roles](https://cloud.google.com/storage/docs/access-control/iam-roles).
 
 Grant both roles to the service account used by the operator:
@@ -75,6 +70,10 @@ If the sites use different identities, run these commands for each one. Grant ac
 bucket rather than the whole project. Allow outbound Hypertext Transfer Protocol Secure
 (HTTPS) access from both operators to Cloud Storage.
 
+Choose one of these identity options for each operator.
+
+### Workload Identity Federation
+
 RDI uses application default credentials when you omit a credentials file. Configure the
 identity in the operator's environment, not only in your local shell. On Google Kubernetes
 Engine (GKE), use
@@ -90,9 +89,18 @@ operator:
       iam.gke.io/gcp-service-account: <operator-service-account-email>
 ```
 
-You can also pass a service account key file when installing RDI. RDI doesn't accept
-Workload Identity Federation credential configuration files. RDI reads the key file only at
-startup, so restart the operator after you replace it:
+### Service account key file
+
+Pass a service account key file when installing RDI. Append this option to each site's
+command in [Check the bucket and install RDI](#check-the-bucket-and-install-rdi), using that
+site's file:
+
+```text
+--set-file operator.leaderElection.gcsLease.credentials="<credentials-file>"
+```
+
+RDI doesn't accept Workload Identity Federation credential configuration files. RDI reads
+the key file only at startup, so restart the operator after you replace it:
 
 ```bash
 kubectl --context "<site-kube-context>" --namespace rdi rollout restart deployment/rdi-operator
@@ -149,7 +157,6 @@ values identify the two RDI instances.
    ```
 
    Confirm the dual-region or multi-region location and the roles for each operator identity.
-   These checks use your CLI identity; they do not confirm the operator's runtime access.
 
 1. With application default credentials configured for both operators, install RDI in each
    Kubernetes cluster:
@@ -164,29 +171,13 @@ values identify the two RDI instances.
      --values rdi-values-site-b.yaml
    ```
 
-   If you use a service account credentials file instead, append this option to each site's
-   command, using that site's file:
-
-   ```text
-   --set-file operator.leaderElection.gcsLease.credentials="<credentials-file>"
-   ```
-
-1. Check the operator at each site:
-
-   ```bash
-   kubectl --context "<site-a-kube-context>" --namespace rdi get pods
-   kubectl --context "<site-b-kube-context>" --namespace rdi get pods
-   kubectl --context "<site-a-kube-context>" --namespace rdi logs deployment/rdi-operator
-   kubectl --context "<site-b-kube-context>" --namespace rdi logs deployment/rdi-operator
-   ```
-
-   Check for authentication, permission, bucket, or connectivity errors. See
-   [Operator log messages](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#operator-log-messages).
+   If you use a [service account key file](#service-account-key-file), append its `--set-file`
+   option to each site's command.
 
 Continue with [Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets)
 to configure RDI CLI contexts and confirm that one instance is the leader and the other is a
-follower. Both instances use the lease, so healthy leadership and operator logs help verify
-runtime access.
+follower. Both operators access the lease, so one leader, one follower, and no access errors in
+the operator logs confirm that both operators can access the bucket.
 
 In RDI 2.2.0, the lease is stored in the object's custom metadata. RDI migrates an existing
 lease object to this format during an upgrade. Review
