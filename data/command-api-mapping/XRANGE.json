@@ -669,7 +669,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamRangeAsync(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -703,12 +703,12 @@
           }
         ],
         "returns": {
-          "type": "StreamEntry[]",
+          "type": "Task<StreamEntry[]>",
           "description": "Returns an instance of StreamEntry for each message returned."
         }
       },
       {
-        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamRangeAsync(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -742,7 +742,7 @@
           }
         ],
         "returns": {
-          "type": "StreamEntry[]",
+          "type": "Task<StreamEntry[]>",
           "description": "Returns an instance of StreamEntry for each message returned."
         }
       }

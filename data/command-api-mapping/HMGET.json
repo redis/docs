@@ -387,7 +387,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -406,12 +406,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "List of values associated with the given fields, in the same order as they are requested."
         }
       },
       {
-        "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAsync(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -430,12 +430,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of values associated with the given fields, in the same order as they are requested."
         }
       },
       {
-        "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -454,12 +454,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "List of values associated with the given fields, in the same order as they are requested."
         }
       },
       {
-        "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAsync(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -478,7 +478,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of values associated with the given fields, in the same order as they are requested."
         }
       }

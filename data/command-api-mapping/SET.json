@@ -927,7 +927,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when)",
+        "signature": "StringSetAsync(RedisKey key, RedisValue value, TimeSpan? expiry, When when)",
         "params": [
           {
             "name": "key",
@@ -951,12 +951,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the keys were set, false otherwise."
         }
       },
       {
-        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when, CommandFlags flags)",
+        "signature": "StringSetAsync(RedisKey key, RedisValue value, TimeSpan? expiry, When when, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -985,12 +985,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the keys were set, false otherwise."
         }
       },
       {
-        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, bool keepTtl, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringSetAsync(RedisKey key, RedisValue value, TimeSpan? expiry, bool keepTtl, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1024,12 +1024,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the keys were set, false otherwise."
         }
       },
       {
-        "signature": "StringSet(RedisKey key, RedisValue value, Expiration expiry = default, ValueCondition when = default, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringSetAsync(RedisKey key, RedisValue value, Expiration expiry = default, ValueCondition when = default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1058,12 +1058,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the keys were set, false otherwise."
         }
       },
       {
-        "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)",
+        "signature": "StringSetAsync(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)",
         "params": [
           {
             "name": "values",
@@ -1082,7 +1082,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the keys were set, false otherwise."
         }
       }

@@ -915,7 +915,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "signature": "StreamTrimAsync(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -939,12 +939,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages removed from the stream."
         }
       },
       {
-        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamTrimAsync(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -978,12 +978,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages removed from the stream."
         }
       },
       {
-        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "signature": "StreamTrimAsync(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1007,12 +1007,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages removed from the stream."
         }
       },
       {
-        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamTrimAsync(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1046,7 +1046,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages removed from the stream."
         }
       }

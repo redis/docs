@@ -840,7 +840,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldExpireAsync(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -869,12 +869,12 @@
           }
         ],
         "returns": {
-          "type": "ExpireResult[]",
+          "type": "Task<ExpireResult[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
         }
       },
       {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldExpireAsync(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -903,12 +903,12 @@
           }
         ],
         "returns": {
-          "type": "ExpireResult[]",
+          "type": "Task<ExpireResult[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
         }
       },
       {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldExpireAsync(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -937,12 +937,12 @@
           }
         ],
         "returns": {
-          "type": "ExpireResult[]",
+          "type": "Task<ExpireResult[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
         }
       },
       {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldExpireAsync(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -971,7 +971,7 @@
           }
         ],
         "returns": {
-          "type": "ExpireResult[]",
+          "type": "Task<ExpireResult[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
         }
       }

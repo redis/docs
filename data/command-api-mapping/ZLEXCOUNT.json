@@ -423,7 +423,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetLengthByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetLengthByValueAsync(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -452,12 +452,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the specified score range."
         }
       },
       {
-        "signature": "SortedSetLengthByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetLengthByValueAsync(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -486,7 +486,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the specified score range."
         }
       }

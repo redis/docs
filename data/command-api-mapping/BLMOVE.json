@@ -658,7 +658,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListMove(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListMoveAsync(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "sourceKey",
@@ -687,12 +687,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The element being popped and pushed or Null if there is no element to move."
         }
       },
       {
-        "signature": "ListMove(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListMoveAsync(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "sourceKey",
@@ -721,7 +721,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The element being popped and pushed or Null if there is no element to move."
         }
       }

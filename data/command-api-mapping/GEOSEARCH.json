@@ -685,7 +685,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoSearchAsync(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -729,12 +729,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the shape, if any."
         }
       },
       {
-        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoSearchAsync(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -783,12 +783,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the shape, if any."
         }
       },
       {
-        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoSearchAsync(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -832,12 +832,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the shape, if any."
         }
       },
       {
-        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoSearchAsync(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -886,7 +886,7 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the shape, if any."
         }
       }

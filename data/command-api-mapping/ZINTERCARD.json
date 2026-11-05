@@ -370,7 +370,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetIntersectionLengthAsync(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "keys",
@@ -389,12 +389,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the resulting intersection."
         }
       },
       {
-        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetIntersectionLengthAsync(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "keys",
@@ -413,7 +413,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the resulting intersection."
         }
       }

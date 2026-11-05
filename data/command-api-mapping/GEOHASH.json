@@ -419,7 +419,7 @@
         }
       },
       {
-        "signature": "GeoHash(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoHashAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -438,12 +438,12 @@
           }
         ],
         "returns": {
-          "type": "string?[]",
+          "type": "Task<string?[]>",
           "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
         }
       },
       {
-        "signature": "GeoHash(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoHashAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -462,12 +462,12 @@
           }
         ],
         "returns": {
-          "type": "string?",
+          "type": "Task<string?>",
           "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
         }
       },
       {
-        "signature": "GeoHash(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoHashAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -486,12 +486,12 @@
           }
         ],
         "returns": {
-          "type": "string?[]",
+          "type": "Task<string?[]>",
           "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
         }
       },
       {
-        "signature": "GeoHash(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoHashAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -510,7 +510,7 @@
           }
         ],
         "returns": {
-          "type": "string?",
+          "type": "Task<string?>",
           "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
         }
       }

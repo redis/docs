@@ -354,7 +354,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListTrim(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListTrimAsync(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -378,12 +378,12 @@
           }
         ],
         "returns": {
-          "type": "void",
+          "type": "Task",
           "description": ""
         }
       },
       {
-        "signature": "ListTrim(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListTrimAsync(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -407,7 +407,7 @@
           }
         ],
         "returns": {
-          "type": "void",
+          "type": "Task",
           "description": ""
         }
       }

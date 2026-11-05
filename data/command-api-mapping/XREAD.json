@@ -546,7 +546,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamReadAsync(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -570,12 +570,12 @@
           }
         ],
         "returns": {
-          "type": "StreamEntry[]",
+          "type": "Task<StreamEntry[]>",
           "description": "A value of RedisStream for each stream."
         }
       },
       {
-        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamReadAsync(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "streamPositions",
@@ -594,12 +594,12 @@
           }
         ],
         "returns": {
-          "type": "RedisStream[]",
+          "type": "Task<RedisStream[]>",
           "description": "A value of RedisStream for each stream."
         }
       },
       {
-        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamReadAsync(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -623,12 +623,12 @@
           }
         ],
         "returns": {
-          "type": "StreamEntry[]",
+          "type": "Task<StreamEntry[]>",
           "description": "A value of RedisStream for each stream."
         }
       },
       {
-        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamReadAsync(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "streamPositions",
@@ -647,7 +647,7 @@
           }
         ],
         "returns": {
-          "type": "RedisStream[]",
+          "type": "Task<RedisStream[]>",
           "description": "A value of RedisStream for each stream."
         }
       }

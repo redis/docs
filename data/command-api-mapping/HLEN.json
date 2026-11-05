@@ -231,7 +231,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -245,12 +245,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of fields in the hash, or 0 when key does not exist."
         }
       },
       {
-        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -264,7 +264,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of fields in the hash, or 0 when key does not exist."
         }
       }

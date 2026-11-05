@@ -451,7 +451,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetSetExpiryAsync(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -470,12 +470,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The value of key, or Null when key does not exist."
         }
       },
       {
-        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetSetExpiryAsync(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -494,12 +494,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The value of key, or Null when key does not exist."
         }
       },
       {
-        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetSetExpiryAsync(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -518,12 +518,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The value of key, or Null when key does not exist."
         }
       },
       {
-        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetSetExpiryAsync(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -542,7 +542,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The value of key, or Null when key does not exist."
         }
       }

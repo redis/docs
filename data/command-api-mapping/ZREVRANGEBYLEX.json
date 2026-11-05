@@ -524,7 +524,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRangeByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude, long skip, long take, CommandFlags flags)",
+        "signature": "SortedSetRangeByValueAsync(RedisKey key, RedisValue min, RedisValue max, Exclude exclude, long skip, long take, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -563,7 +563,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified score range."
         }
       }

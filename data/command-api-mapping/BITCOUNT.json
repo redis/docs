@@ -716,7 +716,7 @@
         }
       },
       {
-        "signature": "StringBitCount(RedisKey key, long start, long end, CommandFlags flags)",
+        "signature": "StringBitCountAsync(RedisKey key, long start, long end, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -740,12 +740,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of bits set to 1."
         }
       },
       {
-        "signature": "StringBitCount(RedisKey key, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringBitCountAsync(RedisKey key, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -774,12 +774,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of bits set to 1."
         }
       },
       {
-        "signature": "StringBitCount(RedisKey key, long start, long end, CommandFlags flags)",
+        "signature": "StringBitCountAsync(RedisKey key, long start, long end, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -803,7 +803,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of bits set to 1."
         }
       }

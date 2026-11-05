@@ -365,7 +365,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetPopAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -379,12 +379,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "An array of elements, or an empty array when key does not exist."
         }
       },
       {
-        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetPopAsync(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -403,12 +403,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "An array of elements, or an empty array when key does not exist."
         }
       },
       {
-        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetPopAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -422,12 +422,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "An array of elements, or an empty array when key does not exist."
         }
       },
       {
-        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetPopAsync(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -446,7 +446,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "An array of elements, or an empty array when key does not exist."
         }
       }

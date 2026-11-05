@@ -140,7 +140,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringDigest(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringDigestAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -154,7 +154,7 @@
           }
         ],
         "returns": {
-          "type": "ValueCondition?",
+          "type": "Task<ValueCondition?>",
           "description": ""
         }
       }

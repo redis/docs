@@ -356,7 +356,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringSetRangeAsync(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -380,12 +380,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The length of the string after it was modified by the command."
         }
       },
       {
-        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringSetRangeAsync(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -409,7 +409,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The length of the string after it was modified by the command."
         }
       }

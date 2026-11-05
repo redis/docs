@@ -721,7 +721,7 @@
         }
       },
       {
-        "signature": "SortedSetScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetScanAsync(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -755,7 +755,7 @@
           }
         ],
         "returns": {
-          "type": "IEnumerable<SortedSetEntry>",
+          "type": "IAsyncEnumerable<SortedSetEntry>",
           "description": "Yields all matching elements of the sorted set."
         }
       }

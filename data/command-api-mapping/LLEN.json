@@ -265,7 +265,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -279,12 +279,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list at key."
         }
       },
       {
-        "signature": "ListLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -298,7 +298,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list at key."
         }
       }

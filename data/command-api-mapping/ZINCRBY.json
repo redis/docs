@@ -433,7 +433,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetIncrement(RedisKey key, RedisValue member, double value, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetIncrementAsync(RedisKey key, RedisValue member, double value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -457,7 +457,7 @@
           }
         ],
         "returns": {
-          "type": "double",
+          "type": "Task<double>",
           "description": "The new score of member."
         }
       },
@@ -491,7 +491,7 @@
         }
       },
       {
-        "signature": "SortedSetIncrement(RedisKey key, RedisValue member, double value, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetIncrementAsync(RedisKey key, RedisValue member, double value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -515,7 +515,7 @@
           }
         ],
         "returns": {
-          "type": "double",
+          "type": "Task<double>",
           "description": "The new score of member."
         }
       }

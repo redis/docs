@@ -354,7 +354,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListSetByIndex(RedisKey key, long index, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListSetByIndexAsync(RedisKey key, long index, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -378,12 +378,12 @@
           }
         ],
         "returns": {
-          "type": "void",
+          "type": "Task",
           "description": ""
         }
       },
       {
-        "signature": "ListSetByIndex(RedisKey key, long index, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListSetByIndexAsync(RedisKey key, long index, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -407,7 +407,7 @@
           }
         ],
         "returns": {
-          "type": "void",
+          "type": "Task",
           "description": ""
         }
       }

@@ -370,7 +370,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetCombineAsync(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -394,12 +394,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List with members of the resulting set."
         }
       },
       {
-        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetCombineAsync(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -418,12 +418,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List with members of the resulting set."
         }
       },
       {
-        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetCombineAsync(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -447,12 +447,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List with members of the resulting set."
         }
       },
       {
-        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetCombineAsync(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -471,7 +471,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List with members of the resulting set."
         }
       }

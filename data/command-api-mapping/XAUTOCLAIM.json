@@ -724,7 +724,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAutoClaimAsync(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -763,12 +763,12 @@
           }
         ],
         "returns": {
-          "type": "StreamAutoClaimResult",
+          "type": "Task<StreamAutoClaimResult>",
           "description": "An instance of StreamAutoClaimResult."
         }
       },
       {
-        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAutoClaimAsync(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -807,7 +807,7 @@
           }
         ],
         "returns": {
-          "type": "StreamAutoClaimResult",
+          "type": "Task<StreamAutoClaimResult>",
           "description": "An instance of StreamAutoClaimResult."
         }
       }

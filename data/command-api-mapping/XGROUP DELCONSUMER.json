@@ -536,7 +536,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamDeleteConsumer(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamDeleteConsumerAsync(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -560,12 +560,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages that were pending for the deleted consumer."
         }
       },
       {
-        "signature": "StreamDeleteConsumer(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamDeleteConsumerAsync(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -589,7 +589,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages that were pending for the deleted consumer."
         }
       }

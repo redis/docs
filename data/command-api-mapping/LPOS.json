@@ -847,7 +847,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListPositionAsync(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -876,12 +876,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The 0-based index of the first matching element, or -1 if not found."
         }
       },
       {
-        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListPositionsAsync(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -915,12 +915,12 @@
           }
         ],
         "returns": {
-          "type": "long[]",
+          "type": "Task<long[]>",
           "description": ""
         }
       },
       {
-        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListPositionAsync(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -949,12 +949,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The 0-based index of the first matching element, or -1 if not found."
         }
       },
       {
-        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListPositionsAsync(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -988,7 +988,7 @@
           }
         ],
         "returns": {
-          "type": "long[]",
+          "type": "Task<long[]>",
           "description": ""
         }
       }

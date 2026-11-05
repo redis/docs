@@ -390,7 +390,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashSetAsync(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -409,12 +409,12 @@
           }
         ],
         "returns": {
-          "type": "void",
+          "type": "Task",
           "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
         }
       },
       {
-        "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashSetAsync(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -443,12 +443,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
         }
       },
       {
-        "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashSetAsync(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -477,12 +477,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
         }
       },
       {
-        "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashSetAsync(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -501,7 +501,7 @@
           }
         ],
         "returns": {
-          "type": "void",
+          "type": "Task",
           "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
         }
       }

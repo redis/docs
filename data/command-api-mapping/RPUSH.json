@@ -406,7 +406,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRightPushAsync(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -430,12 +430,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the push operation."
         }
       },
       {
-        "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRightPushAsync(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -459,12 +459,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the push operation."
         }
       },
       {
-        "signature": "ListRightPush(RedisKey key, RedisValue[] values, CommandFlags flags)",
+        "signature": "ListRightPushAsync(RedisKey key, RedisValue[] values, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -483,12 +483,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the push operation."
         }
       },
       {
-        "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRightPushAsync(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -512,12 +512,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the push operation."
         }
       },
       {
-        "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRightPushAsync(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -541,7 +541,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the push operation."
         }
       }

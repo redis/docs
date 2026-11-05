@@ -929,7 +929,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "GeoRadius(RedisKey key, RedisValue member, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoRadiusAsync(RedisKey key, RedisValue member, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -973,12 +973,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the radius, if any."
         }
       },
       {
-        "signature": "GeoRadius(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoRadiusAsync(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1027,12 +1027,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the radius, if any."
         }
       },
       {
-        "signature": "GeoRadius(RedisKey key, RedisValue member, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
+        "signature": "GeoRadiusAsync(RedisKey key, RedisValue member, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1076,12 +1076,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the radius, if any."
         }
       },
       {
-        "signature": "GeoRadius(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
+        "signature": "GeoRadiusAsync(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1130,7 +1130,7 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the radius, if any."
         }
       }

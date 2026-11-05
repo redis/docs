@@ -443,7 +443,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashDecrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashDecrementAsync(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -467,12 +467,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The value at field after the decrement operation."
         }
       },
       {
-        "signature": "HashDecrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashDecrementAsync(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -496,12 +496,12 @@
           }
         ],
         "returns": {
-          "type": "double",
+          "type": "Task<double>",
           "description": "The value at field after the decrement operation."
         }
       },
       {
-        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashIncrementAsync(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -525,12 +525,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The value at field after the increment operation."
         }
       },
       {
-        "signature": "HashIncrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashIncrementAsync(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -554,12 +554,12 @@
           }
         ],
         "returns": {
-          "type": "double",
+          "type": "Task<double>",
           "description": "The value at field after the increment operation."
         }
       },
       {
-        "signature": "HashDecrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashDecrementAsync(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -583,7 +583,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The value at field after the decrement operation."
         }
       }

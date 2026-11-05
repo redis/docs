@@ -1014,7 +1014,7 @@
         }
       },
       {
-        "signature": "StringBitOperation(Bitwise operation, RedisKey destination, RedisKey first, RedisKey second = default, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringBitOperationAsync(Bitwise operation, RedisKey destination, RedisKey first, RedisKey second = default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -1043,12 +1043,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The size of the string stored in the destination key, that is equal to the size of the longest input string."
         }
       },
       {
-        "signature": "StringBitOperation(Bitwise operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringBitOperationAsync(Bitwise operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -1072,12 +1072,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The size of the string stored in the destination key, that is equal to the size of the longest input string."
         }
       },
       {
-        "signature": "StringBitOperation(Bitwise operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringBitOperationAsync(Bitwise operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -1106,7 +1106,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The size of the string stored in the destination key, that is equal to the size of the longest input string."
         }
       }

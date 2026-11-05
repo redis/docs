@@ -408,7 +408,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamInfoAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -422,12 +422,12 @@
           }
         ],
         "returns": {
-          "type": "StreamInfo",
+          "type": "Task<StreamInfo>",
           "description": "A StreamInfo instance with information about the stream."
         }
       },
       {
-        "signature": "StreamInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamInfoAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -441,7 +441,7 @@
           }
         ],
         "returns": {
-          "type": "StreamInfo",
+          "type": "Task<StreamInfo>",
           "description": "A StreamInfo instance with information about the stream."
         }
       }

@@ -212,7 +212,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringGetDelete(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetDeleteAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -226,12 +226,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The value of key, or Null when key does not exist."
         }
       },
       {
-        "signature": "StringGetDelete(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetDeleteAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -245,7 +245,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The value of key, or Null when key does not exist."
         }
       }

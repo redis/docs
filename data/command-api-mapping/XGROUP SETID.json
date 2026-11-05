@@ -546,7 +546,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamConsumerGroupSetPosition(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamConsumerGroupSetPositionAsync(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -570,12 +570,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if successful, false otherwise."
         }
       },
       {
-        "signature": "StreamConsumerGroupSetPosition(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamConsumerGroupSetPositionAsync(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -599,7 +599,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if successful, false otherwise."
         }
       }
