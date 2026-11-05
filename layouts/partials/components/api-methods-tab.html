@@ -15,6 +15,10 @@
 {{ $apiOverrides := index site.Data "command-api-mapping-overrides" }}
 {{ $cmdMapping := index $apiMapping $commandName }}
 {{ $cmdOverrides := index $apiOverrides $commandName }}
+{{/* Why a client has no signature: {command: {mappingClientId: "generic_only" | "unsupported"}} */}}
+{{ $statusData := index site.Data "command-api-mapping-status" }}
+{{ $cmdStatus := dict }}
+{{ with $statusData }}{{ with index . $commandName }}{{ $cmdStatus = . }}{{ end }}{{ end }}
 
 {{/* Define client order explicitly */}}
 {{/* $clientOrder controls the dropdown UI and signature rendering - one entry per mappingClientId */}}
@@ -77,7 +81,14 @@
 {{ end }}{{ end }}){{ if $returns }} → {{ if reflect.IsMap $returns }}<span class="text-emerald-600">{{ index $returns "type" }}</span>{{ if and (index $returns "description") (ne (index $returns "description") "") }}  <span class="text-slate-500">// {{ index $returns "description" }}</span>{{ end }}{{ else }}<span class="text-emerald-600">{{ $returns }}</span>{{ end }}{{ end }}{{ end }}</code></pre>
                 {{ partial "components/api-methods-errors.html" (dict "commandName" $commandName "mappingId" $mappingId) }}
               {{ else }}
-                <p class="text-slate-500 italic">No method signature available for this client.</p>
+                {{ $status := default "" (index $cmdStatus $mappingId) }}
+                {{ if and (eq $status "generic_only") (index $config "genericCall") }}
+                  <p class="text-slate-500 italic">{{ index $config "clientName" }} has no dedicated method for this command. Send it with <code>{{ index $config "genericCall" }}</code>.</p>
+                {{ else if eq $status "unsupported" }}
+                  <p class="text-slate-500 italic">This command isn't available through {{ index $config "clientName" }}.</p>
+                {{ else }}
+                  <p class="text-slate-500 italic">No method signature available for this client.</p>
+                {{ end }}
               {{ end }}
             </div>
             {{ $first = false }}

@@ -1,0 +1,18 @@
+{
+  "CLUSTER NODES": {
+    "redis_rs_sync": "generic_only",
+    "redis_rs_async": "generic_only"
+  },
+  "ACL HELP": {
+    "go-redis": "generic_only"
+  },
+  "CLUSTER KEYSLOT": {
+    "nredisstack_sync": "unsupported"
+  },
+  "QUIT": {
+    "go-redis": "unsupported"
+  },
+  "MONITOR": {
+    "nredisstack_sync": "unsupported"
+  }
+}

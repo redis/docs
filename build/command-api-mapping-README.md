@@ -26,6 +26,23 @@ Each file is named after a Redis command (e.g., `GET.json`, `SET.json`, `BF.ADD.
 }
 ```
 
+## Why a client has no signature
+
+An empty list, or a missing client key, shows "No method signature available for this
+client." To say why, list the command and client in `data/command-api-mapping-status.json`:
+
+```json
+{ "CLUSTER NODES": { "redis_rs_sync": "generic_only" }, "QUIT": { "go-redis": "unsupported" } }
+```
+
+- `generic_only`: the client has no typed method. The tab says to send the command with the
+  client's `genericCall` (set per client in `config.toml`).
+- `unsupported`: the client can't call the command, or the command is handled by the client
+  itself.
+
+A client with no entry keeps the default message. Only the API Methods tab uses this file. The
+commands foldout shows signatures only when there are any.
+
 ## Adding a New Command
 
 1. Create a new file named `data/command-api-mapping/COMMAND_NAME.json` (e.g., `MGET.json`)
