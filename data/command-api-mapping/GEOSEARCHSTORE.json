@@ -425,16 +425,31 @@
     ],
     "ioredis": [
       {
-        "signature": "geosearchstore(...args: [, destination: RedisKey, source: RedisKey, ...args: RedisValue[], callback: Callback<number>, ])",
+        "signature": "geosearchstore(...args: [ destination: RedisKey, source: RedisKey, ...args: RedisValue[], callback: Callback<number> ])",
         "params": [
           {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, destination",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -442,13 +457,23 @@
         "signature": "geosearchstore(...args: [destination: RedisKey, source: RedisKey, ...args: RedisValue[]])",
         "params": [
           {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[destination",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

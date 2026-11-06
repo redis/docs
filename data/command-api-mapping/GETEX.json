@@ -188,7 +188,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -217,7 +217,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -246,7 +246,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -275,7 +275,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -304,7 +304,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       }

@@ -234,13 +234,18 @@
         "signature": "hmget(...args: [key: RedisKey, ...fields: (string | Buffer)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       }

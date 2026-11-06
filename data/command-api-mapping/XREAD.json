@@ -276,16 +276,26 @@
     ],
     "ioredis": [
       {
-        "signature": "xread(...args: [, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "signature": "xread(...args: [ streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null> ])",
         "params": [
           {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, streamsToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       },
@@ -293,55 +303,115 @@
         "signature": "xread(...args: [streamsToken: \"STREAMS\", ...args: RedisValue[]])",
         "params": [
           {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[streamsToken",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xread(...args: [, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "signature": "xread(...args: [ millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null> ])",
         "params": [
           {
+            "name": "millisecondsToken",
+            "type": "\"BLOCK\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, millisecondsToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xread(...args: [, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], ])",
+        "signature": "xread(...args: [ millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[] ])",
         "params": [
           {
+            "name": "millisecondsToken",
+            "type": "\"BLOCK\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, millisecondsToken",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xread(...args: [, countToken: \"COUNT\", count: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "signature": "xread(...args: [ countToken: \"COUNT\", count: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null> ])",
         "params": [
           {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, countToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       }

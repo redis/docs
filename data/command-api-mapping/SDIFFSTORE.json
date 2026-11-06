@@ -178,16 +178,26 @@
     ],
     "ioredis": [
       {
-        "signature": "sdiffstore(...args: [, destination: RedisKey, keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "sdiffstore(...args: [ destination: RedisKey, keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -195,13 +205,18 @@
         "signature": "sdiffstore(...args: [destination: RedisKey, ...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -209,13 +224,18 @@
         "signature": "sdiffstore(...args: [destination: RedisKey, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

@@ -173,16 +173,26 @@
     ],
     "ioredis": [
       {
-        "signature": "hdel(...args: [, key: RedisKey, ...fields: (string | Buffer)[], callback: Callback<number>, ])",
+        "signature": "hdel(...args: [ key: RedisKey, ...fields: (string | Buffer)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -190,13 +200,18 @@
         "signature": "hdel(...args: [key: RedisKey, ...fields: (string | Buffer)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

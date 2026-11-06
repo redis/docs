@@ -248,16 +248,26 @@
     ],
     "ioredis": [
       {
-        "signature": "sintercard(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "sintercard(...args: [ numkeys: number | string, keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -265,13 +275,18 @@
         "signature": "sintercard(...args: [numkeys: number | string, ...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -279,41 +294,86 @@
         "signature": "sintercard(...args: [numkeys: number | string, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "sintercard(...args: [, numkeys: number | string, ...keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number>, ])",
+        "signature": "sintercard(...args: [ numkeys: number | string, ...keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "limitToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "sintercard(...args: [, numkeys: number | string, keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number>, ])",
+        "signature": "sintercard(...args: [ numkeys: number | string, keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "limitToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

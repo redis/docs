@@ -327,72 +327,177 @@
     ],
     "ioredis": [
       {
-        "signature": "xdelex(...args: [, key: RedisKey, idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])",
+        "signature": "xdelex(...args: [ key: RedisKey, idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "idsToken",
+            "type": "\"IDS\"",
+            "description": ""
+          },
+          {
+            "name": "numids",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xdelex(...args: [, key: RedisKey, idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], ])",
+        "signature": "xdelex(...args: [ key: RedisKey, idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "idsToken",
+            "type": "\"IDS\"",
+            "description": ""
+          },
+          {
+            "name": "numids",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xdelex(...args: [, key: RedisKey, keepref: \"KEEPREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])",
+        "signature": "xdelex(...args: [ key: RedisKey, keepref: \"KEEPREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "keepref",
+            "type": "\"KEEPREF\"",
+            "description": ""
+          },
+          {
+            "name": "idsToken",
+            "type": "\"IDS\"",
+            "description": ""
+          },
+          {
+            "name": "numids",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xdelex(...args: [, key: RedisKey, keepref: \"KEEPREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], ])",
+        "signature": "xdelex(...args: [ key: RedisKey, keepref: \"KEEPREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "keepref",
+            "type": "\"KEEPREF\"",
+            "description": ""
+          },
+          {
+            "name": "idsToken",
+            "type": "\"IDS\"",
+            "description": ""
+          },
+          {
+            "name": "numids",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xdelex(...args: [, key: RedisKey, delref: \"DELREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])",
+        "signature": "xdelex(...args: [ key: RedisKey, delref: \"DELREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "delref",
+            "type": "\"DELREF\"",
+            "description": ""
+          },
+          {
+            "name": "idsToken",
+            "type": "\"IDS\"",
+            "description": ""
+          },
+          {
+            "name": "numids",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }

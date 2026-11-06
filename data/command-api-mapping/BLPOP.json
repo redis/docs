@@ -266,30 +266,50 @@
     ],
     "ioredis": [
       {
-        "signature": "blpop(...args: [, ...keys: RedisKey[], timeout: number | string, callback: Callback<[string, string] | null>, ])",
+        "signature": "blpop(...args: [ ...keys: RedisKey[], timeout: number | string, callback: Callback<[string, string] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, ...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[string, string] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[string, string] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "blpop(...args: [, keys: RedisKey[], timeout: number | string, callback: Callback<[string, string] | null>, ])",
+        "signature": "blpop(...args: [ keys: RedisKey[], timeout: number | string, callback: Callback<[string, string] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[string, string] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[string, string] | null, Context>",
           "description": ""
         }
       },
@@ -297,13 +317,18 @@
         "signature": "blpop(...args: [...keys: RedisKey[], timeout: number | string])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[string, string] | null, Context>",
           "description": ""
         }
       },
@@ -311,13 +336,18 @@
         "signature": "blpop(...args: [keys: RedisKey[], timeout: number | string])",
         "params": [
           {
-            "name": "...args",
-            "type": "[keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[string, string] | null, Context>",
           "description": ""
         }
       }

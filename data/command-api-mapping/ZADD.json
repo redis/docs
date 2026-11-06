@@ -573,16 +573,26 @@
     ],
     "ioredis": [
       {
-        "signature": "zadd(...args: [, key: RedisKey, ...scoreMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "zadd(...args: [ key: RedisKey, ...scoreMembers: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -590,55 +600,100 @@
         "signature": "zadd(...args: [key: RedisKey, ...scoreMembers: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zadd(...args: [, key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<string>, ])",
+        "signature": "zadd(...args: [ key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<string> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "incr",
+            "type": "\"INCR\"",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zadd(...args: [, key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[], ])",
+        "signature": "zadd(...args: [ key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "incr",
+            "type": "\"INCR\"",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zadd(...args: [, key: RedisKey, ch: \"CH\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "zadd(...args: [ key: RedisKey, ch: \"CH\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ch",
+            "type": "\"CH\"",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

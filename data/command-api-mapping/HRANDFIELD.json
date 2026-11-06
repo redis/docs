@@ -229,7 +229,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | unknown[] | null, Context>",
           "description": ""
         }
       },
@@ -258,7 +258,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | unknown[] | null, Context>",
           "description": ""
         }
       }

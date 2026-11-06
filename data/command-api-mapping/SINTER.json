@@ -184,13 +184,18 @@
         "signature": "sinter(...args: [...keys: RedisKey[], callback: Callback<string[]>])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -198,32 +203,74 @@
         "signature": "sinter(...args: [keys: RedisKey[], callback: Callback<string[]>])",
         "params": [
           {
-            "name": "...args",
-            "type": "[keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "sinter(...args: [...keys: RedisKey[]]): Result<string[], Context>;, sinterBuffer(...args: [...keys: RedisKey[]]): Result<Buffer[], Context>;, sinter(...args: [keys: RedisKey[]]): Result<string[], Context>;, sinterBuffer(...args: [keys: RedisKey[]]): Result<Buffer[], Context>;, /**, * Intersect multiple sets and return the cardinality of the result, * - _group_: set, * - _complexity_: O(N*M) worst case where N is the cardinality of the smallest set and M is the number of sets., * - _since_: 7.0.0, */, sintercard(, ...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "sinter(...args: [...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
-            "description": ""
-          },
-          {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sinterBuffer(...args: [...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<Buffer[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sinter(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sinterBuffer(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<Buffer[], Context>",
           "description": ""
         }
       }

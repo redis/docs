@@ -133,7 +133,7 @@
     ],
     "ioredis": [
       {
-        "signature": "hlen(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Get the values of all the given hash fields, * - _group_: hash, * - _complexity_: O(N) where N is the number of fields being requested., * - _since_: 2.0.0, */, hmget(, ...args: [, key: RedisKey, ...fields: (string | Buffer)[], callback: Callback<(string | null)[]>, ])",
+        "signature": "hlen(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
@@ -142,17 +142,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "...args",
-            "type": "[, key",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

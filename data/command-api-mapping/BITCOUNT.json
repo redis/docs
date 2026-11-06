@@ -307,7 +307,7 @@
     ],
     "ioredis": [
       {
-        "signature": "bitcount(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, bitcount(, key: RedisKey, start: number | string, end: number | string, callback?: Callback<number>)",
+        "signature": "bitcount(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
@@ -316,9 +316,18 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<number>)",
+            "type": "Callback<number>",
             "description": ""
-          },
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitcount(key: RedisKey, start: number | string, end: number | string, callback?: Callback<number>)",
+        "params": [
           {
             "name": "key",
             "type": "RedisKey",
@@ -341,7 +350,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -375,7 +384,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -409,7 +418,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

@@ -211,30 +211,50 @@
     ],
     "ioredis": [
       {
-        "signature": "bzpopmax(...args: [, ...keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null>, ])",
+        "signature": "bzpopmax(...args: [ ...keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, ...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[key: string, member: string, score: string] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, member: string, score: string] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "bzpopmax(...args: [, keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null>, ])",
+        "signature": "bzpopmax(...args: [ keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[key: string, member: string, score: string] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, member: string, score: string] | null, Context>",
           "description": ""
         }
       },
@@ -242,13 +262,18 @@
         "signature": "bzpopmax(...args: [...keys: RedisKey[], timeout: number | string])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, member: string, score: string] | null, Context>",
           "description": ""
         }
       },
@@ -256,13 +281,18 @@
         "signature": "bzpopmax(...args: [keys: RedisKey[], timeout: number | string])",
         "params": [
           {
-            "name": "...args",
-            "type": "[keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, member: string, score: string] | null, Context>",
           "description": ""
         }
       }

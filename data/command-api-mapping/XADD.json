@@ -491,16 +491,26 @@
     ],
     "ioredis": [
       {
-        "signature": "xadd(...args: [, key: RedisKey, ...args: RedisValue[], callback: Callback<string | null>, ])",
+        "signature": "xadd(...args: [ key: RedisKey, ...args: RedisValue[], callback: Callback<string | null> ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -508,13 +518,18 @@
         "signature": "xadd(...args: [key: RedisKey, ...args: RedisValue[]])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[key",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       }

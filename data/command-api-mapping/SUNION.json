@@ -184,13 +184,18 @@
         "signature": "sunion(...args: [...keys: RedisKey[], callback: Callback<string[]>])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -198,32 +203,74 @@
         "signature": "sunion(...args: [keys: RedisKey[], callback: Callback<string[]>])",
         "params": [
           {
-            "name": "...args",
-            "type": "[keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "sunion(...args: [...keys: RedisKey[]]): Result<string[], Context>;, sunionBuffer(...args: [...keys: RedisKey[]]): Result<Buffer[], Context>;, sunion(...args: [keys: RedisKey[]]): Result<string[], Context>;, sunionBuffer(...args: [keys: RedisKey[]]): Result<Buffer[], Context>;, /**, * Add multiple sets and store the resulting set in a key, * - _group_: set, * - _complexity_: O(N) where N is the total number of elements in all given sets., * - _since_: 1.0.0, */, sunionstore(, ...args: [, destination: RedisKey, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "sunion(...args: [...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
-            "description": ""
-          },
-          {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sunionBuffer(...args: [...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<Buffer[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sunion(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sunionBuffer(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<Buffer[], Context>",
           "description": ""
         }
       }

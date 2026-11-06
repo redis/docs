@@ -124,30 +124,50 @@
     ],
     "ioredis": [
       {
-        "signature": "zdiff(...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<string[]>, ])",
+        "signature": "zdiff(...args: [ numkeys: number | string, ...keys: RedisKey[], callback: Callback<string[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "zdiff(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<string[]>, ])",
+        "signature": "zdiff(...args: [ numkeys: number | string, keys: RedisKey[], callback: Callback<string[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -155,13 +175,18 @@
         "signature": "zdiff(...args: [numkeys: number | string, ...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -169,27 +194,47 @@
         "signature": "zdiff(...args: [numkeys: number | string, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "zdiff(...args: [, numkeys: number | string, ...keys: RedisKey[], withscores: \"WITHSCORES\", callback: Callback<string[]>, ])",
+        "signature": "zdiff(...args: [ numkeys: number | string, ...keys: RedisKey[], withscores: \"WITHSCORES\", callback: Callback<string[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "\"WITHSCORES\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }

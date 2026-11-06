@@ -496,72 +496,202 @@
     ],
     "ioredis": [
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], callback: Callback<unknown[]>, ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], callback: Callback<unknown[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\", callback: Callback<unknown[]>, ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\", callback: Callback<unknown[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "justid",
+            "type": "\"JUSTID\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\", ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\" ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "justid",
+            "type": "\"JUSTID\"",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], force: \"FORCE\", callback: Callback<unknown[]>, ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], force: \"FORCE\", callback: Callback<unknown[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "force",
+            "type": "\"FORCE\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }
