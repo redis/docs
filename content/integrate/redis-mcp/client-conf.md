@@ -227,7 +227,10 @@ See
 [Use MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
 for more information.
 
-## Redis Cloud MCP
+## Redis Cloud MCP (local) {#redis-cloud-mcp}
+
+To connect to the server that Redis hosts instead, see
+[Redis Cloud remote MCP server](/content/integrate/redis-mcp/remote-cloud-mcp.md).
 
 If you are using
 [Redis Cloud MCP](/content/integrate/redis-mcp/install.md#redis-cloud-mcp),
