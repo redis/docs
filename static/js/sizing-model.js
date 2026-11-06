@@ -241,12 +241,16 @@
     return v;
   }
 
-  // The number's ijson representation: an integer in the inline range costs
-  // nothing; anything else is an 8-byte allocation.
+  // The number's ijson representation: a whole number from -2^60 up to, but not
+  // including, 2^60 costs nothing; anything else is an 8-byte allocation. A
+  // number with a decimal point or an exponent is a float, even 87.0 or 1e3.
+  // BigInt keeps whole numbers near 2^60 exact.
   var INLINE_INT = Math.pow(2, 60);
   function numberIsInline(raw) {
     if (/[.eE]/.test(raw)) return false;
-    return Math.abs(Number(raw)) < INLINE_INT;
+    if (typeof BigInt === 'undefined') return Math.abs(Number(raw)) < INLINE_INT;
+    var b = BigInt(raw);
+    return b >= -1152921504606846976n && b < 1152921504606846976n;
   }
 
   // The element type ijson picks for an array of numbers (ArrayTag): the
@@ -322,7 +326,11 @@
       var sl = bytes(node.v);
       if (sl > 7) acc.valueStrings.push(sl);
     } else if (node.t === 'number') {
-      if (!numberIsInline(node.raw)) { acc.structure += 8; acc.boxed++; }
+      if (!numberIsInline(node.raw)) {
+        acc.structure += 8;
+        if (/[.eE]/.test(node.raw)) acc.floats++;
+        else acc.bigInts++;
+      }
     }
   }
 
@@ -338,7 +346,7 @@
 
   function jsonValue(doc, keyLen, ttl, keys) {
     // 24 bytes: the module's value holder, measured.
-    var acc = { structure: 24, keyStrings: [], valueStrings: [], boxed: 0 };
+    var acc = { structure: 24, keyStrings: [], valueStrings: [], floats: 0, bigInts: 0 };
     jsonWalk(doc, acc);
     // Value strings are counted for every document, as if no two documents had
     // the same value; field names are shared, so they cost nothing per key.
@@ -348,7 +356,7 @@
     return {
       encoding: 'json', object: jeSize(kvobjSize(keyLen, ttl)),
       value: acc.structure + strings + cache,
-      strings: unique, boxedNumbers: acc.boxed,
+      strings: unique, floats: acc.floats, bigInts: acc.bigInts,
     };
   }
 

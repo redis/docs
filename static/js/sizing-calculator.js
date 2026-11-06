@@ -206,9 +206,13 @@
           bytesPerKey(lpPerKey) + ', or ' + size(lpPerKey * keys) + ' in total.');
       }
       var j = s.json;
-      if (j && j.boxedNumbers) {
-        out.push('In a JSON document, each number with a decimal point takes 8 more bytes than a whole number. This record has ' +
-          j.boxedNumbers + (j.boxedNumbers === 1 ? ' such number.' : ' such numbers.'));
+      if (j && j.floats) {
+        out.push('In a JSON document, each number with a decimal point or an exponent takes 8 more bytes than a whole number. This record has ' +
+          j.floats + (j.floats === 1 ? ' such number.' : ' such numbers.'));
+      }
+      if (j && j.bigInts) {
+        out.push('In a JSON document, each whole number of 2<sup>60</sup> or more, or below &minus;2<sup>60</sup>, takes 8 more bytes than a smaller one. This record has ' +
+          j.bigInts + (j.bigInts === 1 ? ' such number.' : ' such numbers.'));
       }
       if (ttl.checked) {
         var without = M.estimate({ text: record.value, keyName: key.value, keys: keys, ttl: false });
