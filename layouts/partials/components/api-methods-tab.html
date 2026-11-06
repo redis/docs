@@ -22,10 +22,10 @@
 
 {{/* Define client order explicitly */}}
 {{/* $clientOrder controls the dropdown UI and signature rendering - one entry per mappingClientId */}}
-{{ $clientOrder := slice "Python" "Node.js" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync (NRedisStack)" "C#-Async (NRedisStack)" "PHP" "Rust-Sync" "Rust-Async" }}
+{{ $clientOrder := slice "Python" "Node.js" "ioredis" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync (NRedisStack)" "C#-Async (NRedisStack)" "PHP" "Ruby" "Rust-Sync" "Rust-Async" }}
 {{/* $jsClientOrder also includes SE.Redis variants so the localStorage tab-sync works when a user
      has a SE.Redis tab selected on a content page and then visits a command reference page */}}
-{{ $jsClientOrder := slice "Python" "Node.js" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync (NRedisStack)" "C#-Async (NRedisStack)" "C#-Sync (SE.Redis)" "C#-Async (SE.Redis)" "PHP" "Rust-Sync" "Rust-Async" }}
+{{ $jsClientOrder := slice "Python" "Node.js" "ioredis" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync (NRedisStack)" "C#-Async (NRedisStack)" "C#-Sync (SE.Redis)" "C#-Async (SE.Redis)" "PHP" "Ruby" "Rust-Sync" "Rust-Async" }}
 
 <div class="api-methods-tab-content">
   {{/* Client selector */}}
