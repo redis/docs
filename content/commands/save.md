@@ -19,6 +19,13 @@ command_flags:
 - noscript
 - no_async_loading
 - no_multi
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(N) where N is the total number of keys in all databases
 description: Synchronously saves the database(s) to disk.
 group: server
@@ -45,9 +52,7 @@ See the [persistence documentation](/content/operate/oss_and_stack/management/pe
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

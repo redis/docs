@@ -18,6 +18,12 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    general: supported
+  cloud:
+    pro: supported
+    essentials: supported
 complexity: O(N) when path is evaluated to a single value, where N is the size of
   the value, O(N) when path is evaluated to multiple values, where N is the size of
   the key
@@ -76,9 +82,7 @@ redis> JSON.DEBUG MEMORY item:2
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

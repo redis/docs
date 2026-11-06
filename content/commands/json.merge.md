@@ -20,6 +20,13 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(M+N) when path is evaluated to a single value where M is the size of
   the original value (if it exists) and N is the size of the new value, O(M+N) when
   path is evaluated to multiple values where M is the size of the key and N is the
@@ -144,9 +151,7 @@ redis> JSON.GET doc
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

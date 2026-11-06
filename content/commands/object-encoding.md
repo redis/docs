@@ -21,6 +21,15 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    standard: supported
+    active_active: unsupported
+  cloud:
+    standard: supported
+    active_active: unsupported
+  notes:
+  - For Active-Active databases, use `CRDT.DEBUG ENCODING` instead.
 complexity: O(1)
 description: Returns the internal encoding of a Redis object.
 group: generic
@@ -102,9 +111,7 @@ All the specially encoded types are automatically converted to the general type 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | For Active-Active databases, use `CRDT.DEBUG ENCODING` instead. |
+{{< command-compatibility >}}
 
 ## Return information
 

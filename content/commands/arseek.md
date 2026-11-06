@@ -24,6 +24,13 @@ categories:
 command_flags:
 - WRITE
 - FAST
+compatibility:
+  software:
+    standard: supported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(1)
 description: Sets the ARINSERT / ARRING cursor to a specific index.
 function: arseekCommand
@@ -85,9 +92,7 @@ redis> ARNEXT myarray
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

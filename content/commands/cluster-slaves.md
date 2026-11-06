@@ -21,6 +21,15 @@ categories:
 command_flags:
 - admin
 - stale
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
+  notes:
+  - Deprecated as of Redis v5.0.0.
 complexity: O(N) where N is the number of replicas.
 deprecated_since: 5.0.0
 description: Lists the replica nodes of a master node.
@@ -62,9 +71,7 @@ The ID of the master node to list the replicas of. `CLUSTER SLAVES` is deprecate
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |
+{{< command-compatibility >}}
 
 ## Return information
 

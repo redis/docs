@@ -23,6 +23,15 @@ command_flags:
 - admin
 - loading
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Not supported for [scripts](/content/develop/programmability/_index.md). Also, the client IP address, port, and name are not returned by Redis Software.
 complexity: O(N) where N is the number of entries returned
 description: Returns the slow log's entries.
 group: server
@@ -106,9 +115,7 @@ The logged argument array (element 4) is truncated to 32 items, with the final i
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](/content/develop/programmability/_index.md). Also, the client IP address, port, and name are not returned by Redis Software. |
+{{< command-compatibility >}}
 
 ## Return information
 

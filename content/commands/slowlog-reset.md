@@ -18,6 +18,15 @@ command_flags:
 - admin
 - loading
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Not supported for [scripts](/content/develop/programmability/_index.md).
 complexity: O(N) where N is the number of entries in the slowlog
 description: Clears all entries from the slow log.
 group: server
@@ -38,9 +47,7 @@ Once deleted the information is lost forever.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](/content/develop/programmability/_index.md). |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -25,6 +25,13 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    general: supported
+    flex: unsupported
+  cloud:
+    pro: supported
+    essentials: supported
 complexity: O(1)
 description: Creates or updates a synonym group with additional terms
 group: search
@@ -86,9 +93,7 @@ OK
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -23,6 +23,17 @@ categories:
 - clients
 command_flags:
 - blocking
+compatibility:
+  software:
+    standard: supported
+    active_active:
+      status: unsupported
+      note: For Active-Active databases, `WAIT` commands are supported for primary and replica shard replication. You can contact support to enable `WAIT` for local replicas only. `WAIT` is not supported for cross-instance replication.
+  cloud:
+    standard:
+      status: unsupported
+      note: '`WAIT` commands are supported on Redis Cloud Flexible subscriptions.'
+    active_active: unsupported
 complexity: O(1)
 description: Blocks until the asynchronous replication of all preceding write commands
   sent by the connection is completed.
@@ -112,9 +123,7 @@ The second WAIT call uses a timeout and waits for the write to reach two replica
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Not supported">&#x274c; Standard**</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*For Active-Active databases, `WAIT` commands are supported for primary and replica shard replication. You can contact support to enable `WAIT` for local replicas only. `WAIT` is not supported for cross-instance replication.<br></br>\*\*`WAIT` commands are supported on Redis Cloud Flexible subscriptions. |
+{{< command-compatibility >}}
 
 ## Return information
 

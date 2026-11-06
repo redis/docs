@@ -43,6 +43,12 @@ categories:
 command_flags:
 - readonly
 - module
+compatibility:
+  software:
+    general: unsupported
+  cloud:
+    pro: unsupported
+    essentials: unsupported
 complexity: O(log(n)+k) where n is the number of samples in the series and k is the
   number of returned samples
 description: 'Read: return up to max_count samples with timestamp >= timestamp. With
@@ -273,9 +279,7 @@ Applications often render charts from time series data — metrics, sensor readi
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Not supported</span><br /> | <span title="Not supported">&#x274c; Flexible & Annual</span><br /><span title="Not supported">&#x274c; Free & Fixed</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

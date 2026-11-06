@@ -36,6 +36,13 @@ categories:
 command_flags:
 - readonly
 - movablekeys
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(N) where N is the total number of elements in all given sets.
 description: Returns the number of members of the union of multiple sets.
 group: set
@@ -133,9 +140,7 @@ By default, `SUNIONCARD` returns the exact union cardinality. With the `APPROX` 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

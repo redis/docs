@@ -17,6 +17,19 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    general:
+      status: workaround
+      note: Use [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) or the [REST API](/content/operate/rs/references/rest-api/_index.md) to change search and query configuration for Redis Software. See [search and query configuration compatibility with Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/search/config.md) for more information and examples.
+    flex:
+      status: workaround
+      note: Use [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) or the [REST API](/content/operate/rs/references/rest-api/_index.md) to change search and query configuration for Redis Software. See [search and query configuration compatibility with Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/search/config.md) for more information and examples.
+  cloud:
+    pro:
+      status: workaround
+      note: '[Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.'
+    essentials: unsupported
 complexity: O(1)
 deprecated_since: 8.0.0
 description: Sets runtime configuration options
@@ -73,13 +86,7 @@ OK
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>2</sup> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
-
-1. Use [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) or the [REST API](/content/operate/rs/references/rest-api/_index.md) to change search and query configuration for Redis Software. See [search and query configuration compatibility with Redis Software](/content/operate/oss_and_stack/stack-with-enterprise/search/config.md) for more information and examples.
-
-2. [Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.
+{{< command-compatibility >}}
 
 ## Return information
 
