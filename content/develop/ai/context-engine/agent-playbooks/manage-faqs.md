@@ -9,6 +9,9 @@ hideListLinks: true
 linktitle: Manage FAQs
 title: Manage FAQs
 weight: 20
+aliases:
+- /develop/ai/context-engine/agent-playbook/faqs/
+- /develop/ai/context-engine/agent-playbook/manage-faqs/
 ---
 
 Publish a FAQ to give agents an approved answer to a recurring question. Write it directly or promote a reviewed proposal.

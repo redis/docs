@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Proposals
 title: Proposals
 weight: 40
+aliases:
+- /develop/ai/context-engine/agent-playbook/proposals/
 ---
 
 Use proposals to review suggested frequently asked questions (FAQs) and skills before publishing them. An agent or application submits candidate content; a reviewer checks its content, resources, and evidence before acceptance creates an unpublished entry.

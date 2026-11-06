@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Concepts
 title: Redis Agent Playbooks concepts
 weight: 5
+aliases:
+- /develop/ai/context-engine/agent-playbook/concepts/
 ---
 
 ## Playbooks
