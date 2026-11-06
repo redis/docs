@@ -49,7 +49,7 @@ When deploying Redis Software to production, we recommend the following practice
 
 - **Require HTTPS for API endpoints**: Redis Software comes with a REST API to help automate tasks. This API is available in both an encrypted and unencrypted endpoint for backward compatibility. You can [disable the unencrypted endpoint](/content/operate/rs/references/rest-api/encryption.md#require-https-for-api-endpoints) with no loss in functionality.
 
-- **Enable custom module uploads only when you need them**: Custom (user-defined) module uploads are disabled by default. Custom modules run as native code on your cluster nodes, so we recommend enabling [`allow_modules_upload`]({{<relref "/operate/rs/references/rest-api/requests/modules/user-defined">}}) only while you upload a module, then setting it back to `false`.
+- **Enable custom module uploads only when you need them**: Custom (user-defined) module uploads are disabled by default. Custom modules run as native code on your cluster nodes, so we recommend enabling [`allow_modules_upload`](/content/operate/rs/references/rest-api/requests/modules/user-defined.md) only while you upload a module, then setting it back to `false`.
 
 ## Database security
 
