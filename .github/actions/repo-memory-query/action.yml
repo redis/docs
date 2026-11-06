@@ -1,0 +1,60 @@
+name: 'Redis Repo Memory Query'
+description: >
+  Read-only search of an existing Redis Repo Memory store from a description of planned work.
+  Never writes to Redis and never posts to a pull request or commit.
+
+inputs:
+  redis-url:
+    description: >
+      Redis connection URL of the Repo Memory store (the same value the
+      redis-learn/redis-repo-memory action uses), e.g. redis://default:<password>@<host>:<port>
+    required: true
+  openai-api-key:
+    description: OpenAI API key used to embed the query (text-embedding-3-small).
+    required: true
+  query:
+    description: Description of the work you are about to do.
+    required: true
+  query-files:
+    description: Files you plan to change, separated by spaces, commas or newlines.
+    required: false
+    default: ''
+  query-limit:
+    description: Maximum number of results.
+    required: false
+    default: '5'
+  query-max-distance:
+    description: Maximum cosine distance (0-2, lower is more similar) for a result.
+    required: false
+    default: '0.60'
+  github-token:
+    description: >
+      Token used to read the full squash or commit message behind each result.
+      The default github.token is enough for a public repository.
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm ci --omit=dev
+
+    - name: Query memory
+      shell: bash
+      env:
+        REDIS_URL: ${{ inputs.redis-url }}
+        OPENAI_API_KEY: ${{ inputs.openai-api-key }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        QUERY_TEXT: ${{ inputs.query }}
+        QUERY_FILES: ${{ inputs.query-files }}
+        QUERY_LIMIT: ${{ inputs.query-limit }}
+        QUERY_MAX_DISTANCE: ${{ inputs.query-max-distance }}
+      run: node "${{ github.action_path }}/query.js"
