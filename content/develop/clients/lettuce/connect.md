@@ -431,8 +431,8 @@ that is relevant to SCH:
 
 > [!NOTE]
 > Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
-> either [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) or
 > [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+> or the OSS Cluster API with [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md)
 > (see [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) for more information).
-> To use relaxed timeouts with these services, you should set `endpointType(EndpointType.NONE)`
+> To use relaxed timeouts with these connections, you should set `endpointType(EndpointType.NONE)`
 > when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.

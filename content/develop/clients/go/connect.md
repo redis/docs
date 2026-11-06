@@ -221,11 +221,11 @@ The `maintnotifications.Config` object accepts the following parameters:
 | `MaxHandoffRetries` | The maximum number of times to retry connecting to the replacement node. The default is 3. |
 
 > [!NOTE]
->  Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
-> either [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) or
+> Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
 > [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+> or the OSS Cluster API with [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md)
 > (see [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) for more information).
-> To use relaxed timeouts with these services, you should set `EndpointType: maintnotifications.EndpointTypeNone`
+> To use relaxed timeouts with these connections, you should set `EndpointType: maintnotifications.EndpointTypeNone`
 > when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
 
 ## Connect using client-side caching
