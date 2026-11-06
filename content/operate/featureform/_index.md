@@ -16,7 +16,7 @@ Deploy and operate Feature Form on Kubernetes: prepare your environment, install
 
 This section is for platform engineers and admins. Building features in Feature Form rather than deploying it? See the [develop docs]({{< relref "/develop/ai/featureform" >}}).
 
-Start with [Deploy]({{< relref "/operate/featureform/deploy" >}}) for the install steps, and [Configure authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}) for OIDC and roles.
+Start with [Deploy]({{< relref "/operate/featureform/deploy" >}}) for the install steps, and [Configure authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}) for OIDC and roles. To use Okta as the identity provider, see [Configure Okta]({{< relref "/operate/featureform/configure-okta" >}}). To look up a chart value, see the [Helm values reference]({{< relref "/operate/featureform/helm-values" >}}).
 
 The default install path is cloud-agnostic. For Terraform examples, contact your Redis account team.
 
@@ -29,12 +29,10 @@ The Helm chart deploys:
 - An optional dashboard.
 - Optional addons: bundled Postgres state, bundled provider infrastructure (Postgres, Redis, MinIO, LocalStack), and observability (Prometheus, Grafana).
 
-Authentication is required. Standard installs use [OIDC]({{< relref "/operate/featureform/configure-auth" >}}).
+Authentication is required. People sign in with [paired OIDC sign-in]({{< relref "/operate/featureform/configure-auth#configure-paired-oidc-sign-in" >}}), [resource-server authentication]({{< relref "/operate/featureform/configure-auth#configure-resource-server-authentication" >}}), or both. Automation uses machine credentials.
 
 ## Decisions you'll make during install
 
-- **State backend.** External PostgreSQL (the durable default), the chart's bundled state Postgres, or memory state (CI and local only — not durable). See [Choose auth and state values]({{< relref "/operate/featureform/deploy#2-choose-auth-and-state-values" >}}).
+- **State backend.** External PostgreSQL (the durable default) or the chart's bundled state Postgres. See [Choose auth and state values]({{< relref "/operate/featureform/deploy#2-choose-auth-and-state-values" >}}).
 - **Exposure.** Internal-only services, per-service ingresses, unified ingress, or direct `LoadBalancer` services. See [Configure external access]({{< relref "/operate/featureform/deploy#configure-external-access" >}}).
-- **Helm profile.** Base chart, or one of four bundled profiles for memory state, provider stack, observability, or both. See [Pick the base chart or a profile]({{< relref "/operate/featureform/deploy#3-pick-the-base-chart-or-a-profile" >}}).
-
-If workspaces or resources seem to be missing after a restart, memory state is usually the cause — REST and gRPC see different in-memory data.
+- **Helm profile.** Base chart, or one of the bundled profiles for the provider stack, observability, or both. See [Pick the base chart or a profile]({{< relref "/operate/featureform/deploy#3-pick-the-base-chart-or-a-profile" >}}).
