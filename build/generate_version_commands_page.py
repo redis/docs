@@ -11,6 +11,10 @@ from pathlib import Path
 from collections import defaultdict
 import yaml
 
+# Convention files for coding agents that live in content/commands/ but are not
+# command pages. Matches the ignoreFiles entries in config.toml.
+NON_COMMAND_FILES = {'AGENTS.md', 'CLAUDE.md', 'CLAUDE.local.md'}
+
 # Command group display names and order
 GROUP_ORDER = [
     ('string', 'String commands'),
@@ -50,7 +54,7 @@ def parse_frontmatter(content):
 def get_command_files():
     """Get all command markdown files."""
     commands_dir = Path('content/commands')
-    return list(commands_dir.glob('*.md'))
+    return [p for p in commands_dir.glob('*.md') if p.name not in NON_COMMAND_FILES]
 
 def parse_command_file(filepath):
     """Parse a command file and extract relevant information."""
@@ -58,12 +62,7 @@ def parse_command_file(filepath):
         content = f.read()
     
     frontmatter = parse_frontmatter(content)
-
-    # Skip files with no frontmatter, such as the AGENTS.md and CLAUDE.md
-    # convention files, which are not command pages
-    if not frontmatter:
-        return None
-
+    
     # Skip hidden commands and container commands
     if frontmatter.get('hidden', False):
         return None

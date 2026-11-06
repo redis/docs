@@ -159,9 +159,8 @@ change one. These are the mistakes that break a page:
 ## Use-case pages
 
 `.agents/skills/redis-use-case-ports/assets/redis-conventions.md` describes the use-case
-layout, but only partly matches current pages: it says to link with `relref`, which the
-root file replaces with `.md` paths, and several use cases skip its weight table and its
-guide outline. Copy `use-cases/job-queue/`, and where the conventions file and the pages
+layout, but only partly matches current pages: several use cases skip its weight table
+and its guide outline. Copy `use-cases/job-queue/`, and where the conventions file and the pages
 disagree, follow the pages.
 
 - **Overviews share one outline**: the same six H2 sections in the same order, from "When
