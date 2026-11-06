@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Retrieval
 title: Retrieve knowledge
 weight: 50
+aliases:
+- /develop/ai/context-engine/agent-playbook/retrieval/
 ---
 
 Retrieve published knowledge for the user's task. Choose a retrieval method:
