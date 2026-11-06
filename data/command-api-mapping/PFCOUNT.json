@@ -124,7 +124,7 @@
     ],
     "ioredis": [
       {
-        "signature": "pfcount(...keys: RedisKey[], callback?: Callback<number>)",
+        "signature": "pfcount(...args: [...keys: RedisKey[], callback: Callback<number>])",
         "params": [
           {
             "name": "...keys",

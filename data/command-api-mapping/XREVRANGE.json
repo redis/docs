@@ -395,12 +395,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[id",
+            "type": "Callback<[id: string, fields: string[]][]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[id: string, fields: string[]][], Context>",
           "description": ""
         }
       },
@@ -434,12 +434,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[id",
+            "type": "Callback<[id: string, fields: string[]][]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[id: string, fields: string[]][], Context>",
           "description": ""
         }
       }

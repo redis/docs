@@ -171,7 +171,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       },
@@ -195,21 +195,31 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       },
       {
-        "signature": "hmset(...args: [, key: RedisKey, ...fieldValues: (string | Buffer | number)[], callback: Callback<\"OK\">, ])",
+        "signature": "hmset(...args: [ key: RedisKey, ...fieldValues: (string | Buffer | number)[], callback: Callback<\"OK\"> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...fieldValues",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<\"OK\">",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       },
@@ -217,13 +227,18 @@
         "signature": "hmset(...args: [key: RedisKey, ...fieldValues: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...fieldValues",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       }

@@ -133,7 +133,7 @@
     ],
     "ioredis": [
       {
-        "signature": "mset(object: object, callback?: Callback<\"OK\">): Result<\"OK\", Context>;, mset(, map: Map<string | Buffer | number, string | Buffer | number>, callback?: Callback<\"OK\">)",
+        "signature": "mset(object: object, callback?: Callback<\"OK\">)",
         "params": [
           {
             "name": "object",
@@ -142,9 +142,18 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<\"OK\">)",
+            "type": "Callback<\"OK\">",
             "description": ""
-          },
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "mset(map: Map<string | Buffer | number, string | Buffer | number>, callback?: Callback<\"OK\">)",
+        "params": [
           {
             "name": "map",
             "type": "Map<string | Buffer | number, string | Buffer | number>",
@@ -157,21 +166,26 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       },
       {
-        "signature": "mset(...args: [, ...keyValues: (RedisKey | string | Buffer | number)[], callback: Callback<\"OK\">, ])",
+        "signature": "mset(...args: [ ...keyValues: (RedisKey | string | Buffer | number)[], callback: Callback<\"OK\"> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, ...keyValues",
+            "name": "...keyValues",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<\"OK\">",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       },
@@ -179,13 +193,13 @@
         "signature": "mset(...args: [...keyValues: (RedisKey | string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keyValues",
+            "name": "...keyValues",
+            "type": "(RedisKey | string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       }

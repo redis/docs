@@ -133,7 +133,7 @@
     ],
     "ioredis": [
       {
-        "signature": "scard(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Set the debug mode for executed scripts., * - _group_: scripting, * - _complexity_: O(1), * - _since_: 3.2.0, */, script(, subcommand: \"DEBUG\", yes: \"YES\", callback?: Callback<unknown>)",
+        "signature": "scard(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
@@ -142,27 +142,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "subcommand",
-            "type": "\"DEBUG\"",
-            "description": ""
-          },
-          {
-            "name": "yes",
-            "type": "\"YES\"",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

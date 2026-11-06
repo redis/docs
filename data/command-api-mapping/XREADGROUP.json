@@ -357,72 +357,207 @@
     ],
     "ioredis": [
       {
-        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "signature": "xreadgroup(...args: [ groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]> ])",
         "params": [
           {
+            "name": "groupConsumerToken",
+            "type": "\"GROUP\"",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, groupConsumerToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, streamsToken: \"STREAMS\", ...args: RedisValue[], ])",
+        "signature": "xreadgroup(...args: [ groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, streamsToken: \"STREAMS\", ...args: RedisValue[] ])",
         "params": [
           {
+            "name": "groupConsumerToken",
+            "type": "\"GROUP\"",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, groupConsumerToken",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, noack: \"NOACK\", streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "signature": "xreadgroup(...args: [ groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, noack: \"NOACK\", streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]> ])",
         "params": [
           {
+            "name": "groupConsumerToken",
+            "type": "\"GROUP\"",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "noack",
+            "type": "\"NOACK\"",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, groupConsumerToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, noack: \"NOACK\", streamsToken: \"STREAMS\", ...args: RedisValue[], ])",
+        "signature": "xreadgroup(...args: [ groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, noack: \"NOACK\", streamsToken: \"STREAMS\", ...args: RedisValue[] ])",
         "params": [
           {
+            "name": "groupConsumerToken",
+            "type": "\"GROUP\"",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "noack",
+            "type": "\"NOACK\"",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, groupConsumerToken",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "signature": "xreadgroup(...args: [ groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]> ])",
         "params": [
           {
+            "name": "groupConsumerToken",
+            "type": "\"GROUP\"",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "millisecondsToken",
+            "type": "\"BLOCK\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, groupConsumerToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }

@@ -237,16 +237,26 @@
     ],
     "ioredis": [
       {
-        "signature": "xack(...args: [, key: RedisKey, group: string | Buffer, ...ids: (string | Buffer | number)[], ])",
+        "signature": "xack(...args: [ key: RedisKey, group: string | Buffer, ...ids: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

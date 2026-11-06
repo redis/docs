@@ -147,7 +147,7 @@
     ],
     "ioredis": [
       {
-        "signature": "llen(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Pop an element from a list, push it to another list and return it, * - _group_: list, * - _complexity_: O(1), * - _since_: 6.2.0, */, lmove(, source: RedisKey, destination: RedisKey, left: \"LEFT\", left1: \"LEFT\", callback?: Callback<string>)",
+        "signature": "llen(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
@@ -156,37 +156,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "source",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "left",
-            "type": "\"LEFT\"",
-            "description": ""
-          },
-          {
-            "name": "left1",
-            "type": "\"LEFT\"",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<string>",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

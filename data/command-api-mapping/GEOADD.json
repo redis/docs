@@ -583,72 +583,127 @@
     ],
     "ioredis": [
       {
-        "signature": "geoadd(...args: [, key: RedisKey, ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "geoadd(...args: [ key: RedisKey, ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...longitudeLatitudeMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "geoadd(...args: [, key: RedisKey, ...longitudeLatitudeMembers: (string | Buffer | number)[], ])",
+        "signature": "geoadd(...args: [ key: RedisKey, ...longitudeLatitudeMembers: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...longitudeLatitudeMembers",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "geoadd(...args: [, key: RedisKey, ch: \"CH\", ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "geoadd(...args: [ key: RedisKey, ch: \"CH\", ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ch",
+            "type": "\"CH\"",
+            "description": ""
+          },
+          {
+            "name": "...longitudeLatitudeMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "geoadd(...args: [, key: RedisKey, ch: \"CH\", ...longitudeLatitudeMembers: (string | Buffer | number)[], ])",
+        "signature": "geoadd(...args: [ key: RedisKey, ch: \"CH\", ...longitudeLatitudeMembers: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ch",
+            "type": "\"CH\"",
+            "description": ""
+          },
+          {
+            "name": "...longitudeLatitudeMembers",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "geoadd(...args: [, key: RedisKey, nx: \"NX\", ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "geoadd(...args: [ key: RedisKey, nx: \"NX\", ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "\"NX\"",
+            "description": ""
+          },
+          {
+            "name": "...longitudeLatitudeMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

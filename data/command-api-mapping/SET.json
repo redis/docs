@@ -547,7 +547,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       },
@@ -576,7 +576,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -605,7 +605,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\" | null, Context>",
           "description": ""
         }
       },
@@ -639,7 +639,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -668,7 +668,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<\"OK\" | null, Context>",
           "description": ""
         }
       }

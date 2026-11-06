@@ -447,16 +447,26 @@
     ],
     "ioredis": [
       {
-        "signature": "geosearch(...args: [, key: RedisKey, ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "signature": "geosearch(...args: [ key: RedisKey, ...args: RedisValue[], callback: Callback<unknown[]> ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
@@ -464,13 +474,18 @@
         "signature": "geosearch(...args: [key: RedisKey, ...args: RedisValue[]])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[key",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }

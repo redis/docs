@@ -133,7 +133,7 @@
     ],
     "ioredis": [
       {
-        "signature": "strlen(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Listen for messages published to the given channels, * - _group_: pubsub, * - _complexity_: O(N) where N is the number of channels to subscribe to., * - _since_: 2.0.0, */, subscribe(, ...args: [...channels: (string | Buffer)[], callback: Callback<unknown>])",
+        "signature": "strlen(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
@@ -142,17 +142,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "...args",
-            "type": "[...channels",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

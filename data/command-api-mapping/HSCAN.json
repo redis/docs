@@ -488,12 +488,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -522,12 +522,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -556,12 +556,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -600,12 +600,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       }

@@ -537,44 +537,84 @@
     ],
     "ioredis": [
       {
-        "signature": "bitop(...args: [, operation: string | Buffer, destkey: RedisKey, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "bitop(...args: [ operation: string | Buffer, destkey: RedisKey, ...keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, operation",
+            "name": "operation",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "destkey",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "bitop(...args: [, operation: string | Buffer, destkey: RedisKey, keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "bitop(...args: [ operation: string | Buffer, destkey: RedisKey, keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, operation",
+            "name": "operation",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "destkey",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "bitop(...args: [, operation: string | Buffer, destkey: RedisKey, ...keys: RedisKey[], ])",
+        "signature": "bitop(...args: [ operation: string | Buffer, destkey: RedisKey, ...keys: RedisKey[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, operation",
+            "name": "operation",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "destkey",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -582,13 +622,23 @@
         "signature": "bitop(...args: [operation: string | Buffer, destkey: RedisKey, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[operation",
+            "name": "operation",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "destkey",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

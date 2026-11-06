@@ -126,7 +126,7 @@
     ],
     "ioredis": [
       {
-        "signature": "pfadd(key: RedisKey, ...elements: (string | Buffer | number)[], callback?: Callback<number>)",
+        "signature": "pfadd(...args: [ key: RedisKey, ...elements: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
             "name": "key",

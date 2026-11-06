@@ -184,13 +184,18 @@
         "signature": "mget(...args: [...keys: RedisKey[], callback: Callback<(string | null)[]>])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
@@ -198,51 +203,74 @@
         "signature": "mget(...args: [keys: RedisKey[], callback: Callback<(string | null)[]>])",
         "params": [
           {
-            "name": "...args",
-            "type": "[keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "mget(...args: [...keys: RedisKey[]]): Result<(string | null)[], Context>;, mgetBuffer(, ...args: [...keys: RedisKey[]])",
+        "signature": "mget(...args: [...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
-            "description": ""
-          },
-          {
-            "name": "...args",
-            "type": "[...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "mget(...args: [keys: RedisKey[]]): Result<(string | null)[], Context>;, mgetBuffer(...args: [keys: RedisKey[]]): Result<(Buffer | null)[], Context>;, /**, * Atomically transfer a key from a Redis instance to another one., * - _group_: generic, * - _complexity_: This command actually executes a DUMP+DEL in the source instance, and a RESTORE in the target instance. See the pages of these commands for time complexity. Also an O(N) data transfer between the two instances is performed., * - _since_: 2.6.0, */, migrate(, ...args: [, host: string | Buffer, port: number | string, ...args: RedisValue[], callback: Callback<\"OK\">, ])",
+        "signature": "mgetBuffer(...args: [...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[keys",
-            "description": ""
-          },
-          {
-            "name": "...args",
-            "type": "[, host",
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(Buffer | null)[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "mget(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "mgetBuffer(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(Buffer | null)[], Context>",
           "description": ""
         }
       }

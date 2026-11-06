@@ -173,30 +173,50 @@
     ],
     "ioredis": [
       {
-        "signature": "zmscore(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<(string | null)[]>, ])",
+        "signature": "zmscore(...args: [ key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<(string | null)[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...members",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "zmscore(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<(string | null)[]>, ])",
+        "signature": "zmscore(...args: [ key: RedisKey, members: (string | Buffer | number)[], callback: Callback<(string | null)[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
@@ -204,13 +224,18 @@
         "signature": "zmscore(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...members",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
@@ -218,13 +243,18 @@
         "signature": "zmscore(...args: [key: RedisKey, members: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       }

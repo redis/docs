@@ -276,18 +276,8 @@
     ],
     "ioredis": [
       {
-        "signature": "decr(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Decrement the integer value of a key by the given number, * - _group_: string, * - _complexity_: O(1), * - _since_: 1.0.0, */, decrby(, key: RedisKey, decrement: number | string, callback?: Callback<number>)",
+        "signature": "decrby(key: RedisKey, decrement: number | string, callback?: Callback<number>)",
         "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
           {
             "name": "key",
             "type": "RedisKey",
@@ -305,7 +295,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

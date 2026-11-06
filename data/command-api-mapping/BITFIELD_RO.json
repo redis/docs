@@ -120,30 +120,55 @@
     ],
     "ioredis": [
       {
-        "signature": "bitfield_ro(...args: [, key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[], callback: Callback<unknown[]>, ])",
+        "signature": "bitfield_ro(...args: [ key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[], callback: Callback<unknown[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "encodingOffsetToken",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "...encodingOffsets",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "bitfield_ro(...args: [, key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[], ])",
+        "signature": "bitfield_ro(...args: [ key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "encodingOffsetToken",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "...encodingOffsets",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }

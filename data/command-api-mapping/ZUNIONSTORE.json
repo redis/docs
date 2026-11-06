@@ -303,44 +303,84 @@
     ],
     "ioredis": [
       {
-        "signature": "zunionstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "zunionstore(...args: [ destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zunionstore(...args: [, destination: RedisKey, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "zunionstore(...args: [ destination: RedisKey, numkeys: number | string, keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zunionstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], ])",
+        "signature": "zunionstore(...args: [ destination: RedisKey, numkeys: number | string, ...keys: RedisKey[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -348,27 +388,62 @@
         "signature": "zunionstore(...args: [destination: RedisKey, numkeys: number | string, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zunionstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], aggregate: \"AGGREGATE\", sum: \"SUM\", callback: Callback<number>, ])",
+        "signature": "zunionstore(...args: [ destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], aggregate: \"AGGREGATE\", sum: \"SUM\", callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "aggregate",
+            "type": "\"AGGREGATE\"",
+            "description": ""
+          },
+          {
+            "name": "sum",
+            "type": "\"SUM\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

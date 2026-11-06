@@ -133,31 +133,11 @@
     ],
     "ioredis": [
       {
-        "signature": "zcard(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Count the members in a sorted set with scores within the given values, * - _group_: sorted-set, * - _complexity_: O(log(N)) with N being the number of elements in the sorted set., * - _since_: 2.0.0, */, zcount(, key: RedisKey, min: number | string, max: number | string, callback?: Callback<number>)",
+        "signature": "zcard(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
             "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "min",
-            "type": "number | string",
-            "description": ""
-          },
-          {
-            "name": "max",
-            "type": "number | string",
             "description": ""
           },
           {
@@ -167,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

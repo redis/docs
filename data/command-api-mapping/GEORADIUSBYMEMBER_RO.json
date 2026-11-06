@@ -18,30 +18,65 @@
     ],
     "ioredis": [
       {
-        "signature": "georadiusbymember_ro(...args: [, key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], callback: Callback<unknown>, ])",
+        "signature": "georadiusbymember_ro(...args: [ key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], callback: Callback<unknown> ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number | string",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "georadiusbymember_ro(...args: [, key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], ])",
+        "signature": "georadiusbymember_ro(...args: [ key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[] ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number | string",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }

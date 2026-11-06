@@ -126,7 +126,7 @@
     ],
     "ioredis": [
       {
-        "signature": "pfmerge(destkey: RedisKey, ...sourcekeys: RedisKey[], callback?: Callback<'OK'>)",
+        "signature": "pfmerge(...args: [ destkey: RedisKey, ...sourcekeys: RedisKey[], callback: Callback<\"OK\"> ])",
         "params": [
           {
             "name": "destkey",
@@ -140,7 +140,7 @@
           },
           {
             "name": "callback",
-            "type": "Callback<'OK'>",
+            "type": "Callback<\"OK\">",
             "description": "Optional callback"
           }
         ],

@@ -215,30 +215,60 @@
     ],
     "ioredis": [
       {
-        "signature": "lmpop(...args: [, numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", callback: Callback<[key: string, members: string[]] | null>, ])",
+        "signature": "lmpop(...args: [ numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", callback: Callback<[key: string, members: string[]] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "left",
+            "type": "\"LEFT\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[key: string, members: string[]] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, members: string[]] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "lmpop(...args: [, numkeys: number | string, keys: RedisKey[], left: \"LEFT\", callback: Callback<[key: string, members: string[]] | null>, ])",
+        "signature": "lmpop(...args: [ numkeys: number | string, keys: RedisKey[], left: \"LEFT\", callback: Callback<[key: string, members: string[]] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "left",
+            "type": "\"LEFT\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[key: string, members: string[]] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, members: string[]] | null, Context>",
           "description": ""
         }
       },
@@ -246,13 +276,23 @@
         "signature": "lmpop(...args: [numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\"])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "left",
+            "type": "\"LEFT\"",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, members: string[]] | null, Context>",
           "description": ""
         }
       },
@@ -260,27 +300,62 @@
         "signature": "lmpop(...args: [numkeys: number | string, keys: RedisKey[], left: \"LEFT\"])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "left",
+            "type": "\"LEFT\"",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, members: string[]] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "lmpop(...args: [, numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", countToken: \"COUNT\", count: number | string, callback: Callback<[key: string, members: string[]] | null>, ])",
+        "signature": "lmpop(...args: [ numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", countToken: \"COUNT\", count: number | string, callback: Callback<[key: string, members: string[]] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "left",
+            "type": "\"LEFT\"",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[key: string, members: string[]] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, members: string[]] | null, Context>",
           "description": ""
         }
       }
