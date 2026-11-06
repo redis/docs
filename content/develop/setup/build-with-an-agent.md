@@ -71,5 +71,6 @@ Or install it as a plugin in your agent tool of choice:
 ## See also
 
 - [Redis MCP server](/content/integrate/redis-mcp/_index.md) — connect an agent to your own Redis database
+- [Redis Cloud remote MCP server](/content/integrate/redis-mcp/remote-cloud-mcp.md) - let an agent manage your Redis Cloud subscriptions and databases
 - [Redis client libraries](/content/develop/clients/_index.md)
 - [Redis for AI agents](/content/develop/get-started/redis-in-ai.md)
