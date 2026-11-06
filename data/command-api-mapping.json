@@ -159,16 +159,11 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "acl(string $subcommand, ...$args)",
+          "signature": "cat(string $category = null)",
           "params": [
             {
-              "name": "$subcommand",
+              "name": "$category",
               "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
               "description": ""
             }
           ],
@@ -417,16 +412,11 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "acl(string $subcommand, ...$args)",
+          "signature": "delUser(string ...$username)",
           "params": [
             {
-              "name": "$subcommand",
+              "name": "$username",
               "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
               "description": ""
             }
           ],
@@ -705,21 +695,26 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "acl(string $subcommand, ...$args)",
+          "signature": "dryRun(string $username, string $command, ...$arguments)",
           "params": [
             {
-              "name": "$subcommand",
+              "name": "$username",
               "type": "string",
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$command",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$arguments",
               "type": "mixed",
               "description": ""
             }
           ],
           "returns": {
-            "type": "string",
+            "type": "Status",
             "description": ""
           }
         }
@@ -936,27 +931,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [
         {
           "signature": "acl_genpass()",
@@ -1135,16 +1110,11 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "acl(string $subcommand, ...$args)",
+          "signature": "getUser(string $username)",
           "params": [
             {
-              "name": "$subcommand",
+              "name": "$username",
               "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
               "description": ""
             }
           ],
@@ -1214,27 +1184,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [
         {
           "signature": "acl_help()",
@@ -1343,27 +1293,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [
         {
           "signature": "acl_list()",
@@ -1472,27 +1402,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [
         {
           "signature": "acl_load()",
@@ -1673,27 +1583,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [
         {
           "signature": "acl_log(count: isize)",
@@ -1830,27 +1720,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [
         {
           "signature": "acl_save()",
@@ -2096,21 +1966,21 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "acl(string $subcommand, ...$args)",
+          "signature": "setUser(string $username, string ...$rules)",
           "params": [
             {
-              "name": "$subcommand",
+              "name": "$username",
               "type": "string",
               "description": ""
             },
             {
-              "name": "$args",
-              "type": "mixed",
+              "name": "$rules",
+              "type": "string",
               "description": ""
             }
           ],
           "returns": {
-            "type": "string",
+            "type": "Status",
             "description": ""
           }
         }
@@ -2273,27 +2143,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [
         {
           "signature": "acl_users()",
@@ -2404,19 +2254,8 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
+          "signature": "whoami()",
+          "params": [],
           "returns": {
             "type": "string",
             "description": ""
@@ -2456,27 +2295,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "acl(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "mixed",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -20346,27 +20165,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -20459,21 +20258,10 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
+          "signature": "getName()",
+          "params": [],
           "returns": {
-            "type": "string|null",
+            "type": "string",
             "description": ""
           }
         }
@@ -20571,27 +20359,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "int",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -20698,27 +20466,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "int",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [
         {
           "signature": "client_id()",
@@ -20827,27 +20575,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -21245,21 +20973,16 @@
       ],
       "php": [
         {
-          "signature": "client(string $subcommand, ...$args)",
+          "signature": "kill(...$arguments)",
           "params": [
             {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
+              "name": "$arguments",
               "type": "mixed",
               "description": ""
             }
           ],
           "returns": {
-            "type": "int|string",
+            "type": "Status",
             "description": ""
           }
         }
@@ -21416,16 +21139,16 @@
       ],
       "php": [
         {
-          "signature": "client(string $subcommand, ...$args)",
+          "signature": "list(string $type = null, int ...$clientId)",
           "params": [
             {
-              "name": "$subcommand",
+              "name": "$type",
               "type": "string",
               "description": ""
             },
             {
-              "name": "$args",
-              "type": "mixed",
+              "name": "$clientId",
+              "type": "int",
               "description": ""
             }
           ],
@@ -21547,21 +21270,16 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "client(string $subcommand, ...$args)",
+          "signature": "noEvict(bool $enable = null)",
           "params": [
             {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
+              "name": "$enable",
+              "type": "bool",
               "description": ""
             }
           ],
           "returns": {
-            "type": "string",
+            "type": "Status",
             "description": ""
           }
         }
@@ -21678,21 +21396,16 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "client(string $subcommand, ...$args)",
+          "signature": "noTouch(bool $enable = null)",
           "params": [
             {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
+              "name": "$enable",
+              "type": "bool",
               "description": ""
             }
           ],
           "returns": {
-            "type": "string",
+            "type": "Status",
             "description": ""
           }
         }
@@ -21837,27 +21550,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -21908,27 +21601,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -22222,21 +21895,16 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "client(string $subcommand, ...$args)",
+          "signature": "setName(string $connectionName)",
           "params": [
             {
-              "name": "$subcommand",
+              "name": "$connectionName",
               "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
               "description": ""
             }
           ],
           "returns": {
-            "type": "string",
+            "type": "Status",
             "description": ""
           }
         }
@@ -22441,27 +22109,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -22822,27 +22470,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "client(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -27478,7 +27106,7 @@
       ],
       "php": [
         {
-          "signature": "command(string $subcommand, ...$args)",
+          "signature": "command($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -27486,7 +27114,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -27544,7 +27172,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "command(string $subcommand, ...$args)",
+          "signature": "command($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -27552,7 +27180,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -27740,7 +27368,7 @@
       ],
       "php": [
         {
-          "signature": "command(string $subcommand, ...$args)",
+          "signature": "command($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -27748,7 +27376,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -27851,7 +27479,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "command(string $subcommand, ...$args)",
+          "signature": "command($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -27859,7 +27487,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -27887,7 +27515,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "command(string $subcommand, ...$args)",
+          "signature": "command($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -27895,7 +27523,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -28018,7 +27646,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "command(string $subcommand, ...$args)",
+          "signature": "command($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -28026,7 +27654,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -28202,7 +27830,7 @@
       ],
       "php": [
         {
-          "signature": "command(string $subcommand, ...$args)",
+          "signature": "command($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -28210,7 +27838,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -28313,7 +27941,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "command(string $subcommand, ...$args)",
+          "signature": "command($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -28321,7 +27949,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -28601,7 +28229,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "config(string $subcommand, ...$args)",
+          "signature": "config($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -28609,7 +28237,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -29244,7 +28872,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "config(string $subcommand, ...$args)",
+          "signature": "config($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -29252,7 +28880,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -29929,27 +29557,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "debug(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -35904,16 +35512,26 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "failover(...$args)",
+          "signature": "failover(?To $to = null, bool $abort = false, int $timeout = -1)",
           "params": [
             {
-              "name": "$args",
-              "type": "mixed",
+              "name": "$to",
+              "type": "?To",
+              "description": ""
+            },
+            {
+              "name": "$abort",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "$timeout",
+              "type": "int",
               "description": ""
             }
           ],
           "returns": {
-            "type": "string",
+            "type": "Status",
             "description": ""
           }
         }
@@ -83702,27 +83320,7 @@
           }
         }
       ],
-      "php": [
-        {
-          "signature": "latency(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -83768,27 +83366,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "latency(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -83804,27 +83382,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "latency(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -83855,27 +83413,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "latency(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -84001,27 +83539,7 @@
           }
         }
       ],
-      "php": [
-        {
-          "signature": "latency(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -84115,27 +83633,7 @@
           }
         }
       ],
-      "php": [
-        {
-          "signature": "latency(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -84269,27 +83767,7 @@
           }
         }
       ],
-      "php": [
-        {
-          "signature": "latency(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "int",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -84305,27 +83783,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "latency(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "mixed",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -87240,22 +86698,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "lolwut(...$args)",
-          "params": [
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -91739,27 +91182,7 @@
           }
         }
       ],
-      "php": [
-        {
-          "signature": "memory(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -91775,27 +91198,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "memory(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -91874,27 +91277,7 @@
           }
         }
       ],
-      "php": [
-        {
-          "signature": "memory(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -91988,27 +91371,7 @@
           }
         }
       ],
-      "php": [
-        {
-          "signature": "memory(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -92129,27 +91492,7 @@
           }
         }
       ],
-      "php": [
-        {
-          "signature": "memory(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -92314,27 +91657,7 @@
       ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "memory(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "int",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -92350,27 +91673,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "memory(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "mixed",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -93350,27 +92653,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "module(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -93434,27 +92717,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "module(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "array",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -93555,27 +92818,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "module(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -93661,27 +92904,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "module(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -93767,27 +92990,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "module(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "string",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -93803,27 +93006,7 @@
       "lettuce_reactive": [],
       "nredisstack_sync": [],
       "nredisstack_async": [],
-      "php": [
-        {
-          "signature": "module(string $subcommand, ...$args)",
-          "params": [
-            {
-              "name": "$subcommand",
-              "type": "string",
-              "description": ""
-            },
-            {
-              "name": "$args",
-              "type": "mixed",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "mixed",
-            "description": ""
-          }
-        }
-      ],
+      "php": [],
       "redis_rs_sync": [],
       "redis_rs_async": []
     }
@@ -113035,16 +112218,16 @@
       ],
       "php": [
         {
-          "signature": "slowlog(string $operation, ?int $length = null)",
+          "signature": "slowlog($subcommand, $argument = null)",
           "params": [
             {
-              "name": "$operation",
+              "name": "$subcommand",
               "type": "string",
               "description": ""
             },
             {
-              "name": "$length",
-              "type": "int|null",
+              "name": "$argument",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -113071,7 +112254,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "slowlog(string $subcommand, ...$args)",
+          "signature": "slowlog($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -113079,7 +112262,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }
@@ -113173,16 +112356,16 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "slowlog(string $operation, ?int $length = null)",
+          "signature": "slowlog($subcommand, $argument = null)",
           "params": [
             {
-              "name": "$operation",
+              "name": "$subcommand",
               "type": "string",
               "description": ""
             },
             {
-              "name": "$length",
-              "type": "int|null",
+              "name": "$argument",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -113305,16 +112488,16 @@
       ],
       "php": [
         {
-          "signature": "slowlog(string $operation, ?int $length = null)",
+          "signature": "slowlog($subcommand, $argument = null)",
           "params": [
             {
-              "name": "$operation",
+              "name": "$subcommand",
               "type": "string",
               "description": ""
             },
             {
-              "name": "$length",
-              "type": "int|null",
+              "name": "$argument",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -113341,7 +112524,7 @@
       "nredisstack_async": [],
       "php": [
         {
-          "signature": "slowlog(string $subcommand, ...$args)",
+          "signature": "slowlog($subcommand, $argument = null)",
           "params": [
             {
               "name": "$subcommand",
@@ -113349,7 +112532,7 @@
               "description": ""
             },
             {
-              "name": "$args",
+              "name": "$argument",
               "type": "mixed",
               "description": ""
             }

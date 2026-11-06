@@ -11,7 +11,7 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "config(string $subcommand, ...$args)",
+        "signature": "config($subcommand, $argument = null)",
         "params": [
           {
             "name": "$subcommand",
@@ -19,7 +19,7 @@
             "description": ""
           },
           {
-            "name": "$args",
+            "name": "$argument",
             "type": "mixed",
             "description": ""
           }

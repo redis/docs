@@ -107,16 +107,16 @@
     ],
     "php": [
       {
-        "signature": "slowlog(string $operation, ?int $length = null)",
+        "signature": "slowlog($subcommand, $argument = null)",
         "params": [
           {
-            "name": "$operation",
+            "name": "$subcommand",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$length",
-            "type": "int|null",
+            "name": "$argument",
+            "type": "mixed",
             "description": ""
           }
         ],

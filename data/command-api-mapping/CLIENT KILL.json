@@ -391,21 +391,16 @@
     ],
     "php": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "kill(...$arguments)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
+            "name": "$arguments",
             "type": "mixed",
             "description": ""
           }
         ],
         "returns": {
-          "type": "int|string",
+          "type": "Status",
           "description": ""
         }
       }

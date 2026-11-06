@@ -126,21 +126,16 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "setName(string $connectionName)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "$connectionName",
             "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Status",
           "description": ""
         }
       }

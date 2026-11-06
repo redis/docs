@@ -19,7 +19,8 @@
   },
   "ACL GENPASS": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only"
   },
   "ACL GETUSER": {
     "nredisstack_sync": "generic_only",
@@ -33,23 +34,28 @@
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only"
   },
   "ACL LIST": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only"
   },
   "ACL LOAD": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only"
   },
   "ACL LOG": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only"
   },
   "ACL SAVE": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only"
   },
   "ACL SETUSER": {
     "nredisstack_sync": "generic_only",
@@ -57,7 +63,8 @@
   },
   "ACL USERS": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only"
   },
   "ACL WHOAMI": {
     "nredisstack_sync": "generic_only",
@@ -97,7 +104,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT GETNAME": {
     "nredisstack_sync": "unsupported",
@@ -108,7 +116,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT HELP": {
     "redis_py": "generic_only",
@@ -126,13 +135,15 @@
   },
   "CLIENT ID": {
     "nredisstack_sync": "unsupported",
-    "nredisstack_async": "unsupported"
+    "nredisstack_async": "unsupported",
+    "php": "generic_only"
   },
   "CLIENT INFO": {
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT KILL": {
     "redis_rs_sync": "generic_only",
@@ -160,7 +171,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT REPLY": {
     "go-redis": "generic_only",
@@ -171,7 +183,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT SETINFO": {
     "node_redis": "generic_only",
@@ -188,7 +201,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT TRACKINGINFO": {
     "go-redis": "generic_only",
@@ -209,7 +223,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLUSTER": {
     "jedis": "unsupported",
@@ -575,7 +590,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "ECHO": {
     "redis_rs_sync": "generic_only",
@@ -842,7 +858,8 @@
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "LATENCY GRAPH": {
     "redis_py": "unsupported",
@@ -853,7 +870,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "LATENCY HELP": {
     "redis_py": "generic_only",
@@ -866,7 +884,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "LATENCY HISTOGRAM": {
     "redis_py": "unsupported",
@@ -878,28 +897,32 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "LATENCY HISTORY": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "LATENCY LATEST": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "LATENCY RESET": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "LOLWUT": {
     "go-redis": "generic_only",
@@ -909,7 +932,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MEMORY": {
     "jedis": "unsupported",
@@ -926,7 +950,8 @@
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MEMORY HELP": {
     "redis_py": "unsupported",
@@ -939,7 +964,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MEMORY MALLOC-STATS": {
     "go-redis": "generic_only",
@@ -947,24 +973,28 @@
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MEMORY PURGE": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MEMORY STATS": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MEMORY USAGE": {
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MODULE": {
     "jedis": "unsupported",
@@ -988,7 +1018,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MODULE LIST": {
     "lettuce_sync": "generic_only",
@@ -997,7 +1028,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MODULE LOAD": {
     "lettuce_sync": "generic_only",
@@ -1006,7 +1038,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MODULE LOADEX": {
     "node_redis": "generic_only",
@@ -1016,7 +1049,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MODULE UNLOAD": {
     "lettuce_sync": "generic_only",
@@ -1025,7 +1059,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "MONITOR": {
     "lettuce_sync": "unsupported",

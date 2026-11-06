@@ -84,27 +84,7 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
-      {
-        "signature": "acl(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "array",
-          "description": ""
-        }
-      }
-    ],
+    "php": [],
     "redis_rs_sync": [
       {
         "signature": "acl_list()",

@@ -233,21 +233,26 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
+        "signature": "dryRun(string $username, string $command, ...$arguments)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "$username",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$args",
+            "name": "$command",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$arguments",
             "type": "mixed",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Status",
           "description": ""
         }
       }

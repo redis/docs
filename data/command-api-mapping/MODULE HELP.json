@@ -9,27 +9,7 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
-      {
-        "signature": "module(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "array",
-          "description": ""
-        }
-      }
-    ],
+    "php": [],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }

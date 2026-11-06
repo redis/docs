@@ -187,16 +187,11 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
+        "signature": "delUser(string ...$username)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "$username",
             "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
             "description": ""
           }
         ],
