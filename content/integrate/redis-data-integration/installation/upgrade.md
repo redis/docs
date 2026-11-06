@@ -23,6 +23,9 @@ weight: 30
 > [!WARNING]
 > Downgrading from RDI 2.0.0 or later to a version earlier than 2.0.0 is not supported.
 
+For a disaster recovery deployment, also review
+[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
+
 ## Upgrading a VM installation
 
 Follow the steps below to upgrade an existing
@@ -206,6 +209,11 @@ The first upgraded instance that becomes the leader saves its pipelines as the b
 restores at every later failover. This matters most when you upgrade from a version before
 2.0.0: the other instance does not keep a copy of your pipelines, so if it became the leader first, RDI
 would delete your pipelines at the next failover.
+
+In a disaster recovery setup with a GCS lease, the upgraded leader migrates the lease to a
+format that earlier versions can't read. The follower can't take over until you upgrade it
+too, so upgrade it as soon as you've checked the leader. See
+[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
 
 ### Validate your configurations before you redeploy them
 
