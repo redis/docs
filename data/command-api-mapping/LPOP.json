@@ -385,49 +385,6 @@
           "type": "ListPopResult",
           "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
         }
-      },
-      {
-        "signature": "ListLeftPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
-        }
-      },
-      {
-        "signature": "ListLeftPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "The maximum number of elements to pop from the list."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
-        }
       }
     ],
     "nredisstack_async": [
@@ -495,49 +452,6 @@
         ],
         "returns": {
           "type": "Task<ListPopResult>",
-          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
-        }
-      },
-      {
-        "signature": "ListLeftPopAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue>",
-          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
-        }
-      },
-      {
-        "signature": "ListLeftPopAsync(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "The maximum number of elements to pop from the list."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue[]>",
           "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
         }
       }

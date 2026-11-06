@@ -246,47 +246,9 @@
           "type": "HashEntry[]",
           "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
         }
-      },
-      {
-        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash to get all entries from."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "HashEntry[]",
-          "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "HashGetAllAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash to get all entries from."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<HashEntry[]>",
-          "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
-        }
-      },
       {
         "signature": "HashGetAllAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [

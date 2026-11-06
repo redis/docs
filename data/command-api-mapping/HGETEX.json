@@ -498,40 +498,6 @@
           "type": "RedisValue[]",
           "description": "The values of the specified hash fields."
         }
-      },
-      {
-        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue hashField, TimeSpan? expiry = null, bool persist = false, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "expiry",
-            "type": "TimeSpan?",
-            "description": "The exact date and time to set the expiration to."
-          },
-          {
-            "name": "persist",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The values of the specified hash fields."
-        }
       }
     ],
     "nredisstack_async": [
@@ -658,40 +624,6 @@
         ],
         "returns": {
           "type": "Task<RedisValue[]>",
-          "description": "The values of the specified hash fields."
-        }
-      },
-      {
-        "signature": "HashFieldGetAndSetExpiryAsync(RedisKey key, RedisValue hashField, TimeSpan? expiry = null, bool persist = false, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "expiry",
-            "type": "TimeSpan?",
-            "description": "The exact date and time to set the expiration to."
-          },
-          {
-            "name": "persist",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue>",
           "description": "The values of the specified hash fields."
         }
       }

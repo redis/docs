@@ -550,6 +550,32 @@
           "description": "the new string length(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-string match"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StrAppendAsync(RedisKey key, string value, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long?[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

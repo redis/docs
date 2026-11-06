@@ -237,57 +237,9 @@
           "type": "long[]",
           "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>&gt; 0</term> <description>Time to live, in milliseconds.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
         }
-      },
-      {
-        "signature": "HashFieldGetTimeToLive(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to get expire time."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long[]",
-          "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>&gt; 0</term> <description>Time to live, in milliseconds.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "HashFieldGetTimeToLiveAsync(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to get expire time."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long[]>",
-          "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>&gt; 0</term> <description>Time to live, in milliseconds.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
-        }
-      },
       {
         "signature": "HashFieldGetTimeToLiveAsync(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [

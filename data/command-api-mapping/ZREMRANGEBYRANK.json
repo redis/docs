@@ -323,67 +323,9 @@
           "type": "long",
           "description": "The number of elements removed."
         }
-      },
-      {
-        "signature": "SortedSetRemoveRangeByRank(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The minimum rank to remove."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The maximum rank to remove."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements removed."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetRemoveRangeByRankAsync(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The minimum rank to remove."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The maximum rank to remove."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The number of elements removed."
-        }
-      },
       {
         "signature": "SortedSetRemoveRangeByRankAsync(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
         "params": [

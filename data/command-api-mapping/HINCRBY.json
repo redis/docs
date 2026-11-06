@@ -410,35 +410,6 @@
           "type": "double",
           "description": "The value at field after the increment operation."
         }
-      },
-      {
-        "signature": "HashDecrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field in the hash to decrement."
-          },
-          {
-            "name": "value",
-            "type": "long",
-            "description": "The amount to decrement by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The value at field after the decrement operation."
-        }
       }
     ],
     "nredisstack_async": [
@@ -556,35 +527,6 @@
         "returns": {
           "type": "Task<double>",
           "description": "The value at field after the increment operation."
-        }
-      },
-      {
-        "signature": "HashDecrementAsync(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field in the hash to decrement."
-          },
-          {
-            "name": "value",
-            "type": "long",
-            "description": "The amount to decrement by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The value at field after the decrement operation."
         }
       }
     ],

@@ -380,6 +380,37 @@
           "description": "the new array length(s)"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ArrTrimAsync(RedisKey key, string path, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long?[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

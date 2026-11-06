@@ -203,47 +203,9 @@
           "type": "long",
           "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
         }
-      },
-      {
-        "signature": "SetLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SetLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
-        }
-      },
       {
         "signature": "SetLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [

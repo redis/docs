@@ -242,57 +242,9 @@
           "type": "RedisValue",
           "description": "The requested element, or Null when index is out of range."
         }
-      },
-      {
-        "signature": "ListGetByIndex(RedisKey key, long index, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "index",
-            "type": "long",
-            "description": "The index position to get the value at."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The requested element, or Null when index is out of range."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "ListGetByIndexAsync(RedisKey key, long index, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "index",
-            "type": "long",
-            "description": "The index position to get the value at."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue>",
-          "description": "The requested element, or Null when index is out of range."
-        }
-      },
       {
         "signature": "ListGetByIndexAsync(RedisKey key, long index, CommandFlags flags = CommandFlags.None)",
         "params": [

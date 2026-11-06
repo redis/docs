@@ -282,47 +282,9 @@
           "type": "RedisValue",
           "description": "A random hash field name or Null if the hash does not exist."
         }
-      },
-      {
-        "signature": "HashRandomField(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "A random hash field name or Null if the hash does not exist."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "HashRandomFieldAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue>",
-          "description": "A random hash field name or Null if the hash does not exist."
-        }
-      },
       {
         "signature": "HashRandomFieldAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [

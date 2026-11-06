@@ -299,59 +299,6 @@
           "type": "RedisValue",
           "description": "The substring of the string value stored at key."
         }
-      },
-      {
-        "signature": "StringGetRange(RedisKey key, long start, long end, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index of the substring to get."
-          },
-          {
-            "name": "end",
-            "type": "long",
-            "description": "The end index of the substring to get."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The substring of the string value stored at key."
-        }
-      },
-      {
-        "signature": "GetRange(double value, Exclude exclude, bool isStart)",
-        "params": [
-          {
-            "name": "value",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": ""
-          },
-          {
-            "name": "isStart",
-            "type": "bool",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
@@ -382,59 +329,6 @@
         "returns": {
           "type": "Task<RedisValue>",
           "description": "The substring of the string value stored at key."
-        }
-      },
-      {
-        "signature": "StringGetRangeAsync(RedisKey key, long start, long end, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index of the substring to get."
-          },
-          {
-            "name": "end",
-            "type": "long",
-            "description": "The end index of the substring to get."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue>",
-          "description": "The substring of the string value stored at key."
-        }
-      },
-      {
-        "signature": "GetRange(double value, Exclude exclude, bool isStart)",
-        "params": [
-          {
-            "name": "value",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": ""
-          },
-          {
-            "name": "isStart",
-            "type": "bool",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": ""
         }
       }
     ],

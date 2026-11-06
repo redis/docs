@@ -644,35 +644,6 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SetScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "pattern",
-            "type": "RedisValue",
-            "description": "The pattern to match."
-          },
-          {
-            "name": "pageSize",
-            "type": "int",
-            "description": "The page size to iterate by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "IEnumerable<RedisValue>",
-          "description": "Yields all matching elements of the set."
-        }
-      },
-      {
         "signature": "SetScanAsync(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {

@@ -1292,6 +1292,10 @@
   "SSUBSCRIBE": {
     "redis_rs_sync": "generic_only"
   },
+  "SUBSTR": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only"
+  },
   "SUNSUBSCRIBE": {
     "redis_rs_sync": "generic_only"
   },

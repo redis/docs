@@ -361,6 +361,27 @@
           "description": "one value per key (nil for a missing key/path)"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MGetAsync(RedisKey[] keys, string path)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

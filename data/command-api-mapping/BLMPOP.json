@@ -632,40 +632,6 @@
           "type": "Tuple<RedisKey, List<RedisValue>>?",
           "description": ""
         }
-      },
-      {
-        "signature": "BLMPop(db, timeout, [key], listSide, count)",
-        "params": [
-          {
-            "name": "db",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "timeout",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "[key]",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "listSide",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": ""
-        }
       }
     ],
     "php": [
@@ -727,6 +693,66 @@
         "returns": {
           "type": "Array<String, Array<String>>",
           "description": "list of popped elements or nil"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "BLMPopAsync(double timeout, RedisKey[] keys, ListSide listSide, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "listSide",
+            "type": "ListSide",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, List<RedisValue>>?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BLMPopAsync(double timeout, RedisKey key, ListSide listSide, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "listSide",
+            "type": "ListSide",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, List<RedisValue>>?>",
+          "description": ""
         }
       }
     ]

@@ -345,6 +345,27 @@
           "description": "the number of values deleted"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "DelAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

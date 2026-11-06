@@ -325,57 +325,9 @@
           "type": "double?[]",
           "description": "array. If a member does not exist in the set, null is returned."
         }
-      },
-      {
-        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "members",
-            "type": "RedisValue[]",
-            "description": "<remarks></remarks>"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "double?[]",
-          "description": "array. If a member does not exist in the set, null is returned."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetScoresAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "members",
-            "type": "RedisValue[]",
-            "description": "<remarks></remarks>"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<double?[]>",
-          "description": "array. If a member does not exist in the set, null is returned."
-        }
-      },
       {
         "signature": "SortedSetScoresAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
         "params": [
