@@ -222,7 +222,7 @@ A higher count clears a backlog in fewer iterations, but each iteration takes lo
 collector lag after you redeploy.
 
 `log.mining.strategy: redo_log_catalog` still works, but Debezium has deprecated it. Use the
-default `online_catalog` or `hybrid` instead.
+default `online_catalog` instead, or `hybrid` if `lob.enabled` is not set to `true`.
 
 ### Check MySQL and MariaDB sources
 
