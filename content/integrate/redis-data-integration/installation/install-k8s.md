@@ -449,12 +449,14 @@ replace `rdi` with the name of your namespace.)
 
 ```bash
 kubectl delete pipelines --all -n rdi
+kubectl delete replication replication -n rdi --ignore-not-found=true
 helm uninstall rdi -n rdi
 kubectl delete namespace rdi
 ```
 
-The first command deletes all your pipelines, so that the RDI operator removes their components
-before you uninstall it.
+The first two commands delete your pipelines and the `Replication` resource while the RDI operator
+is still running. Wait for both commands to complete before running `helm uninstall`, so the operator
+can finish the cleanup.
 
 To remove any data left in the RDI database after uninstalling all RDI instances, connect to it
 with [`redis-cli`](/content/develop/tools/cli.md) and run
