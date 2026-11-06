@@ -456,7 +456,7 @@ kubectl delete namespace rdi
 
 The first two commands delete your pipelines and the `Replication` resource while the RDI operator
 is still running. Wait for both commands to complete before running `helm uninstall`, so the operator
-can finish the cleanup. Otherwise, namespace deletion can remain stuck in `Terminating`.
+can finish the cleanup.
 
 To remove any data left in the RDI database after uninstalling all RDI instances, connect to it
 with [`redis-cli`](/content/develop/tools/cli.md) and run

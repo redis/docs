@@ -458,7 +458,7 @@ kubectl delete namespace rdi
 
 The first two commands delete the pipeline and the `Replication` resource while the RDI operator
 is still running. Wait for both commands to complete before running `helm uninstall`, so the operator
-can finish the cleanup. Otherwise, namespace deletion can remain stuck in `Terminating`.
+can finish the cleanup.
 
 > [!NOTE]
 > The line `kubectl delete pipeline default -n rdi` is only needed for RDI 1.8.0 or above.
