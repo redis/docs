@@ -99,7 +99,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MGET(filter: RedisVariadicArgument, options?: TsMGetOptions)",
+        "signature": "client.ts.mGet(filter: RedisVariadicArgument, options?: TsMGetOptions)",
         "params": [
           {
             "name": "filter",

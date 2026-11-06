@@ -392,7 +392,7 @@
     ],
     "node_redis": [
       {
-        "signature": "STRAPPEND(key: RedisArgument, append: string, options?: JsonStrAppendOptions)",
+        "signature": "client.json.strAppend(key: RedisArgument, append: string, options?: JsonStrAppendOptions)",
         "params": [
           {
             "name": "key",
@@ -411,7 +411,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NullReply | NumberReply>",
           "description": ""
         }
       }

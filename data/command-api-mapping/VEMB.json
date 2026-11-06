@@ -276,7 +276,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VEMB(key: RedisArgument, element: RedisArgument)",
+        "signature": "vEmb(key: RedisArgument, element: RedisArgument)",
         "params": [
           {
             "name": "key",

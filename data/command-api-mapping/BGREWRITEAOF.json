@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BGREWRITEAOF()",
+        "signature": "bgRewriteAof()",
         "params": [],
         "returns": {
           "type": "SimpleStringReply",

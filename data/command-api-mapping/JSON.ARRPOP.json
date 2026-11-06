@@ -338,7 +338,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRPOP(key: RedisArgument, options?: RedisArrPopOptions)",
+        "signature": "client.json.arrPop(key: RedisArgument, options?: RedisArrPopOptions)",
         "params": [
           {
             "name": "key",

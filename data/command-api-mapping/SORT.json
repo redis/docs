@@ -267,7 +267,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SORT(key: RedisArgument, options?: SortOptions)",
+        "signature": "sort(key: RedisArgument, options?: SortOptions)",
         "params": [
           {
             "name": "key",
@@ -281,7 +281,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

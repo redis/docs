@@ -242,7 +242,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MIGRATE(host: string, port: number, key: RedisArgument, destination: number, timeout: number, options?: MigrateOptions)",
+        "signature": "migrate(host: string, port: number, key: RedisArgument, destination: number, timeout: number, options?: MigrateOptions)",
         "params": [
           {
             "name": "host",
@@ -276,7 +276,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK' | 'NOKEY'>",
           "description": ""
         }
       }

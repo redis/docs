@@ -86,7 +86,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TOPK.LIST(key)",
+        "signature": "client.topK.list(key)",
         "params": [
           {
             "name": "key",
@@ -99,7 +99,7 @@
         }
       },
       {
-        "signature": "TOPK.LIST_WITHCOUNT(key)",
+        "signature": "client.topK.listWithCount(key)",
         "params": [
           {
             "name": "key",

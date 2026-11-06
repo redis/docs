@@ -197,7 +197,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRTRIM(key: RedisArgument, path: RedisArgument, start: number, stop: number)",
+        "signature": "client.json.arrTrim(key: RedisArgument, path: RedisArgument, start: number, stop: number)",
         "params": [
           {
             "name": "key",
@@ -221,7 +221,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }

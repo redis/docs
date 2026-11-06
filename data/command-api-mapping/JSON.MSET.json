@@ -87,7 +87,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MSET(items: Array<JsonMSetItem>)",
+        "signature": "client.json.mSet(items: Array<JsonMSetItem>)",
         "params": [
           {
             "name": "items",
@@ -96,7 +96,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

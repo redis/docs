@@ -249,7 +249,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZMPOP(keys: RedisVariadicArgument, side: SortedSetSide, options?: ZMPopOptions)",
+        "signature": "zmPop(keys: RedisVariadicArgument, side: SortedSetSide, options?: ZMPopOptions)",
         "params": [
           {
             "name": "keys",

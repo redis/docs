@@ -41,7 +41,7 @@
         "signature": "functionKill()",
         "params": [],
         "returns": {
-          "type": "Promise<SimpleStringReply>",
+          "type": "SimpleStringReply",
           "description": "Status response"
         }
       }

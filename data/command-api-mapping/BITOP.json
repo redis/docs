@@ -511,7 +511,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BITOP(operation: BitOperations, destKey: RedisArgument, key: RedisVariadicArgument)",
+        "signature": "bitOp(operation: BitOperations, destKey: RedisArgument, key: RedisVariadicArgument)",
         "params": [
           {
             "name": "operation",
@@ -530,7 +530,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

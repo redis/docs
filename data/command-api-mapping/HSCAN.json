@@ -448,7 +448,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HSCAN(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
+        "signature": "hScan(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
         "params": [
           {
             "name": "key",

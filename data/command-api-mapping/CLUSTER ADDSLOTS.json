@@ -60,13 +60,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, slots: number | Array<number>)",
+        "signature": "clusterAddSlots(slots: number | Array<number>)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The Redis command parser"
-          },
           {
             "name": "slots",
             "type": "number | Array<number>",

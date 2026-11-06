@@ -67,7 +67,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.RANK(key, values)",
+        "signature": "client.tDigest.rank(key, values)",
         "params": [
           {
             "name": "key",

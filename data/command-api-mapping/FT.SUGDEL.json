@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SUGDEL(key: RedisArgument, string: RedisArgument)",
+        "signature": "client.ft.sugDel(key: RedisArgument, string: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -147,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<number>",
+          "type": "number",
           "description": "1 if the suggestion was deleted, 0 otherwise"
         }
       }

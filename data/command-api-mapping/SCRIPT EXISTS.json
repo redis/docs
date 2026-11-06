@@ -78,7 +78,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<ArrayReply<NumberReply>>",
+          "type": "ArrayReply<NumberReply>",
           "description": "Array of 1s and 0s indicating script existence"
         }
       }

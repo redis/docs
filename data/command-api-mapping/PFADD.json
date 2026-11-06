@@ -341,7 +341,7 @@
     ],
     "node_redis": [
       {
-        "signature": "PFADD(key: RedisArgument, element?: RedisVariadicArgument)",
+        "signature": "pfAdd(key: RedisArgument, element?: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",

@@ -299,7 +299,7 @@
     ],
     "node_redis": [
       {
-        "signature": "PFCOUNT(keys: RedisVariadicArgument)",
+        "signature": "pfCount(keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "keys",

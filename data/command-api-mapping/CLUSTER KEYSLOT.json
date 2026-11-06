@@ -55,13 +55,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, key: RedisArgument)",
+        "signature": "clusterKeySlot(key: RedisArgument)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The Redis command parser"
-          },
           {
             "name": "key",
             "type": "RedisArgument",

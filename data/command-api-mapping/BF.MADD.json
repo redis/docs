@@ -112,7 +112,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.MADD(key: RedisArgument, items: RedisVariadicArgument)",
+        "signature": "client.bf.mAdd(key: RedisArgument, items: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",

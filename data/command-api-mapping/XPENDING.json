@@ -469,7 +469,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XPENDING(key: RedisArgument, group: RedisArgument)",
+        "signature": "xPending(key: RedisArgument, group: RedisArgument)",
         "params": [
           {
             "name": "key",

@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HEXISTS(key: RedisArgument, field: RedisArgument)",
+        "signature": "hExists(key: RedisArgument, field: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply<0 | 1>",
           "description": ""
         }
       }

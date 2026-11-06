@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HEXPIRETIME(key: RedisArgument, fields: RedisVariadicArgument)",
+        "signature": "hExpireTime(key: RedisArgument, fields: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply>",
           "description": ""
         }
       }

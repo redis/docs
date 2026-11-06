@@ -188,7 +188,7 @@
     ],
     "node_redis": [
       {
-        "signature": "RANGE(...args: Parameters<typeof transformRangeArguments>)",
+        "signature": "client.ts.range(...args: Parameters<typeof transformRangeArguments>)",
         "params": [
           {
             "name": "...args",

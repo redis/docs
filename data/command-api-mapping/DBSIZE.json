@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DBSIZE()",
+        "signature": "dbSize()",
         "params": [],
         "returns": {
           "type": "NumberReply",

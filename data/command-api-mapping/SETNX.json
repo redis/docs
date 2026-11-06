@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SETNX(key: RedisArgument, value: RedisArgument)",
+        "signature": "setNX(key: RedisArgument, value: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -171,7 +171,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

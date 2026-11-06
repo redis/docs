@@ -99,7 +99,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<FunctionListReply>",
+          "type": "FunctionListReply",
           "description": "Array of libraries and their functions"
         }
       }

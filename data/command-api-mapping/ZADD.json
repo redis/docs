@@ -547,7 +547,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZADD(key: RedisArgument, members: SortedSetMember | Array<SortedSetMember>, options?: ZAddOptions)",
+        "signature": "zAdd(key: RedisArgument, members: SortedSetMember | Array<SortedSetMember>, options?: ZAddOptions)",
         "params": [
           {
             "name": "key",

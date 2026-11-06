@@ -187,7 +187,7 @@
     ],
     "node_redis": [
       {
-        "signature": "NUMINCRBY(key: RedisArgument, path: RedisArgument, by: number)",
+        "signature": "client.json.numIncrBy(key: RedisArgument, path: RedisArgument, by: number)",
         "params": [
           {
             "name": "key",
@@ -206,7 +206,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply | DoubleReply | NullReply>",
           "description": ""
         }
       }

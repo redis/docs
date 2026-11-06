@@ -533,7 +533,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GEORADIUSBYMEMBER(key: RedisArgument, from: RedisArgument, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
+        "signature": "geoRadiusByMember(key: RedisArgument, from: RedisArgument, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
         "params": [
           {
             "name": "key",
@@ -562,7 +562,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

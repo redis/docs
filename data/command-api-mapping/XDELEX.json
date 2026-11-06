@@ -301,7 +301,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XDELEX(key: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)",
+        "signature": "xDelEx(key: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)",
         "params": [
           {
             "name": "key",
@@ -320,7 +320,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<StreamDeletionReplyCode>",
           "description": ""
         }
       }

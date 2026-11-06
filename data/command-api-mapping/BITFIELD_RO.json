@@ -99,7 +99,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BITFIELD_RO(key: RedisArgument, operations: BitFieldRoOperations)",
+        "signature": "bitFieldRo(key: RedisArgument, operations: BitFieldRoOperations)",
         "params": [
           {
             "name": "key",
@@ -113,7 +113,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply>",
           "description": ""
         }
       }

@@ -108,7 +108,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZDIFF(keys: RedisVariadicArgument)",
+        "signature": "zDiff(keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "keys",
@@ -117,7 +117,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

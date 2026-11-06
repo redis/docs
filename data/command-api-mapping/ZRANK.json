@@ -162,7 +162,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANK(key: RedisArgument, member: RedisArgument)",
+        "signature": "zRank(key: RedisArgument, member: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -176,7 +176,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | NullReply",
           "description": ""
         }
       }

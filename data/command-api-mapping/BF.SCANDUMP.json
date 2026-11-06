@@ -112,7 +112,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.SCANDUMP(key: RedisArgument, iterator: number)",
+        "signature": "client.bf.scanDump(key: RedisArgument, iterator: number)",
         "params": [
           {
             "name": "key",

@@ -51,7 +51,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.MAX(key)",
+        "signature": "client.tDigest.max(key)",
         "params": [
           {
             "name": "key",

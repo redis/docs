@@ -475,7 +475,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XADD(...args: Tail<Parameters<typeof parseXAddArguments>>)",
+        "signature": "xAdd(...args: Tail<Parameters<typeof parseXAddArguments>>)",
         "params": [
           {
             "name": "...args",
@@ -484,7 +484,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply",
           "description": ""
         }
       }

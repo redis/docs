@@ -89,7 +89,7 @@
     ],
     "node_redis": [
       {
-        "signature": "RENAME(key: RedisArgument, newKey: RedisArgument)",
+        "signature": "rename(key: RedisArgument, newKey: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -103,7 +103,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply",
           "description": ""
         }
       }

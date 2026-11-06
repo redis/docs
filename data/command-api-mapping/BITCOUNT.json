@@ -286,7 +286,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BITCOUNT(key: RedisArgument, range?: BitCountRange)",
+        "signature": "bitCount(key: RedisArgument, range?: BitCountRange)",
         "params": [
           {
             "name": "key",
@@ -300,7 +300,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

@@ -158,7 +158,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DECRBY(...args: Parameters<typeof parseIncrByArguments>)",
+        "signature": "client.ts.decrBy(...args: Parameters<typeof parseIncrByArguments>)",
         "params": [
           {
             "name": "...args",

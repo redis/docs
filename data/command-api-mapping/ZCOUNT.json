@@ -364,7 +364,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZCOUNT(key: RedisArgument, min: number | RedisArgument, max: number | RedisArgument)",
+        "signature": "zCount(key: RedisArgument, min: number | RedisArgument, max: number | RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -383,7 +383,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

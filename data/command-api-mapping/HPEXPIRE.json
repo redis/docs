@@ -511,7 +511,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HPEXPIRE(key: RedisArgument, fields: RedisVariadicArgument, ms: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "hpExpire(key: RedisArgument, fields: RedisVariadicArgument, ms: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -535,7 +535,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<HashExpiration> | NullReply",
           "description": ""
         }
       }

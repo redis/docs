@@ -198,7 +198,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DROPINDEX(index: RedisArgument, options?: { DD?: boolean })",
+        "signature": "client.ft.dropIndex(index: RedisArgument, options?: { DD?: boolean })",
         "params": [
           {
             "name": "index",
@@ -212,7 +212,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }

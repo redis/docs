@@ -127,7 +127,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.LOADCHUNK(key: RedisArgument, iterator: number, chunk: RedisArgument)",
+        "signature": "client.bf.loadChunk(key: RedisArgument, iterator: number, chunk: RedisArgument)",
         "params": [
           {
             "name": "key",

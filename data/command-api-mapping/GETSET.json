@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GETSET(key: RedisArgument, value: RedisArgument)",
+        "signature": "getSet(key: RedisArgument, value: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -147,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }

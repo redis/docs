@@ -131,7 +131,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VDIM(key: RedisArgument)",
+        "signature": "vDim(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -140,7 +140,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

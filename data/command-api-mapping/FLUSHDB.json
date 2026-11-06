@@ -63,7 +63,7 @@
     ],
     "node_redis": [
       {
-        "signature": "FLUSHDB(mode?: RedisFlushMode)",
+        "signature": "flushDb(mode?: RedisFlushMode)",
         "params": [
           {
             "name": "mode",

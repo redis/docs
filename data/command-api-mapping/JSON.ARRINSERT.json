@@ -309,7 +309,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRINSERT(key: RedisArgument, path: RedisArgument, index: number, json: RedisJSON, ...jsons: Array<RedisJSON>)",
+        "signature": "client.json.arrInsert(key: RedisArgument, path: RedisArgument, index: number, json: RedisJSON, ...jsons: Array<RedisJSON>)",
         "params": [
           {
             "name": "key",
@@ -338,7 +338,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }

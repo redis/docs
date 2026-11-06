@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ROLE()",
+        "signature": "role()",
         "params": [],
         "returns": {
           "type": "RoleReply",

@@ -276,7 +276,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VLINKS(key: RedisArgument, element: RedisArgument)",
+        "signature": "vLinks(key: RedisArgument, element: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -290,7 +290,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<ArrayReply<BlobStringReply>>",
           "description": ""
         }
       }

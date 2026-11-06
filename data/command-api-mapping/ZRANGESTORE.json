@@ -212,7 +212,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANGESTORE(destination: RedisArgument, source: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeStoreOptions)",
+        "signature": "zRangeStore(destination: RedisArgument, source: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeStoreOptions)",
         "params": [
           {
             "name": "destination",
@@ -241,7 +241,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TIME()",
+        "signature": "time()",
         "params": [],
         "returns": {
           "type": "[BlobStringReply, BlobStringReply]",

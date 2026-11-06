@@ -208,7 +208,7 @@
     ],
     "node_redis": [
       {
-        "signature": "STRLEN(key: RedisArgument, options?: JsonStrLenOptions)",
+        "signature": "client.json.strLen(key: RedisArgument, options?: JsonStrLenOptions)",
         "params": [
           {
             "name": "key",
@@ -222,7 +222,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }

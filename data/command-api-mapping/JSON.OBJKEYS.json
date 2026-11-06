@@ -208,7 +208,7 @@
     ],
     "node_redis": [
       {
-        "signature": "OBJKEYS(key: RedisArgument, options?: JsonObjKeysOptions)",
+        "signature": "client.json.objKeys(key: RedisArgument, options?: JsonObjKeysOptions)",
         "params": [
           {
             "name": "key",
@@ -222,7 +222,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply> | ArrayReply<ArrayReply<BlobStringReply> | NullReply>",
           "description": ""
         }
       }

@@ -264,7 +264,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MERGE(key: RedisArgument, path: RedisArgument, value: RedisJSON)",
+        "signature": "client.json.merge(key: RedisArgument, path: RedisArgument, value: RedisJSON)",
         "params": [
           {
             "name": "key",
@@ -283,7 +283,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

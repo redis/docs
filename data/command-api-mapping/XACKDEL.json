@@ -366,7 +366,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XACKDEL(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)",
+        "signature": "xAckDel(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)",
         "params": [
           {
             "name": "key",
@@ -390,7 +390,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<StreamDeletionReplyCode>",
           "description": ""
         }
       }

@@ -51,7 +51,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.MIN(key)",
+        "signature": "client.tDigest.min(key)",
         "params": [
           {
             "name": "key",

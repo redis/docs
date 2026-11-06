@@ -117,7 +117,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SCARD(key: RedisArgument)",
+        "signature": "sCard(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -126,7 +126,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

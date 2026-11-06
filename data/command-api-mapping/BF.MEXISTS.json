@@ -112,7 +112,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.MEXISTS(key: RedisArgument, items: RedisVariadicArgument)",
+        "signature": "client.bf.mExists(key: RedisArgument, items: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",

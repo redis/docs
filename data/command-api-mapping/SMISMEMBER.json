@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SMISMEMBER(key: RedisArgument, members: Array<RedisArgument>)",
+        "signature": "smIsMember(key: RedisArgument, members: Array<RedisArgument>)",
         "params": [
           {
             "name": "key",
@@ -171,7 +171,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply>",
           "description": ""
         }
       }

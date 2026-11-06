@@ -194,7 +194,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANDMEMBER(key: RedisArgument)",
+        "signature": "zRandMember(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -203,7 +203,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }

@@ -128,7 +128,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CURSOR_DEL(index: RedisArgument, cursorId: number)",
+        "signature": "client.ft.cursorDel(index: RedisArgument, cursorId: number)",
         "params": [
           {
             "name": "index",
@@ -142,7 +142,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }

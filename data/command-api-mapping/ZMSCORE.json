@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZMSCORE(key: RedisArgument, member: RedisVariadicArgument)",
+        "signature": "zmScore(key: RedisArgument, member: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NullReply | DoubleReply>",
           "description": ""
         }
       }

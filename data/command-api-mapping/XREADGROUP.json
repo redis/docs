@@ -326,7 +326,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XREADGROUP(group: RedisArgument, consumer: RedisArgument, streams: XReadStreams, options?: XReadGroupOptions)",
+        "signature": "xReadGroup(group: RedisArgument, consumer: RedisArgument, streams: XReadStreams, options?: XReadGroupOptions)",
         "params": [
           {
             "name": "group",

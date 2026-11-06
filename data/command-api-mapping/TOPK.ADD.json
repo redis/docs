@@ -63,7 +63,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TOPK.ADD(key, items)",
+        "signature": "client.topK.add(key, items)",
         "params": [
           {
             "name": "key",

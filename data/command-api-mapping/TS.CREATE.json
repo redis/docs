@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CREATE(key: RedisArgument, options?: TsCreateOptions)",
+        "signature": "client.ts.create(key: RedisArgument, options?: TsCreateOptions)",
         "params": [
           {
             "name": "key",
@@ -147,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

@@ -196,7 +196,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XGROUP_DELCONSUMER(key: RedisArgument, group: RedisArgument, consumer: RedisArgument)",
+        "signature": "xGroupDelConsumer(key: RedisArgument, group: RedisArgument, consumer: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -215,7 +215,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

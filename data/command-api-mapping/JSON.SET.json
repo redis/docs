@@ -544,7 +544,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SET(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonSetOptions)",
+        "signature": "client.json.set(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonSetOptions)",
         "params": [
           {
             "name": "key",
@@ -568,7 +568,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'> | NullReply",
           "description": ""
         }
       }

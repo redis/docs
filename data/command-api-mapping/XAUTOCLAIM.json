@@ -323,7 +323,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XAUTOCLAIM(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, start: RedisArgument, options?: XAutoClaimOptions)",
+        "signature": "xAutoClaim(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, start: RedisArgument, options?: XAutoClaimOptions)",
         "params": [
           {
             "name": "key",

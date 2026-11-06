@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HGET(key: RedisArgument, field: RedisArgument)",
+        "signature": "hGet(key: RedisArgument, field: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -147,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }

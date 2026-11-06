@@ -87,7 +87,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.CARD(key: RedisArgument)",
+        "signature": "client.bf.card(key: RedisArgument)",
         "params": [
           {
             "name": "key",

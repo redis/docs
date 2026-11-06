@@ -236,7 +236,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ADD(key: RedisArgument, timestamp: Timestamp, value: number, options?: TsAddOptions)",
+        "signature": "client.ts.add(key: RedisArgument, timestamp: Timestamp, value: number, options?: TsAddOptions)",
         "params": [
           {
             "name": "key",
@@ -260,7 +260,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

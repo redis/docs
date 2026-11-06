@@ -117,7 +117,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HLEN(key: RedisArgument)",
+        "signature": "hLen(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -126,7 +126,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

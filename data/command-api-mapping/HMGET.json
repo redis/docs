@@ -210,7 +210,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HMGET(key: RedisArgument, fields: RedisVariadicArgument)",
+        "signature": "hmGet(key: RedisArgument, fields: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -224,7 +224,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply | NullReply>",
           "description": ""
         }
       }

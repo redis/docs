@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "APPEND(key: RedisArgument, value: RedisArgument)",
+        "signature": "append(key: RedisArgument, value: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

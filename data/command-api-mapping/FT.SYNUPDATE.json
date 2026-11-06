@@ -250,7 +250,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SYNUPDATE(index: RedisArgument, synonymGroupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
+        "signature": "client.ft.synUpdate(index: RedisArgument, synonymGroupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
         "params": [
           {
             "name": "index",
@@ -274,7 +274,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }

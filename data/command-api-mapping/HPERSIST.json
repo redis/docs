@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HPERSIST(key: RedisArgument, fields: RedisVariadicArgument)",
+        "signature": "hPersist(key: RedisArgument, fields: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply> | NullReply",
           "description": ""
         }
       }

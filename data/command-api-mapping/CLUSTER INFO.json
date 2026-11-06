@@ -44,14 +44,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser)",
-        "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The Redis command parser"
-          }
-        ],
+        "signature": "clusterInfo()",
+        "params": [],
         "returns": {
           "type": "VerbatimStringReply",
           "description": ""

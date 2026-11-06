@@ -283,7 +283,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VSETATTR(key: RedisArgument, element: RedisArgument, attributes: RedisArgument | Record<string, any>)",
+        "signature": "vSetAttr(key: RedisArgument, element: RedisArgument, attributes: RedisArgument | Record<string, any>)",
         "params": [
           {
             "name": "key",

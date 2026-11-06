@@ -58,13 +58,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, message?: RedisArgument)",
+        "signature": "ping(message?: RedisArgument)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The command parser"
-          },
           {
             "name": "message",
             "type": "RedisArgument",

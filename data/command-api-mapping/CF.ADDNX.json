@@ -70,7 +70,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.ADDNX(key: RedisArgument, item: RedisArgument)",
+        "signature": "client.cf.addNX(key: RedisArgument, item: RedisArgument)",
         "params": [
           {
             "name": "key",

@@ -557,7 +557,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GEOADD(key: RedisArgument, toAdd: GeoMember | Array<GeoMember>, options?: GeoAddOptions)",
+        "signature": "geoAdd(key: RedisArgument, toAdd: GeoMember | Array<GeoMember>, options?: GeoAddOptions)",
         "params": [
           {
             "name": "key",
@@ -576,7 +576,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

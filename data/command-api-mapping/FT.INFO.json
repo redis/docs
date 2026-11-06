@@ -52,7 +52,7 @@
     ],
     "node_redis": [
       {
-        "signature": "INFO(index: RedisArgument)",
+        "signature": "client.ft.info(index: RedisArgument)",
         "params": [
           {
             "name": "index",
@@ -61,7 +61,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<FTInfoResult>",
+          "type": "FTInfoResult",
           "description": "Index information and statistics"
         }
       }

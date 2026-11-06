@@ -89,7 +89,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MOVE(key: RedisArgument, db: number)",
+        "signature": "move(key: RedisArgument, db: number)",
         "params": [
           {
             "name": "key",
@@ -103,7 +103,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

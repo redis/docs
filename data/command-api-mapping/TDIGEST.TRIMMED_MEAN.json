@@ -75,7 +75,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.TRIMMED_MEAN(key, lowCutQuantile, highCutQuantile)",
+        "signature": "client.tDigest.trimmedMean(key, lowCutQuantile, highCutQuantile)",
         "params": [
           {
             "name": "key",

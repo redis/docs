@@ -70,7 +70,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.MEXISTS(key: RedisArgument, items: RedisVariadicArgument)",
+        "signature": "client.cf.mExists(key: RedisArgument, items: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",

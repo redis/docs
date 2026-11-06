@@ -53,7 +53,13 @@
     "go-redis": [
       {
         "signature": "HotKeysGet(ctx context.Context)",
-        "params": [],
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          }
+        ],
         "returns": {
           "type": "*HotKeysCmd",
           "description": ""

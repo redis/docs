@@ -44,14 +44,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser)",
-        "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The command parser"
-          }
-        ],
+        "signature": "readonly()",
+        "params": [],
         "returns": {
           "type": "SimpleStringReply",
           "description": ""

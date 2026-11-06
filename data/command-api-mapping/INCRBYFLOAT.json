@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "INCRBYFLOAT(key: RedisArgument, increment: number)",
+        "signature": "incrByFloat(key: RedisArgument, increment: number)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply",
           "description": ""
         }
       }

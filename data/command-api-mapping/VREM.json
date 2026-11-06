@@ -171,7 +171,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VREM(key: RedisArgument, element: RedisArgument)",
+        "signature": "vRem(key: RedisArgument, element: RedisArgument)",
         "params": [
           {
             "name": "key",

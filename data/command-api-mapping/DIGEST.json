@@ -207,7 +207,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DIGEST(key: RedisArgument)",
+        "signature": "digest(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -216,7 +216,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply",
           "description": ""
         }
       }

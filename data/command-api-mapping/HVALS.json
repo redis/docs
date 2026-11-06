@@ -160,7 +160,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HVALS(key: RedisArgument)",
+        "signature": "hVals(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -169,7 +169,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

@@ -190,7 +190,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BZPOPMAX(keys: RedisVariadicArgument, timeout: number)",
+        "signature": "bzPopMax(keys: RedisVariadicArgument, timeout: number)",
         "params": [
           {
             "name": "keys",

@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HTTL(key: RedisArgument, fields: RedisVariadicArgument)",
+        "signature": "hTTL(key: RedisArgument, fields: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply> | NullReply",
           "description": ""
         }
       }

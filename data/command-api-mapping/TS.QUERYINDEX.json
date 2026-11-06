@@ -55,7 +55,7 @@
     ],
     "node_redis": [
       {
-        "signature": "QUERYINDEX(filter: RedisVariadicArgument)",
+        "signature": "client.ts.queryIndex(filter: RedisVariadicArgument)",
         "params": [
           {
             "name": "filter",
@@ -64,7 +64,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

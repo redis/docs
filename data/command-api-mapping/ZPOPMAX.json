@@ -222,7 +222,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZPOPMAX(key: RedisArgument)",
+        "signature": "zPopMax(key: RedisArgument)",
         "params": [
           {
             "name": "key",

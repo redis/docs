@@ -190,7 +190,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BZPOPMIN(keys: RedisVariadicArgument, timeout: number)",
+        "signature": "bzPopMin(keys: RedisVariadicArgument, timeout: number)",
         "params": [
           {
             "name": "keys",

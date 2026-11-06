@@ -46,10 +46,10 @@
     ],
     "node_redis": [
       {
-        "signature": "RANDOMKEY()",
+        "signature": "randomKey()",
         "params": [],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

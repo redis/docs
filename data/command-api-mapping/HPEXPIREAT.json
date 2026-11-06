@@ -583,7 +583,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HPEXPIREAT(key: RedisArgument, fields: RedisVariadicArgument, timestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "hpExpireAt(key: RedisArgument, fields: RedisVariadicArgument, timestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -607,7 +607,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<HashExpiration> | NullReply",
           "description": ""
         }
       }

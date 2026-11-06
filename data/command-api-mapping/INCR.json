@@ -241,7 +241,7 @@
     ],
     "node_redis": [
       {
-        "signature": "INCR(key: RedisArgument)",
+        "signature": "incr(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -250,12 +250,12 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       },
       {
-        "signature": "INCRBY(key: RedisArgument, increment: number)",
+        "signature": "incrBy(key: RedisArgument, increment: number)",
         "params": [
           {
             "name": "key",
@@ -269,7 +269,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

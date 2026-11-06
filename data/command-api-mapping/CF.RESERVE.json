@@ -167,7 +167,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.RESERVE(key: RedisArgument, capacity: number, options?: CfReserveOptions)",
+        "signature": "client.cf.reserve(key: RedisArgument, capacity: number, options?: CfReserveOptions)",
         "params": [
           {
             "name": "key",

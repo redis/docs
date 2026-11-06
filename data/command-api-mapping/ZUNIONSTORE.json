@@ -277,7 +277,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZUNIONSTORE(destination: RedisArgument, keys: ZKeys, options?: ZUnionOptions)",
+        "signature": "zUnionStore(destination: RedisArgument, keys: ZKeys, options?: ZUnionOptions)",
         "params": [
           {
             "name": "destination",
@@ -296,7 +296,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

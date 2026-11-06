@@ -2,7 +2,7 @@
   "api_calls": {
     "node_redis": [
       {
-        "signature": "GEORADIUSBYMEMBER_RO(...args: Parameters<typeof parseGeoRadiusByMemberArguments>)",
+        "signature": "geoRadiusByMemberRo(...args: Parameters<typeof parseGeoRadiusByMemberArguments>)",
         "params": [
           {
             "name": "...args",

@@ -55,7 +55,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MADD(toAdd: Array<TsMAddSample>)",
+        "signature": "client.ts.mAdd(toAdd: Array<TsMAddSample>)",
         "params": [
           {
             "name": "toAdd",
@@ -64,7 +64,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply | SimpleErrorReply>",
           "description": ""
         }
       }

@@ -112,7 +112,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.EXISTS(key: RedisArgument, item: RedisArgument)",
+        "signature": "client.bf.exists(key: RedisArgument, item: RedisArgument)",
         "params": [
           {
             "name": "key",

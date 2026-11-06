@@ -224,7 +224,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ALTER(index: RedisArgument, field: SchemaField)",
+        "signature": "client.ft.alter(index: RedisArgument, field: SchemaField)",
         "params": [
           {
             "name": "index",
@@ -238,7 +238,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }

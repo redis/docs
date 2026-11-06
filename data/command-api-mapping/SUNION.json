@@ -165,7 +165,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SUNION(keys: RedisVariadicArgument)",
+        "signature": "sUnion(keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "keys",
@@ -174,7 +174,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }

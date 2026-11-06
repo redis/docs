@@ -70,13 +70,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, slot: number, count: number)",
+        "signature": "clusterGetKeysInSlot(slot: number, count: number)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The Redis command parser"
-          },
           {
             "name": "slot",
             "type": "number",

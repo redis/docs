@@ -455,7 +455,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XCLAIM(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, id: RedisVariadicArgument, options?: XClaimOptions)",
+        "signature": "xClaim(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, id: RedisVariadicArgument, options?: XClaimOptions)",
         "params": [
           {
             "name": "key",

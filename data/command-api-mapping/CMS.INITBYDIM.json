@@ -77,7 +77,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CMS.INITBYDIM(key, width, depth)",
+        "signature": "client.cms.initByDim(key, width, depth)",
         "params": [
           {
             "name": "key",

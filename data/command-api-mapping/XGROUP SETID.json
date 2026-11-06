@@ -201,7 +201,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XGROUP_SETID(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupSetIdOptions)",
+        "signature": "xGroupSetId(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupSetIdOptions)",
         "params": [
           {
             "name": "key",
@@ -225,7 +225,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }

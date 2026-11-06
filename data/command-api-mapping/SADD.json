@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SADD(key: RedisArgument, members: RedisVariadicArgument)",
+        "signature": "sAdd(key: RedisArgument, members: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
