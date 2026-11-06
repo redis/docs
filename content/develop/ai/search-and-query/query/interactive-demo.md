@@ -31,33 +31,41 @@ The demo runs in your browser and doesn't connect to Redis. Its commands and rep
 
 ## Try it yourself
 
-You can run the demo's queries against your own Redis database. First, load the sample data and the three indexes with the setup file. Then copy a query from the demo with its **Copy** button, and run it.
+You can run the demo's queries against your own Redis database. First, load the sample data and the three indexes with the setup commands. Then copy a query from the demo with its **Copy** button, and run it.
 
 You need Redis Open Source 8.0 or later, or Redis Stack 7.2 or later. Use an empty database, such as a free [Redis Cloud](/content/operate/rc/rc-quickstart.md) database. The setup adds 19 hashes, with keys that start with `restaurant:` and `order:`, and three indexes.
 
-{{< static-download "Download the setup file" "code/search-demo/setup.redis" >}}, or copy its 31 commands:
+The setup is 31 commands. Copy them from the tab for the tool you use:
+
+{{< multitabs id="search-demo-setup"
+    tab1="Redis Insight"
+    tab2="redis-cli" >}}
 
 ```text
 {{% embed-code "search-demo/setup.redis" %}}
 ```
 
+-tab-sep-
+
+```bash
+redis-cli -h <host> -p <port> <<'EOF'
+{{% embed-code "search-demo/setup.redis" %}}
+EOF
+```
+
+{{< /multitabs >}}
+
 ### Redis Insight
 
 1. Connect to your database in [Redis Insight](/content/develop/tools/insight/_index.md), and open **Workbench**.
-2. Paste the setup commands into the editor, and run them. To load the file instead, go to **Browser**, select **Bulk actions** > **Upload Data**, and upload `setup.redis`.
+2. Paste the commands from the **Redis Insight** tab into the editor, and run them.
 3. Copy a query from the demo, paste it into Workbench, and run it. Workbench returns the same results as the demo, though it can lay them out as a table rather than as `redis-cli` prints them.
 
 ### redis-cli
 
-1. Load the setup file:
-
-    ```bash
-    redis-cli -h <host> -p <port> < setup.redis
-    ```
-
-    If your database needs a username and password, add `--user <username> --pass <password>`.
-
-2. Copy a query from the demo, and run it in `redis-cli`. The reply is the same as the demo's **The output**.
+1. Paste the command from the **redis-cli** tab into a terminal, and replace `<host>` and `<port>` with your database's. If your database needs a username and password, add `--user <username> --pass <password>` after the port.
+2. Run the command. It loads all 31 setup commands at once.
+3. Connect with `redis-cli -h <host> -p <port>`, copy a query from the demo, and run it. The reply is the same as the demo's **The output**.
 
 ### Clean up
 
