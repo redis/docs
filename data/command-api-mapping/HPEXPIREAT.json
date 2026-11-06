@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hpexpireat(, name: KeyT,, unix_time_milliseconds: AbsExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+        "signature": "hpexpireat(name: KeyT, unix_time_milliseconds: AbsExpiryT, *fields: str, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
         "params": [
           {
             "name": "name",

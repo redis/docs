@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "bitfield(self: Union[\"redis.client.Redis\", \"redis.asyncio.client.Redis\"],, key: KeyT,, default_overflow: Optional[str] = None,)",
+        "signature": "bitfield(key: KeyT, default_overflow: Optional[str] = None)",
         "params": [
           {
             "name": "key",

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xread(, streams: Dict[KeyT, StreamIdT],, count: Optional[int] = None,, block: Optional[int] = None,)",
+        "signature": "xread(streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None)",
         "params": [
           {
             "name": "streams",

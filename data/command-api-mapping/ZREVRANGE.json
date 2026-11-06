@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrevrange(, name: KeyT,, start: int,, end: int,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zrevrange(name: KeyT, start: int, end: int, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "name",

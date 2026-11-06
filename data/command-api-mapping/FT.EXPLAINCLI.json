@@ -1,21 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "explain_cli(query: Union[str, Query])",
-        "params": [
-          {
-            "name": "query",
-            "type": "Union[str, Query]",
-            "description": "The query to explain"
-          }
-        ],
-        "returns": {
-          "type": "List[str]",
-          "description": "The execution plan in CLI format"
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "List<String> ftExplainCli(String indexName, Query query)",

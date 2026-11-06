@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xgroup_setid(, name: KeyT,, groupname: GroupT,, id: StreamIdT,, entries_read: Optional[int] = None,)",
+        "signature": "xgroup_setid(name: KeyT, groupname: GroupT, id: StreamIdT, entries_read: Optional[int] = None)",
         "params": [
           {
             "name": "name",

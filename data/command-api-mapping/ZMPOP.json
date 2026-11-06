@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zmpop(, num_keys: int,, keys: List[str],, min: Optional[bool] = False,, max: Optional[bool] = False,, count: Optional[int] = 1,)",
+        "signature": "zmpop(num_keys: int, keys: List[str], min: Optional[bool] = False, max: Optional[bool] = False, count: Optional[int] = 1)",
         "params": [
           {
             "name": "num_keys",

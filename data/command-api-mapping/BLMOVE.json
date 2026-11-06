@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "blmove(, first_list: str,, second_list: str,, timeout: int,, src: str = \"LEFT\",, dest: str = \"RIGHT\",)",
+        "signature": "blmove(first_list: str, second_list: str, timeout: int, src: str = \"LEFT\", dest: str = \"RIGHT\")",
         "params": [
           {
             "name": "first_list",

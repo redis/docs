@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrange(, name: KeyT,, start: EncodableT,, end: EncodableT,, desc: bool = False,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,, byscore: bool = False,, bylex: bool = False,, offset: Optional[int] = None,, num: Optional[int] = None,)",
+        "signature": "zrange(name: KeyT, start: EncodableT, end: EncodableT, desc: bool = False, withscores: bool = False, score_cast_func: Union[type, Callable] = float, byscore: bool = False, bylex: bool = False, offset: Optional[int] = None, num: Optional[int] = None)",
         "params": [
           {
             "name": "name",

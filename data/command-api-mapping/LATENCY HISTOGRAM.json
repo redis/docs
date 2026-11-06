@@ -1,26 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "latency_histogram(*events, **kwargs)",
-        "params": [
-          {
-            "name": "*events",
-            "type": "str",
-            "description": ""
-          },
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "dict",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [],
     "go-redis": [],
     "node_redis": [

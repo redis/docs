@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,, no_values: Union[bool, None] = None,)",
+        "signature": "hscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None, no_values: Union[bool, None] = None)",
         "params": [
           {
             "name": "name",

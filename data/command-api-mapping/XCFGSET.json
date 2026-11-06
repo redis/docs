@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xcfgset(, name: KeyT,, idmp_duration: Optional[int] = None,, idmp_maxsize: Optional[int] = None,)",
+        "signature": "xcfgset(name: KeyT, idmp_duration: Optional[int] = None, idmp_maxsize: Optional[int] = None)",
         "params": [
           {
             "name": "name",

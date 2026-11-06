@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xtrim(, name: KeyT,, maxlen: Optional[int] = None,, approximate: bool = True,, minid: Union[StreamIdT, None] = None,, limit: Optional[int] = None,, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None,)",
+        "signature": "xtrim(name: KeyT, maxlen: Optional[int] = None, approximate: bool = True, minid: Union[StreamIdT, None] = None, limit: Optional[int] = None, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None)",
         "params": [
           {
             "name": "name",

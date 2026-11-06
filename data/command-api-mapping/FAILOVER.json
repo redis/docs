@@ -1,41 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "failover(option: str | None = None, target_host: str | None = None, target_port: int | None = None, timeout: int | None = None, **kwargs)",
-        "params": [
-          {
-            "name": "option",
-            "type": "str | None",
-            "description": ""
-          },
-          {
-            "name": "target_host",
-            "type": "str | None",
-            "description": ""
-          },
-          {
-            "name": "target_port",
-            "type": "int | None",
-            "description": ""
-          },
-          {
-            "name": "timeout",
-            "type": "int | None",
-            "description": ""
-          },
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "str",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "String failover()",

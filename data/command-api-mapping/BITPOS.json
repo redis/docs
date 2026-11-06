@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "bitpos(, key: KeyT,, bit: int,, start: Optional[int] = None,, end: Optional[int] = None,, mode: Optional[str] = None,)",
+        "signature": "bitpos(key: KeyT, bit: int, start: Optional[int] = None, end: Optional[int] = None, mode: Optional[str] = None)",
         "params": [
           {
             "name": "key",

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "stralgo(, algo: Literal[\"LCS\"],, value1: KeyT,, value2: KeyT,, specific_argument: Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\",, len: bool = False,, idx: bool = False,, minmatchlen: Optional[int] = None,, withmatchlen: bool = False,, **kwargs,)",
+        "signature": "stralgo(algo: Literal[\"LCS\"], value1: KeyT, value2: KeyT, specific_argument: Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\", len: bool = False, idx: bool = False, minmatchlen: Optional[int] = None, withmatchlen: bool = False, **kwargs)",
         "params": [
           {
             "name": "algo",
@@ -56,7 +56,7 @@
         }
       },
       {
-        "signature": "lcs(, key1: str,, key2: str,, len: Optional[bool] = False,, idx: Optional[bool] = False,, minmatchlen: Optional[int] = 0,, withmatchlen: Optional[bool] = False,)",
+        "signature": "lcs(key1: str, key2: str, len: Optional[bool] = False, idx: Optional[bool] = False, minmatchlen: Optional[int] = 0, withmatchlen: Optional[bool] = False)",
         "params": [
           {
             "name": "key1",

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "mget(, filters: List[str],, with_labels: Optional[bool] = False,, select_labels: Optional[List[str]] = None,, latest: Optional[bool] = False,)",
+        "signature": "mget(filters: List[str], with_labels: Optional[bool] = False, select_labels: Optional[List[str]] = None, latest: Optional[bool] = False)",
         "params": [
           {
             "name": "filters",

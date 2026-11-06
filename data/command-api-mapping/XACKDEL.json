@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xackdel(, name: KeyT,, groupname: GroupT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)",
+        "signature": "xackdel(name: KeyT, groupname: GroupT, *ids: StreamIdT, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\")",
         "params": [
           {
             "name": "name",

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hgetex(, name: KeyT,, *keys: str,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, persist: bool = False,)",
+        "signature": "hgetex(name: KeyT, *keys: str, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, persist: bool = False)",
         "params": [
           {
             "name": "name",

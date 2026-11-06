@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "set(, name: str,, path: str,, obj: JsonType,, nx: Optional[bool] = False,, xx: Optional[bool] = False,, decode_keys: Optional[bool] = False,)",
+        "signature": "set(name: str, path: str, obj: JsonType, nx: Optional[bool] = False, xx: Optional[bool] = False, decode_keys: Optional[bool] = False)",
         "params": [
           {
             "name": "name",

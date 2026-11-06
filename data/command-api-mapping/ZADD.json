@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zadd(, name: KeyT,, mapping: Mapping[AnyKeyT, EncodableT],, nx: bool = False,, xx: bool = False,, ch: bool = False,, incr: bool = False,, gt: bool = False,, lt: bool = False,)",
+        "signature": "zadd(name: KeyT, mapping: Mapping[AnyKeyT, EncodableT], nx: bool = False, xx: bool = False, ch: bool = False, incr: bool = False, gt: bool = False, lt: bool = False)",
         "params": [
           {
             "name": "name",

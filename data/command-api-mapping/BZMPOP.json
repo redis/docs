@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "bzmpop(, timeout: float,, numkeys: int,, keys: List[str],, min: Optional[bool] = False,, max: Optional[bool] = False,, count: Optional[int] = 1,)",
+        "signature": "bzmpop(timeout: float, numkeys: int, keys: List[str], min: Optional[bool] = False, max: Optional[bool] = False, count: Optional[int] = 1)",
         "params": [
           {
             "name": "timeout",

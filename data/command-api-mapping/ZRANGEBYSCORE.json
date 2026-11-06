@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrangebyscore(, name: KeyT,, min: ZScoreBoundT,, max: ZScoreBoundT,, start: Optional[int] = None,, num: Optional[int] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zrangebyscore(name: KeyT, min: ZScoreBoundT, max: ZScoreBoundT, start: Optional[int] = None, num: Optional[int] = None, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "name",

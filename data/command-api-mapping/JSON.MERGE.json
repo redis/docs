@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "merge(, name: str,, path: str,, obj: JsonType,, decode_keys: Optional[bool] = False,)",
+        "signature": "merge(name: str, path: str, obj: JsonType, decode_keys: Optional[bool] = False)",
         "params": [
           {
             "name": "name",

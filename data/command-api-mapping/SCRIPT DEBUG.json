@@ -1,21 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "script_debug(*args)",
-        "params": [
-          {
-            "name": "*args",
-            "type": "Any",
-            "description": "Debug mode arguments"
-          }
-        ],
-        "returns": {
-          "type": "None",
-          "description": "No return value"
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [],
     "go-redis": [],
     "node_redis": [

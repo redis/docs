@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "delex(, name: KeyT,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
+        "signature": "delex(name: KeyT, ifeq: Optional[Union[bytes, str]] = None, ifne: Optional[Union[bytes, str]] = None, ifdeq: Optional[str] = None, ifdne: Optional[str] = None)",
         "params": [
           {
             "name": "name",

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "geoadd(, name: KeyT,, values: Sequence[EncodableT],, nx: bool = False,, xx: bool = False,, ch: bool = False,)",
+        "signature": "geoadd(name: KeyT, values: Sequence[EncodableT], nx: bool = False, xx: bool = False, ch: bool = False)",
         "params": [
           {
             "name": "name",

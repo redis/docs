@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "bitfield_ro(self: Union[\"redis.client.Redis\", \"redis.asyncio.client.Redis\"],, key: KeyT,, encoding: str,, offset: BitfieldOffsetT,, items: Optional[list] = None,)",
+        "signature": "bitfield_ro(key: KeyT, encoding: str, offset: BitfieldOffsetT, items: Optional[list] = None)",
         "params": [
           {
             "name": "key",
