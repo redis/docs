@@ -42,16 +42,7 @@
         }
       }
     ],
-    "node_redis": [
-      {
-        "signature": "SAVE()",
-        "params": [],
-        "returns": {
-          "type": "SimpleStringReply",
-          "description": ""
-        }
-      }
-    ],
+    "node_redis": [],
     "lettuce_sync": [
       {
         "signature": "String save()",

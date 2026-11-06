@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "pExpire(key: RedisArgument, milliseconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "pExpire(key: RedisArgument, ms: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -165,7 +165,7 @@
             "description": ""
           },
           {
-            "name": "milliseconds",
+            "name": "ms",
             "type": "number",
             "description": ""
           },

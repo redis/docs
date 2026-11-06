@@ -85,7 +85,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.cf.loadChunk(key: RedisArgument, iterator: number, data: RedisArgument)",
+        "signature": "client.cf.loadChunk(key: RedisArgument, iterator: number, chunk: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -98,7 +98,7 @@
             "description": "Iterator from SCANDUMP"
           },
           {
-            "name": "data",
+            "name": "chunk",
             "type": "RedisArgument",
             "description": "Data from SCANDUMP"
           }

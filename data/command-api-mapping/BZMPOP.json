@@ -458,7 +458,7 @@
     ],
     "node_redis": [
       {
-        "signature": "bzmPop(timeout: number, ...args: ZMPopArguments)",
+        "signature": "bzmPop(timeout: number, keys: RedisVariadicArgument, side: SortedSetSide, options?: ZMPopOptions)",
         "params": [
           {
             "name": "timeout",
@@ -466,8 +466,18 @@
             "description": ""
           },
           {
-            "name": "...args",
-            "type": "ZMPopArguments",
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "side",
+            "type": "SortedSetSide",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ZMPopOptions",
             "description": ""
           }
         ],

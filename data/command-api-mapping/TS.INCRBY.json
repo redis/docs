@@ -158,11 +158,21 @@
     ],
     "node_redis": [
       {
-        "signature": "client.ts.incrBy(...args: Parameters<typeof parseIncrByArguments>)",
+        "signature": "client.ts.incrBy(key: RedisArgument, value: number, options?: TsIncrByOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof parseIncrByArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "TsIncrByOptions",
             "description": ""
           }
         ],

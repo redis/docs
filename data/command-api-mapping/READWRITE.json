@@ -42,22 +42,7 @@
         }
       }
     ],
-    "node_redis": [
-      {
-        "signature": "parseCommand(parser: CommandParser)",
-        "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The command parser"
-          }
-        ],
-        "returns": {
-          "type": "SimpleStringReply",
-          "description": ""
-        }
-      }
-    ],
+    "node_redis": [],
     "lettuce_sync": [
       {
         "signature": "String readWrite()",

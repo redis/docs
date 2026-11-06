@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.ft.dictDel(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
+        "signature": "client.ft.dictDel(dictionary: RedisArgument, term: Array<RedisArgument> | RedisArgument)",
         "params": [
           {
             "name": "dictionary",
@@ -141,7 +141,7 @@
             "description": "The dictionary name"
           },
           {
-            "name": "terms",
+            "name": "term",
             "type": "Array<RedisArgument> | RedisArgument",
             "description": "Terms to delete"
           }

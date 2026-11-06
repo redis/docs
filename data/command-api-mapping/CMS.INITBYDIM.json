@@ -77,7 +77,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.cms.initByDim(key, width, depth)",
+        "signature": "client.cms.initByDim(key, width, depth, options?)",
         "params": [
           {
             "name": "key",
@@ -92,6 +92,11 @@
             "name": "depth",
             "type": "number",
             "description": "Number of counter arrays"
+          },
+          {
+            "name": "options",
+            "type": "CmsInitOptions",
+            "description": ""
           }
         ],
         "returns": {

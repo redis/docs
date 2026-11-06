@@ -89,22 +89,7 @@
         }
       }
     ],
-    "node_redis": [
-      {
-        "signature": "SHUTDOWN(options?: ShutdownOptions)",
-        "params": [
-          {
-            "name": "options",
-            "type": "ShutdownOptions",
-            "description": "Options for the shutdown process"
-          }
-        ],
-        "returns": {
-          "type": "void | SimpleStringReply",
-          "description": ""
-        }
-      }
-    ],
+    "node_redis": [],
     "lettuce_sync": [
       {
         "signature": "void shutdown(boolean save)",

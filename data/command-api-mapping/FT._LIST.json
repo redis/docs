@@ -68,7 +68,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.ft._LIST()",
+        "signature": "client.ft._list()",
         "params": [],
         "returns": {
           "type": "Array<string>",

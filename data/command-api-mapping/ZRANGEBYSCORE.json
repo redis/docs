@@ -651,11 +651,26 @@
         }
       },
       {
-        "signature": "zRangeByScoreWithScores(...args: Parameters<typeof ZRANGEBYSCORE.parseCommand>)",
+        "signature": "zRangeByScoreWithScores(key: RedisArgument, min: string | number, max: string | number, options?: ZRangeByScoreOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof ZRANGEBYSCORE.parseCommand>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZRangeByScoreOptions",
             "description": ""
           }
         ],

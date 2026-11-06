@@ -593,11 +593,31 @@
     ],
     "node_redis": [
       {
-        "signature": "geoRadius(...args: Parameters<typeof parseGeoRadiusArguments>)",
+        "signature": "geoRadius(key: RedisArgument, from: GeoCoordinates, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof parseGeoRadiusArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "type": "GeoCoordinates",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnits",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "GeoSearchOptions",
             "description": ""
           }
         ],
