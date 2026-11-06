@@ -566,98 +566,6 @@
           "type": "long",
           "description": "The number of bits set to 1."
         }
-      },
-      {
-        "signature": "StringBitCountAsync(RedisKey key, long start, long end, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "end",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StringBitCountAsync(RedisKey key, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "end",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "indexType",
-            "type": "StringIndexType",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StringBitCount(RedisKey key, long start, long end, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start byte to count at."
-          },
-          {
-            "name": "end",
-            "type": "long",
-            "description": "The end byte to count at."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of bits set to 1."
-        }
       }
     ],
     "nredisstack_async": [
@@ -775,35 +683,6 @@
             "name": "indexType",
             "type": "StringIndexType",
             "description": "In Redis 7+, we can choose if start and end specify a bit index or byte index (defaults to Byte)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The number of bits set to 1."
-        }
-      },
-      {
-        "signature": "StringBitCountAsync(RedisKey key, long start, long end, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start byte to count at."
-          },
-          {
-            "name": "end",
-            "type": "long",
-            "description": "The end byte to count at."
           },
           {
             "name": "flags",

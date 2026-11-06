@@ -323,93 +323,6 @@
           "type": "bool",
           "description": "The original bit value stored at offset."
         }
-      },
-      {
-        "signature": "StringSetBitAsync(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "bit",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StringSetBit(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": "The offset in the string to set bit."
-          },
-          {
-            "name": "bit",
-            "type": "bool",
-            "description": "The bit value to set, true for 1, false for 0."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "The original bit value stored at offset."
-        }
-      },
-      {
-        "signature": "StringSetBitAsync(RedisKey key, long offset, bool value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "value",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
@@ -440,35 +353,6 @@
         "returns": {
           "type": "Task<bool>",
           "description": ""
-        }
-      },
-      {
-        "signature": "StringSetBitAsync(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": "The offset in the string to set bit."
-          },
-          {
-            "name": "bit",
-            "type": "bool",
-            "description": "The bit value to set, true for 1, false for 0."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": "The original bit value stored at offset."
         }
       },
       {

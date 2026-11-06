@@ -383,57 +383,9 @@
           "type": "StreamConsumerInfo[]",
           "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers."
         }
-      },
-      {
-        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The consumer group name."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamConsumerInfo[]",
-          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StreamConsumerInfoAsync(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The consumer group name."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<StreamConsumerInfo[]>",
-          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers."
-        }
-      },
       {
         "signature": "StreamConsumerInfoAsync(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
         "params": [

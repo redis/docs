@@ -432,30 +432,6 @@
           "type": "Tuple<RedisKey, RedisValue>?",
           "description": "A value, together with the key it was popped from, or null if the server timeoutexpires."
         }
-      },
-      {
-        "signature": "BRPop(db, [key], timeout)",
-        "params": [
-          {
-            "name": "db",
-            "type": "Any",
-            "description": "The IDatabase class where this extension method is applied."
-          },
-          {
-            "name": "[key]",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "timeout",
-            "type": "Any",
-            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": "A value, together with the key it was popped from, or null if the server timeoutexpires."
-        }
       }
     ],
     "php": [
@@ -497,6 +473,46 @@
         "returns": {
           "type": "nil, [String, String]",
           "description": "tuple of the list that was popped from and element"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "BRPopAsync(RedisKey[] keys, double timeout)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, RedisValue>?>",
+          "description": "A value, together with the key it was popped from, or null if the server timeoutexpires."
+        }
+      },
+      {
+        "signature": "BRPopAsync(RedisKey key, double timeout)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to check."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, RedisValue>?>",
+          "description": "A value, together with the key it was popped from, or null if the server timeoutexpires."
         }
       }
     ]

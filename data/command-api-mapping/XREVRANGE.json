@@ -621,87 +621,9 @@
           "type": "StreamEntry[]",
           "description": "Returns an instance of StreamEntry for each message returned."
         }
-      },
-      {
-        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "minId",
-            "type": "RedisValue?",
-            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream."
-          },
-          {
-            "name": "maxId",
-            "type": "RedisValue?",
-            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream."
-          },
-          {
-            "name": "count",
-            "type": "int?",
-            "description": "The maximum number of messages to return."
-          },
-          {
-            "name": "messageOrder",
-            "type": "Order",
-            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamEntry[]",
-          "description": "Returns an instance of StreamEntry for each message returned."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StreamRangeAsync(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "minId",
-            "type": "RedisValue?",
-            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream."
-          },
-          {
-            "name": "maxId",
-            "type": "RedisValue?",
-            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream."
-          },
-          {
-            "name": "count",
-            "type": "int?",
-            "description": "The maximum number of messages to return."
-          },
-          {
-            "name": "messageOrder",
-            "type": "Order",
-            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<StreamEntry[]>",
-          "description": "Returns an instance of StreamEntry for each message returned."
-        }
-      },
       {
         "signature": "StreamRangeAsync(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [

@@ -458,57 +458,9 @@
           "type": "bool",
           "description": "true if deleted, false otherwise."
         }
-      },
-      {
-        "signature": "StreamDeleteConsumerGroup(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if deleted, false otherwise."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StreamDeleteConsumerGroupAsync(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": "true if deleted, false otherwise."
-        }
-      },
       {
         "signature": "StreamDeleteConsumerGroupAsync(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
         "params": [

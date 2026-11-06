@@ -278,67 +278,9 @@
           "type": "long?",
           "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
         }
-      },
-      {
-        "signature": "SortedSetRank(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get the rank of."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long?",
-          "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetRankAsync(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get the rank of."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long?>",
-          "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
-        }
-      },
       {
         "signature": "SortedSetRankAsync(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [

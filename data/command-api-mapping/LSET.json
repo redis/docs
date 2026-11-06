@@ -321,67 +321,9 @@
           "type": "void",
           "description": ""
         }
-      },
-      {
-        "signature": "ListSetByIndex(RedisKey key, long index, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "index",
-            "type": "long",
-            "description": "The index to set the value at."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The values to add to the list."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "void",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "ListSetByIndexAsync(RedisKey key, long index, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "index",
-            "type": "long",
-            "description": "The index to set the value at."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The values to add to the list."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task",
-          "description": ""
-        }
-      },
       {
         "signature": "ListSetByIndexAsync(RedisKey key, long index, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [

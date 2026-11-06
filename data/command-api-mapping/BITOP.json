@@ -902,69 +902,6 @@
         }
       },
       {
-        "signature": "StringBitOperationAsync(Bitwise operation, RedisKey destination, RedisKey first, RedisKey second = default, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "Bitwise",
-            "description": ""
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "first",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "second",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StringBitOperationAsync(Bitwise operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "Bitwise",
-            "description": ""
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": ""
-        }
-      },
-      {
         "signature": "StringBitOperation(Bitwise operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
         "params": [
           {

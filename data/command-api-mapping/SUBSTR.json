@@ -347,58 +347,8 @@
         }
       }
     ],
-    "nredisstack_sync": [
-      {
-        "signature": "GetRange(double value, Exclude exclude, bool isStart)",
-        "params": [
-          {
-            "name": "value",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": ""
-          },
-          {
-            "name": "isStart",
-            "type": "bool",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": ""
-        }
-      }
-    ],
-    "nredisstack_async": [
-      {
-        "signature": "GetRange(double value, Exclude exclude, bool isStart)",
-        "params": [
-          {
-            "name": "value",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": ""
-          },
-          {
-            "name": "isStart",
-            "type": "bool",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": ""
-        }
-      }
-    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
     "php": [
       {
         "signature": "getrange(string $key, $start, $end)",

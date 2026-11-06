@@ -185,6 +185,22 @@
           "description": "the raw \"OK\" reply"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MSetAsync(KeyPathValue[] KeyPathValueList)",
+        "params": [
+          {
+            "name": "KeyPathValueList",
+            "type": "KeyPathValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -504,64 +504,6 @@
           "type": "bool",
           "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
         }
-      },
-      {
-        "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field to set in the hash."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to set."
-          },
-          {
-            "name": "when",
-            "type": "When",
-            "description": "Which conditions under which to set the field value (defaults to always)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
-        }
-      },
-      {
-        "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "HashEntry[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "void",
-          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
-        }
       }
     ],
     "nredisstack_async": [
@@ -620,64 +562,6 @@
         ],
         "returns": {
           "type": "Task<bool>",
-          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
-        }
-      },
-      {
-        "signature": "HashSetAsync(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field to set in the hash."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to set."
-          },
-          {
-            "name": "when",
-            "type": "When",
-            "description": "Which conditions under which to set the field value (defaults to always)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
-        }
-      },
-      {
-        "signature": "HashSetAsync(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "HashEntry[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task",
           "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
         }
       }

@@ -410,67 +410,9 @@
           "type": "RedisValue[]",
           "description": "List of elements in the specified range."
         }
-      },
-      {
-        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index of the list."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index of the list."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of elements in the specified range."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "ListRangeAsync(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index of the list."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index of the list."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue[]>",
-          "description": "List of elements in the specified range."
-        }
-      },
       {
         "signature": "ListRangeAsync(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
         "params": [

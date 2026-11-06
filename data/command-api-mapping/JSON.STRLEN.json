@@ -331,6 +331,27 @@
           "description": "the string length(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-string match"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StrLenAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long?[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -217,47 +217,9 @@
           "type": "long",
           "description": "The number of entries inside the given stream."
         }
-      },
-      {
-        "signature": "StreamLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of entries inside the given stream."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StreamLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The number of entries inside the given stream."
-        }
-      },
       {
         "signature": "StreamLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [

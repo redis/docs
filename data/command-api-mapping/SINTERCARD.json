@@ -402,57 +402,9 @@
           "type": "long",
           "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
         }
-      },
-      {
-        "signature": "SetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sets."
-          },
-          {
-            "name": "limit",
-            "type": "long",
-            "description": "The number of elements to check (defaults to 0 and means unlimited)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SetIntersectionLengthAsync(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sets."
-          },
-          {
-            "name": "limit",
-            "type": "long",
-            "description": "The number of elements to check (defaults to 0 and means unlimited)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
-        }
-      },
       {
         "signature": "SetIntersectionLengthAsync(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
         "params": [

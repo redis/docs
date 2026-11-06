@@ -513,67 +513,9 @@
           "type": "bool",
           "description": "true if successful, false otherwise."
         }
-      },
-      {
-        "signature": "StreamConsumerGroupSetPosition(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group."
-          },
-          {
-            "name": "position",
-            "type": "RedisValue",
-            "description": "The position from which to read for the consumer group."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if successful, false otherwise."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StreamConsumerGroupSetPositionAsync(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group."
-          },
-          {
-            "name": "position",
-            "type": "RedisValue",
-            "description": "The position from which to read for the consumer group."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": "true if successful, false otherwise."
-        }
-      },
       {
         "signature": "StreamConsumerGroupSetPositionAsync(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
         "params": [

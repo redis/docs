@@ -503,67 +503,9 @@
           "type": "long",
           "description": "The number of messages that were pending for the deleted consumer."
         }
-      },
-      {
-        "signature": "StreamDeleteConsumer(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group."
-          },
-          {
-            "name": "consumerName",
-            "type": "RedisValue",
-            "description": "The name of the consumer."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of messages that were pending for the deleted consumer."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StreamDeleteConsumerAsync(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group."
-          },
-          {
-            "name": "consumerName",
-            "type": "RedisValue",
-            "description": "The name of the consumer."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The number of messages that were pending for the deleted consumer."
-        }
-      },
       {
         "signature": "StreamDeleteConsumerAsync(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
         "params": [

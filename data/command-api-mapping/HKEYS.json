@@ -246,47 +246,9 @@
           "type": "RedisValue[]",
           "description": "List of fields in the hash, or an empty list when key does not exist."
         }
-      },
-      {
-        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of fields in the hash, or an empty list when key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "HashKeysAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue[]>",
-          "description": "List of fields in the hash, or an empty list when key does not exist."
-        }
-      },
       {
         "signature": "HashKeysAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [

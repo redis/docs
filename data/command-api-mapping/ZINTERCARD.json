@@ -392,57 +392,9 @@
           "type": "long",
           "description": "The number of elements in the resulting intersection."
         }
-      },
-      {
-        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "limit",
-            "type": "long",
-            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality (defaults to 0 meaning unlimited)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting intersection."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetIntersectionLengthAsync(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "limit",
-            "type": "long",
-            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality (defaults to 0 meaning unlimited)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The number of elements in the resulting intersection."
-        }
-      },
       {
         "signature": "SortedSetIntersectionLengthAsync(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
         "params": [

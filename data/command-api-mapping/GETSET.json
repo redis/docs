@@ -244,57 +244,9 @@
           "type": "RedisValue",
           "description": "The old value stored at key, or Null when key did not exist."
         }
-      },
-      {
-        "signature": "StringGetSet(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to replace the existing value with."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The old value stored at key, or Null when key did not exist."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StringGetSetAsync(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to replace the existing value with."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue>",
-          "description": "The old value stored at key, or Null when key did not exist."
-        }
-      },
       {
         "signature": "StringGetSetAsync(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [

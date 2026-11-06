@@ -885,87 +885,9 @@
           "type": "StreamEntry[]",
           "description": "The messages successfully claimed by the given consumer."
         }
-      },
-      {
-        "signature": "StreamClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "consumerGroup",
-            "type": "RedisValue",
-            "description": "The consumer group."
-          },
-          {
-            "name": "claimingConsumer",
-            "type": "RedisValue",
-            "description": "The consumer claiming the given message(s)."
-          },
-          {
-            "name": "minIdleTimeInMs",
-            "type": "long",
-            "description": "The minimum message idle time to allow the reassignment of the message(s)."
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": "The IDs of the messages to claim for the given consumer."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamEntry[]",
-          "description": "The messages successfully claimed by the given consumer."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StreamClaimAsync(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "consumerGroup",
-            "type": "RedisValue",
-            "description": "The consumer group."
-          },
-          {
-            "name": "claimingConsumer",
-            "type": "RedisValue",
-            "description": "The consumer claiming the given message(s)."
-          },
-          {
-            "name": "minIdleTimeInMs",
-            "type": "long",
-            "description": "The minimum message idle time to allow the reassignment of the message(s)."
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": "The IDs of the messages to claim for the given consumer."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<StreamEntry[]>",
-          "description": "The messages successfully claimed by the given consumer."
-        }
-      },
       {
         "signature": "StreamClaimAsync(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [

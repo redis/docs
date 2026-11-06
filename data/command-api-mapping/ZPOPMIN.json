@@ -405,59 +405,6 @@
           "type": "SortedSetPopResult",
           "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
         }
-      },
-      {
-        "signature": "SortedSetPop(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by when popping items out of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for the operation."
-          }
-        ],
-        "returns": {
-          "type": "SortedSetEntry?",
-          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
-        }
-      },
-      {
-        "signature": "SortedSetPop(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "The maximum number of records to pop out of the sorted set."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by when popping items out of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for the operation."
-          }
-        ],
-        "returns": {
-          "type": "SortedSetEntry[]",
-          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
-        }
       }
     ],
     "nredisstack_async": [
@@ -540,59 +487,6 @@
         ],
         "returns": {
           "type": "Task<SortedSetPopResult>",
-          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
-        }
-      },
-      {
-        "signature": "SortedSetPopAsync(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by when popping items out of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for the operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<SortedSetEntry?>",
-          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
-        }
-      },
-      {
-        "signature": "SortedSetPopAsync(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "The maximum number of records to pop out of the sorted set."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by when popping items out of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for the operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<SortedSetEntry[]>",
           "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
         }
       }

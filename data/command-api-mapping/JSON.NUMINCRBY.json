@@ -340,6 +340,32 @@
           "description": "the new value(s): an Array for a JSONPath, a single number for a legacy path; nil (or nil element) for a non-numeric match"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "NumIncrbyAsync(RedisKey key, string path, double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<double?[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -417,6 +417,32 @@
           "description": "the element was popped and pushed"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "BRPopLPushAsync(RedisKey source, RedisKey destination, double timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": "The key of the source list."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination list."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisValue?>",
+          "description": "The element being popped and pushed, or null if the server timeout expires."
+        }
+      }
     ]
   }
 }

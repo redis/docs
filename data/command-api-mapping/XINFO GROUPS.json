@@ -323,47 +323,9 @@
           "type": "StreamGroupInfo[]",
           "description": "An instance of StreamGroupInfo for each of the stream's groups."
         }
-      },
-      {
-        "signature": "StreamGroupInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamGroupInfo[]",
-          "description": "An instance of StreamGroupInfo for each of the stream's groups."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "StreamGroupInfoAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<StreamGroupInfo[]>",
-          "description": "An instance of StreamGroupInfo for each of the stream's groups."
-        }
-      },
       {
         "signature": "StreamGroupInfoAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [

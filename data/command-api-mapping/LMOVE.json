@@ -400,77 +400,9 @@
           "type": "RedisValue",
           "description": "The element being popped and pushed or Null if there is no element to move."
         }
-      },
-      {
-        "signature": "ListMove(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "sourceKey",
-            "type": "RedisKey",
-            "description": "The key of the list to remove from."
-          },
-          {
-            "name": "destinationKey",
-            "type": "RedisKey",
-            "description": "The key of the list to move to."
-          },
-          {
-            "name": "sourceSide",
-            "type": "ListSide",
-            "description": "What side of the sourceKey list to remove from."
-          },
-          {
-            "name": "destinationSide",
-            "type": "ListSide",
-            "description": "What side of the destinationKey list to move to."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The element being popped and pushed or Null if there is no element to move."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "ListMoveAsync(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "sourceKey",
-            "type": "RedisKey",
-            "description": "The key of the list to remove from."
-          },
-          {
-            "name": "destinationKey",
-            "type": "RedisKey",
-            "description": "The key of the list to move to."
-          },
-          {
-            "name": "sourceSide",
-            "type": "ListSide",
-            "description": "What side of the sourceKey list to remove from."
-          },
-          {
-            "name": "destinationSide",
-            "type": "ListSide",
-            "description": "What side of the destinationKey list to move to."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue>",
-          "description": "The element being popped and pushed or Null if there is no element to move."
-        }
-      },
       {
         "signature": "ListMoveAsync(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
         "params": [

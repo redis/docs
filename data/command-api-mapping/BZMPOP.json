@@ -807,40 +807,6 @@
           "type": "Tuple<RedisKey, List<RedisValueWithScore>>?",
           "description": ""
         }
-      },
-      {
-        "signature": "BZMPop(db, timeout, [key], minMaxModifier, count)",
-        "params": [
-          {
-            "name": "db",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "timeout",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "[key]",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "minMaxModifier",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": ""
-        }
       }
     ],
     "php": [
@@ -902,6 +868,66 @@
         "returns": {
           "type": "Array<String, Array<String, Float>>",
           "description": "list of popped elements and scores"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "BZMPopAsync(double timeout, RedisKey[] keys, MinMaxModifier minMaxModifier, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "minMaxModifier",
+            "type": "MinMaxModifier",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, List<RedisValueWithScore>>?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BZMPopAsync(double timeout, RedisKey key, MinMaxModifier minMaxModifier, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "minMaxModifier",
+            "type": "MinMaxModifier",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, List<RedisValueWithScore>>?>",
+          "description": ""
         }
       }
     ]

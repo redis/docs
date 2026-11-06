@@ -399,6 +399,61 @@
           "description": "the raw \"OK\" reply"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MergeAsync(RedisKey key, RedisValue path, RedisValue json)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "MergeAsync(RedisKey key, RedisValue path, object obj, JsonSerializerOptions? serializerOptions = default)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "obj",
+            "type": "object",
+            "description": ""
+          },
+          {
+            "name": "serializerOptions",
+            "type": "JsonSerializerOptions?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
     ]
   }
 }
