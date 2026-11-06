@@ -149,7 +149,8 @@
   function tableBytes(n, minSize) {
     if (n <= 0) return 0;
     var size = Math.max(minSize || 4, nextPow2(n));
-    var chained = n - size * (1 - Math.exp(-n / size));
+    // n minus the expected number of buckets in use, if entries land at random.
+    var chained = n - size * (1 - Math.exp(n * Math.log1p(-1 / size)));
     return jeSize(8 * size) + 16 * chained;
   }
 
@@ -303,8 +304,8 @@
   function capacity(n) { return n <= 4 ? 4 : nextPow2(n); }
 
   // Walks the document and adds up what it allocates. Strings longer than 7
-  // bytes are counted in `strings` instead, split into object keys and values,
-  // because the caller decides how many documents share them.
+  // bytes are collected instead, field names in `keyNames` and values in
+  // `valueStrings`, because the caller decides how many documents share them.
   function jsonWalk(node, acc) {
     if (node.t === 'object') {
       if (!node.entries.length) return;
@@ -314,7 +315,7 @@
       acc.structure += jeSize(Math.ceil(size / 8) * 8);
       node.entries.forEach(function (e) {
         var kl = bytes(e[0]);
-        if (kl > 7) acc.keyStrings.push(kl);
+        if (kl > 7) acc.keyNames[e[0]] = kl;
         jsonWalk(e[1], acc);
       });
     } else if (node.t === 'array') {
@@ -336,35 +337,45 @@
 
   function stringAlloc(len) { return jeSize(Math.ceil((8 + len) / 8) * 8); }
 
-  // Bytes per entry of RedisJSON's string cache: a hashbrown set of 8-byte
-  // pointers with a control byte each, at most 7/8 full, in one allocation.
+  // Bytes RedisJSON's string cache takes for n strings: a hashbrown set of
+  // 8-byte pointers with a control byte each, at most 7/8 full, in one
+  // allocation, and 64 bytes allocated with the first string. The set starts
+  // at 4 buckets, then 8, then doubles. Measured on Redis 8.10.3.
   function stringCacheBytes(n) {
     if (n <= 0) return 0;
-    var buckets = Math.max(8, nextPow2(Math.ceil(n * 8 / 7)));
-    return jeSize(9 * buckets + 16) / n;
+    var buckets = n <= 3 ? 4 : n <= 7 ? 8 : nextPow2(Math.ceil(n * 8 / 7));
+    return jeSize(9 * buckets + 8) + 64;
   }
 
   function jsonValue(doc, keyLen, ttl, keys) {
     // 24 bytes: the module's value holder, measured.
-    var acc = { structure: 24, keyStrings: [], valueStrings: [], floats: 0, bigInts: 0 };
+    var acc = { structure: 24, keyNames: Object.create(null), valueStrings: [], floats: 0, bigInts: 0 };
     jsonWalk(doc, acc);
     // Value strings are counted for every document, as if no two documents had
-    // the same value; field names are shared, so they cost nothing per key.
+    // the same value. Field names are shared: Redis stores each one once for
+    // all the documents, so its cost is spread over the keys.
+    var n = Math.max(1, keys);
+    var names = Object.keys(acc.keyNames);
     var unique = acc.valueStrings.length;
     var strings = acc.valueStrings.reduce(function (t, l) { return t + stringAlloc(l); }, 0);
-    var cache = unique ? unique * stringCacheBytes(unique * Math.max(1, keys)) : 0;
+    var shared = names.reduce(function (t, k) { return t + stringAlloc(acc.keyNames[k]); }, 0) / n;
+    // The string cache holds the value strings of every document, and the
+    // field names once.
+    var cache = stringCacheBytes(unique * n + names.length) / n;
     return {
       encoding: 'json', object: jeSize(kvobjSize(keyLen, ttl)),
-      value: acc.structure + strings + cache,
+      value: acc.structure + strings + shared + cache,
       strings: unique, floats: acc.floats, bigInts: acc.bigInts,
     };
   }
 
   /* ---- keyspace ---- */
 
-  // Per-key share of the main keyspace hash table. Keys with an expiry are in
-  // a second table of the same kind.
-  function keyspaceBytes(keys) { return keys > 0 ? tableBytes(keys) / keys : 0; }
+  // Per-key share of a keyspace hash table, and of the dict that holds it,
+  // which Redis creates with a database's first key. Keys with an expiry are
+  // also in a second table, whose dict is smaller. Measured on Redis 8.10.3.
+  var KEYS_DICT = 96, EXPIRES_DICT = 64;
+  function keyspaceBytes(keys, dict) { return keys > 0 ? (dict + tableBytes(keys)) / keys : 0; }
 
   /* ---- a record in three shapes ---- */
 
@@ -427,7 +438,7 @@
       rows.json = jsonValue(node, keyLen, ttl, keys);
       rows.json.data = bytes(toText(node));
     }
-    var space = keyspaceBytes(keys) * (ttl ? 2 : 1);
+    var space = keyspaceBytes(keys, KEYS_DICT) + (ttl ? keyspaceBytes(keys, EXPIRES_DICT) : 0);
     Object.keys(rows).forEach(function (k) {
       var r = rows[k];
       r.keyspace = space;
