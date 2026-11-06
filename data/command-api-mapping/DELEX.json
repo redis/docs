@@ -193,7 +193,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringDelete(RedisKey key, ValueCondition when, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringDeleteAsync(RedisKey key, ValueCondition when, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -212,7 +212,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": ""
         }
       }

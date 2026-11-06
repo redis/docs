@@ -279,7 +279,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashStringLengthAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -298,12 +298,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the string at field, or 0 when key does not exist."
         }
       },
       {
-        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -317,12 +317,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the string at key, or 0 when key does not exist."
         }
       },
       {
-        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashStringLengthAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -341,12 +341,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the string at field, or 0 when key does not exist."
         }
       },
       {
-        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -360,7 +360,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the string at key, or 0 when key does not exist."
         }
       }

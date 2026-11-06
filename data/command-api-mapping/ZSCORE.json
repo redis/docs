@@ -291,7 +291,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetScore(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetScoreAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -310,12 +310,12 @@
           }
         ],
         "returns": {
-          "type": "double?",
+          "type": "Task<double?>",
           "description": "The score of the member."
         }
       },
       {
-        "signature": "SortedSetScore(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetScoreAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -334,7 +334,7 @@
           }
         ],
         "returns": {
-          "type": "double?",
+          "type": "Task<double?>",
           "description": "The score of the member."
         }
       }

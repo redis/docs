@@ -354,7 +354,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListRemove(RedisKey key, RedisValue value, long count = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRemoveAsync(RedisKey key, RedisValue value, long count = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -378,12 +378,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of removed elements."
         }
       },
       {
-        "signature": "ListRemove(RedisKey key, RedisValue value, long count = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRemoveAsync(RedisKey key, RedisValue value, long count = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -407,7 +407,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of removed elements."
         }
       }

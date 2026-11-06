@@ -323,7 +323,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetScoresAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -342,12 +342,12 @@
           }
         ],
         "returns": {
-          "type": "double?[]",
+          "type": "Task<double?[]>",
           "description": "array. If a member does not exist in the set, null is returned."
         }
       },
       {
-        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetScoresAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -366,7 +366,7 @@
           }
         ],
         "returns": {
-          "type": "double?[]",
+          "type": "Task<double?[]>",
           "description": "array. If a member does not exist in the set, null is returned."
         }
       }

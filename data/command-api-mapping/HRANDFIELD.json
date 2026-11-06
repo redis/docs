@@ -305,7 +305,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashRandomField(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashRandomFieldAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -319,12 +319,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "A random hash field name or Null if the hash does not exist."
         }
       },
       {
-        "signature": "HashRandomField(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashRandomFieldAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -338,7 +338,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "A random hash field name or Null if the hash does not exist."
         }
       }

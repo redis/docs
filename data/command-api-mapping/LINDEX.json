@@ -270,7 +270,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListGetByIndex(RedisKey key, long index, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListGetByIndexAsync(RedisKey key, long index, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -289,12 +289,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The requested element, or Null when index is out of range."
         }
       },
       {
-        "signature": "ListGetByIndex(RedisKey key, long index, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListGetByIndexAsync(RedisKey key, long index, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -313,7 +313,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The requested element, or Null when index is out of range."
         }
       }

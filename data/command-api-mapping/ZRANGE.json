@@ -1083,7 +1083,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByRankAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1112,12 +1112,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified range."
         }
       },
       {
-        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByRankWithScoresAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1146,12 +1146,12 @@
           }
         ],
         "returns": {
-          "type": "SortedSetEntry[]",
+          "type": "Task<SortedSetEntry[]>",
           "description": "List of elements in the specified range."
         }
       },
       {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByRankAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1180,12 +1180,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified range."
         }
       },
       {
-        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByRankWithScoresAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1214,12 +1214,12 @@
           }
         ],
         "returns": {
-          "type": "SortedSetEntry[]",
+          "type": "Task<SortedSetEntry[]>",
           "description": "List of elements in the specified range."
         }
       },
       {
-        "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByScoreAsync(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1263,7 +1263,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified score range."
         }
       }

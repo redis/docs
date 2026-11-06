@@ -269,7 +269,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashValues(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashValuesAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -283,12 +283,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of values in the hash, or an empty list when key does not exist."
         }
       },
       {
-        "signature": "HashValues(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashValuesAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -302,7 +302,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of values in the hash, or an empty list when key does not exist."
         }
       }

@@ -597,7 +597,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAndDeleteAsync(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -626,12 +626,12 @@
           }
         ],
         "returns": {
-          "type": "StreamTrimResult",
+          "type": "Task<StreamTrimResult>",
           "description": ""
         }
       },
       {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAndDeleteAsync(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -660,12 +660,12 @@
           }
         ],
         "returns": {
-          "type": "StreamTrimResult[]",
+          "type": "Task<StreamTrimResult[]>",
           "description": ""
         }
       },
       {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAndDeleteAsync(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -694,12 +694,12 @@
           }
         ],
         "returns": {
-          "type": "StreamTrimResult",
+          "type": "Task<StreamTrimResult>",
           "description": ""
         }
       },
       {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAndDeleteAsync(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -728,7 +728,7 @@
           }
         ],
         "returns": {
-          "type": "StreamTrimResult[]",
+          "type": "Task<StreamTrimResult[]>",
           "description": ""
         }
       }

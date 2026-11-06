@@ -404,7 +404,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRandomMemberAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -418,12 +418,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": ""
         }
       },
       {
-        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRandomMemberAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -437,7 +437,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": ""
         }
       }

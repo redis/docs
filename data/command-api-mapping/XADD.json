@@ -1037,7 +1037,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "signature": "StreamAddAsync(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1076,12 +1076,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The ID of the newly created message."
         }
       },
       {
-        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "signature": "StreamAddAsync(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1115,12 +1115,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The ID of the newly created message."
         }
       },
       {
-        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAddAsync(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1169,12 +1169,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The ID of the newly created message."
         }
       },
       {
-        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, StreamIdempotentId idempotentId, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAddAsync(RedisKey key, RedisValue streamField, RedisValue streamValue, StreamIdempotentId idempotentId, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1223,12 +1223,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The ID of the newly created message."
         }
       },
       {
-        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAddAsync(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1272,7 +1272,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The ID of the newly created message."
         }
       }

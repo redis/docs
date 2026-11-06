@@ -356,7 +356,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRemoveRangeByRank(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRemoveRangeByRankAsync(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -380,12 +380,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements removed."
         }
       },
       {
-        "signature": "SortedSetRemoveRangeByRank(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRemoveRangeByRankAsync(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -409,7 +409,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements removed."
         }
       }

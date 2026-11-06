@@ -462,7 +462,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetPop(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetPopAsync(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -481,12 +481,12 @@
           }
         ],
         "returns": {
-          "type": "SortedSetEntry?",
+          "type": "Task<SortedSetEntry?>",
           "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
         }
       },
       {
-        "signature": "SortedSetPop(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetPopAsync(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -510,12 +510,12 @@
           }
         ],
         "returns": {
-          "type": "SortedSetEntry[]",
+          "type": "Task<SortedSetEntry[]>",
           "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
         }
       },
       {
-        "signature": "SortedSetPop(RedisKey[] keys, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetPopAsync(RedisKey[] keys, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "keys",
@@ -539,12 +539,12 @@
           }
         ],
         "returns": {
-          "type": "SortedSetPopResult",
+          "type": "Task<SortedSetPopResult>",
           "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
         }
       },
       {
-        "signature": "SortedSetPop(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetPopAsync(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -563,12 +563,12 @@
           }
         ],
         "returns": {
-          "type": "SortedSetEntry?",
+          "type": "Task<SortedSetEntry?>",
           "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
         }
       },
       {
-        "signature": "SortedSetPop(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetPopAsync(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -592,7 +592,7 @@
           }
         ],
         "returns": {
-          "type": "SortedSetEntry[]",
+          "type": "Task<SortedSetEntry[]>",
           "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
         }
       }

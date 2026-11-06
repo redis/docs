@@ -363,7 +363,7 @@
         }
       },
       {
-        "signature": "StringGetBit(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetBitAsync(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -382,12 +382,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "The bit value stored at offset."
         }
       },
       {
-        "signature": "StringGetBit(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetBitAsync(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -406,7 +406,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "The bit value stored at offset."
         }
       },

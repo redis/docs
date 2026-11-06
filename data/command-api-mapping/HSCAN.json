@@ -711,7 +711,7 @@
         }
       },
       {
-        "signature": "HashScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashScanAsync(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -745,7 +745,7 @@
           }
         ],
         "returns": {
-          "type": "IEnumerable<HashEntry>",
+          "type": "IAsyncEnumerable<HashEntry>",
           "description": "Yields all elements of the hash matching the pattern."
         }
       }

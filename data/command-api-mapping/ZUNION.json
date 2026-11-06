@@ -343,7 +343,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetCombineAsync(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -372,12 +372,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "The resulting sorted set."
         }
       },
       {
-        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetCombineAsync(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -406,7 +406,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "The resulting sorted set."
         }
       }

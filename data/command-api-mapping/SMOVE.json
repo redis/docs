@@ -356,7 +356,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetMoveAsync(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "source",
@@ -380,12 +380,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
         }
       },
       {
-        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetMoveAsync(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "source",
@@ -409,7 +409,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
         }
       }

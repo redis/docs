@@ -476,7 +476,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringIncrementAsync(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -495,12 +495,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The value of key after the increment."
         }
       },
       {
-        "signature": "StringIncrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringIncrementAsync(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -519,7 +519,7 @@
           }
         ],
         "returns": {
-          "type": "double",
+          "type": "Task<double>",
           "description": "The value of key after the increment."
         }
       },
@@ -572,7 +572,7 @@
         }
       },
       {
-        "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringIncrementAsync(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -591,7 +591,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The value of key after the increment."
         }
       }

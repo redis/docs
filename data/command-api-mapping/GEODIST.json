@@ -716,7 +716,7 @@
         }
       },
       {
-        "signature": "GeoDistance(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoDistanceAsync(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -745,12 +745,12 @@
           }
         ],
         "returns": {
-          "type": "double?",
+          "type": "Task<double?>",
           "description": "The command returns the distance as a double (represented as a string) in the specified unit, or null if one or both the elements are missing."
         }
       },
       {
-        "signature": "GeoDistance(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoDistanceAsync(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -779,7 +779,7 @@
           }
         ],
         "returns": {
-          "type": "double?",
+          "type": "Task<double?>",
           "description": "The command returns the distance as a double (represented as a string) in the specified unit, or null if one or both the elements are missing."
         }
       },

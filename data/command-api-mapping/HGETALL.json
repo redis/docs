@@ -269,7 +269,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAllAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -283,12 +283,12 @@
           }
         ],
         "returns": {
-          "type": "HashEntry[]",
+          "type": "Task<HashEntry[]>",
           "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
         }
       },
       {
-        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAllAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -302,7 +302,7 @@
           }
         ],
         "returns": {
-          "type": "HashEntry[]",
+          "type": "Task<HashEntry[]>",
           "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
         }
       }

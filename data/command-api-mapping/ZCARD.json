@@ -276,7 +276,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetLengthAsync(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -305,12 +305,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
         }
       },
       {
-        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetLengthAsync(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -339,7 +339,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
         }
       }

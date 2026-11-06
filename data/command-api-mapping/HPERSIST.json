@@ -265,7 +265,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashFieldPersist(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldPersistAsync(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -284,12 +284,12 @@
           }
         ],
         "returns": {
-          "type": "PersistResult[]",
+          "type": "Task<PersistResult[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>1</term> <description>Expiration time was removed.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
         }
       },
       {
-        "signature": "HashFieldPersist(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldPersistAsync(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -308,7 +308,7 @@
           }
         ],
         "returns": {
-          "type": "PersistResult[]",
+          "type": "Task<PersistResult[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>1</term> <description>Expiration time was removed.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
         }
       }

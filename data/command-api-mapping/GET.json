@@ -307,7 +307,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -321,12 +321,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The values of the strings with Null for keys do not exist."
         }
       },
       {
-        "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetAsync(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "keys",
@@ -340,7 +340,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "The values of the strings with Null for keys do not exist."
         }
       },
@@ -364,7 +364,7 @@
         }
       },
       {
-        "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -378,12 +378,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The values of the strings with Null for keys do not exist."
         }
       },
       {
-        "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetAsync(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "keys",
@@ -397,7 +397,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "The values of the strings with Null for keys do not exist."
         }
       }

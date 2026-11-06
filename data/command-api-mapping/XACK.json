@@ -423,7 +423,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAsync(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -447,12 +447,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages acknowledged."
         }
       },
       {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAsync(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -476,12 +476,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages acknowledged."
         }
       },
       {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAsync(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -505,12 +505,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages acknowledged."
         }
       },
       {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAsync(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -534,7 +534,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages acknowledged."
         }
       }

@@ -443,7 +443,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRangeAsync(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -467,12 +467,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified range."
         }
       },
       {
-        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRangeAsync(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -496,7 +496,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified range."
         }
       }

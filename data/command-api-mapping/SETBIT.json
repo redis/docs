@@ -443,7 +443,7 @@
         }
       },
       {
-        "signature": "StringSetBit(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringSetBitAsync(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -467,12 +467,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "The original bit value stored at offset."
         }
       },
       {
-        "signature": "StringSetBit(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringSetBitAsync(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -496,7 +496,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "The original bit value stored at offset."
         }
       },

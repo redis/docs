@@ -291,7 +291,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashExistsAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -310,12 +310,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
         }
       },
       {
-        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashExistsAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -334,7 +334,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
         }
       }

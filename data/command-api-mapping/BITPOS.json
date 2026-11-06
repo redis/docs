@@ -900,7 +900,7 @@
         }
       },
       {
-        "signature": "StringBitPosition(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
+        "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -929,12 +929,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
         }
       },
       {
-        "signature": "StringBitPosition(RedisKey key, bool bit, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -968,12 +968,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
         }
       },
       {
-        "signature": "StringBitPosition(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
+        "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1002,7 +1002,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
         }
       }
