@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "set(name: str, path: str, obj: JsonType, nx: Optional[bool] = False, xx: Optional[bool] = False, decode_keys: Optional[bool] = False)",
+        "signature": "set(name: str, path: str, obj: JsonType, nx: Optional[bool] = False, xx: Optional[bool] = False, decode_keys: Optional[bool] = False, fpha: Optional[Union[FPHAType, str]] = None)",
         "params": [
           {
             "name": "name",
@@ -33,10 +33,15 @@
             "name": "decode_keys",
             "type": "Optional[bool] = False",
             "description": ""
+          },
+          {
+            "name": "fpha",
+            "type": "Optional[Union[FPHAType, str]] = None",
+            "description": "Force Redis to store all floating-point homogeneous arrays in obj as this type: BF16, FP16, FP32 or FP64"
           }
         ],
         "returns": {
-          "type": "Optional[str]",
+          "type": "Optional[bool]",
           "description": ""
         }
       },
