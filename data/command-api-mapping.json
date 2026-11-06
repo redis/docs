@@ -20465,27 +20465,7 @@
   },
   "CLIENT CACHING": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "client_caching(enabled: bool, **kwargs)",
-          "params": [
-            {
-              "name": "enabled",
-              "type": "bool",
-              "description": ""
-            },
-            {
-              "name": "**kwargs",
-              "type": "Any",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "str",
-            "description": ""
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "String clientCaching(boolean enabled)",
@@ -37077,16 +37057,16 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "aggregate(query: Union[str, Query], query_params: Optional[Dict[str, Union[str, int, float]]] = None)",
+          "signature": "aggregate(query: Union[AggregateRequest, Cursor], query_params: Optional[Dict[str, Union[str, int, float, bytes]]] = None)",
           "params": [
             {
               "name": "query",
-              "type": "Union[str, Query]",
+              "type": "Union[AggregateRequest, Cursor]",
               "description": "The aggregation query"
             },
             {
               "name": "query_params",
-              "type": "Optional[Dict[str, Union[str, int, float]]]",
+              "type": "Optional[Dict[str, Union[str, int, float, bytes]]]",
               "description": "Optional query parameters"
             }
           ],
@@ -38977,22 +38957,7 @@
   },
   "FT.CURSOR DEL": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "cursor_del(cursor_id: int)",
-          "params": [
-            {
-              "name": "cursor_id",
-              "type": "int",
-              "description": "The cursor ID to delete"
-            }
-          ],
-          "returns": {
-            "type": "str",
-            "description": "OK on success"
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "String ftCursorDel(String indexName, long cursorId)",
@@ -39207,17 +39172,17 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "cursor_read(cursor_id: int, read_size: Optional[int] = None)",
+          "signature": "aggregate(query: Union[AggregateRequest, Cursor], query_params: Optional[Dict[str, Union[str, int, float, bytes]]] = None)",
           "params": [
             {
-              "name": "cursor_id",
-              "type": "int",
-              "description": "The cursor ID to read from"
+              "name": "query",
+              "type": "Union[AggregateRequest, Cursor]",
+              "description": "A Cursor built from the cursor ID of a previous AggregateResult; its count attribute sets the read size"
             },
             {
-              "name": "read_size",
-              "type": "Optional[int]",
-              "description": "Number of results to read"
+              "name": "query_params",
+              "type": "Optional[Dict[str, Union[str, int, float, bytes]]]",
+              "description": "Optional query parameters"
             }
           ],
           "returns": {
@@ -44866,16 +44831,7 @@
   },
   "FT._LIST": {
     "api_calls": {
-      "redis_py": [
-        {
-          "signature": "_list()",
-          "params": [],
-          "returns": {
-            "type": "List[str]",
-            "description": "A list of all existing indexes"
-          }
-        }
-      ],
+      "redis_py": [],
       "jedis": [
         {
           "signature": "Set<String> ftList()",
@@ -82007,7 +81963,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "set(name: str, path: str, obj: JsonType, nx: Optional[bool] = False, xx: Optional[bool] = False, decode_keys: Optional[bool] = False)",
+          "signature": "set(name: str, path: str, obj: JsonType, nx: Optional[bool] = False, xx: Optional[bool] = False, decode_keys: Optional[bool] = False, fpha: Optional[Union[FPHAType, str]] = None)",
           "params": [
             {
               "name": "name",
@@ -82038,10 +81994,15 @@
               "name": "decode_keys",
               "type": "Optional[bool] = False",
               "description": ""
+            },
+            {
+              "name": "fpha",
+              "type": "Optional[Union[FPHAType, str]] = None",
+              "description": "Force Redis to store all floating-point homogeneous arrays in obj as this type: BF16, FP16, FP32 or FP64"
             }
           ],
           "returns": {
-            "type": "Optional[str]",
+            "type": "Optional[bool]",
             "description": ""
           }
         },
@@ -129019,7 +128980,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "mrange(from_time: Union[int, str], to_time: Union[int, str], filters: List[str], count: Optional[int] = None, aggregation_type: Optional[str] = None, bucket_size_msec: Optional[int] = 0, with_labels: Optional[bool] = False, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, groupby: Optional[str] = None, reduce: Optional[str] = None, select_labels: Optional[List[str]] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False)",
+          "signature": "mrange(from_time: Union[int, str], to_time: Union[int, str], filters: List[str], count: Optional[int] = None, aggregation_type: Optional[Union[str, List[str]]] = None, bucket_size_msec: Optional[int] = 0, with_labels: Optional[bool] = False, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, groupby: Optional[str] = None, reduce: Optional[str] = None, select_labels: Optional[List[str]] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False, exclude_empty: Optional[bool] = False)",
           "params": [
             {
               "name": "from_time",
@@ -129043,7 +129004,7 @@
             },
             {
               "name": "aggregation_type",
-              "type": "Optional[str] = None",
+              "type": "Optional[Union[str, List[str]]] = None",
               "description": ""
             },
             {
@@ -129105,6 +129066,11 @@
               "name": "empty",
               "type": "Optional[bool] = False",
               "description": ""
+            },
+            {
+              "name": "exclude_empty",
+              "type": "Optional[bool] = False",
+              "description": "Leave out series that have no samples in the range; not allowed with groupby"
             }
           ],
           "returns": {
@@ -129453,7 +129419,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "mrevrange(from_time: Union[int, str], to_time: Union[int, str], filters: List[str], count: Optional[int] = None, aggregation_type: Optional[str] = None, bucket_size_msec: Optional[int] = 0, with_labels: Optional[bool] = False, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, groupby: Optional[str] = None, reduce: Optional[str] = None, select_labels: Optional[List[str]] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False)",
+          "signature": "mrevrange(from_time: Union[int, str], to_time: Union[int, str], filters: List[str], count: Optional[int] = None, aggregation_type: Optional[Union[str, List[str]]] = None, bucket_size_msec: Optional[int] = 0, with_labels: Optional[bool] = False, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, groupby: Optional[str] = None, reduce: Optional[str] = None, select_labels: Optional[List[str]] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False, exclude_empty: Optional[bool] = False)",
           "params": [
             {
               "name": "from_time",
@@ -129477,7 +129443,7 @@
             },
             {
               "name": "aggregation_type",
-              "type": "Optional[str] = None",
+              "type": "Optional[Union[str, List[str]]] = None",
               "description": ""
             },
             {
@@ -129539,6 +129505,11 @@
               "name": "empty",
               "type": "Optional[bool] = False",
               "description": ""
+            },
+            {
+              "name": "exclude_empty",
+              "type": "Optional[bool] = False",
+              "description": "Leave out series that have no samples in the range; not allowed with groupby"
             }
           ],
           "returns": {
@@ -149883,7 +149854,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xread(streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None)",
+          "signature": "xread(streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None, max_count: Optional[int] = None, max_size: Optional[int] = None)",
           "params": [
             {
               "name": "streams",
@@ -149899,6 +149870,16 @@
               "name": "block",
               "type": "Optional[int] = None",
               "description": ""
+            },
+            {
+              "name": "max_count",
+              "type": "Optional[int] = None",
+              "description": "Cap on the total number of entries returned across all streams, where count is per stream. Requires Redis 8.10.0 or later"
+            },
+            {
+              "name": "max_size",
+              "type": "Optional[int] = None",
+              "description": "Soft cap, in bytes, on the total reply size across all streams. Requires Redis 8.10.0 or later"
             }
           ],
           "returns": {
@@ -150671,7 +150652,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "xreadgroup(groupname: str, consumername: str, streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None, noack: bool = False, claim_min_idle_time: Optional[int] = None)",
+          "signature": "xreadgroup(groupname: str, consumername: str, streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None, noack: bool = False, claim_min_idle_time: Optional[int] = None, max_count: Optional[int] = None, max_size: Optional[int] = None)",
           "params": [
             {
               "name": "groupname",
@@ -150707,6 +150688,16 @@
               "name": "claim_min_idle_time",
               "type": "Optional[int] = None",
               "description": ""
+            },
+            {
+              "name": "max_count",
+              "type": "Optional[int] = None",
+              "description": "Cap on the total number of entries returned across all streams, where count is per stream. Requires Redis 8.10.0 or later"
+            },
+            {
+              "name": "max_size",
+              "type": "Optional[int] = None",
+              "description": "Soft cap, in bytes, on the total reply size across all streams. Requires Redis 8.10.0 or later"
             }
           ],
           "returns": {

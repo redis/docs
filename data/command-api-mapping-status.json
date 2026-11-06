@@ -105,7 +105,8 @@
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "php": "generic_only"
+    "php": "generic_only",
+    "redis_py": "generic_only"
   },
   "CLIENT GETNAME": {
     "nredisstack_sync": "unsupported",
@@ -654,7 +655,8 @@
   },
   "FT.CURSOR DEL": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_py": "generic_only"
   },
   "FT.CURSOR READ": {
     "redis_rs_sync": "generic_only",
@@ -745,7 +747,8 @@
   },
   "FT._LIST": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_py": "generic_only"
   },
   "FUNCTION DELETE": {
     "lettuce_sync": "generic_only",
