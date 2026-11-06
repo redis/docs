@@ -106,21 +106,16 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "noTouch(bool $enable = null)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
+            "name": "$enable",
+            "type": "bool",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Status",
           "description": ""
         }
       }

@@ -146,16 +146,16 @@
     ],
     "php": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "list(string $type = null, int ...$clientId)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "$type",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "$clientId",
+            "type": "int",
             "description": ""
           }
         ],

@@ -133,16 +133,26 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "failover(...$args)",
+        "signature": "failover(?To $to = null, bool $abort = false, int $timeout = -1)",
         "params": [
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "$to",
+            "type": "?To",
+            "description": ""
+          },
+          {
+            "name": "$abort",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "$timeout",
+            "type": "int",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Status",
           "description": ""
         }
       }

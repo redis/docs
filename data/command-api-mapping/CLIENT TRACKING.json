@@ -164,27 +164,7 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
-      {
-        "signature": "client(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "string",
-          "description": ""
-        }
-      }
-    ],
+    "php": [],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }

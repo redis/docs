@@ -158,16 +158,11 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
+        "signature": "cat(string $category = null)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "$category",
             "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
             "description": ""
           }
         ],

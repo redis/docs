@@ -82,22 +82,7 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
-      {
-        "signature": "lolwut(...$args)",
-        "params": [
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "string",
-          "description": ""
-        }
-      }
-    ],
+    "php": [],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }

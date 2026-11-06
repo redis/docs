@@ -221,21 +221,21 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
+        "signature": "setUser(string $username, string ...$rules)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "$username",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "$rules",
+            "type": "string",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Status",
           "description": ""
         }
       }
