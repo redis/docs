@@ -21,6 +21,7 @@
   --rsz-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   container-type: inline-size;
+  position: relative;
   color: var(--rsz-ink);
   font-size: 15px;
   line-height: 1.5;
@@ -87,7 +88,7 @@
 /* ---- results ---- */
 .rsz-summary { color: var(--rsz-muted); font-size: 14px; margin-bottom: 8px !important; }
 .rsz-rows { display: flex; flex-direction: column; gap: 8px; }
-.rsz-row { border: 1px solid var(--rsz-line); border-radius: 10px; padding: 10px 14px 11px; background: var(--rsz-surface); }
+.rsz-row { position: relative; border: 1px solid var(--rsz-line); border-radius: 10px; padding: 10px 14px 11px; background: var(--rsz-surface); }
 .rsz-row.rsz-best { border-color: var(--rsz-accent-2); box-shadow: 0 0 0 1px var(--rsz-accent-2) inset; }
 .rsz-row-off { background: var(--rsz-surface-2); }
 .rsz-row-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; }
@@ -104,6 +105,13 @@
 .rsz-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--rsz-muted); font-size: 12.5px; margin-top: 8px !important; }
 .rsz-legend > span { display: inline-flex; align-items: center; gap: 6px; }
 .rsz-dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; }
+.rsz-seg, .rsz-legend > span { cursor: help; }
+.rsz-tip {
+  position: absolute; z-index: 5; width: max-content; max-width: min(280px, calc(100% - 16px));
+  padding: 7px 10px; border-radius: 6px; background: var(--rsz-ink); color: #fff;
+  font-size: 12.5px; line-height: 1.45; box-shadow: 0 4px 14px rgba(9, 26, 35, .18); pointer-events: none;
+}
+.rsz-tip strong { display: block; font-weight: 600; color: inherit; }
 @media (prefers-reduced-motion: reduce) { .rsz-bar { transition: none; } }
 
 .rsz-tips { margin: 14px 0 0; padding: 0 0 0 18px; font-size: 14px; }

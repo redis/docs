@@ -12,23 +12,23 @@
 
   var EXAMPLES = [
     {
-      id: 'profile', label: 'User profile', key: 'user:1000001', keys: 10e6, ttl: false,
+      id: 'profile', label: 'User profile', key: 'user:1000001', ttl: false,
       text: '{\n  "name": "Alice Liddell",\n  "email": "alice@example.com",\n  "age": 31,\n  "city": "Oslo",\n  "country": "NO",\n  "plan": "pro",\n  "signup": "2024-03-01",\n  "verified": true,\n  "score": 87.5,\n  "bio": "Loves hiking, coffee and distributed systems. Based in Oslo."\n}',
     },
     {
-      id: 'session', label: 'Session', key: 'session:8f3a2c1e9b7d4e21', keys: 1e6, ttl: true,
+      id: 'session', label: 'Session', key: 'session:8f3a2c1e9b7d4e21', ttl: true,
       text: '{\n  "user_id": "1001",\n  "created": 1730000000,\n  "ip": "203.0.113.5",\n  "agent": "Mozilla/5.0 (Macintosh)"\n}',
     },
     {
-      id: 'product', label: 'Product', key: 'product:B-1234', keys: 200e3, ttl: false,
+      id: 'product', label: 'Product', key: 'product:B-1234', ttl: false,
       text: '{\n  "sku": "B-1234",\n  "name": "Noise-cancelling headphones",\n  "price": 199.99,\n  "stock": 42,\n  "brand": {"name": "Acme", "country": "US"},\n  "colors": ["black", "silver", "blue"],\n  "ratings": [5, 4, 5, 3, 5],\n  "description": "Over-ear headphones with active noise cancelling and 30 hours of battery."\n}',
     },
     {
-      id: 'cart', label: 'Shopping cart', key: 'cart:1000001', keys: 1e6, ttl: true,
+      id: 'cart', label: 'Shopping cart', key: 'cart:1000001', ttl: true,
       text: '{\n  "cart_id": "c-00000001",\n  "items": [\n    {"sku": "SKU-000001", "qty": 2, "price": 9.99},\n    {"sku": "SKU-000002", "qty": 1, "price": 24.5}\n  ],\n  "total": 44.48,\n  "currency": "EUR",\n  "updated": "2026-11-03T10:15:00Z"\n}',
     },
     {
-      id: 'counter', label: 'Counter', key: 'views:page:4711', keys: 5e6, ttl: false,
+      id: 'counter', label: 'Counter', key: 'views:page:4711', ttl: false,
       text: '42',
     },
   ];
@@ -48,7 +48,12 @@
     int: 'A number, stored with the key.',
   };
 
-  var PARTS = [['value', 'Value'], ['object', 'Key and object header'], ['space', 'Index of keys']];
+  // The parts of each bar: id, name, and what the memory is, for the tooltips.
+  var PARTS = [
+    ['value', 'Value', 'The record\'s data, in the form Redis stores it for this type.'],
+    ['object', 'Key and object header', 'The key name, and the header Redis keeps for every key.'],
+    ['space', 'Index of keys', 'The key\'s share of the table Redis uses to find every key.'],
+  ];
 
   var fmt = new Intl.NumberFormat('en-US');
   function esc(s) {
@@ -60,7 +65,7 @@
   function size(n) {
     var units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'], u = 0;
     while (n >= 1024 && u < units.length - 1) { n /= 1024; u++; }
-    if (u === 0) return fmt.format(Math.round(n)) + ' bytes';
+    if (u === 0) return bytesPerKey(n);
     var digits = n >= 100 ? 0 : n >= 10 ? 1 : 2;
     return n.toFixed(digits) + ' ' + units[u];
   }
@@ -107,7 +112,7 @@
               '<input class="rsz-count" type="text" inputmode="decimal" spellcheck="false" autocomplete="off" aria-describedby="' + id + '-count-hint">' +
               '<span class="rsz-hint" id="' + id + '-count-hint">Such as 250000, 10M or 2.5B.</span></label>' +
           '</div>' +
-          '<input class="rsz-slider" type="range" min="3" max="10" step="0.01" aria-label="Number of keys, on a scale from one thousand to ten billion">' +
+          '<input class="rsz-slider" type="range" min="0" max="10" step="0.01" aria-label="Number of keys, on a scale from one to ten billion">' +
           '<div class="rsz-checks">' +
             '<label class="rsz-check"><input type="checkbox" class="rsz-ttl"> Keys have an expiry (TTL)</label>' +
             '<label class="rsz-check"><input type="checkbox" class="rsz-repl"> Replication (doubles the memory limit)</label>' +
@@ -117,7 +122,7 @@
           '<p class="rsz-summary"></p>' +
           '<div class="rsz-rows"></div>' +
           '<p class="rsz-legend" aria-hidden="true">' +
-            PARTS.map(function (p) { return '<span><span class="rsz-dot rsz-seg-' + p[0] + '"></span>' + p[1] + '</span>'; }).join('') +
+            PARTS.map(function (p) { return '<span data-part="' + p[0] + '"><span class="rsz-dot rsz-seg-' + p[0] + '"></span>' + p[1] + '</span>'; }).join('') +
           '</p>' +
           '<ul class="rsz-tips"></ul>' +
         '</div>' +
@@ -135,19 +140,20 @@
     var record = q('.rsz-record'), error = q('.rsz-error'), key = q('.rsz-key'), count = q('.rsz-count'),
       slider = q('.rsz-slider'), ttl = q('.rsz-ttl'), repl = q('.rsz-repl'), rows = q('.rsz-rows'),
       tips = q('.rsz-tips'), summary = q('.rsz-summary'), sr = q('.rsz-sr');
-    var keys = 10e6;
+    var keys = 1, last = null;
 
     function setKeys(n, from) {
       keys = Math.max(0, Math.min(1e12, n));
       if (from !== 'count') count.value = fmt.format(keys);
-      if (from !== 'slider') slider.value = keys > 0 ? Math.min(10, Math.max(3, Math.log10(keys))) : 3;
+      if (from !== 'slider') slider.value = keys > 0 ? Math.min(10, Math.log10(keys)) : 0;
     }
 
+    // An example fills in the record, key and expiry, and leaves the number of
+    // keys as the reader set it.
     function load(e) {
       record.value = e.text;
       key.value = e.key;
       ttl.checked = e.ttl;
-      setKeys(e.keys);
       root.querySelectorAll('.rsz-chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.example === e.id)); });
       update();
     }
@@ -155,13 +161,15 @@
     // One row per shape. Bars share a scale, so their lengths compare the shapes.
     function row(shape, r, best, largest) {
       if (!r) {
-        return '<div class="rsz-row rsz-row-off"><div class="rsz-row-head"><span class="rsz-row-title">' + shape.title + '</span></div>' +
-          '<p class="rsz-detail">A ' + (shape.id === 'hash' ? 'hash' : 'JSON document') + ' needs a JSON object, with fields in <code>{ }</code>.</p></div>';
+        return '<div class="rsz-row rsz-row-off" data-shape="' + shape.id + '"><div class="rsz-row-head"><span class="rsz-row-title">' + shape.title + '</span></div>' +
+          '<p class="rsz-detail">' + (shape.id === 'hash'
+            ? 'A hash stores fields and their values, so it needs a JSON object, with fields in <code>{ }</code>.'
+            : 'A JSON document needs valid JSON.') + '</p></div>';
       }
       var amounts = { value: r.value, object: r.object, space: r.keyspace };
       var width = largest ? 100 * r.perKey / largest : 0;
       var ratio = r.data >= 8 ? Math.round(10 * r.perKey / r.data) / 10 : 0;
-      return '<div class="rsz-row' + (best ? ' rsz-best' : '') + '">' +
+      return '<div class="rsz-row' + (best ? ' rsz-best' : '') + '" data-shape="' + shape.id + '">' +
         '<div class="rsz-row-head">' +
           '<span class="rsz-row-title">' + shape.title + '</span>' +
           '<span class="rsz-badge">' + esc(r.encoding) + '</span>' +
@@ -170,7 +178,7 @@
         '</div>' +
         '<div class="rsz-bar" aria-hidden="true" style="width:' + Math.max(width, 2).toFixed(2) + '%">' +
           PARTS.map(function (p) {
-            return '<span class="rsz-seg rsz-seg-' + p[0] + '" style="width:' + (100 * amounts[p[0]] / r.perKey).toFixed(2) + '%"></span>';
+            return '<span class="rsz-seg rsz-seg-' + p[0] + '" data-part="' + p[0] + '" style="width:' + (100 * amounts[p[0]] / r.perKey).toFixed(2) + '%"></span>';
           }).join('') +
         '</div>' +
         '<p class="rsz-detail">' + esc(ENCODINGS[r.encoding] || '') + ' ' + bytesPerKey(r.perKey) + ' per key: ' +
@@ -214,18 +222,46 @@
       return out;
     }
 
+    // When the order changes, each row slides from where it was to its new place.
+    // `from` holds each row's old top. A row moving up passes in front.
+    function slide(from) {
+      if (!rows.animate || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+      Array.prototype.forEach.call(rows.children, function (el) {
+        var dy = from[el.dataset.shape] - el.getBoundingClientRect().top;
+        if (!dy) return;
+        if (dy > 0) el.style.zIndex = 1;
+        el.animate([{ transform: 'translateY(' + dy + 'px)' }, { transform: 'none' }],
+          { duration: 450, easing: 'cubic-bezier(.4, 0, .2, 1)' }).onfinish = function () { el.style.zIndex = ''; };
+      });
+    }
+
     function update() {
       var est = M.estimate({ text: record.value, keyName: key.value, keys: keys, ttl: ttl.checked });
+      last = est;
+      tip.hidden = true;
       if (est.error && record.value.trim()) {
         error.hidden = false;
         error.textContent = 'This isn\'t valid JSON (' + est.error.message + '), so it\'s sized as a string of text.';
       } else {
         error.hidden = true;
       }
+      // Smallest first, and shapes that can't hold the record last. The sort is
+      // stable, so equal sizes keep the order of SHAPES.
       var ids = SHAPES.map(function (s) { return s.id; }).filter(function (k) { return est.shapes[k]; });
-      var best = ids.reduce(function (a, b) { return est.shapes[a].total <= est.shapes[b].total ? a : b; });
+      ids.sort(function (a, b) { return est.shapes[a].total - est.shapes[b].total; });
+      var order = ids.concat(SHAPES.map(function (s) { return s.id; }).filter(function (k) { return !est.shapes[k]; }));
+      var best = ids[0];
       var largest = Math.max.apply(null, ids.map(function (k) { return est.shapes[k].perKey; }));
-      rows.innerHTML = SHAPES.map(function (s) { return row(s, est.shapes[s.id], ids.length > 1 && s.id === best, largest); }).join('');
+      var from = {}, before = [], moving = false;
+      Array.prototype.forEach.call(rows.children, function (el) {
+        from[el.dataset.shape] = el.getBoundingClientRect().top;
+        before.push(el.dataset.shape);
+        moving = moving || !!(el.getAnimations && el.getAnimations().length);
+      });
+      rows.innerHTML = order.map(function (k) {
+        return row(SHAPES.filter(function (s) { return s.id === k; })[0], est.shapes[k], ids.length > 1 && k === best, largest);
+      }).join('');
+      if ((before.length && before.join() !== order.join()) || moving) slide(from);
       summary.textContent = 'For ' + keysLabel(keys) + (keys === 1 ? ' key' : ' keys') + ' like this one:';
       tips.innerHTML = tipsFor(est).map(function (t) { return '<li>' + t + '</li>'; }).join('');
       tips.hidden = !tips.children.length;
@@ -233,6 +269,44 @@
         return SHAPES.filter(function (s) { return s.id === k; })[0].title + ' ' + size(est.shapes[k].total);
       }).join(', ');
     }
+
+    // A tooltip for each part of a bar, and for the legend's colors. The bar is
+    // hidden from screen readers, because the detail line says the same.
+    var tip = document.createElement('div');
+    tip.className = 'rsz-tip';
+    tip.setAttribute('aria-hidden', 'true');
+    tip.hidden = true;
+    root.appendChild(tip);
+
+    function tipText(el) {
+      var p = PARTS.filter(function (x) { return x[0] === el.dataset.part; })[0];
+      var rowEl = el.closest('.rsz-row');
+      var r = rowEl && last ? last.shapes[rowEl.dataset.shape] : null;
+      var name = p[1], text = p[2];
+      if (p[0] === 'space' && ttl.checked) {
+        name += ' and expiries';
+        text = 'The key\'s share of the two tables Redis uses to find every key and every expiry.';
+      }
+      if (p[0] === 'object' && r && !r.value) text += ' Here the header also holds the number.';
+      var amount = r ? { value: r.value, object: r.object, space: r.keyspace }[p[0]] : null;
+      return '<strong>' + name + (amount === null ? '' : ': ' + bytesPerKey(amount) + ' per key') + '</strong>' + text;
+    }
+
+    root.addEventListener('mouseover', function (ev) {
+      var el = ev.target.closest('[data-part]');
+      if (!el) return;
+      tip.innerHTML = tipText(el);
+      tip.hidden = false;
+      // Centered above the part, kept inside the calculator.
+      var box = root.getBoundingClientRect(), at = el.getBoundingClientRect();
+      var left = at.left + at.width / 2 - box.left - root.clientLeft - tip.offsetWidth / 2;
+      tip.style.left = Math.max(8, Math.min(root.clientWidth - tip.offsetWidth - 8, left)) + 'px';
+      tip.style.top = Math.max(4, at.top - box.top - root.clientTop - tip.offsetHeight - 8) + 'px';
+    });
+    root.addEventListener('mouseout', function (ev) {
+      var el = ev.target.closest('[data-part]');
+      if (el && !el.contains(ev.relatedTarget)) tip.hidden = true;
+    });
 
     var timer = 0;
     function later() { clearTimeout(timer); timer = setTimeout(update, 120); }
@@ -249,7 +323,7 @@
     count.addEventListener('blur', function () { count.value = fmt.format(keys); count.removeAttribute('aria-invalid'); });
     slider.addEventListener('input', function () {
       var raw = Math.pow(10, parseFloat(slider.value));
-      var step = Math.pow(10, Math.floor(Math.log10(raw)) - 1);
+      var step = Math.max(1, Math.pow(10, Math.floor(Math.log10(raw)) - 1));
       setKeys(Math.round(raw / step) * step, 'slider');
       update();
     });
@@ -260,6 +334,7 @@
         load(EXAMPLES.filter(function (e) { return e.id === c.dataset.example; })[0]);
       });
     });
+    setKeys(keys);
     load(EXAMPLES[0]);
   }
 

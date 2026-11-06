@@ -391,8 +391,8 @@
 
   // estimate({text, keyName, keys, ttl}) -> {doc, error, shapes: {hash, json, string}}
   // Each shape: encoding, bytes per key split into key/data/overhead/keyspace,
-  // and the total for `keys` keys. Hash and JSON need the text to be a JSON
-  // object; any other text is sized as a string.
+  // and the total for `keys` keys. A hash needs the text to be a JSON object,
+  // and a JSON document needs valid JSON; any text is sized as a string.
   function estimate(input) {
     var keys = Math.max(0, Math.round(input.keys || 0));
     var keyLen = bytes(input.keyName || '');
@@ -413,8 +413,11 @@
     if (doc) {
       rows.hash = hashValue(hashFields(doc), keyLen, ttl);
       rows.hash.data = payload('hash', doc);
-      rows.json = jsonValue(doc, keyLen, ttl, keys);
-      rows.json.data = bytes(toText(doc));
+    }
+    // A JSON document can hold any JSON value, such as a single number.
+    if (node) {
+      rows.json = jsonValue(node, keyLen, ttl, keys);
+      rows.json.data = bytes(toText(node));
     }
     var space = keyspaceBytes(keys) * (ttl ? 2 : 1);
     Object.keys(rows).forEach(function (k) {
