@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 10
 linkTitle: 7.8
 url: '/operate/rs/7.8/'
-bannerText: This documentation applies to Redis Software versions 7.8.x.
+bannerText: This documentation applies to Redis Software versions 7.8.x, which reach end of life on May 30, 2027. See the [product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule) for supported versions.
 bannerChildren: true
 ---
 
