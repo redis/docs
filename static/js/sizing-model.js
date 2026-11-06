@@ -291,7 +291,13 @@
       return { size: 8, typed: true };
     }
     var signed = nums.some(function (x) { return x < 0; });
-    var lo = Math.min.apply(null, nums), hi = Math.max.apply(null, nums);
+    // A loop, not Math.min.apply: apply passes every element as an argument,
+    // which overflows the stack for arrays of about 100,000 numbers.
+    var lo = Infinity, hi = -Infinity;
+    for (var i = 0; i < nums.length; i++) {
+      if (nums[i] < lo) lo = nums[i];
+      if (nums[i] > hi) hi = nums[i];
+    }
     for (var t = 0; t < INT_TAGS.length; t++) {
       var tag = INT_TAGS[t];
       if (signed && tag[0][0] === 'u') continue;
