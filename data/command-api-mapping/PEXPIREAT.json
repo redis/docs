@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "pExpireAt(key: RedisArgument, millisecondsTimestamp: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "pExpireAt(key: RedisArgument, msTimestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -165,8 +165,8 @@
             "description": ""
           },
           {
-            "name": "millisecondsTimestamp",
-            "type": "number",
+            "name": "msTimestamp",
+            "type": "number | Date",
             "description": ""
           },
           {

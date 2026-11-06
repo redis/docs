@@ -2,11 +2,31 @@
   "api_calls": {
     "node_redis": [
       {
-        "signature": "geoRadiusByMemberRo(...args: Parameters<typeof parseGeoRadiusByMemberArguments>)",
+        "signature": "geoRadiusByMemberRo(key: RedisArgument, from: RedisArgument, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof parseGeoRadiusByMemberArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnits",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "GeoSearchOptions",
             "description": ""
           }
         ],

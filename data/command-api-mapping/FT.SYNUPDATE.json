@@ -250,7 +250,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.ft.synUpdate(index: RedisArgument, synonymGroupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
+        "signature": "client.ft.synUpdate(index: RedisArgument, groupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
         "params": [
           {
             "name": "index",
@@ -258,7 +258,7 @@
             "description": "The index name"
           },
           {
-            "name": "synonymGroupId",
+            "name": "groupId",
             "type": "RedisArgument",
             "description": "The synonym group ID"
           },

@@ -97,10 +97,10 @@
     ],
     "node_redis": [
       {
-        "signature": "touch(keys: RedisVariadicArgument)",
+        "signature": "touch(key: RedisVariadicArgument)",
         "params": [
           {
-            "name": "keys",
+            "name": "key",
             "type": "RedisVariadicArgument",
             "description": ""
           }

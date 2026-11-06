@@ -475,11 +475,26 @@
     ],
     "node_redis": [
       {
-        "signature": "xAdd(...args: Tail<Parameters<typeof parseXAddArguments>>)",
+        "signature": "xAdd(key: RedisArgument, id: RedisArgument, message: Record<string, RedisArgument>, options?: XAddOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Tail<Parameters<typeof parseXAddArguments>>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "Record<string, RedisArgument>",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "XAddOptions",
             "description": ""
           }
         ],

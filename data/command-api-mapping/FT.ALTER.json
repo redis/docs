@@ -224,7 +224,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.ft.alter(index: RedisArgument, field: SchemaField)",
+        "signature": "client.ft.alter(index: RedisArgument, schema: RediSearchSchema)",
         "params": [
           {
             "name": "index",
@@ -232,8 +232,8 @@
             "description": "The index name"
           },
           {
-            "name": "field",
-            "type": "SchemaField",
+            "name": "schema",
+            "type": "RediSearchSchema",
             "description": "The field to add"
           }
         ],

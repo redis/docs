@@ -241,20 +241,6 @@
     ],
     "node_redis": [
       {
-        "signature": "decr(key: RedisArgument)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisArgument",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "NumberReply",
-          "description": ""
-        }
-      },
-      {
         "signature": "decrBy(key: RedisArgument, decrement: number)",
         "params": [
           {

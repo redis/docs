@@ -136,17 +136,12 @@
     ],
     "node_redis": [
       {
-        "signature": "PROFILE(index: RedisArgument, queryType: 'SEARCH' | 'AGGREGATE', query: RedisArgument, options?: { LIMITED?: boolean })",
+        "signature": "client.ft.profileSearch(index: RedisArgument, query: RedisArgument, options?: ProfileOptions & FtSearchOptions)",
         "params": [
           {
             "name": "index",
             "type": "RedisArgument",
             "description": "The index name"
-          },
-          {
-            "name": "queryType",
-            "type": "'SEARCH' | 'AGGREGATE'",
-            "description": "The query type"
           },
           {
             "name": "query",
@@ -155,12 +150,36 @@
           },
           {
             "name": "options",
-            "type": "{ LIMITED?: boolean }",
-            "description": "Optional profile options"
+            "type": "ProfileOptions & FtSearchOptions",
+            "description": "Optional profile and search options"
           }
         ],
         "returns": {
-          "type": "Promise<FTProfileResult>",
+          "type": "ProfileReplyResp2",
+          "description": "Profiling information"
+        }
+      },
+      {
+        "signature": "client.ft.profileAggregate(index: string, query: string, options?: ProfileOptions & FtAggregateOptions)",
+        "params": [
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to profile"
+          },
+          {
+            "name": "options",
+            "type": "ProfileOptions & FtAggregateOptions",
+            "description": "Optional profile and aggregate options"
+          }
+        ],
+        "returns": {
+          "type": "ProfileReplyResp2",
           "description": "Profiling information"
         }
       }
