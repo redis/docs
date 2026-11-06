@@ -104,7 +104,7 @@ rdi_current_version = "2.2.1"
 # mappingClientId maps to keys in data/command-api-mapping.json for method signatures
 "Python"={quickstartSlug="redis-py", langId="python", clientId="redis-py", clientName="redis-py", mappingClientId="redis_py", genericCall="execute_command"}
 "Node.js"={quickstartSlug="nodejs", langId="javascript", clientId="node-redis", clientName="node-redis", mappingClientId="node_redis", genericCall="sendCommand"}
-"ioredis"={quickstartSlug="ioredis", langId="javascript", clientId="ioredis", clientName="ioredis", mappingClientId="ioredis"}
+"ioredis"={quickstartSlug="ioredis", langId="javascript", clientId="ioredis", clientName="ioredis", mappingClientId="ioredis", genericCall="call"}
 "Java-Sync"={quickstartSlug="jedis", langId="java", clientId="jedis", clientName="Jedis", mappingClientId="jedis", genericCall="sendCommand"}
 "Lettuce-Sync"={quickstartSlug="lettuce", langId="java", clientId="lettuce", clientName="Lettuce", mappingClientId="lettuce_sync", genericCall="dispatch"}
 "Java-Async"={quickstartSlug="lettuce", langId="java", clientId="lettuce", clientName="Lettuce", mappingClientId="lettuce_async", genericCall="dispatch"}
