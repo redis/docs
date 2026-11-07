@@ -1334,7 +1334,8 @@ Instantiates a HybridQuery object.
     fusion scope.
   * **rrf_constant** (*int*) – The constant to use for the reciprocal rank fusion (RRF) combination method. Controls decay
     of rank influence.
-  * **linear_alpha** (*float*) – The weight of the text query for the linear combination method (LINEAR).
+  * **linear_alpha** (*float*) – The weight of the text query for the linear combination method (LINEAR). Both the text and
+    vector searches still run at 0 and 1, so use VectorQuery or TextQuery when only one is needed.
   * **yield_combined_score_as** (*str* *|* *None*) – The name of the field to yield the combined score as.
   * **dtype** (*str*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *|* *None*) – The number of results to return.
