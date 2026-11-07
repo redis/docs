@@ -1,0 +1,34 @@
+{{- /*
+  sizing-calculator
+  -----------------
+  Estimates how much memory a dataset needs in Redis, from one sample record
+  and the number of keys. The reader pastes a record (or picks an example),
+  and the calculator shows its size per key and in total as a hash, a JSON
+  document and a string, with what makes up each one. Runs entirely in the
+  browser: js/sizing-model.js models how Redis 8.10 stores each type, and no
+  Redis server is called.
+
+  Usage (no arguments):
+      {{< sizing-calculator >}}
+
+  The assets are emitted on every call rather than deduplicated with
+  .Page.Store: the store survives `hugo server` rebuilds, so a page that
+  isn't edited would lose its assets after the first rebuild. The script
+  guards against running twice.
+*/ -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/sizing-calculator.css" "js/sizing-model.js" "js/sizing-calculator.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/sizing-calculator.css" | relURL }}?v={{ index $v "css/sizing-calculator.css" }}">
+<script defer src="{{ "js/sizing-model.js" | relURL }}?v={{ index $v "js/sizing-model.js" }}"></script>
+<script defer src="{{ "js/sizing-calculator.js" | relURL }}?v={{ index $v "js/sizing-calculator.js" }}"></script>
+
+<div class="rsz" data-sizing
+  data-pricing="https://redis.io/pricing/calculator/"
+  data-memory-limit="{{ (site.GetPage "/operate/rs/databases/memory-performance/memory-limit").RelPermalink }}"
+  data-compact-hashes="{{ (site.GetPage "/develop/data-types/hashes").RelPermalink }}#compact-hashes">
+  <noscript><p>The calculator needs JavaScript.</p></noscript>
+</div>
