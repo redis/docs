@@ -229,6 +229,26 @@ A missing or conflicting value fails the install and names the field to fix.
 
 ## 6. Verify the release
 
+Check that every Deployment is available:
+
+```bash
+kubectl -n <namespace-name> get deployments
+```
+
+With every service installed, the release has these Deployments:
+
+| Service | Deployments |
+| --- | --- |
+| Identity Service | `iris-identity-service` |
+| Iris console | `iris-ui` |
+| Agent Memory | `redis-agent-memory`, `redis-agent-memory-worker`, `redis-agent-memory-controlplane` |
+| Agent Playbooks | `redis-agent-playbook-controlplane`, `redis-agent-playbook-dataplane` |
+| Lens | `redis-lens-controlplane`, `redis-lens-dataplane`, `redis-lens-worker` |
+| Context Gateway | `redis-context-gateway-controlplane`, `redis-context-gateway-dataplane` |
+| Intent Router | `redis-intent-router-controlplane`, `redis-intent-router-dataplane` |
+
+Then run the release tests:
+
 ```bash
 helm test iris --namespace <namespace-name> --logs
 ```
@@ -236,6 +256,69 @@ helm test iris --namespace <namespace-name> --logs
 For each installed service, the test creates a resource with the admin token, mints a scoped agent key, calls the data plane with it, calls the console, and then removes what it created. It creates its temporary Agent Memory store in Memory database `1`. If your Memory `databases` registry uses another key, set `tests.suiteVerify.databaseId`.
 
 The Intent Router check upserts and matches an intent, which calls the embedding provider in `intent-inference`. With a placeholder key, the upsert fails with `424`. Use a real OpenAI-compatible endpoint and key, or turn Intent Router off.
+
+## 7. Create a store with the `iris` CLI
+
+The `iris` CLI in the [`redis-iris`](https://pypi.org/project/redis-iris/) package turns the admin tokens the chart generated into a working service in three commands. It creates the resource, mints its agent key, writes the connection values to `.env` without printing the key, and checks every hop. This example creates an Agent Memory store. The other services follow the same steps. See [SDK and CLI setup](/content/develop/ai/context-engine/sdk-and-cli.md#set-up-on-a-self-managed-deployment).
+
+1. Install the package:
+
+    ```bash
+    pip install 'redis-iris>=1.0.0'
+    ```
+
+1. If you run the CLI outside the cluster, forward the Agent Memory and Identity Service ports, each in its own terminal:
+
+    ```bash
+    kubectl -n <namespace-name> port-forward svc/redis-agent-memory-controlplane 9100:9100
+    ```
+
+    ```bash
+    kubectl -n <namespace-name> port-forward svc/redis-agent-memory 9000:9000
+    ```
+
+    ```bash
+    kubectl -n <namespace-name> port-forward svc/iris-identity-service 9200:9200
+    ```
+
+1. Create `iris.toml`. It holds URLs only:
+
+    ```toml
+    [profiles.suite]
+    kind = "self-managed"
+
+    [profiles.suite.agent_memory]
+    service_url = "http://localhost:9100"
+    url = "http://localhost:9000"
+    identity_url = "http://localhost:9200"
+    ```
+
+1. Write the chart's admin and control tokens to `.env.admin`, separate from your application's `.env`:
+
+    ```bash
+    {
+      echo "IRIS_CONFIG=./iris.toml"
+      echo "IRIS_PROFILE=suite"
+      echo "IRIS_AGENT_MEMORY_SERVICE_TOKEN=$(kubectl -n <namespace-name> get secret iris-memory-admin-token -o jsonpath='{.data.token}' | base64 -d)"
+      echo "IRIS_IDENTITY_TOKEN=$(kubectl -n <namespace-name> get secret iris-identity-service-control-token -o jsonpath='{.data.token}' | base64 -d)"
+    } > .env.admin
+    ```
+
+1. Create the store and its agent key:
+
+    ```bash
+    set -a; source .env.admin; set +a
+    iris agent-memory service create --name support-memory --write-env .env
+    ```
+
+1. Check every hop, from the Control Plane to a read with the agent key:
+
+    ```bash
+    set -a; source .env; set +a
+    iris agent-memory service check "$IRIS_AGENT_MEMORY_STORE_ID" --env-file .env
+    ```
+
+Your application reads the same `.env`.
 
 ## Credentials
 
@@ -285,7 +368,11 @@ You need Docker Desktop, `kind`, `kubectl`, Helm 3.10 or later, and your license
 
 ### Run the `amd64` images on Apple silicon
 
-The `1.0.0` images are `amd64` only. On Apple silicon:
+> [!NOTE]
+> The `1.0.0` images are published for `amd64` only. Until `arm64` images are
+> published, Apple silicon runs them under emulation, as described in this section.
+
+On Apple silicon:
 
 1. In Docker Desktop, turn on x86_64/amd64 emulation (**Use Rosetta for x86_64/amd64 emulation on Apple Silicon**).
 1. Create a native `arm64` kind node, the default. The images then run under emulation.
@@ -299,7 +386,17 @@ docker rmi kindest/node:<tag>
 
 ### Start throwaway Redis databases
 
-Five Redis deployments cover every service: `metadata-db` for the Identity Service, console sessions, Agent Memory, and each service's metadata; `playbook-content` for Agent Playbooks content; `telemetry-db` for the Lens data plane; `gateway-secrets` for Context Gateway credential storage; and `intent-db` for the Intent Router data plane.
+Five Redis deployments cover every service:
+
+| Redis | Used by | Secrets that point at it |
+| --- | --- | --- |
+| `metadata-db` | The Identity Service, console sessions, Agent Memory, and each service's metadata | `ids-metadata`, `ui-session-redis`, `mem-secrets`, the metadata URLs in `playbook-storage`, `lens-storage`, and `intent-storage`, and `gateway-metadata` |
+| `playbook-content` | Agent Playbooks content, which must be separate from its metadata | The content URL in `playbook-storage` |
+| `telemetry-db` | The Lens data plane's streams, content, and index | The data plane URLs in `lens-storage` |
+| `gateway-secrets` | Context Gateway credential storage, which must be separate from its metadata | `gateway-credential-redis` |
+| `intent-db` | The Intent Router data plane | The data plane URLs in `intent-storage` |
+
+Leave out the databases of any service you turned off.
 
 ```bash
 for db in metadata-db playbook-content telemetry-db gateway-secrets intent-db; do
@@ -368,7 +465,4 @@ Data in those databases is kept, except from Agent Memory `0.0.x` and Agent Play
 | FIPS profile (`global.security.profile: fips`) | The install fails. Planned for `1.1`. |
 | Helm 4 | Planned for `1.1`. |
 | Standalone product chart installs | Published as dependencies of `redis-iris` only. |
-| More than one tenant per release | A release has one static tenant, `global.iris.tenantId`. The chart pins it into every service and into the Identity Service's `singleTenantID`. An empty value fails the install. |
-| Claim-based tenancy (`tenant_id_claim`) | The suite can't resolve the tenant from a token claim. Only the standalone Agent Memory and Identity Service charts support it, and they aren't a supported install path. A `tenant_id_claim` under `memory:` fails the render. |
-| More than one IdP issuer | Every service takes its issuer from `global.iris.auth.oidc`. A service-level issuer that differs fails the render. |
-| Per-service role mappings | Role mappings derive from `global.iris.auth.roleBindings`. A `role_mappings` value set under a service conflicts with the derived one and fails the render. |
+| More than one tenant per release | A release has one tenant, `global.iris.tenantId`. An empty value fails the install. |

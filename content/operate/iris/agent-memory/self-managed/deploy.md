@@ -713,7 +713,7 @@ The upgrade changes the rendered configuration, so the Data Plane server and wor
 
 To turn enforcement off again, set `memory.memory.ownership.enabled: false` and upgrade the same way. Records keep their owners. Before you turn it on for existing data, follow [Enable or change ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#enable-or-change-ownership-enforcement).
 
-The suite uses one static tenant, `global.iris.tenantId`, for every key and token. Tests that expect a token from another tenant to be refused don't apply, because a suite release has no other tenant. Claim-based tenancy is available only with the standalone chart.
+The suite uses one static tenant, `global.iris.tenantId`, for every key and token. Tests that expect a token from another tenant to be refused don't apply, because a suite release has no other tenant.
 
 ## Next steps
 
