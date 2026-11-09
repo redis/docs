@@ -197,40 +197,6 @@
           "type": "List<StreamEntryID>",
           "description": ""
         }
-      },
-      {
-        "signature": "List<StreamEntry> xclaim(String key, String group, String consumerName, long minIdleTime XClaimParams params, StreamEntryID... ids)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "group",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "consumerName",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "params",
-            "type": "long minIdleTime XClaimParams",
-            "description": ""
-          },
-          {
-            "name": "ids",
-            "type": "StreamEntryID...",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "List<StreamEntry>",
-          "description": ""
-        }
       }
     ],
     "lettuce_sync": [

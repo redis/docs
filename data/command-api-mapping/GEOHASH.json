@@ -353,30 +353,6 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "GeoHashAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<string?>",
-          "description": ""
-        }
-      },
-      {
         "signature": "GeoHashAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
         "params": [
           {

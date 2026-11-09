@@ -64,44 +64,6 @@
           "type": "List<Map<String, Double>>",
           "description": "List of map of neighbor element names to similarity scores per layer"
         }
-      },
-      {
-        "signature": "List<List<String>> vlinks(String key, String element)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "element",
-            "type": "String",
-            "description": "the name of the element whose HNSW neighbors you want to inspect"
-          }
-        ],
-        "returns": {
-          "type": "List<List<String>>",
-          "description": "list of neighbor element names"
-        }
-      },
-      {
-        "signature": "List<Map<String, Double>> vlinksWithScores(String key, String element)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "element",
-            "type": "String",
-            "description": "the name of the element whose HNSW neighbors you want to inspect"
-          }
-        ],
-        "returns": {
-          "type": "List<Map<String, Double>>",
-          "description": "List of map of neighbor element names to similarity scores per layer"
-        }
       }
     ],
     "lettuce_sync": [

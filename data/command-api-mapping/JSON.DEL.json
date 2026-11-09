@@ -56,20 +56,6 @@
         }
       },
       {
-        "signature": "long jsonDel(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": ""
-        }
-      },
-      {
         "signature": "long jsonDel(String key, Path2 path)",
         "params": [
           {

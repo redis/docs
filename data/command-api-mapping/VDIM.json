@@ -44,20 +44,6 @@
           "type": "long",
           "description": "the number of vector set elements"
         }
-      },
-      {
-        "signature": "long vdim(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "the number of vector set elements"
-        }
       }
     ],
     "lettuce_sync": [

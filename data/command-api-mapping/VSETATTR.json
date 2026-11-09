@@ -74,30 +74,6 @@
           "type": "boolean",
           "description": "true if the attributes were set successfully"
         }
-      },
-      {
-        "signature": "boolean vsetattr(String key, String element, String attributes)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "element",
-            "type": "String",
-            "description": "the name of the element whose attributes to set"
-          },
-          {
-            "name": "attributes",
-            "type": "String",
-            "description": "the attributes to set as a JSON string"
-          }
-        ],
-        "returns": {
-          "type": "boolean",
-          "description": "true if the attributes were set successfully"
-        }
       }
     ],
     "lettuce_sync": [

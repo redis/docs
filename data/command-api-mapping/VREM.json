@@ -59,25 +59,6 @@
           "type": "boolean",
           "description": "true if the element was removed, false if either element or key do not exist"
         }
-      },
-      {
-        "signature": "boolean vrem(String key, String element)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "element",
-            "type": "String",
-            "description": "the name of the element to remove from the vector set"
-          }
-        ],
-        "returns": {
-          "type": "boolean",
-          "description": "true if the element was removed, false if either element or key do not exist"
-        }
       }
     ],
     "lettuce_sync": [

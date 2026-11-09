@@ -272,30 +272,6 @@
           {
             "name": "key",
             "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StringGetBitAsync(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
             "description": "The key of the string."
           },
           {

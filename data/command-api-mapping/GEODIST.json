@@ -585,40 +585,6 @@
           {
             "name": "key",
             "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "member1",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "member2",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "unit",
-            "type": "GeoUnit",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<double?>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "GeoDistanceAsync(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
             "description": "The key of the set."
           },
           {
