@@ -40,6 +40,7 @@ Install one release per namespace, and keep other Iris releases out of that name
 | Requirement | Details |
 | --- | --- |
 | Kubernetes | Kubernetes 1.28 or later. The baseline is 3 worker nodes with 12 vCPU and 24 GiB allocatable in total. The [preflight](#4-run-the-preflight) warns below it. |
+| Node architecture | `linux/amd64`. The `1.0.0` images are published for `amd64` only. To evaluate on Apple silicon, see [Evaluate on a local kind cluster](#evaluate-on-a-local-kind-cluster). |
 | Metrics API | `metrics.k8s.io/v1beta1`, so the HorizontalPodAutoscalers can scale. |
 | Helm | Helm 3.10 or later, with the Redis AI repository `https://helm.redis.io/ai`. Helm 4 isn't supported in this release. |
 | `kubectl` | Configured for the cluster and namespace. |
@@ -73,6 +74,25 @@ kubectl -n <namespace-name> create secret generic iris-license \
 ```
 
 The chart generates every credential the components share, including each service's admin token. See [Credentials](#credentials).
+
+### Service Secrets and Redis databases
+
+Each service you install also needs its own Secrets. The names below are the ones the chart's `examples/*.yaml` files use. Any name works if the value on the right points at it.
+
+| Service | Secret | Keys | Values key | Holds | Local evaluation |
+| --- | --- | --- | --- | --- | --- |
+| Agent Memory | `mem-secrets` | `overlay.yaml` | `memory.secrets.secretName` | The Memory Redis URLs and model provider credentials. | The `noop` embedder and inference work. See the chart's `examples/memory-only.yaml`. |
+| Agent Playbooks | `playbook-storage` | `playbook-storage.yaml` | `playbook.storage.existingSecret` | The metadata and content Redis URLs. They must be two different Redis deployments. | The `noop` embedding model works. |
+| Lens | `lens-storage` | `lens-dataplane-storage.yaml`, `lens-controlplane-storage.yaml` | `lens.storage.existingSecret` | The data plane's streams, content, index, and metadata Redis URLs, and the control plane's metadata Redis URL. | Real Redis URLs. No model provider. |
+| Context Gateway | `gateway-metadata` | `config.yaml` | `contextGateway.metadataDB.existingSecret` | `metadata_db.urls`, the Gateway metadata Redis. | Real Redis URL. |
+| Context Gateway | `gateway-credential-redis` | `config.yaml` | `contextGateway.credentialStorage.redis.connection.existingSecret` | `credential_storage.redis.urls`. Use a different Redis from the metadata one. | Real Redis URL. |
+| Context Gateway | `gateway-keyring` | `k1` | `contextGateway.credentialStorage.redis.keyring.existingSecret` | A base64 32-byte key, from `openssl rand -base64 32`. | Any generated key. |
+| Intent Router | `intent-storage` | `intent-controlplane-storage.yaml`, `intent-dataplane-storage.yaml` | `intent.storage.existingSecret` | The control plane metadata Redis, the data plane Redis, and the database registry. Register each database in both keys with the same ID. | Real Redis URLs. |
+| Intent Router | `intent-inference` | `inference.yaml` | `intent.inference.existingSecret` | `embedders_connection_details` for the embedding provider. | A real OpenAI-compatible endpoint and key. See [Verify the release](#6-verify-the-release). |
+
+Each service guide's suite section describes the file format of each key.
+
+Use Redis databases with persistent storage. Resource IDs, such as store, Playbook, Gateway, and Router IDs, live in these databases, so a Redis without persistence loses them when its pod restarts.
 
 ## 3. Write `iris-values.yaml`
 
@@ -129,9 +149,16 @@ ui:
 | `global.iris.extraction.enabled` | `false` | Agent Playbooks FAQ extraction from Agent Memory. See [Extraction with the Redis Iris suite chart](/content/operate/iris/agent-playbook/self-managed/extraction.md#extraction-with-the-redis-iris-suite-chart). |
 | `global.tls.caCertSecret` | `""` | The CA bundle Secret every component trusts. |
 
+Every service is installed by default. Turn one off with `global.iris.products.<service>.enabled: false`, where `<service>` is `memory`, `playbook`, `lens`, `contextGateway`, or `intent`. The chart's `examples/` folder has one values file per service, which you can pass as extra `-f` files:
+
+```bash
+helm pull redis-ai/redis-iris --version 1.0.0 --untar
+ls redis-iris/examples
+```
+
 Then add each service's values under its key, as its guide describes:
 
-- [Agent Memory](/content/operate/iris/agent-memory/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `memory:`
+- [Agent Memory](/content/operate/iris/agent-memory/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `memory:`. Set the license path as that section shows, or Memory fails to start with `invalid license format`.
 - [Agent Playbooks](/content/operate/iris/agent-playbook/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `playbook:`
 - [Lens](/content/operate/iris/lens/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `lens:`
 - [Context Gateway](/content/operate/iris/context-gateway/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `contextGateway:`
@@ -208,6 +235,8 @@ helm test iris --namespace <namespace-name> --logs
 
 For each installed service, the test creates a resource with the admin token, mints a scoped agent key, calls the data plane with it, calls the console, and then removes what it created. It creates its temporary Agent Memory store in Memory database `1`. If your Memory `databases` registry uses another key, set `tests.suiteVerify.databaseId`.
 
+The Intent Router check upserts and matches an intent, which calls the embedding provider in `intent-inference`. With a placeholder key, the upsert fails with `424`. Use a real OpenAI-compatible endpoint and key, or turn Intent Router off.
+
 ## Credentials
 
 By default, the chart generates every shared credential once, as Secrets it keeps across upgrades, rollbacks, and uninstalls.
@@ -248,6 +277,80 @@ A Deployment with one replica gets no PodDisruptionBudget, so a node drain evict
 
 To upgrade, roll back, rotate the metadata Redis credential, restore a lost namespace, remove a service, or uninstall, see [Operate the Redis Iris suite](/content/operate/iris/self-managed/operations.md).
 
+## Evaluate on a local kind cluster
+
+You can evaluate the suite on a [kind](https://kind.sigs.k8s.io/) cluster on your workstation. This setup isn't for production.
+
+You need Docker Desktop, `kind`, `kubectl`, Helm 3.10 or later, and your license file.
+
+### Run the `amd64` images on Apple silicon
+
+The `1.0.0` images are `amd64` only. On Apple silicon:
+
+1. In Docker Desktop, turn on x86_64/amd64 emulation (**Use Rosetta for x86_64/amd64 emulation on Apple Silicon**).
+1. Create a native `arm64` kind node, the default. The images then run under emulation.
+
+Don't create an `amd64` kind node. Under emulation the kubelet reports `seccomp is not supported` and the node doesn't start. If you rebuilt a cluster and Docker cached the `kindest/node` image as `amd64`, check and remove it before you create the cluster again:
+
+```bash
+docker image inspect kindest/node:<tag> --format '{{.Architecture}}'
+docker rmi kindest/node:<tag>
+```
+
+### Start throwaway Redis databases
+
+Five Redis deployments cover every service: `metadata-db` for the Identity Service, console sessions, Agent Memory, and each service's metadata; `playbook-content` for Agent Playbooks content; `telemetry-db` for the Lens data plane; `gateway-secrets` for Context Gateway credential storage; and `intent-db` for the Intent Router data plane.
+
+```bash
+for db in metadata-db playbook-content telemetry-db gateway-secrets intent-db; do
+  kubectl -n <namespace-name> create deployment "$db" --image=redis:8.2
+  kubectl -n <namespace-name> expose deployment "$db" --port=6379
+done
+```
+
+Their URLs are `redis://<name>.<namespace-name>.svc:6379`. These deployments have no persistent volume, so a pod restart loses every resource ID. Don't use them past an evaluation.
+
+### Write local values
+
+Start from [Admin token mode](#admin-token-mode) and add these values to `iris-values.yaml`:
+
+```yaml
+global:
+  tls:
+    caCertSecret: cluster-ca
+
+identityService:
+  configData:
+    profile: dev
+
+ui:
+  sso:
+    enabled: false
+  ingress:
+    enabled: false
+
+contextGateway:
+  dataplane:
+    ingress:
+      enabled: false
+```
+
+| Value | Why |
+| --- | --- |
+| `global.tls.caCertSecret` | The workers verify the cluster's ServiceAccount issuer over TLS. Create `cluster-ca` from the `kube-root-ca.crt` ConfigMap, as in [Create the shared Secrets](#2-create-the-shared-secrets). |
+| `identityService.configData.profile: dev` | Relaxes the Identity Service's production-only configuration checks. Never set it in production. |
+| `ui.ingress.enabled: false`, `contextGateway.dataplane.ingress.enabled: false` | A kind cluster has no ingress controller. Reach the Services with `kubectl port-forward`. |
+
+### Open the console
+
+Forward the console Service:
+
+```bash
+kubectl -n <namespace-name> port-forward svc/iris-ui <local-port>:8080
+```
+
+If you turned console sign-in on, the local port must be the one in `global.iris.publicURL`, and your IdP must register `<publicURL>/auth/callback` for it. Forwarding on any other port breaks sign-in. If the port is taken, `port-forward` fails with `address already in use`. Free the port rather than picking another one.
+
 ## Move from a preview or standalone install
 
 Upgrading to `redis-iris` from preview charts (`0.x`) or from product charts installed on their own isn't supported. Reinstall instead, against the same Redis databases:
@@ -265,3 +368,7 @@ Data in those databases is kept, except from Agent Memory `0.0.x` and Agent Play
 | FIPS profile (`global.security.profile: fips`) | The install fails. Planned for `1.1`. |
 | Helm 4 | Planned for `1.1`. |
 | Standalone product chart installs | Published as dependencies of `redis-iris` only. |
+| More than one tenant per release | A release has one static tenant, `global.iris.tenantId`. The chart pins it into every service and into the Identity Service's `singleTenantID`. An empty value fails the install. |
+| Claim-based tenancy (`tenant_id_claim`) | The suite can't resolve the tenant from a token claim. Only the standalone Agent Memory and Identity Service charts support it, and they aren't a supported install path. A `tenant_id_claim` under `memory:` fails the render. |
+| More than one IdP issuer | Every service takes its issuer from `global.iris.auth.oidc`. A service-level issuer that differs fails the render. |
+| Per-service role mappings | Role mappings derive from `global.iris.auth.roleBindings`. A `role_mappings` value set under a service conflicts with the derived one and fails the render. |

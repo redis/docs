@@ -639,6 +639,19 @@ The suite also fixes `fullnameOverride`, the Service ports, `server.strategy`, a
 `podDisruptionBudget.enabled: true`, and doesn't support the FIPS-oriented posture. The Identity
 Service is named `iris-identity-service`, and the admin token is in Secret `iris-memory-admin-token`.
 
+The suite mounts the license at `/etc/redis-agent-memory/license` but doesn't set the path in Memory's configuration. Set it for the Data Plane and the Control Plane, or both fail to start with `invalid license format`:
+
+```yaml
+memory:
+  memory:
+    license:
+      license_path: /etc/redis-agent-memory/license
+  controlplane:
+    configData:
+      license:
+        license_path: /etc/redis-agent-memory/license
+```
+
 ```bash
 helm install iris redis-ai/redis-iris \
   --version 1.0.0 \
@@ -647,6 +660,60 @@ helm install iris redis-ai/redis-iris \
 ```
 
 The rest of this guide applies to the values under `memory:`.
+
+### Ownership and delegation with the suite chart
+
+These Data Plane values are off or unset by default. Each one is described in full in the linked section.
+
+| Value | Default | Effect |
+| --- | --- | --- |
+| `memory.memory.auth.method` | `agent_key` | Data Plane callers authenticate with agent keys. The suite needs no value here. `none` is allowed only with `profile: dev`. See [Agent-key authentication](/content/operate/iris/agent-memory/self-managed/authentication.md#agent-key-authentication). |
+| `memory.memory.ownership.enabled` | `false` | The server restricts personal records to their owner. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement). |
+| `memory.memory.auth.oidc.enabled` | `false` | The Data Plane validates user tokens. Delegation needs it. The suite fills in the issuer, JWKS URL, role claims, role mappings, and audience from `global.iris.auth.oidc`. |
+| `memory.memory.auth.oidc.user_id_claim` | `sub` | The token claim that names the user. |
+| `memory.memory.auth.oidc.allow_azp_fallback` | `false` | Accepts a token whose `aud` doesn't match when its `azp` does. Keep it off. |
+| `memory.memory.auth.oidc.clock_skew` | `5m` | The tolerance for a token's time claims, as a duration. |
+| `memory.memory.auth.oidc.allow_insecure_transport` | Derived | Derived from `global.iris.auth.oidc`. A different value fails the render. |
+| `memory.memory.auth.delegation.enabled` | `false` | Accepts a user token in the `X-Iris-User-Token` header, next to an agent key. |
+| `memory.memory.auth.delegation.audience` | The `auth.oidc` audience | The audience delegated user tokens must carry. Use one that differs from `global.iris.auth.oidc.audience`, which defaults to `api://redis-iris`. |
+| `memory.memory.namespace_features.api` | `false` | Turns on the namespace lifecycle API. See [Configure namespace routing](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-namespace-routing). |
+
+To turn on delegation and ownership enforcement, add this to `iris-values.yaml`:
+
+```yaml
+memory:
+  memory:
+    ownership:
+      enabled: true
+    auth:
+      oidc:
+        enabled: true
+        user_id_claim: sub
+        allow_azp_fallback: false
+      delegation:
+        enabled: true
+        audience:
+          - api://memory-delegation
+```
+
+Then upgrade the release:
+
+```bash
+helm upgrade iris redis-ai/redis-iris \
+  --version 1.0.0 \
+  --namespace <namespace-name> \
+  -f iris-values.yaml
+```
+
+The upgrade changes the rendered configuration, so the Data Plane server and worker pods roll. After the rollout:
+
+- An agent key alone can still use the store, but can't read or create personal records for a named owner.
+- A request with an agent key and an `X-Iris-User-Token` header acts for that user. The token must carry the delegation audience. The key keeps its own grants: the user token names the user and adds no access.
+- Shared records stay visible to every caller with the store grant.
+
+To turn enforcement off again, set `memory.memory.ownership.enabled: false` and upgrade the same way. Records keep their owners. Before you turn it on for existing data, follow [Enable or change ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#enable-or-change-ownership-enforcement).
+
+The suite uses one static tenant, `global.iris.tenantId`, for every key and token. Tests that expect a token from another tenant to be refused don't apply, because a suite release has no other tenant. Claim-based tenancy is available only with the standalone chart.
 
 ## Next steps
 
