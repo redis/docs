@@ -100,19 +100,17 @@
     ],
     "node_redis": [
       {
-        "signature": "client.tDigest.merge(destination, numKeys, sourceKeys, options?)",
+        "signature": "client.tDigest.merge(destination, source, options?)",
         "params": [
           {
             "name": "destination",
-            "type": "string"
+            "type": "RedisArgument",
+            "description": ""
           },
           {
-            "name": "numKeys",
-            "type": "number"
-          },
-          {
-            "name": "sourceKeys",
-            "type": "string[]"
+            "name": "source",
+            "type": "RedisVariadicArgument",
+            "description": ""
           },
           {
             "name": "options",

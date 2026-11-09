@@ -233,7 +233,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.json.mGet(keys: Array<RedisArgument>, path: RedisArgument)",
+        "signature": "client.json.mGet(keys: Array<RedisArgument>, path: RedisArgument, reviver?: JsonReviver)",
         "params": [
           {
             "name": "keys",
@@ -243,6 +243,11 @@
           {
             "name": "path",
             "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "reviver",
+            "type": "JsonReviver",
             "description": ""
           }
         ],

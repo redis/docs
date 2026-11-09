@@ -588,11 +588,26 @@
         }
       },
       {
-        "signature": "zRangeWithScores(...args: Parameters<typeof ZRANGE.parseCommand>)",
+        "signature": "zRangeWithScores(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof ZRANGE.parseCommand>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZRangeOptions",
             "description": ""
           }
         ],

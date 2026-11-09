@@ -77,7 +77,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.cms.initByProb(key, error, probability)",
+        "signature": "client.cms.initByProb(key, error, probability, options?)",
         "params": [
           {
             "name": "key",
@@ -92,6 +92,11 @@
             "name": "probability",
             "type": "number",
             "description": "Probability for inflated count"
+          },
+          {
+            "name": "options",
+            "type": "CmsInitOptions",
+            "description": ""
           }
         ],
         "returns": {

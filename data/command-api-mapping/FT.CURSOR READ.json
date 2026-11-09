@@ -215,7 +215,7 @@
     ],
     "node_redis": [
       {
-        "signature": "client.ft.cursorRead(index: RedisArgument, cursorId: number, options?: { COUNT?: number })",
+        "signature": "client.ft.cursorRead(index: RedisArgument, cursor: number, options?: { COUNT?: number })",
         "params": [
           {
             "name": "index",
@@ -223,7 +223,7 @@
             "description": "The index name"
           },
           {
-            "name": "cursorId",
+            "name": "cursor",
             "type": "number",
             "description": "The cursor ID"
           },

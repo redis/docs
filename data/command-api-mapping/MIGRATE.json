@@ -242,11 +242,11 @@
     ],
     "node_redis": [
       {
-        "signature": "migrate(host: string, port: number, key: RedisArgument, destination: number, timeout: number, options?: MigrateOptions)",
+        "signature": "migrate(host: RedisArgument, port: number, key: RedisArgument | Array<RedisArgument>, destinationDb: number, timeout: number, options?: MigrateOptions)",
         "params": [
           {
             "name": "host",
-            "type": "string",
+            "type": "RedisArgument",
             "description": ""
           },
           {
@@ -256,11 +256,11 @@
           },
           {
             "name": "key",
-            "type": "RedisArgument",
+            "type": "RedisArgument | Array<RedisArgument>",
             "description": ""
           },
           {
-            "name": "destination",
+            "name": "destinationDb",
             "type": "number",
             "description": ""
           },

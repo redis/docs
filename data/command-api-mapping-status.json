@@ -619,7 +619,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "node_redis": "generic_only"
   },
   "FCALL": {
     "redis_rs_sync": "generic_only",
@@ -1143,7 +1144,8 @@
     "nredisstack_async": "unsupported",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "node_redis": "generic_only"
   },
   "REPLCONF": {
     "redis_py": "unsupported",
@@ -1194,7 +1196,8 @@
   },
   "SAVE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "node_redis": "generic_only"
   },
   "SCRIPT DEBUG": {
     "redis_py": "unsupported",
@@ -1244,7 +1247,8 @@
   "SHUTDOWN": {
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "node_redis": "generic_only"
   },
   "SLAVEOF": {
     "node_redis": "generic_only",

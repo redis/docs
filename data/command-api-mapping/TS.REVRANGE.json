@@ -188,11 +188,26 @@
     ],
     "node_redis": [
       {
-        "signature": "client.ts.revRange(...args: Parameters<typeof transformRangeArguments>)",
+        "signature": "client.ts.revRange(key: RedisArgument, fromTimestamp: Timestamp, toTimestamp: Timestamp, options?: TsRangeOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof transformRangeArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "fromTimestamp",
+            "type": "Timestamp",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "Timestamp",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "TsRangeOptions",
             "description": ""
           }
         ],

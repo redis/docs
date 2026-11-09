@@ -16592,7 +16592,7 @@
       ],
       "node_redis": [
         {
-          "signature": "bzmPop(timeout: number, ...args: ZMPopArguments)",
+          "signature": "bzmPop(timeout: number, keys: RedisVariadicArgument, side: SortedSetSide, options?: ZMPopOptions)",
           "params": [
             {
               "name": "timeout",
@@ -16600,8 +16600,18 @@
               "description": ""
             },
             {
-              "name": "...args",
-              "type": "ZMPopArguments",
+              "name": "keys",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            },
+            {
+              "name": "side",
+              "type": "SortedSetSide",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "ZMPopOptions",
               "description": ""
             }
           ],
@@ -19445,7 +19455,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.cf.loadChunk(key: RedisArgument, iterator: number, data: RedisArgument)",
+          "signature": "client.cf.loadChunk(key: RedisArgument, iterator: number, chunk: RedisArgument)",
           "params": [
             {
               "name": "key",
@@ -19458,7 +19468,7 @@
               "description": "Iterator from SCANDUMP"
             },
             {
-              "name": "data",
+              "name": "chunk",
               "type": "RedisArgument",
               "description": "Data from SCANDUMP"
             }
@@ -26457,7 +26467,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.cms.initByDim(key, width, depth)",
+          "signature": "client.cms.initByDim(key, width, depth, options?)",
           "params": [
             {
               "name": "key",
@@ -26472,6 +26482,11 @@
               "name": "depth",
               "type": "number",
               "description": "Number of counter arrays"
+            },
+            {
+              "name": "options",
+              "type": "CmsInitOptions",
+              "description": ""
             }
           ],
           "returns": {
@@ -26630,7 +26645,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.cms.initByProb(key, error, probability)",
+          "signature": "client.cms.initByProb(key, error, probability, options?)",
           "params": [
             {
               "name": "key",
@@ -26645,6 +26660,11 @@
               "name": "probability",
               "type": "number",
               "description": "Probability for inflated count"
+            },
+            {
+              "name": "options",
+              "type": "CmsInitOptions",
+              "description": ""
             }
           ],
           "returns": {
@@ -29902,25 +29922,6 @@
             "type": "NumberReply",
             "description": ""
           }
-        },
-        {
-          "signature": "decrBy(key: RedisArgument, decrement: number)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisArgument",
-              "description": ""
-            },
-            {
-              "name": "decrement",
-              "type": "number",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "NumberReply",
-            "description": ""
-          }
         }
       ],
       "ioredis": [
@@ -30381,20 +30382,6 @@
         }
       ],
       "node_redis": [
-        {
-          "signature": "decr(key: RedisArgument)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisArgument",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "NumberReply",
-            "description": ""
-          }
-        },
         {
           "signature": "decrBy(key: RedisArgument, decrement: number)",
           "params": [
@@ -35288,22 +35275,7 @@
           }
         }
       ],
-      "node_redis": [
-        {
-          "signature": "failover(options?: FailoverOptions)",
-          "params": [
-            {
-              "name": "options",
-              "type": "FailoverOptions",
-              "description": "Failover options including target host, abort flag, and timeout"
-            }
-          ],
-          "returns": {
-            "type": "SimpleStringReply",
-            "description": ""
-          }
-        }
-      ],
+      "node_redis": [],
       "lettuce_sync": [
         {
           "signature": "String failover()",
@@ -37830,7 +37802,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ft.alter(index: RedisArgument, field: SchemaField)",
+          "signature": "client.ft.alter(index: RedisArgument, schema: RediSearchSchema)",
           "params": [
             {
               "name": "index",
@@ -37838,8 +37810,8 @@
               "description": "The index name"
             },
             {
-              "name": "field",
-              "type": "SchemaField",
+              "name": "schema",
+              "type": "RediSearchSchema",
               "description": "The field to add"
             }
           ],
@@ -38894,7 +38866,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ft.cursorRead(index: RedisArgument, cursorId: number, options?: { COUNT?: number })",
+          "signature": "client.ft.cursorRead(index: RedisArgument, cursor: number, options?: { COUNT?: number })",
           "params": [
             {
               "name": "index",
@@ -38902,7 +38874,7 @@
               "description": "The index name"
             },
             {
-              "name": "cursorId",
+              "name": "cursor",
               "type": "number",
               "description": "The cursor ID"
             },
@@ -39147,7 +39119,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ft.dictAdd(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
+          "signature": "client.ft.dictAdd(dictionary: RedisArgument, term: Array<RedisArgument> | RedisArgument)",
           "params": [
             {
               "name": "dictionary",
@@ -39155,7 +39127,7 @@
               "description": "The dictionary name"
             },
             {
-              "name": "terms",
+              "name": "term",
               "type": "Array<RedisArgument> | RedisArgument",
               "description": "Terms to add"
             }
@@ -39390,7 +39362,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ft.dictDel(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
+          "signature": "client.ft.dictDel(dictionary: RedisArgument, term: Array<RedisArgument> | RedisArgument)",
           "params": [
             {
               "name": "dictionary",
@@ -39398,7 +39370,7 @@
               "description": "The dictionary name"
             },
             {
-              "name": "terms",
+              "name": "term",
               "type": "Array<RedisArgument> | RedisArgument",
               "description": "Terms to delete"
             }
@@ -41082,17 +41054,12 @@
       ],
       "node_redis": [
         {
-          "signature": "PROFILE(index: RedisArgument, queryType: 'SEARCH' | 'AGGREGATE', query: RedisArgument, options?: { LIMITED?: boolean })",
+          "signature": "client.ft.profileSearch(index: RedisArgument, query: RedisArgument, options?: ProfileOptions & FtSearchOptions)",
           "params": [
             {
               "name": "index",
               "type": "RedisArgument",
               "description": "The index name"
-            },
-            {
-              "name": "queryType",
-              "type": "'SEARCH' | 'AGGREGATE'",
-              "description": "The query type"
             },
             {
               "name": "query",
@@ -41101,12 +41068,36 @@
             },
             {
               "name": "options",
-              "type": "{ LIMITED?: boolean }",
-              "description": "Optional profile options"
+              "type": "ProfileOptions & FtSearchOptions",
+              "description": "Optional profile and search options"
             }
           ],
           "returns": {
-            "type": "Promise<FTProfileResult>",
+            "type": "ProfileReplyResp2",
+            "description": "Profiling information"
+          }
+        },
+        {
+          "signature": "client.ft.profileAggregate(index: string, query: string, options?: ProfileOptions & FtAggregateOptions)",
+          "params": [
+            {
+              "name": "index",
+              "type": "string",
+              "description": "The index name"
+            },
+            {
+              "name": "query",
+              "type": "string",
+              "description": "The query to profile"
+            },
+            {
+              "name": "options",
+              "type": "ProfileOptions & FtAggregateOptions",
+              "description": "Optional profile and aggregate options"
+            }
+          ],
+          "returns": {
+            "type": "ProfileReplyResp2",
             "description": "Profiling information"
           }
         }
@@ -43942,7 +43933,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ft.synUpdate(index: RedisArgument, synonymGroupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
+          "signature": "client.ft.synUpdate(index: RedisArgument, groupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
           "params": [
             {
               "name": "index",
@@ -43950,7 +43941,7 @@
               "description": "The index name"
             },
             {
-              "name": "synonymGroupId",
+              "name": "groupId",
               "type": "RedisArgument",
               "description": "The synonym group ID"
             },
@@ -44399,7 +44390,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ft._LIST()",
+          "signature": "client.ft._list()",
           "params": [],
           "returns": {
             "type": "Array<string>",
@@ -48932,11 +48923,31 @@
       ],
       "node_redis": [
         {
-          "signature": "geoRadius(...args: Parameters<typeof parseGeoRadiusArguments>)",
+          "signature": "geoRadius(key: RedisArgument, from: GeoCoordinates, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof parseGeoRadiusArguments>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "from",
+              "type": "GeoCoordinates",
+              "description": ""
+            },
+            {
+              "name": "radius",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "unit",
+              "type": "GeoUnits",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "GeoSearchOptions",
               "description": ""
             }
           ],
@@ -50407,11 +50418,31 @@
     "api_calls": {
       "node_redis": [
         {
-          "signature": "geoRadiusByMemberRo(...args: Parameters<typeof parseGeoRadiusByMemberArguments>)",
+          "signature": "geoRadiusByMemberRo(key: RedisArgument, from: RedisArgument, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof parseGeoRadiusByMemberArguments>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "from",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "radius",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "unit",
+              "type": "GeoUnits",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "GeoSearchOptions",
               "description": ""
             }
           ],
@@ -50492,11 +50523,31 @@
     "api_calls": {
       "node_redis": [
         {
-          "signature": "geoRadiusRo(...args: Parameters<typeof parseGeoRadiusArguments>)",
+          "signature": "geoRadiusRo(key: RedisArgument, from: GeoCoordinates, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof parseGeoRadiusArguments>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "from",
+              "type": "GeoCoordinates",
+              "description": ""
+            },
+            {
+              "name": "radius",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "unit",
+              "type": "GeoUnits",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "GeoSearchOptions",
               "description": ""
             }
           ],
@@ -70031,25 +70082,6 @@
             "type": "NumberReply",
             "description": ""
           }
-        },
-        {
-          "signature": "incrBy(key: RedisArgument, increment: number)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisArgument",
-              "description": ""
-            },
-            {
-              "name": "increment",
-              "type": "number",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "NumberReply",
-            "description": ""
-          }
         }
       ],
       "ioredis": [
@@ -70510,20 +70542,6 @@
         }
       ],
       "node_redis": [
-        {
-          "signature": "incr(key: RedisArgument)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisArgument",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "NumberReply",
-            "description": ""
-          }
-        },
         {
           "signature": "incrBy(key: RedisArgument, increment: number)",
           "params": [
@@ -76695,7 +76713,7 @@
       ],
       "node_redis": [
         {
-          "signature": "client.json.mGet(keys: Array<RedisArgument>, path: RedisArgument)",
+          "signature": "client.json.mGet(keys: Array<RedisArgument>, path: RedisArgument, reviver?: JsonReviver)",
           "params": [
             {
               "name": "keys",
@@ -76705,6 +76723,11 @@
             {
               "name": "path",
               "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "reviver",
+              "type": "JsonReviver",
               "description": ""
             }
           ],
@@ -89229,11 +89252,11 @@
       ],
       "node_redis": [
         {
-          "signature": "migrate(host: string, port: number, key: RedisArgument, destination: number, timeout: number, options?: MigrateOptions)",
+          "signature": "migrate(host: RedisArgument, port: number, key: RedisArgument | Array<RedisArgument>, destinationDb: number, timeout: number, options?: MigrateOptions)",
           "params": [
             {
               "name": "host",
-              "type": "string",
+              "type": "RedisArgument",
               "description": ""
             },
             {
@@ -89243,11 +89266,11 @@
             },
             {
               "name": "key",
-              "type": "RedisArgument",
+              "type": "RedisArgument | Array<RedisArgument>",
               "description": ""
             },
             {
-              "name": "destination",
+              "name": "destinationDb",
               "type": "number",
               "description": ""
             },
@@ -91515,7 +91538,7 @@
       ],
       "node_redis": [
         {
-          "signature": "pExpire(key: RedisArgument, milliseconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+          "signature": "pExpire(key: RedisArgument, ms: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
           "params": [
             {
               "name": "key",
@@ -91523,7 +91546,7 @@
               "description": ""
             },
             {
-              "name": "milliseconds",
+              "name": "ms",
               "type": "number",
               "description": ""
             },
@@ -92093,7 +92116,7 @@
       ],
       "node_redis": [
         {
-          "signature": "pExpireAt(key: RedisArgument, millisecondsTimestamp: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+          "signature": "pExpireAt(key: RedisArgument, msTimestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
           "params": [
             {
               "name": "key",
@@ -92101,8 +92124,8 @@
               "description": ""
             },
             {
-              "name": "millisecondsTimestamp",
-              "type": "number",
+              "name": "msTimestamp",
+              "type": "number | Date",
               "description": ""
             },
             {
@@ -96782,22 +96805,7 @@
           }
         }
       ],
-      "node_redis": [
-        {
-          "signature": "parseCommand(parser: CommandParser)",
-          "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": "The command parser"
-            }
-          ],
-          "returns": {
-            "type": "SimpleStringReply",
-            "description": ""
-          }
-        }
-      ],
+      "node_redis": [],
       "lettuce_sync": [
         {
           "signature": "String readWrite()",
@@ -100447,16 +100455,7 @@
           }
         }
       ],
-      "node_redis": [
-        {
-          "signature": "SAVE()",
-          "params": [],
-          "returns": {
-            "type": "SimpleStringReply",
-            "description": ""
-          }
-        }
-      ],
+      "node_redis": [],
       "lettuce_sync": [
         {
           "signature": "String save()",
@@ -106053,22 +106052,7 @@
           }
         }
       ],
-      "node_redis": [
-        {
-          "signature": "SHUTDOWN(options?: ShutdownOptions)",
-          "params": [
-            {
-              "name": "options",
-              "type": "ShutdownOptions",
-              "description": "Options for the shutdown process"
-            }
-          ],
-          "returns": {
-            "type": "void | SimpleStringReply",
-            "description": ""
-          }
-        }
-      ],
+      "node_redis": [],
       "lettuce_sync": [
         {
           "signature": "void shutdown(boolean save)",
@@ -117160,19 +117144,17 @@
       ],
       "node_redis": [
         {
-          "signature": "client.tDigest.merge(destination, numKeys, sourceKeys, options?)",
+          "signature": "client.tDigest.merge(destination, source, options?)",
           "params": [
             {
               "name": "destination",
-              "type": "string"
+              "type": "RedisArgument",
+              "description": ""
             },
             {
-              "name": "numKeys",
-              "type": "number"
-            },
-            {
-              "name": "sourceKeys",
-              "type": "string[]"
+              "name": "source",
+              "type": "RedisVariadicArgument",
+              "description": ""
             },
             {
               "name": "options",
@@ -118006,18 +117988,18 @@
       ],
       "node_redis": [
         {
-          "signature": "client.tDigest.trimmedMean(key, lowCutQuantile, highCutQuantile)",
+          "signature": "client.tDigest.trimmedMean(key, lowCutPercentile, highCutPercentile)",
           "params": [
             {
               "name": "key",
               "type": "string"
             },
             {
-              "name": "lowCutQuantile",
+              "name": "lowCutPercentile",
               "type": "number"
             },
             {
-              "name": "highCutQuantile",
+              "name": "highCutPercentile",
               "type": "number"
             }
           ],
@@ -119502,10 +119484,10 @@
       ],
       "node_redis": [
         {
-          "signature": "touch(keys: RedisVariadicArgument)",
+          "signature": "touch(key: RedisVariadicArgument)",
           "params": [
             {
-              "name": "keys",
+              "name": "key",
               "type": "RedisVariadicArgument",
               "description": ""
             }
@@ -121084,11 +121066,21 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ts.decrBy(...args: Parameters<typeof parseIncrByArguments>)",
+          "signature": "client.ts.decrBy(key: RedisArgument, value: number, options?: TsIncrByOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof parseIncrByArguments>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "TsIncrByOptions",
               "description": ""
             }
           ],
@@ -121952,11 +121944,21 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ts.incrBy(...args: Parameters<typeof parseIncrByArguments>)",
+          "signature": "client.ts.incrBy(key: RedisArgument, value: number, options?: TsIncrByOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof parseIncrByArguments>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "TsIncrByOptions",
               "description": ""
             }
           ],
@@ -123775,11 +123777,26 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ts.range(...args: Parameters<typeof transformRangeArguments>)",
+          "signature": "client.ts.range(key: RedisArgument, fromTimestamp: Timestamp, toTimestamp: Timestamp, options?: TsRangeOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof transformRangeArguments>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "fromTimestamp",
+              "type": "Timestamp",
+              "description": ""
+            },
+            {
+              "name": "toTimestamp",
+              "type": "Timestamp",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "TsRangeOptions",
               "description": ""
             }
           ],
@@ -124154,11 +124171,26 @@
       ],
       "node_redis": [
         {
-          "signature": "client.ts.revRange(...args: Parameters<typeof transformRangeArguments>)",
+          "signature": "client.ts.revRange(key: RedisArgument, fromTimestamp: Timestamp, toTimestamp: Timestamp, options?: TsRangeOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof transformRangeArguments>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "fromTimestamp",
+              "type": "Timestamp",
+              "description": ""
+            },
+            {
+              "name": "toTimestamp",
+              "type": "Timestamp",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "TsRangeOptions",
               "description": ""
             }
           ],
@@ -132023,11 +132055,26 @@
       ],
       "node_redis": [
         {
-          "signature": "xAdd(...args: Tail<Parameters<typeof parseXAddArguments>>)",
+          "signature": "xAdd(key: RedisArgument, id: RedisArgument, message: Record<string, RedisArgument>, options?: XAddOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Tail<Parameters<typeof parseXAddArguments>>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "id",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "message",
+              "type": "Record<string, RedisArgument>",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "XAddOptions",
               "description": ""
             }
           ],
@@ -142043,7 +142090,7 @@
       ],
       "node_redis": [
         {
-          "signature": "xRange(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
+          "signature": "xRange(key: RedisArgument, start: RedisArgument, end: RedisArgument, options?: XRangeOptions)",
           "params": [
             {
               "name": "key",
@@ -142051,8 +142098,18 @@
               "description": ""
             },
             {
-              "name": "...args",
-              "type": "Parameters<typeof xRangeArguments>",
+              "name": "start",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "XRangeOptions",
               "description": ""
             }
           ],
@@ -144594,7 +144651,7 @@
       ],
       "node_redis": [
         {
-          "signature": "xRevRange(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
+          "signature": "xRevRange(key: RedisArgument, start: RedisArgument, end: RedisArgument, options?: XRangeOptions)",
           "params": [
             {
               "name": "key",
@@ -144602,8 +144659,18 @@
               "description": ""
             },
             {
-              "name": "...args",
-              "type": "Parameters<typeof xRangeArguments>",
+              "name": "start",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "XRangeOptions",
               "description": ""
             }
           ],
@@ -154802,11 +154869,26 @@
           }
         },
         {
-          "signature": "zRangeWithScores(...args: Parameters<typeof ZRANGE.parseCommand>)",
+          "signature": "zRangeWithScores(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof ZRANGE.parseCommand>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "RedisArgument | number",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "RedisArgument | number",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "ZRangeOptions",
               "description": ""
             }
           ],
@@ -156922,11 +157004,26 @@
           }
         },
         {
-          "signature": "zRangeByScoreWithScores(...args: Parameters<typeof ZRANGEBYSCORE.parseCommand>)",
+          "signature": "zRangeByScoreWithScores(key: RedisArgument, min: string | number, max: string | number, options?: ZRangeByScoreOptions)",
           "params": [
             {
-              "name": "...args",
-              "type": "Parameters<typeof ZRANGEBYSCORE.parseCommand>",
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "string | number",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "string | number",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "ZRangeByScoreOptions",
               "description": ""
             }
           ],

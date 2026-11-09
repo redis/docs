@@ -253,25 +253,6 @@
           "type": "NumberReply",
           "description": ""
         }
-      },
-      {
-        "signature": "decrBy(key: RedisArgument, decrement: number)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisArgument",
-            "description": ""
-          },
-          {
-            "name": "decrement",
-            "type": "number",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "NumberReply",
-          "description": ""
-        }
       }
     ],
     "ioredis": [

@@ -75,18 +75,18 @@
     ],
     "node_redis": [
       {
-        "signature": "client.tDigest.trimmedMean(key, lowCutQuantile, highCutQuantile)",
+        "signature": "client.tDigest.trimmedMean(key, lowCutPercentile, highCutPercentile)",
         "params": [
           {
             "name": "key",
             "type": "string"
           },
           {
-            "name": "lowCutQuantile",
+            "name": "lowCutPercentile",
             "type": "number"
           },
           {
-            "name": "highCutQuantile",
+            "name": "highCutPercentile",
             "type": "number"
           }
         ],

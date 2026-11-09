@@ -360,7 +360,7 @@
     ],
     "node_redis": [
       {
-        "signature": "xRange(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
+        "signature": "xRange(key: RedisArgument, start: RedisArgument, end: RedisArgument, options?: XRangeOptions)",
         "params": [
           {
             "name": "key",
@@ -368,8 +368,18 @@
             "description": ""
           },
           {
-            "name": "...args",
-            "type": "Parameters<typeof xRangeArguments>",
+            "name": "start",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "XRangeOptions",
             "description": ""
           }
         ],

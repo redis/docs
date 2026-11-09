@@ -41,22 +41,7 @@
         }
       }
     ],
-    "node_redis": [
-      {
-        "signature": "failover(options?: FailoverOptions)",
-        "params": [
-          {
-            "name": "options",
-            "type": "FailoverOptions",
-            "description": "Failover options including target host, abort flag, and timeout"
-          }
-        ],
-        "returns": {
-          "type": "SimpleStringReply",
-          "description": ""
-        }
-      }
-    ],
+    "node_redis": [],
     "lettuce_sync": [
       {
         "signature": "String failover()",
