@@ -43,11 +43,14 @@ For the complete list of supported source databases and versions, see
 
 ## How much data can RDI process?
 
-RDI uses the concept of *processing units*. Each processing unit uses 1 CPU core and can process
-about 10,000 records per second, assuming the records have a size of about 1KB each. This throughput
-might change slightly depending on the number of columns, the number of data transformations,
-and the speed of the network. Typically, one processing unit is enough for RDI to deal with the
-traffic from a relational database.
+With the Flink processor, RDI can process up to 20K records per second during change data capture
+(CDC) and up to 60K records per second during full sync. These figures assume an average record
+size of about 1KB and a pipeline without transformations. The classic processor supports about
+half of each limit. Throughput can change with the number of columns, the number of data
+transformations, and the speed of the network.
+
+See [When to use RDI](/content/integrate/redis-data-integration/when-to-use.md) for the full
+throughput and data-size guidelines.
 
 ## Can RDI work with any Redis database?
 
