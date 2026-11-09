@@ -136,6 +136,13 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N+log(M)) where N is the number of elements in the grid-aligned bounding
   box area around the shape provided as the filter and M is the number of items inside
   the shape
@@ -271,9 +278,7 @@ redis> GEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

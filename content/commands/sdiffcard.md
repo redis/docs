@@ -31,6 +31,13 @@ categories:
 command_flags:
 - readonly
 - movablekeys
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(N) where N is the total number of elements in all given sets.
 description: Returns the number of members of the difference between the first set
   and all successive sets.
@@ -117,9 +124,7 @@ When provided with the optional `LIMIT` argument (which defaults to `0`, meaning
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

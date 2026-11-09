@@ -20,6 +20,13 @@ categories:
 command_flags:
 - noscript
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N) with N being the length in bytes of the script body.
 description: Loads a server-side Lua script to the script cache.
 group: scripting
@@ -57,9 +64,7 @@ The Lua script to load into the script cache. Its SHA1 digest is returned for us
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

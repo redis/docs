@@ -19,6 +19,12 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    general: supported
+  cloud:
+    pro: supported
+    essentials: supported
 complexity: O(n) where n is the number of items
 deprecated_since: '2.4'
 description: Return the count for one or more items in a sketch
@@ -65,9 +71,7 @@ redis> TOPK.COUNT topk foo 42 nonexist
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

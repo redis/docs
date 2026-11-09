@@ -58,6 +58,12 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    general: supported
+  cloud:
+    pro: supported
+    essentials: supported
 complexity: O(N) where N is the number of labels requested to update
 description: Update the retention, chunk size, duplicate policy, and labels of an
   existing time series
@@ -135,9 +141,7 @@ OK
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

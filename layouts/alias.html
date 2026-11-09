@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html{{ with site.Language.LanguageCode }} lang="{{ . }}"{{ end }}>
+  <head>
+    <title>{{ .Permalink }}</title>
+    <link rel="canonical" href="{{ .Permalink }}">
+    <meta name="robots" content="noindex">
+    <meta charset="utf-8">
+{{- /* Hugo's built-in alias stub, plus one addition: a page whose `alias_query`
+       frontmatter maps an alias to a query string gets a script that redirects there
+       with the query, which Hugo aliases can't express. The script runs before the
+       meta refresh, which stays as the no-JS fallback to the unfiltered page. Every
+       other alias stub stays byte-for-byte what Hugo writes.
+
+       Alias stubs don't know which alias they are, so the script matches on
+       location.pathname, minus the baseURL's path (/docs/latest in production).
+       The fragment is dropped on purpose: commands-filters.js reads a hash as a
+       group name, and old section anchors aren't group names. */ -}}
+{{- with .Page.Params.alias_query }}
+    <script>
+      (function () {
+        var queries = {};
+        {{- range . }}
+        queries[{{ .from | strings.TrimSuffix "/" }}] = {{ .query }};
+        {{- end }}
+        var path = location.pathname.replace(/\/(index\.html)?$/, "");
+        var base = {{ (urls.Parse site.BaseURL).Path | strings.TrimSuffix "/" }};
+        if (base && path.indexOf(base) === 0) path = path.slice(base.length);
+        if (Object.prototype.hasOwnProperty.call(queries, path)) {
+          location.replace({{ $.Permalink }} + (queries[path] ? "?" + queries[path] : ""));
+        }
+      })();
+    </script>
+{{- end }}
+    <meta http-equiv="refresh" content="0; url={{ .Permalink }}">
+  </head>
+</html>

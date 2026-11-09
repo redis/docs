@@ -29,6 +29,13 @@ command_flags:
 - noscript
 - loading
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(1)
 description: Sets information specific to the client or connection.
 group: connection
@@ -78,9 +85,7 @@ We recommend using the following format for the custom suffixes for third-party 
 Note that these attributes are not cleared by the [`RESET`](/content/commands/reset.md) command.
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -14,6 +14,15 @@ categories:
 - clients
 command_flags:
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Only supported with the [OSS cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md).
 complexity: O(1)
 description: Returns information about the state of a node.
 group: cluster
@@ -88,9 +97,7 @@ More information about the Current Epoch and Config Epoch variables are availabl
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md). |
+{{< command-compatibility >}}
 
 ## Return information
 

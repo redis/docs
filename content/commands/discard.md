@@ -19,6 +19,13 @@ command_flags:
 - stale
 - fast
 - allow_busy
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N), when N is the number of queued commands
 description: Discards a transaction.
 group: transactions
@@ -37,9 +44,7 @@ If [`WATCH`](/content/commands/watch.md) was used, `DISCARD` unwatches all keys 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

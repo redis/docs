@@ -20,6 +20,13 @@ categories:
 - clients
 command_flags:
 - noscript
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N) with N being the number of scripts to check (so checking a single
   script is an O(1) operation).
 description: Determines whether server-side Lua scripts exist in the script cache.
@@ -51,9 +58,7 @@ One or more SHA1 digests to look up in the script cache.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

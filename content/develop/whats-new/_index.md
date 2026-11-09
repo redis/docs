@@ -358,7 +358,7 @@ weight: 10
   - [`COMPACTION_POLICY`](/content/develop/data-types/timeseries/configuration.md)
   - [Client-side caching update](/content/develop/clients/client-side-caching.md)
 - JSON:
-  - [Active memory defragmentation](/content/operate/oss_and_stack/stack-with-enterprise/json/commands.md)
+  - [Active memory defragmentation](/content/commands/_index.md?group=json)
 - Probabilistic:
   - [Bloom filter](/content/develop/data-types/probabilistic/bloom-filter.md)
   - [Count-min sketch](/content/develop/data-types/probabilistic/count-min-sketch.md)

@@ -43,6 +43,15 @@ command_flags:
 - noscript
 - stale
 - no_async_loading
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
+  notes:
+  - Deprecated as of Redis v5.0.0.
 complexity: O(1)
 deprecated_since: 5.0.0
 description: Sets a Redis server as a replica of another, or promotes it to being
@@ -88,9 +97,7 @@ The host and port of the master to replicate from, or `NO ONE` to stop replicati
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |
+{{< command-compatibility >}}
 
 ## Return information
 

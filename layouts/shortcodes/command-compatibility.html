@@ -1,0 +1,8 @@
+{{- /* Render the compatibility table from the page's `compatibility` frontmatter.
+       RenderString runs the table through Goldmark, so links in notes resolve
+       through the same link render hook as the rest of the page. */ -}}
+{{- $md := partial "command-compatibility.html" (dict "page" .Page "format" "html") -}}
+{{- if not $md -}}
+  {{- warnf "%s: command-compatibility shortcode on a page with no compatibility frontmatter" .Page.File.Path -}}
+{{- end -}}
+{{- .Page.RenderString (dict "display" "block") $md -}}

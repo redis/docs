@@ -44,6 +44,13 @@ categories:
 command_flags:
 - write
 - fast
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(1) if COUNT is small.
 description: Changes, or acquires, ownership of messages in a consumer group, as if
   the messages were delivered to as consumer group member.
@@ -168,9 +175,7 @@ The returned stream ID is 0-0, which indicates that XAUTOCLAIM scanned the entir
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

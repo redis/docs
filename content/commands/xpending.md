@@ -47,6 +47,13 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N) with N being the number of elements returned, so asking for a small
   fixed number of entries per call is O(1). O(M), where M is the total number of entries
   scanned when used with the IDLE filter. When the command returns just the summary
@@ -264,9 +271,7 @@ command.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

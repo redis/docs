@@ -67,6 +67,13 @@ categories:
 command_flags:
 - readonly
 - movablekeys
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N+M*log(M)) where N is the number of elements in the list or set to
   sort, and M the number of returned elements. When the elements are not sorted, complexity
   is O(N).
@@ -160,9 +167,7 @@ SORT_RO mylist BY weight_*->fieldname GET object_*->fieldname
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

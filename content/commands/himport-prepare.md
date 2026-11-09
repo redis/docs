@@ -23,6 +23,13 @@ categories:
 - clients
 command_flags:
 - denyoom
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(N*log(N)) where N is the number of fields.
 description: Defines a session-local fieldset that maps a name to a sorted set of
   field names.
@@ -69,9 +76,7 @@ The command returns an error if the same field name is given more than once.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

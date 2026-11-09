@@ -1970,6 +1970,18 @@ img.img-inline, td img[src*="#no-click"] {
   visibility: visible !important;
 }
 
+/* Compatibility badges on command cards. Each badge links to the page's
+   compatibility section; the tooltip reuses the deprecated-tooltip styles. */
+.compat-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.compat-badge {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold leading-5 text-redis-ink-900 bg-white border border-redis-pen-300 rounded-full hover:border-redis-ink-900 focus-visible:border-redis-ink-900;
+}
+
 .command-title-deprecated {
   display: flex !important;
   align-items: center !important;
