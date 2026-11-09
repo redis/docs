@@ -256,12 +256,12 @@ for the required supplemental-logging setup.
 
 - **LOBs**: set `lob.enabled: true` (default `false`) to capture `CLOB`, `NCLOB`,
   `BLOB`, and `XMLTYPE`. You cannot use the *hybrid* mining strategy with
-  `lob.enabled: true` — use `online_catalog` instead.
+  `lob.enabled: true` — use `online_catalog` or `redo_log_catalog` instead.
 - **Extended strings**: if the database parameter `max_string_size` is `EXTENDED`,
   set `lob.enabled: true` to capture `VARCHAR2`/`NVARCHAR2` values over 4000 bytes
   and `RAW` values over 2000 bytes.
 - **XMLTYPE**: requires `lob.enabled: true` and a non-hybrid mining strategy
-  (`online_catalog`). The connector emits the XML as text
+  (`online_catalog` or `redo_log_catalog`). The connector emits the XML as text
   (`STRING`). XMLTYPE support also requires the Oracle **XDB library** and the
   **`xmlparserv2`** dependency in addition to the standard `ojdbc11.jar` driver. If
   the runtime selects Oracle's `xmlparserv2` SAX parser, you may need to set the JVM

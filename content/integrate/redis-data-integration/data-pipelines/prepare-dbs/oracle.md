@@ -178,7 +178,7 @@ If you have more than one destination with these settings,
 then you should consult your database administrator about which one to
 choose for Debezium.
 
-Use the `archive.destination.name` property in the connector configuration
+Use the `log.mining.archive.destination.name` property in the connector configuration
 to select the archive log destination for Debezium.
 
 For example, suppose you have two archive destinations, `LOG_ARCHIVE_DEST_2` and
@@ -189,7 +189,7 @@ use the following setting:
 
 ```json
 {
-    "archive.destination.name": "LOG_ARCHIVE_DEST_3"
+    "log.mining.archive.destination.name": "LOG_ARCHIVE_DEST_3"
 }
 ```
 
@@ -1062,7 +1062,7 @@ sources:
         database.dbname: ORCLCDB
         database.pdb.name: ORCLPDB1
         database.connection.adapter: xstream
-        xstream.out.server.name: dbzxout
+        database.out.server.name: dbzxout
 ```
 
 > [!NOTE]
@@ -1111,8 +1111,6 @@ Debezium Server image that your RDI version uses. The examples below use
 
    COPY xdb.jar /debezium/lib
    COPY xmlparserv2.jar /debezium/lib
-
-   USER jboss
    ```
 
 3. Build the custom image:

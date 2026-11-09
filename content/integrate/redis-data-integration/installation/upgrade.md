@@ -219,10 +219,6 @@ sources:
 A collector that is already running ignores these properties after the upgrade, so it mines with
 the default log counts until you redeploy. If you raised the batch size because the collector
 could not keep up with the volume of your redo logs, raise `log.mining.log.count.min` instead.
-A higher count clears a backlog in fewer iterations, but each iteration takes longer, so check the
-collector lag after you redeploy. If you set `log.mining.log.count.min` above
-`log.mining.log.count.growth.max`, the minimum takes precedence. Set `log.mining.log.count.min`
-to `0` to remove the limit and mine all available logs in one iteration.
 
 `log.mining.strategy: redo_log_catalog` still works in Debezium 3.7, but Debezium has deprecated
 it and plans to remove it. Use the default `online_catalog` instead, or `hybrid` if `lob.enabled`
@@ -242,18 +238,14 @@ of the source.
 MariaDB sources now use the MariaDB connector, which takes MariaDB values for `database.ssl.mode`.
 Replace `disabled` and `preferred` with `disable`, `required` with `trust`, `verify_ca` with
 `verify-ca`, and `verify_identity` with `verify-full`. The default is now `disable`.
+`disable` turns off encryption. `trust` requires encryption but doesn't verify the server
+certificate.
 
 ### Check changes in the captured data
 
-The following changes affect the data or the metadata that RDI reports, without any change to
-your configuration:
-
-- PostgreSQL user defined types are reported without their schema, for example `geometry`
-  instead of `"inventory"."geometry"`.
-- SQL Server sources write the value of `unavailable.value.placeholder` instead of `NULL` for
-  unchanged `VARCHAR(MAX)`, `NVARCHAR(MAX)`, and `VARBINARY(MAX)` columns in updates.
-- A `poll.interval.ms` value above 5 seconds is now applied as set. Earlier versions capped it at
-  5 seconds.
+PostgreSQL user defined types are reported without their schema, for example `geometry`
+instead of `"inventory"."geometry"`. This changes the metadata that RDI reports, without any
+change to your configuration.
 
 ## Upgrading to RDI 2.2.0
 
