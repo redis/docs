@@ -1,5 +1,30 @@
 {
   "components": {
+    "parameters": {
+      "OidcMappingUid": {
+        "description": "The OIDC mapping's unique ID.",
+        "in": "path",
+        "name": "uid",
+        "required": true,
+        "schema": {
+          "minimum": 1,
+          "type": "integer",
+          "x-go-type": "json.Number"
+        }
+      },
+      "OidcProviderUid": {
+        "description": "The OIDC provider's unique ID.",
+        "example": 1,
+        "in": "path",
+        "name": "uid",
+        "required": true,
+        "schema": {
+          "minimum": 1,
+          "type": "integer",
+          "x-go-type": "json.Number"
+        }
+      }
+    },
     "responses": {
       "Conflict": {
         "content": {
@@ -1249,6 +1274,323 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "Oidc": {
+        "additionalProperties": false,
+        "description": "The cluster's OIDC configuration for data-plane token authentication - the providers whose tokens databases can accept, managed through /v1/cluster/oidc/providers.",
+        "example": {
+          "providers": [
+            {
+              "algorithms": [
+                "RS256"
+              ],
+              "issuer": "https://acme.example/tenant_example",
+              "jwks_uri": "https://acme.example/tenant_example/jwks.json",
+              "name": "acme",
+              "resource_claim": "resource",
+              "scope": "bound_databases",
+              "uid": 1
+            }
+          ]
+        },
+        "properties": {
+          "providers": {
+            "description": "The OIDC providers, managed through /v1/cluster/oidc/providers.",
+            "items": {
+              "$ref": "#/components/schemas/OidcProvider"
+            },
+            "readOnly": true,
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "OidcMapping": {
+        "additionalProperties": false,
+        "description": "Roles granted to the tokens of an OIDC provider that carry a claim value - one mapping per claim value, not per identity.",
+        "example": {
+          "account_id": 5,
+          "claim": "sub",
+          "claim_value": "readwrite",
+          "name": "acme-readwrite",
+          "provider_uid": 1,
+          "role_uids": [
+            3
+          ],
+          "uid": 1
+        },
+        "properties": {
+          "account_id": {
+            "description": "SM account ID. When set, the mapping and its roles belong to this account, and it must equal the provider's account_id when the provider has one. Cannot be changed after creation.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "claim": {
+            "description": "The name of the token claim to inspect, for example sub, roles or scope.",
+            "type": "string"
+          },
+          "claim_value": {
+            "description": "The claim value that selects this mapping - the claim's string value, one element of an array value, or one token of a space-separated scope value. Unique per provider and claim within the account scope.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The mapping's name, unique within its account scope",
+            "maxLength": 255,
+            "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
+            "type": "string",
+            "x-pattern-error-message": "may contain only letters, numbers, spaces, and the characters _ [] () @ , . ; # -"
+          },
+          "provider_uid": {
+            "description": "The OIDC provider whose tokens the mapping applies to. Cannot be changed after creation.",
+            "minimum": 1,
+            "type": "integer",
+            "x-go-type": "json.Number"
+          },
+          "role_uids": {
+            "description": "The roles granted to tokens that carry the claim value. They must exist and belong to the mapping's account.",
+            "items": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "uid": {
+            "description": "The mapping's unique ID",
+            "readOnly": true,
+            "type": "integer",
+            "x-go-type": "json.Number"
+          }
+        },
+        "type": "object"
+      },
+      "OidcMappingCreateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OidcMapping"
+          },
+          {
+            "required": [
+              "name",
+              "provider_uid",
+              "claim",
+              "claim_value",
+              "role_uids"
+            ],
+            "type": "object"
+          }
+        ],
+        "description": "Request body for creating an OIDC mapping.",
+        "example": {
+          "account_id": 5,
+          "claim": "sub",
+          "claim_value": "readwrite",
+          "name": "acme-readwrite",
+          "provider_uid": 1,
+          "role_uids": [
+            3
+          ]
+        }
+      },
+      "OidcProvider": {
+        "additionalProperties": false,
+        "description": "An OIDC provider whose tokens databases can accept for data-plane authentication. Which databases accept them depends on the provider's scope.",
+        "example": {
+          "algorithms": [
+            "RS256"
+          ],
+          "issuer": "https://acme.example/tenant_example",
+          "jwks_uri": "https://acme.example/tenant_example/jwks.json",
+          "name": "acme",
+          "resource_claim": "resource",
+          "scope": "bound_databases",
+          "uid": 1
+        },
+        "properties": {
+          "account_id": {
+            "description": "SM account ID. When set, only databases of this account can use the provider; when not set, any database can. Cannot be changed after creation.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "algorithms": {
+            "description": "Allowed token signing algorithms",
+            "items": {
+              "enum": [
+                "RS256",
+                "RS384",
+                "RS512",
+                "PS256",
+                "PS384",
+                "PS512",
+                "ES256",
+                "ES384",
+                "ES512"
+              ],
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "audiences": {
+            "description": "Values the token's aud claim may contain. Required for all_databases. For bound_databases it is the default for bindings that set no audience of their own.",
+            "items": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "clock_skew_seconds": {
+            "default": 60,
+            "description": "Allowed clock skew when checking exp and nbf, in seconds",
+            "maximum": 300,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "enabled": {
+            "default": true,
+            "description": "Whether databases accept the provider's tokens. A disabled provider keeps its bindings and mappings.",
+            "type": "boolean"
+          },
+          "identity_claim": {
+            "default": "sub",
+            "description": "The claim whose value names the connection and must equal the AUTH username",
+            "pattern": "^[A-Za-z0-9_.:-]{1,255}$",
+            "type": "string"
+          },
+          "issuer": {
+            "description": "The exact iss value of the provider's tokens, unique among the providers a database could have to choose between",
+            "pattern": "^https://[^\\s?#]+$",
+            "type": "string"
+          },
+          "jwks_max_stale_seconds": {
+            "default": 86400,
+            "description": "How long the last fetched keys stay usable when a refresh fails, in seconds. Must not be less than jwks_refresh_interval_seconds.",
+            "maximum": 86400,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "jwks_refresh_interval_seconds": {
+            "default": 3600,
+            "description": "How often the key set is refreshed, in seconds",
+            "maximum": 86400,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "jwks_uri": {
+            "description": "HTTPS URL of the provider's JSON Web Key Set",
+            "pattern": "^https://[^\\s?#]+$",
+            "type": "string"
+          },
+          "name": {
+            "description": "The provider's name, unique within its account scope",
+            "maxLength": 255,
+            "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
+            "type": "string",
+            "x-pattern-error-message": "may contain only letters, numbers, spaces, and the characters _ [] () @ , . ; # -"
+          },
+          "resource_claim": {
+            "description": "The claim compared with the database binding's resource id. Empty means no resource check. Not allowed for all_databases providers.",
+            "pattern": "^[A-Za-z0-9_.:-]{0,255}$",
+            "type": "string"
+          },
+          "scope": {
+            "default": "bound_databases",
+            "description": "Which databases accept the provider's tokens. bound_databases - only databases whose oidc_authentication names the provider. all_databases - every database in the provider's account scope that has no binding of its own, like LDAP. Cannot be changed after creation.",
+            "enum": [
+              "bound_databases",
+              "all_databases"
+            ],
+            "type": "string"
+          },
+          "uid": {
+            "description": "The provider's unique ID",
+            "readOnly": true,
+            "type": "integer",
+            "x-go-type": "json.Number"
+          }
+        },
+        "type": "object"
+      },
+      "OidcProviderCreateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OidcProvider"
+          },
+          {
+            "required": [
+              "name",
+              "issuer",
+              "jwks_uri"
+            ],
+            "type": "object"
+          }
+        ],
+        "description": "Request body for creating an OIDC provider. Fields that are not set take their defaults.",
+        "example": {
+          "issuer": "https://acme.example/tenant_example",
+          "jwks_uri": "https://acme.example/tenant_example/jwks.json",
+          "name": "acme",
+          "resource_claim": "resource"
+        }
+      },
+      "OidcProviderDatabase": {
+        "description": "A database that accepts an OIDC provider's tokens, and how.",
+        "example": {
+          "account_id": 5,
+          "audiences": [
+            "icfg_1"
+          ],
+          "bdb_uid": 3,
+          "name": "orders",
+          "resource_id": "young-pine-1",
+          "source": "binding"
+        },
+        "properties": {
+          "account_id": {
+            "description": "The database's SM account ID, when it has one",
+            "type": "integer"
+          },
+          "audiences": {
+            "description": "The aud values accepted on this database - the binding's audience, or the provider's audiences",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "bdb_uid": {
+            "description": "The database's unique ID",
+            "type": "integer",
+            "x-go-type": "json.Number"
+          },
+          "name": {
+            "description": "The database's name",
+            "type": "string"
+          },
+          "resource_id": {
+            "description": "The binding's resource id, when set",
+            "type": "string"
+          },
+          "source": {
+            "description": "binding - the database's oidc_authentication names the provider. scope - an all_databases provider covers the database through its account scope.",
+            "enum": [
+              "binding",
+              "scope"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "bdb_uid",
+          "name",
+          "source",
+          "audiences"
+        ],
         "type": "object"
       },
       "PasswordHashMethod": {
@@ -2605,6 +2947,556 @@
           }
         ],
         "summary": "Update LDAP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/oidc": {
+      "get": {
+        "description": "Get the cluster's OIDC configuration for data-plane token authentication, with its providers",
+        "operationId": "cluster_get_oidc_config",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Oidc"
+                }
+              }
+            },
+            "description": "The OIDC configuration"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_oidc_config"
+            ]
+          }
+        ],
+        "summary": "Get the OIDC configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/oidc/mappings": {
+      "get": {
+        "description": "List the cluster's OIDC mappings, sorted by uid",
+        "operationId": "cluster_list_oidc_mappings",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/OidcMapping"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OIDC mappings"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_all_oidc_mappings_info"
+            ]
+          }
+        ],
+        "summary": "List OIDC mappings",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "post": {
+        "description": "Create an OIDC mapping - roles granted to the provider's tokens that carry the claim value. The provider must exist and admit the mapping's account, the roles must exist and belong to that account, and the name, and the claim value for the provider, are unique within the account scope.",
+        "operationId": "cluster_create_oidc_mapping",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OidcMappingCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcMapping"
+                }
+              }
+            },
+            "description": "The created OIDC mapping"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "create_oidc_mapping"
+            ]
+          }
+        ],
+        "summary": "Create an OIDC mapping",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/oidc/mappings/{uid}": {
+      "delete": {
+        "description": "Delete an OIDC mapping",
+        "operationId": "cluster_delete_oidc_mapping",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OidcMappingUid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OIDC mapping deleted successfully."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "delete_oidc_mapping"
+            ]
+          }
+        ],
+        "summary": "Delete an OIDC mapping",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "get": {
+        "description": "Get an OIDC mapping by unique ID",
+        "operationId": "cluster_get_oidc_mapping",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OidcMappingUid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcMapping"
+                }
+              }
+            },
+            "description": "OIDC mapping"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_oidc_mapping_info"
+            ]
+          }
+        ],
+        "summary": "Get an OIDC mapping",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "patch": {
+        "description": "Partially update an OIDC mapping; fields that are not sent keep their values. provider_uid and account_id cannot be changed.",
+        "operationId": "cluster_update_oidc_mapping",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OidcMappingUid"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OidcMapping"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcMapping"
+                }
+              }
+            },
+            "description": "The updated OIDC mapping"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_oidc_mapping"
+            ]
+          }
+        ],
+        "summary": "Update an OIDC mapping",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/oidc/providers": {
+      "get": {
+        "description": "List the cluster's OIDC providers",
+        "operationId": "cluster_list_oidc_providers",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/OidcProvider"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OIDC providers"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_oidc_config"
+            ]
+          }
+        ],
+        "summary": "List OIDC providers",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "post": {
+        "description": "Create an OIDC provider. Names and issuers are unique within an account scope.",
+        "operationId": "cluster_create_oidc_provider",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OidcProviderCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcProvider"
+                }
+              }
+            },
+            "description": "The created OIDC provider"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_oidc"
+            ]
+          }
+        ],
+        "summary": "Create an OIDC provider",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/oidc/providers/{uid}": {
+      "delete": {
+        "description": "Delete an OIDC provider. Refused while any database's oidc_authentication binding names it or any OIDC mapping references it.",
+        "operationId": "cluster_delete_oidc_provider",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OidcProviderUid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OIDC provider deleted successfully."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_oidc"
+            ]
+          }
+        ],
+        "summary": "Delete an OIDC provider",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "get": {
+        "description": "Get an OIDC provider by unique ID",
+        "operationId": "cluster_get_oidc_provider",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OidcProviderUid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcProvider"
+                }
+              }
+            },
+            "description": "OIDC provider"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_oidc_config"
+            ]
+          }
+        ],
+        "summary": "Get an OIDC provider",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "patch": {
+        "description": "Partially update an OIDC provider; fields that are not sent keep their values. account_id and scope cannot be changed.",
+        "operationId": "cluster_update_oidc_provider",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OidcProviderUid"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OidcProvider"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcProvider"
+                }
+              }
+            },
+            "description": "The updated OIDC provider"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_oidc"
+            ]
+          }
+        ],
+        "summary": "Update an OIDC provider",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/oidc/providers/{uid}/databases": {
+      "get": {
+        "description": "For a bound_databases provider, the databases whose oidc_authentication names it. For an all_databases provider, the databases in its account scope without a binding of their own.",
+        "operationId": "cluster_list_oidc_provider_databases",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OidcProviderUid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/OidcProviderDatabase"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "The databases that accept the provider's tokens, sorted by uid"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_oidc_config"
+            ]
+          }
+        ],
+        "summary": "List the databases that accept an OIDC provider's tokens",
         "tags": [
           "Cluster"
         ],
