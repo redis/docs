@@ -245,13 +245,26 @@ certificate. For mutual TLS, also set the source's `CERT` and `KEY` secrets. See
 [Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
 for the full list of source database TLS and mTLS secrets.
 
-Select the TLS mode in the source `advanced.source` section, for example:
+Select the TLS mode in the source `advanced.source` section. MySQL and MariaDB sources
+take different values for `database.ssl.mode`. For example, to verify the server
+certificate against the CA certificate, use the following for a MySQL source:
 
 ```yaml
 advanced:
   source:
     database.ssl.mode: verify_ca
 ```
+
+and the following for a MariaDB source:
+
+```yaml
+advanced:
+  source:
+    database.ssl.mode: verify-ca
+```
+
+MySQL sources take `disabled`, `preferred`, `required`, `verify_ca`, and `verify_identity`.
+MariaDB sources take `disable`, `trust`, `verify-ca`, and `verify-full`.
 
 RDI builds the keystore that presents the client certificate to the source database from the
 source's `CERT` and `KEY` secrets, and configures the collector to use it.

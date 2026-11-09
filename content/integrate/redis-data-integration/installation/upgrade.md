@@ -193,7 +193,8 @@ changes before you upgrade from RDI 2.2.x. If you upgrade from RDI 2.0.x, also r
 Debezium 3.7 no longer sizes each LogMiner iteration by a range of SCNs. Instead, while the
 collector catches up, each iteration reads `log.mining.log.count.min` (default `2`) logs per redo
 thread, and up to `log.mining.log.count.growth.max` (default `4`) while a long-running transaction
-holds back the mining. RDI 2.4.0 rejects the properties that Debezium removed. This example shows where to remove them from your configuration:
+holds back the mining. RDI 2.4.0 rejects the properties that Debezium removed. This example
+shows where to remove them from your configuration:
 
 ```yaml
 sources:
@@ -219,10 +220,13 @@ A collector that is already running ignores these properties after the upgrade, 
 the default log counts until you redeploy. If you raised the batch size because the collector
 could not keep up with the volume of your redo logs, raise `log.mining.log.count.min` instead.
 A higher count clears a backlog in fewer iterations, but each iteration takes longer, so check the
-collector lag after you redeploy.
+collector lag after you redeploy. If you set `log.mining.log.count.min` above
+`log.mining.log.count.growth.max`, the minimum takes precedence. Set `log.mining.log.count.min`
+to `0` to remove the limit and mine all available logs in one iteration.
 
-`log.mining.strategy: redo_log_catalog` still works, but Debezium has deprecated it. Use the
-default `online_catalog` instead, or `hybrid` if `lob.enabled` is not set to `true`.
+`log.mining.strategy: redo_log_catalog` still works in Debezium 3.7, but Debezium has deprecated
+it and plans to remove it. Use the default `online_catalog` instead, or `hybrid` if `lob.enabled`
+is not set to `true`.
 
 ### Check MySQL and MariaDB sources
 

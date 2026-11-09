@@ -211,6 +211,24 @@ Debezium 3.7.
 
 {{< embed-md "rdi-snapshot-modes.md" >}}
 
+For Debezium 3.7, note these connector differences:
+
+- PostgreSQL `no_data` performs no snapshot. It resumes from a saved log sequence
+  number (LSN), or from the replication slot's creation position when no LSN is saved.
+  This requires the relevant write-ahead log (WAL) history to remain available.
+- Other connectors can capture schema or initialize a position without copying
+  existing rows in `no_data` mode.
+- `never` is a deprecated alias for `no_data` in PostgreSQL and MongoDB. MySQL and
+  MariaDB no longer offer `never`, and RDI rejects it for these sources. Oracle and
+  SQL Server do not offer `never`. Use `no_data` to skip existing rows.
+
+See the Debezium 3.7 connector references for [MariaDB](https://debezium.io/documentation/reference/3.7/connectors/mariadb.html),
+[MongoDB](https://debezium.io/documentation/reference/3.7/connectors/mongodb.html),
+[MySQL](https://debezium.io/documentation/reference/3.7/connectors/mysql.html),
+[Oracle](https://debezium.io/documentation/reference/3.7/connectors/oracle.html),
+[PostgreSQL](https://debezium.io/documentation/reference/3.7/connectors/postgresql.html),
+and [SQL Server](https://debezium.io/documentation/reference/3.7/connectors/sqlserver.html).
+
 A reset clears saved positions without changing `snapshot.mode` or flushing the target
 Redis database. If you need to reload existing rows, select a mode that takes a data
 snapshot. A snapshot can overwrite target records, but it does not remove stale records
