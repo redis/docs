@@ -428,6 +428,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xinfo(:stream, key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          }
+        ],
+        "returns": {
+          "type": "Hash",
+          "description": "information of the stream if subcommand is `stream`"
+        }
+      }
     ]
   }
 }

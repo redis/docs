@@ -758,6 +758,67 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geosearchstore(destination, source, frommember: nil, fromlonlat: nil, byradius: nil, bybox: nil, sort: nil, count: nil, count_any: false, storedist: false)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "key to store the result in"
+          },
+          {
+            "name": "source",
+            "type": "String",
+            "description": "geospatial sorted set to search"
+          },
+          {
+            "name": "frommember",
+            "type": "String",
+            "description": "use the position of the given existing member as the center"
+          },
+          {
+            "name": "fromlonlat",
+            "type": "Array<Numeric>",
+            "description": "a [longitude, latitude] pair used as the center"
+          },
+          {
+            "name": "byradius",
+            "type": "Array",
+            "description": "a [radius, unit] pair where unit is one of 'm', 'km', 'ft', 'mi'"
+          },
+          {
+            "name": "bybox",
+            "type": "Array",
+            "description": "a [width, height, unit] triple where unit is one of 'm', 'km', 'ft', 'mi'"
+          },
+          {
+            "name": "sort",
+            "type": "'asc', 'desc'",
+            "description": "sort returned items from the nearest to the farthest, or vice versa"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "limit the results to the first N matching items"
+          },
+          {
+            "name": "count_any",
+            "type": "Boolean",
+            "description": "return as soon as enough matches are found (only with count)"
+          },
+          {
+            "name": "storedist",
+            "type": "Boolean",
+            "description": "store the distance from the center point as the score"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of elements stored in the destination key"
+        }
+      }
     ]
   }
 }

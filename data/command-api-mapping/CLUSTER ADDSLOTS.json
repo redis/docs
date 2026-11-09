@@ -214,7 +214,22 @@
           "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "cluster(:addslots, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the subcommand"
+        }
+      }
     ]
   }
 }
-

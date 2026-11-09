@@ -162,7 +162,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "select(db)",
+        "params": [
+          {
+            "name": "db",
+            "type": "Integer",
+            "description": "zero-based index of the DB to use (0 to 15)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
     ]
   }
 }
-

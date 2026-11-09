@@ -410,6 +410,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "setbit(key, offset, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "Integer",
+            "description": "bit offset"
+          },
+          {
+            "name": "value",
+            "type": "Integer",
+            "description": "bit value `0` or `1`"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the original bit value stored at `offset`"
+        }
+      }
     ]
   }
 }

@@ -151,6 +151,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "dbsize()",
+        "params": [],
+        "returns": {
+          "type": "Integer",
+          "description": ""
+        }
+      }
     ]
   }
 }

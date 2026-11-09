@@ -755,6 +755,72 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geosearch(key, frommember: nil, fromlonlat: nil, byradius: nil, bybox: nil, sort: nil, count: nil, count_any: false, withcoord: false, withdist: false, withhash: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "frommember",
+            "type": "String",
+            "description": "use the position of the given existing member as the center"
+          },
+          {
+            "name": "fromlonlat",
+            "type": "Array<Numeric>",
+            "description": "a [longitude, latitude] pair used as the center"
+          },
+          {
+            "name": "byradius",
+            "type": "Array",
+            "description": "a [radius, unit] pair where unit is one of 'm', 'km', 'ft', 'mi'"
+          },
+          {
+            "name": "bybox",
+            "type": "Array",
+            "description": "a [width, height, unit] triple where unit is one of 'm', 'km', 'ft', 'mi'"
+          },
+          {
+            "name": "sort",
+            "type": "'asc', 'desc'",
+            "description": "sort returned items from the nearest to the farthest, or vice versa"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "limit the results to the first N matching items"
+          },
+          {
+            "name": "count_any",
+            "type": "Boolean",
+            "description": "return as soon as enough matches are found (only with count)"
+          },
+          {
+            "name": "withcoord",
+            "type": "Boolean",
+            "description": "also return the longitude and latitude of matching items"
+          },
+          {
+            "name": "withdist",
+            "type": "Boolean",
+            "description": "also return the distance from the center point"
+          },
+          {
+            "name": "withhash",
+            "type": "Boolean",
+            "description": "also return the raw geohash-encoded sorted set score of the item"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "may be changed with WITH* flags"
+        }
+      }
     ]
   }
 }

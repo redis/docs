@@ -316,6 +316,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "flushall(options = nil)",
+        "params": [
+          {
+            "name": "options",
+            "type": "Hash",
+            "description": "- `:async => Boolean`: async flush (default: false)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
     ]
   }
 }

@@ -118,6 +118,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "slowlog(:len)",
+        "params": [],
+        "returns": {
+          "type": "Array<String>, Integer, String",
+          "description": "depends on subcommand"
+        }
+      }
     ]
   }
 }

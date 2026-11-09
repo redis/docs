@@ -72,7 +72,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "asking()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "`'OK'`"
+        }
+      }
     ]
   }
 }
-

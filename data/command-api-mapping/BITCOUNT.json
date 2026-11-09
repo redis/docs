@@ -663,6 +663,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bitcount(key, start = 0, stop = -1, scale: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "start index"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "stop index"
+          },
+          {
+            "name": "scale",
+            "type": "String, Symbol",
+            "description": "the scale of the offset range e.g. 'BYTE' - interpreted as a range of bytes, 'BIT' - interpreted as a range of bits"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of bits set to 1"
+        }
+      }
     ]
   }
 }
