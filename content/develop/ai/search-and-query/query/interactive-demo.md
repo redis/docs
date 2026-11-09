@@ -65,7 +65,7 @@ EOF
 
 1. Paste the command from the **redis-cli** tab into a terminal, and replace `<host>` and `<port>` with your database's. If your database needs a username and password, add `--user <username> --pass <password>` after the port.
 2. Run the command. It loads all 31 setup commands at once.
-3. Connect with `redis-cli -h <host> -p <port>`, copy a query from the demo, and run it. The reply is the same as the demo's **The output**.
+3. Connect with `redis-cli -h <host> -p <port>`, add `--user <username> --pass <password>` if you used them in step 1, copy a query from the demo, and run it. The reply is the same as the demo's **The output**.
 
 ### Clean up
 
