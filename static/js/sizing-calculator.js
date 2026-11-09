@@ -48,6 +48,12 @@
     int: 'A number, stored with the key.',
   };
 
+  // What the header holds when the value needs no memory of its own: an int,
+  // or a short embstr that fits in the header's spare bytes.
+  function heldInHeader(r) {
+    return r.value ? '' : r.encoding === 'int' ? 'number' : 'text';
+  }
+
   // The parts of each bar: id, name, and what the memory is, for the tooltips.
   var PARTS = [
     ['value', 'Value', 'The record\'s data, in the form Redis stores it for this type.'],
@@ -167,6 +173,7 @@
             : 'A JSON document needs valid JSON.') + '</p></div>';
       }
       var amounts = { value: r.value, object: r.object, space: r.keyspace };
+      var held = heldInHeader(r);
       var width = largest ? 100 * r.perKey / largest : 0;
       var ratio = r.data >= 8 ? Math.round(10 * r.perKey / r.data) / 10 : 0;
       return '<div class="rsz-row' + (best ? ' rsz-best' : '') + '" data-shape="' + shape.id + '">' +
@@ -183,7 +190,7 @@
         '</div>' +
         '<p class="rsz-detail">' + esc(ENCODINGS[r.encoding] || '') + ' ' + bytesPerKey(r.perKey) + ' per key: ' +
           (r.value ? bytesPerKey(r.value).replace(/ bytes?$/, '') + ' for the value, ' : '') +
-          bytesPerKey(r.object).replace(/ bytes?$/, '') + ' for the key and object header' + (r.value ? ',' : ', which holds the number,') +
+          bytesPerKey(r.object).replace(/ bytes?$/, '') + ' for the key and object header' + (held ? ', which holds the ' + held + ',' : ',') +
           ' and ' + bytesPerKey(r.keyspace).replace(/ bytes?$/, '') + ' for the index of keys' +
           (ttl.checked ? ' and expiries' : '') + '.' +
           (ratio ? ' That\'s ' + ratio + ' times the ' + bytesPerKey(r.data) + ' ' + shape.data + '.' : '') +
@@ -291,7 +298,8 @@
         name += ' and expiries';
         text = 'The key\'s share of the two tables Redis uses to find every key and every expiry.';
       }
-      if (p[0] === 'object' && r && !r.value) text += ' Here the header also holds the number.';
+      var held = p[0] === 'object' && r ? heldInHeader(r) : '';
+      if (held) text += ' Here the header also holds the ' + held + '.';
       var amount = r ? { value: r.value, object: r.object, space: r.keyspace }[p[0]] : null;
       return '<strong>' + name + (amount === null ? '' : ': ' + bytesPerKey(amount) + ' per key') + '</strong>' + text;
     }
