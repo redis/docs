@@ -104,6 +104,27 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"SAVE\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SAVE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

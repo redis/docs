@@ -154,6 +154,41 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "bgsave(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bgsave(schedule: \"SCHEDULE\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "schedule",
+            "type": "\"SCHEDULE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

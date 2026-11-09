@@ -306,6 +306,71 @@
           "description": "Feedback on the TTL of the fields"
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "hpttl(...args: [key: RedisKey, fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hpttl(...args: [key: RedisKey, fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

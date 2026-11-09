@@ -121,6 +121,32 @@
     ],
     "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "latency(subcommand: \"HISTORY\", event: string | Buffer, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HISTORY\"",
+            "description": ""
+          },
+          {
+            "name": "event",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

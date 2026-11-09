@@ -104,6 +104,27 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "client(subcommand: \"ID\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"ID\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

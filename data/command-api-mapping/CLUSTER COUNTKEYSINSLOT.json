@@ -121,7 +121,33 @@
     "nredisstack_async": [],
     "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "cluster(subcommand: \"COUNTKEYSINSLOT\", slot: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"COUNTKEYSINSLOT\"",
+            "description": ""
+          },
+          {
+            "name": "slot",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

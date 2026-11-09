@@ -406,6 +406,134 @@
           "description": "whether the key was copied or not"
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "copy(source: RedisKey, destination: RedisKey, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "copy(source: RedisKey, destination: RedisKey, replace: \"REPLACE\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "\"REPLACE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "copy(source: RedisKey, destination: RedisKey, destinationDbToken: \"DB\", destinationDb: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destinationDbToken",
+            "type": "\"DB\"",
+            "description": ""
+          },
+          {
+            "name": "destinationDb",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "copy(source: RedisKey, destination: RedisKey, destinationDbToken: \"DB\", destinationDb: number | string, replace: \"REPLACE\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destinationDbToken",
+            "type": "\"DB\"",
+            "description": ""
+          },
+          {
+            "name": "destinationDb",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "\"REPLACE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

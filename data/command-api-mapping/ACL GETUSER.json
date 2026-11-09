@@ -171,6 +171,32 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"GETUSER\", username: string | Buffer, callback?: Callback<string[] | null>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GETUSER\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[] | null, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

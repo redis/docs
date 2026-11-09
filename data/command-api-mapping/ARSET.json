@@ -258,6 +258,61 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "arset(...args: [key: RedisKey, index: number | string, ...values: (string | Buffer | number)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...values",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arset(...args: [key: RedisKey, index: number | string, ...values: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...values",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

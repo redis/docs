@@ -204,6 +204,27 @@
           "description": "expiry time specified as number of milliseconds from UNIX Epoch"
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "pexpiretime(key: RedisKey, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

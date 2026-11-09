@@ -95,7 +95,28 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "cluster(subcommand: \"LINKS\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LINKS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

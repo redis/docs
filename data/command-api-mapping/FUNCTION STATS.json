@@ -49,7 +49,27 @@
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "function(subcommand: \"STATS\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"STATS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],

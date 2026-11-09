@@ -275,6 +275,74 @@
           "description": "number of keys that were unlinked"
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "unlink(...args: [...keys: RedisKey[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "unlink(...args: [keys: RedisKey[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "unlink(...args: [...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "unlink(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

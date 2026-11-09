@@ -22,7 +22,80 @@
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "script(subcommand: \"DEBUG\", yes: \"YES\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DEBUG\"",
+            "description": ""
+          },
+          {
+            "name": "yes",
+            "type": "\"YES\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "script(subcommand: \"DEBUG\", sync: \"SYNC\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DEBUG\"",
+            "description": ""
+          },
+          {
+            "name": "sync",
+            "type": "\"SYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "script(subcommand: \"DEBUG\", no: \"NO\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DEBUG\"",
+            "description": ""
+          },
+          {
+            "name": "no",
+            "type": "\"NO\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],

@@ -149,7 +149,55 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "punsubscribe(callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "punsubscribe(...args: [...patterns: string[], callback: Callback<unknown>])",
+        "params": [
+          {
+            "name": "...patterns",
+            "type": "string[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "punsubscribe(...args: [...patterns: string[]])",
+        "params": [
+          {
+            "name": "...patterns",
+            "type": "string[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [
       {
         "signature": "punsubscribe(pchannel: T)",

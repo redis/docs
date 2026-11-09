@@ -270,6 +270,74 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "exists(...args: [...keys: RedisKey[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "exists(...args: [keys: RedisKey[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "exists(...args: [...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "exists(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

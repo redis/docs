@@ -104,6 +104,27 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"LOAD\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOAD\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

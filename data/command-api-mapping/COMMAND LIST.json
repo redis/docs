@@ -179,6 +179,129 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "command(subcommand: \"LIST\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "command(subcommand: \"LIST\", filterby: \"FILTERBY\", moduleNameToken: \"MODULE\", moduleName: string | Buffer, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "filterby",
+            "type": "\"FILTERBY\"",
+            "description": ""
+          },
+          {
+            "name": "moduleNameToken",
+            "type": "\"MODULE\"",
+            "description": ""
+          },
+          {
+            "name": "moduleName",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "command(subcommand: \"LIST\", filterby: \"FILTERBY\", categoryToken: \"ACLCAT\", category: string | Buffer, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "filterby",
+            "type": "\"FILTERBY\"",
+            "description": ""
+          },
+          {
+            "name": "categoryToken",
+            "type": "\"ACLCAT\"",
+            "description": ""
+          },
+          {
+            "name": "category",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "command(subcommand: \"LIST\", filterby: \"FILTERBY\", patternToken: \"PATTERN\", pattern: string, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "filterby",
+            "type": "\"FILTERBY\"",
+            "description": ""
+          },
+          {
+            "name": "patternToken",
+            "type": "\"PATTERN\"",
+            "description": ""
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

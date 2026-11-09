@@ -135,6 +135,22 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "randomkey(callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string | null, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

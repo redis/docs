@@ -175,7 +175,41 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "subscribe(...args: [...channels: (string | Buffer)[], callback: Callback<unknown>])",
+        "params": [
+          {
+            "name": "...channels",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "subscribe(...args: [...channels: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "...channels",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [
       {
         "signature": "subscribe(channel: T)",

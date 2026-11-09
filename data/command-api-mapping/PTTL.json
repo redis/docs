@@ -204,6 +204,27 @@
           "description": "remaining time to live in milliseconds"
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "pttl(key: RedisKey, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

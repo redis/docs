@@ -197,6 +197,41 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "ping(callback?: Callback<\"PONG\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"PONG\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"PONG\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ping(message: string | Buffer, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "message",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

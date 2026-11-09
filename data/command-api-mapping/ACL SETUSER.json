@@ -309,6 +309,85 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"SETUSER\", username: string | Buffer, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETUSER\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(...args: [ subcommand: \"SETUSER\", username: string | Buffer, ...rules: (string | Buffer)[], callback: Callback<\"OK\"> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETUSER\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...rules",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(...args: [ subcommand: \"SETUSER\", username: string | Buffer, ...rules: (string | Buffer)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETUSER\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...rules",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

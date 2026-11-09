@@ -151,6 +151,32 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "arget(key: RedisKey, index: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string | null, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

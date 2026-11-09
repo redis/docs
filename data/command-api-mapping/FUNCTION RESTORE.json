@@ -203,7 +203,119 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "function(subcommand: \"RESTORE\", serializedValue: string | Buffer | number, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESTORE\"",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"RESTORE\", serializedValue: string | Buffer | number, flush: \"FLUSH\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESTORE\"",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "flush",
+            "type": "\"FLUSH\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"RESTORE\", serializedValue: string | Buffer | number, append: \"APPEND\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESTORE\"",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "append",
+            "type": "\"APPEND\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"RESTORE\", serializedValue: string | Buffer | number, replace: \"REPLACE\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESTORE\"",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "\"REPLACE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],

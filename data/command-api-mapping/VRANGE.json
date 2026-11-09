@@ -210,6 +210,71 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "vrange(key: RedisKey, start: string | Buffer | number, end: string | Buffer | number, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vrange(key: RedisKey, start: string | Buffer | number, end: string | Buffer | number, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

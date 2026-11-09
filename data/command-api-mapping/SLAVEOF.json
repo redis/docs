@@ -193,6 +193,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "slaveof(host: string | Buffer, port: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "host",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

@@ -805,6 +805,51 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "vadd(...args: [key: RedisKey, ...args: (RedisValue)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(RedisValue)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vadd(...args: [key: RedisKey, ...args: (RedisValue)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(RedisValue)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

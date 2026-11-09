@@ -120,7 +120,75 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "function(subcommand: \"FLUSH\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"FLUSH\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"FLUSH\", async: \"ASYNC\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"FLUSH\"",
+            "description": ""
+          },
+          {
+            "name": "async",
+            "type": "\"ASYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"FLUSH\", sync: \"SYNC\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"FLUSH\"",
+            "description": ""
+          },
+          {
+            "name": "sync",
+            "type": "\"SYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],

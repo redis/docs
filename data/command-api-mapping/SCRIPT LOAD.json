@@ -159,7 +159,32 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "script(subcommand: \"LOAD\", script: string | Buffer, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOAD\"",
+            "description": ""
+          },
+          {
+            "name": "script",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [
       {
         "signature": "load_script(script: &'a crate::Script)",

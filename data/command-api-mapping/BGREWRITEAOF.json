@@ -135,6 +135,22 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "bgrewriteaof(callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

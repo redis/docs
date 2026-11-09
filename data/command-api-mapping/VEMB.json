@@ -395,6 +395,61 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "vemb(key: RedisKey, element: string | Buffer | number, callback?: Callback<string[] | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[] | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vemb(key: RedisKey, element: string | Buffer | number, raw: 'RAW', callback?: Callback<string[] | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "raw",
+            "type": "'RAW'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[] | null, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

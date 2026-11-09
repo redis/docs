@@ -243,6 +243,61 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "arlastitems(key: RedisKey, count: number | string, callback?: Callback<(string | null)[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<(string | null)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arlastitems(key: RedisKey, count: number | string, rev: 'REV', callback?: Callback<(string | null)[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "rev",
+            "type": "'REV'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<(string | null)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

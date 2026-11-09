@@ -232,6 +232,51 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(...args: [ subcommand: \"DELUSER\", ...usernames: (string | Buffer)[], callback: Callback<number> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DELUSER\"",
+            "description": ""
+          },
+          {
+            "name": "...usernames",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(...args: [subcommand: \"DELUSER\", ...usernames: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DELUSER\"",
+            "description": ""
+          },
+          {
+            "name": "...usernames",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

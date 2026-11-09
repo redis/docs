@@ -154,7 +154,55 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "sunsubscribe(callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sunsubscribe(...args: [ ...shardchannels: (string | Buffer)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "...shardchannels",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sunsubscribe(...args: [...shardchannels: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "...shardchannels",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [
       {

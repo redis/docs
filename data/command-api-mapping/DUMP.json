@@ -204,6 +204,27 @@
           "description": "serialized_value"
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "dump(key: RedisKey, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

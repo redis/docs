@@ -129,6 +129,70 @@
     ],
     "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "latency(subcommand: \"RESET\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESET\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "latency(...args: [ subcommand: \"RESET\", ...events: (string | Buffer)[], callback: Callback<number> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESET\"",
+            "description": ""
+          },
+          {
+            "name": "...events",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "latency(...args: [subcommand: \"RESET\", ...events: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESET\"",
+            "description": ""
+          },
+          {
+            "name": "...events",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

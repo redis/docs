@@ -734,6 +734,51 @@
           "description": "array of elements or count when store is specified"
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "sort(...args: [key: RedisKey, ...args: RedisValue[], callback: Callback<unknown>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sort(...args: [key: RedisKey, ...args: RedisValue[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }
