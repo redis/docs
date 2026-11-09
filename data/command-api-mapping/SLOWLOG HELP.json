@@ -52,6 +52,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "slowlog(:help)",
+        "params": [],
+        "returns": {
+          "type": "Array<String>",
+          "description": "lines of help text"
+        }
+      }
     ]
   }
 }

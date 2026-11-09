@@ -679,6 +679,22 @@
           "description": "Script execution result"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "eval(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "the script String, then optional keys and argv arrays, or a Hash with :keys and :argv"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the script"
+        }
+      }
     ]
   }
 }

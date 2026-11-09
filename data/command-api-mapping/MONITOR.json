@@ -95,6 +95,22 @@
           "description": "A new connection in monitor mode, so the current connection is not disturbed"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "monitor",
+        "params": [
+          {
+            "name": "&block",
+            "type": "Block",
+            "description": "called for every line of output, with the timestamp and command as a String"
+          }
+        ],
+        "returns": {
+          "type": "nil",
+          "description": "does not return, there is no way to interrupt it"
+        }
+      }
     ]
   }
 }

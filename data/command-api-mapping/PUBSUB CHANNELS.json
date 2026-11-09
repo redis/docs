@@ -264,6 +264,22 @@
           "description": "List of active channels matching the pattern"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:channels, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "an optional glob-style pattern to match channel names"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "the active channels"
+        }
+      }
     ]
   }
 }

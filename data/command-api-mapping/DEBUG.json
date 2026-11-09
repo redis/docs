@@ -175,6 +175,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "debug(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "the subcommand, then its arguments"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the subcommand, a String for OBJECT and SLEEP"
+        }
+      }
     ]
   }
 }

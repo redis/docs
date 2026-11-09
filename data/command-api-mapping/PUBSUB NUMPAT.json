@@ -158,6 +158,16 @@
           "description": "Number of unique pattern subscriptions"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:numpat)",
+        "params": [],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of pattern subscriptions"
+        }
+      }
     ]
   }
 }

@@ -224,6 +224,22 @@
           "description": "List of active shard channels matching the pattern"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:shardchannels, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "an optional glob-style pattern to match shard channel names"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "the active shard channels"
+        }
+      }
     ]
   }
 }

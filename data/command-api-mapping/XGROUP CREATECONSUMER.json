@@ -309,6 +309,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xgroup(:createconsumer, key, group, consumer)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "1 when the consumer was created, 0 when it already existed"
+        }
+      }
     ]
   }
 }

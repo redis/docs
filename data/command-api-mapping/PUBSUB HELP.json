@@ -53,6 +53,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:help)",
+        "params": [],
+        "returns": {
+          "type": "Array<String>",
+          "description": "lines of help text"
+        }
+      }
     ]
   }
 }
