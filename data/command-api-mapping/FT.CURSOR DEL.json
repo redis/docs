@@ -1,21 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "cursor_del(cursor_id: int)",
-        "params": [
-          {
-            "name": "cursor_id",
-            "type": "int",
-            "description": "The cursor ID to delete"
-          }
-        ],
-        "returns": {
-          "type": "str",
-          "description": "OK on success"
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "String ftCursorDel(String indexName, long cursorId)",

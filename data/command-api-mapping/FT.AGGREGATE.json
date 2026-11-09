@@ -2,16 +2,16 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "aggregate(query: Union[str, Query], query_params: Optional[Dict[str, Union[str, int, float]]] = None)",
+        "signature": "aggregate(query: Union[AggregateRequest, Cursor], query_params: Optional[Dict[str, Union[str, int, float, bytes]]] = None)",
         "params": [
           {
             "name": "query",
-            "type": "Union[str, Query]",
+            "type": "Union[AggregateRequest, Cursor]",
             "description": "The aggregation query"
           },
           {
             "name": "query_params",
-            "type": "Optional[Dict[str, Union[str, int, float]]]",
+            "type": "Optional[Dict[str, Union[str, int, float, bytes]]]",
             "description": "Optional query parameters"
           }
         ],

@@ -1,15 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "_list()",
-        "params": [],
-        "returns": {
-          "type": "List[str]",
-          "description": "A list of all existing indexes"
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "Set<String> ftList()",

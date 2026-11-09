@@ -2,17 +2,17 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "cursor_read(cursor_id: int, read_size: Optional[int] = None)",
+        "signature": "aggregate(query: Union[AggregateRequest, Cursor], query_params: Optional[Dict[str, Union[str, int, float, bytes]]] = None)",
         "params": [
           {
-            "name": "cursor_id",
-            "type": "int",
-            "description": "The cursor ID to read from"
+            "name": "query",
+            "type": "Union[AggregateRequest, Cursor]",
+            "description": "A Cursor built from the cursor ID of a previous AggregateResult; its count attribute sets the read size"
           },
           {
-            "name": "read_size",
-            "type": "Optional[int]",
-            "description": "Number of results to read"
+            "name": "query_params",
+            "type": "Optional[Dict[str, Union[str, int, float, bytes]]]",
+            "description": "Optional query parameters"
           }
         ],
         "returns": {
