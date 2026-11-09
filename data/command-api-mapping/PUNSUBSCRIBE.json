@@ -268,7 +268,7 @@
         "signature": "punsubscribe(...$pattern)",
         "params": [
           {
-            "name": "$pattern",
+            "name": "...$pattern",
             "type": "mixed",
             "description": ""
           }

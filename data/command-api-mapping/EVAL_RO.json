@@ -365,8 +365,8 @@
             "description": "Keys for the script"
           },
           {
-            "name": "$argument",
-            "type": "...",
+            "name": "...$argument",
+            "type": "",
             "description": "Arguments for the script"
           }
         ],

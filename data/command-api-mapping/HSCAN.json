@@ -732,7 +732,7 @@
           },
           {
             "name": "$cursor",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {

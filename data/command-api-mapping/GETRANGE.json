@@ -343,12 +343,12 @@
           },
           {
             "name": "$start",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$end",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

@@ -646,8 +646,8 @@
             "description": ""
           },
           {
-            "name": "$id",
-            "type": "string ...",
+            "name": "...$id",
+            "type": "string",
             "description": ""
           }
         ],

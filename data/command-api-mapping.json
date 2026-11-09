@@ -415,7 +415,7 @@
           "signature": "delUser(string ...$username)",
           "params": [
             {
-              "name": "$username",
+              "name": "...$username",
               "type": "string",
               "description": ""
             }
@@ -708,7 +708,7 @@
               "description": ""
             },
             {
-              "name": "$arguments",
+              "name": "...$arguments",
               "type": "mixed",
               "description": ""
             }
@@ -1974,7 +1974,7 @@
               "description": ""
             },
             {
-              "name": "$rules",
+              "name": "...$rules",
               "type": "string",
               "description": ""
             }
@@ -2604,7 +2604,7 @@
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -2791,7 +2791,7 @@
               "description": ""
             },
             {
-              "name": "$index",
+              "name": "...$index",
               "type": "int",
               "description": ""
             }
@@ -3004,7 +3004,7 @@
               "description": ""
             },
             {
-              "name": "$startEnd",
+              "name": "...$startEnd",
               "type": "int",
               "description": ""
             }
@@ -4142,7 +4142,7 @@
               "description": ""
             },
             {
-              "name": "$value",
+              "name": "...$value",
               "type": "string",
               "description": ""
             }
@@ -4724,7 +4724,7 @@
               "description": ""
             },
             {
-              "name": "$index",
+              "name": "...$index",
               "type": "int",
               "description": ""
             }
@@ -5857,7 +5857,7 @@
               "description": ""
             },
             {
-              "name": "$value",
+              "name": "...$value",
               "type": "string",
               "description": ""
             }
@@ -6574,7 +6574,7 @@
               "description": ""
             },
             {
-              "name": "$value",
+              "name": "...$value",
               "type": "string",
               "description": ""
             }
@@ -8202,8 +8202,8 @@
               "description": "If true, prevent scaling"
             },
             {
-              "name": "$item",
-              "type": "string...",
+              "name": "...$item",
+              "type": "string",
               "description": "Items to add"
             }
           ],
@@ -8633,8 +8633,8 @@
               "description": "The name of the Bloom filter"
             },
             {
-              "name": "$item",
-              "type": "...",
+              "name": "...$item",
+              "type": "",
               "description": "Items to add"
             }
           ],
@@ -8831,8 +8831,8 @@
               "description": "The name of the Bloom filter"
             },
             {
-              "name": "$item",
-              "type": "...",
+              "name": "...$item",
+              "type": "",
               "description": "Items to check"
             }
           ],
@@ -10901,12 +10901,12 @@
             },
             {
               "name": "$subcommand",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "$subcommandArg",
-              "type": "...",
+              "name": "...$subcommandArg",
+              "type": "",
               "description": ""
             }
           ],
@@ -12222,17 +12222,17 @@
           "params": [
             {
               "name": "$operation",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$destkey",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$key",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -13123,7 +13123,7 @@
             },
             {
               "name": "$bit",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -19125,8 +19125,8 @@
               "description": "If true, don't create filter"
             },
             {
-              "name": "$item",
-              "type": "string...",
+              "name": "...$item",
+              "type": "string",
               "description": "Items to add"
             }
           ],
@@ -19355,8 +19355,8 @@
               "description": "If true, don't create filter"
             },
             {
-              "name": "$item",
-              "type": "string...",
+              "name": "...$item",
+              "type": "string",
               "description": "Items to add"
             }
           ],
@@ -19702,8 +19702,8 @@
               "description": "The name of the Cuckoo filter"
             },
             {
-              "name": "$item",
-              "type": "...",
+              "name": "...$item",
+              "type": "",
               "description": "Items to check"
             }
           ],
@@ -21071,7 +21071,7 @@
           "signature": "kill(...$arguments)",
           "params": [
             {
-              "name": "$arguments",
+              "name": "...$arguments",
               "type": "mixed",
               "description": ""
             }
@@ -21242,7 +21242,7 @@
               "description": ""
             },
             {
-              "name": "$clientId",
+              "name": "...$clientId",
               "type": "int",
               "description": ""
             }
@@ -22853,7 +22853,7 @@
           "signature": "addSlotsRange(int ...$startEndSlots)",
           "params": [
             {
-              "name": "$startEndSlots",
+              "name": "...$startEndSlots",
               "type": "int",
               "description": ""
             }
@@ -23438,7 +23438,7 @@
           "signature": "delSlotsRange(int ...$startEndSlots)",
           "params": [
             {
-              "name": "$startEndSlots",
+              "name": "...$startEndSlots",
               "type": "int",
               "description": ""
             }
@@ -30879,8 +30879,8 @@
               "description": ""
             },
             {
-              "name": "$keys",
-              "type": "string ...",
+              "name": "...$keys",
+              "type": "string",
               "description": ""
             }
           ],
@@ -31143,7 +31143,7 @@
             },
             {
               "name": "$flagValue",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -32373,8 +32373,8 @@
               "description": "Number of keys in the script"
             },
             {
-              "name": "$keyOrArg",
-              "type": "string...",
+              "name": "...$keyOrArg",
+              "type": "string",
               "description": "Keys and arguments for the script"
             }
           ],
@@ -32762,8 +32762,8 @@
               "description": "Number of keys in the script"
             },
             {
-              "name": "$keyOrArg",
-              "type": "string...",
+              "name": "...$keyOrArg",
+              "type": "string",
               "description": "Keys and arguments for the script"
             }
           ],
@@ -33055,8 +33055,8 @@
               "description": "Keys for the script"
             },
             {
-              "name": "$argument",
-              "type": "...",
+              "name": "...$argument",
+              "type": "",
               "description": "Arguments for the script"
             }
           ],
@@ -33435,8 +33435,8 @@
               "description": "Keys for the script"
             },
             {
-              "name": "$argument",
-              "type": "...",
+              "name": "...$argument",
+              "type": "",
               "description": "Arguments for the script"
             }
           ],
@@ -35672,8 +35672,8 @@
               "description": "Keys for the function"
             },
             {
-              "name": "$args",
-              "type": "...",
+              "name": "...$args",
+              "type": "",
               "description": "Arguments for the function"
             }
           ],
@@ -35977,8 +35977,8 @@
               "description": "Keys for the function"
             },
             {
-              "name": "$args",
-              "type": "...",
+              "name": "...$args",
+              "type": "",
               "description": "Arguments for the function"
             }
           ],
@@ -39193,7 +39193,7 @@
               "description": "The dictionary name"
             },
             {
-              "name": "$term",
+              "name": "...$term",
               "type": "string",
               "description": "Terms to add (variadic)"
             }
@@ -39436,7 +39436,7 @@
               "description": "The dictionary name"
             },
             {
-              "name": "$term",
+              "name": "...$term",
               "type": "string",
               "description": "Terms to delete (variadic)"
             }
@@ -44047,7 +44047,7 @@
               "description": "Optional arguments (SKIPINITIALSCAN)"
             },
             {
-              "name": "$terms",
+              "name": "...$terms",
               "type": "string",
               "description": "Synonym terms (variadic)"
             }
@@ -46576,17 +46576,17 @@
             },
             {
               "name": "$longitude",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$latitude",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$member",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -47314,12 +47314,12 @@
             },
             {
               "name": "$member1",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$member2",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -49541,22 +49541,22 @@
             },
             {
               "name": "$longitude",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$latitude",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$radius",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$unit",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -50341,17 +50341,17 @@
             },
             {
               "name": "$member",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$radius",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$unit",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -52922,7 +52922,7 @@
             },
             {
               "name": "$offset",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -54049,12 +54049,12 @@
             },
             {
               "name": "$start",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$end",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -54377,7 +54377,7 @@
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -67490,7 +67490,7 @@
             },
             {
               "name": "$cursor",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -71837,8 +71837,8 @@
               "description": ""
             },
             {
-              "name": "$value",
-              "type": "...",
+              "name": "...$value",
+              "type": "",
               "description": ""
             }
           ],
@@ -73100,8 +73100,8 @@
               "description": ""
             },
             {
-              "name": "$value",
-              "type": "string ...",
+              "name": "...$value",
+              "type": "string",
               "description": ""
             }
           ],
@@ -75912,8 +75912,8 @@
               "description": ""
             },
             {
-              "name": "$paths",
-              "type": "string ...",
+              "name": "...$paths",
+              "type": "string",
               "description": ""
             }
           ],
@@ -76994,8 +76994,8 @@
           "signature": "jsonmset(string ...$keyPathValue)",
           "params": [
             {
-              "name": "$keyPathValue",
-              "type": "string ...",
+              "name": "...$keyPathValue",
+              "type": "string",
               "description": ""
             }
           ],
@@ -82835,17 +82835,17 @@
             },
             {
               "name": "$whence",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$pivot",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -94249,12 +94249,12 @@
             },
             {
               "name": "$milliseconds",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -94617,7 +94617,7 @@
           "signature": "psubscribe(...$pattern)",
           "params": [
             {
-              "name": "$pattern",
+              "name": "...$pattern",
               "type": "mixed",
               "description": ""
             }
@@ -96416,7 +96416,7 @@
           "signature": "punsubscribe(...$pattern)",
           "params": [
             {
-              "name": "$pattern",
+              "name": "...$pattern",
               "type": "mixed",
               "description": ""
             }
@@ -104372,7 +104372,7 @@
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -104892,12 +104892,12 @@
             },
             {
               "name": "$offset",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -105216,12 +105216,12 @@
             },
             {
               "name": "$seconds",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -105516,7 +105516,7 @@
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -105918,12 +105918,12 @@
             },
             {
               "name": "$offset",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$value",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -109410,8 +109410,8 @@
               "description": ""
             },
             {
-              "name": "$members",
-              "type": "string ...",
+              "name": "...$members",
+              "type": "string",
               "description": ""
             }
           ],
@@ -113564,8 +113564,8 @@
           "signature": "ssubscribe(string ...$shardChannels)",
           "params": [
             {
-              "name": "$shardChannels",
-              "type": "string...",
+              "name": "...$shardChannels",
+              "type": "string",
               "description": "Shard channels to subscribe to"
             }
           ],
@@ -114228,7 +114228,7 @@
           "signature": "subscribe(string ...$channels)",
           "params": [
             {
-              "name": "$channels",
+              "name": "...$channels",
               "type": "string",
               "description": ""
             }
@@ -114619,12 +114619,12 @@
             },
             {
               "name": "$start",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$end",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -115779,8 +115779,8 @@
           "signature": "sunsubscribe(?string ...$shardChannels = null)",
           "params": [
             {
-              "name": "$shardChannels",
-              "type": "?string...",
+              "name": "...$shardChannels",
+              "type": "?string",
               "description": "Shard channels to unsubscribe from (null for all)"
             }
           ],
@@ -119636,8 +119636,8 @@
               "description": ""
             },
             {
-              "name": "$keys",
-              "type": "string ...",
+              "name": "...$keys",
+              "type": "string",
               "description": ""
             }
           ],
@@ -122370,8 +122370,8 @@
           "signature": "tsmadd(mixed ...$keyTimestampValue)",
           "params": [
             {
-              "name": "$keyTimestampValue",
-              "type": "mixed ...",
+              "name": "...$keyTimestampValue",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -122575,8 +122575,8 @@
               "description": ""
             },
             {
-              "name": "$filterExpression",
-              "type": "string ...",
+              "name": "...$filterExpression",
+              "type": "string",
               "description": ""
             }
           ],
@@ -123005,12 +123005,12 @@
           "params": [
             {
               "name": "$fromTimestamp",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$toTimestamp",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -123413,12 +123413,12 @@
           "params": [
             {
               "name": "$fromTimestamp",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$toTimestamp",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -123574,8 +123574,8 @@
           "signature": "tsqueryindex(string ...$filterExpression)",
           "params": [
             {
-              "name": "$filterExpression",
-              "type": "string ...",
+              "name": "...$filterExpression",
+              "type": "string",
               "description": ""
             }
           ],
@@ -123959,12 +123959,12 @@
             },
             {
               "name": "$fromTimestamp",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$toTimestamp",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -124353,12 +124353,12 @@
             },
             {
               "name": "$fromTimestamp",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
               "name": "$toTimestamp",
-              "type": "Any",
+              "type": "mixed",
               "description": ""
             },
             {
@@ -125044,8 +125044,8 @@
               "description": ""
             },
             {
-              "name": "$keys",
-              "type": "string ...",
+              "name": "...$keys",
+              "type": "string",
               "description": ""
             }
           ],
@@ -125343,7 +125343,7 @@
           "signature": "unsubscribe(string ...$channels)",
           "params": [
             {
-              "name": "$channels",
+              "name": "...$channels",
               "type": "string",
               "description": ""
             }
@@ -130907,8 +130907,8 @@
               "description": ""
             },
             {
-              "name": "$id",
-              "type": "string ...",
+              "name": "...$id",
+              "type": "string",
               "description": ""
             }
           ],
@@ -135503,8 +135503,8 @@
               "description": ""
             },
             {
-              "name": "$id",
-              "type": "string ...",
+              "name": "...$id",
+              "type": "string",
               "description": ""
             }
           ],
@@ -143121,8 +143121,8 @@
               "description": ""
             },
             {
-              "name": "$id",
-              "type": "string ...",
+              "name": "...$id",
+              "type": "string",
               "description": ""
             }
           ],
@@ -144235,8 +144235,8 @@
               "description": ""
             },
             {
-              "name": "$keyOrId",
-              "type": "string ...",
+              "name": "...$keyOrId",
+              "type": "string",
               "description": ""
             }
           ],
@@ -152711,8 +152711,8 @@
               "description": ""
             },
             {
-              "name": "$member",
-              "type": "string ...",
+              "name": "...$member",
+              "type": "string",
               "description": ""
             }
           ],
@@ -158811,8 +158811,8 @@
               "description": ""
             },
             {
-              "name": "$member",
-              "type": "string ...",
+              "name": "...$member",
+              "type": "string",
               "description": ""
             }
           ],

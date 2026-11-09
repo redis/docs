@@ -370,8 +370,8 @@
             "description": ""
           },
           {
-            "name": "$paths",
-            "type": "string ...",
+            "name": "...$paths",
+            "type": "string",
             "description": ""
           }
         ],

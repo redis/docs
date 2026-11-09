@@ -323,7 +323,7 @@
         "signature": "subscribe(string ...$channels)",
         "params": [
           {
-            "name": "$channels",
+            "name": "...$channels",
             "type": "string",
             "description": ""
           }

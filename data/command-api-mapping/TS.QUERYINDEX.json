@@ -106,8 +106,8 @@
         "signature": "tsqueryindex(string ...$filterExpression)",
         "params": [
           {
-            "name": "$filterExpression",
-            "type": "string ...",
+            "name": "...$filterExpression",
+            "type": "string",
             "description": ""
           }
         ],

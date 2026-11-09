@@ -363,8 +363,8 @@
             "description": ""
           },
           {
-            "name": "$member",
-            "type": "string ...",
+            "name": "...$member",
+            "type": "string",
             "description": ""
           }
         ],

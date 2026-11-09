@@ -129,7 +129,7 @@
         "signature": "delSlotsRange(int ...$startEndSlots)",
         "params": [
           {
-            "name": "$startEndSlots",
+            "name": "...$startEndSlots",
             "type": "int",
             "description": ""
           }

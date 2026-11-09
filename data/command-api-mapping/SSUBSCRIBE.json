@@ -294,8 +294,8 @@
         "signature": "ssubscribe(string ...$shardChannels)",
         "params": [
           {
-            "name": "$shardChannels",
-            "type": "string...",
+            "name": "...$shardChannels",
+            "type": "string",
             "description": "Shard channels to subscribe to"
           }
         ],

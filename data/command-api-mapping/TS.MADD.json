@@ -106,8 +106,8 @@
         "signature": "tsmadd(mixed ...$keyTimestampValue)",
         "params": [
           {
-            "name": "$keyTimestampValue",
-            "type": "mixed ...",
+            "name": "...$keyTimestampValue",
+            "type": "mixed",
             "description": ""
           }
         ],

@@ -715,17 +715,17 @@
           },
           {
             "name": "$member",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$radius",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$unit",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {

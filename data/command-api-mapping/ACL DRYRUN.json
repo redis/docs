@@ -246,7 +246,7 @@
             "description": ""
           },
           {
-            "name": "$arguments",
+            "name": "...$arguments",
             "type": "mixed",
             "description": ""
           }

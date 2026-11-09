@@ -268,7 +268,7 @@
         "signature": "unsubscribe(string ...$channels)",
         "params": [
           {
-            "name": "$channels",
+            "name": "...$channels",
             "type": "string",
             "description": ""
           }

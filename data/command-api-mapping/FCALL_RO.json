@@ -290,8 +290,8 @@
             "description": "Keys for the function"
           },
           {
-            "name": "$args",
-            "type": "...",
+            "name": "...$args",
+            "type": "",
             "description": "Arguments for the function"
           }
         ],

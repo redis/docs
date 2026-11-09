@@ -443,8 +443,8 @@
             "description": ""
           },
           {
-            "name": "$value",
-            "type": "...",
+            "name": "...$value",
+            "type": "",
             "description": ""
           }
         ],

@@ -1098,7 +1098,7 @@
           },
           {
             "name": "$value",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {

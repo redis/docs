@@ -31,7 +31,7 @@
             "description": ""
           },
           {
-            "name": "$index",
+            "name": "...$index",
             "type": "int",
             "description": ""
           }

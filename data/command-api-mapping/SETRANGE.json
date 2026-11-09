@@ -367,12 +367,12 @@
           },
           {
             "name": "$offset",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$value",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

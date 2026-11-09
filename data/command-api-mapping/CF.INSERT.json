@@ -215,8 +215,8 @@
             "description": "If true, don't create filter"
           },
           {
-            "name": "$item",
-            "type": "string...",
+            "name": "...$item",
+            "type": "string",
             "description": "Items to add"
           }
         ],

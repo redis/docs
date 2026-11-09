@@ -230,8 +230,8 @@
         "signature": "sunsubscribe(?string ...$shardChannels = null)",
         "params": [
           {
-            "name": "$shardChannels",
-            "type": "?string...",
+            "name": "...$shardChannels",
+            "type": "?string",
             "description": "Shard channels to unsubscribe from (null for all)"
           }
         ],
