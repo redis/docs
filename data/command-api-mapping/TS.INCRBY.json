@@ -327,8 +327,8 @@
             "description": ""
           },
           {
-            "name": "?IncrByArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?IncrByArguments",
             "description": ""
           }
         ],

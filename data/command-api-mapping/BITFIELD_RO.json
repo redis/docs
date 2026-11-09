@@ -183,8 +183,8 @@
             "description": ""
           },
           {
-            "name": "?array $encodingOffsetMap = null",
-            "type": "Any",
+            "name": "$encodingOffsetMap",
+            "type": "?array",
             "description": ""
           }
         ],

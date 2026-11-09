@@ -121,8 +121,8 @@
             "description": ""
           },
           {
-            "name": "?InfoArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?InfoArguments",
             "description": ""
           }
         ],

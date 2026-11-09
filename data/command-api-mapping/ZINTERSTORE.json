@@ -817,13 +817,13 @@
             "description": ""
           },
           {
-            "name": "int[] $weights = []",
-            "type": "Any",
+            "name": "$weights",
+            "type": "int[]",
             "description": ""
           },
           {
-            "name": "string $aggregate = 'sum'",
-            "type": "Any",
+            "name": "$aggregate",
+            "type": "string",
             "description": ""
           }
         ],

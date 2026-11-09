@@ -280,8 +280,8 @@
             "description": ""
           },
           {
-            "name": "bool $asJson = false",
-            "type": "Any",
+            "name": "$asJson",
+            "type": "bool",
             "description": ""
           }
         ],

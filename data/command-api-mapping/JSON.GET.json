@@ -355,18 +355,18 @@
             "description": ""
           },
           {
-            "name": "string $indent = ''",
-            "type": "Any",
+            "name": "$indent",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "string $newline = ''",
-            "type": "Any",
+            "name": "$newline",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "string $space = ''",
-            "type": "Any",
+            "name": "$space",
+            "type": "string",
             "description": ""
           },
           {

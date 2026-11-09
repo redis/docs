@@ -798,13 +798,13 @@
             "description": ""
           },
           {
-            "name": "bool $mkStream = false",
-            "type": "Any",
+            "name": "$mkStream",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "?string $entriesRead = null",
-            "type": "Any",
+            "name": "$entriesRead",
+            "type": "?string",
             "description": ""
           }
         ],

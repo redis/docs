@@ -174,8 +174,8 @@
             "description": ""
           },
           {
-            "name": "?GetArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?GetArguments",
             "description": ""
           }
         ],

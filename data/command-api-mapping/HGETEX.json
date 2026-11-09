@@ -643,13 +643,13 @@
             "description": ""
           },
           {
-            "name": "string $modifier = HGETEX::NULL",
-            "type": "Any",
+            "name": "$modifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int|bool $modifierValue = false",
-            "type": "Any",
+            "name": "$modifierValue",
+            "type": "int|bool",
             "description": ""
           }
         ],

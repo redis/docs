@@ -393,18 +393,18 @@
             "description": ""
           },
           {
-            "name": "int[] $weights = []",
-            "type": "Any",
+            "name": "$weights",
+            "type": "int[]",
             "description": ""
           },
           {
-            "name": "string $aggregate = 'sum'",
-            "type": "Any",
+            "name": "$aggregate",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "bool $withScores = false",
-            "type": "Any",
+            "name": "$withScores",
+            "type": "bool",
             "description": ""
           }
         ],

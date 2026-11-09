@@ -317,8 +317,8 @@
             "description": ""
           },
           {
-            "name": "string ...$keys = null",
-            "type": "Any",
+            "name": "...$keys",
+            "type": "string",
             "description": ""
           }
         ],

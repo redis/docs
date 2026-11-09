@@ -461,13 +461,13 @@
             "description": ""
           },
           {
-            "name": "$modifier = ''",
-            "type": "Any",
+            "name": "$modifier",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "$value = false",
-            "type": "Any",
+            "name": "$value",
+            "type": "mixed",
             "description": ""
           }
         ],

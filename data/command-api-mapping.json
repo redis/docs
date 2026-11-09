@@ -10482,18 +10482,18 @@
               "description": ""
             },
             {
-              "name": "$start = null",
-              "type": "Any",
+              "name": "$start",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "$end = null",
-              "type": "Any",
+              "name": "$end",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "string $index = 'byte'",
-              "type": "Any",
+              "name": "$index",
+              "type": "string",
               "description": ""
             }
           ],
@@ -11103,8 +11103,8 @@
               "description": ""
             },
             {
-              "name": "?array $encodingOffsetMap = null",
-              "type": "Any",
+              "name": "$encodingOffsetMap",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -13127,18 +13127,18 @@
               "description": ""
             },
             {
-              "name": "$start = null",
-              "type": "Any",
+              "name": "$start",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "$end = null",
-              "type": "Any",
+              "name": "$end",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "string $index = 'byte'",
-              "type": "Any",
+              "name": "$index",
+              "type": "string",
               "description": ""
             }
           ],
@@ -14535,13 +14535,13 @@
               "description": ""
             },
             {
-              "name": "string $modifier = 'left'",
-              "type": "Any",
+              "name": "$modifier",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int $count = 1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -16968,13 +16968,13 @@
               "description": ""
             },
             {
-              "name": "string $modifier = 'min'",
-              "type": "Any",
+              "name": "$modifier",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int $count = 1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -47323,8 +47323,8 @@
               "description": ""
             },
             {
-              "name": "$unit = null",
-              "type": "Any",
+              "name": "$unit",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -49560,8 +49560,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -50355,8 +50355,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -51356,33 +51356,33 @@
               "description": ""
             },
             {
-              "name": "?string $sorting = null",
-              "type": "Any",
+              "name": "$sorting",
+              "type": "?string",
               "description": ""
             },
             {
-              "name": "int $count = -1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "bool $any = false",
-              "type": "Any",
+              "name": "$any",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $withCoord = false",
-              "type": "Any",
+              "name": "$withCoord",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $withDist = false",
-              "type": "Any",
+              "name": "$withDist",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $withHash = false",
-              "type": "Any",
+              "name": "$withHash",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -52242,23 +52242,23 @@
               "description": ""
             },
             {
-              "name": "?string $sorting = null",
-              "type": "Any",
+              "name": "$sorting",
+              "type": "?string",
               "description": ""
             },
             {
-              "name": "int $count = -1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "bool $any = false",
-              "type": "Any",
+              "name": "$any",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $storeDist = false",
-              "type": "Any",
+              "name": "$storeDist",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -53645,13 +53645,13 @@
               "description": ""
             },
             {
-              "name": "$modifier = ''",
-              "type": "Any",
+              "name": "$modifier",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "$value = false",
-              "type": "Any",
+              "name": "$value",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -56451,8 +56451,8 @@
               "description": ""
             },
             {
-              "name": "string $flag = null",
-              "type": "Any",
+              "name": "$flag",
+              "type": "string",
               "description": ""
             }
           ],
@@ -57326,8 +57326,8 @@
               "description": ""
             },
             {
-              "name": "string $flag = null",
-              "type": "Any",
+              "name": "$flag",
+              "type": "string",
               "description": ""
             }
           ],
@@ -59289,13 +59289,13 @@
               "description": ""
             },
             {
-              "name": "string $modifier = HGETEX::NULL",
-              "type": "Any",
+              "name": "$modifier",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int|bool $modifierValue = false",
-              "type": "Any",
+              "name": "$modifierValue",
+              "type": "int|bool",
               "description": ""
             }
           ],
@@ -65078,8 +65078,8 @@
               "description": ""
             },
             {
-              "name": "string $flag = null",
-              "type": "Any",
+              "name": "$flag",
+              "type": "string",
               "description": ""
             }
           ],
@@ -65833,8 +65833,8 @@
               "description": ""
             },
             {
-              "name": "string $flag = null",
-              "type": "Any",
+              "name": "$flag",
+              "type": "string",
               "description": ""
             }
           ],
@@ -66712,13 +66712,13 @@
               "description": ""
             },
             {
-              "name": "int $count = 1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "bool $withValues = false",
-              "type": "Any",
+              "name": "$withValues",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -67494,8 +67494,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -68564,18 +68564,18 @@
               "description": ""
             },
             {
-              "name": "string $setModifier = HSETEX::SET_NULL",
-              "type": "Any",
+              "name": "$setModifier",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "string $ttlModifier = HSETEX::TTL_NULL",
-              "type": "Any",
+              "name": "$ttlModifier",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int|bool $ttlModifierValue = false",
-              "type": "Any",
+              "name": "$ttlModifierValue",
+              "type": "int|bool",
               "description": ""
             }
           ],
@@ -71832,8 +71832,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             },
             {
@@ -72489,13 +72489,13 @@
               "description": ""
             },
             {
-              "name": "int $start = 0",
-              "type": "Any",
+              "name": "$start",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "int $stop = 0",
-              "type": "Any",
+              "name": "$stop",
+              "type": "int",
               "description": ""
             }
           ],
@@ -73502,8 +73502,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -73994,13 +73994,13 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int $index = -1",
-              "type": "Any",
+              "name": "$index",
+              "type": "int",
               "description": ""
             }
           ],
@@ -74811,8 +74811,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -75329,8 +75329,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -75485,8 +75485,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -75897,18 +75897,18 @@
               "description": ""
             },
             {
-              "name": "string $indent = ''",
-              "type": "Any",
+              "name": "$indent",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "string $newline = ''",
-              "type": "Any",
+              "name": "$newline",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "string $space = ''",
-              "type": "Any",
+              "name": "$space",
+              "type": "string",
               "description": ""
             },
             {
@@ -77707,8 +77707,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -78064,8 +78064,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -78215,8 +78215,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -79858,8 +79858,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -80516,8 +80516,8 @@
               "description": ""
             },
             {
-              "name": "string $path = '$'",
-              "type": "Any",
+              "name": "$path",
+              "type": "string",
               "description": ""
             }
           ],
@@ -81949,23 +81949,23 @@
               "description": ""
             },
             {
-              "name": "bool $len = false",
-              "type": "Any",
+              "name": "$len",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $idx = false",
-              "type": "Any",
+              "name": "$idx",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "int $minMatchLen = 0",
-              "type": "Any",
+              "name": "$minMatchLen",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "bool $withMatchLen = false",
-              "type": "Any",
+              "name": "$withMatchLen",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -84102,13 +84102,13 @@
               "description": ""
             },
             {
-              "name": "string $modifier = 'left'",
-              "type": "Any",
+              "name": "$modifier",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int $count = 1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -88979,8 +88979,8 @@
               "description": ""
             },
             {
-              "name": "string ...$keys = null",
-              "type": "Any",
+              "name": "...$keys",
+              "type": "string",
               "description": ""
             }
           ],
@@ -90875,18 +90875,18 @@
               "description": ""
             },
             {
-              "name": "?string $existModifier = null",
-              "type": "Any",
+              "name": "$existModifier",
+              "type": "?string",
               "description": ""
             },
             {
-              "name": "?string $expireResolution = null",
-              "type": "Any",
+              "name": "$expireResolution",
+              "type": "?string",
               "description": ""
             },
             {
-              "name": "?int $expireTTL = null",
-              "type": "Any",
+              "name": "$expireTTL",
+              "type": "?int",
               "description": ""
             }
           ],
@@ -104376,23 +104376,23 @@
               "description": ""
             },
             {
-              "name": "$expireResolution = null",
-              "type": "Any",
+              "name": "$expireResolution",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "$expireTTL = null",
-              "type": "Any",
+              "name": "$expireTTL",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "$flag = null",
-              "type": "Any",
+              "name": "$flag",
+              "type": "mixed",
               "description": ""
             },
             {
-              "name": "$flagValue = null",
-              "type": "Any",
+              "name": "$flagValue",
+              "type": "mixed",
               "description": ""
             }
           ],
@@ -107095,8 +107095,8 @@
               "description": ""
             },
             {
-              "name": "int $limit = 0",
-              "type": "Any",
+              "name": "$limit",
+              "type": "int",
               "description": ""
             }
           ],
@@ -111337,8 +111337,8 @@
               "description": ""
             },
             {
-              "name": "?int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "?int",
               "description": ""
             }
           ],
@@ -112043,8 +112043,8 @@
               "description": ""
             },
             {
-              "name": "?int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "?int",
               "description": ""
             }
           ],
@@ -113224,8 +113224,8 @@
               "description": ""
             },
             {
-              "name": "array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "array",
               "description": ""
             }
           ],
@@ -120043,8 +120043,8 @@
               "description": ""
             },
             {
-              "name": "?AddArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?AddArguments",
               "description": ""
             }
           ],
@@ -120292,8 +120292,8 @@
               "description": ""
             },
             {
-              "name": "?TSAlterArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?TSAlterArguments",
               "description": ""
             }
           ],
@@ -120589,8 +120589,8 @@
               "description": ""
             },
             {
-              "name": "?TSCreateArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?TSCreateArguments",
               "description": ""
             }
           ],
@@ -120893,8 +120893,8 @@
               "description": ""
             },
             {
-              "name": "int $alignTimestamp = 0",
-              "type": "Any",
+              "name": "$alignTimestamp",
+              "type": "int",
               "description": ""
             }
           ],
@@ -121235,8 +121235,8 @@
               "description": ""
             },
             {
-              "name": "?DecrByArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?DecrByArguments",
               "description": ""
             }
           ],
@@ -121771,8 +121771,8 @@
               "description": ""
             },
             {
-              "name": "?GetArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?GetArguments",
               "description": ""
             }
           ],
@@ -122113,8 +122113,8 @@
               "description": ""
             },
             {
-              "name": "?IncrByArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?IncrByArguments",
               "description": ""
             }
           ],
@@ -122249,8 +122249,8 @@
               "description": ""
             },
             {
-              "name": "?InfoArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?InfoArguments",
               "description": ""
             }
           ],
@@ -123968,8 +123968,8 @@
               "description": ""
             },
             {
-              "name": "?RangeArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?RangeArguments",
               "description": ""
             }
           ],
@@ -124362,8 +124362,8 @@
               "description": ""
             },
             {
-              "name": "?RangeArguments $arguments = null",
-              "type": "Any",
+              "name": "$arguments",
+              "type": "?RangeArguments",
               "description": ""
             }
           ],
@@ -126144,33 +126144,33 @@
               "description": ""
             },
             {
-              "name": "int $dim = null",
-              "type": "Any",
+              "name": "$dim",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "bool $cas = false",
-              "type": "Any",
+              "name": "$cas",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "string $quant = VADD::QUANT_DEFAULT",
-              "type": "Any",
+              "name": "$quant",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int $bef = null",
-              "type": "Any",
+              "name": "$bef",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "string|array $attributes = null",
-              "type": "Any",
+              "name": "$attributes",
+              "type": "string|array",
               "description": ""
             },
             {
-              "name": "int $numlinks = null",
-              "type": "Any",
+              "name": "$numlinks",
+              "type": "int",
               "description": ""
             }
           ],
@@ -127066,8 +127066,8 @@
               "description": ""
             },
             {
-              "name": "bool $raw = false",
-              "type": "Any",
+              "name": "$raw",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -127361,8 +127361,8 @@
               "description": ""
             },
             {
-              "name": "bool $asJson = false",
-              "type": "Any",
+              "name": "$asJson",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -128109,8 +128109,8 @@
               "description": ""
             },
             {
-              "name": "bool $withScores = false",
-              "type": "Any",
+              "name": "$withScores",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -128468,8 +128468,8 @@
               "description": ""
             },
             {
-              "name": "int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -128683,8 +128683,8 @@
               "description": ""
             },
             {
-              "name": "int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -130175,48 +130175,48 @@
               "description": ""
             },
             {
-              "name": "bool $isElem = false",
-              "type": "Any",
+              "name": "$isElem",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $withScores = false",
-              "type": "Any",
+              "name": "$withScores",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "float $epsilon = null",
-              "type": "Any",
+              "name": "$epsilon",
+              "type": "float",
               "description": ""
             },
             {
-              "name": "int $ef = null",
-              "type": "Any",
+              "name": "$ef",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "string $filter = null",
-              "type": "Any",
+              "name": "$filter",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int $filterEf = null",
-              "type": "Any",
+              "name": "$filterEf",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "bool $truth = false",
-              "type": "Any",
+              "name": "$truth",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $noThread = false",
-              "type": "Any",
+              "name": "$noThread",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -132902,13 +132902,13 @@
               "description": ""
             },
             {
-              "name": "string $id = '*'",
-              "type": "Any",
+              "name": "$id",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "array",
               "description": ""
             }
           ],
@@ -133722,13 +133722,13 @@
               "description": ""
             },
             {
-              "name": "?int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "bool $justId = false",
-              "type": "Any",
+              "name": "$justId",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -133969,13 +133969,13 @@
               "description": ""
             },
             {
-              "name": "?int $duration = null",
-              "type": "Any",
+              "name": "$duration",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "?int $maxsize = null",
-              "type": "Any",
+              "name": "$maxsize",
+              "type": "?int",
               "description": ""
             }
           ],
@@ -134947,33 +134947,33 @@
               "description": ""
             },
             {
-              "name": "?int $idle = null",
-              "type": "Any",
+              "name": "$idle",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "?int $time = null",
-              "type": "Any",
+              "name": "$time",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "?int $retryCount = null",
-              "type": "Any",
+              "name": "$retryCount",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "bool $force = false",
-              "type": "Any",
+              "name": "$force",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $justId = false",
-              "type": "Any",
+              "name": "$justId",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "?string $lastId = null",
-              "type": "Any",
+              "name": "$lastId",
+              "type": "?string",
               "description": ""
             }
           ],
@@ -136921,13 +136921,13 @@
               "description": ""
             },
             {
-              "name": "bool $mkStream = false",
-              "type": "Any",
+              "name": "$mkStream",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "?string $entriesRead = null",
-              "type": "Any",
+              "name": "$entriesRead",
+              "type": "?string",
               "description": ""
             }
           ],
@@ -139166,8 +139166,8 @@
               "description": ""
             },
             {
-              "name": "?string $entriesRead = null",
-              "type": "Any",
+              "name": "$entriesRead",
+              "type": "?string",
               "description": ""
             }
           ],
@@ -140427,8 +140427,8 @@
               "description": ""
             },
             {
-              "name": "XInfoStreamOptions $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "XInfoStreamOptions",
               "description": ""
             }
           ],
@@ -141649,28 +141649,28 @@
               "description": ""
             },
             {
-              "name": "?int $minIdleTime = null",
-              "type": "Any",
+              "name": "$minIdleTime",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "?string $start = null",
-              "type": "Any",
+              "name": "$start",
+              "type": "?string",
               "description": ""
             },
             {
-              "name": "?string $end = null",
-              "type": "Any",
+              "name": "$end",
+              "type": "?string",
               "description": ""
             },
             {
-              "name": "?int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "?string $consumer = null",
-              "type": "Any",
+              "name": "$consumer",
+              "type": "?string",
               "description": ""
             }
           ],
@@ -142429,8 +142429,8 @@
               "description": ""
             },
             {
-              "name": "?int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "?int",
               "description": ""
             }
           ],
@@ -143106,18 +143106,18 @@
           "signature": "xread(int $count = null, int $block = null, array $streams = null, string ...$id)",
           "params": [
             {
-              "name": "int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "int $block = null",
-              "type": "Any",
+              "name": "$block",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "array $streams = null",
-              "type": "Any",
+              "name": "$streams",
+              "type": "array",
               "description": ""
             },
             {
@@ -144220,18 +144220,18 @@
               "description": ""
             },
             {
-              "name": "?int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "?int $blockMs = null",
-              "type": "Any",
+              "name": "$blockMs",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "bool $noAck = false",
-              "type": "Any",
+              "name": "$noAck",
+              "type": "bool",
               "description": ""
             },
             {
@@ -144990,8 +144990,8 @@
               "description": ""
             },
             {
-              "name": "?int $count = null",
-              "type": "Any",
+              "name": "$count",
+              "type": "?int",
               "description": ""
             }
           ],
@@ -145215,13 +145215,13 @@
               "description": ""
             },
             {
-              "name": "?int $entriesAdded = null",
-              "type": "Any",
+              "name": "$entriesAdded",
+              "type": "?int",
               "description": ""
             },
             {
-              "name": "?string $maxDeleteId = null",
-              "type": "Any",
+              "name": "$maxDeleteId",
+              "type": "?string",
               "description": ""
             }
           ],
@@ -146170,8 +146170,8 @@
               "description": ""
             },
             {
-              "name": "array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "array",
               "description": ""
             }
           ],
@@ -148532,8 +148532,8 @@
               "description": ""
             },
             {
-              "name": "bool $withScores = false",
-              "type": "Any",
+              "name": "$withScores",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -149944,18 +149944,18 @@
               "description": ""
             },
             {
-              "name": "int[] $weights = []",
-              "type": "Any",
+              "name": "$weights",
+              "type": "int[]",
               "description": ""
             },
             {
-              "name": "string $aggregate = 'sum'",
-              "type": "Any",
+              "name": "$aggregate",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "bool $withScores = false",
-              "type": "Any",
+              "name": "$withScores",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -150430,8 +150430,8 @@
               "description": ""
             },
             {
-              "name": "int $limit = 0",
-              "type": "Any",
+              "name": "$limit",
+              "type": "int",
               "description": ""
             }
           ],
@@ -151262,13 +151262,13 @@
               "description": ""
             },
             {
-              "name": "int[] $weights = []",
-              "type": "Any",
+              "name": "$weights",
+              "type": "int[]",
               "description": ""
             },
             {
-              "name": "string $aggregate = 'sum'",
-              "type": "Any",
+              "name": "$aggregate",
+              "type": "string",
               "description": ""
             }
           ],
@@ -152302,13 +152302,13 @@
               "description": ""
             },
             {
-              "name": "string $modifier = 'min'",
-              "type": "Any",
+              "name": "$modifier",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "int $count = 1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -153248,8 +153248,8 @@
               "description": ""
             },
             {
-              "name": "int $count = 1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -153785,8 +153785,8 @@
               "description": ""
             },
             {
-              "name": "int $count = 1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -154235,13 +154235,13 @@
               "description": ""
             },
             {
-              "name": "int $count = 1",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "bool $withScores = false",
-              "type": "Any",
+              "name": "$withScores",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -155448,8 +155448,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -156307,8 +156307,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -157413,8 +157413,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -157952,28 +157952,28 @@
               "description": ""
             },
             {
-              "name": "string|bool $by = false",
-              "type": "Any",
+              "name": "$by",
+              "type": "string|bool",
               "description": ""
             },
             {
-              "name": "bool $reversed = false",
-              "type": "Any",
+              "name": "$reversed",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "bool $limit = false",
-              "type": "Any",
+              "name": "$limit",
+              "type": "bool",
               "description": ""
             },
             {
-              "name": "int $offset = 0",
-              "type": "Any",
+              "name": "$offset",
+              "type": "int",
               "description": ""
             },
             {
-              "name": "int $count = 0",
-              "type": "Any",
+              "name": "$count",
+              "type": "int",
               "description": ""
             }
           ],
@@ -160826,8 +160826,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -161460,8 +161460,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -162506,8 +162506,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -163665,8 +163665,8 @@
               "description": ""
             },
             {
-              "name": "?array $options = null",
-              "type": "Any",
+              "name": "$options",
+              "type": "?array",
               "description": ""
             }
           ],
@@ -164446,18 +164446,18 @@
               "description": ""
             },
             {
-              "name": "int[] $weights = []",
-              "type": "Any",
+              "name": "$weights",
+              "type": "int[]",
               "description": ""
             },
             {
-              "name": "string $aggregate = 'sum'",
-              "type": "Any",
+              "name": "$aggregate",
+              "type": "string",
               "description": ""
             },
             {
-              "name": "bool $withScores = false",
-              "type": "Any",
+              "name": "$withScores",
+              "type": "bool",
               "description": ""
             }
           ],
@@ -165319,13 +165319,13 @@
               "description": ""
             },
             {
-              "name": "int[] $weights = []",
-              "type": "Any",
+              "name": "$weights",
+              "type": "int[]",
               "description": ""
             },
             {
-              "name": "string $aggregate = 'sum'",
-              "type": "Any",
+              "name": "$aggregate",
+              "type": "string",
               "description": ""
             }
           ],

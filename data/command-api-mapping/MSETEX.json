@@ -227,18 +227,18 @@
             "description": ""
           },
           {
-            "name": "?string $existModifier = null",
-            "type": "Any",
+            "name": "$existModifier",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "?string $expireResolution = null",
-            "type": "Any",
+            "name": "$expireResolution",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "?int $expireTTL = null",
-            "type": "Any",
+            "name": "$expireTTL",
+            "type": "?int",
             "description": ""
           }
         ],

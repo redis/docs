@@ -402,18 +402,18 @@
             "description": ""
           },
           {
-            "name": "string $setModifier = HSETEX::SET_NULL",
-            "type": "Any",
+            "name": "$setModifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "string $ttlModifier = HSETEX::TTL_NULL",
-            "type": "Any",
+            "name": "$ttlModifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int|bool $ttlModifierValue = false",
-            "type": "Any",
+            "name": "$ttlModifierValue",
+            "type": "int|bool",
             "description": ""
           }
         ],

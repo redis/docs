@@ -379,8 +379,8 @@
             "description": ""
           },
           {
-            "name": "?RangeArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?RangeArguments",
             "description": ""
           }
         ],

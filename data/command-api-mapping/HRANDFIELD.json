@@ -315,13 +315,13 @@
             "description": ""
           },
           {
-            "name": "int $count = 1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $withValues = false",
-            "type": "Any",
+            "name": "$withValues",
+            "type": "bool",
             "description": ""
           }
         ],

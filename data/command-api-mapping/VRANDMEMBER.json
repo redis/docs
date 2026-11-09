@@ -344,8 +344,8 @@
             "description": ""
           },
           {
-            "name": "int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           }
         ],

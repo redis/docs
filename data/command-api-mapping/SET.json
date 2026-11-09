@@ -1102,23 +1102,23 @@
             "description": ""
           },
           {
-            "name": "$expireResolution = null",
-            "type": "Any",
+            "name": "$expireResolution",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "$expireTTL = null",
-            "type": "Any",
+            "name": "$expireTTL",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "$flag = null",
-            "type": "Any",
+            "name": "$flag",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "$flagValue = null",
-            "type": "Any",
+            "name": "$flagValue",
+            "type": "mixed",
             "description": ""
           }
         ],

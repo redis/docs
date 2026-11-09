@@ -846,23 +846,23 @@
             "description": ""
           },
           {
-            "name": "?string $sorting = null",
-            "type": "Any",
+            "name": "$sorting",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "int $count = -1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $any = false",
-            "type": "Any",
+            "name": "$any",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $storeDist = false",
-            "type": "Any",
+            "name": "$storeDist",
+            "type": "bool",
             "description": ""
           }
         ],

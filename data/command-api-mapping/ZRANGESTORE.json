@@ -488,28 +488,28 @@
             "description": ""
           },
           {
-            "name": "string|bool $by = false",
-            "type": "Any",
+            "name": "$by",
+            "type": "string|bool",
             "description": ""
           },
           {
-            "name": "bool $reversed = false",
-            "type": "Any",
+            "name": "$reversed",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $limit = false",
-            "type": "Any",
+            "name": "$limit",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "int $offset = 0",
-            "type": "Any",
+            "name": "$offset",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "int $count = 0",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           }
         ],
