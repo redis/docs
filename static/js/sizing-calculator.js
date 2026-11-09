@@ -116,7 +116,7 @@
               '<span class="rsz-hint" id="' + id + '-key-hint">A typical key. Its length counts.</span></label>' +
             '<label class="rsz-field"><span class="rsz-label">Number of keys</span>' +
               '<input class="rsz-count" type="text" inputmode="decimal" spellcheck="false" autocomplete="off" aria-describedby="' + id + '-count-hint">' +
-              '<span class="rsz-hint" id="' + id + '-count-hint">Such as 250000, 10M or 2.5B.</span></label>' +
+              '<span class="rsz-hint" id="' + id + '-count-hint">Such as 250000, 10M or 2.5B, up to 10B.</span></label>' +
           '</div>' +
           '<input class="rsz-slider" type="range" min="0" max="10" step="0.01" aria-label="Number of keys, on a scale from one to ten billion">' +
           '<div class="rsz-checks">' +
@@ -148,8 +148,9 @@
       tips = q('.rsz-tips'), summary = q('.rsz-summary'), sr = q('.rsz-sr');
     var keys = 1, last = null;
 
+    // The box stops at ten billion keys, like the slider.
     function setKeys(n, from) {
-      keys = Math.max(0, Math.min(1e12, n));
+      keys = Math.max(0, Math.min(1e10, n));
       if (from !== 'count') count.value = fmt.format(keys);
       if (from !== 'slider') slider.value = keys > 0 ? Math.min(10, Math.log10(keys)) : 0;
     }
