@@ -321,67 +321,9 @@
           "type": "void",
           "description": ""
         }
-      },
-      {
-        "signature": "ListTrim(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index of the list to trim to."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The end index of the list to trim to."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "void",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "ListTrimAsync(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index of the list to trim to."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The end index of the list to trim to."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task",
-          "description": ""
-        }
-      },
       {
         "signature": "ListTrimAsync(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
         "params": [

@@ -377,30 +377,6 @@
           "type": "Tuple<RedisKey, RedisValueWithScore>?",
           "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
         }
-      },
-      {
-        "signature": "BZPopMin(db, [key], timeout)",
-        "params": [
-          {
-            "name": "db",
-            "type": "Any",
-            "description": "The IDatabase class where this extension method is applied."
-          },
-          {
-            "name": "[key]",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "timeout",
-            "type": "Any",
-            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
-        }
       }
     ],
     "php": [
@@ -442,6 +418,46 @@
         "returns": {
           "type": "Array<String, String, Float>",
           "description": "a tuple of key, member and score"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "BZPopMinAsync(RedisKey[] keys, double timeout)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, RedisValueWithScore>?>",
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
+        }
+      },
+      {
+        "signature": "BZPopMinAsync(RedisKey key, double timeout)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to check."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, RedisValueWithScore>?>",
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
         }
       }
     ]

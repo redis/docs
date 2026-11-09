@@ -331,6 +331,27 @@
           "description": "the array length(s); nil for a match that is not an array, or when the key/path does not exist"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ArrLenAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long?[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

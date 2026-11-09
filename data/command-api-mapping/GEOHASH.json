@@ -349,78 +349,6 @@
           "type": "string?",
           "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
         }
-      },
-      {
-        "signature": "GeoHashAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<string?>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "GeoHash(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "members",
-            "type": "RedisValue[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "string?[]",
-          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
-        }
-      },
-      {
-        "signature": "GeoHash(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "string?",
-          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
-        }
       }
     ],
     "nredisstack_async": [
@@ -446,54 +374,6 @@
         "returns": {
           "type": "Task<string?>",
           "description": ""
-        }
-      },
-      {
-        "signature": "GeoHashAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "members",
-            "type": "RedisValue[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<string?[]>",
-          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
-        }
-      },
-      {
-        "signature": "GeoHashAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<string?>",
-          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
         }
       },
       {

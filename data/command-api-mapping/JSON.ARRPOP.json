@@ -491,6 +491,32 @@
           "description": "the popped value(s); an Array for a JSONPath, a single value for a legacy path, nil for an empty array or a non-array match"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ArrPopAsync(RedisKey key, string? path = null, long? index = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

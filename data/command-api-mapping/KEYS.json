@@ -133,8 +133,13 @@
     ],
     "nredisstack_sync": [
       {
-        "signature": "Keys(RedisValue pattern, int pageSize, long cursor, int pageOffset, CommandFlags flags)",
+        "signature": "Keys(int database = -1, RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
+          {
+            "name": "database",
+            "type": "int",
+            "description": ""
+          },
           {
             "name": "pattern",
             "type": "RedisValue",
@@ -169,8 +174,13 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "Keys(RedisValue pattern, int pageSize, long cursor, int pageOffset, CommandFlags flags)",
+        "signature": "KeysAsync(int database = -1, RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
+          {
+            "name": "database",
+            "type": "int",
+            "description": ""
+          },
           {
             "name": "pattern",
             "type": "RedisValue",

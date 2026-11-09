@@ -350,77 +350,9 @@
           "type": "RedisValue[]",
           "description": "The resulting sorted set."
         }
-      },
-      {
-        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "weights",
-            "type": "double[]?",
-            "description": "The optional weights per set that correspond to keys."
-          },
-          {
-            "name": "aggregate",
-            "type": "Aggregate",
-            "description": "The aggregation method (defaults to Sum)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "The resulting sorted set."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetCombineAsync(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "weights",
-            "type": "double[]?",
-            "description": "The optional weights per set that correspond to keys."
-          },
-          {
-            "name": "aggregate",
-            "type": "Aggregate",
-            "description": "The aggregation method (defaults to Sum)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue[]>",
-          "description": "The resulting sorted set."
-        }
-      },
       {
         "signature": "SortedSetCombineAsync(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
         "params": [

@@ -345,6 +345,27 @@
           "description": "the number of values cleared"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ClearAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

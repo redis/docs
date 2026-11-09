@@ -457,77 +457,9 @@
           "type": "RedisValue[]",
           "description": "List of elements in the specified range."
         }
-      },
-      {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index to get."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index to get."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of elements in the specified range."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetRangeByRankAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index to get."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index to get."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue[]>",
-          "description": "List of elements in the specified range."
-        }
-      },
       {
         "signature": "SortedSetRangeByRankAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [

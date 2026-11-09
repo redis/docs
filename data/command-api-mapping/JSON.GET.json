@@ -340,7 +340,7 @@
           }
         ],
         "returns": {
-          "type": "public T?",
+          "type": "T?",
           "description": ""
         }
       }
@@ -446,6 +446,32 @@
         "returns": {
           "type": "Object, String, nil",
           "description": "the parsed JSON value (or the raw JSON string when raw is true), or nil if the key does not exist"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "GetAsync<T>(RedisKey key, string path = \"$\", JsonSerializerOptions? serializerOptions = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "serializerOptions",
+            "type": "JsonSerializerOptions?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<T?>",
+          "description": ""
         }
       }
     ]

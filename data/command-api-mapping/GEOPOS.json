@@ -368,78 +368,6 @@
           "type": "GeoPosition?",
           "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
         }
-      },
-      {
-        "signature": "GeoPositionAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<GeoPosition?>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "GeoPosition(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "members",
-            "type": "RedisValue[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "GeoPosition?[]",
-          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
-        }
-      },
-      {
-        "signature": "GeoPosition(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "GeoPosition?",
-          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
-        }
       }
     ],
     "nredisstack_async": [
@@ -465,54 +393,6 @@
         "returns": {
           "type": "Task<GeoPosition?>",
           "description": ""
-        }
-      },
-      {
-        "signature": "GeoPositionAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "members",
-            "type": "RedisValue[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<GeoPosition?[]>",
-          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
-        }
-      },
-      {
-        "signature": "GeoPositionAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<GeoPosition?>",
-          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
         }
       },
       {

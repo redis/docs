@@ -381,47 +381,9 @@
           "type": "RedisValue",
           "description": ""
         }
-      },
-      {
-        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "does not exist.</returns> <remarks></remarks>"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetRandomMemberAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "does not exist.</returns> <remarks></remarks>"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue>",
-          "description": ""
-        }
-      },
       {
         "signature": "SortedSetRandomMemberAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [

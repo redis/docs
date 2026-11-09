@@ -575,35 +575,6 @@
     ],
     "nredisstack_sync": [
       {
-        "signature": "Set(key, path, json, when)",
-        "params": [
-          {
-            "name": "key",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "path",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "json",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "when",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": ""
-        }
-      },
-      {
         "signature": "Set(RedisKey key, RedisValue path, RedisValue json, When when = When.Always)",
         "params": [
           {
@@ -629,35 +600,6 @@
         ],
         "returns": {
           "type": "bool",
-          "description": ""
-        }
-      },
-      {
-        "signature": "Set(key, path, fileContent, when)",
-        "params": [
-          {
-            "name": "key",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "path",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "fileContent",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "when",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "return",
           "description": ""
         }
       }
@@ -783,6 +725,37 @@
         "returns": {
           "type": "Boolean, String",
           "description": "when nx or xx is given, true on success and false when the condition was not met; otherwise the raw \"OK\" reply"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetAsync(RedisKey key, RedisValue path, RedisValue json, When when = When.Always)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
         }
       }
     ]

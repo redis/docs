@@ -62,6 +62,27 @@
           "description": ""
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "RespAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

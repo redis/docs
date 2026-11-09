@@ -246,47 +246,9 @@
           "type": "RedisValue[]",
           "description": "All elements of the set."
         }
-      },
-      {
-        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "All elements of the set."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SetMembersAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<RedisValue[]>",
-          "description": "All elements of the set."
-        }
-      },
       {
         "signature": "SetMembersAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [

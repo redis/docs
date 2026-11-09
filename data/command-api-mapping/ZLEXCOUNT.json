@@ -385,77 +385,9 @@
           "type": "long",
           "description": "The number of elements in the specified score range."
         }
-      },
-      {
-        "signature": "SortedSetLengthByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "min",
-            "type": "RedisValue",
-            "description": "The min value to filter by."
-          },
-          {
-            "name": "max",
-            "type": "RedisValue",
-            "description": "The max value to filter by."
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the specified score range."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetLengthByValueAsync(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "min",
-            "type": "RedisValue",
-            "description": "The min value to filter by."
-          },
-          {
-            "name": "max",
-            "type": "RedisValue",
-            "description": "The max value to filter by."
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": "The number of elements in the specified score range."
-        }
-      },
       {
         "signature": "SortedSetLengthByValueAsync(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
         "params": [

@@ -263,57 +263,9 @@
           "type": "double?",
           "description": "The score of the member."
         }
-      },
-      {
-        "signature": "SortedSetScore(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get a score for."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "double?",
-          "description": "The score of the member."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SortedSetScoreAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get a score for."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<double?>",
-          "description": "The score of the member."
-        }
-      },
       {
         "signature": "SortedSetScoreAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
         "params": [

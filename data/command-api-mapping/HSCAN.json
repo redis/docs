@@ -682,35 +682,6 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "pattern",
-            "type": "RedisValue",
-            "description": "The pattern of keys to get entries for."
-          },
-          {
-            "name": "pageSize",
-            "type": "int",
-            "description": "The page size to iterate by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "IEnumerable<HashEntry>",
-          "description": "Yields all elements of the hash matching the pattern."
-        }
-      },
-      {
         "signature": "HashScanAsync(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {

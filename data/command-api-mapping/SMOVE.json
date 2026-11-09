@@ -323,67 +323,9 @@
           "type": "bool",
           "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
         }
-      },
-      {
-        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "source",
-            "type": "RedisKey",
-            "description": "The key of the source set."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key of the destination set."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to move."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
-        }
       }
     ],
     "nredisstack_async": [
-      {
-        "signature": "SetMoveAsync(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "source",
-            "type": "RedisKey",
-            "description": "The key of the source set."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key of the destination set."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to move."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
-        }
-      },
       {
         "signature": "SetMoveAsync(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [

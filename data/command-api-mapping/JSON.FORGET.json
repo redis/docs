@@ -88,6 +88,27 @@
           "description": "the number of values deleted (alias of json_del)"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ForgetAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

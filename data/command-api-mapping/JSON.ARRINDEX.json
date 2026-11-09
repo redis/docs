@@ -704,6 +704,42 @@
           "description": "the index/indices of the first match (-1 if not found)"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ArrIndexAsync(RedisKey key, string path, object value, long? start = null, long? stop = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "object",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long?[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

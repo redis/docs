@@ -331,6 +331,27 @@
           "description": "the type name(s): an Array for a JSONPath, a single string for a legacy path"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "TypeAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<JsonType[]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

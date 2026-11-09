@@ -832,64 +832,6 @@
           "type": "long",
           "description": "The number of elements that were added to the set, not including all the elements already present into the set."
         }
-      },
-      {
-        "signature": "GeoAdd(RedisKey key, double longitude, double latitude, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "longitude",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "latitude",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
-        }
-      },
-      {
-        "signature": "GeoAdd(RedisKey key, GeoEntry value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "value",
-            "type": "GeoEntry",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
-        }
       }
     ],
     "nredisstack_async": [
@@ -972,64 +914,6 @@
         ],
         "returns": {
           "type": "Task<long>",
-          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
-        }
-      },
-      {
-        "signature": "GeoAddAsync(RedisKey key, double longitude, double latitude, RedisValue member, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "longitude",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "latitude",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
-        }
-      },
-      {
-        "signature": "GeoAddAsync(RedisKey key, GeoEntry value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "value",
-            "type": "GeoEntry",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
           "description": "The number of elements that were added to the set, not including all the elements already present into the set."
         }
       }
