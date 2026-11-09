@@ -354,6 +354,51 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "vrandmember(key: RedisKey, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vrandmember(key: RedisKey, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

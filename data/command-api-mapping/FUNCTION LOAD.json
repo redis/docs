@@ -217,7 +217,61 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "function(subcommand: \"LOAD\", functionCode: string | Buffer, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOAD\"",
+            "description": ""
+          },
+          {
+            "name": "functionCode",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"LOAD\", replace: \"REPLACE\", functionCode: string | Buffer, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOAD\"",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "\"REPLACE\"",
+            "description": ""
+          },
+          {
+            "name": "functionCode",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],

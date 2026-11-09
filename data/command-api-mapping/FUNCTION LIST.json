@@ -176,7 +176,114 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "function(subcommand: \"LIST\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"LIST\", withcode: \"WITHCODE\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "withcode",
+            "type": "\"WITHCODE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"LIST\", libraryNamePatternToken: \"LIBRARYNAME\", libraryNamePattern: string | Buffer, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "libraryNamePatternToken",
+            "type": "\"LIBRARYNAME\"",
+            "description": ""
+          },
+          {
+            "name": "libraryNamePattern",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "function(subcommand: \"LIST\", libraryNamePatternToken: \"LIBRARYNAME\", libraryNamePattern: string | Buffer, withcode: \"WITHCODE\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "libraryNamePatternToken",
+            "type": "\"LIBRARYNAME\"",
+            "description": ""
+          },
+          {
+            "name": "libraryNamePattern",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "withcode",
+            "type": "\"WITHCODE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],

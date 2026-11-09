@@ -308,6 +308,100 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"DRYRUN\", username: string | Buffer, command: string | Buffer, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DRYRUN\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "command",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(...args: [ subcommand: \"DRYRUN\", username: string | Buffer, command: string | Buffer, ...args: (string | Buffer | number)[], callback: Callback<string> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DRYRUN\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "command",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(...args: [ subcommand: \"DRYRUN\", username: string | Buffer, command: string | Buffer, ...args: (string | Buffer | number)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DRYRUN\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "command",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

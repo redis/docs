@@ -293,6 +293,76 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "arscan(key: RedisKey, start: number | string, end: number | string, callback?: Callback<Array<[index: number, value: string]>>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<Array<[index: number, value: string]>>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<Array<[index: number, value: string]>, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arscan(key: RedisKey, start: number | string, end: number | string, limitToken: 'LIMIT', limit: number | string, callback?: Callback<Array<[index: number, value: string]>>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "limitToken",
+            "type": "'LIMIT'",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<Array<[index: number, value: string]>>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<Array<[index: number, value: string]>, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

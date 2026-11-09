@@ -186,6 +186,37 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "argetrange(key: RedisKey, start: number | string, end: number | string, callback?: Callback<(string | null)[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<(string | null)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -224,6 +224,32 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "wait(numreplicas: number | string, timeout: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "numreplicas",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

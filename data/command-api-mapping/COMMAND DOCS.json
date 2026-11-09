@@ -61,6 +61,70 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "command(subcommand: \"DOCS\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DOCS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "command(...args: [ subcommand: \"DOCS\", ...commandNames: (string | Buffer)[], callback: Callback<unknown[]> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DOCS\"",
+            "description": ""
+          },
+          {
+            "name": "...commandNames",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "command(...args: [subcommand: \"DOCS\", ...commandNames: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DOCS\"",
+            "description": ""
+          },
+          {
+            "name": "...commandNames",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

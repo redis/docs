@@ -143,6 +143,123 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "failover(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "failover(millisecondsToken: \"TIMEOUT\", milliseconds: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "millisecondsToken",
+            "type": "\"TIMEOUT\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "failover(abort: \"ABORT\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "abort",
+            "type": "\"ABORT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "failover(abort: \"ABORT\", millisecondsToken: \"TIMEOUT\", milliseconds: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "abort",
+            "type": "\"ABORT\"",
+            "description": ""
+          },
+          {
+            "name": "millisecondsToken",
+            "type": "\"TIMEOUT\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "failover(targetToken: \"TO\", host: string | Buffer, port: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "targetToken",
+            "type": "\"TO\"",
+            "description": ""
+          },
+          {
+            "name": "host",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

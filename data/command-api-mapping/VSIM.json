@@ -783,6 +783,51 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "vsim(...args: [key: RedisKey, ...args: (RedisValue)[], callback: Callback<(string | null)[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(RedisValue)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vsim(...args: [key: RedisKey, ...args: (RedisValue)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(RedisValue)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

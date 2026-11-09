@@ -293,7 +293,143 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "evalsha(sha1: string | Buffer, numkeys: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha(...args: [ sha1: string | Buffer, numkeys: number | string, ...args: (string | Buffer | number)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha(...args: [ sha1: string | Buffer, numkeys: number | string, ...args: (string | Buffer | number)[] ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha(...args: [ sha1: string | Buffer, numkeys: number | string, ...keys: RedisKey[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha(...args: [ sha1: string | Buffer, numkeys: number | string, keys: RedisKey[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],

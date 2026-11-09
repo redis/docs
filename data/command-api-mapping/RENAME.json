@@ -264,6 +264,32 @@
           "description": "\"OK\""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "rename(key: RedisKey, newkey: RedisKey, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "newkey",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

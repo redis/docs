@@ -171,6 +171,32 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "client(subcommand: \"SETNAME\", connectionName: string | Buffer, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETNAME\"",
+            "description": ""
+          },
+          {
+            "name": "connectionName",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -234,6 +234,103 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "shutdown(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "shutdown(abort: \"ABORT\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "abort",
+            "type": "\"ABORT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "shutdown(force: \"FORCE\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "force",
+            "type": "\"FORCE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "shutdown(force: \"FORCE\", abort: \"ABORT\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "force",
+            "type": "\"FORCE\"",
+            "description": ""
+          },
+          {
+            "name": "abort",
+            "type": "\"ABORT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "shutdown(now: \"NOW\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "now",
+            "type": "\"NOW\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

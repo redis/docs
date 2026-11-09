@@ -247,6 +247,148 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[], secondsToken: 'EX', seconds: number | string, callback: Callback<number>])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "'EX'",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[], secondsToken: 'EX', seconds: number | string])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "'EX'",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[], millisecondsToken: 'PX', milliseconds: number | string, callback: Callback<number>])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "millisecondsToken",
+            "type": "'PX'",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

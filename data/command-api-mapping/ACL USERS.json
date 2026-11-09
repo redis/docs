@@ -104,6 +104,27 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"USERS\", callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"USERS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

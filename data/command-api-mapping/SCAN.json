@@ -465,6 +465,153 @@
           "description": "the next cursor and all found keys"
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "scan(cursor: number | string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "scan(cursor: number | string, typeToken: \"TYPE\", type: string | Buffer, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "typeToken",
+            "type": "\"TYPE\"",
+            "description": ""
+          },
+          {
+            "name": "type",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "scan(cursor: number | string, countToken: \"COUNT\", count: number | string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "scan(cursor: number | string, countToken: \"COUNT\", count: number | string, typeToken: \"TYPE\", type: string | Buffer, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "typeToken",
+            "type": "\"TYPE\"",
+            "description": ""
+          },
+          {
+            "name": "type",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "scan(cursor: number | string, patternToken: \"MATCH\", pattern: string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "patternToken",
+            "type": "\"MATCH\"",
+            "description": ""
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

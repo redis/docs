@@ -704,6 +704,208 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "hpexpireat(...args: [key: RedisKey, unixTimeMilliseconds: number | string, fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hpexpireat(...args: [key: RedisKey, unixTimeMilliseconds: number | string, fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hpexpireat(...args: [key: RedisKey, unixTimeMilliseconds: number | string, nx: \"NX\", fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "\"NX\"",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hpexpireat(...args: [key: RedisKey, unixTimeMilliseconds: number | string, nx: \"NX\", fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "\"NX\"",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hpexpireat(...args: [key: RedisKey, unixTimeMilliseconds: number | string, xx: \"XX\", fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "\"XX\"",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

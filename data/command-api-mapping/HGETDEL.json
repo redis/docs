@@ -365,6 +365,71 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "hgetdel(...args: [key: RedisKey, fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<(string | null)[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hgetdel(...args: [key: RedisKey, fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -197,7 +197,61 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "evalsha_ro(...args: [ sha1: string | Buffer, numkeys: number | string, ...args: RedisValue[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha_ro(...args: [ sha1: string | Buffer, numkeys: number | string, ...args: RedisValue[] ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],

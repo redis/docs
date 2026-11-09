@@ -272,6 +272,60 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "flushdb(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushdb(async: \"ASYNC\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "async",
+            "type": "\"ASYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushdb(sync: \"SYNC\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "sync",
+            "type": "\"SYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

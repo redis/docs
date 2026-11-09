@@ -220,6 +220,27 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "vinfo(key: RedisKey, callback?: Callback<(string | number)[] | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<(string | number)[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | number)[] | null, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

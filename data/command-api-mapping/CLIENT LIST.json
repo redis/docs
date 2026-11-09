@@ -166,6 +166,148 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "client(subcommand: \"LIST\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client(...args: [ subcommand: \"LIST\", idToken: \"ID\", ...clientIds: (number | string)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "idToken",
+            "type": "\"ID\"",
+            "description": ""
+          },
+          {
+            "name": "...clientIds",
+            "type": "(number | string)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client(...args: [ subcommand: \"LIST\", idToken: \"ID\", ...clientIds: (number | string)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "idToken",
+            "type": "\"ID\"",
+            "description": ""
+          },
+          {
+            "name": "...clientIds",
+            "type": "(number | string)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client(subcommand: \"LIST\", type: \"TYPE\", normal: \"NORMAL\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "type",
+            "type": "\"TYPE\"",
+            "description": ""
+          },
+          {
+            "name": "normal",
+            "type": "\"NORMAL\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client(...args: [ subcommand: \"LIST\", type: \"TYPE\", normal: \"NORMAL\", idToken: \"ID\", ...clientIds: (number | string)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LIST\"",
+            "description": ""
+          },
+          {
+            "name": "type",
+            "type": "\"TYPE\"",
+            "description": ""
+          },
+          {
+            "name": "normal",
+            "type": "\"NORMAL\"",
+            "description": ""
+          },
+          {
+            "name": "idToken",
+            "type": "\"ID\"",
+            "description": ""
+          },
+          {
+            "name": "...clientIds",
+            "type": "(number | string)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

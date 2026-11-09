@@ -116,6 +116,27 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "arnext(key: RedisKey, callback?: Callback<number | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number | null, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

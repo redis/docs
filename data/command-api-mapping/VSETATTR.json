@@ -430,6 +430,37 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "vsetattr(key: RedisKey, element: string | Buffer | number, json: string | Buffer, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

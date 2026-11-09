@@ -141,7 +141,52 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "cluster(...args: [ subcommand: \"DELSLOTSRANGE\", ...startSlotEndSlots: (string | number)[], callback: Callback<[ startSlotRange: number, endSlotRange: number, ...nodes: [ host: string, port: number, nodeId: string, info: unknown[] ][] ][]> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DELSLOTSRANGE\"",
+            "description": ""
+          },
+          {
+            "name": "...startSlotEndSlots",
+            "type": "(string | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[ startSlotRange: number, endSlotRange: number, ...nodes: [ host: string, port: number, nodeId: string, info: unknown[] ][] ][]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[ startSlotRange: number, endSlotRange: number, ...nodes: [host: string, port: number, nodeId: string, info: unknown[]][] ][], Context>",
+          "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
+        }
+      },
+      {
+        "signature": "cluster(...args: [ subcommand: \"DELSLOTSRANGE\", ...startSlotEndSlots: (string | number)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DELSLOTSRANGE\"",
+            "description": ""
+          },
+          {
+            "name": "...startSlotEndSlots",
+            "type": "(string | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[ startSlotRange: number, endSlotRange: number, ...nodes: [host: string, port: number, nodeId: string, info: unknown[]][] ][], Context>",
+          "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
+        }
+      }
+    ]
   }
 }
 

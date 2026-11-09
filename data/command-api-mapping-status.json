@@ -85,6 +85,36 @@
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
   },
+  "BF.ADD": {
+    "ioredis": "generic_only"
+  },
+  "BF.CARD": {
+    "ioredis": "generic_only"
+  },
+  "BF.EXISTS": {
+    "ioredis": "generic_only"
+  },
+  "BF.INFO": {
+    "ioredis": "generic_only"
+  },
+  "BF.INSERT": {
+    "ioredis": "generic_only"
+  },
+  "BF.LOADCHUNK": {
+    "ioredis": "generic_only"
+  },
+  "BF.MADD": {
+    "ioredis": "generic_only"
+  },
+  "BF.MEXISTS": {
+    "ioredis": "generic_only"
+  },
+  "BF.RESERVE": {
+    "ioredis": "generic_only"
+  },
+  "BF.SCANDUMP": {
+    "ioredis": "generic_only"
+  },
   "BGREWRITEAOF": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
@@ -92,6 +122,42 @@
   "BGSAVE": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
+  },
+  "CF.ADD": {
+    "ioredis": "generic_only"
+  },
+  "CF.ADDNX": {
+    "ioredis": "generic_only"
+  },
+  "CF.COUNT": {
+    "ioredis": "generic_only"
+  },
+  "CF.DEL": {
+    "ioredis": "generic_only"
+  },
+  "CF.EXISTS": {
+    "ioredis": "generic_only"
+  },
+  "CF.INFO": {
+    "ioredis": "generic_only"
+  },
+  "CF.INSERT": {
+    "ioredis": "generic_only"
+  },
+  "CF.INSERTNX": {
+    "ioredis": "generic_only"
+  },
+  "CF.LOADCHUNK": {
+    "ioredis": "generic_only"
+  },
+  "CF.MEXISTS": {
+    "ioredis": "generic_only"
+  },
+  "CF.RESERVE": {
+    "ioredis": "generic_only"
+  },
+  "CF.SCANDUMP": {
+    "ioredis": "generic_only"
   },
   "CLIENT": {
     "jedis": "unsupported",
@@ -166,7 +232,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLIENT PAUSE": {
     "nredisstack_sync": "generic_only",
@@ -192,7 +259,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLIENT SETNAME": {
     "nredisstack_sync": "unsupported",
@@ -367,7 +435,8 @@
     "nredisstack_async": "generic_only",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLUSTER MYID": {
     "nredisstack_sync": "generic_only",
@@ -381,7 +450,8 @@
     "nredisstack_async": "generic_only",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLUSTER NODES": {
     "php": "generic_only",
@@ -461,7 +531,8 @@
     "nredisstack_async": "generic_only",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLUSTER SLOTS": {
     "nredisstack_sync": "generic_only",
@@ -482,7 +553,26 @@
     "nredisstack_async": "generic_only",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
+  },
+  "CMS.INCRBY": {
+    "ioredis": "generic_only"
+  },
+  "CMS.INFO": {
+    "ioredis": "generic_only"
+  },
+  "CMS.INITBYDIM": {
+    "ioredis": "generic_only"
+  },
+  "CMS.INITBYPROB": {
+    "ioredis": "generic_only"
+  },
+  "CMS.MERGE": {
+    "ioredis": "generic_only"
+  },
+  "CMS.QUERY": {
+    "ioredis": "generic_only"
   },
   "COMMAND": {
     "nredisstack_sync": "unsupported",
@@ -594,6 +684,12 @@
     "redis_rs_async": "generic_only",
     "php": "generic_only"
   },
+  "DELEX": {
+    "ioredis": "generic_only"
+  },
+  "DIGEST": {
+    "ioredis": "generic_only"
+  },
   "ECHO": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
@@ -636,52 +732,67 @@
   },
   "FT.AGGREGATE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.ALIASADD": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.ALIASDEL": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.ALIASUPDATE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.ALTER": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
+  },
+  "FT.CREATE": {
+    "ioredis": "generic_only"
   },
   "FT.CURSOR DEL": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "redis_py": "generic_only"
+    "redis_py": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.CURSOR READ": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.DICTADD": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.DICTDEL": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.DICTDUMP": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.DROPINDEX": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.EXPLAIN": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.EXPLAINCLI": {
     "redis_py": "unsupported",
@@ -690,66 +801,80 @@
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "php": "generic_only"
+    "php": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.HYBRID": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.INFO": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.PROFILE": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SEARCH": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SPELLCHECK": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SUGADD": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SUGDEL": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SUGGET": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SUGLEN": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SYNDUMP": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SYNUPDATE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.TAGVALS": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT._LIST": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "redis_py": "generic_only"
+    "redis_py": "generic_only",
+    "ioredis": "generic_only"
   },
   "FUNCTION DELETE": {
     "lettuce_sync": "generic_only",
@@ -834,11 +959,93 @@
   "HOTKEYS": {
     "jedis": "unsupported",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "ioredis": "generic_only"
+  },
+  "HOTKEYS GET": {
+    "ioredis": "generic_only"
+  },
+  "HOTKEYS RESET": {
+    "ioredis": "generic_only"
+  },
+  "HOTKEYS START": {
+    "ioredis": "generic_only"
+  },
+  "HOTKEYS STOP": {
+    "ioredis": "generic_only"
   },
   "INFO": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
+  },
+  "JSON.ARRAPPEND": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRINDEX": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRINSERT": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRLEN": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRPOP": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRTRIM": {
+    "ioredis": "generic_only"
+  },
+  "JSON.CLEAR": {
+    "ioredis": "generic_only"
+  },
+  "JSON.DEBUG MEMORY": {
+    "ioredis": "generic_only"
+  },
+  "JSON.DEL": {
+    "ioredis": "generic_only"
+  },
+  "JSON.FORGET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.GET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.MERGE": {
+    "ioredis": "generic_only"
+  },
+  "JSON.MGET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.MSET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.NUMINCRBY": {
+    "ioredis": "generic_only"
+  },
+  "JSON.OBJKEYS": {
+    "ioredis": "generic_only"
+  },
+  "JSON.OBJLEN": {
+    "ioredis": "generic_only"
+  },
+  "JSON.RESP": {
+    "ioredis": "generic_only"
+  },
+  "JSON.SET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.STRAPPEND": {
+    "ioredis": "generic_only"
+  },
+  "JSON.STRLEN": {
+    "ioredis": "generic_only"
+  },
+  "JSON.TOGGLE": {
+    "ioredis": "generic_only"
+  },
+  "JSON.TYPE": {
+    "ioredis": "generic_only"
   },
   "LASTSAVE": {
     "redis_rs_sync": "generic_only",
@@ -1323,9 +1530,72 @@
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
   },
+  "TDIGEST.ADD": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.BYRANK": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.BYREVRANK": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.CDF": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.CREATE": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.INFO": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.MAX": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.MERGE": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.MIN": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.QUANTILE": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.RANK": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.RESET": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.REVRANK": {
+    "ioredis": "generic_only"
+  },
+  "TDIGEST.TRIMMED_MEAN": {
+    "ioredis": "generic_only"
+  },
   "TIME": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
+  },
+  "TOPK.ADD": {
+    "ioredis": "generic_only"
+  },
+  "TOPK.COUNT": {
+    "ioredis": "generic_only"
+  },
+  "TOPK.INCRBY": {
+    "ioredis": "generic_only"
+  },
+  "TOPK.INFO": {
+    "ioredis": "generic_only"
+  },
+  "TOPK.LIST": {
+    "ioredis": "generic_only"
+  },
+  "TOPK.QUERY": {
+    "ioredis": "generic_only"
+  },
+  "TOPK.RESERVE": {
+    "ioredis": "generic_only"
   },
   "TRIMSLOTS": {
     "redis_py": "generic_only",
@@ -1339,6 +1609,64 @@
     "nredisstack_async": "unsupported",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
+  },
+  "TS.ADD": {
+    "ioredis": "generic_only"
+  },
+  "TS.ALTER": {
+    "ioredis": "generic_only"
+  },
+  "TS.CREATE": {
+    "ioredis": "generic_only"
+  },
+  "TS.CREATERULE": {
+    "ioredis": "generic_only"
+  },
+  "TS.DECRBY": {
+    "ioredis": "generic_only"
+  },
+  "TS.DEL": {
+    "ioredis": "generic_only"
+  },
+  "TS.DELETERULE": {
+    "ioredis": "generic_only"
+  },
+  "TS.GET": {
+    "ioredis": "generic_only"
+  },
+  "TS.INCRBY": {
+    "ioredis": "generic_only"
+  },
+  "TS.INFO": {
+    "ioredis": "generic_only"
+  },
+  "TS.MADD": {
+    "ioredis": "generic_only"
+  },
+  "TS.MGET": {
+    "ioredis": "generic_only"
+  },
+  "TS.MRANGE": {
+    "ioredis": "generic_only"
+  },
+  "TS.MREVRANGE": {
+    "ioredis": "generic_only"
+  },
+  "TS.QUERYINDEX": {
+    "ioredis": "generic_only"
+  },
+  "TS.RANGE": {
+    "ioredis": "generic_only"
+  },
+  "TS.REVRANGE": {
+    "ioredis": "generic_only"
+  },
+  "XACKDEL": {
+    "ioredis": "generic_only"
+  },
+  "XCFGSET": {
+    "ioredis": "generic_only"
   }
 }

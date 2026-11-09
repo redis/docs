@@ -639,6 +639,61 @@
           "description": "\"OK\""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "migrate(...args: [ host: string | Buffer, port: number | string, ...args: RedisValue[], callback: Callback<\"OK\"> ])",
+        "params": [
+          {
+            "name": "host",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "migrate(...args: [ host: string | Buffer, port: number | string, ...args: RedisValue[] ])",
+        "params": [
+          {
+            "name": "host",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }
