@@ -828,6 +828,42 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bitpos(key, bit, start = nil, stop = nil, scale: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "Integer",
+            "description": "whether to look for the first 1 or 0 bit"
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "start index"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "stop index"
+          },
+          {
+            "name": "scale",
+            "type": "String, Symbol",
+            "description": "the scale of the offset range e.g. 'BYTE' - interpreted as a range of bytes, 'BIT' - interpreted as a range of bits"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the position of the first 1/0 bit. -1 if looking for 1 and it is not found or start and stop are given."
+        }
+      }
     ]
   }
 }

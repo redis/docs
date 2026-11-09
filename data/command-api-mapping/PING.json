@@ -232,7 +232,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ping(message = nil)",
+        "params": [
+          {
+            "name": "message",
+            "type": "optional, String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "`PONG`"
+        }
+      }
     ]
   }
 }
-

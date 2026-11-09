@@ -412,6 +412,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xinfo(:consumers, key, group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          }
+        ],
+        "returns": {
+          "type": "Array<Hash>",
+          "description": "information of the consumers if subcommand is `consumers`"
+        }
+      }
     ]
   }
 }

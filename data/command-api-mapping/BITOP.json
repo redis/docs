@@ -1060,6 +1060,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bitop(operation, destkey, *keys)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "String",
+            "description": "e.g. `and`, `or`, `xor`, `not`"
+          },
+          {
+            "name": "destkey",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "one or more source keys to perform `operation`"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the length of the string stored in `destkey`"
+        }
+      }
     ]
   }
 }

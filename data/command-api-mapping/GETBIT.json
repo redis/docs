@@ -311,6 +311,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "getbit(key, offset)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "Integer",
+            "description": "bit offset"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "`0` or `1`"
+        }
+      }
     ]
   }
 }

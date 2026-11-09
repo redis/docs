@@ -86,7 +86,23 @@
     "nredisstack_async": [],
     "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "redis_rb": [
+      {
+        "signature": "cluster(:myshardid, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the subcommand"
+        }
+      }
+    ]
   }
 }
 

@@ -121,6 +121,22 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "redis_rb": [
+      {
+        "signature": "client(:no_touch, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Hash",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }

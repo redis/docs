@@ -202,7 +202,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "echo(value)",
+        "params": [
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
     ]
   }
 }
-

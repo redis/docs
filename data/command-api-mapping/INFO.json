@@ -305,6 +305,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "info()",
+        "params": [],
+        "returns": {
+          "type": "Hash",
+          "description": "index metadata"
+        }
+      }
     ]
   }
 }

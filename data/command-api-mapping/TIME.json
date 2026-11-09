@@ -141,6 +141,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "time()",
+        "params": [],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": "tuple of seconds since UNIX epoch and microseconds in the current second"
+        }
+      }
     ]
   }
 }

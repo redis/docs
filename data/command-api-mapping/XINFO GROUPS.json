@@ -347,6 +347,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xinfo(:groups, key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          }
+        ],
+        "returns": {
+          "type": "Array<Hash>",
+          "description": "information of the consumer groups if subcommand is `groups`"
+        }
+      }
     ]
   }
 }

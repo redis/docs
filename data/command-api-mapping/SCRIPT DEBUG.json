@@ -121,6 +121,22 @@
           "description": "Command result"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "script(:debug, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Boolean, Array<Boolean>, ...",
+          "description": "depends on subcommand"
+        }
+      }
     ]
   }
 }

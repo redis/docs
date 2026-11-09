@@ -248,6 +248,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "slowlog(:get, length = nil)",
+        "params": [
+          {
+            "name": "length",
+            "type": "Integer",
+            "description": "maximum number of entries to return"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Integer, String",
+          "description": "depends on subcommand"
+        }
+      }
     ]
   }
 }

@@ -189,6 +189,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bgsave()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
     ]
   }
 }

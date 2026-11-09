@@ -8344,6 +8344,16 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "asking()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "`'OK'`"
+          }
+        }
       ]
     }
   },
@@ -8638,6 +8648,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "auth(*args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array<String>",
+              "description": "includes both username and password or only password"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "`OK`"
           }
         }
       ]
@@ -11165,6 +11191,16 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bgrewriteaof()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "`OK`"
+          }
+        }
       ]
     }
   },
@@ -11357,6 +11393,16 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bgsave()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "`OK`"
           }
         }
       ]
@@ -12025,6 +12071,37 @@
           "returns": {
             "type": "int",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bitcount(key, start = 0, stop = -1, scale: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "start index"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "stop index"
+            },
+            {
+              "name": "scale",
+              "type": "String, Symbol",
+              "description": "the scale of the offset range e.g. 'BYTE' - interpreted as a range of bytes, 'BIT' - interpreted as a range of bits"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of bits set to 1"
           }
         }
       ]
@@ -13703,6 +13780,32 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bitop(operation, destkey, *keys)",
+          "params": [
+            {
+              "name": "operation",
+              "type": "String",
+              "description": "e.g. `and`, `or`, `xor`, `not`"
+            },
+            {
+              "name": "destkey",
+              "type": "String",
+              "description": "destination key"
+            },
+            {
+              "name": "*keys",
+              "type": "String, Array<String>",
+              "description": "one or more source keys to perform `operation`"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the length of the string stored in `destkey`"
+          }
+        }
       ]
     }
   },
@@ -14534,6 +14637,42 @@
           "returns": {
             "type": "int",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bitpos(key, bit, start = nil, stop = nil, scale: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "bit",
+              "type": "Integer",
+              "description": "whether to look for the first 1 or 0 bit"
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "start index"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "stop index"
+            },
+            {
+              "name": "scale",
+              "type": "String, Symbol",
+              "description": "the scale of the offset range e.g. 'BYTE' - interpreted as a range of bytes, 'BIT' - interpreted as a range of bits"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the position of the first 1/0 bit. -1 if looking for 1 and it is not found or start and stop are given."
           }
         }
       ]
@@ -21648,6 +21787,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:caching, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -21787,6 +21942,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:getname, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -21884,6 +22055,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:getredir, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -21919,6 +22106,22 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:help, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -22051,6 +22254,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:id, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -22161,6 +22380,22 @@
           "returns": {
             "type": "Result<string, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:info, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -22619,6 +22854,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:kill, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -22932,6 +23183,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:list, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -23108,6 +23375,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:no_evict, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -23234,7 +23517,23 @@
         }
       ],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "redis_rb": [
+        {
+          "signature": "client(:no_touch, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
+      ]
     }
   },
   "CLIENT PAUSE": {
@@ -23459,6 +23758,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:pause, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -23582,6 +23897,22 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:reply, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -23745,7 +24076,23 @@
         }
       ],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "redis_rb": [
+        {
+          "signature": "client(:setinfo, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
+      ]
     }
   },
   "CLIENT SETNAME": {
@@ -23945,6 +24292,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:setname, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -24163,6 +24526,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:tracking, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -24258,6 +24637,22 @@
           "returns": {
             "type": "Result<string, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:trackinginfo, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -24538,6 +24933,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:unblock, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -24648,6 +25059,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "client(:unpause, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -24885,6 +25312,22 @@
             "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:addslots, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -25081,6 +25524,22 @@
             "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:addslotsrange, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -25161,6 +25620,22 @@
           "returns": {
             "type": "Result<\"BUMPED\" | \"STILL\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:bumpepoch, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -25315,6 +25790,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:count_failure_reports, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -25465,6 +25956,22 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:countkeysinslot, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -25681,6 +26188,22 @@
             "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:delslots, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -25870,6 +26393,22 @@
           "returns": {
             "type": "Result<[ startSlotRange: number, endSlotRange: number, ...nodes: [host: string, port: number, nodeId: string, info: unknown[]][] ][], Context>",
             "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:delslotsrange, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -26075,6 +26614,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:failover, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -26155,6 +26710,22 @@
           "returns": {
             "type": "Result<[ startSlotRange: number, endSlotRange: number, ...nodes: [host: string, port: number, nodeId: string, info: unknown[]][] ][], Context>",
             "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:flushslots, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -26292,6 +26863,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:forget, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -26486,6 +27073,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:getkeysinslot, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -26546,6 +27149,22 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:help, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -26658,6 +27277,22 @@
           "returns": {
             "type": "Result<string, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:info, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -26812,6 +27447,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:keyslot, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -26931,6 +27582,22 @@
           "returns": {
             "type": "Result<unknown[], Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:links, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -27130,6 +27797,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:meet, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -27146,7 +27829,23 @@
       "nredisstack_async": [],
       "php": [],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "redis_rb": [
+        {
+          "signature": "cluster(:migration, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
+      ]
     }
   },
   "CLUSTER MYID": {
@@ -27258,6 +27957,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:myid, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -27349,7 +28064,23 @@
       "nredisstack_async": [],
       "php": [],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "redis_rb": [
+        {
+          "signature": "cluster(:myshardid, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
+      ]
     }
   },
   "CLUSTER NODES": {
@@ -27513,6 +28244,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:nodes, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -27648,6 +28395,22 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:replicas, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -27805,6 +28568,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:replicate, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -28024,6 +28803,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:reset, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -28134,6 +28929,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:saveconfig, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -28271,6 +29082,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:set_config_epoch, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -28765,6 +29592,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:setslot, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -28875,6 +29718,22 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:shards, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
           }
         }
       ]
@@ -28999,6 +29858,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:slaves, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -29015,7 +29890,23 @@
       "nredisstack_async": [],
       "php": [],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "redis_rb": [
+        {
+          "signature": "cluster(:slot_stats, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
+      ]
     }
   },
   "CLUSTER SLOTS": {
@@ -29127,6 +30018,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "cluster(:slots, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
       ]
     }
   },
@@ -29143,7 +30050,23 @@
       "nredisstack_async": [],
       "php": [],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "redis_rb": [
+        {
+          "signature": "cluster(:syncslots, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand"
+          }
+        }
+      ]
     }
   },
   "CLUSTER": {
@@ -31798,6 +32721,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "config(:get, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "string reply, or hash when retrieving more than one property with `CONFIG GET`"
+          }
+        }
       ]
     }
   },
@@ -31853,6 +32792,22 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "config(:help, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "string reply, or hash when retrieving more than one property with `CONFIG GET`"
           }
         }
       ]
@@ -32017,6 +32972,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "config(:resetstat, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "string reply, or hash when retrieving more than one property with `CONFIG GET`"
+          }
+        }
       ]
     }
   },
@@ -32177,6 +33148,22 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "config(:rewrite, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "string reply, or hash when retrieving more than one property with `CONFIG GET`"
           }
         }
       ]
@@ -32547,6 +33534,22 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "config(:set, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Hash",
+            "description": "string reply, or hash when retrieving more than one property with `CONFIG GET`"
           }
         }
       ]
@@ -33277,6 +34280,16 @@
           ],
           "returns": {
             "type": "Result<number, Context>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "dbsize()",
+          "params": [],
+          "returns": {
+            "type": "Integer",
             "description": ""
           }
         }
@@ -35674,6 +36687,22 @@
           ],
           "returns": {
             "type": "Result<string, Context>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "echo(value)",
+          "params": [
+            {
+              "name": "value",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
             "description": ""
           }
         }
@@ -41128,6 +42157,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "flushall(options = nil)",
+          "params": [
+            {
+              "name": "options",
+              "type": "Hash",
+              "description": "- `:async => Boolean`: async flush (default: false)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "`OK`"
+          }
+        }
       ]
     }
   },
@@ -41457,6 +42502,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "flushdb(options = nil)",
+          "params": [
+            {
+              "name": "options",
+              "type": "Hash",
+              "description": "- `:async => Boolean`: async flush (default: false)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "`OK`"
           }
         }
       ]
@@ -56683,6 +57744,72 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "geosearch(key, frommember: nil, fromlonlat: nil, byradius: nil, bybox: nil, sort: nil, count: nil, count_any: false, withcoord: false, withdist: false, withhash: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "frommember",
+              "type": "String",
+              "description": "use the position of the given existing member as the center"
+            },
+            {
+              "name": "fromlonlat",
+              "type": "Array<Numeric>",
+              "description": "a [longitude, latitude] pair used as the center"
+            },
+            {
+              "name": "byradius",
+              "type": "Array",
+              "description": "a [radius, unit] pair where unit is one of 'm', 'km', 'ft', 'mi'"
+            },
+            {
+              "name": "bybox",
+              "type": "Array",
+              "description": "a [width, height, unit] triple where unit is one of 'm', 'km', 'ft', 'mi'"
+            },
+            {
+              "name": "sort",
+              "type": "'asc', 'desc'",
+              "description": "sort returned items from the nearest to the farthest, or vice versa"
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": "limit the results to the first N matching items"
+            },
+            {
+              "name": "count_any",
+              "type": "Boolean",
+              "description": "return as soon as enough matches are found (only with count)"
+            },
+            {
+              "name": "withcoord",
+              "type": "Boolean",
+              "description": "also return the longitude and latitude of matching items"
+            },
+            {
+              "name": "withdist",
+              "type": "Boolean",
+              "description": "also return the distance from the center point"
+            },
+            {
+              "name": "withhash",
+              "type": "Boolean",
+              "description": "also return the raw geohash-encoded sorted set score of the item"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": "may be changed with WITH* flags"
+          }
+        }
       ]
     }
   },
@@ -57446,6 +58573,67 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "geosearchstore(destination, source, frommember: nil, fromlonlat: nil, byradius: nil, bybox: nil, sort: nil, count: nil, count_any: false, storedist: false)",
+          "params": [
+            {
+              "name": "destination",
+              "type": "String",
+              "description": "key to store the result in"
+            },
+            {
+              "name": "source",
+              "type": "String",
+              "description": "geospatial sorted set to search"
+            },
+            {
+              "name": "frommember",
+              "type": "String",
+              "description": "use the position of the given existing member as the center"
+            },
+            {
+              "name": "fromlonlat",
+              "type": "Array<Numeric>",
+              "description": "a [longitude, latitude] pair used as the center"
+            },
+            {
+              "name": "byradius",
+              "type": "Array",
+              "description": "a [radius, unit] pair where unit is one of 'm', 'km', 'ft', 'mi'"
+            },
+            {
+              "name": "bybox",
+              "type": "Array",
+              "description": "a [width, height, unit] triple where unit is one of 'm', 'km', 'ft', 'mi'"
+            },
+            {
+              "name": "sort",
+              "type": "'asc', 'desc'",
+              "description": "sort returned items from the nearest to the farthest, or vice versa"
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": "limit the results to the first N matching items"
+            },
+            {
+              "name": "count_any",
+              "type": "Boolean",
+              "description": "return as soon as enough matches are found (only with count)"
+            },
+            {
+              "name": "storedist",
+              "type": "Boolean",
+              "description": "store the distance from the center point as the score"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "number of elements stored in the destination key"
+          }
+        }
       ]
     }
   },
@@ -58084,6 +59272,27 @@
           "returns": {
             "type": "int",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "getbit(key, offset)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "offset",
+              "type": "Integer",
+              "description": "bit offset"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "`0` or `1`"
           }
         }
       ]
@@ -77939,6 +79148,16 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "info()",
+          "params": [],
+          "returns": {
+            "type": "Hash",
+            "description": "index metadata"
+          }
+        }
       ]
     }
   },
@@ -87536,6 +88755,16 @@
           ],
           "returns": {
             "type": "Result<number, Context>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "lastsave()",
+          "params": [],
+          "returns": {
+            "type": "Integer",
             "description": ""
           }
         }
@@ -101787,6 +103016,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ping(message = nil)",
+          "params": [
+            {
+              "name": "message",
+              "type": "optional, String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "`PONG`"
+          }
+        }
       ]
     }
   },
@@ -104766,6 +106011,16 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "quit()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "`OK`"
           }
         }
       ]
@@ -109354,6 +110609,16 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "save()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -110359,6 +111624,22 @@
             "description": "Command result"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "script(:debug, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Boolean, Array<Boolean>, ...",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -110643,6 +111924,22 @@
             "description": "Command result"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "script(:exists, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Boolean, Array<Boolean>, ...",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -110916,6 +112213,22 @@
             "description": "Command result"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "script(:flush, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Boolean, Array<Boolean>, ...",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -110972,6 +112285,22 @@
           "returns": {
             "type": "mixed",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "script(:help, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Boolean, Array<Boolean>, ...",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -111099,6 +112428,22 @@
           "returns": {
             "type": "mixed",
             "description": "Command result"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "script(:kill, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Boolean, Array<Boolean>, ...",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -111422,6 +112767,22 @@
           "returns": {
             "type": "mixed",
             "description": "Command result"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "script(:load, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "arguments sent to the server after the subcommand"
+            }
+          ],
+          "returns": {
+            "type": "String, Boolean, Array<Boolean>, ...",
+            "description": "depends on subcommand"
           }
         }
       ]
@@ -112500,6 +113861,22 @@
           "returns": {
             "type": "Result<\"OK\", Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "select(db)",
+          "params": [
+            {
+              "name": "db",
+              "type": "Integer",
+              "description": "zero-based index of the DB to use (0 to 15)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "`OK`"
           }
         }
       ]
@@ -114108,6 +115485,32 @@
           "returns": {
             "type": "int",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "setbit(key, offset, value)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "offset",
+              "type": "Integer",
+              "description": "bit offset"
+            },
+            {
+              "name": "value",
+              "type": "Integer",
+              "description": "bit value `0` or `1`"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the original bit value stored at `offset`"
           }
         }
       ]
@@ -117750,6 +119153,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "slowlog(:get, length = nil)",
+          "params": [
+            {
+              "name": "length",
+              "type": "Integer",
+              "description": "maximum number of entries to return"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>, Integer, String",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -117930,6 +119349,16 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "slowlog(:len)",
+          "params": [],
+          "returns": {
+            "type": "Array<String>, Integer, String",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -118083,6 +119512,16 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "slowlog(:reset)",
+          "params": [],
+          "returns": {
+            "type": "Array<String>, Integer, String",
+            "description": "depends on subcommand"
+          }
+        }
       ]
     }
   },
@@ -118119,7 +119558,28 @@
         }
       ],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "redis_rb": [
+        {
+          "signature": "slowlog(subcommand, length = nil)",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "String",
+              "description": "e.g. `get`, `len`, `reset`"
+            },
+            {
+              "name": "length",
+              "type": "Integer",
+              "description": "maximum number of entries to return"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>, Integer, String",
+            "description": "depends on subcommand"
+          }
+        }
+      ]
     }
   },
   "SMEMBERS": {
@@ -128006,6 +129466,16 @@
           "returns": {
             "type": "Result<number[], Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "time()",
+          "params": [],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": "tuple of seconds since UNIX epoch and microseconds in the current second"
           }
         }
       ]
@@ -149868,6 +151338,27 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "xinfo(:consumers, key, group)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the stream key"
+            },
+            {
+              "name": "group",
+              "type": "String",
+              "description": "the consumer group name"
+            }
+          ],
+          "returns": {
+            "type": "Array<Hash>",
+            "description": "information of the consumers if subcommand is `consumers`"
+          }
+        }
       ]
     }
   },
@@ -150218,6 +151709,22 @@
           "returns": {
             "type": "array",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "xinfo(:groups, key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the stream key"
+            }
+          ],
+          "returns": {
+            "type": "Array<Hash>",
+            "description": "information of the consumer groups if subcommand is `groups`"
           }
         }
       ]
@@ -150651,6 +152158,22 @@
           "returns": {
             "type": "array",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "xinfo(:stream, key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the stream key"
+            }
+          ],
+          "returns": {
+            "type": "Hash",
+            "description": "information of the stream if subcommand is `stream`"
           }
         }
       ]

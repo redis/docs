@@ -96,7 +96,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "quit()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
     ]
   }
 }
-

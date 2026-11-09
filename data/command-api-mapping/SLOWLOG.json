@@ -31,6 +31,27 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "redis_rb": [
+      {
+        "signature": "slowlog(subcommand, length = nil)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "String",
+            "description": "e.g. `get`, `len`, `reset`"
+          },
+          {
+            "name": "length",
+            "type": "Integer",
+            "description": "maximum number of entries to return"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Integer, String",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }
