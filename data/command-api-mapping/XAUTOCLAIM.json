@@ -720,13 +720,13 @@
             "description": ""
           },
           {
-            "name": "?int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "bool $justId = false",
-            "type": "Any",
+            "name": "$justId",
+            "type": "bool",
             "description": ""
           }
         ],

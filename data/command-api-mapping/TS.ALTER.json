@@ -234,8 +234,8 @@
             "description": ""
           },
           {
-            "name": "?TSAlterArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?TSAlterArguments",
             "description": ""
           }
         ],

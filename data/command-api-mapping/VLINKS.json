@@ -414,8 +414,8 @@
             "description": ""
           },
           {
-            "name": "bool $withScores = false",
-            "type": "Any",
+            "name": "$withScores",
+            "type": "bool",
             "description": ""
           }
         ],

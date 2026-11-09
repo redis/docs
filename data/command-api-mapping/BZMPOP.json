@@ -834,13 +834,13 @@
             "description": ""
           },
           {
-            "name": "string $modifier = 'min'",
-            "type": "Any",
+            "name": "$modifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $count = 1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           }
         ],

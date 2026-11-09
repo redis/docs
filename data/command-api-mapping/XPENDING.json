@@ -931,28 +931,28 @@
             "description": ""
           },
           {
-            "name": "?int $minIdleTime = null",
-            "type": "Any",
+            "name": "$minIdleTime",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?string $start = null",
-            "type": "Any",
+            "name": "$start",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "?string $end = null",
-            "type": "Any",
+            "name": "$end",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "?int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?string $consumer = null",
-            "type": "Any",
+            "name": "$consumer",
+            "type": "?string",
             "description": ""
           }
         ],

@@ -282,8 +282,8 @@
             "description": ""
           },
           {
-            "name": "?TSCreateArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?TSCreateArguments",
             "description": ""
           }
         ],

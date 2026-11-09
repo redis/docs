@@ -179,13 +179,13 @@
             "description": ""
           },
           {
-            "name": "?int $entriesAdded = null",
-            "type": "Any",
+            "name": "$entriesAdded",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?string $maxDeleteId = null",
-            "type": "Any",
+            "name": "$maxDeleteId",
+            "type": "?string",
             "description": ""
           }
         ],

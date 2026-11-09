@@ -643,18 +643,18 @@
             "description": ""
           },
           {
-            "name": "$start = null",
-            "type": "Any",
+            "name": "$start",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "$end = null",
-            "type": "Any",
+            "name": "$end",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "string $index = 'byte'",
-            "type": "Any",
+            "name": "$index",
+            "type": "string",
             "description": ""
           }
         ],

@@ -430,8 +430,8 @@
             "description": ""
           },
           {
-            "name": "int $limit = 0",
-            "type": "Any",
+            "name": "$limit",
+            "type": "int",
             "description": ""
           }
         ],

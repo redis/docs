@@ -181,13 +181,13 @@
             "description": ""
           },
           {
-            "name": "?int $duration = null",
-            "type": "Any",
+            "name": "$duration",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?int $maxsize = null",
-            "type": "Any",
+            "name": "$maxsize",
+            "type": "?int",
             "description": ""
           }
         ],

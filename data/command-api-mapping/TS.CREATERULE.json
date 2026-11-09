@@ -289,8 +289,8 @@
             "description": ""
           },
           {
-            "name": "int $alignTimestamp = 0",
-            "type": "Any",
+            "name": "$alignTimestamp",
+            "type": "int",
             "description": ""
           }
         ],

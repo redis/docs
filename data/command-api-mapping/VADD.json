@@ -770,33 +770,33 @@
             "description": ""
           },
           {
-            "name": "int $dim = null",
-            "type": "Any",
+            "name": "$dim",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $cas = false",
-            "type": "Any",
+            "name": "$cas",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "string $quant = VADD::QUANT_DEFAULT",
-            "type": "Any",
+            "name": "$quant",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $bef = null",
-            "type": "Any",
+            "name": "$bef",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "string|array $attributes = null",
-            "type": "Any",
+            "name": "$attributes",
+            "type": "string|array",
             "description": ""
           },
           {
-            "name": "int $numlinks = null",
-            "type": "Any",
+            "name": "$numlinks",
+            "type": "int",
             "description": ""
           }
         ],

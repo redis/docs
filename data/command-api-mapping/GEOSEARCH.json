@@ -720,33 +720,33 @@
             "description": ""
           },
           {
-            "name": "?string $sorting = null",
-            "type": "Any",
+            "name": "$sorting",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "int $count = -1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $any = false",
-            "type": "Any",
+            "name": "$any",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $withCoord = false",
-            "type": "Any",
+            "name": "$withCoord",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $withDist = false",
-            "type": "Any",
+            "name": "$withDist",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $withHash = false",
-            "type": "Any",
+            "name": "$withHash",
+            "type": "bool",
             "description": ""
           }
         ],

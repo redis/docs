@@ -418,8 +418,8 @@
             "description": ""
           },
           {
-            "name": "XInfoStreamOptions $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "XInfoStreamOptions",
             "description": ""
           }
         ],

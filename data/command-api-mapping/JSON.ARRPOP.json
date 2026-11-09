@@ -393,13 +393,13 @@
             "description": ""
           },
           {
-            "name": "string $path = '$'",
-            "type": "Any",
+            "name": "$path",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $index = -1",
-            "type": "Any",
+            "name": "$index",
+            "type": "int",
             "description": ""
           }
         ],

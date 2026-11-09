@@ -924,33 +924,33 @@
             "description": ""
           },
           {
-            "name": "?int $idle = null",
-            "type": "Any",
+            "name": "$idle",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?int $time = null",
-            "type": "Any",
+            "name": "$time",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?int $retryCount = null",
-            "type": "Any",
+            "name": "$retryCount",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "bool $force = false",
-            "type": "Any",
+            "name": "$force",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $justId = false",
-            "type": "Any",
+            "name": "$justId",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "?string $lastId = null",
-            "type": "Any",
+            "name": "$lastId",
+            "type": "?string",
             "description": ""
           }
         ],

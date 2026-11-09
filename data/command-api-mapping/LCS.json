@@ -407,23 +407,23 @@
             "description": ""
           },
           {
-            "name": "bool $len = false",
-            "type": "Any",
+            "name": "$len",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $idx = false",
-            "type": "Any",
+            "name": "$idx",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "int $minMatchLen = 0",
-            "type": "Any",
+            "name": "$minMatchLen",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $withMatchLen = false",
-            "type": "Any",
+            "name": "$withMatchLen",
+            "type": "bool",
             "description": ""
           }
         ],

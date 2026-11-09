@@ -528,13 +528,13 @@
             "description": ""
           },
           {
-            "name": "int $start = 0",
-            "type": "Any",
+            "name": "$start",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "int $stop = 0",
-            "type": "Any",
+            "name": "$stop",
+            "type": "int",
             "description": ""
           }
         ],

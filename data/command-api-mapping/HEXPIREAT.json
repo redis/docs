@@ -834,8 +834,8 @@
             "description": ""
           },
           {
-            "name": "string $flag = null",
-            "type": "Any",
+            "name": "$flag",
+            "type": "string",
             "description": ""
           }
         ],

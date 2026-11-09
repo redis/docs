@@ -385,8 +385,8 @@
             "description": ""
           },
           {
-            "name": "bool $raw = false",
-            "type": "Any",
+            "name": "$raw",
+            "type": "bool",
             "description": ""
           }
         ],

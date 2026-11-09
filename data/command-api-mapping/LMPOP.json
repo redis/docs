@@ -389,13 +389,13 @@
             "description": ""
           },
           {
-            "name": "string $modifier = 'left'",
-            "type": "Any",
+            "name": "$modifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $count = 1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           }
         ],

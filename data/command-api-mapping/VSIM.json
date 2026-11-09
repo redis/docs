@@ -733,48 +733,48 @@
             "description": ""
           },
           {
-            "name": "bool $isElem = false",
-            "type": "Any",
+            "name": "$isElem",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $withScores = false",
-            "type": "Any",
+            "name": "$withScores",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "float $epsilon = null",
-            "type": "Any",
+            "name": "$epsilon",
+            "type": "float",
             "description": ""
           },
           {
-            "name": "int $ef = null",
-            "type": "Any",
+            "name": "$ef",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "string $filter = null",
-            "type": "Any",
+            "name": "$filter",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $filterEf = null",
-            "type": "Any",
+            "name": "$filterEf",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $truth = false",
-            "type": "Any",
+            "name": "$truth",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $noThread = false",
-            "type": "Any",
+            "name": "$noThread",
+            "type": "bool",
             "description": ""
           }
         ],

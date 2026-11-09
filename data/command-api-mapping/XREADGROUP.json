@@ -1053,18 +1053,18 @@
             "description": ""
           },
           {
-            "name": "?int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?int $blockMs = null",
-            "type": "Any",
+            "name": "$blockMs",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "bool $noAck = false",
-            "type": "Any",
+            "name": "$noAck",
+            "type": "bool",
             "description": ""
           },
           {

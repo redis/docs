@@ -668,8 +668,8 @@
             "description": ""
           },
           {
-            "name": "$unit = null",
-            "type": "Any",
+            "name": "$unit",
+            "type": "mixed",
             "description": ""
           }
         ],

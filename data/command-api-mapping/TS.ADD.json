@@ -376,8 +376,8 @@
             "description": ""
           },
           {
-            "name": "?AddArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?AddArguments",
             "description": ""
           }
         ],

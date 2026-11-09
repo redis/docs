@@ -631,18 +631,18 @@
         "signature": "xread(int $count = null, int $block = null, array $streams = null, string ...$id)",
         "params": [
           {
-            "name": "int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "int $block = null",
-            "type": "Any",
+            "name": "$block",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "array $streams = null",
-            "type": "Any",
+            "name": "$streams",
+            "type": "array",
             "description": ""
           },
           {
