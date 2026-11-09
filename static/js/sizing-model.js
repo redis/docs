@@ -435,6 +435,7 @@
     var stringText = !node ? input.text : node.t === 'string' ? node.v : toText(node);
     rows.string = stringValue(stringText, keyLen, ttl);
     rows.string.data = bytes(stringText);
+    rows.string.jsonText = !!node && node.t !== 'string';
     if (doc) {
       rows.hash = hashValue(hashFields(doc), keyLen, ttl);
       rows.hash.data = payload('hash', doc);

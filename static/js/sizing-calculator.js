@@ -174,6 +174,8 @@
       }
       var amounts = { value: r.value, object: r.object, space: r.keyspace };
       var held = heldInHeader(r);
+      // A string holds plain text when the record isn't JSON, or is a JSON string.
+      var data = shape.id === 'string' && !r.jsonText ? 'of text' : shape.data;
       var width = largest ? 100 * r.perKey / largest : 0;
       var ratio = r.data >= 8 ? Math.round(10 * r.perKey / r.data) / 10 : 0;
       return '<div class="rsz-row' + (best ? ' rsz-best' : '') + '" data-shape="' + shape.id + '">' +
@@ -193,7 +195,7 @@
           bytesPerKey(r.object).replace(/ bytes?$/, '') + ' for the key and object header' + (held ? ', which holds the ' + held + ',' : ',') +
           ' and ' + bytesPerKey(r.keyspace).replace(/ bytes?$/, '') + ' for the index of keys' +
           (ttl.checked ? ' and expiries' : '') + '.' +
-          (ratio ? ' That\'s ' + ratio + ' times the ' + bytesPerKey(r.data) + ' ' + shape.data + '.' : '') +
+          (ratio ? ' That\'s ' + ratio + ' times the ' + bytesPerKey(r.data) + ' ' + data + '.' : '') +
           (repl.checked ? ' With replication, the memory limit is ' + size(r.total * 2) + '.' : '') +
         '</p>' +
         '</div>';
