@@ -74,30 +74,6 @@
           "type": "boolean",
           "description": ""
         }
-      },
-      {
-        "signature": "boolean xgroupCreateConsumer(String key, String groupName, String consumerName)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "groupName",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "consumerName",
-            "type": "String",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "boolean",
-          "description": ""
-        }
       }
     ],
     "lettuce_sync": [

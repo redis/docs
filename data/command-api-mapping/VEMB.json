@@ -102,25 +102,6 @@
           "type": "RawVector",
           "description": "RawVector containing raw vector data, quantization type, and metadata"
         }
-      },
-      {
-        "signature": "List<Double> vemb(String key, String element)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "element",
-            "type": "String",
-            "description": "the name of the element whose vector you want to retrieve"
-          }
-        ],
-        "returns": {
-          "type": "List<Double>",
-          "description": "list of real numbers representing the vector"
-        }
       }
     ],
     "lettuce_sync": [

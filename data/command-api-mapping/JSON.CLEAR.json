@@ -56,20 +56,6 @@
         }
       },
       {
-        "signature": "long jsonClear(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": ""
-        }
-      },
-      {
         "signature": "long jsonClear(String key, Path2 path)",
         "params": [
           {

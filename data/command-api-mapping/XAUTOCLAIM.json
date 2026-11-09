@@ -182,40 +182,6 @@
           "type": "Map.Entry<StreamEntryID, List<StreamEntryID>>",
           "description": ""
         }
-      },
-      {
-        "signature": "Map.Entry<StreamEntryID, List<StreamEntry>> xautoclaim(String key, String group, String consumerName long minIdleTime, StreamEntryID start, XAutoClaimParams params)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "group",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "minIdleTime",
-            "type": "String consumerName long",
-            "description": ""
-          },
-          {
-            "name": "start",
-            "type": "StreamEntryID",
-            "description": ""
-          },
-          {
-            "name": "params",
-            "type": "XAutoClaimParams",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Map.Entry<StreamEntryID, List<StreamEntry>>",
-          "description": ""
-        }
       }
     ],
     "lettuce_sync": [

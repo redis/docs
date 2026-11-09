@@ -54,39 +54,6 @@
           "type": "List<String>",
           "description": "list of random element names"
         }
-      },
-      {
-        "signature": "String vrandmember(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          }
-        ],
-        "returns": {
-          "type": "String",
-          "description": "list of random element names"
-        }
-      },
-      {
-        "signature": "List<String> vrandmember(String key, int count)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": "negative values allow duplicates"
-          }
-        ],
-        "returns": {
-          "type": "List<String>",
-          "description": "list of random element names"
-        }
       }
     ],
     "lettuce_sync": [

@@ -121,20 +121,6 @@
           "type": "<T> T",
           "description": ""
         }
-      },
-      {
-        "signature": "Object jsonGet(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Object",
-          "description": ""
-        }
       }
     ],
     "lettuce_sync": [

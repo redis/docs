@@ -89,59 +89,6 @@
           "type": "KeyValue<String, List<String>>",
           "description": "The element being popped and pushed"
         }
-      },
-      {
-        "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, String... keys)",
-        "params": [
-          {
-            "name": "timeout",
-            "type": "double",
-            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
-          },
-          {
-            "name": "direction",
-            "type": "ListDirection",
-            "description": ""
-          },
-          {
-            "name": "keys",
-            "type": "String...",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "KeyValue<String, List<String>>",
-          "description": "The element being popped and pushed"
-        }
-      },
-      {
-        "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, int count, String... keys)",
-        "params": [
-          {
-            "name": "timeout",
-            "type": "double",
-            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
-          },
-          {
-            "name": "direction",
-            "type": "ListDirection",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": ""
-          },
-          {
-            "name": "keys",
-            "type": "String...",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "KeyValue<String, List<String>>",
-          "description": "The element being popped and pushed"
-        }
       }
     ],
     "lettuce_sync": [

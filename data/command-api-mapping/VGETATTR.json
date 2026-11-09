@@ -40,25 +40,6 @@
           "type": "String",
           "description": "the attributes of the element as a JSON string, or null if the element doesn't exist or has no attributes"
         }
-      },
-      {
-        "signature": "String vgetattr(String key, String element)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "element",
-            "type": "String",
-            "description": "the name of the element whose attributes to retrieve"
-          }
-        ],
-        "returns": {
-          "type": "String",
-          "description": "the attributes of the element as a JSON string, or null if the element doesn't exist or has no attributes"
-        }
       }
     ],
     "lettuce_sync": [

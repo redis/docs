@@ -44,20 +44,6 @@
           "type": "List<StreamGroupInfo>",
           "description": "List of StreamGroupInfo containing information about groups"
         }
-      },
-      {
-        "signature": "List<StreamGroupInfo> xinfoGroups(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "Stream name"
-          }
-        ],
-        "returns": {
-          "type": "List<StreamGroupInfo>",
-          "description": "List of StreamGroupInfo containing information about groups"
-        }
       }
     ],
     "lettuce_sync": [

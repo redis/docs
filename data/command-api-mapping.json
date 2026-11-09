@@ -10351,69 +10351,6 @@
             {
               "name": "key",
               "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "start",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "end",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<long>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "StringBitCountAsync(RedisKey key, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "start",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "end",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "indexType",
-              "type": "StringIndexType",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<long>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "StringBitCountAsync(RedisKey key, long start, long end, CommandFlags flags)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
               "description": "The key of the string."
             },
             {
@@ -12061,69 +11998,6 @@
             {
               "name": "operation",
               "type": "Bitwise",
-              "description": ""
-            },
-            {
-              "name": "destination",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "first",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "second",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<long>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "StringBitOperationAsync(Bitwise operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "operation",
-              "type": "Bitwise",
-              "description": ""
-            },
-            {
-              "name": "destination",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "keys",
-              "type": "RedisKey[]",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<long>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "StringBitOperationAsync(Bitwise operation, RedisKey destination, RedisKey first, RedisKey second = default, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "operation",
-              "type": "Bitwise",
               "description": "The operation to perform."
             },
             {
@@ -12965,79 +12839,6 @@
         }
       ],
       "nredisstack_async": [
-        {
-          "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "bit",
-              "type": "bool",
-              "description": ""
-            },
-            {
-              "name": "start",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "end",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<long>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "bit",
-              "type": "bool",
-              "description": ""
-            },
-            {
-              "name": "start",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "end",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "indexType",
-              "type": "StringIndexType",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<long>",
-            "description": ""
-          }
-        },
         {
           "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
           "params": [
@@ -13923,59 +13724,6 @@
         }
       ],
       "jedis": [
-        {
-          "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, String... keys)",
-          "params": [
-            {
-              "name": "timeout",
-              "type": "double",
-              "description": "seconds to block. A timeout of zero can be used to block indefinitely."
-            },
-            {
-              "name": "direction",
-              "type": "ListDirection",
-              "description": ""
-            },
-            {
-              "name": "keys",
-              "type": "String...",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "KeyValue<String, List<String>>",
-            "description": "The element being popped and pushed"
-          }
-        },
-        {
-          "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, int count, String... keys)",
-          "params": [
-            {
-              "name": "timeout",
-              "type": "double",
-              "description": "seconds to block. A timeout of zero can be used to block indefinitely."
-            },
-            {
-              "name": "direction",
-              "type": "ListDirection",
-              "description": ""
-            },
-            {
-              "name": "count",
-              "type": "int",
-              "description": ""
-            },
-            {
-              "name": "keys",
-              "type": "String...",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "KeyValue<String, List<String>>",
-            "description": "The element being popped and pushed"
-          }
-        },
         {
           "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, String... keys)",
           "params": [
@@ -47206,40 +46954,6 @@
             {
               "name": "key",
               "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "member1",
-              "type": "RedisValue",
-              "description": ""
-            },
-            {
-              "name": "member2",
-              "type": "RedisValue",
-              "description": ""
-            },
-            {
-              "name": "unit",
-              "type": "GeoUnit",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<double?>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "GeoDistanceAsync(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
               "description": "The key of the set."
             },
             {
@@ -47722,30 +47436,6 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "GeoHashAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "member",
-              "type": "RedisValue",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<string?>",
-            "description": ""
-          }
-        },
-        {
           "signature": "GeoHashAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
           "params": [
             {
@@ -48211,30 +47901,6 @@
         }
       ],
       "nredisstack_async": [
-        {
-          "signature": "GeoPositionAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "member",
-              "type": "RedisValue",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<GeoPosition?>",
-            "description": ""
-          }
-        },
         {
           "signature": "GeoPositionAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
           "params": [
@@ -51996,119 +51662,6 @@
             {
               "name": "sourceKey",
               "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "destinationKey",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "member",
-              "type": "RedisValue",
-              "description": ""
-            },
-            {
-              "name": "shape",
-              "type": "GeoSearchShape",
-              "description": ""
-            },
-            {
-              "name": "count",
-              "type": "int",
-              "description": ""
-            },
-            {
-              "name": "demandClosest",
-              "type": "bool",
-              "description": ""
-            },
-            {
-              "name": "order",
-              "type": "Order?",
-              "description": ""
-            },
-            {
-              "name": "storeDistances",
-              "type": "bool",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<long>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "GeoSearchAndStoreAsync(RedisKey sourceKey, RedisKey destinationKey, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "sourceKey",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "destinationKey",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "longitude",
-              "type": "double",
-              "description": ""
-            },
-            {
-              "name": "latitude",
-              "type": "double",
-              "description": ""
-            },
-            {
-              "name": "shape",
-              "type": "GeoSearchShape",
-              "description": ""
-            },
-            {
-              "name": "count",
-              "type": "int",
-              "description": ""
-            },
-            {
-              "name": "demandClosest",
-              "type": "bool",
-              "description": ""
-            },
-            {
-              "name": "order",
-              "type": "Order?",
-              "description": ""
-            },
-            {
-              "name": "storeDistances",
-              "type": "bool",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<long>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "GeoSearchAndStoreAsync(RedisKey sourceKey, RedisKey destinationKey, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "sourceKey",
-              "type": "RedisKey",
               "description": "The key of the set."
             },
             {
@@ -52862,30 +52415,6 @@
         }
       ],
       "nredisstack_async": [
-        {
-          "signature": "StringGetBitAsync(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "offset",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<bool>",
-            "description": ""
-          }
-        },
         {
           "signature": "StringGetBitAsync(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
           "params": [
@@ -74595,20 +74124,6 @@
           }
         },
         {
-          "signature": "long jsonClear(String key)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "long",
-            "description": ""
-          }
-        },
-        {
           "signature": "long jsonClear(String key, Path2 path)",
           "params": [
             {
@@ -75104,20 +74619,6 @@
             {
               "name": "path",
               "type": "Path",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "long",
-            "description": ""
-          }
-        },
-        {
-          "signature": "long jsonDel(String key)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
               "description": ""
             }
           ],
@@ -75661,20 +75162,6 @@
           ],
           "returns": {
             "type": "<T> T",
-            "description": ""
-          }
-        },
-        {
-          "signature": "Object jsonGet(String key)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Object",
             "description": ""
           }
         }
@@ -83702,49 +83189,6 @@
         }
       ],
       "jedis": [
-        {
-          "signature": "KeyValue<String, List<String>> lmpop(ListDirection direction, String... keys)",
-          "params": [
-            {
-              "name": "direction",
-              "type": "ListDirection",
-              "description": ""
-            },
-            {
-              "name": "keys",
-              "type": "String...",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "KeyValue<String, List<String>>",
-            "description": "The element being popped and pushed"
-          }
-        },
-        {
-          "signature": "KeyValue<String, List<String>> lmpop(ListDirection direction, int count, String... keys)",
-          "params": [
-            {
-              "name": "direction",
-              "type": "ListDirection",
-              "description": ""
-            },
-            {
-              "name": "count",
-              "type": "int",
-              "description": ""
-            },
-            {
-              "name": "keys",
-              "type": "String...",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "KeyValue<String, List<String>>",
-            "description": "The element being popped and pushed"
-          }
-        },
         {
           "signature": "KeyValue<String, List<String>> lmpop(ListDirection direction, String... keys)",
           "params": [
@@ -104793,35 +104237,6 @@
         }
       ],
       "nredisstack_async": [
-        {
-          "signature": "StringSetBitAsync(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
-          "params": [
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "offset",
-              "type": "long",
-              "description": ""
-            },
-            {
-              "name": "bit",
-              "type": "bool",
-              "description": ""
-            },
-            {
-              "name": "flags",
-              "type": "CommandFlags",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Task<bool>",
-            "description": ""
-          }
-        },
         {
           "signature": "StringSetBitAsync(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
           "params": [
@@ -126228,20 +125643,6 @@
             "type": "long",
             "description": "the number of elements in the vector set"
           }
-        },
-        {
-          "signature": "long vcard(String key)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            }
-          ],
-          "returns": {
-            "type": "long",
-            "description": "the number of elements in the vector set"
-          }
         }
       ],
       "lettuce_sync": [
@@ -126460,20 +125861,6 @@
             {
               "name": "key",
               "type": "byte[]",
-              "description": "the name of the key that holds the vector set"
-            }
-          ],
-          "returns": {
-            "type": "long",
-            "description": "the number of vector set elements"
-          }
-        },
-        {
-          "signature": "long vdim(String key)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
               "description": "the name of the key that holds the vector set"
             }
           ],
@@ -126763,25 +126150,6 @@
           "returns": {
             "type": "RawVector",
             "description": "RawVector containing raw vector data, quantization type, and metadata"
-          }
-        },
-        {
-          "signature": "List<Double> vemb(String key, String element)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            },
-            {
-              "name": "element",
-              "type": "String",
-              "description": "the name of the element whose vector you want to retrieve"
-            }
-          ],
-          "returns": {
-            "type": "List<Double>",
-            "description": "list of real numbers representing the vector"
           }
         }
       ],
@@ -127121,25 +126489,6 @@
             "type": "String",
             "description": "the attributes of the element as a JSON string, or null if the element doesn't exist or has no attributes"
           }
-        },
-        {
-          "signature": "String vgetattr(String key, String element)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            },
-            {
-              "name": "element",
-              "type": "String",
-              "description": "the name of the element whose attributes to retrieve"
-            }
-          ],
-          "returns": {
-            "type": "String",
-            "description": "the attributes of the element as a JSON string, or null if the element doesn't exist or has no attributes"
-          }
         }
       ],
       "lettuce_sync": [
@@ -127393,20 +126742,6 @@
         }
       ],
       "jedis": [
-        {
-          "signature": "VectorInfo vinfo(String key)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            }
-          ],
-          "returns": {
-            "type": "VectorInfo",
-            "description": "information about the vector set"
-          }
-        },
         {
           "signature": "VectorInfo vinfo(String key)",
           "params": [
@@ -127684,44 +127019,6 @@
         }
       ],
       "jedis": [
-        {
-          "signature": "List<List<String>> vlinks(String key, String element)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            },
-            {
-              "name": "element",
-              "type": "String",
-              "description": "the name of the element whose HNSW neighbors you want to inspect"
-            }
-          ],
-          "returns": {
-            "type": "List<List<String>>",
-            "description": "list of neighbor element names"
-          }
-        },
-        {
-          "signature": "List<Map<String, Double>> vlinksWithScores(String key, String element)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            },
-            {
-              "name": "element",
-              "type": "String",
-              "description": "the name of the element whose HNSW neighbors you want to inspect"
-            }
-          ],
-          "returns": {
-            "type": "List<Map<String, Double>>",
-            "description": "List of map of neighbor element names to similarity scores per layer"
-          }
-        },
         {
           "signature": "List<List<String>> vlinks(String key, String element)",
           "params": [
@@ -128146,39 +127443,6 @@
         }
       ],
       "jedis": [
-        {
-          "signature": "String vrandmember(String key)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            }
-          ],
-          "returns": {
-            "type": "String",
-            "description": "list of random element names"
-          }
-        },
-        {
-          "signature": "List<String> vrandmember(String key, int count)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            },
-            {
-              "name": "count",
-              "type": "int",
-              "description": "negative values allow duplicates"
-            }
-          ],
-          "returns": {
-            "type": "List<String>",
-            "description": "list of random element names"
-          }
-        },
         {
           "signature": "String vrandmember(String key)",
           "params": [
@@ -128757,25 +128021,6 @@
             "type": "boolean",
             "description": "true if the element was removed, false if either element or key do not exist"
           }
-        },
-        {
-          "signature": "boolean vrem(String key, String element)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            },
-            {
-              "name": "element",
-              "type": "String",
-              "description": "the name of the element to remove from the vector set"
-            }
-          ],
-          "returns": {
-            "type": "boolean",
-            "description": "true if the element was removed, false if either element or key do not exist"
-          }
         }
       ],
       "lettuce_sync": [
@@ -129074,30 +128319,6 @@
             {
               "name": "attributes",
               "type": "byte[]",
-              "description": "the attributes to set as a JSON string"
-            }
-          ],
-          "returns": {
-            "type": "boolean",
-            "description": "true if the attributes were set successfully"
-          }
-        },
-        {
-          "signature": "boolean vsetattr(String key, String element, String attributes)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "the name of the key that holds the vector set"
-            },
-            {
-              "name": "element",
-              "type": "String",
-              "description": "the name of the element whose attributes to set"
-            },
-            {
-              "name": "attributes",
-              "type": "String",
               "description": "the attributes to set as a JSON string"
             }
           ],
@@ -133150,40 +132371,6 @@
             "type": "Map.Entry<StreamEntryID, List<StreamEntryID>>",
             "description": ""
           }
-        },
-        {
-          "signature": "Map.Entry<StreamEntryID, List<StreamEntry>> xautoclaim(String key, String group, String consumerName long minIdleTime, StreamEntryID start, XAutoClaimParams params)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": ""
-            },
-            {
-              "name": "group",
-              "type": "String",
-              "description": ""
-            },
-            {
-              "name": "minIdleTime",
-              "type": "String consumerName long",
-              "description": ""
-            },
-            {
-              "name": "start",
-              "type": "StreamEntryID",
-              "description": ""
-            },
-            {
-              "name": "params",
-              "type": "XAutoClaimParams",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Map.Entry<StreamEntryID, List<StreamEntry>>",
-            "description": ""
-          }
         }
       ],
       "lettuce_sync": [
@@ -134184,40 +133371,6 @@
           ],
           "returns": {
             "type": "List<StreamEntryID>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "List<StreamEntry> xclaim(String key, String group, String consumerName, long minIdleTime XClaimParams params, StreamEntryID... ids)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": ""
-            },
-            {
-              "name": "group",
-              "type": "String",
-              "description": ""
-            },
-            {
-              "name": "consumerName",
-              "type": "String",
-              "description": ""
-            },
-            {
-              "name": "params",
-              "type": "long minIdleTime XClaimParams",
-              "description": ""
-            },
-            {
-              "name": "ids",
-              "type": "StreamEntryID...",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "List<StreamEntry>",
             "description": ""
           }
         }
@@ -137046,30 +136199,6 @@
             "type": "boolean",
             "description": ""
           }
-        },
-        {
-          "signature": "boolean xgroupCreateConsumer(String key, String groupName, String consumerName)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": ""
-            },
-            {
-              "name": "groupName",
-              "type": "String",
-              "description": ""
-            },
-            {
-              "name": "consumerName",
-              "type": "String",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "boolean",
-            "description": ""
-          }
         }
       ],
       "lettuce_sync": [
@@ -139266,25 +138395,6 @@
             "type": "List<StreamConsumersInfo>",
             "description": "List of StreamConsumersInfo containing information about consumers that belong to the group @deprecated Use #xinfoConsumers2(java.lang.String, java.lang.String)."
           }
-        },
-        {
-          "signature": "List<StreamConsumersInfo> xinfoConsumers(String key, String group)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "Stream name"
-            },
-            {
-              "name": "group",
-              "type": "String",
-              "description": "Group name"
-            }
-          ],
-          "returns": {
-            "type": "List<StreamConsumersInfo>",
-            "description": "List of StreamConsumersInfo containing information about consumers that belong to the group @deprecated Use #xinfoConsumers2(java.lang.String, java.lang.String)."
-          }
         }
       ],
       "lettuce_sync": [
@@ -139671,20 +138781,6 @@
           ],
           "returns": {
             "type": "List<Object>",
-            "description": "List of StreamGroupInfo containing information about groups"
-          }
-        },
-        {
-          "signature": "List<StreamGroupInfo> xinfoGroups(String key)",
-          "params": [
-            {
-              "name": "key",
-              "type": "String",
-              "description": "Stream name"
-            }
-          ],
-          "returns": {
-            "type": "List<StreamGroupInfo>",
             "description": "List of StreamGroupInfo containing information about groups"
           }
         },

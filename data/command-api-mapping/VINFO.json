@@ -30,20 +30,6 @@
           "type": "VectorInfo",
           "description": "information about the vector set"
         }
-      },
-      {
-        "signature": "VectorInfo vinfo(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          }
-        ],
-        "returns": {
-          "type": "VectorInfo",
-          "description": "information about the vector set"
-        }
       }
     ],
     "lettuce_sync": [
