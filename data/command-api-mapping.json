@@ -78862,7 +78862,7 @@
       ],
       "php": [
         {
-          "signature": "jsonset(string $key, string $path, string $value, ?string $subcommand = null)",
+          "signature": "jsonset(string $key, string $path, string $value, ?string $subcommand = null, ?string $fpha = null)",
           "params": [
             {
               "name": "$key",
@@ -78880,9 +78880,14 @@
               "description": ""
             },
             {
-              "name": "?string $subcommand = null",
-              "type": "Any",
-              "description": ""
+              "name": "$subcommand",
+              "type": "?string",
+              "description": "NX to set only if the path does not exist, or XX to set only if it exists"
+            },
+            {
+              "name": "$fpha",
+              "type": "?string",
+              "description": "Store floating-point arrays as BF16, FP16, FP32 or FP64, in any letter case"
             }
           ],
           "returns": {
