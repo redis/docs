@@ -388,7 +388,8 @@
   // The hash fields a client would write for the record: strings as they are,
   // numbers as written, true/false, and nested values as JSON text.
   function hashFields(doc) {
-    var out = {};
+    // No prototype, so a field named __proto__ is stored like any other.
+    var out = Object.create(null);
     doc.entries.forEach(function (e) {
       var v = e[1];
       out[e[0]] = v.t === 'string' ? v.v
