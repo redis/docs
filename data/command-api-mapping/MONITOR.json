@@ -79,6 +79,22 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "monitor(callback?: Callback<Redis>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<Redis>",
+            "description": "Called with the monitoring connection. A promise is returned when it is omitted"
+          }
+        ],
+        "returns": {
+          "type": "Promise<Redis>",
+          "description": "A new connection in monitor mode, so the current connection is not disturbed"
+        }
+      }
+    ]
   }
 }
