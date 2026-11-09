@@ -85,15 +85,19 @@ Standard routing covers any connection that doesn't use the OSS Cluster API.
 
 ### Redis Cloud
 
-SCH is fully supported and enabled by default on Redis Cloud, except when you
-are using one of the following options:
+SCH is enabled by default on Redis Cloud. The level of support depends on how
+you connect to the database and whether you use standard routing or the
+[OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md):
 
-- [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md)
-- [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+| Connection method | Standard routing | OSS Cluster API |
+| :-- | :-- | :-- |
+| [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) | Relaxed timeouts and pre-handoffs | Relaxed timeouts only |
+| [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md) | Relaxed timeouts only | Not available |
+| All other connection methods | Relaxed timeouts and pre-handoffs | Relaxed timeouts and pre-handoffs |
 
-These services don't currently allow for pre-handoffs, but you still get the
-benefit of relaxed timeouts during database version upgrades. All other
-configurations have full support for both relaxed timeouts and pre-handoffs.
+"Relaxed timeouts only" means that you still get the benefit of relaxed
+timeouts during database version upgrades, but the connection doesn't support
+pre-handoffs. Private Service Connect doesn't support the OSS Cluster API.
 
 ### Redis Software
 

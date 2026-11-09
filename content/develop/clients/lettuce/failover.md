@@ -22,7 +22,6 @@ relatedPages:
 - /develop/clients/failover
 scope: [client-specific, implementation]
 weight: 50
-bannerText: This feature is currently in preview and may be subject to change.
 ---
 
 Lettuce supports [Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
