@@ -249,8 +249,8 @@
             "description": ""
           },
           {
-            "name": "$keys",
-            "type": "string ...",
+            "name": "...$keys",
+            "type": "string",
             "description": ""
           }
         ],

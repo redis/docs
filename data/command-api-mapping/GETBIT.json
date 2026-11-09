@@ -302,7 +302,7 @@
           },
           {
             "name": "$offset",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

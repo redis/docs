@@ -374,8 +374,8 @@
             "description": "Number of keys in the script"
           },
           {
-            "name": "$keyOrArg",
-            "type": "string...",
+            "name": "...$keyOrArg",
+            "type": "string",
             "description": "Keys and arguments for the script"
           }
         ],

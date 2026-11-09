@@ -154,7 +154,7 @@
             "description": ""
           },
           {
-            "name": "$clientId",
+            "name": "...$clientId",
             "type": "int",
             "description": ""
           }

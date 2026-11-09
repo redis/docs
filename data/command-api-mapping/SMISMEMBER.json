@@ -416,8 +416,8 @@
             "description": ""
           },
           {
-            "name": "$members",
-            "type": "string ...",
+            "name": "...$members",
+            "type": "string",
             "description": ""
           }
         ],

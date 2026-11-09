@@ -122,8 +122,8 @@
         "signature": "jsonmset(string ...$keyPathValue)",
         "params": [
           {
-            "name": "$keyPathValue",
-            "type": "string ...",
+            "name": "...$keyPathValue",
+            "type": "string",
             "description": ""
           }
         ],

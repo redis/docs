@@ -364,7 +364,7 @@
             "description": "Optional arguments (SKIPINITIALSCAN)"
           },
           {
-            "name": "$terms",
+            "name": "...$terms",
             "type": "string",
             "description": "Synonym terms (variadic)"
           }

@@ -1068,8 +1068,8 @@
             "description": ""
           },
           {
-            "name": "$keyOrId",
-            "type": "string ...",
+            "name": "...$keyOrId",
+            "type": "string",
             "description": ""
           }
         ],

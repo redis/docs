@@ -1041,17 +1041,17 @@
         "params": [
           {
             "name": "$operation",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$destkey",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$key",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

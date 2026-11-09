@@ -190,8 +190,8 @@
             "description": ""
           },
           {
-            "name": "$filterExpression",
-            "type": "string ...",
+            "name": "...$filterExpression",
+            "type": "string",
             "description": ""
           }
         ],

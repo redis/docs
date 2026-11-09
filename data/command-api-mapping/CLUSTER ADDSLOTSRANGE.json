@@ -134,7 +134,7 @@
         "signature": "addSlotsRange(int ...$startEndSlots)",
         "params": [
           {
-            "name": "$startEndSlots",
+            "name": "...$startEndSlots",
             "type": "int",
             "description": ""
           }

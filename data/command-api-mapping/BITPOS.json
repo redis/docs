@@ -804,7 +804,7 @@
           },
           {
             "name": "$bit",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {

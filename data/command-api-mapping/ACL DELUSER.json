@@ -190,7 +190,7 @@
         "signature": "delUser(string ...$username)",
         "params": [
           {
-            "name": "$username",
+            "name": "...$username",
             "type": "string",
             "description": ""
           }

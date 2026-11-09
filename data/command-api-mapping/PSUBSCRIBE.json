@@ -323,7 +323,7 @@
         "signature": "psubscribe(...$pattern)",
         "params": [
           {
-            "name": "$pattern",
+            "name": "...$pattern",
             "type": "mixed",
             "description": ""
           }

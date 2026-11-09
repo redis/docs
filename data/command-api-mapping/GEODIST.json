@@ -659,12 +659,12 @@
           },
           {
             "name": "$member1",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$member2",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {

@@ -365,8 +365,8 @@
             "description": "If true, prevent scaling"
           },
           {
-            "name": "$item",
-            "type": "string...",
+            "name": "...$item",
+            "type": "string",
             "description": "Items to add"
           }
         ],

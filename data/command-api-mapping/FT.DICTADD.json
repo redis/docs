@@ -207,7 +207,7 @@
             "description": "The dictionary name"
           },
           {
-            "name": "$term",
+            "name": "...$term",
             "type": "string",
             "description": "Terms to add (variadic)"
           }

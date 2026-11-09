@@ -929,17 +929,17 @@
           },
           {
             "name": "$longitude",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$latitude",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$member",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

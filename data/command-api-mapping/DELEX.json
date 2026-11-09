@@ -233,7 +233,7 @@
           },
           {
             "name": "$flagValue",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

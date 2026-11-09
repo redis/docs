@@ -370,12 +370,12 @@
           },
           {
             "name": "$fromTimestamp",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$toTimestamp",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {

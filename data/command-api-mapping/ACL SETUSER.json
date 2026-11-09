@@ -229,7 +229,7 @@
             "description": ""
           },
           {
-            "name": "$rules",
+            "name": "...$rules",
             "type": "string",
             "description": ""
           }
