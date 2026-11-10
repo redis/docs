@@ -26,7 +26,7 @@ The reply is one line of `name=value` fields. These fields answer the usual ques
 
 | Field | What it tells you |
 |---|---|
-| `ready` | `1` when the module is ready |
+| `ready` | Has a value of `1` when the module is ready |
 | `release_state` | Whether a release is `committed`, `pending`, or `none` |
 | `release_sequence`, `release_id` | Which release is active |
 | `signed_rules_loaded`, `signed_rules_active` | How many rules are loaded, and how many apply to this node |
@@ -35,7 +35,7 @@ The reply is one line of `name=value` fields. These fields answer the usual ques
 | `registry_signature_verification` | `required` for signed registries, `disabled` for an unsigned registry |
 | `telemetry`, `telemetry_status` | Whether reporting is `on` or `off`, and its health |
 
-Reporting failures never stop rule downloads or activation.
+Reported failures never stop rule downloads or activation.
 
 To list the loaded rules, including inactive ones, run `HOTPATCH.RULES`. To see one rule, pass its
 ID:
@@ -175,7 +175,7 @@ Schedule a maintenance window, and make sure clients reconnect and retry.
 1. Keep the startup configuration pointing at the current module until the upgrade succeeds.
 1. On Redis 8 and later, make sure application ACLs use `+@guardian-execution` rather than exact
    `+hotpatch.*` command names. Run `guardian-preflight` to get the current grants.
-1. On Redis 7, `guardian-upgrade` refuses to run if any ACL names an exact `hotpatch.*` command.
+1. On Redis 7, `guardian-upgrade` refuses to run if any ACL names an exact `HOTPATCH.*` command.
    Redis 7 has no `@guardian-execution` category, so restricted application users need those
    names. Upgrade those nodes with a controlled restart instead.
 1. Find the new build's `source_revision` in its `/usr/share/guardian-community/build-info.json`.

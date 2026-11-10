@@ -4,7 +4,7 @@ categories:
 - operate
 - stack
 - oss
-description: Protect Redis Open Source against known vulnerabilities with live rule updates, without upgrading Redis.
+description: Use live rule updates to protect Redis Open Source against known vulnerabilities without upgrading Redis.
 linkTitle: Guardian Community
 title: Guardian Community
 weight: 65

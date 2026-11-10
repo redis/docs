@@ -10,9 +10,13 @@ title: Install Guardian Community
 weight: 10
 ---
 
-Install Guardian Community on each Redis node in four stages. Install the package, check your
-application users, load the module and grant permissions in one transaction, and then save the
-configuration so it survives a restart. Installing the package alone doesn't turn on protection.
+Install Guardian Community on each Redis node in four stages:
+1. Install the package
+1. Check your application users
+1. Load the module and grant permissions in one transaction
+1. Save the configuration so it survives a restart.
+
+Installing the package alone doesn't turn on protection.
 
 ## Prerequisites
 
@@ -63,7 +67,7 @@ configuration or start, stop, or restart Redis.
    guardian-preflight --help
    ```
 
-The module is installed at `/usr/lib/guardian/guardian-community.so`. For every installed file,
+The module is installed at `/usr/lib/guardian/guardian-community.so`. For a full list of installed files,
 see [Installed files](/content/operate/oss_and_stack/guardian/reference.md#installed-files).
 
 ## Run Guardian in the official Redis container
@@ -136,8 +140,9 @@ needs. It doesn't change anything, and it doesn't need application passwords.
    For Transport Layer Security (TLS), Unix sockets, and other options, see
    [`guardian-preflight`](/content/operate/oss_and_stack/guardian/reference.md#guardian-preflight).
 
-Before the module loads, the report shows `NEEDS ATTENTION`. That's expected. The report also
-prints the exact `ACL SETUSER` command each user needs. The grants let Guardian dispatch
+Before the module loads, the report shows `NEEDS ATTENTION`, which is the expected behavior,
+not a sign of a problem. The report also
+prints the exact `ACL SETUSER` command each user needs. The granted permissions allow Guardian to dispatch
 commands and return rule denials. They don't let the application run commands or reach keys
 that its ACL forbids. Users with `+@all` usually need no change.
 
@@ -206,7 +211,7 @@ To turn off telemetry, add `telemetry=no` to the module arguments. See
    redis-cli HOTPATCH.RULES
    ```
 
-1. Connect as each real application user and run a quick test. A command the user is allowed to
+1. Connect as each real application user and run a quick test. Any command that the user is allowed to
    run should succeed. A forbidden command, and a key outside the user's allowed key patterns,
    should still fail. If the application uses Lua, run one of its ordinary scripts.
 
@@ -242,7 +247,7 @@ Test the saved configuration on a test or staging node before you rely on it.
 1. Restart the node from the saved configuration.
 1. Run `guardian-preflight --require-active-rules` and the application user tests again.
 
-Keep the state directory across restarts and container replacements. It lets Guardian restore
+Keep the state directory across restarts and container replacements to let Guardian restore
 the accepted protection when the registry is unreachable. Each new node needs the same
 configuration and its own state directory. Later rule releases use the same grants, so you don't
 need to change application ACLs for each release.

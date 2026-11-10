@@ -28,7 +28,7 @@ instead.
 The error never repeats your command's arguments. While the rule is active, retrying the same
 request gets the same error.
 
-To get the denial explained, give your Redis administrator:
+To explain the denial, your Redis administrator will need:
 
 - The `rule=` and `reason=` values from the error.
 - The command, or the Lua script or function, that triggered it.
@@ -52,8 +52,7 @@ An approval covers exact source code:
   those limits is still refused.
 - **Approvals are per node.** Each node that runs your code needs its own approval.
 
-Redis access control lists (ACLs) and other Guardian rules still apply to approved code. Approvals aren't available on
-Redis 6.2.
+Redis access control lists (ACLs) and other Guardian rules still apply to approved code. Approvals are available for all Redis versions except Redis 6.2, which is the oldest supported version.
 
 ## Reconnect during module upgrades
 
