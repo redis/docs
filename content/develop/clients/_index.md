@@ -74,6 +74,17 @@ develop or contribute to these libraries directly.
 | Multiple languages | Redis Arrow Database Connectivity (ADBC) driver | [redis/redis-adbc-driver](https://github.com/redis/redis-adbc-driver) | [Install and connect](https://github.com/redis/redis-adbc-driver/blob/main/docs/setup.md) |
 | Multiple languages | Redis Arrow Flight server (Flight SQL) | [redis/redis-apache-arrow-flight](https://github.com/redis/redis-apache-arrow-flight) | [Set up the Flight server](https://github.com/redis/redis-apache-arrow-flight#get-a-server-running) |
 
+Redis ADBC lets you use SQL and Apache Arrow to connect Redis to data processing,
+analytics, orchestration, and machine learning workflows. Examples include pandas,
+Polars, DuckDB, SQLAlchemy, Apache Superset, Apache Airflow, and Dagster. The Redis
+Arrow Flight server exposes the driver over Flight SQL for network access through
+ADBC and Java Database Connectivity (JDBC) clients, including tools such as DBeaver.
+
+See the [data tool integration comparison](https://github.com/redis/redis-adbc-driver/blob/main/docs/data-engineering-adbc-support.md)
+for the full list, connection paths, setup guides, and validation status. Some
+integrations require custom application code or separate adapters; compatibility
+and validation scope vary by tool.
+
 ## Requirements
 
 You will need access to a Redis server to use these libraries.
