@@ -11,9 +11,10 @@ aliases:
 - /develop/getting-started/build-with-an-agent/
 ---
 
-Redis publishes two agent-facing tools that work alongside the client libraries and MCP servers covered elsewhere in these docs:
+Redis publishes three agent-facing tools that work alongside the client libraries and MCP servers covered elsewhere in these docs:
 
 - [Redis Docs MCP](#redis-docs-mcp) — a hosted server that lets any MCP-compatible agent search, fetch, and ask questions against the Redis documentation itself.
+- [Redis Cloud remote MCP](#redis-cloud-remote-mcp) - a hosted server that lets an agent manage your Redis Cloud account.
 - [Agent Skills](#agent-skills) — packaged instructions that teach a coding agent Redis-specific patterns (data modeling, connections, search, security, and more).
 
 ## Redis Docs MCP
@@ -38,6 +39,11 @@ Add the server to your MCP client's configuration:
 }
 ```
 
+## Redis Cloud remote MCP
+
+The [Redis Cloud remote MCP server](/content/integrate/redis-mcp/remote-cloud-mcp.md) at `https://cloud.mcp.redis.io/mcp` lets an agent manage the resources in your Redis Cloud account, such as subscriptions, databases, and Agent Memory stores. It signs in with your Redis Cloud API keys.
+
+To set it up, open the [Agents page](https://cloud.redis.io/#/agents/mcp) in the Redis Cloud console. It shows the configuration for your agent and links to where you create your API keys. For manual setup, limits, and troubleshooting, see [Redis Cloud remote MCP server](/content/integrate/redis-mcp/remote-cloud-mcp.md).
 
 ## Agent skills
 
@@ -71,6 +77,5 @@ Or install it as a plugin in your agent tool of choice:
 ## See also
 
 - [Redis MCP server](/content/integrate/redis-mcp/_index.md) — connect an agent to your own Redis database
-- [Redis Cloud remote MCP server](/content/integrate/redis-mcp/remote-cloud-mcp.md) - let an agent manage your Redis Cloud subscriptions and databases
 - [Redis client libraries](/content/develop/clients/_index.md)
 - [Redis for AI agents](/content/develop/get-started/redis-in-ai.md)

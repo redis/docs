@@ -71,7 +71,11 @@ elicitation (form requests). The server uses it to ask you to confirm a change.
 
 ## Connect your client
 
-Every client needs the same settings:
+The [Agents page](https://cloud.redis.io/#/agents/mcp) in the Redis Cloud
+console has guided setup. Choose your agent, and the page shows the
+configuration to copy and links to where you create your API keys.
+
+To connect by hand, use the same settings in every client:
 
 | Setting | Value |
 |---|---|
