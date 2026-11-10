@@ -1,0 +1,1079 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "spexpire(name: KeyT, milliseconds: ExpiryT, *members: FieldT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "ExpiryT",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "FieldT",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[int]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "spExpire(key: RedisArgument, members: RedisVariadicArgument, ms: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "ms",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "mode?",
+            "type": "'NX' | 'XX' | 'GT' | 'LT'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply<SetMemberExpiration>>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SPExpire(ctx context.Context, key string, expiration time.Duration, members ...string) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "SPExpireWithArgs(ctx context.Context, key string, expiration time.Duration, condition SExpireCondition, members ...string) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "SExpireCondition",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "spexpire(string $key, int $milliseconds, array $members, ?string $flag = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$milliseconds",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "?string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "spexpire(key, ttl, *members, nx: nil, xx: nil, gt: nil, lt: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "Array<String>",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "Boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> spexpire(K key, long milliseconds, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list with one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Long spexpire(K key, long milliseconds, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "List<Long> spexpire(K key, long milliseconds, ExpireArgs expireArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list with one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Long spexpire(K key, long milliseconds, ExpireArgs expireArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "List<Long> spexpire(K key, Duration milliseconds, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list with one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Long spexpire(K key, Duration milliseconds, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "List<Long> spexpire(K key, Duration milliseconds, ExpireArgs expireArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list with one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Long spexpire(K key, Duration milliseconds, ExpireArgs expireArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> spexpire(K key, long milliseconds, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list with one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> spexpire(K key, long milliseconds, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> spexpire(K key, long milliseconds, ExpireArgs expireArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list with one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> spexpire(K key, long milliseconds, ExpireArgs expireArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> spexpire(K key, Duration milliseconds, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list with one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> spexpire(K key, Duration milliseconds, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> spexpire(K key, Duration milliseconds, ExpireArgs expireArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list with one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> spexpire(K key, Duration milliseconds, ExpireArgs expireArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> spexpire(K key, long milliseconds, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a Flux emitting one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Mono<Long> spexpire(K key, long milliseconds, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Flux<Long> spexpire(K key, long milliseconds, ExpireArgs expireArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a Flux emitting one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Mono<Long> spexpire(K key, long milliseconds, ExpireArgs expireArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the time to live in milliseconds, must not be negative."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Flux<Long> spexpire(K key, Duration milliseconds, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a Flux emitting one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Mono<Long> spexpire(K key, Duration milliseconds, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Flux<Long> spexpire(K key, Duration milliseconds, ExpireArgs expireArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to set the time to live for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a Flux emitting one Long per member, in the order of members: 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Mono<Long> spexpire(K key, Duration milliseconds, ExpireArgs expireArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the time to live, must not be null; truncated to whole milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the condition (NX, XX, GT or LT), must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to set the time to live for."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting 2 if the member was deleted because the expiration is in the past; 1 if the expiration was set or updated; 0 if a NX, XX, GT or LT condition was not met; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Long> spexpire(byte[] key, long milliseconds, byte[]... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> spexpire(byte[] key, long milliseconds, ExpiryOption condition, byte[]... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long spexpire(byte[] key, long milliseconds, byte[] member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long spexpire(byte[] key, long milliseconds, ExpiryOption condition, byte[] member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> spexpire(String key, long milliseconds, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> spexpire(String key, long milliseconds, ExpiryOption condition, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long spexpire(String key, long milliseconds, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long spexpire(String key, long milliseconds, ExpiryOption condition, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

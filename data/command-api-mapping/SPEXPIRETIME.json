@@ -1,0 +1,312 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "spexpiretime(name: KeyT, *members: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[int]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "spExpireTime(key: RedisArgument, members: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SPExpireTime(ctx context.Context, key string, members ...string) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "spexpiretime(string $key, array $members)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "spexpiretime(key, *members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> spexpiretime(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to get the expiration time for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list with one Long per member, in the order of members: the Unix time in milliseconds at which the member expires; -1 if the member exists but has no expiration; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Long spexpiretime(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to get the expiration time for."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the Unix time in milliseconds at which the member expires; -1 if the member exists but has no expiration; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> spexpiretime(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to get the expiration time for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list with one Long per member, in the order of members: the Unix time in milliseconds at which the member expires; -1 if the member exists but has no expiration; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> spexpiretime(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to get the expiration time for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the Unix time in milliseconds at which the member expires; -1 if the member exists but has no expiration; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> spexpiretime(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to get the expiration time for, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a Flux emitting one Long per member, in the order of members: the Unix time in milliseconds at which the member expires; -1 if the member exists but has no expiration; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      },
+      {
+        "signature": "Mono<Long> spexpiretime(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to get the expiration time for."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting the Unix time in milliseconds at which the member expires; -1 if the member exists but has no expiration; -2 if the member does not exist (a logically expired member does not exist) or key does not exist."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Long> spexpireTime(byte[] key, byte[]... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long spexpireTime(byte[] key, byte[] member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> spexpireTime(String key, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long spexpireTime(String key, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
