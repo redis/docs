@@ -1,0 +1,217 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bless_set(name: KeyT, flag: BlessFlag)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "blessSet(key: RedisArgument, flag: BlessFlag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BlessSet(ctx context.Context, key string, flag BlessFlag) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "set(string $key, string $flag)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bless_set(key, flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean blessSet(K key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to turn on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the flag was turned on, false if it was already set on key."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> blessSet(K key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to turn on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the flag was turned on, false if it was already set on key."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> blessSet(K key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to turn on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the flag was turned on, false if it was already set on key."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long blessSet(byte[] key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long blessSet(String key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
