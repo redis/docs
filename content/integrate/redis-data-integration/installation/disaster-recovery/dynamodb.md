@@ -91,8 +91,8 @@ Time to Live (TTL), which MRSC tables do not support. See
    done
    ```
 
-   Wait until the table, replicas, and witness report `ACTIVE` and consistency reports
-   `STRONG`. Confirm the single `id` partition key with string type `S`. A newly created
+   Wait until the output shows `ACTIVE` for the table, replicas, and witness, and `STRONG` for
+   the consistency. Confirm the single `id` partition key with string type `S`. A newly created
    replica can take time to become visible.
 
 ## Grant the operator access
@@ -155,8 +155,7 @@ operator:
 ### Shared credentials file
 
 An operator running outside AWS can use an AWS shared credentials file. Append this option
-to each site's command in [Install RDI and check access](#install-rdi-and-check-access),
-using that site's file:
+to each site's command in [Install RDI](#install-rdi), using that site's file:
 
 ```text
 --set-file operator.leaderElection.dynamoDBLease.credentials="<aws-credentials-file>"
@@ -170,13 +169,8 @@ aws_access_key_id = <access-key-id>
 aws_secret_access_key = <secret-access-key>
 ```
 
-If the credentials are temporary, also include their `aws_session_token`. Renew temporary
-credentials before they expire. RDI reads the file only at startup, so restart the operator
-after you replace it:
-
-```bash
-kubectl --context "<site-kube-context>" --namespace rdi rollout restart deployment/rdi-operator
-```
+Don't use temporary credentials in this file. RDI reads it only at startup, so they stop
+working when they expire.
 
 After creating the lease resource and granting access, return to
 [Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
@@ -195,7 +189,6 @@ operator:
   leaderElection:
     enabled: true
     instanceID: site-a
-    standbyMode: false
     leaseType: dynamodb
     dynamoDBLease:
       region: <aws-replica-region-a>
@@ -210,7 +203,6 @@ operator:
   leaderElection:
     enabled: true
     instanceID: site-b
-    standbyMode: true
     leaseType: dynamodb
     dynamoDBLease:
       region: <aws-replica-region-b>
@@ -224,7 +216,7 @@ for several DR setups, see
 [Share a lease store between DR setups](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#share-a-lease-store-between-dr-setups).
 RDI creates the lease item.
 
-## Install RDI and check access
+## Install RDI
 
 1. With the AWS identity configured for both operators, install RDI in each Kubernetes cluster:
 
@@ -242,5 +234,5 @@ RDI creates the lease item.
    option to each site's command.
 
 Continue with [Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets)
-to configure RDI CLI contexts and confirm that one instance is the leader and the other is
-a follower.
+to configure RDI CLI contexts. One leader, one follower, and no access errors in the operator
+logs confirm that both operators can access the table.

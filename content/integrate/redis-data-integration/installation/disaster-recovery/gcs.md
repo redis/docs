@@ -92,19 +92,14 @@ operator:
 ### Service account key file
 
 Pass a service account key file when installing RDI. Append this option to each site's
-command in [Check the bucket and install RDI](#check-the-bucket-and-install-rdi), using that
-site's file:
+command in [Install RDI](#install-rdi), using that site's file:
 
 ```text
 --set-file operator.leaderElection.gcsLease.credentials="<credentials-file>"
 ```
 
-RDI doesn't accept Workload Identity Federation credential configuration files. RDI reads
-the key file only at startup, so restart the operator after you replace it:
-
-```bash
-kubectl --context "<site-kube-context>" --namespace rdi rollout restart deployment/rdi-operator
-```
+RDI 2.2.1 and later accept only service account key files, not Workload Identity Federation
+credential configuration files.
 
 After creating the lease resource and granting access, return to
 [Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
@@ -123,7 +118,6 @@ operator:
   leaderElection:
     enabled: true
     instanceID: site-a
-    standbyMode: false
     leaseType: gcs
     gcsLease:
       bucketName: <lease-bucket>
@@ -137,7 +131,6 @@ operator:
   leaderElection:
     enabled: true
     instanceID: site-b
-    standbyMode: true
     leaseType: gcs
     gcsLease:
       bucketName: <lease-bucket>
@@ -147,7 +140,7 @@ operator:
 Use identical `bucketName` and `objectName` values at both sites. The distinct `instanceID`
 values identify the two RDI instances.
 
-## Check the bucket and install RDI
+## Install RDI
 
 1. Inspect the bucket location and access policy:
 
@@ -175,41 +168,10 @@ values identify the two RDI instances.
    option to each site's command.
 
 Continue with [Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets)
-to configure RDI CLI contexts and confirm that one instance is the leader and the other is a
-follower. Both operators access the lease, so one leader, one follower, and no access errors in
-the operator logs confirm that both operators can access the bucket.
+to configure RDI CLI contexts. One leader, one follower, and no access errors in the operator
+logs confirm that both operators can access the bucket.
 
 In RDI 2.2.0, the lease is stored in the object's custom metadata. RDI migrates an existing
 lease object to this format during an upgrade. Review
 [Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup)
 before changing versions.
-
-## Move the lease to a dual-region bucket
-
-You can't change a bucket's location. If an existing setup uses a single-region bucket, move
-the lease to a new dual-region or multi-region bucket. Keep the follower in standby until both
-sites use the new bucket, so that the sites never take part in leader election with different
-lease objects.
-
-1. Create the new bucket and grant the operators access, as described in
-   [Create the bucket](#create-the-bucket) and [Grant the operator access](#grant-the-operator-access).
-1. Record the follower's `standby_mode` setting, then put the follower in standby. For a
-   follower at site B:
-
-   ```bash
-   redis-di --context site-b get-setting standby_mode
-   redis-di --context site-b set-setting standby_mode true
-   ```
-
-1. Set `operator.leaderElection.gcsLease.bucketName` to the new bucket in both values files.
-1. Upgrade the leader with its values file, then the follower, using the `helm upgrade`
-   commands in [Check the bucket and install RDI](#check-the-bucket-and-install-rdi). The
-   leader creates the lease object in the new bucket.
-1. Restore the follower's recorded `standby_mode` setting. Use `delete-setting` for a recorded
-   value of `<none>`.
-1. Check that one instance reports `Leader Election Mode: leader`, then delete the old lease
-   object:
-
-   ```bash
-   gcloud storage rm "gs://<old-lease-bucket>/<lease-object>"
-   ```

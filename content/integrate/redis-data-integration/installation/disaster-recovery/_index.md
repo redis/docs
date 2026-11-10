@@ -30,10 +30,11 @@ For [Kubernetes installations](/content/integrate/redis-data-integration/install
 RDI supports leases in Google Cloud Storage (GCS), since RDI 1.15.0, and in Amazon DynamoDB,
 since RDI 2.2.0. DR requires a Kubernetes installation and one of these lease stores.
 
-DR differs from a
-[high availability (HA) pair](/content/integrate/redis-data-integration/installation/install-vm.md#installing-with-high-availability),
-where two instances share one RDI database and use it for leader election. Use an HA pair to
-survive the failure of one RDI instance, and DR to survive the loss of a site.
+DR differs from the
+[high availability (HA) pair](/content/integrate/redis-data-integration/installation/install-vm.md#installing-with-high-availability)
+for the VM installations, where two instances share one RDI database and use it for leader
+election. Use an HA pair to survive the failure of one RDI instance, and DR to survive the
+loss of a site.
 
 ## Understand the topology
 
@@ -72,12 +73,6 @@ whole site or region fails. See [How automatic failover works](#how-automatic-fa
 ### RDI database replication
 
 A disaster recovery setup requires Active-Active replication for the RDI database.
-Active-Passive replication for this database is not supported, including configurations with
-manual promotion.
-
-The documented failover procedure assumes that the destination site already has a writable
-RDI database. An Active-Passive setup would require separate database promotion, recovery
-verification, and failback procedures. These procedures have not been validated for RDI.
 
 ## Source databases and data after a failover
 
@@ -93,20 +88,19 @@ from the wrong place.
 The following table gives the general requirement for each source. Replication and failover
 details vary by source database, version, and managed service.
 
-<!-- TODO: Confirm the SQL Server and MongoDB rows with engineering (RDSC-6013). -->
-
-| Source | Saved position | The source database at the new leader's site must |
+| Source | Saved position | New leader requirements |
 | :-- | :-- | :-- |
-| Oracle | SCN | Have the same SCN history, such as a physical standby in Oracle Data Guard, and keep the redo and archive logs from the saved SCN. A logical copy, such as one that Oracle GoldenGate maintains, has its own SCNs. |
-| MySQL and MariaDB | Global transaction identifier (GTID) set, or binary log (binlog) file and position | Use GTIDs and contain every transaction in the saved GTID set, with binlogs kept from that point. A replica must also write replicated changes to its own binlog. Binlog file names and positions differ between servers. |
-| PostgreSQL | LSN of the replication slot | Be a promoted physical standby with a synchronized copy of RDI's replication slot. PostgreSQL 17 can synchronize failover slots; versions 14 to 16 need the `pg_failover_slots` extension. RDI can't use the slot copy until the standby is promoted. A logical replica always needs a new snapshot. |
-| SQL Server | LSN | Be the same database with the same transaction log, such as a replica in an Always On availability group. CDC capture must run on the new primary. |
-| MongoDB | Change stream resume token | Belong to the same replica set or sharded cluster, with the saved position still in the oplog. A separate cluster that another tool copies has its own oplog. |
-| Google Cloud Spanner | Change stream position | Spanner is one multi-region database, so both sites capture from it through the same endpoint. The saved position must still be within the change stream's retention period. |
+| Oracle | SCN | Sources share the same SCN history, for example a physical standby. |
+| MySQL and MariaDB | Global transaction identifier (GTID) set | GTIDs are enabled, and the source contains every transaction in the saved GTID set, with binary logs (binlogs) kept from that point. A replica writes replicated changes to its own binlog. |
+| PostgreSQL | LSN of the replication slot | The source is a promoted physical standby with a synchronized copy of RDI's replication slot. This requires PostgreSQL 17 with slot synchronization enabled on the standby, and `slot.failover: true` in the source's `advanced.source` before RDI creates the slot. Debezium doesn't change an existing slot, so reset an existing pipeline after you set the option. RDI can't use the slot copy until the standby is promoted. RDI hasn't been tested with the `pg_failover_slots` extension for PostgreSQL 14 to 16. A logical replica needs a pipeline reset. |
+| SQL Server | LSN | The source is a replica of the same database in an Always On availability group, so it has the same transaction log. The CDC capture job runs on the new primary after promotion. |
+| MongoDB | Change stream resume token | The source belongs to the same replica set or sharded cluster, and its oplog still contains the saved position. A separate cluster that another tool copies needs a pipeline reset. |
+| Google Cloud Spanner | Change stream position | Both sites capture from the same Spanner database, and the saved position is within the change stream's retention period. |
 
 Before you rely on DR, check that RDI can resume capture from its saved position at each
 site's source database. A replicated copy of the source alone does not guarantee this. Retain
-enough source change history to cover capture lag, snapshots, and the longest outage you plan to recover from.
+enough source change history to cover capture lag, snapshots, and the longest outage you plan
+to recover from.
 
 After a takeover, one of the following applies:
 
@@ -128,16 +122,6 @@ new leader's target instance. They're missing there until the failed site's targ
 syncs. If that instance loses them, or you remove it from the Active-Active database, they're
 lost from the target.
 
-When the failed site's target instance syncs, Active-Active conflict resolution merges its late
-writes with the new leader's writes by its own rules, not in the order of the source changes.
-For example, a hash field that the new leader deleted can reappear, and an older JSON document
-can replace a newer one. See the conflict rules for each
-[data type](/content/operate/rs/databases/active-active/develop/data-types/_index.md). To
-reload inserted and updated rows,
-[reset the pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#reset-a-pipeline)
-after that instance syncs or you remove it. The snapshot doesn't remove keys that reappeared, so
-delete them from the target yourself.
-
 ## Prepare both sites
 
 1. Create the RDI database as an
@@ -153,8 +137,7 @@ delete them from the target yourself.
    [Understand the topology](#understand-the-topology).
 1. Configure network access from each RDI instance to its site's source database, its target
    database, and the same external lease.
-1. Keep the clocks at both sites synchronized, for example with Network Time Protocol (NTP). See
-   [Lease timing](#lease-timing).
+1. Keep the clocks at both sites synchronized, for example with Network Time Protocol (NTP).
 
 This guide describes how to set up RDI for disaster recovery. An existing RDI database can't
 be changed into an Active-Active database. To add DR to an existing installation, export each
@@ -188,8 +171,9 @@ With more than two sites, sites can share a replica Region of the DynamoDB table
 
 > [!WARNING]
 > Set `operator.leaderElection.leaseType` to `gcs` or `dynamodb`, as the provider guides show.
-> The default `redsync` lease keeps the lock in the RDI database. Each instance of an
-> Active-Active database accepts the lock on its own, so every site can become the leader.
+> RDI uses the `redsync` lease for any other value, and `redsync` can't be used with an
+> Active-Active RDI database. After installing, check that the operator log at each site
+> contains `Creating GCS lease` or `Creating DynamoDB lease`.
 
 #### Protect the lease
 
@@ -232,10 +216,6 @@ Set `keyName` explicitly for every setup, because it defaults to `rdi-lease`. Se
 the same lease compete for it, so only one of them runs its pipelines. Each setup still needs
 its own Kubernetes clusters and Active-Active RDI database.
 
-Every identity with access to the bucket or table can write every lease in it. To stop one
-setup from taking another's lease, restrict each identity to its own lease with an Identity and
-Access Management (IAM) condition, or use a separate bucket or table.
-
 #### Lease timing
 
 The lease timings are Helm values under `operator.leaderElection`:
@@ -250,22 +230,16 @@ The lease timings are Helm values under `operator.leaderElection`:
 | `checkRetryPolicy` | `attempts: 3`, `initialInterval: 1s`, `backoffFactor: 2.0` | Retries within `checkTimeout`. |
 
 - A leader that enters standby releases the lease within `refreshInterval`. A leader that
-  can't read its RDI database for `checkTimeout` also releases it. Another instance acquires
-  it on its next attempt.
+  can't read its RDI database after the `checkRetryPolicy` attempts, or within `checkTimeout`,
+  also releases it. Another instance acquires it on its next attempt.
 - A leader that fails, restarts, or can't reach the lease store doesn't release the lease.
   Another instance can acquire it after `ttl`. A leader that restarts and renews within `ttl`
   keeps the lease.
-- If you change the timings, keep the sum of `timeout`, `checkTimeout`, `refreshInterval`, and
-  the largest clock offset between the sites less than `ttl`. A leader that can't renew the
-  lease then stops leading before another site can acquire it. With the default timings, keep
-  the clocks within 5 seconds of each other. RDI doesn't check this.
+- If you change the timings, keep the sum of `timeout`, `checkTimeout`, and `refreshInterval`
+  less than `ttl`, so that a leader that can't renew the lease stops leading before another site
+  can acquire it.
 
-RDI doesn't fence a leader that loses its lease. An instance that stops leading removes its
-pipeline components, which can take a minute or more. After a release, another site can
-acquire the lease within `refreshInterval`, so both sites can briefly run pipelines. If the
-leader's operator isn't running, or can't reach its Kubernetes application programming
-interface (API) server, nothing removes the components. They keep running after another site
-takes over, until the operator recovers.
+An instance that stops leading removes its pipeline components, which can take a minute or more.
 
 With the default settings, expect another site to take over within about 2 minutes. Pipeline
 startup and catch-up add to the recovery time.
@@ -276,24 +250,21 @@ Install the same RDI version in separate Kubernetes clusters after preparing bot
 
 ### Choose a failover mode
 
-The failover mode decides whether site B waits as a follower or in standby. See the instance
-states in [Understand the topology](#understand-the-topology). Choose the mode before you
-install:
+The failover mode sets whether site B waits as a follower or in standby. See the instance
+states in [Understand the topology](#understand-the-topology). Both instances take part in
+leader election after installation. Set the mode with the `standby_mode`
+[instance setting](/content/integrate/redis-data-integration/reference/instance-settings.md#standby_mode),
+and change it at any time:
 
-| Mode | `standbyMode` in the values files | Who starts the takeover? | Use it when |
+| Mode | `standby_mode` | Who starts the takeover? | Use it when |
 | :-- | :-- | :-- | :-- |
-| Automatic | `false` at both sites, after you enable site B | The follower, after the leader releases the lease or the lease expires. | RDI can resume capture from the source database at site B as soon as site B takes over. For example, both sites capture from one Spanner database. |
+| Automatic | `false` at both sites, the default | The follower, after the leader releases the lease or the lease expires. | RDI can resume capture from the source database at site B as soon as site B takes over. For example, both sites capture from one Spanner database. |
 | Manual | `false` at site A, `true` at site B | You, by enabling participation on the destination instance. | The source database at site B needs a step first, such as promotion or a check of its change history. For example, a PostgreSQL standby must be promoted before RDI can use its slot copy. |
 
 With manual failover, prepare the source first. Promote the source database at site B or
 confirm that RDI can resume capture from the saved position, then enable site B. If capture
 can't resume from the saved position, reset the pipeline after site B takes over. See
 [Source databases and data after a failover](#source-databases-and-data-after-a-failover).
-
-The values files in this guide install site B in standby. After installation, change the mode
-with the `standby_mode`
-[instance setting](/content/integrate/redis-data-integration/reference/instance-settings.md#standby_mode),
-which overrides the Helm value. See [Move leadership manually](#move-leadership-manually).
 
 ### Configure each site's values file
 
@@ -316,7 +287,6 @@ operator:
   leaderElection:
     enabled: true
     instanceID: site-a
-    standbyMode: false
 ```
 
 For site B:
@@ -335,16 +305,12 @@ operator:
   leaderElection:
     enabled: true
     instanceID: site-b
-    standbyMode: true
 ```
 
-Site B starts in standby, so it can't become the leader before its setup is complete. For
-automatic failover, you enable it after you deploy the pipelines.
-
 > [!NOTE]
-> A `standby_mode` runtime setting overrides `standbyMode`, and it stays in the RDI database
-> when you uninstall RDI. After you install an instance on an RDI database that an earlier
-> installation used, run `redis-di get-setting standby_mode`. If it isn't `<none>`, run
+> The `standby_mode` setting stays in the RDI database when you uninstall RDI. After you
+> install an instance on an RDI database that an earlier installation used, run
+> `redis-di get-setting standby_mode`. If it isn't `<none>`, run
 > `redis-di delete-setting standby_mode`.
 
 Set `operator.leaderElection.instanceID` before you install each instance, and keep it unchanged
@@ -392,11 +358,22 @@ redis-di set-context site-b --api-url "https://<site-b-rdi-api-host>" \
    One reports `Leader Election Mode: leader` and the other
    `Leader Election Mode: follower`. The examples assume that site A is the leader.
 
-   If leadership isn't as expected, see [Operator log messages](#operator-log-messages).
+   If leadership isn't as expected, check the operator log at each site:
+
+   ```bash
+   kubectl --context "<site-kube-context>" --namespace rdi logs deployment/rdi-operator
+   ```
+
+1. For manual failover, put site B in standby:
+
+   ```bash
+   redis-di --context site-b set-setting standby_mode true
+   ```
 
 1. [Set the secrets for every pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#set-secrets-for-each-pipeline)
    on both instances. Secret values of the same pipeline may differ across instances. You can
-   set secrets before a pipeline exists. Include the source and target credentials and any certificates.
+   set secrets before a pipeline exists. Include the source and target credentials and any
+   certificates.
 
    When the sites use different source or target endpoints, set the endpoints as
    [generic secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
@@ -434,24 +411,6 @@ redis-di set-context site-b --api-url "https://<site-b-rdi-api-host>" \
 1. Run `redis-di --context site-a describe "<pipeline>"` for each pipeline on the leader.
    Check that its components run without errors and that source changes reach the target.
 
-1. For automatic failover, enable site B. Set `standbyMode: false` in
-   `rdi-values-site-b.yaml` and upgrade the release:
-
-   ```bash
-   helm upgrade --install rdi "rdi-<tag>.tgz" \
-     --kube-context "<site-b-kube-context>" --namespace rdi \
-     --values rdi-values-site-b.yaml
-   ```
-
-   Site B's operator restarts and waits as a follower. Check that no runtime setting overrides
-   the Helm value:
-
-   ```bash
-   redis-di --context site-b get-setting standby_mode
-   ```
-
-   The output is `<none>`.
-
 ## Test a takeover
 
 Move leadership to site B and back, following
@@ -465,9 +424,9 @@ The leader stops leading in these cases:
 | Event at the leader's site | What the leader does | When another site can take over |
 | :-- | :-- | :-- |
 | You set `standby_mode` to `true`. | Releases the lease. | On its next attempt. |
-| The operator can't read its RDI database instance for `checkTimeout`. | Releases the lease. | On its next attempt. |
+| The operator can't read its RDI database instance after the `checkRetryPolicy` attempts, or within `checkTimeout`. | Releases the lease. | On its next attempt. |
 | The operator can't renew the lease, for example because it can't reach the lease store. | Stops leading before the lease expires. | After the lease expires. |
-| The operator stops, for example because its pod, node, or Kubernetes cluster fails, or it can't reach its Kubernetes API server. | Nothing. Its pipeline components can keep running. | After the lease expires. |
+| The operator stops, for example because its pod, node, or Kubernetes cluster fails. | Nothing. | After the lease expires. |
 
 Another site takes over only if its operator is running, it can read its own RDI database
 instance, it isn't in standby, and it can reach the lease store. If no site can reach the lease
@@ -483,8 +442,8 @@ back, see [Move leadership manually](#move-leadership-manually).
 
 ## Move leadership manually
 
-Use this procedure for maintenance or a manually controlled takeover. It assumes site A is
-the leader and site B is the destination.
+Use this procedure for a manually controlled takeover. It assumes site A is the leader and
+site B is the destination.
 
 1. Check that site B is ready to take over:
 
@@ -502,18 +461,16 @@ the leader and site B is the destination.
      redis-di --context site-b list-secrets --pipeline "<pipeline>"
      ```
 
-   - Active-Active replication of the RDI database and the target into site B is healthy. On Redis
-     Software, run a
-     [lag-aware availability check](/content/operate/rs/monitoring/db-availability.md#lag-aware)
-     on site B's cluster for each database:
+   - Site B's instances of the RDI database and the target are in sync. On Redis Software,
+     check the replication lag of each database with the
+     [database availability API](/content/operate/rs/monitoring/db-availability.md#lag-aware):
 
      ```bash
      curl -u "<rest-api-user>:<password>" \
        "https://<site-b-cluster-fqdn>:9443/v1/bdbs/<database-id>/availability?extend_check=lag"
      ```
 
-     A `200 OK` response means that site B's instance is in sync and its lag is within the
-     tolerance, 100 milliseconds by default.
+     A `200 OK` response means that the lag is within the tolerance, 100 milliseconds by default.
 
    To check that site B can reach the source and target, move leadership to site B and back
    during a maintenance window.
@@ -525,52 +482,26 @@ the leader and site B is the destination.
    redis-di --context site-b get-setting standby_mode
    ```
 
-   If a runtime setting is `<none>`, also record the Helm value:
-
-   ```bash
-   helm get values rdi --all --namespace rdi --kube-context "<site-kube-context>" \
-     | grep standbyMode
-   ```
-
-1. If site B takes part in leader election, put it in standby, so that it doesn't take over
-   while site A's pipelines still run:
-
-   ```bash
-   redis-di --context site-b set-setting standby_mode true
-   ```
-
-1. If site A is reachable, put it in standby. Site A releases the lease and removes its
-   pipeline components. The pipelines stop until site B takes over:
-
-   ```bash
-   redis-di --context site-a set-setting standby_mode true
-   ```
-
-1. If site A is reachable, wait until its pipeline components have stopped. RDI reports its
-   pipelines as `standby` before the components finish stopping, so check the Kubernetes resources
-   until the command reports `No resources found`:
-
-   ```bash
-   kubectl get deployments,pods --context "<site-a-kube-context>" --namespace rdi \
-     --selector app.kubernetes.io/name=pipeline
-   ```
-
-   Then repeat the lag-aware check on site B's cluster for both databases.
-
-1. Enable site B. It acquires the lease within `refreshInterval`:
+1. If site B is in standby, enable it. It waits as a follower while site A holds the lease:
 
    ```bash
    redis-di --context site-b set-setting standby_mode false
    ```
 
-   If site A is unreachable, site B acquires the lease after it expires.
+   If site A is unreachable, site B takes over after the lease expires.
 
-1. [Verify the takeover](#verify-a-takeover) before starting maintenance or returning traffic
-   to a recovered site.
+1. If site A is reachable, put it in standby. Site A releases the lease, and site B takes over
+   within `refreshInterval`:
+
+   ```bash
+   redis-di --context site-a set-setting standby_mode true
+   ```
+
+1. [Verify the takeover](#verify-a-takeover).
 1. If site A was unreachable and you use manual failover, set its `standby_mode` to `true` when
    it becomes reachable.
 
-After maintenance, set `standby_mode` for the operating mode you want:
+After the takeover, set `standby_mode` for the operating mode you want:
 
 | Mode | Site A `standby_mode` | Site B `standby_mode` |
 | :-- | :-- | :-- |
@@ -579,8 +510,8 @@ After maintenance, set `standby_mode` for the operating mode you want:
 | Manual, site B leads | `true` | `false` |
 
 To restore the previous settings instead, use the values you recorded. Run
-`redis-di delete-setting standby_mode` for a recorded value of `<none>`, so that the Helm value
-applies again. Don't leave every instance in standby, or no instance runs the pipelines.
+`redis-di delete-setting standby_mode` for a recorded value of `<none>`. Don't leave every
+instance in standby, or no instance runs the pipelines.
 
 To move leadership back to site A, repeat the procedure with the sites exchanged.
 
@@ -596,79 +527,21 @@ To move leadership back to site A, repeat the procedure with the sites exchanged
    ```
 
    Check its components and errors.
-1. On a reachable former leader, check that its pipeline components have stopped:
-
-   ```bash
-   kubectl get deployments,pods --context "<site-a-kube-context>" --namespace rdi \
-     --selector app.kubernetes.io/name=pipeline
-   ```
-
-   When they have stopped, the command reports `No resources found`. A pod with the
-   `Terminating` status can still be running.
 1. Make a test change in the source and confirm that the expected result reaches the target.
-   Check the target endpoint used by applications, including any replication lag between
-   target sites. Leadership alone does not confirm pipeline health or data delivery.
+   Leadership alone does not confirm pipeline health or data delivery.
 
 ## Monitor a DR setup
 
-Scrape the operator at both sites and monitor the pipelines of the leader. Use the metric
-definitions and endpoint instructions in
-[Observability](/content/integrate/redis-data-integration/observability.md). Before a planned
-move, use the readiness checks in [Move leadership manually](#move-leadership-manually).
+Scrape the operator at both sites and monitor the pipelines of the leader, as described in
+[Observability](/content/integrate/redis-data-integration/observability.md). Alert when:
 
-### Alert on DR health
+- No instance reports `rdi_operator_is_leader` as `1` for more than 2 minutes. Check the
+  standby settings, lease access, and RDI database connectivity.
+- Active-Active replication of the RDI database or the target lags or reports syncer errors.
+- An operator logs `ERROR` messages repeatedly over a longer period.
 
-Alert on these checks at all times. They show whether one site leads and whether another site
-can take over.
-
-| Check | What to investigate |
-| :-- | :-- |
-| `rdi_operator_is_leader`, labeled by `instance_id` | Expect one leader. If both instances report `0` for more than 2 minutes, check standby settings, lease access, and RDI database connectivity. If both report `1`, investigate duplicate instance IDs or different lease resources immediately. |
-| Missing operator metrics | Check scrape access and instance availability. Alert on missing samples separately from a `0` value. |
-| Operator logs | Alert on the `ERROR` messages in [Operator log messages](#operator-log-messages). |
-| Active-Active replication of the RDI database and the target | Alert on replication lag and syncer errors in each database. If the target lags behind the RDI database when a site fails, the new leader's target can lack changes. |
-
-If neither site can access the lease store, restore lease connectivity before expecting
-ingestion to resume.
-
-### Check recovery after a takeover
-
-Watch these checks on the leader, especially after a takeover. They show whether the new
-leader resumed from the saved position and is catching up.
-
-| Check | What to investigate |
-| :-- | :-- |
-| Collector `Connected` and `MilliSecondsBehindSource` | Investigate source connectivity and growing capture lag. |
-| Collector `SnapshotRunning`, `SnapshotCompleted`, and `SnapshotAborted` | Investigate an unexpected snapshot or failed recovery. Check whether the source database has the required change history. |
-| Processor progress, backlog, and rejected records | If source changes continue but delivery stops, inspect pipeline errors, target connectivity, and processing metrics for the selected processor. |
-
-If the leader's pipelines are unhealthy, inspect the pipeline and source or target errors.
-
-### Operator log messages
-
-The operator writes JSON log lines. Read them at each site with:
-
-```bash
-kubectl --context "<site-kube-context>" --namespace rdi logs deployment/rdi-operator
-```
-
-The `message` field identifies the leader election event:
-
-| Message | Level | Meaning |
-| :-- | :-- | :-- |
-| `Acquired leadership` | `INFO` | This instance is now the leader. |
-| `Lost leadership` | `INFO` | This instance stopped leading. |
-| `Entering standby mode, will not participate in leader election` | `INFO` | `standby_mode` is now `true`. |
-| `Leaving standby mode, will participate in leader election` | `INFO` | `standby_mode` is now `false`. |
-| `Migrating legacy lease object` | `INFO` | RDI 2.2.0 is migrating a GCS lease to the new format. |
-| `Lease bucket is a single-region bucket, the lease will not survive the loss of its region` | `INFO` | The GCS bucket can't protect the lease against a regional outage. |
-| `Lease table is a single-region table, the lease will not survive the loss of its region` | `INFO` | The DynamoDB table has no other replicas. |
-| `Could not acquire leadership lease` | `ERROR` | The lease store rejected or didn't answer a request. Check credentials, permissions, and network access. |
-| `Could not extend leadership lease` | `ERROR` | The leader can't renew the lease. Another instance takes over after `ttl`. |
-| `Could not read settings` | `ERROR` | The instance can't read its RDI database. A leader releases the lease. |
-| `invalid GCS lease bucket` or `invalid DynamoDB lease table` | `ERROR` | The lease resource failed the startup check, and the operator exits. |
-
-Authentication and permission errors include the error text from the cloud provider.
+After a takeover, check that the new leader's collector reports `Connected` and that
+`MilliSecondsBehindSource` decreases.
 
 ## Upgrade or downgrade a DR setup
 
@@ -701,9 +574,9 @@ To downgrade to RDI 2.0.0 with a GCS lease, plan for downtime:
    gcloud storage rm "gs://<lease-bucket>/<lease-object>"
    ```
 
-1. Downgrade both instances with Helm. Versions before 2.2.0 use `operator.leaderElection.standbyMode`
-   instead of the `standby_mode` setting. The first instance that takes part in
-   leader election recreates the lease in its earlier format.
+1. Downgrade both instances with Helm. Versions before 2.2.0 use
+   `operator.leaderElection.standbyMode` instead of the `standby_mode` setting. The first
+   instance that takes part in leader election recreates the lease in its earlier format.
 1. Check that only one instance is the leader, and verify pipeline health and data delivery.
 
 The `standby_mode` settings remain in the RDI database. If you upgrade to 2.2.0 again, run
