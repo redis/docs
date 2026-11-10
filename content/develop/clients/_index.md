@@ -71,6 +71,8 @@ develop or contribute to these libraries directly.
 | [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
 | [Python](https://www.python.org/) | coredis | https://github.com/alisaifee/coredis | https://coredis.readthedocs.io |
 | [Scala](https://www.scala-lang.org/) | Sage | https://github.com/ghostdogpr/sage | https://ghostdogpr.github.io/sage/ |
+| Multiple languages | Redis Arrow Database Connectivity (ADBC) driver | [redis/redis-adbc-driver](https://github.com/redis/redis-adbc-driver) | [Install and connect](https://github.com/redis/redis-adbc-driver/blob/main/docs/setup.md) |
+| Multiple languages | Redis Arrow Flight server (Flight SQL) | [redis/redis-apache-arrow-flight](https://github.com/redis/redis-apache-arrow-flight) | [Set up the Flight server](https://github.com/redis/redis-apache-arrow-flight#get-a-server-running) |
 
 ## Requirements
 
