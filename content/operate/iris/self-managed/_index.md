@@ -311,10 +311,10 @@ The `iris` CLI in the [`redis-iris`](https://pypi.org/project/redis-iris/) packa
     iris agent-memory service create --name support-memory --write-env .env
     ```
 
-1. Check every hop, from the Control Plane to a read with the agent key:
+1. Check every hop, from the Control Plane to a read with the agent key. The check needs the admin settings from `.env.admin` as well as the store settings in `.env`, so load both:
 
     ```bash
-    set -a; source .env; set +a
+    set -a; source .env.admin; source .env; set +a
     iris agent-memory service check "$IRIS_AGENT_MEMORY_STORE_ID" --env-file .env
     ```
 
