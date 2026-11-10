@@ -448,6 +448,46 @@ kubectl -n <namespace-name> port-forward svc/iris-ui <local-port>:8080
 
 If you turned console sign-in on, the local port must be the one in `global.iris.publicURL`, and your IdP must register `<publicURL>/auth/callback` for it. Forwarding on any other port breaks sign-in. If the port is taken, `port-forward` fails with `address already in use`. Free the port rather than picking another one.
 
+### Reach every service from your workstation
+
+To call the services from an application outside the cluster, forward each Service you installed. Several Services use the same container port, so give each a distinct local port:
+
+| Service | Local port | Service port | Purpose |
+| --- | --- | --- | --- |
+| `iris-identity-service` | 9200 | 9200 | Agent keys |
+| `redis-agent-memory` | 9000 | 9000 | Agent Memory Data Plane |
+| `redis-agent-memory-controlplane` | 9100 | 9100 | Agent Memory Control Plane |
+| `redis-agent-playbook-dataplane` | 9201 | 9201 | Agent Playbooks Data Plane |
+| `redis-agent-playbook-controlplane` | 9202 | 9200 | Agent Playbooks Control Plane |
+| `redis-lens-dataplane` | 9010 | 9000 | Lens Data Plane |
+| `redis-lens-controlplane` | 9300 | 9300 | Lens Control Plane |
+| `redis-intent-router-dataplane` | 9401 | 9401 | Intent Router Data Plane |
+| `redis-intent-router-controlplane` | 9400 | 9400 | Intent Router Control Plane |
+| `redis-context-gateway-dataplane` | 8083 | 8083 | Context Gateway Data Plane |
+| `redis-context-gateway-controlplane` | 8084 | 9100 | Context Gateway Control Plane |
+
+Run all the forwards from one script. It stops them when you press Ctrl-C:
+
+```bash
+#!/usr/bin/env bash
+NS=<namespace-name>
+pids=()
+trap 'kill "${pids[@]}" 2>/dev/null' EXIT INT TERM
+
+forward() {  # <service> <local port> <service port>
+  kubectl -n "$NS" port-forward "svc/$1" "$2:$3" >/dev/null 2>&1 &
+  pids+=("$!")
+}
+
+forward iris-identity-service 9200 9200
+forward redis-agent-memory 9000 9000
+forward redis-agent-memory-controlplane 9100 9100
+# Add a line for each other Service you installed.
+wait
+```
+
+A forward stays attached to the pod it started on. When an upgrade replaces the pod, the forward stops answering, so stop the script and run it again.
+
 ## Move from a preview or standalone install
 
 Upgrading to `redis-iris` from preview charts (`0.x`) or from product charts installed on their own isn't supported. Reinstall instead, against the same Redis databases:
