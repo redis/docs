@@ -4,7 +4,8 @@
     "go-redis": "unsupported",
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
-    "redis_rb": "generic_only"
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "ACL CAT": {
     "nredisstack_sync": "generic_only",
@@ -259,7 +260,8 @@
     "jedis": "unsupported",
     "go-redis": "unsupported",
     "nredisstack_sync": "unsupported",
-    "nredisstack_async": "unsupported"
+    "nredisstack_async": "unsupported",
+    "ioredis": "generic_only"
   },
   "CLIENT CACHING": {
     "go-redis": "generic_only",
@@ -397,7 +399,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLUSTER ADDSLOTS": {
     "nredisstack_sync": "generic_only",
@@ -681,7 +684,8 @@
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "redis_rb": "generic_only"
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "COMMAND COUNT": {
     "redis_rs_sync": "generic_only",
@@ -751,7 +755,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CONFIG GET": {
     "redis_rs_sync": "generic_only",
@@ -1229,7 +1234,8 @@
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "redis_rb": "generic_only"
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "LATENCY DOCTOR": {
     "redis_py": "unsupported",
@@ -1336,7 +1342,8 @@
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "redis_rb": "generic_only"
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "MEMORY DOCTOR": {
     "redis_py": "unsupported",
@@ -1407,7 +1414,8 @@
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "redis_rb": "generic_only"
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "MODULE HELP": {
     "redis_py": "generic_only",
@@ -1681,7 +1689,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "SLOWLOG GET": {
     "node_redis": "generic_only",
