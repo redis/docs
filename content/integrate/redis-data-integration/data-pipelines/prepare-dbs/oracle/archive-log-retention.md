@@ -43,13 +43,13 @@ After an outage, keep the archived logs until the collector has caught up. See [
 Oracle deletes archived logs from the fast recovery area (FRA) only when it needs space, and only logs that are reclaimable under the RMAN archive log deletion policy. By default, a log becomes reclaimable as soon as it is backed up. To keep logs for a minimum time, for example 24 hours, back up and delete only logs older than that:
 
 ```sql
-# Make logs reclaimable in the FRA only after one backup
+-- Make logs reclaimable in the FRA only after one backup
 CONFIGURE ARCHIVELOG DELETION POLICY TO BACKED UP 1 TIMES TO DEVICE TYPE <DISK|SBT>;
 
-# Back up only logs older than 24 hours, so the FRA cannot reclaim younger logs
+-- Back up only logs older than 24 hours, so the FRA cannot reclaim younger logs
 BACKUP ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-1' NOT BACKED UP 1 TIMES;
 
-# Delete only logs that are older than 24 hours and backed up
+-- Delete only logs that are older than 24 hours and backed up
 DELETE NOPROMPT ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-1' BACKED UP 1 TIMES TO DEVICE TYPE <DISK|SBT>;
 ```
 
