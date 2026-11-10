@@ -458,6 +458,27 @@ Upgrading to `redis-iris` from preview charts (`0.x`) or from product charts ins
 
 Data in those databases is kept, except from Agent Memory `0.0.x` and Agent Playbooks `0.1.x` previews, which can't be upgraded. Expect a few minutes of downtime.
 
+## Tenancy and identity provider limits
+
+A release has one tenant, one identity provider issuer, and one token audience. The chart takes each from `global.iris` and applies it to every service, so every key and token resolves to that tenant.
+
+- `global.iris.tenantId` becomes the tenant of every service and the Identity Service's `singleTenantID`. An empty value fails the schema check.
+- `global.iris.auth.oidc` supplies the issuer, JWKS URL, role claims, role mappings, and audience.
+
+A service value that sets any of these differently fails the render, and the error names the value to remove:
+
+| Value you set | Why it fails |
+| --- | --- |
+| `memory.tenantId`, `playbook.tenantId`, or `identityService.runtime.apiKeyTenant.singleTenantID` that differs from `global.iris.tenantId` | The release has one tenant. |
+| `tenant_id_claim` in an enabled service OIDC block, such as `memory.memory.auth.oidc` | A claim names a tenant per token, which a single-tenant release doesn't use. |
+| `static_tenant_id` that differs from `global.iris.tenantId` | The tenant is already pinned. |
+| `role_mappings`, `issuer`, or `jwks_uri` in a service OIDC block that differs from `global.iris.auth.oidc` | The suite derives them once for every service. |
+| `audience` in a service OIDC block that differs from `global.iris.auth.oidc.audience` | Every service accepts the one audience. |
+
+To serve a second tenant or issuer, install another release in its own namespace.
+
+Because a release has one tenant, checks that expect a token from another tenant to be refused don't apply to the suite.
+
 ## Not supported in this release
 
 | Feature | Status |
@@ -465,4 +486,4 @@ Data in those databases is kept, except from Agent Memory `0.0.x` and Agent Play
 | FIPS profile (`global.security.profile: fips`) | The install fails. Planned for `1.1`. |
 | Helm 4 | Planned for `1.1`. |
 | Standalone product chart installs | Published as dependencies of `redis-iris` only. |
-| More than one tenant per release | A release has one tenant, `global.iris.tenantId`. An empty value fails the install. |
+| More than one tenant, issuer, or audience per release | A release has one of each. An empty `global.iris.tenantId` fails the install. See [Tenancy and identity provider limits](#tenancy-and-identity-provider-limits). |
