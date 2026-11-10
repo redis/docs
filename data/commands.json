@@ -3756,6 +3756,107 @@
             "deprecated"
         ]
     },
+    "BZMOVE": {
+        "summary": "Moves highest- or lowest-scoring members from one sorted set to another, preserving scores. Blocks until a member is available otherwise. Deletes the source sorted set if the last member was moved.",
+        "since": "8.12.0",
+        "group": "sorted-set",
+        "complexity": "O(K*(log(N)+log(M))) where K is the number of moved members and N and M are the source and destination sizes.",
+        "acl_categories": [
+            "@write",
+            "@sortedset",
+            "@slow",
+            "@blocking"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "delete": true
+            },
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 2
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "source",
+                "type": "key",
+                "key_spec_index": 0,
+                "display_text": "source"
+            },
+            {
+                "name": "destination",
+                "type": "key",
+                "key_spec_index": 1,
+                "display_text": "destination"
+            },
+            {
+                "name": "where",
+                "type": "oneof",
+                "arguments": [
+                    {
+                        "name": "min",
+                        "type": "pure-token",
+                        "token": "MIN",
+                        "display_text": "min"
+                    },
+                    {
+                        "name": "max",
+                        "type": "pure-token",
+                        "token": "MAX",
+                        "display_text": "max"
+                    }
+                ]
+            },
+            {
+                "name": "timeout",
+                "type": "double",
+                "display_text": "timeout"
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "token": "COUNT",
+                "optional": true,
+                "display_text": "count"
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "blocking"
+        ]
+    },
     "BZMPOP": {
         "summary": "Removes and returns a member by score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.",
         "since": "7.0.0",
@@ -35515,6 +35616,221 @@
         "command_flags": [
             "readonly",
             "fast"
+        ]
+    },
+    "ZMOVE": {
+        "summary": "Moves highest- or lowest-scoring members, or a score range of members, from one sorted set to another, preserving scores. Deletes the source sorted set if the last member was moved.",
+        "since": "8.12.0",
+        "group": "sorted-set",
+        "complexity": "O(log(N) + K*(log(N)+log(M))) where N and M are the source and destination sizes and K is the number of moved members.",
+        "acl_categories": [
+            "@write",
+            "@sortedset",
+            "@slow"
+        ],
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "delete": true
+            },
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 2
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "source",
+                "type": "key",
+                "key_spec_index": 0,
+                "display_text": "source"
+            },
+            {
+                "name": "destination",
+                "type": "key",
+                "key_spec_index": 1,
+                "display_text": "destination"
+            },
+            {
+                "name": "selection",
+                "type": "oneof",
+                "arguments": [
+                    {
+                        "name": "min",
+                        "type": "pure-token",
+                        "token": "MIN",
+                        "display_text": "min"
+                    },
+                    {
+                        "name": "max",
+                        "type": "pure-token",
+                        "token": "MAX",
+                        "display_text": "max"
+                    },
+                    {
+                        "name": "score-range",
+                        "type": "block",
+                        "arguments": [
+                            {
+                                "name": "byscore",
+                                "type": "pure-token",
+                                "token": "BYSCORE",
+                                "display_text": "byscore"
+                            },
+                            {
+                                "name": "score-min",
+                                "type": "double",
+                                "display_text": "score-min"
+                            },
+                            {
+                                "name": "score-max",
+                                "type": "double",
+                                "display_text": "score-max"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "token": "COUNT",
+                "optional": true,
+                "display_text": "count"
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom"
+        ]
+    },
+    "ZMOVEMEMBER": {
+        "summary": "Moves specified members from one sorted set to another, preserving scores. Can restrict moves to members absent from or present in the destination. Deletes the source sorted set if the last member was moved.",
+        "since": "8.12.0",
+        "group": "sorted-set",
+        "complexity": "O(K*(log(N)+log(M))) where K is the number of given members and N and M are the source and destination sizes.",
+        "acl_categories": [
+            "@write",
+            "@sortedset",
+            "@slow"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "access": true,
+                "delete": true
+            },
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 2
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "source",
+                "type": "key",
+                "key_spec_index": 0,
+                "display_text": "source"
+            },
+            {
+                "name": "destination",
+                "type": "key",
+                "key_spec_index": 1,
+                "display_text": "destination"
+            },
+            {
+                "name": "num-members",
+                "type": "integer",
+                "display_text": "num-members"
+            },
+            {
+                "name": "member",
+                "type": "string",
+                "multiple": true,
+                "display_text": "member"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "token": "NX",
+                        "display_text": "nx"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "token": "XX",
+                        "display_text": "xx"
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom"
         ]
     },
     "ZMPOP": {
