@@ -162,7 +162,7 @@ restarting Redis or reloading the dataset.
 
 The upgrade affects clients:
 
-- Every other client is disconnected, including replicas. Clients must reconnect.
+- The client that requested the upgrade remains connected. All other clients, including replicas, are disconnected and must reconnect.
 - Queued transactions, Pub/Sub subscriptions, and other per-connection state are lost.
 - Protection is off between unloading the old module and activating the new one.
 

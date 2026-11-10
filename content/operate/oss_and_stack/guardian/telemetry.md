@@ -58,7 +58,7 @@ Add `telemetry=no` to the module arguments, in both the `MODULE LOAD` command an
 loadmodule /usr/lib/guardian/guardian-community.so registry-url=<registry-url> registry-key=<key-id>:<base64url-public-key> registry-state-dir=/var/lib/redis/guardian telemetry=no
 ```
 
-You can't change the setting while the module is loaded. Set it when the module loads.
+You can’t change this setting after the module has loaded. Specify it when you load the module with `loadmodule`.
 
 With telemetry off, Guardian collects nothing, sends no registration or heartbeat, and doesn't
 label download requests. Rule downloads, signature checks, activation, and offline restore
