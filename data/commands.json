@@ -2931,6 +2931,92 @@
             "readonly"
         ]
     },
+    "BITRANGEINTARRAY": {
+        "summary": "Returns the offsets of the set or clear bits in a range of a bitmap.",
+        "since": "8.12.0",
+        "group": "bitmap",
+        "complexity": "O(N + M) where N is the number of bytes in the range for a string, or the number of bitmap containers in the range (and of runs of set bits in it, with ZEROS), and M is the number of returned integers. With LIMIT, the scan stops after count matches, or after completing their last byte in BYTE units.",
+        "acl_categories": [
+            "@read",
+            "@bitmap",
+            "@slow"
+        ],
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "start",
+                "type": "integer",
+                "display_text": "start"
+            },
+            {
+                "name": "end",
+                "type": "integer",
+                "display_text": "end"
+            },
+            {
+                "name": "unit",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "byte",
+                        "type": "pure-token",
+                        "display_text": "byte",
+                        "token": "BYTE"
+                    },
+                    {
+                        "name": "bit",
+                        "type": "pure-token",
+                        "display_text": "bit",
+                        "token": "BIT"
+                    }
+                ]
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count",
+                "token": "LIMIT",
+                "optional": true
+            },
+            {
+                "name": "zeros",
+                "type": "pure-token",
+                "display_text": "zeros",
+                "token": "ZEROS",
+                "optional": true
+            }
+        ],
+        "command_flags": [
+            "readonly"
+        ]
+    },
     "BLESS": {
         "summary": "A container for key-blessing commands.",
         "since": "8.12.0",
@@ -3970,12 +4056,15 @@
         "module": "bf"
     },
     "CF.COMPACT": {
-        "group": "module",
+        "summary": "Compacts a Cuckoo Filter by moving items into earlier sub-filters",
+        "since": "2.2.0",
+        "group": "cf",
+        "complexity": "O(n * k), where n is the total number of slots and k is the number of sub-filters",
         "acl_categories": [
             "@read",
             "@cuckoo"
         ],
-        "arity": -1,
+        "arity": 2,
         "key_specs": [
             {
                 "begin_search": {
@@ -3992,9 +4081,15 @@
                         "limit": 0
                     }
                 },
-                "RW": true,
-                "access": true,
-                "update": true
+                "RW": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
             }
         ],
         "command_flags": [
@@ -10275,6 +10370,10 @@
             [
                 "8.4.3",
                 "Added `count`, `POLICY` and `BATCH_SIZE` arguments to the `VSIM` `FILTER` clause"
+            ],
+            [
+                "8.8.7",
+                "Added `RERANK` to the `VSIM` `KNN` and `RANGE` clauses for disk-based HNSW indexes"
             ]
         ],
         "acl_categories": [
@@ -10373,6 +10472,15 @@
                                         "optional": true
                                     },
                                     {
+                                        "name": "rerank",
+                                        "type": "string",
+                                        "display_text": "rerank",
+                                        "token": "RERANK",
+                                        "summary": "Whether to rerank disk vector candidates (TRUE or FALSE)",
+                                        "since": "8.8.7",
+                                        "optional": true
+                                    },
+                                    {
                                         "name": "shard_k_ratio",
                                         "type": "double",
                                         "display_text": "shard_k_ratio",
@@ -10415,6 +10523,15 @@
                                         "type": "double",
                                         "display_text": "epsilon",
                                         "token": "EPSILON",
+                                        "optional": true
+                                    },
+                                    {
+                                        "name": "rerank",
+                                        "type": "string",
+                                        "display_text": "rerank",
+                                        "token": "RERANK",
+                                        "summary": "Whether to rerank disk vector candidates (TRUE or FALSE)",
+                                        "since": "8.8.7",
                                         "optional": true
                                     },
                                     {
@@ -18415,7 +18532,7 @@
                 "find_keys": {
                     "type": "range",
                     "spec": {
-                        "lastkey": 0,
+                        "lastkey": -2,
                         "keystep": 1,
                         "limit": 0
                     }
@@ -23212,6 +23329,125 @@
             "fast"
         ]
     },
+    "SADDEX": {
+        "summary": "Add one or more members to a given set key, and optionally set their expiration.",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of members being added.",
+        "acl_categories": [
+            "@write",
+            "@set",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "mnx",
+                        "type": "pure-token",
+                        "display_text": "mnx",
+                        "token": "MNX"
+                    },
+                    {
+                        "name": "mxx",
+                        "type": "pure-token",
+                        "display_text": "mxx",
+                        "token": "MXX"
+                    }
+                ]
+            },
+            {
+                "name": "expiration",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "seconds",
+                        "type": "integer",
+                        "display_text": "seconds",
+                        "token": "EX"
+                    },
+                    {
+                        "name": "milliseconds",
+                        "type": "integer",
+                        "display_text": "milliseconds",
+                        "token": "PX"
+                    },
+                    {
+                        "name": "unix-time-seconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-seconds",
+                        "token": "EXAT"
+                    },
+                    {
+                        "name": "unix-time-milliseconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-milliseconds",
+                        "token": "PXAT"
+                    },
+                    {
+                        "name": "keepttl",
+                        "type": "pure-token",
+                        "display_text": "keepttl",
+                        "token": "KEEPTTL"
+                    }
+                ]
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
     "SAVE": {
         "summary": "Synchronously saves the database(s) to disk.",
         "since": "1.0.0",
@@ -23716,23 +23952,6 @@
         ],
         "module": "search"
     },
-    "SEARCH.CLUSTERSET": {
-        "group": "module",
-        "acl_categories": [
-            "@search"
-        ],
-        "arity": -1,
-        "command_flags": [
-            "readonly",
-            "module",
-            "noscript",
-            "loading"
-        ],
-        "hints": [
-            "dont_cache"
-        ],
-        "module": "search"
-    },
     "SELECT": {
         "summary": "Changes the selected database.",
         "since": "1.0.0",
@@ -24149,6 +24368,264 @@
         "command_flags": [
             "write",
             "denyoom"
+        ]
+    },
+    "SEXPIRE": {
+        "summary": "Set expiry for set member using relative time to expire (seconds)",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@write",
+            "@set",
+            "@fast"
+        ],
+        "arity": -6,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "seconds",
+                "type": "integer",
+                "display_text": "seconds"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "SEXPIREAT": {
+        "summary": "Set expiry for set member using an absolute Unix timestamp (seconds)",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@write",
+            "@set",
+            "@fast"
+        ],
+        "arity": -6,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "unix-time-seconds",
+                "type": "unix-time",
+                "display_text": "unix-time-seconds"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "SEXPIRETIME": {
+        "summary": "Returns the expiration time of a set member as a Unix timestamp, in seconds.",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@read",
+            "@set",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
         ]
     },
     "SHUTDOWN": {
@@ -25050,6 +25527,326 @@
             "movablekeys"
         ]
     },
+    "SPERSIST": {
+        "summary": "Removes the expiration time for each specified member",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@write",
+            "@set",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "SPEXPIRE": {
+        "summary": "Set expiry for set member using relative time to expire (milliseconds)",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@write",
+            "@set",
+            "@fast"
+        ],
+        "arity": -6,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "milliseconds",
+                "type": "integer",
+                "display_text": "milliseconds"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "SPEXPIREAT": {
+        "summary": "Set expiry for set member using an absolute Unix timestamp (milliseconds)",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@write",
+            "@set",
+            "@fast"
+        ],
+        "arity": -6,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "unix-time-milliseconds",
+                "type": "unix-time",
+                "display_text": "unix-time-milliseconds"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "SPEXPIRETIME": {
+        "summary": "Returns the expiration time of a set member as a Unix timestamp, in msec.",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@read",
+            "@set",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
+        ]
+    },
     "SPOP": {
         "summary": "Returns one or more random members from a set after removing them. Deletes the set if the last member was popped.",
         "since": "1.0.0",
@@ -25105,6 +25902,71 @@
         ],
         "command_flags": [
             "write",
+            "fast"
+        ],
+        "hints": [
+            "nondeterministic_output"
+        ]
+    },
+    "SPTTL": {
+        "summary": "Returns the TTL in milliseconds of a set member.",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@read",
+            "@set",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "readonly",
             "fast"
         ],
         "hints": [
@@ -25425,6 +26287,71 @@
         "command_flags": [
             "readonly",
             "fast"
+        ]
+    },
+    "STTL": {
+        "summary": "Returns the TTL in seconds of a set member.",
+        "since": "8.12.0",
+        "group": "set",
+        "complexity": "O(N) where N is the number of specified members",
+        "acl_categories": [
+            "@read",
+            "@set",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "members",
+                "type": "block",
+                "token": "MEMBERS",
+                "arguments": [
+                    {
+                        "name": "nummembers",
+                        "type": "integer",
+                        "display_text": "nummembers"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "display_text": "member",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
+        ],
+        "hints": [
+            "nondeterministic_output"
         ]
     },
     "SUBSCRIBE": {
@@ -36364,6 +37291,15 @@
         ],
         "module": "search"
     },
+    "_FT.DEBUG DISK_LIVE_SNAPSHOTS": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
     "_FT.DEBUG DISK_PAUSE_BG_WORK": {
         "group": "module",
         "arity": -2,
@@ -36374,6 +37310,15 @@
         "module": "search"
     },
     "_FT.DEBUG DISK_RESUME_BG_WORK": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
+    "_FT.DEBUG DISK_STATS": {
         "group": "module",
         "arity": -2,
         "command_flags": [
@@ -36851,6 +37796,15 @@
         "module": "search"
     },
     "_FT.DEBUG VECSIM_MOCK_TIMEOUT": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
+    "_FT.DEBUG VECSIM_RELABEL_SUPPORTED": {
         "group": "module",
         "arity": -2,
         "command_flags": [

@@ -1,4 +1,4 @@
-<svg class="railroad-diagram" height="62" viewBox="0 0 520.5 62" width="520.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg class="railroad-diagram" height="71" viewBox="0 0 783.5 71" width="783.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
 <style type="text/css"><![CDATA[
 svg.railroad-diagram { background-color: transparent; }
@@ -43,9 +43,14 @@ circle { fill: #DC382D !important; stroke: #DC382D !important; }
 
 /* ]]> */
 </style><g>
-<path d="M20 21v20m10 -20v20m-10 -10h20"></path></g><path d="M40 31h10"></path><g>
-<path d="M50 31h0.0"></path><path d="M470.5 31h0.0"></path><g class="terminal ">
-<path d="M50.0 31h0.0"></path><path d="M189.0 31h0.0"></path><rect height="22" rx="10" ry="10" width="139.0" x="50.0" y="20"></rect><text x="119.5" y="35">CMS.INITBYPROB</text></g><path d="M189.0 31h10"></path><path d="M199.0 31h10"></path><g class="non-terminal ">
-<path d="M209.0 31h0.0"></path><path d="M254.5 31h0.0"></path><rect height="22" width="45.5" x="209.0" y="20"></rect><text x="231.75" y="35">key</text></g><path d="M254.5 31h10"></path><path d="M264.5 31h10"></path><g class="non-terminal ">
-<path d="M274.5 31h0.0"></path><path d="M337.0 31h0.0"></path><rect height="22" width="62.5" x="274.5" y="20"></rect><text x="305.75" y="35">error</text></g><path d="M337.0 31h10"></path><path d="M347.0 31h10"></path><g class="non-terminal ">
-<path d="M357.0 31h0.0"></path><path d="M470.5 31h0.0"></path><rect height="22" width="113.5" x="357.0" y="20"></rect><text x="413.75" y="35">probability</text></g></g><path d="M470.5 31h10"></path><path d="M 480.5 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>
+<path d="M20 30v20m10 -20v20m-10 -10h20"></path></g><path d="M40 40h10"></path><g>
+<path d="M50 40h0.0"></path><path d="M733.5 40h0.0"></path><g class="terminal ">
+<path d="M50.0 40h0.0"></path><path d="M189.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="139.0" x="50.0" y="29"></rect><text x="119.5" y="44">CMS.INITBYPROB</text></g><path d="M189.0 40h10"></path><path d="M199.0 40h10"></path><g class="non-terminal ">
+<path d="M209.0 40h0.0"></path><path d="M254.5 40h0.0"></path><rect height="22" width="45.5" x="209.0" y="29"></rect><text x="231.75" y="44">key</text></g><path d="M254.5 40h10"></path><path d="M264.5 40h10"></path><g class="non-terminal ">
+<path d="M274.5 40h0.0"></path><path d="M337.0 40h0.0"></path><rect height="22" width="62.5" x="274.5" y="29"></rect><text x="305.75" y="44">error</text></g><path d="M337.0 40h10"></path><path d="M347.0 40h10"></path><g class="non-terminal ">
+<path d="M357.0 40h0.0"></path><path d="M470.5 40h0.0"></path><rect height="22" width="113.5" x="357.0" y="29"></rect><text x="413.75" y="44">probability</text></g><path d="M470.5 40h10"></path><g>
+<path d="M480.5 40h0.0"></path><path d="M733.5 40h0.0"></path><path d="M480.5 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M500.5 20h213.0"></path></g><path d="M713.5 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M480.5 40h20"></path><g>
+<path d="M500.5 40h0.0"></path><path d="M713.5 40h0.0"></path><g class="terminal ">
+<path d="M500.5 40h0.0"></path><path d="M597.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="96.5" x="500.5" y="29"></rect><text x="548.75" y="44">CELL&#95;SIZE</text></g><path d="M597.0 40h10"></path><path d="M607.0 40h10"></path><g class="non-terminal ">
+<path d="M617.0 40h0.0"></path><path d="M713.5 40h0.0"></path><rect height="22" width="96.5" x="617.0" y="29"></rect><text x="665.25" y="44">cell&#95;size</text></g></g><path d="M713.5 40h20"></path></g></g><path d="M733.5 40h10"></path><path d="M 743.5 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

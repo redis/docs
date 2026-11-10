@@ -190,6 +190,8 @@ Other useful pieces of information returned by `INFO` include:
     is the amount by which `maxmemory` has been exceeded.
 -   `current_eviction_exceeded_time`: (`stats` section) The time since
     the cache last started to exceed `maxmemory`.
+-   `blessed_keys`: (`stats` section) The number of keys currently
+    [protected from eviction](#bless).
 -   `commandstats` section: Among other things, this reports the number of
     times each command issued to the server has been rejected. If you are
     using `noeviction` or one of the `volatile_xxx` policies, you can use
@@ -320,3 +322,37 @@ To configure LRM eviction, the following policies are available:
 * `allkeys-lrm` Evict any key using LRM.
 
 Like LRU, LRM uses an approximation algorithm that samples a small number of keys at random and evicts the ones with the longest time since last modification. The same `maxmemory-samples` configuration directive that affects LRU performance also applies to LRM.
+
+## Protecting keys from eviction {#bless}
+
+Starting with Redis 8.12, you can protect individual keys from eviction with the
+[`BLESS SET`]({{< relref "/commands/bless-set" >}}) and
+[`BLESS CLEAR`]({{< relref "/commands/bless-clear" >}}) commands, regardless of the
+configured `maxmemory-policy`. Use [`BLESS GET`]({{< relref "/commands/bless-get" >}})
+to check a key's protection status, and [`BLESS SCAN`]({{< relref "/commands/bless-scan" >}})
+to iterate the protected keys in the current database.
+
+```
+> SET session:42 "some value"
+OK
+> BLESS SET session:42 NO-EVICT
+(integer) 1
+```
+
+A protected key is never chosen as an eviction candidate, whichever eviction policy
+is active (`allkeys-lru`, `allkeys-lfu`, `allkeys-random`, or any `volatile-xxx`
+variant). This means it's possible to protect enough keys that Redis can't free
+enough memory to satisfy `maxmemory` through eviction alone. When that happens, Redis
+tolerates some overshoot: writes keep succeeding until `used_memory` would exceed
+1.25 times `maxmemory`, and only then start failing with the usual out-of-memory
+error. This overshoot tolerance applies uniformly across every `maxmemory-policy`
+value.
+
+The [`INFO`]({{< relref "/commands/info" >}}) command reports the total number of
+protected keys as `blessed_keys` in the `stats` section, and
+[`MEMORY STATS`]({{< relref "/commands/memory-stats" >}}) reports the per-database
+dictionary overhead of tracking them as `overhead.hashtable.blessed`.
+
+See [`BLESS SET`]({{< relref "/commands/bless-set" >}}) for how protection persists
+across restarts and interacts with [`DUMP`]({{< relref "/commands/dump" >}}) and
+[`RESTORE`]({{< relref "/commands/restore" >}}).

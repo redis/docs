@@ -165,6 +165,8 @@ See
 [Install Redis Software](/content/operate/rs/installing-upgrading/install/_index.md)
 for full installation instructions.
 
+To change how JSON write commands handle missing paths, see [Configuration parameters](/content/develop/data-types/json/configuration.md).
+
 ## Limitation
 
 A JSON value passed to a command can have a depth of up to 128. If you pass to a command a JSON value that contains an object or an array with a nesting level of more than 128, the command returns an error.

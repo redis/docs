@@ -51,6 +51,8 @@ is the key to modify.
 <details open><summary><code>path</code></summary>
 
 is the JSONPath to match.
+
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled and `path` doesn't exist, `JSON.ARRAPPEND` creates the missing objects, starts the new location as an empty array, and appends to it. The key must already exist. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
 </details>
 
 <details open><summary><code>value</code></summary> 

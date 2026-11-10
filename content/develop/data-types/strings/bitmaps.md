@@ -21,12 +21,22 @@ weight: 20
 
 {{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}
 
-Bitmaps are not an actual data type, but a set of bit-oriented operations
-defined on the String type which is treated like a bit vector.
-Since strings are binary safe blobs and their maximum length is 512 MB,
-they are suitable to set up to 2^32 different bits.
+Starting with Redis 8.12, Redis can store bitmaps in two
+representations:
 
-You can perform bitwise operations on one or more strings.
+* By default, a bitmap is a set of bit-oriented operations defined on a
+  string, which is treated like a bit vector.
+* When enabled, Redis can instead store a bitmap as a distinct, native
+  `bitmap` type with the `bitmap-roaring` compressed encoding.
+
+Both representations support the existing bit-oriented commands. Native
+bitmaps also support retrieving set-bit offsets as integer arrays. With the default
+512 MB `proto-max-bulk-len`, they can address up to 2^32 different bits.
+Native bitmaps are not strings, so generic string commands don't operate on
+them. See [Roaring-compressed bitmaps](#roaring-compressed-bitmaps) before
+enabling the native representation.
+
+You can perform bitwise operations on one or more bitmaps.
 Some examples of bitmap use cases include:
 
 * Efficient set representations for cases where the members of a set correspond to the integers 0-N.
@@ -265,6 +275,188 @@ Set a bit in the destination key to 1 if it is set in exactly one of the source 
 # Hex value: 0xa5 = 0b10100101
 {{< /clients-example >}}
 
+## Roaring-compressed bitmaps
+
+A string-backed bitmap allocates bytes through the highest addressed bit. This
+is efficient for dense bitmaps, but a small number of set bits spread across a
+large range can leave most of the string filled with zeros.
+
+A native Roaring bitmap stores set-bit positions in compressed containers while
+preserving the same logical byte length and bitmap command behavior. This can
+reduce memory use for sparse bitmaps, such as membership or event indexes over
+a large integer ID space. Long runs of set bits can also compress well. Small
+bitmaps and irregular dense bitmaps can use as much or more memory than strings
+because compressed containers have their own metadata. Compare
+[`MEMORY USAGE`](/content/commands/memory-usage.md) and command latency
+with representative data before enabling Roaring bitmaps for a workload.
+
+### Enable Roaring bitmap creation
+
+The `bitmap-default-roaring` configuration parameter is `no` by default. Set it
+to `yes` in your Redis configuration file, or enable it at runtime with
+[`CONFIG SET`](/content/commands/config-set.md):
+
+{{< clients-example set="bitmap_tutorial" step="roaring" description="Compressed storage: Enable native Roaring creation for sparse bitmaps when you don't need to access their raw bytes with string commands" difficulty="intermediate" buildsUpon="ping" runnable="false" try_it="false" >}}
+> CONFIG SET bitmap-default-roaring yes
+OK
+> SETBIT events:2026-07 1000000 1
+(integer) 0
+> TYPE events:2026-07
+bitmap
+> OBJECT ENCODING events:2026-07
+"bitmap-roaring"
+> BITCOUNT events:2026-07
+(integer) 1
+> GET events:2026-07
+(error) WRONGTYPE Operation against a key holding the wrong kind of value
+{{< /clients-example >}}
+
+Changing the configuration does not immediately convert existing keys:
+
+* With `bitmap-default-roaring no`, [`SETBIT`](/content/commands/setbit.md)
+  and write forms of [`BITFIELD`](/content/commands/bitfield.md) create
+  string-backed bitmaps. Existing native bitmaps remain native and continue to
+  accept bitmap commands.
+* With `bitmap-default-roaring yes`, those commands create missing keys as
+  native bitmaps. A write to an existing string converts the complete string
+  to a native bitmap before applying the write. The conversion preserves its
+  bits, logical length, expiration, and key metadata.
+* Read-only bitmap commands don't change a string's stored representation.
+  [`SET`](/content/commands/set.md) also continues to create a string, regardless
+  of this setting.
+* [`BITOP`](/content/commands/bitop.md) stores a non-empty result as a
+  native destination when the setting is `yes`. When the setting is `no`, its
+  destination is native if at least one source is native; an operation with
+  only string sources produces a string destination.
+
+There is no command that converts a native bitmap back to a string while
+preserving its contents. `SET` can replace a native bitmap with a new string
+value, as it can replace any other Redis type.
+
+### Command and type compatibility
+
+[`SETBIT`](/content/commands/setbit.md),
+[`GETBIT`](/content/commands/getbit.md),
+[`BITCOUNT`](/content/commands/bitcount.md),
+[`BITPOS`](/content/commands/bitpos.md),
+[`BITOP`](/content/commands/bitop.md),
+[`BITFIELD`](/content/commands/bitfield.md), and
+[`BITFIELD_RO`](/content/commands/bitfield_ro.md) work with both
+representations and keep their existing reply and range semantics. Setting a
+zero bit beyond the current logical end extends either representation, and
+bits between the old and new ends read as zero. The read-only commands in this
+list accept strings and native bitmaps regardless of `bitmap-default-roaring`.
+
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) also reads both
+representations with either setting. It reads strings directly without conversion
+and leaves their bytes, type, and expiration unchanged.
+
+The representations are intentionally visible to clients:
+
+* [`TYPE`](/content/commands/type.md) returns `string` for a string-backed
+  bitmap and `bitmap` for a native one.
+* [`OBJECT ENCODING`](/content/commands/object-encoding.md) returns
+  `bitmap-roaring` for a native bitmap.
+* Generic string commands such as [`GET`](/content/commands/get.md),
+  [`STRLEN`](/content/commands/strlen.md),
+  [`GETRANGE`](/content/commands/getrange.md), and
+  [`APPEND`](/content/commands/append.md) return a wrong-type error for a
+  native bitmap. Applications that read or modify bitmap bytes with string
+  commands should keep using the default string representation.
+
+Both representations limit accepted bit offsets according to
+`proto-max-bulk-len`. An existing bitmap can have a longer logical length if it
+was created or loaded while that limit was higher. [`BITOP`](/content/commands/bitop.md) operates on the complete logical length of such a
+source. In particular, `BITOP NOT` can allocate a dense result of that length,
+so account for its memory cost before lowering the limit.
+
+### Retrieve matching bit offsets
+
+[`BITRANGEINTARRAY`](/content/commands/bitrangeintarray.md) returns set-bit offsets
+in ascending order, or clear-bit offsets with `ZEROS`:
+`BITRANGEINTARRAY key start end [BYTE|BIT] [LIMIT count] [ZEROS]`.
+The key, start, and end are required. Ranges follow `BITCOUNT`: byte offsets by
+default, bit offsets with `BIT`, and negative indexes count from the end.
+Returned offsets are always bit offsets.
+
+```redis
+redis> CONFIG SET bitmap-default-roaring yes
+OK
+redis> SETBIT members 1 1
+(integer) 0
+redis> SETBIT members 7 1
+(integer) 0
+redis> SETBIT members 9 1
+(integer) 0
+redis> SETBIT members 30 1
+(integer) 0
+redis> BITRANGEINTARRAY members 0 -1
+1) (integer) 1
+2) (integer) 7
+3) (integer) 9
+4) (integer) 30
+redis> BITRANGEINTARRAY members 28 31 BIT ZEROS
+1) (integer) 28
+2) (integer) 29
+3) (integer) 31
+redis> BITRANGEINTARRAY members 0 -1 BIT LIMIT 2
+1) (integer) 1
+2) (integer) 7
+redis> BITRANGEINTARRAY members 8 -1 BIT LIMIT 2
+1) (integer) 9
+2) (integer) 30
+redis> BITRANGEINTARRAY members 0 -1 BYTE LIMIT 1
+1) (integer) 1
+2) (integer) 7
+redis> BITRANGEINTARRAY members 1 -1 BYTE LIMIT 1
+1) (integer) 9
+```
+
+Both set-bit and clear-bit enumeration stay within the value's logical length.
+Missing keys, empty values, and empty ranges return empty arrays.
+Strings and native bitmaps work with either
+`bitmap-default-roaring` setting; other types return `WRONGTYPE`.
+
+Keep the same end, unit, and `ZEROS` setting across pages.
+For pagination, `BIT LIMIT count` returns at most `count` offsets. Resume at
+the last returned offset + 1. `BYTE LIMIT count` finishes the byte containing
+the `count`th match, so it can return up to seven extra offsets. Resume at
+floor(last offset / 8) + 1. `LIMIT 0` returns an empty array; negative counts
+are errors. Stop when a page contains fewer than `count` results. A full page
+can be followed by a final empty page.
+
+Separate calls do not share a snapshot, so writes can change remaining matches.
+Strings are scanned in place over the requested range, without conversion.
+`LIMIT` stops the scan when the page is complete. Response size grows with the
+number of offsets; client output-buffer limits still apply.
+
+See the [command reference](/content/commands/bitrangeintarray.md) for range
+and pagination details, and [Integer-array command benchmarks](/content/develop/data-types/strings/bitmap-intarray-benchmarks.md)
+for benchmark methodology and historical comparisons against redis-roaring.
+
+### Persistence and replication
+
+RDB snapshots, [`DUMP`](/content/commands/dump.md) and
+[`RESTORE`](/content/commands/restore.md), AOF rewrites, and replication
+preserve the native bitmap type. When a write creates or converts a native
+bitmap because `bitmap-default-roaring` is `yes`, Redis propagates the
+representation transition explicitly so replicas produce the same type even if
+their local setting differs.
+
+For `SETBIT` and writing `BITFIELD` operations, Redis records the representation
+transition as [`BITCONVERT`](/content/commands/bitconvert.md) before the bitmap
+command. For `BITOP`, Redis uses [`BITROAROP`](/content/commands/bitroarop.md) to
+preserve a native result selected by `bitmap-default-roaring`.
+These commands are reserved for internal replication and AOF loading. Ordinary
+clients cannot invoke them or discover them through `COMMAND` introspection; direct calls
+return `ERR unknown command`. Applications should use the public bitmap
+commands and `bitmap-default-roaring` to create and modify native bitmaps.
+
+> [!WARNING]
+> Before enabling Roaring bitmap creation on a primary, upgrade all replicas and
+> any Redis server that will load its RDB, DUMP payloads, or AOF. Older versions
+> don't understand the native bitmap persistence format.
+
 ## Split bitmaps into multiple keys
 
 Bitmaps are trivial to split into multiple keys, for example for
@@ -277,7 +469,12 @@ the Nth bit to address inside the key with `bit-number MOD M`.
 ## Performance
 
 [`SETBIT`](/content/commands/setbit.md) and [`GETBIT`](/content/commands/getbit.md) are O(1).
-[`BITOP`](/content/commands/bitop.md) is O(n), where _n_ is the length of the longest string in the comparison.
+[`BITOP`](/content/commands/bitop.md) is O(n), where _n_ is the logical
+length of the longest source bitmap.
+For Roaring bitmaps, actual CPU and memory costs also depend on the distribution
+of set bits and the resulting compressed containers. In particular, `BITOP NOT`
+can turn a sparse bitmap into a dense result. Benchmark representative data and
+operations when choosing a representation.
 
 ## Learn more
 

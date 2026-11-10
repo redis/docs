@@ -1841,6 +1841,62 @@ Return:
   argument of [`RedisModule_Call`](#RedisModule_Call) so that the `RedisModuleCallReply` will return in the same
   protocol (RESP2 or RESP3) as set in the current client's context.
 
+<span id="RedisModule_ResetReplyBuffer"></span>
+
+### `RedisModule_ResetReplyBuffer`
+
+    int RedisModule_ResetReplyBuffer(RedisModuleCtx *buffer);
+
+**Available since:** unreleased
+
+Discard all replies accumulated in a context created by
+[`RedisModule_CreateReplyBufferContext()`](#RedisModule_CreateReplyBufferContext), leaving it empty and reusable.
+The reply protocol, module association, and other context state are
+preserved. Incomplete postponed collections and deferred errors are
+discarded without warnings or error-stat accounting.
+
+The caller must have exclusive access to the buffer. This function does not
+acquire the server lock and may be called from a worker thread.
+Returns `REDISMODULE_ERR` if `buffer` is NULL or is not a reply buffer.
+
+<span id="RedisModule_ReplyWithBufferedReply"></span>
+
+### `RedisModule_ReplyWithBufferedReply`
+
+    int RedisModule_ReplyWithBufferedReply(RedisModuleCtx *ctx,
+                                           RedisModuleCtx *buffer);
+
+**Available since:** unreleased
+
+Append the replies accumulated in a context created by
+[`RedisModule_CreateReplyBufferContext()`](#RedisModule_CreateReplyBufferContext) to the reply target of `ctx`.
+This moves the content, leaving `buffer` empty and available for reuse.
+Large replies are transferred by joining reply block lists, without copying
+their payloads. The destination may have an open postponed collection.
+
+The destination may be a command, blocked-client reply or timeout callback,
+a thread safe context bound to a blocked client, or another reply buffer.
+This function may be called from a worker thread without holding the server
+lock when the destination is another reply buffer or a thread safe context
+bound to a blocked client. Command and blocked-client callback contexts must
+only be used in their normal execution context, with the server lock held.
+The caller must ensure exclusive access to both reply accumulators for the
+duration of the call, including exclusion of concurrent replies, moves,
+resets and freeing. The contexts and blocked-client handle, if any, must
+remain valid throughout the call.
+
+Returns `REDISMODULE_ERR` without modifying either accumulator if:
+- `buffer` is not a reply-buffer context;
+- `buffer` has an open `REDISMODULE_POSTPONED_LEN` collection;
+- the destination has no reply target;
+- source and destination refer to the same accumulator; or
+- source and destination use different RESP versions.
+
+On success returns `REDISMODULE_OK` and consumes the source even if the
+destination drops replies (for example, a closing client). The module still
+owns the empty source context and must free it explicitly.
+Discarded errors are not added to the server's error statistics.
+
 <span id="RedisModule_ReplyWithDouble"></span>
 
 ### `RedisModule_ReplyWithDouble`
@@ -2466,23 +2522,23 @@ COPY, RENAME, MOVE, and can be saved/loaded from RDB files.
 
 The parameters are the following:
 
-* **metaname**: A 9 characters metadata class name that MUST be unique in the Redis
+* **metaname**: A 4 characters metadata class name that MUST be unique in the Redis
   Modules ecosystem. Use the charset A-Z a-z 0-9, plus the two "-_" characters.
-  A good idea is to use, for example `<metaname>-<vendor>`. For example
-  "idx-RediSearch" may mean "Index metadata by RediSearch module". To use both
-  lower case and upper case letters helps in order to prevent collisions.
+  Redis prepends "META-" to it internally to form the 9 characters entity name
+  (for example, "idx1" becomes "META-idx1"). To use both lower case and upper case
+  letters helps in order to prevent collisions.
 
 * **metaver**: Encoding version, which is the version of the serialization
   that a module used in order to persist metadata. As long as the "metaname"
   matches, the RDB loading will be dispatched to the metadata class callbacks
   whatever 'metaver' is used, however the module can understand if
   the encoding it must load is of an older version of the module.
-  For example the module "idx-RediSearch" initially used metaver=0. Later
+  For example the module "idx1" initially used metaver=0. Later
   after an upgrade, it started to serialize metadata in a different format
   and to register the class with metaver=1. However this module may
   still load old data produced by an older version if the `rdb_load`
   callback is able to check the metaver value and act accordingly.
-  The metaver must be a positive value between 0 and 1023.
+  The metaver must be a non-negative value between 0 and 31.
 
 * **confPtr** is a pointer to a `RedisModuleKeyMetaClassConfig` structure
   that should be populated with the configuration and callbacks, like in
@@ -2511,12 +2567,16 @@ The parameters are the following:
 
 * **version**: Module must set it to `REDISMODULE_KEY_META_VERSION`. This field is
   bumped when new fields are added; Redis keeps backward compatibility in
-  [`RedisModule_CreateKeyMetaClass()`](#RedisModule_CreateKeyMetaClass).
+  [`RedisModule_CreateKeyMetaClass()`](#RedisModule_CreateKeyMetaClass). A value of 0, or greater than the version known
+  to Redis, is rejected.
 
-* **flags**: Currently supports `REDISMODULE_META_ALLOW_IGNORE` (value 0).
-  When set, metadata will be silently ignored during RDB load if the module
-  is not available or if `rdb_load` callback is NULL. Otherwise, RDB loading
-  will fail if metadata is encountered but cannot be loaded.
+* **flags**: A bitmask. Each `REDISMODULE_META_`* constant is a bit index, so
+  flags are set as `1 << `REDISMODULE_META_ALLOW_IGNORE``. Only the lowest 3
+  flag bits are serialized into RDB along with the metadata.
+  Currently supports `REDISMODULE_META_ALLOW_IGNORE`: when set, metadata will be
+  silently ignored during RDB load if the module is not available or if
+  `rdb_load` callback is NULL. Otherwise, RDB loading will fail if metadata is
+  encountered but cannot be loaded.
 
 * **reset_value**: The value to which metadata should be reset when it is being
   "removed" from a key. Typically 0, but can be any 8-byte value. This is
@@ -2531,6 +2591,7 @@ The parameters are the following:
     for the new key.
 
 * **rename**: A callback function pointer for RENAME command (optional).
+  - Return 1 to keep metadata, 0 to drop.
   - If NULL, then metadata is kept during rename.
   - The `meta` value may be modified in-place to produce a different value
     for the new key.
@@ -2586,10 +2647,14 @@ The parameters are the following:
     > 0: Ignore/skip metadata (don't attach, but continue loading - not an error)
     > -1: Error - abort RDB load (e.g., invalid data, version incompatibility)
            Module MUST clean up any allocated metadata before returning -1.
+    > Any other value is treated as an error and aborts RDB load as well.
 
 * **rdb_save**: A callback function pointer for RDB saving (optional).
   - If set to NULL, Redis will not save metadata to RDB.
   - Callback should write data using RDB assisting functions: `RedisModule_Save*()`.
+  - `meta` is passed as a pointer to the 8-byte metadata slot.
+  - If the callback writes nothing, the class entry is dropped from the RDB
+    for that key and nothing is persisted for this class.
 
 * **aof_rewrite**: A callback function pointer for AOF rewrite (optional).
   Called during AOF rewrite to emit commands that reconstruct the metadata.
@@ -2597,22 +2662,22 @@ The parameters are the following:
   registered in `RedisModule_OnLoad()` so they are available when loading persisted
   data on server startup.
 
-* **defrag**: A callback function pointer for active defragmentation (optional).
-  If the metadata contains pointers, this callback should defragment them.
+* **defrag**: Reserved for active defragmentation. NOT YET INVOKED by Redis;
+  set to NULL.
 
-* **mem_usage**: A callback function pointer for MEMORY USAGE command (optional).
-  Should return the memory used by the metadata in bytes.
+* **mem_usage**: Reserved for MEMORY USAGE command. NOT YET INVOKED by Redis;
+  set to NULL.
 
-* **free_effort**: A callback function pointer for lazy free (optional).
-  Should return the complexity of freeing the metadata to determine if
-  lazy free should be used.
+* **free_effort**: Reserved for lazy free effort estimation. NOT YET INVOKED
+  by Redis; set to NULL.
 
-Note: the metadata class name "AAAAAAAAA" is reserved and produces an error.
+At most 7 module metadata classes can be registered at the same time.
 
 If [`RedisModule_CreateKeyMetaClass()`](#RedisModule_CreateKeyMetaClass) is called outside of `RedisModule_OnLoad()` function
-and outside of server startup, there is already a metadata class registered
-with the same name, or if the metadata class name or metaver is invalid,
-a negative value is returned.
+and outside of server startup, if `confPtr` is NULL or its `version` is
+invalid, if there is already a metadata class registered with the same name,
+if the metadata class name or metaver is invalid, or if there is no free
+class slot, a negative value is returned.
 Otherwise the new metadata class is registered into Redis, and a reference of
 type `RedisModuleKeyMetaClassId` is returned: the caller of the function should store
 this reference into a global variable to make future use of it in the
@@ -5172,6 +5237,33 @@ NOTE: If you're creating a detached thread safe context (bc is NULL),
 consider using [`RedisModule_GetDetachedThreadSafeContext`](#RedisModule_GetDetachedThreadSafeContext) which will also retain
 the module ID and thus be more useful for logging.
 
+<span id="RedisModule_CreateReplyBufferContext"></span>
+
+### `RedisModule_CreateReplyBufferContext`
+
+    RedisModuleCtx *RedisModule_CreateReplyBufferContext(RedisModuleCtx *ctx);
+
+**Available since:** unreleased
+
+Create an empty, module-owned reply buffer using the reply protocol of `ctx`.
+The input can be a command or blocked-client callback context, a thread safe
+context bound to a blocked client, or another reply buffer. Returns NULL if
+the input has no module or reply target, or the module is still loading.
+No pending replies are copied.
+
+The buffer can outlive the input context and any blocked client. The module
+must explicitly release it with [`RedisModule_FreeThreadSafeContext()`](#RedisModule_FreeThreadSafeContext). A live
+buffer prevents module unloading. Creation and freeing require the server
+lock, including when called from a worker using a regular thread safe context.
+
+`RedisModule_ReplyWith`* and `RedisModule_ReplySet`*Length APIs work on the buffer
+without the server lock. [`RedisModule_ReplyWithBufferedReply()`](#RedisModule_ReplyWithBufferedReply) moves its content to a
+destination and leaves the buffer empty for reuse. The module must exclude
+concurrent access during serialization, movement, handoff, and cleanup.
+
+This is a reply-only context: do not use it for key access, [`RedisModule_Call()`](#RedisModule_Call),
+or acquiring the server lock.
+
 <span id="RedisModule_GetDetachedThreadSafeContext"></span>
 
 ### `RedisModule_GetDetachedThreadSafeContext`
@@ -5194,7 +5286,11 @@ a long term, for purposes such as logging.
 
 **Available since:** 4.0.0
 
-Release a thread safe context.
+Release a thread safe context or an owned reply buffer.
+For reply buffers, the server lock must be held and the caller must exclude
+concurrent access. Unpublished content, including incomplete collections and
+deferred errors, is discarded. Ordinary thread safe contexts retain their
+existing cleanup and locking requirements.
 
 <span id="RedisModule_ThreadSafeContextLock"></span>
 
@@ -5269,6 +5365,14 @@ is interested in. This can be an ORed mask of any of the following flags:
  - `REDISMODULE_NOTIFY_EVICTED`: Eviction events
  - `REDISMODULE_NOTIFY_STREAM`: Stream events
  - `REDISMODULE_NOTIFY_MODULE`: Module types events
+ - `REDISMODULE_NOTIFY_BITMAP`: Bitmap events (class 'b'). SETBIT, BITFIELD
+                              and BITOP writes on native bitmap keys are
+                              reported under this class, while the
+                              same commands on string bitmaps keep using
+                              REDISMODULE_NOTIFY_STRING, so a module that
+                              wants all bitmap writes must subscribe to
+                              both. REDISMODULE_NOTIFY_ALL from an older
+                              redismodule.h does not include this flag.
  - `REDISMODULE_NOTIFY_KEYMISS`: Key-miss events
                                Notice, key-miss event is the only type
                                of event that is fired from within a read command.
@@ -5459,7 +5563,7 @@ if the instance is a readonly replica.
                                                  void *privdata,
                                                  void (*free_privdata)(void*));
 
-**Available since:** unreleased
+**Available since:** 8.10.0
 
 Sibling of [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob) that fires per-key. May only be
 called from within a keyspace-notification handler (the single-key context
@@ -5688,6 +5792,7 @@ The list of flags reported is the following:
 * `REDISMODULE_NODE_PFAIL`:        We see the node as failing
 * `REDISMODULE_NODE_FAIL`:         The cluster agrees the node is failing
 * `REDISMODULE_NODE_NOFAILOVER`:   The slave is configured to never failover
+* `REDISMODULE_NODE_PORT_TLS`:     The returned port is a TLS port (added in Redis 8.12)
 
 <span id="RedisModule_GetClusterNodeSlotRanges"></span>
 
@@ -5696,7 +5801,7 @@ The list of flags reported is the following:
     RedisModuleSlotRangeArray *RedisModule_GetClusterNodeSlotRanges(RedisModuleCtx *ctx,
                                                                     const char *nodeid);
 
-**Available since:** unreleased
+**Available since:** 8.10.0
 
 Returns the slot ranges owned by the cluster node identified by `nodeid`.
 
@@ -7877,7 +7982,7 @@ Here is a list of events you can use as 'eid' and related sub events:
         first becoming ready at startup).
     * `REDISMODULE_CLUSTER_TOPOLOGY_CHANGE_FLAG_NODE`:
         A node joined or left the cluster, or an existing node's address
-        (ip/port) changed.
+        (IP, hostname, or port) changed.
 
     More than one bit may be set. Beyond the change reasons, the module reads
     whatever else it needs about the new topology via the cluster info APIs
@@ -9004,6 +9109,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_CreateDict`](#RedisModule_CreateDict)
 * [`RedisModule_CreateKeyMetaClass`](#RedisModule_CreateKeyMetaClass)
 * [`RedisModule_CreateModuleUser`](#RedisModule_CreateModuleUser)
+* [`RedisModule_CreateReplyBufferContext`](#RedisModule_CreateReplyBufferContext)
 * [`RedisModule_CreateString`](#RedisModule_CreateString)
 * [`RedisModule_CreateStringFromCallReply`](#RedisModule_CreateStringFromCallReply)
 * [`RedisModule_CreateStringFromDouble`](#RedisModule_CreateStringFromDouble)
@@ -9210,6 +9316,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ReplyWithAttribute`](#RedisModule_ReplyWithAttribute)
 * [`RedisModule_ReplyWithBigNumber`](#RedisModule_ReplyWithBigNumber)
 * [`RedisModule_ReplyWithBool`](#RedisModule_ReplyWithBool)
+* [`RedisModule_ReplyWithBufferedReply`](#RedisModule_ReplyWithBufferedReply)
 * [`RedisModule_ReplyWithCString`](#RedisModule_ReplyWithCString)
 * [`RedisModule_ReplyWithCallReply`](#RedisModule_ReplyWithCallReply)
 * [`RedisModule_ReplyWithDouble`](#RedisModule_ReplyWithDouble)
@@ -9229,6 +9336,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ReplyWithVerbatimString`](#RedisModule_ReplyWithVerbatimString)
 * [`RedisModule_ReplyWithVerbatimStringType`](#RedisModule_ReplyWithVerbatimStringType)
 * [`RedisModule_ResetDataset`](#RedisModule_ResetDataset)
+* [`RedisModule_ResetReplyBuffer`](#RedisModule_ResetReplyBuffer)
 * [`RedisModule_RetainString`](#RedisModule_RetainString)
 * [`RedisModule_SaveDataTypeToString`](#RedisModule_SaveDataTypeToString)
 * [`RedisModule_SaveDouble`](#RedisModule_SaveDouble)
