@@ -195,7 +195,7 @@ use the following setting:
 }
 ```
 
-### 5. Keep archived logs long enough {#archive-log-retention}
+### 5. Check that you keep archived logs for a suitable length of time {#archive-log-retention}
 
 After the snapshot, RDI captures changes by reading the online redo logs and the archived logs. Oracle does not know which archived logs RDI still needs, so your backup and cleanup jobs must keep them available. We recommend keeping at least 24 hours of archived logs, so that the collector can recover from a stop, for example during maintenance or a large batch job, without a new snapshot. See [Archive log retention](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md) to configure this for the fast recovery area or for a dedicated destination.
 
