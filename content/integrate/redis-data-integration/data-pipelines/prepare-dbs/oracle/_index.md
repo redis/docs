@@ -36,7 +36,7 @@ You may find it helpful to use them to track your progress as you work through t
 - [ ] [Enable supplemental logging](#supp-logging)
 - [ ] [Check the redo log sizing](#3-check-the-redo-log-sizing)
 - [ ] [Set the Archive log destination](#4-set-the-archive-log-destination)
-- [ ] [Keep archived logs long enough](#archive-log-retention)
+- [ ] [Check that you keep archived logs for a suitable length of time](#archive-log-retention)
 - [ ] [Create a user for the connector](#create-dbz-user)
 ```
 
