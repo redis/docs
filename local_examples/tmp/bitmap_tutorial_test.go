@@ -236,3 +236,96 @@ func ExampleClient_bitop_ops() {
 	// 01011000
 	// 10100101
 }
+
+func ExampleClient_bitrangeintarray() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	rdb.Del(ctx, "members")
+	// REMOVE_END
+
+	// STEP_START bitrangeintarray
+	rdb.ConfigSet(ctx, "bitmap-default-roaring", "yes")
+
+	for _, offset := range []int64{1, 7, 9, 30} {
+		rdb.SetBit(ctx, "members", offset, 1)
+	}
+
+	res1, err := rdb.BitRangeIntArray(ctx, "members", 0, -1).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res1) // >>> [1 7 9 30]
+
+	res2, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 28, 31,
+		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexBit, Zeros: true},
+	).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res2) // >>> [28 29 31]
+
+	res3, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 0, -1,
+		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexBit, Limit: 2},
+	).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res3) // >>> [1 7]
+
+	res4, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 8, -1,
+		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexBit, Limit: 2},
+	).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res4) // >>> [9 30]
+
+	res5, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 0, -1,
+		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexByte, Limit: 1},
+	).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res5) // >>> [1 7]
+
+	res6, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 1, -1,
+		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexByte, Limit: 1},
+	).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res6) // >>> [9]
+	// STEP_END
+
+	// REMOVE_START
+	rdb.Del(ctx, "members")
+	rdb.ConfigSet(ctx, "bitmap-default-roaring", "no")
+	// REMOVE_END
+
+	// Output:
+	// [1 7 9 30]
+	// [28 29 31]
+	// [1 7]
+	// [9 30]
+	// [1 7]
+	// [9]
+}
