@@ -34,18 +34,8 @@ Use requests like these:
 > [MCP endpoint](/content/develop/ai/context-engine/agent-memory/mcp.md). To
 > give your agent the Redis documentation, use
 > [Redis Docs MCP](/content/develop/setup/build-with-an-agent.md#redis-docs-mcp).
-
-## Remote and local Redis Cloud MCP
-
-Redis Cloud has two MCP servers. Both use your Redis Cloud API keys.
-
-| | Remote (this page) | Local |
-|---|---|---|
-| Where it runs | Redis hosts it | On your computer, with Node.js or Docker |
-| Setup | Add a URL and two headers to your client | Clone, build, and run the [local server](/content/integrate/redis-mcp/install.md#redis-cloud-mcp) |
-| Transport | Streamable HTTP | Standard input/output (stdio) |
-| Where your keys live | Your client's connection settings | The server's environment variables |
-| Updates | Redis updates it | You pull and rebuild |
+> To run a server yourself, use the
+> [local Redis Cloud MCP server](/content/integrate/redis-mcp/install.md#redis-cloud-mcp).
 
 ## Before you begin
 
