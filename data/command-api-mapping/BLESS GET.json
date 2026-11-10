@@ -1,0 +1,167 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bless_get(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[bytes | str]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "blessGet(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BlessGet(ctx context.Context, key string) *StringSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "get(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bless_get(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<BlessFlag> blessGet(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "List<BlessFlag>",
+          "description": "List<BlessFlag> array-reply the active blessing flags of key, empty if the key is not blessed."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<BlessFlag>> blessGet(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<BlessFlag>>",
+          "description": "List<BlessFlag> array-reply the active blessing flags of key, empty if the key is not blessed."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<BlessFlag> blessGet(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Flux<BlessFlag>",
+          "description": "the active blessing flags of key; completes empty if the key is not blessed."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<byte[]> blessGet(byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<byte[]>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<BlessFlag> blessGet(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<BlessFlag>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

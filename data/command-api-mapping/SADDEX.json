@@ -1,0 +1,590 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "saddex(name: KeyT, *members: FieldT, ex: ExpiryT | str | None = None, px: ExpiryT | str | None = None, exat: AbsExpiryT | None = None, pxat: AbsExpiryT | None = None, data_persist_option: SetDataPersistOptions | None = None, keepttl: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "FieldT",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "ExpiryT | str | None",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "ExpiryT | str | None",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "AbsExpiryT | None",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "AbsExpiryT | None",
+            "description": ""
+          },
+          {
+            "name": "data_persist_option",
+            "type": "SetDataPersistOptions | None",
+            "description": ""
+          },
+          {
+            "name": "keepttl",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "sAddEx(key: RedisArgument, members: RedisVariadicArgument, options?: SAddExOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "SAddExOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply<0 | 1>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SAddEX(ctx context.Context, key string, members ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "SAddEXWithArgs(ctx context.Context, key string, options *SAddEXOptions, members ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "*SAddEXOptions",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "saddex(string $key, array $members, string $condition = SADDEX::COND_NULL, string $ttlModifier = SADDEX::TTL_NULL, int|bool $ttlModifierValue = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$condition",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$ttlModifier",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$ttlModifierValue",
+            "type": "int|bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "saddex(key, *members, mnx: nil, mxx: nil, ex: nil, px: nil, exat: nil, pxat: nil, keepttl: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "Array<String>",
+            "description": ""
+          },
+          {
+            "name": "mnx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "mxx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "keepttl",
+            "type": "Boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long saddex(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to add, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "1 if at least one member was added, updated or deleted; 0 if nothing changed."
+        }
+      },
+      {
+        "signature": "Long saddex(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to add."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "1 if at least one member was added, updated or deleted; 0 if nothing changed."
+        }
+      },
+      {
+        "signature": "Long saddex(K key, SAddExArgs sAddExArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "sAddExArgs",
+            "type": "SAddExArgs",
+            "description": "the command arguments, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to add, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "1 if at least one member was added, updated or deleted; 0 if the MNX or MXX condition was not met, or nothing changed."
+        }
+      },
+      {
+        "signature": "Long saddex(K key, SAddExArgs sAddExArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "sAddExArgs",
+            "type": "SAddExArgs",
+            "description": "the command arguments, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to add."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "1 if at least one member was added, updated or deleted; 0 if the MNX or MXX condition was not met, or nothing changed."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> saddex(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to add, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "1 if at least one member was added, updated or deleted; 0 if nothing changed."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> saddex(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to add."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "1 if at least one member was added, updated or deleted; 0 if nothing changed."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> saddex(K key, SAddExArgs sAddExArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "sAddExArgs",
+            "type": "SAddExArgs",
+            "description": "the command arguments, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to add, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "1 if at least one member was added, updated or deleted; 0 if the MNX or MXX condition was not met, or nothing changed."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> saddex(K key, SAddExArgs sAddExArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "sAddExArgs",
+            "type": "SAddExArgs",
+            "description": "the command arguments, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to add."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "1 if at least one member was added, updated or deleted; 0 if the MNX or MXX condition was not met, or nothing changed."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> saddex(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to add, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting 1 if at least one member was added, updated or deleted; 0 if nothing changed."
+        }
+      },
+      {
+        "signature": "Mono<Long> saddex(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to add."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting 1 if at least one member was added, updated or deleted; 0 if nothing changed."
+        }
+      },
+      {
+        "signature": "Mono<Long> saddex(K key, SAddExArgs sAddExArgs, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "sAddExArgs",
+            "type": "SAddExArgs",
+            "description": "the command arguments, must not be null."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members to add, must not be null or empty."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting 1 if at least one member was added, updated or deleted; 0 if the MNX or MXX condition was not met, or nothing changed."
+        }
+      },
+      {
+        "signature": "Mono<Long> saddex(K key, SAddExArgs sAddExArgs, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the set, must not be null."
+          },
+          {
+            "name": "sAddExArgs",
+            "type": "SAddExArgs",
+            "description": "the command arguments, must not be null."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member to add."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "a Mono emitting 1 if at least one member was added, updated or deleted; 0 if the MNX or MXX condition was not met, or nothing changed."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long saddex(byte[] key, SAddExParams params, byte[]... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "SAddExParams",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long saddex(byte[] key, SAddExParams params, byte[] member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "SAddExParams",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long saddex(String key, SAddExParams params, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "SAddExParams",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long saddex(String key, SAddExParams params, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "SAddExParams",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
