@@ -217,8 +217,21 @@ sources:
 ```
 
 A collector that is already running ignores these properties after the upgrade, so it mines with
-the default log counts until you redeploy. If you raised the batch size because the collector
-could not keep up with the volume of your redo logs, raise `log.mining.log.count.min` instead.
+the default log counts until you redeploy.
+
+If you set custom values for the removed properties, replace them as follows:
+
+| Removed properties | What to do |
+| :-- | :-- |
+| `log.mining.batch.size.*`, raised so the collector keeps up with the volume of your redo logs | Remove them and raise `log.mining.log.count.min`. |
+| `log.mining.batch.size.*`, raised so mining advances past long-running transactions | Remove them and raise `log.mining.log.count.growth.max`. |
+| `log.mining.sleep.time.*` | Remove them. Debezium 3.7 has no replacement. |
+| `log.mining.scn.gap.detection.*` | Remove them. Debezium 3.7 has no replacement. |
+| `log.mining.continuous.mine`, `log.mining.buffer.infinispan.cache.rollbacks`, and `log.mining.buffer.ehcache.rollbacks.config` | Remove them. Debezium 3.7 has no replacement. |
+
+The new properties count redo logs, not SCNs, so you can't convert an old batch size to a log
+count. Start with the defaults, and raise the values in small steps if the collector falls behind.
+The log count properties don't apply when `log.mining.strategy` is set to `redo_log_catalog`.
 
 `log.mining.strategy: redo_log_catalog` still works in Debezium 3.7, but Debezium has deprecated
 it and plans to remove it. Use the default `online_catalog` instead, or `hybrid` if `lob.enabled`

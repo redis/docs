@@ -255,7 +255,9 @@ advanced:
     database.ssl.mode: verify_ca
 ```
 
-and the following for a MariaDB source:
+MySQL sources take `disabled`, `preferred`, `required`, `verify_ca`, and `verify_identity`.
+
+For a MariaDB source, use the following:
 
 ```yaml
 advanced:
@@ -263,7 +265,6 @@ advanced:
     database.ssl.mode: verify-ca
 ```
 
-MySQL sources take `disabled`, `preferred`, `required`, `verify_ca`, and `verify_identity`.
 MariaDB sources take `disable`, `trust`, `verify-ca`, and `verify-full`.
 
 RDI builds the keystore that presents the client certificate to the source database from the
