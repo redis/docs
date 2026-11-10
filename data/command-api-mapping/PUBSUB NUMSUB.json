@@ -251,6 +251,22 @@
           "description": "Map of channel names to subscriber counts"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:numsub, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "the channel names"
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "each channel name followed by its number of subscribers"
+        }
+      }
     ]
   }
 }

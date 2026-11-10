@@ -211,6 +211,22 @@
           "description": "Map of shard channel names to subscriber counts"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:shardnumsub, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "the shard channel names"
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "each shard channel name followed by its number of subscribers"
+        }
+      }
     ]
   }
 }

@@ -219,6 +219,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "slaveof(host, port)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": "the host of the master, or NO to promote the server to master"
+          },
+          {
+            "name": "port",
+            "type": "Integer",
+            "description": "the port of the master, or ONE when host is NO"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
     ]
   }
 }

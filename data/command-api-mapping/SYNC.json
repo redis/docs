@@ -36,6 +36,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sync",
+        "params": [],
+        "returns": {
+          "type": "Object",
+          "description": "internal replication command, the server then streams the dataset and later writes on this connection"
+        }
+      }
     ]
   }
 }

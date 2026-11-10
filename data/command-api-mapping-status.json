@@ -261,7 +261,8 @@
     "go-redis": "unsupported",
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
-    "ioredis": "generic_only"
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "CLIENT CACHING": {
     "go-redis": "generic_only",
@@ -400,7 +401,8 @@
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "ioredis": "generic_only"
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "CLUSTER ADDSLOTS": {
     "nredisstack_sync": "generic_only",
@@ -756,7 +758,8 @@
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "ioredis": "generic_only"
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "CONFIG GET": {
     "redis_rs_sync": "generic_only",

@@ -331,6 +331,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "shutdown",
+        "params": [],
+        "returns": {
+          "type": "nil",
+          "description": "the server closes the connection, so there is no reply"
+        }
+      }
     ]
   }
 }
