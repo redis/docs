@@ -379,38 +379,38 @@ The key, start, and end are required. Ranges follow `BITCOUNT`: byte offsets by
 default, bit offsets with `BIT`, and negative indexes count from the end.
 Returned offsets are always bit offsets.
 
-```redis
-redis> CONFIG SET bitmap-default-roaring yes
+{{< clients-example set="bitmap_tutorial" step="bitrangeintarray" lang_filter="Python, Go" description="Offset retrieval: Use BITRANGEINTARRAY to list set-bit or clear-bit offsets in a range and to page through them with LIMIT when you need the positions of bits, not just a count" difficulty="intermediate" buildsUpon="ping" runnable="false" try_it="false" >}}
+> CONFIG SET bitmap-default-roaring yes
 OK
-redis> SETBIT members 1 1
+> SETBIT members 1 1
 (integer) 0
-redis> SETBIT members 7 1
+> SETBIT members 7 1
 (integer) 0
-redis> SETBIT members 9 1
+> SETBIT members 9 1
 (integer) 0
-redis> SETBIT members 30 1
+> SETBIT members 30 1
 (integer) 0
-redis> BITRANGEINTARRAY members 0 -1
+> BITRANGEINTARRAY members 0 -1
 1) (integer) 1
 2) (integer) 7
 3) (integer) 9
 4) (integer) 30
-redis> BITRANGEINTARRAY members 28 31 BIT ZEROS
+> BITRANGEINTARRAY members 28 31 BIT ZEROS
 1) (integer) 28
 2) (integer) 29
 3) (integer) 31
-redis> BITRANGEINTARRAY members 0 -1 BIT LIMIT 2
+> BITRANGEINTARRAY members 0 -1 BIT LIMIT 2
 1) (integer) 1
 2) (integer) 7
-redis> BITRANGEINTARRAY members 8 -1 BIT LIMIT 2
+> BITRANGEINTARRAY members 8 -1 BIT LIMIT 2
 1) (integer) 9
 2) (integer) 30
-redis> BITRANGEINTARRAY members 0 -1 BYTE LIMIT 1
+> BITRANGEINTARRAY members 0 -1 BYTE LIMIT 1
 1) (integer) 1
 2) (integer) 7
-redis> BITRANGEINTARRAY members 1 -1 BYTE LIMIT 1
+> BITRANGEINTARRAY members 1 -1 BYTE LIMIT 1
 1) (integer) 9
-```
+{{< /clients-example >}}
 
 Both set-bit and clear-bit enumeration stay within the value's logical length.
 Missing keys, empty values, and empty ranges return empty arrays.
