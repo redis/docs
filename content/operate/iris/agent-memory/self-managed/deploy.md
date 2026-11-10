@@ -713,7 +713,7 @@ The upgrade changes the rendered configuration, so the Data Plane server and wor
 
 To turn enforcement off again, set `memory.memory.ownership.enabled: false` and upgrade the same way. Records keep their owners. Before you turn it on for existing data, follow [Enable or change ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#enable-or-change-ownership-enforcement).
 
-The suite uses one static tenant, `global.iris.tenantId`, for every key and token. Tests that expect a token from another tenant to be refused don't apply, because a suite release has no other tenant.
+The suite uses one static tenant, `global.iris.tenantId`. Every valid agent key and every valid user token from the configured issuer acts in that tenant, so Memory never returns the cross-tenant `403` that [Delegate a user with an agent key](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) describes. See [Tenancy and identity provider limits](/content/operate/iris/self-managed/_index.md#tenancy-and-identity-provider-limits).
 
 ## Next steps
 

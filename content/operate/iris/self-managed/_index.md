@@ -65,7 +65,7 @@ Create these Secrets in the release namespace. Each service guide lists that ser
 | `ids-metadata` | `metadata.yaml` | The Identity Service metadata Redis connection. See [Create the metadata Secret](/content/operate/iris/identity-service/deploy.md#2-create-the-metadata-secret). |
 | `cluster-ca` | `ca.crt` | The certificate authority (CA) bundle every component trusts: the cluster CA from the `kube-root-ca.crt` ConfigMap, plus any private CA your Redis or IdP uses. |
 | `iris-ui-oidc` | `client-secret` | The console's client secret at your IdP. Register the redirect URI `<public-url>/auth/callback`. |
-| `ui-session-redis` | `urls` | The Redis URL for console sessions. |
+| `ui-session-redis` | `urls` | The Redis URL for console sessions. Needed only with console sign-in on (`ui.sso.enabled`). |
 | `iris-tls` | `tls.crt`, `tls.key` | The TLS certificate for the console host. |
 
 ```bash
@@ -372,12 +372,9 @@ You need Docker Desktop, `kind`, `kubectl`, Helm 3.10 or later, and your license
 > The `1.0.0` images are published for `amd64` only. Until `arm64` images are
 > published, Apple silicon runs them under emulation, as described in this section.
 
-On Apple silicon:
+On Apple silicon, create a native `arm64` kind node, which is the default. Docker Desktop's x86 emulation then runs the `amd64` images inside it.
 
-1. In Docker Desktop, turn on x86_64/amd64 emulation (**Use Rosetta for x86_64/amd64 emulation on Apple Silicon**).
-1. Create a native `arm64` kind node, the default. The images then run under emulation.
-
-Don't create an `amd64` kind node. Under emulation the kubelet reports `seccomp is not supported` and the node doesn't start. If you rebuilt a cluster and Docker cached the `kindest/node` image as `amd64`, check and remove it before you create the cluster again:
+Don't create an `amd64` kind node. Under QEMU emulation the kubelet reports `seccomp is not supported` and the node doesn't start. If you rebuilt a cluster and Docker cached the `kindest/node` image as `amd64`, check and remove it before you create the cluster again:
 
 ```bash
 docker image inspect kindest/node:<tag> --format '{{.Architecture}}'
@@ -390,7 +387,7 @@ Five Redis deployments cover every service:
 
 | Redis | Used by | Secrets that point at it |
 | --- | --- | --- |
-| `metadata-db` | The Identity Service, console sessions, Agent Memory, and each service's metadata | `ids-metadata`, `ui-session-redis`, `mem-secrets`, the metadata URLs in `playbook-storage`, `lens-storage`, and `intent-storage`, and `gateway-metadata` |
+| `metadata-db` | The Identity Service, Agent Memory, and each service's metadata. With console sign-in on, also console sessions. | `ids-metadata`, `mem-secrets`, the metadata URLs in `playbook-storage`, `lens-storage`, and `intent-storage`, and `gateway-metadata`. With console sign-in on, also `ui-session-redis`. |
 | `playbook-content` | Agent Playbooks content, which must be separate from its metadata | The content URL in `playbook-storage` |
 | `telemetry-db` | The Lens data plane's streams, content, and index | The data plane URLs in `lens-storage` |
 | `gateway-secrets` | Context Gateway credential storage, which must be separate from its metadata | `gateway-credential-redis` |
@@ -517,7 +514,7 @@ A service value that sets any of these differently fails the render, and the err
 
 To serve a second tenant or issuer, install another release in its own namespace.
 
-Because a release has one tenant, checks that expect a token from another tenant to be refused don't apply to the suite.
+Because a release has one tenant, every valid agent key and every valid token from the configured issuer acts in `global.iris.tenantId`. No request can name another tenant, so the suite never refuses a request as cross-tenant.
 
 ## Not supported in this release
 
