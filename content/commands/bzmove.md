@@ -108,7 +108,7 @@ If `source` and `destination` name the same key, the command returns null
 without moving members or blocking. Inside a
 [`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md)
 transaction or a script, the command does not block. If no member is available,
-it returns null. `COUNT 0` also returns null without blocking.
+it returns null.
 
 A source key of the wrong type causes a `WRONGTYPE` error immediately.
 The destination type is checked when members are available to move. If a
@@ -153,7 +153,8 @@ fractional seconds are allowed. A timeout of `0` blocks indefinitely.
 <details open><summary><code>COUNT count</code></summary>
 
 Move at most `count` available members. The default is `1`. `count` must be a
-non-negative integer. `COUNT 0` returns null immediately without blocking.
+positive integer. Zero and negative counts return
+`ERR count should be greater than 0` before moving members or blocking.
 
 </details>
 
@@ -169,6 +170,8 @@ redis> BZMOVE ready:{example} processing:{example} MIN 1 COUNT 3
    2) "1"
 2) 1) "second"
    2) "2"
+redis> BZMOVE ready:{example} processing:{example} MIN 0 COUNT 0
+(error) ERR count should be greater than 0
 {{% /redis-cli %}}
 
 To wait for a producer, run the following command when `ready:{queue}` does
@@ -192,8 +195,8 @@ One of the following:
   two-element member/score arrays, nested even when only one member is moved.
   Each score is a bulk string. Pairs follow the selected order.
 - [Nil reply](/content/develop/reference/protocol-spec.md#null-arrays): the timeout
-  expired, both keys name the same sorted set, `COUNT 0` is used, or blocking
-  is disallowed and no member is available.
+  expired, both keys name the same sorted set, or blocking is disallowed and
+  no member is available.
 
 -tab-sep-
 
@@ -203,7 +206,7 @@ One of the following:
   two-element member/score arrays, nested even when only one member is moved.
   Each score is a double. Pairs follow the selected order.
 - [Null reply](/content/develop/reference/protocol-spec.md#nulls): the timeout
-  expired, both keys name the same sorted set, `COUNT 0` is used, or blocking
-  is disallowed and no member is available.
+  expired, both keys name the same sorted set, or blocking is disallowed and
+  no member is available.
 
 {{< /multitabs >}}

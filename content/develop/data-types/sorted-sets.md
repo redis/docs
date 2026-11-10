@@ -188,7 +188,7 @@ ZMOVE bookmarks:{user:42} batch:{user:42}:001 BYSCORE -inf (1700000000 COUNT 500
 The `(` makes the cutoff exclusive. Members are selected in ascending score
 order, with lexicographical ordering for ties. All three move commands return
 an array of member/score pairs, nested even for a single member, or null if
-nothing moves. `COUNT 0` is a no-op.
+nothing moves. When specified, `COUNT` must be a positive integer.
 
 Give each batch a separate destination key. Process and persist its members,
 then delete the batch key after success. A later update to a source member

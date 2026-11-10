@@ -157,8 +157,9 @@ For example, `BYSCORE -inf (1700000000` selects scores strictly less than
 
 <details open><summary><code>COUNT count</code></summary>
 
-Move at most `count` selected members. `count` must be a non-negative integer.
-`COUNT 0` moves nothing and returns null. There is no offset argument.
+Move at most `count` selected members. `count` must be a positive integer.
+Zero and negative counts return `ERR count should be greater than 0` before
+any members are moved. There is no offset argument.
 
 </details>
 
@@ -184,6 +185,11 @@ redis> ZRANGE moved:{example} 0 -1 WITHSCORES
 4) "3"
 5) "retained"
 6) "100"
+redis> ZMOVE scores:{example} moved:{example} MIN COUNT 0
+(error) ERR count should be greater than 0
+redis> ZRANGE scores:{example} 0 -1 WITHSCORES
+1) "two"
+2) "2"
 {{% /redis-cli %}}
 
 Claim a bounded batch with scores strictly less than a cutoff:
@@ -230,8 +236,8 @@ One of the following:
   two-element member/score arrays, nested even when only one member is moved.
   Each score is a bulk string. Pairs follow the selected order.
 - [Nil reply](/content/develop/reference/protocol-spec.md#null-arrays): no members
-  were moved because `source` does not exist, no scores match, both keys name
-  the same sorted set, or `COUNT 0` is used.
+  were moved because `source` does not exist, no scores match, or both keys
+  name the same sorted set.
 
 -tab-sep-
 
@@ -241,7 +247,7 @@ One of the following:
   two-element member/score arrays, nested even when only one member is moved.
   Each score is a double. Pairs follow the selected order.
 - [Null reply](/content/develop/reference/protocol-spec.md#nulls): no members
-  were moved because `source` does not exist, no scores match, both keys name
-  the same sorted set, or `COUNT 0` is used.
+  were moved because `source` does not exist, no scores match, or both keys
+  name the same sorted set.
 
 {{< /multitabs >}}
