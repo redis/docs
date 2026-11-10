@@ -255,7 +255,11 @@ Some common configurations are:
   export REDIS_URL=redis://your-azure-redis.redis.cache.windows.net:6379
   ```
 
-## Redis Cloud MCP
+## Redis Cloud MCP (local) {#redis-cloud-mcp}
+
+> [!TIP]
+> Redis also hosts a Redis Cloud MCP server that you don't need to install. See
+> [Redis Cloud remote MCP server](/content/integrate/redis-mcp/remote-cloud-mcp.md).
 
 A separate MCP server is available for
 [Redis Cloud](/content/operate/rc/_index.md). This has features
