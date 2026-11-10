@@ -63,27 +63,16 @@ libraries for [Python](/content/integrate/redisom-for-python/_index.md),
 The table below shows some popular third-party client libraries. Note that Redis does not
 develop or contribute to these libraries directly.
 
-| Language | Client name | Github | Docs |
-| :-- | :-- | :-- | :-- |
-| [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.Redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html |
-| [Dart](https://dart.dev/) | redis_dart_link | https://github.com/toolsetlink/redis_dart_link | https://github.com/toolsetlink/redis_dart_link |
-| [Elixir](https://elixir-lang.org/) | Redix | https://github.com/whatyouhide/redix | https://hexdocs.pm/redix |
-| [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
-| [Python](https://www.python.org/) | coredis | https://github.com/alisaifee/coredis | https://coredis.readthedocs.io |
-| [Scala](https://www.scala-lang.org/) | Sage | https://github.com/ghostdogpr/sage | https://ghostdogpr.github.io/sage/ |
-| Multiple languages | Redis Arrow Database Connectivity (ADBC) driver | [redis/redis-adbc-driver](https://github.com/redis/redis-adbc-driver) | [Install and connect](https://github.com/redis/redis-adbc-driver/blob/main/docs/setup.md) |
-| Multiple languages | Redis Arrow Flight server (Flight SQL) | [redis/redis-apache-arrow-flight](https://github.com/redis/redis-apache-arrow-flight) | [Set up the Flight server](https://github.com/redis/redis-apache-arrow-flight#get-a-server-running) |
-
-Redis ADBC lets you use SQL and Apache Arrow to connect Redis to data processing,
-analytics, orchestration, and machine learning workflows. Examples include pandas,
-Polars, DuckDB, SQLAlchemy, Apache Superset, Apache Airflow, and Dagster. The Redis
-Arrow Flight server exposes the driver over Flight SQL for network access through
-ADBC and Java Database Connectivity (JDBC) clients, including tools such as DBeaver.
-
-See the [data tool integration comparison](https://github.com/redis/redis-adbc-driver/blob/main/docs/data-engineering-adbc-support.md)
-for the full list, connection paths, setup guides, and validation status. Some
-integrations require custom application code or separate adapters; compatibility
-and validation scope vary by tool.
+| Language | Client name | Github | Docs | Comments |
+| :-- | :-- | :-- | :-- | :-- |
+| [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.Redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html | |
+| [Dart](https://dart.dev/) | redis_dart_link | https://github.com/toolsetlink/redis_dart_link | https://github.com/toolsetlink/redis_dart_link | |
+| [Elixir](https://elixir-lang.org/) | Redix | https://github.com/whatyouhide/redix | https://hexdocs.pm/redix | |
+| [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md | |
+| [Python](https://www.python.org/) | coredis | https://github.com/alisaifee/coredis | https://coredis.readthedocs.io | |
+| [Scala](https://www.scala-lang.org/) | Sage | https://github.com/ghostdogpr/sage | https://ghostdogpr.github.io/sage/ | |
+| Multiple languages | Redis Arrow Database Connectivity (ADBC) driver | [redis/redis-adbc-driver](https://github.com/redis/redis-adbc-driver) | [Install and connect](https://github.com/redis/redis-adbc-driver/blob/main/docs/setup.md) | SQL and Apache Arrow access for pandas, Polars, DuckDB, SQLAlchemy, Apache Superset, Apache Airflow, and Dagster. See the [full integration comparison](https://github.com/redis/redis-adbc-driver/blob/main/docs/data-engineering-adbc-support.md) for setup and validation status; some paths require custom code or separate adapters. |
+| Multiple languages | Redis Arrow Flight server (Flight SQL) | [redis/redis-apache-arrow-flight](https://github.com/redis/redis-apache-arrow-flight) | [Set up the Flight server](https://github.com/redis/redis-apache-arrow-flight#get-a-server-running) | Exposes Redis ADBC over Flight SQL for network access through ADBC and Java Database Connectivity (JDBC) clients, including DBeaver. Requires a separately deployed Flight server; see the [client compatibility matrix](https://github.com/redis/redis-apache-arrow-flight/blob/main/docs/client-compatibility.md) for tested clients and limits. |
 
 ## Requirements
 
