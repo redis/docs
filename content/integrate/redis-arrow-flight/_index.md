@@ -8,6 +8,7 @@ categories:
 - rc
 description: Access Redis over the network with Apache Arrow Flight, Flight SQL, and JDBC.
 group: service
+hideListLinks: true
 linkTitle: Redis Arrow Flight server
 summary: The Redis Arrow Flight server exposes Redis to SQL, Arrow, and JDBC clients over a single gRPC endpoint.
 title: Redis Arrow Flight server

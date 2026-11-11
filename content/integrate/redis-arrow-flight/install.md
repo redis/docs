@@ -125,7 +125,7 @@ them all, run the server with `-h`. The most useful options are:
 
 | Flag | Environment variable | Default | Meaning |
 | :-- | :-- | :-- | :-- |
-| `-redis-uri` | `REDIS_URI` | `redis://localhost:6379/0` | The Redis database to serve, as `redis://[user:password@]host:port/db`. |
+| `-redis-uri` | `REDIS_URI` | `redis://localhost:6379/0` | The Redis database to serve. See [connection URLs](/content/develop/clients/connection-urls.md) for the format. |
 | `-listen` | `FLIGHT_LISTEN` | `localhost:8815` (`0.0.0.0:8815` in the container image) | The address and port to listen on. Set an address that other machines can reach only on a trusted network, because the server has no authentication. In a container, leave it unchanged and publish the port on `127.0.0.1` instead. |
 | `-dataset-ttl` | `FLIGHT_DATASET_TTL` | `0` (keep) | How long to keep uploaded datasets before they expire. |
 | `-key-prefix` | `FLIGHT_KEY_PREFIX` | `arrowflight:` | The prefix of the Redis keys that store datasets. |
