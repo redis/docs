@@ -25,7 +25,9 @@ needs the Query Engine (Search) enabled. See the
 > The published server has no client authentication and no TLS. Anyone who can
 > reach its port can read and change the data that its Redis credentials can
 > reach. By default it listens on all network interfaces. Run it on a trusted
-> network, or restrict the address that it listens on, as described in
+> network, or limit where it accepts connections: publish the container port
+> on `127.0.0.1` as shown in [Run with Docker](#run-with-docker), or set the
+> binary's `-listen` option as described in
 > [Configure the server](#configure-the-server).
 
 ## Run with Docker
@@ -34,10 +36,16 @@ needs the Query Engine (Search) enabled. See the
    port 6379, and that you use Docker Desktop:
 
     ```bash
-    docker run --rm --pull=always -p 8815:8815 \
+    docker run --rm --pull=always -p 127.0.0.1:8815:8815 \
       -e REDIS_URI=redis://host.docker.internal:6379/0 \
       ghcr.io/redis/redis-apache-arrow-flight:latest
     ```
+
+   The `127.0.0.1:` prefix publishes the port on your machine only. Without
+   it, Docker publishes the unauthenticated server on every host network
+   interface. Don't use the server's `-listen` option to restrict a container.
+   A `localhost` bind inside the container refuses connections that arrive
+   through the published port.
 
    With Docker Engine on Linux, put Redis and the server on the same Docker
    network, and use the Redis container's name in `REDIS_URI` instead of
@@ -118,7 +126,7 @@ them all, run the server with `-h`. The most useful options are:
 | Flag | Environment variable | Default | Meaning |
 | :-- | :-- | :-- | :-- |
 | `-redis-uri` | `REDIS_URI` | `redis://localhost:6379/0` | The Redis database to serve, as `redis://[user:password@]host:port/db`. |
-| `-listen` | `FLIGHT_LISTEN` | `0.0.0.0:8815` | The address and port to listen on. Use `localhost:8815` to accept only local connections. |
+| `-listen` | `FLIGHT_LISTEN` | `0.0.0.0:8815` | The address and port to listen on. When you run the binary, use `localhost:8815` to accept only local connections. In a container, leave it unchanged and publish the port on `127.0.0.1` instead. |
 | `-dataset-ttl` | `FLIGHT_DATASET_TTL` | `0` (keep) | How long to keep uploaded datasets before they expire. |
 | `-key-prefix` | `FLIGHT_KEY_PREFIX` | `arrowflight:` | The prefix of the Redis keys that store datasets. |
 | `-pool-max-open` | `FLIGHT_POOL_MAX_OPEN` | `32` | The maximum number of driver connections in use at once for each Redis user. |
