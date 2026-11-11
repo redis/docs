@@ -24,11 +24,11 @@ needs the Query Engine (Search) enabled. See the
 > [!WARNING]
 > The published server has no client authentication and no TLS. Anyone who can
 > reach its port can read and change the data that its Redis credentials can
-> reach. By default it listens on all network interfaces. Run it on a trusted
-> network, or limit where it accepts connections: publish the container port
-> on `127.0.0.1` as shown in [Run with Docker](#run-with-docker), or set the
-> binary's `-listen` option as described in
-> [Configure the server](#configure-the-server).
+> reach. The binary listens on `localhost` by default, so only clients on the
+> same machine can connect. The container image listens on all interfaces
+> inside the container, so publish its port on `127.0.0.1` as shown in
+> [Run with Docker](#run-with-docker). Expose the server to other machines only
+> on a trusted network.
 
 ## Run with Docker
 
@@ -89,7 +89,7 @@ needs `curl`, `tar`, and `shasum`:
 )
 ```
 
-The server runs in the foreground and listens on port 8815. For other
+The server runs in the foreground and listens on `localhost:8815`. For other
 platforms, see
 [Run locally from source](https://redis.github.io/redis-apache-arrow-flight/docs/local-development/).
 
@@ -126,7 +126,7 @@ them all, run the server with `-h`. The most useful options are:
 | Flag | Environment variable | Default | Meaning |
 | :-- | :-- | :-- | :-- |
 | `-redis-uri` | `REDIS_URI` | `redis://localhost:6379/0` | The Redis database to serve, as `redis://[user:password@]host:port/db`. |
-| `-listen` | `FLIGHT_LISTEN` | `0.0.0.0:8815` | The address and port to listen on. When you run the binary, use `localhost:8815` to accept only local connections. In a container, leave it unchanged and publish the port on `127.0.0.1` instead. |
+| `-listen` | `FLIGHT_LISTEN` | `localhost:8815` (`0.0.0.0:8815` in the container image) | The address and port to listen on. Set an address that other machines can reach only on a trusted network, because the server has no authentication. In a container, leave it unchanged and publish the port on `127.0.0.1` instead. |
 | `-dataset-ttl` | `FLIGHT_DATASET_TTL` | `0` (keep) | How long to keep uploaded datasets before they expire. |
 | `-key-prefix` | `FLIGHT_KEY_PREFIX` | `arrowflight:` | The prefix of the Redis keys that store datasets. |
 | `-pool-max-open` | `FLIGHT_POOL_MAX_OPEN` | `32` | The maximum number of driver connections in use at once for each Redis user. |
