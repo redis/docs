@@ -126,7 +126,7 @@ The **Sensitive-data exclusions** section shows the [sensitive-data exclusions](
 
 Turning semantic exclusions off keeps the exclusion prompt you saved, so you can turn them back on later without retyping it.
 
-Changing exclusions affects memories extracted after you save. Memories already in long-term memory are not re-evaluated, and there is no way to remove only the memories that match your exclusions. The only way to clear memories stored before you configured exclusions is to [flush the service](#flush-memory-entries), which permanently erases all of the service's stored memory data.
+Changing exclusions affects later extractions and direct writes. Existing memories are not automatically checked again. Content updates apply the current built-in and custom detectors; see [direct-write exclusions](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#direct-write-exclusions). There is no automatic cleanup of existing memories that match a changed policy. To clear all previously stored memory, [flush the service](#flush-memory-entries), which permanently erases all of the service's stored memory data.
 
 > [!WARNING]
 > Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
