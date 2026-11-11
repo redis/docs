@@ -1348,7 +1348,7 @@
             "x-go-type": "json.Number"
           },
           "role_uids": {
-            "description": "The roles granted to tokens that carry the claim value. They must exist and belong to the mapping's account.",
+            "description": "The roles granted to tokens that carry the claim value. They must exist, belong to the mapping's account and be data-plane roles, with management none.",
             "items": {
               "type": "integer",
               "x-go-type": "json.Number"
@@ -1501,7 +1501,7 @@
           },
           "scope": {
             "default": "bound_databases",
-            "description": "Which databases accept the provider's tokens. bound_databases - only databases whose oidc_authentication names the provider. all_databases - every database in the provider's account scope that has no binding of its own, like LDAP. Cannot be changed after creation.",
+            "description": "Which databases accept the provider's tokens. bound_databases - only databases whose oidc_authentication names the provider. all_databases - every database in the provider's account scope that has no binding of its own and has tls_mode enabled, like LDAP. Cannot be changed after creation.",
             "enum": [
               "bound_databases",
               "all_databases"
@@ -3262,7 +3262,7 @@
         "x-stability-level": "stable"
       },
       "post": {
-        "description": "Create an OIDC provider. Names and issuers are unique within an account scope.",
+        "description": "Create an OIDC provider. Names and issuers are unique within an account scope. An enabled all_databases provider needs tls_mode enabled on the unbound databases in its account scope.",
         "operationId": "cluster_create_oidc_provider",
         "requestBody": {
           "content": {
@@ -3290,6 +3290,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
           },
           "409": {
             "$ref": "#/components/responses/Conflict"
@@ -3397,7 +3400,7 @@
         "x-stability-level": "stable"
       },
       "patch": {
-        "description": "Partially update an OIDC provider; fields that are not sent keep their values. account_id and scope cannot be changed.",
+        "description": "Partially update an OIDC provider; fields that are not sent keep their values. account_id and scope cannot be changed. Enabling an all_databases provider needs tls_mode enabled on the unbound databases in its account scope.",
         "operationId": "cluster_update_oidc_provider",
         "parameters": [
           {
@@ -3434,6 +3437,9 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
           "409": {
             "$ref": "#/components/responses/Conflict"
           },
@@ -3458,7 +3464,7 @@
     },
     "/v1/cluster/oidc/providers/{uid}/databases": {
       "get": {
-        "description": "For a bound_databases provider, the databases whose oidc_authentication names it. For an all_databases provider, the databases in its account scope without a binding of their own.",
+        "description": "For a bound_databases provider, the databases whose oidc_authentication names it. For an all_databases provider, the databases in its account scope without a binding of their own and with tls_mode enabled.",
         "operationId": "cluster_list_oidc_provider_databases",
         "parameters": [
           {
