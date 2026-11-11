@@ -35,7 +35,7 @@ database already has a table with that name, the first step replaces it.
 
 ## Create a table and insert rows
 
-Create a file named `create_table.py`:
+Create a file named `create_table.py` with the following text:
 
 ```python
 import os
@@ -58,14 +58,15 @@ with dbapi.connect(os.environ["REDIS_URI"]) as conn:
         )
 ```
 
-Run it:
+Run it using the command shown below:
 
 ```bash
 python create_table.py
 ```
 
-The driver creates a Query Engine index for the table and stores each row as a
-Redis hash. Every statement commits on its own.
+The driver creates a [Query Engine index](/content/develop/ai/search-and-query/_index.md)
+for the table and stores each row as a
+Redis [hash](/content/develop/data-types/hashes.md). Every statement commits on its own.
 
 ## Load an Arrow table
 

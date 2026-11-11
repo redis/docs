@@ -8,6 +8,7 @@ categories:
 - rc
 description: Query Redis with SQL and exchange data as Apache Arrow.
 group: library
+hideListLinks: true
 linkTitle: Redis ADBC driver
 summary: The Redis ADBC driver lets data tools query Redis with SQL and move data as Apache Arrow.
 title: Redis ADBC driver
@@ -39,6 +40,11 @@ The driver supports:
 - Bulk loading of Arrow data.
 - Typed Arrow results, with supported filters and aggregations run by the
   Redis [Query Engine](/content/develop/ai/search-and-query/_index.md).
+
+These pages show examples in Python and Go. The driver also works from other
+languages and from tools that load ADBC drivers. The project's
+[integration guides](https://redis.github.io/redis-adbc-driver/docs/integrations/)
+cover them.
 
 Tools that can't load an ADBC driver, such as JDBC applications, can connect
 through the [Redis Arrow Flight server](/content/integrate/redis-arrow-flight/_index.md)
