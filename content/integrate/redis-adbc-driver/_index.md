@@ -40,6 +40,11 @@ The driver supports:
 - Typed Arrow results, with supported filters and aggregations run by the
   Redis [Query Engine](/content/develop/ai/search-and-query/_index.md).
 
+Tools that can't load an ADBC driver, such as JDBC applications, can connect
+through the [Redis Arrow Flight server](/content/integrate/redis-arrow-flight/_index.md)
+instead. The server embeds its own, older copy of the driver, and the two
+don't share a database.
+
 ## How it works
 
 You create SQL tables through the driver. Each table has a Query Engine index,
