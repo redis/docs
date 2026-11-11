@@ -95,17 +95,19 @@ When `source` contains members, it behaves like `ZMOVE` with the same `MIN` or
 `MAX` selector and optional `COUNT`.
 
 When `source` does not exist, the connection waits until at least one member
-becomes available or the timeout expires. It then moves up to `count`
-available members; it does not wait for a full batch. Changes to `destination`
-do not unblock the connection. `BYSCORE` is not supported.
+becomes available or the timeout expires. When members become available, it
+moves up to `count` members without waiting for a full batch. If the timeout
+expires first, it returns null. Changes to `destination` do not unblock the
+connection. `BYSCORE` is not supported.
 
 Moved members retain their source scores. If a member already exists in
 `destination`, that score is overwritten. Other destination members are
 retained. Redis creates `destination` if needed and deletes `source` when its
-last member is moved. Existing expiration times are preserved.
+last member is moved. Existing expiration times are preserved; a newly created
+destination has no expiration.
 
-If `source` and `destination` name the same key, the command returns null
-without moving members or blocking. Inside a
+If both arguments name the same sorted set or the same nonexistent key, the
+command returns null without moving members or blocking. Inside a
 [`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md)
 transaction or a script, the command does not block. If no member is available,
 it returns null.
@@ -182,8 +184,8 @@ BZMOVE ready:{queue} processing:{queue} MIN 0 COUNT 10
 ```
 
 In a second connection, run `ZADD ready:{queue} 1 job:1`. The blocked command
-moves the available member and returns `[["job:1", 1]]`; it does not wait for
-nine more members.
+returns one nested member/score pair for `job:1`; it does not wait for nine
+more members.
 
 ## Return information
 
