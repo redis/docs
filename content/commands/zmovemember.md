@@ -12,13 +12,6 @@ arguments:
   key_spec_index: 1
   name: destination
   type: key
-- display_text: num-members
-  name: num-members
-  type: integer
-- display_text: member
-  multiple: true
-  name: member
-  type: string
 - arguments:
   - display_text: nx
     name: nx
@@ -31,7 +24,18 @@ arguments:
   name: condition
   optional: true
   type: oneof
-arity: -5
+- arguments:
+  - display_text: num-members
+    name: num-members
+    type: integer
+  - display_text: member
+    multiple: true
+    name: member
+    type: string
+  name: members
+  token: MEMBERS
+  type: block
+arity: -6
 categories:
 - docs
 - develop
@@ -84,8 +88,8 @@ since: 8.12.0
 summary: Moves specified members from one sorted set to another, preserving scores.
   Can restrict moves to members absent from or present in the destination. Deletes
   the source sorted set if the last member was moved.
-syntax_fmt: "ZMOVEMEMBER source destination num-members member [member ...] [NX |\n\
-  \  XX]"
+syntax_fmt: "ZMOVEMEMBER source destination [NX | XX] MEMBERS num-members member\n\
+  \  [member ...]"
 title: ZMOVEMEMBER
 ---
 Atomically moves named members from the sorted set at `source` to the sorted
@@ -129,17 +133,14 @@ The key of the sorted set to move members to.
 
 </details>
 
-<details open><summary><code>num-members</code></summary>
+<details open><summary><code>MEMBERS num-members member [member ...]</code></summary>
 
-The number of following member arguments. This must be a positive integer.
-The explicit count separates member names from optional arguments, so names
-such as `NX`, `XX`, `COUNT`, and numeric strings remain valid members.
+`MEMBERS` starts the list of names to look up in `source`. `num-members` must
+be a positive integer, followed by exactly that many member names.
 
-</details>
-
-<details open><summary><code>member [member ...]</code></summary>
-
-Exactly `num-members` names to look up in `source`.
+The explicit block separates member names from optional arguments. Names such
+as `NX`, `XX`, `MEMBERS`, and numeric strings remain valid members. This also
+leaves room for additional options outside the counted block.
 
 </details>
 
@@ -150,8 +151,9 @@ Exactly `num-members` names to look up in `source`.
 - `NX` moves only members that do not exist in `destination`.
 - `XX` moves only members that already exist in `destination`.
 
-The options are mutually exclusive. Without either option, every requested
-member found in `source` can move, whether or not it exists in `destination`.
+The options are mutually exclusive. Specify the condition before or after the
+complete `MEMBERS` block. Without either option, every requested member found
+in `source` can move, whether or not it exists in `destination`.
 
 </details>
 
@@ -164,7 +166,7 @@ redis> ZADD source:{example} 1 one 2 two
 (integer) 2
 redis> ZADD destination:{example} 99 two 100 retained
 (integer) 2
-redis> ZMOVEMEMBER source:{example} destination:{example} 3 missing two two
+redis> ZMOVEMEMBER source:{example} destination:{example} MEMBERS 3 missing two two
 1) 1) "two"
    2) "2"
 redis> ZRANGE source:{example} 0 -1 WITHSCORES
@@ -175,7 +177,7 @@ redis> ZRANGE destination:{example} 0 -1 WITHSCORES
 2) "2"
 3) "retained"
 4) "100"
-redis> ZMOVEMEMBER source:{example} destination:{example} 1 missing
+redis> ZMOVEMEMBER source:{example} destination:{example} MEMBERS 1 missing
 (nil)
 {{% /redis-cli %}}
 
@@ -186,12 +188,12 @@ redis> ZADD source:{conditional} 1 existing 2 new
 (integer) 2
 redis> ZADD destination:{conditional} 99 existing
 (integer) 1
-redis> ZMOVEMEMBER source:{conditional} destination:{conditional} 2 existing new NX
+redis> ZMOVEMEMBER source:{conditional} destination:{conditional} NX MEMBERS 2 existing new
 1) 1) "new"
    2) "2"
 redis> ZSCORE source:{conditional} existing
 "1"
-redis> ZMOVEMEMBER source:{conditional} destination:{conditional} 1 existing XX
+redis> ZMOVEMEMBER source:{conditional} destination:{conditional} MEMBERS 1 existing XX
 1) 1) "existing"
    2) "1"
 redis> ZRANGE destination:{conditional} 0 -1 WITHSCORES
@@ -204,16 +206,21 @@ redis> ZRANGE destination:{conditional} 0 -1 WITHSCORES
 Use option names as literal members by including them in the counted list:
 
 {{% redis-cli %}}
-redis> ZADD source:{tokens} 1 NX 2 XX
-(integer) 2
-redis> ZMOVEMEMBER source:{tokens} destination:{tokens} 2 NX XX NX
+redis> ZADD source:{tokens} 1 NX 2 XX 3 MEMBERS 4 1
+(integer) 4
+redis> ZMOVEMEMBER source:{tokens} destination:{tokens} NX MEMBERS 4 NX XX MEMBERS 1
 1) 1) "NX"
    2) "1"
 2) 1) "XX"
    2) "2"
+3) 1) "MEMBERS"
+   2) "3"
+4) 1) "1"
+   2) "4"
 {{% /redis-cli %}}
 
-The first `NX` and `XX` are member names. The final `NX` is the condition.
+The `NX` before `MEMBERS` is the condition. The four names in the counted
+block are literal members, including the second `MEMBERS`.
 
 ## Return information
 

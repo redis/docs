@@ -35744,7 +35744,7 @@
             "@sortedset",
             "@slow"
         ],
-        "arity": -5,
+        "arity": -6,
         "key_specs": [
             {
                 "begin_search": {
@@ -35798,17 +35798,6 @@
                 "display_text": "destination"
             },
             {
-                "name": "num-members",
-                "type": "integer",
-                "display_text": "num-members"
-            },
-            {
-                "name": "member",
-                "type": "string",
-                "multiple": true,
-                "display_text": "member"
-            },
-            {
                 "name": "condition",
                 "type": "oneof",
                 "optional": true,
@@ -35824,6 +35813,24 @@
                         "type": "pure-token",
                         "token": "XX",
                         "display_text": "xx"
+                    }
+                ]
+            },
+            {
+                "name": "members",
+                "token": "MEMBERS",
+                "type": "block",
+                "arguments": [
+                    {
+                        "name": "num-members",
+                        "type": "integer",
+                        "display_text": "num-members"
+                    },
+                    {
+                        "name": "member",
+                        "type": "string",
+                        "multiple": true,
+                        "display_text": "member"
                     }
                 ]
             }

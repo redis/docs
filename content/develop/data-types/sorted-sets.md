@@ -173,9 +173,10 @@ move members between sorted sets while preserving their scores:
 - `BYSCORE score-min score-max` moves a score range. Add `COUNT count` to cap
   the batch size; without it, all matching members are moved.
 
-Use [`ZMOVEMEMBER`](/content/commands/zmovemember.md) to move named members,
-optionally with `NX` or `XX` conditions on their destination membership. Use
-[`BZMOVE`](/content/commands/bzmove.md) to wait for lowest-scoring or
+Use [`ZMOVEMEMBER`](/content/commands/zmovemember.md) with a counted
+`MEMBERS num-members member [member ...]` block to move named members. You can
+place an `NX` or `XX` destination-membership condition before or after that
+block. Use [`BZMOVE`](/content/commands/bzmove.md) to wait for lowest-scoring or
 highest-scoring members to become available.
 
 For example, a consumer can claim up to 500 bookmarks updated before a cutoff
