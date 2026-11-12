@@ -488,7 +488,7 @@ After startup, an identity provider outage makes sign-in requests fail with HTTP
 
 ## Configure Kubernetes Secret access
 
-No token is needed to consume Secrets already referenced by pod environment variables or volumes. The chart doesn't mount a Kubernetes service-account token by default.
+No token is needed to consume Secrets already referenced by pod environment variables or volumes. The chart mounts the server's service-account token by default.
 
 If you register a Kubernetes secret provider for server-side secret resolution, enable the token mount and grant the Feature Form service account `get` access to the required Secret objects. For Secrets in the release namespace:
 
@@ -539,6 +539,15 @@ Before upgrading:
 Keep the server, dashboard, chart, and `ff` versions aligned. Replacing an external license Secret doesn't restart the server; roll out the server deployment after updating the key.
 
 Helm rollback restores chart-managed resources, but it doesn't reverse PostgreSQL migrations or restore externally managed Secrets. Preserve the database backup, previous license key, image version, and Helm revision until the rollback window closes.
+
+### Upgrade from 3.2 to 3.3.0
+
+Feature Form 3.3.0 changes how authentication is configured. Update your values file before you upgrade:
+
+- Enable at least one authentication method: paired OIDC sign-in with `auth.interactive.enabled` and `auth.interactive.clientIDs`, resource-server authentication with `auth.resourceServer.*`, or both. The release doesn't install or start without one. See [Choose authentication methods](/content/operate/featureform/configure-auth.md#choose-authentication-methods).
+- Roles in identity provider token claims no longer grant access. If your admins got `global_admin` from a claim, list them in `auth.bootstrapGlobalAdmins` before you upgrade. See [Provision the first global admin](/content/operate/featureform/configure-auth.md#provision-the-first-global-admin).
+- Upgrade the `ff` CLI and Python client to 3.3.0 along with the server. Paired sign-in requires 3.3.0 clients.
+- After the upgrade, run `ff rbac whoami` from the CLI and check the dashboard. Some identity providers issue a different principal ID for each client, so confirm each one has the role bindings it needs.
 
 ## Troubleshoot installation
 
