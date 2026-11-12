@@ -11,22 +11,13 @@ weight: 40
 hideListLinks: true
 ---
 
-
-> The [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md) is the supported self-managed install and always installs the Identity Service. Installing the `iris-identity-service` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `identityService:` key, and the shared values under `global.iris`.
-
 The Identity Service is the one place where a self-managed Redis Iris installation keeps the credentials of agents and applications. It does three things:
 
 1. It issues agent keys. An agent key is a secret that an agent sends to a service's data plane, for example to Agent Memory.
 1. It keeps the grants of each key. A grant says which resource the caller can use, and how.
 1. It answers the data planes when they ask whether a key is valid, and what it can do.
 
-This guide is for the platform administrator who installs the Identity Service, manages agent keys, and manages operator access. To install, start with the [prerequisites](/content/operate/iris/identity-service/self-managed/prerequisites.md).
-
-> [!NOTE]
-> The Identity Service needs no license of its own. The suite license covers it. Contact your Redis representative or
-> [contact sales](https://redis.io/contact/).
-
-These guides use `redis-iris` chart `1.0`.
+This guide is for the platform administrator who installs the Identity Service, manages agent keys, and manages operator access. The `redis-iris` chart `1.0.0` always installs the Identity Service, as `iris-identity-service`. Its values go under the `identityService:` key, with the shared values under `global.iris`. It needs no license of its own, because the suite license covers it. To install, follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md), then [Deploy](/content/operate/iris/identity-service/self-managed/deploy.md).
 
 ## What you deploy
 
