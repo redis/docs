@@ -21,6 +21,8 @@ weight: 15
 
 Redis arrays are sparse, index-addressable data structures that map integer indexes (in the range 0 to 2⁶⁴−1) to string values. Unlike lists, elements are accessed directly by index rather than by position in a sequence, and you can set any index without allocating the gaps between occupied slots. This makes arrays well-suited for timestamped event logs, ring buffers over streaming measurements, sliding-window analytics, and other workloads that involve sparse or high-index access patterns.
 
+{{< data-type-animation type="array" >}}
+
 ## Basic usage
 
 Use [`ARSET`](/content/commands/arset.md) to write one or more contiguous values starting at a given index, and [`ARGET`](/content/commands/arget.md) to read the value at an index. Accessing an unset index returns a nil reply.

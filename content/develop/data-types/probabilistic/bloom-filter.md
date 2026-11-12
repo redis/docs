@@ -85,6 +85,8 @@ Using the Redis Bloom filter for this type of application provides these benefit
 - Very fast and efficient way to do a common operation 
 - No need to invest in expensive infrastructure  
 
+{{< data-type-animation type="bloom" >}}
+
 ## Example
 
 Consider a bike manufacturer that makes a million different kinds of bikes and you'd like to avoid using a duplicate model name in new models. A Bloom filter can be used to detect duplicates. In the example that follows,  you'll create a filter with space for a million entries and with a 0.1% error rate. Add one model name and check if it exists. Then add multiple model names and check if they exist.

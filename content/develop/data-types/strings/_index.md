@@ -28,6 +28,10 @@ Since Redis keys are strings, when we use the string type as a value too,
 we are mapping a string to another string. The string data type is useful
 for a number of use cases, like caching HTML fragments or pages.
 
+{{< data-type-animation type="string" >}}
+
+## Examples
+
 {{< clients-example set="set_tutorial" step="set_get" description="Foundational: Set and retrieve string values using SET and GET (overwrites existing values)" >}}
 > SET bike:1 Deimos
 OK

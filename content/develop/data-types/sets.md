@@ -30,6 +30,8 @@ You can use Redis sets to efficiently:
 * Represent relations (e.g., the set of all users with a given role).
 * Perform common set operations such as intersection, unions, and differences.
 
+{{< data-type-animation type="set" >}}
+
 ## Examples
 
 * Store the sets of bikes racing in France and the USA. Note that

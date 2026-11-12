@@ -34,6 +34,8 @@ The JSON capability of Redis Open Source provides JavaScript Object Notation (JS
 * Documents stored as binary data in a tree structure, allowing fast access to sub-elements
 * Typed atomic operations for all JSON value types
 
+{{< data-type-animation type="json" >}}
+
 ## Use Redis with JSON
 
 The first JSON command to try is [`JSON.SET`](/content/commands/json.set.md), which sets a Redis key with a JSON value. [`JSON.SET`](/content/commands/json.set.md) accepts all JSON value types. This example creates a JSON string:

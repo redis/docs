@@ -37,6 +37,8 @@ If your platform uses big-endian or mixed-endian encoding, you have two options:
 - Manually convert the byte order to little-endian before passing the blob to Redis.
 - Use the `VALUES` syntax instead, which accepts floating-point numbers as strings and is platform-independent.
 
+{{< data-type-animation type="vector-set" >}}
+
 ## Examples
 
 The following examples give an overview of how to use vector sets. For clarity,

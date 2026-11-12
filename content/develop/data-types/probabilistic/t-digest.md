@@ -76,6 +76,8 @@ You measure the IP packets transferred over your network each second and try to 
 - To which values should I set my alerts?
 
 
+{{< data-type-animation type="t-digest" >}}
+
 ## Examples
 
 In the following example, you'll create a t-digest with a compression of 100 and add items to it. The `COMPRESSION` argument is used to specify the tradeoff between accuracy and memory consumption. The default value is 100. Higher values mean more accuracy. Note: unlike some of the other probabilistic data structures, the [`TDIGEST.ADD`](/content/commands/tdigest.add.md) command will not create a new structure if the key does not exist.

@@ -46,6 +46,10 @@ represent sorted sets). They are ordered according to the following rule:
 * If B and A are two elements with a different score, then A > B if A.score is > B.score.
 * If B and A have exactly the same score, then A > B if the A string is lexicographically greater than the B string. B and A strings can't be equal since sorted sets only have unique elements.
 
+{{< data-type-animation type="sorted-set" >}}
+
+## Examples
+
 Let's start with a simple example, we'll add all our racers and the score they got in the first race:
 
 {{< clients-example set="ss_tutorial" step="zadd" description="Foundational: Add members to a sorted set with their scores (creates new members or updates existing ones)" prereq="true" >}}
@@ -219,8 +223,6 @@ The typical application is a Facebook game where you combine the ability to
 take users sorted by their high score, plus the get-rank operation, in order
 to show the top-N users, and the user rank in the leader board (e.g., "you are
 the #4932 best score here").
-
-## Examples
 
 * There are two ways we can use a sorted set to represent a leaderboard. If we know a racer's new score, we can update it directly via the [`ZADD`](/content/commands/zadd.md) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`](/content/commands/zincrby.md) command.
 {{< clients-example set="ss_tutorial" step="leaderboard" description="Practical pattern: Use ZADD to set scores and ZINCRBY to increment them when you need to update leaderboards with atomic operations" difficulty="intermediate" buildsUpon="zadd" >}}
