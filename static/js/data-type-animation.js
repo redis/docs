@@ -255,9 +255,9 @@
       p.canvas.style.opacity = "";
       c.anim(p.canvas, [{ opacity: 0 }, { opacity: 1 }], 300);
     }
-    const shown = performance.now();
+    const hold = c.wait(STEP);   // counts play time from the reply, so time spent paused doesn't use it up
     if (st.run) await st.run(c, c.state);
-    await c.wait(Math.max(STEP - (performance.now() - shown), MIN_REST));
+    await Promise.all([hold, c.wait(MIN_REST)]);
   };
 
   /* Play in a loop, starting with step `from`. The steps before it are drawn without animation. When
