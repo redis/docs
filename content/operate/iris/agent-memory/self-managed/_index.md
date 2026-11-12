@@ -15,17 +15,12 @@ aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/
 ---
 
-> [!NOTE]
-> Install Agent Memory with the [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install. Installing the `redis-agent-memory` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `memory:` key.
-
 Redis Agent Memory provides persistent memory for AI agents and
 applications. Applications write conversation events and long-term memories to
 Redis Agent Memory, then query Redis Agent Memory for relevant context before calling an LLM.
 
 This guide covers deployment, configuration, security, validation, API examples,
-and operations for self-managed Redis Agent Memory. To install, start with
-[Prerequisites](/content/operate/iris/agent-memory/self-managed/prerequisites.md), then follow
-[Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md).
+and operations for self-managed Redis Agent Memory. To install, follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md), then [Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md).
 
 The [Redis Agent Memory API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}})
 is the shared Data Plane API for Redis Cloud and self-managed deployments. The
@@ -34,21 +29,17 @@ documents the self-managed admin endpoints for stores.
 
 ## What you are deploying
 
-The `redis-agent-memory` chart `1.0.0` deploys the Data Plane, workers, and Control Plane.
-Install the `iris-identity-service` chart `1.0.0` as a separate release first, then connect
-Memory to it. Memory does not deploy Identity Service resources or include it as a subchart.
-To install Memory, Identity Service, and the UI as one release, use the
-[`redis-iris` Helm chart](/content/operate/iris/agent-memory/self-managed/deploy.md#install-with-the-redis-iris-suite-chart).
-These pages document the separate releases.
-You provide the Redis databases. Follow [Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md)
-to configure both releases.
+The `redis-iris` chart `1.0.0` deploys the Agent Memory Data Plane, workers, and Control Plane,
+with the Identity Service and the Iris console, under fixed names. Agent Memory's values go under
+the `memory:` key, and the chart's `examples/memory-only.yaml` is a working values file to start
+from. You provide the Redis databases.
 
 | Component | Purpose | Default service |
 | --- | --- | --- |
 | Redis Agent Memory Data Plane | Store-scoped runtime memory API. | `redis-agent-memory:9000` |
 | Redis Agent Memory worker | Background promotion, summarization, and forgetting work. | No public service |
 | Redis Agent Memory Control Plane | Admin API for creating and managing stores. | `redis-agent-memory-controlplane:9100` |
-| Identity Service (separate release) | Mints, rotates, revokes, and checks agent keys. | `ids-iris-identity-service:9200` for release `ids` |
+| Identity Service | Mints, rotates, revokes, and checks agent keys. Installed by the suite. | `iris-identity-service:9200` |
 | Store Redis | Holds session memory, long-term memory, indexes, and TTL data. | Customer-provided |
 | Job Redis | Holds background work for Redis Agent Memory workers. | Customer-provided |
 | Metadata Redis | Holds Control Plane store records. The Identity Service keeps agent-key records in the Metadata Redis named in its own metadata Secret. | Customer-provided |

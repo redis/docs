@@ -53,7 +53,7 @@ curl -sS -X POST "$CP_URL/iris/v1/agent-memory/stores" \
 
 `database.databaseId` is required on every create request. It names an entry in the
 `databases` registry of the Data Plane and Control Plane configuration. The
-[deploy walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml)
+[deploy walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values)
 configures one entry, `"1"`.
 
 The response is the full store record. It includes these fields, among others:
@@ -400,13 +400,13 @@ Agent-key fields:
 | Endpoint | Use `/v1/api-keys`. |
 | `name` | Required. |
 | `grants` | Required. |
-| `tenant` | The installation's tenant: the same value as Memory's `tenantId` and the Identity Service's `runtime.apiKeyTenant.singleTenantID`, for example `default`. Use the same tenant on every grant of a key. When `singleTenantID` is set, an omitted `tenant` gets that value and any other tenant returns `400`. |
+| `tenant` | The installation's tenant: `global.iris.tenantId`, for example `default`. Use the same tenant on every grant of a key. An omitted `tenant` gets that value, and any other tenant returns `400`. |
 | `product` | Use `memory`. |
 | `resourceType` | Use `mem-store`. |
 | `resourceId` | Set to the store ID. |
 | `actions` | Use `read`, `write`, or both. |
 | `expiresAt` | Optional. Unix seconds after which the key stops authenticating. `0` or omitted means never. |
-| `userId` | Optional. The user that owns the key. Requires `apiKeys.userBinding.enabled: true` on the Identity Service release. |
+| `userId` | Optional. The user that owns the key. Requires `identityService.apiKeys.userBinding.enabled: true`. |
 | Token | Returned only when you mint or rotate a key. Store it immediately. |
 
 List agent keys:
@@ -462,7 +462,7 @@ Response:
 
 Rotation returns a new `keyId` with the new token. Use the new `keyId` for later updates,
 rotations, and revocations. The old key stays valid for `graceSeconds`, which defaults to 3600 and
-has a chart maximum of 604800 (`apiKeys.maxRotateGraceSeconds` on the Identity Service release). `oldExpiresAt` is
+has a chart maximum of 604800 (`identityService.apiKeys.maxRotateGraceSeconds`). `oldExpiresAt` is
 when the old key stops working. Revoking the old `keyId` ends its grace period early.
 
 Revoke an agent key:

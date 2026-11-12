@@ -11,68 +11,27 @@ weight: 30
 hideListLinks: true
 ---
 
-This page describes how to configure self-managed Intent Router before you [deploy the chart](/content/operate/iris/intent-router/self-managed/deploy.md). You prepare a Helm values file and the Secrets it references. The values file sets your tenant, image tags, and tokens. The Secrets hold what shouldn't be in a values file: Redis connection URLs, embedding provider credentials, and the license.
+This page describes how to configure self-managed Intent Router before you [deploy it](/content/operate/iris/intent-router/self-managed/deploy.md). Every value on this page sits under the `intent:` key of the suite's `iris-values.yaml`. The suite sets the tenant, license, tokens, and Identity Service connection from `global.iris`. The Secrets hold what shouldn't be in a values file: Redis connection URLs and embedding provider credentials.
 
-Every install needs the Helm values, the storage Secret, and an embedding model, covered in the first three sections. The remaining sections are optional, and their defaults work for a first deployment. Use them to store Routers in customer databases, tune search and matching, adjust Router lifecycle timing, trust a private certificate authority, enable Federal Information Processing Standards (FIPS) mode or tracing, or scale the planes.
+Every install needs the Helm values, the storage Secret, and an embedding model, covered in the first three sections. The remaining sections are optional, and their defaults work for a first deployment. Use them to store Routers in customer databases, tune search and matching, adjust Router lifecycle timing, trust a private certificate authority, enable tracing, or scale the planes.
 
 ## Helm values
 
-Set these values for every install:
-
-| Value | Meaning |
-| --- | --- |
-| `tenantId` | The one tenant this installation serves. Required. Agent-key grants name it as `tenant`. |
-| `storage.existingSecret` | The Secret that holds the Redis connection overlays. Required. |
-| `license.existingSecret` | The Secret that holds the license. Required. |
-| `inference.models` | The embedding model the deployment offers. Required. |
-| `controlplane.image`, `dataplane.image` | An explicit `tag` for each image. The repositories default to `redislabs/iris-intent-router-control` and `redislabs/iris-intent-router-data`. |
-| `controlplane.adminToken`, `controlplane.internalToken` | The control plane's tokens. |
-| `dataplane.identityServiceBaseURL` | The URL of your Identity Service release. The data plane checks agent keys there. Required. |
-| `identityService.credential` | The data plane's runtime credential, registered on the Identity Service release. Required. |
-| `identityService.allowInsecureTransport` | `true` to accept an `http://` Identity Service URL. Default `false`. |
-
-A minimal values file looks like this:
+Every install sets the storage Secret, the inference Secret, and exactly one embedding model. The chart's `examples/intent.yaml` is a working starting point:
 
 ```yaml
-tenantId: <tenant-id>
-
-controlplane:
-  image:
-    repository: redislabs/iris-intent-router-control
-    tag: <tag>
-  adminToken:
-    existingSecret: intent-controlplane-admin
-  internalToken:
-    existingSecret: intent-controlplane-internal
-
-dataplane:
-  image:
-    repository: redislabs/iris-intent-router-data
-    tag: <tag>
-  identityServiceBaseURL: http://ids-iris-identity-service:9200
-
-identityService:
-  allowInsecureTransport: true
-  credential:
-    existingSecret: intent-dp-credential
-
-license:
-  existingSecret: intent-license
-
-storage:
-  existingSecret: intent-storage
-
-inference:
-  existingSecret: intent-inference
-  models:
-    - provider: openai
-      model: text-embedding-3-small
-      dimensions: 1536
+intent:
+  storage:
+    existingSecret: intent-storage
+  inference:
+    existingSecret: intent-inference
+    models:
+      - provider: openai
+        model: text-embedding-3-small
+        dimensions: 1536
 ```
 
-To let the chart generate a token instead, delete its `existingSecret` line. See [Credentials](/content/operate/iris/intent-router/self-managed/authentication.md#credentials).
-
-The `identityService` block holds only `allowInsecureTransport` and `credential`. The chart deploys no Identity Service. An in-cluster Identity Service Service speaks plain Hypertext Transfer Protocol (HTTP), and the chart rejects an `http://` Identity Service URL by default. Rendering fails until you choose: set `dataplane.identityServiceBaseURL` to an `https://` endpoint, or set `identityService.allowInsecureTransport=true` to accept cleartext introspection on the pod network. The FIPS profile refuses `allowInsecureTransport`.
+For the values the suite sets itself, see [Add the Intent Router values](/content/operate/iris/intent-router/self-managed/deploy.md#2-add-the-intent-router-values). For the tokens it generates, see [Credentials](/content/operate/iris/intent-router/self-managed/authentication.md#credentials).
 
 ## Storage Secret
 
@@ -105,7 +64,7 @@ runtime:
       - rediss://<metadata-user>:<metadata-password>@<metadata-host>:6379
 ```
 
-The Identity Service's metadata Redis belongs to the Identity Service release, not to this Secret.
+The Identity Service's metadata Redis is a [shared suite Secret](/content/operate/iris/self-managed/_index.md#2-create-the-shared-secrets), not part of this Secret.
 
 In the mailbox Redis, the data plane reads and writes only the mailbox keys under `storage.keyPrefix`. Nothing else of the control plane's data is touched. Keep real URLs and passwords in the Secret, not in values files.
 
@@ -176,16 +135,14 @@ A Router change reaches the data plane within about one poll interval.
 
 ## Trust a private certificate authority
 
-Set `tls.caCertSecret` to a Secret that holds additional certificate authority (CA) certificates. Every container mounts it at `/etc/ssl/custom`, and `SSL_CERT_DIR` points there. Set `tls.caCertSecretChecksum` so the pods roll when the Secret changes.
+Set `global.tls.caCertSecret` to a Secret that holds additional certificate authority (CA) certificates. Every container mounts it at `/etc/ssl/custom`, and `SSL_CERT_DIR` points there. Set `tls.caCertSecretChecksum` so the pods roll when the Secret changes.
 
-## FIPS and tracing
-
-Set `security.profile: fips` to select the FIPS runtime. Rendering rejects a FIPS release unless `dataplane.identityServiceBaseURL` is an explicit HTTP Secure (HTTPS) endpoint, and refuses `identityService.allowInsecureTransport`. Set the FIPS profile and an `https://` grant-validation URL on the Identity Service release too. Use `rediss://` URLs in the storage Secret, including `runtime.redis.urls` and any customer databases. Rendering can't check them, because they live in the Secret, and the data plane refuses to start in the FIPS profile if any of them isn't `rediss://`.
+## Tracing
 
 Set `tracing.enabled` and `tracing.otlpGRPCEndpoint` to send spans to your OpenTelemetry collector over the OpenTelemetry Protocol (OTLP). The exporter uses plaintext gRPC, so use a trusted local hop.
 
 ## Scale and schedule the planes
 
-The control plane and data plane scale independently. Set `replicaCount`, `resources`, `nodeSelector`, `tolerations`, and `affinity` for each in the chart values. Scale the Identity Service in its own release. The data plane carries the matching load, so scale it first.
+The control plane and data plane scale independently. Set `replicaCount`, `resources`, `nodeSelector`, `tolerations`, and `affinity` for each. Scale the Identity Service under `identityService:`. The data plane carries the matching load, so scale it first.
 
-Each plane runs one replica by default. Set `podDisruptionBudget.enabled=true` to add a PodDisruptionBudget with `maxUnavailable: 1` for each plane that runs more than one replica. `dataplane.strategy` sets the data-plane Deployment's rollout strategy, for example `RollingUpdate` with `maxUnavailable: 0` and `maxSurge: 1`.
+The suite runs two data-plane replicas and one control-plane replica by default, and fixes the rollout strategy and PodDisruptionBudgets. See [Availability](/content/operate/iris/self-managed/_index.md#availability).

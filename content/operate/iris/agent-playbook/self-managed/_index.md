@@ -13,16 +13,11 @@ bannerText: A license key is required to deploy. Contact your Redis representati
 bannerChildren: true
 ---
 
-> [!NOTE]
-> Install Agent Playbooks with the [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install. Installing the `redis-agent-playbook` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `playbook:` key.
-
 Redis Agent Playbooks store the answers and procedures your business approves as versioned FAQs and skills, and serve the published versions to your agents. Developers author entries and review proposals in a playbook; agents retrieve published entries over REST or the Model Context Protocol (MCP). Before developers can do that, a platform administrator deploys Agent Playbooks and creates playbooks and agent keys for them.
 
-This guide is for that administrator. It covers deploying Agent Playbooks on your own Kubernetes cluster with a Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/agent-playbook/self-managed/prerequisites.md).
+This guide is for that administrator. It covers deploying Agent Playbooks on your own Kubernetes cluster, then configuring, securing, and operating it. To install, follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md), then [Deploy](/content/operate/iris/agent-playbook/self-managed/deploy.md).
 
-The `redis-agent-playbook` Helm chart deploys the Agent Playbooks control plane and data plane, and optionally a background extraction worker. It connects to a separately installed Identity Service release, which issues and checks agent keys. You provide the Identity Service release, the Redis databases, the embedding provider, and the license. The chart does not install Redis or configure ingress and certificates.
-
-These guides use `redis-agent-playbook` chart `1.0.0`.
+The `redis-iris` chart `1.0.0` deploys the Agent Playbooks control plane and data plane, and optionally a background extraction worker, with the Identity Service that issues and checks agent keys. Agent Playbooks values go under the `playbook:` key, and the chart's `examples/playbook.yaml` is a working values file to start from. You provide the Redis databases, the embedding provider, and the suite license. The chart doesn't install Redis.
 
 Applications call the data plane to author, review, and retrieve entries, as described in the [data-plane API reference](/content/develop/ai/context-engine/agent-playbooks/api-reference.md). The [control-plane API reference](/content/operate/iris/agent-playbook/self-managed/control-plane-api-reference.md) documents the administration endpoints for playbooks.
 
@@ -33,7 +28,7 @@ Applications call the data plane to author, review, and retrieve entries, as des
 | Control plane | Create playbooks, manage their settings and lifecycle, and validate agent-key grants. | `9200` |
 | Data plane | Author and retrieve FAQs and skills, review proposals, and serve MCP requests. | `9201` |
 | Extraction worker | Optionally propose FAQs from connected Redis Agent Memory sessions. | `9203` |
-| Identity Service | Issue agent keys and check them for the data plane. Installed as its own release. | `9200` |
+| Identity Service | Issue agent keys and check them for the data plane. Installed by the suite. | `9200` |
 | Metadata Redis | Store playbook configuration. | Customer-provided |
 | Content Redis | Store entries, proposals, and search indexes. Needs JSON and Search. | Customer-provided |
 

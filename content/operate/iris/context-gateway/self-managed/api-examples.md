@@ -13,11 +13,11 @@ hideListLinks: true
 
 Create sample Gateways for full and search mode, register the clinic directory on both, and issue an agent key. The [quickstart](/content/develop/ai/context-engine/context-gateway/quickstart.md) uses one of these Gateways. The [MCP walkthrough](/content/develop/ai/context-engine/context-gateway/mcp.md#stored-result-example) uses the search-mode Gateway with compression enabled.
 
-Before you begin, [deploy the chart](/content/operate/iris/context-gateway/self-managed/deploy.md) and [load the admin token](/content/operate/iris/context-gateway/self-managed/authentication.md#control-plane-admin-token).
+Before you begin, [deploy Context Gateway](/content/operate/iris/context-gateway/self-managed/deploy.md) and [load the admin token](/content/operate/iris/context-gateway/self-managed/authentication.md#control-plane-admin-token).
 
 ## Set connection values
 
-Forward the Control Plane and the Identity Service in separate terminals, as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#5-verify-pods-and-health), then export the connection values:
+Forward the Control Plane and the Identity Service in separate terminals, as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#4-verify-the-deployment), then export the connection values:
 
 ```bash
 export IRIS_CONTEXT_GATEWAY_SERVICE_URL='http://localhost:9100'

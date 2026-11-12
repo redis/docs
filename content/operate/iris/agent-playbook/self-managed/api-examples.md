@@ -13,7 +13,7 @@ hideListLinks: true
 
 Create a playbook, issue publisher and reader agent keys, and verify application access with curl or the Iris command-line interface (CLI).
 
-Before you begin, [deploy the chart and forward the APIs](/content/operate/iris/agent-playbook/self-managed/deploy.md#6-verify-pods-and-health), then [load the administrative credentials](/content/operate/iris/agent-playbook/self-managed/authentication.md#load-the-administrative-credentials). Keep response files private:
+Before you begin, [deploy the chart and forward the APIs](/content/operate/iris/agent-playbook/self-managed/deploy.md#4-verify-the-deployment), then [load the administrative credentials](/content/operate/iris/agent-playbook/self-managed/authentication.md#load-the-administrative-credentials). Keep response files private:
 
 ```bash
 umask 077
@@ -80,7 +80,7 @@ jq -n --arg id "$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID" '{
 }' > publisher-grant.json
 ```
 
-Use the deployment's `tenantId` as `tenant`. Issue the key through the Identity Service:
+Use the release's `global.iris.tenantId` as `tenant`. Issue the key through the Identity Service:
 
 ```bash
 curl --fail-with-body -sS \

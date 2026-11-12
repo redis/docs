@@ -17,13 +17,13 @@ The Identity Service depends on a metadata Redis and Secrets that you set up fir
 
 | Requirement | Detail |
 | --- | --- |
-| Suite chart | `redis-iris` chart `1.0` in the Redis AI Helm repository, `https://helm.redis.io/ai`. The suite prerequisites list the Kubernetes, Helm, and Metrics API versions. |
+| Suite chart | `redis-iris` chart `1.0.0` in the Redis AI Helm repository, `https://helm.redis.io/ai`. The suite prerequisites list the Kubernetes, Helm, and Metrics API versions. |
 | Namespace | A namespace that holds only this release. The examples use `<namespace-name>`. |
 | Metadata Redis | A Redis database for the Identity Service, as described in [Metadata Redis](#metadata-redis). |
 | `kubectl`, `curl` | For the install and administration examples. |
 | Identity provider (IdP) | Optional. An OpenID Connect (OIDC) IdP for operator sign-in. See [Operator sign-in](/content/operate/iris/identity-service/self-managed/authentication.md#operator-sign-in-with-your-identity-provider). |
 
-`redis-iris` `1.0` is a new installation. There is no in-place move from the standalone product charts. See [Move from a preview or standalone install](/content/operate/iris/self-managed/_index.md#move-from-a-preview-or-standalone-install).
+`redis-iris` `1.0.0` is a new installation. There is no in-place move from the standalone product charts. See [Move from a preview or standalone install](/content/operate/iris/self-managed/_index.md#move-from-a-preview-or-standalone-install).
 
 ## Metadata Redis
 

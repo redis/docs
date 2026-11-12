@@ -11,7 +11,7 @@ weight: 20
 hideListLinks: true
 ---
 
-Self-managed Lens runs on your Kubernetes cluster and depends on Redis databases, an Identity Service release, and Secrets that you set up first. The chart creates none of them. This page lists what you need before you [deploy the chart](/content/operate/iris/lens/self-managed/deploy.md).
+Self-managed Lens runs on your Kubernetes cluster as part of the `redis-iris` suite, which also installs the Identity Service. Lens depends on Redis databases and a storage Secret that you set up first. This page lists what Lens needs beyond the [suite prerequisites](/content/operate/iris/self-managed/_index.md#prerequisites), before you [deploy it](/content/operate/iris/lens/self-managed/deploy.md).
 
 ## What you need
 
@@ -20,11 +20,11 @@ Self-managed Lens runs on your Kubernetes cluster and depends on Redis databases
 | Kubernetes | Kubernetes 1.28 or later, and a namespace for the release. |
 | Helm | Helm 3.10 or later. Helm 4 isn't supported. |
 | `kubectl`, `curl`, and `jq` | For the install and administration examples. |
-| Identity Service | The `iris-identity-service` chart at the same version as the Lens chart, `1.0.0`, installed as its own release. |
+| Identity Service | Installed by the suite, as `iris-identity-service`. |
 | Redis databases | A records database, a content database, and a metadata Redis, as described in [Redis databases](#redis-databases). |
 | Container images | Docker Hub: `redislabs/iris-lens-data` (data plane and worker) and `redislabs/iris-lens-control` (control plane). |
-| Helm chart | `redis-lens` chart `1.0.0` in the Redis AI Helm repository, `https://helm.redis.io/ai`. |
-| License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). |
+| Helm chart | `redis-iris` chart `1.0.0` in the Redis AI Helm repository, `https://helm.redis.io/ai`. |
+| License key | The suite license. Contact your Redis representative or [contact sales](https://redis.io/contact/). |
 
 ## Redis databases
 
@@ -54,34 +54,21 @@ Nothing trims the `streams` role yet, and it must not evict keys, so its memory 
 | Data plane, worker, control plane | Redis databases | Storage. |
 | Data plane and control plane | Your identity provider's JSON Web Key Set (JWKS) URL | Only when you turn on [operator sign-in](/content/operate/iris/lens/self-managed/authentication.md#operator-sign-in). |
 
-The worker needs no Identity Service access. The chart creates no Ingress: to reach Lens from outside the cluster, publish the data plane through your own Transport Layer Security (TLS) ingress, as described in [Expose the data plane](/content/operate/iris/lens/self-managed/deploy.md#expose-the-data-plane).
+The worker needs no Identity Service access. The suite creates no Lens Ingress: to reach Lens from outside the cluster, publish the data plane through your own Transport Layer Security (TLS) ingress, as described in [Expose the data plane](/content/operate/iris/lens/self-managed/deploy.md#expose-the-data-plane).
 
-The chart renders no NetworkPolicy objects. Its package includes `networkpolicy.reference.yaml`, a default-deny starting point for these flows. Replace every `<placeholder>` before you apply it.
+The suite renders no NetworkPolicy objects. The `redis-lens` subchart package includes `networkpolicy.reference.yaml`, a default-deny starting point for these flows. Replace every `<placeholder>` before you apply it.
 
 ## Secrets
 
-Create these Secrets before you install Lens. [Deploy](/content/operate/iris/lens/self-managed/deploy.md#2-create-secrets) shows the commands.
-
-| Secret | Holds | Mounted by |
-| --- | --- | --- |
-| Storage | One configuration file per process with the Redis URLs. See [Storage Secret](/content/operate/iris/lens/self-managed/configuration.md#storage-secret). | Lens |
-| License | The Lens license, under the key `license`. | Lens |
-| Data-plane runtime credential | A random token the data plane presents to the Identity Service. | Lens and the Identity Service |
-| Control-plane internal token | A random token the Identity Service presents to the control plane. | Lens and the Identity Service |
-| Identity Service metadata | The Identity Service's metadata Redis URL. | The Identity Service |
-| Identity Service control token | The token operators use to mint API keys. | The Identity Service |
-
-The chart generates the control-plane admin token for you. See [Credentials](/content/operate/iris/lens/self-managed/authentication.md#credentials).
+Lens needs one Secret of its own, the storage Secret, with one configuration file per process. See [Storage Secret](/content/operate/iris/lens/self-managed/configuration.md#storage-secret), and [Deploy](/content/operate/iris/lens/self-managed/deploy.md#1-create-the-lens-secrets) for the command. The license and the Identity Service metadata are [shared suite Secrets](/content/operate/iris/self-managed/_index.md#2-create-the-shared-secrets). The suite generates the admin token, internal token, and runtime credential. See [Credentials](/content/operate/iris/lens/self-managed/authentication.md#credentials).
 
 ## Helm values that stop an install
 
 Rendering fails with a named message when:
 
-- `tenantId`, `storage.existingSecret`, or `license.existingSecret` is missing.
-- `dataplane.image.tag` or `controlplane.image.tag` is empty.
-- `dataplane.identityServiceBaseURL` or `identityService.credential.existingSecret` is missing.
-- `dataplane.identityServiceBaseURL` isn't `https://` and `identityService.allowInsecureTransport` isn't `true`.
-- Two of the admin token, internal token, and runtime credential reference the same Secret key.
-- `instance.id` doesn't match `^[A-Za-z0-9._:-]{1,128}$`.
+- `lens.storage.existingSecret` is missing.
+- `lens.dataplane.image.tag` or `lens.controlplane.image.tag` is empty.
+- `lens.instance.id` isn't `default`.
+- A value the suite sets, such as `lens.tenantId`, differs from the one it derives. See [Add the Lens values](/content/operate/iris/lens/self-managed/deploy.md#2-add-the-lens-values).
 
 A storage file that omits a role passes rendering, because Helm can't read the Secret. The pod then fails at startup and names the missing key, for example `create Lens streams Redis client from storage.streams.urls: redis url list is empty`.

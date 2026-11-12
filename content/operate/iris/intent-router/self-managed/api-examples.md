@@ -17,7 +17,7 @@ Before you begin, [deploy the chart](/content/operate/iris/intent-router/self-ma
 
 ## Set connection values
 
-Forward the control plane, the data plane, and the Identity Service in separate terminals, as in [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#5-verify-pods-and-health), then export the connection values:
+Forward the control plane, the data plane, and the Identity Service in separate terminals, as in [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#4-verify-the-deployment), then export the connection values:
 
 ```bash
 export IRIS_INTENT_ROUTER_SERVICE_URL='http://localhost:9400'
@@ -27,7 +27,7 @@ export IRIS_IDENTITY_TENANT='<tenant-id>'
 umask 077
 ```
 
-`IRIS_INTENT_ROUTER_SERVICE_TOKEN` holds the admin token and `IRIS_IDENTITY_TOKEN` holds the Identity Service control token. `IRIS_IDENTITY_TENANT` is the deployment's `tenantId`. For application deployment, use the endpoints your platform exposes.
+`IRIS_INTENT_ROUTER_SERVICE_TOKEN` holds the admin token and `IRIS_IDENTITY_TOKEN` holds the Identity Service control token. `IRIS_IDENTITY_TENANT` is the suite's `global.iris.tenantId`. For application deployment, use the endpoints your platform exposes.
 
 ## Create a Router
 
