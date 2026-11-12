@@ -155,7 +155,7 @@ Detector matches are applied deterministically. Semantic exclusions only steer t
 
 ![The Sensitive-data exclusions section.](/images/rc/agent-memory-sensitive-data-exclusions.png)
 
-Exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent. Exclusions are also not applied to long-term memories your application creates directly through the API or an SDK.
+Built-in and custom detectors apply during automatic extraction and to direct creates and content updates through the API or an SDK. Semantic exclusions apply only during automatic extraction. Session memory is unaffected: events and their summaries are kept as sent. See [direct-write exclusions](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#direct-write-exclusions) for rejection responses and screening limits.
 
 #### Built-in detectors
 
@@ -183,6 +183,8 @@ Custom detectors match patterns you write yourself, such as tenant IDs, internal
 | **Status** | Whether the detector is applied. Turn it off to keep the pattern without applying it. |
 
 You can define up to 32 custom detectors.
+
+Direct API writes reject enabled patterns that expand to more than 1,024 compiled RE2 instructions. Repeated groups can exceed this limit even within the pattern's character limit. See [direct-write exclusions](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#direct-write-exclusions) before enabling complex patterns.
 
 #### On match {#on-match}
 
