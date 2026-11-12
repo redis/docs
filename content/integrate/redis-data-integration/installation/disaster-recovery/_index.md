@@ -15,6 +15,8 @@ type: integration
 weight: 110
 ---
 
+<!-- TODO(human-friendly, since 2026-11-12): AI-readable; needs a human readability review. -->
+
 Redis Data Integration (RDI) can run across two or more sites so that another site takes over
 when the active site fails. Each site runs its own RDI installation, an *instance*, in a
 separate Kubernetes cluster. The instances use an external lease to elect one of them, the
