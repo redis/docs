@@ -1285,7 +1285,12 @@
               "algorithms": [
                 "RS256"
               ],
+              "clock_skew_seconds": 60,
+              "enabled": true,
+              "identity_claim": "sub",
               "issuer": "https://acme.example/tenant_example",
+              "jwks_max_stale_seconds": 86400,
+              "jwks_refresh_interval_seconds": 3600,
               "jwks_uri": "https://acme.example/tenant_example/jwks.json",
               "name": "acme",
               "resource_claim": "resource",
@@ -1300,14 +1305,38 @@
             "items": {
               "$ref": "#/components/schemas/OidcProvider"
             },
-            "readOnly": true,
             "type": "array"
           }
         },
+        "required": [
+          "providers"
+        ],
         "type": "object"
       },
       "OidcMapping": {
-        "additionalProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OidcMappingBody"
+          },
+          {
+            "properties": {
+              "uid": {
+                "description": "The mapping's unique ID",
+                "type": "integer",
+                "x-go-type": "json.Number"
+              }
+            },
+            "required": [
+              "uid",
+              "name",
+              "provider_uid",
+              "claim",
+              "claim_value",
+              "role_uids"
+            ],
+            "type": "object"
+          }
+        ],
         "description": "Roles granted to the tokens of an OIDC provider that carry a claim value - one mapping per claim value, not per identity.",
         "example": {
           "account_id": 5,
@@ -1319,7 +1348,11 @@
             3
           ],
           "uid": 1
-        },
+        }
+      },
+      "OidcMappingBody": {
+        "additionalProperties": false,
+        "description": "Common OIDC mapping properties shared across OIDC mapping payloads.",
         "properties": {
           "account_id": {
             "description": "SM account ID. When set, the mapping and its roles belong to this account, and it must equal the provider's account_id when the provider has one. Cannot be changed after creation.",
@@ -1356,12 +1389,6 @@
             "minItems": 1,
             "type": "array",
             "uniqueItems": true
-          },
-          "uid": {
-            "description": "The mapping's unique ID",
-            "readOnly": true,
-            "type": "integer",
-            "x-go-type": "json.Number"
           }
         },
         "type": "object"
@@ -1369,7 +1396,7 @@
       "OidcMappingCreateRequest": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/OidcMapping"
+            "$ref": "#/components/schemas/OidcMappingBody"
           },
           {
             "required": [
@@ -1394,20 +1421,71 @@
           ]
         }
       },
+      "OidcMappingUpdateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OidcMappingBody"
+          }
+        ],
+        "description": "Request body for updating an OIDC mapping. Fields that are not set keep their value.",
+        "example": {
+          "role_uids": [
+            3,
+            4
+          ]
+        }
+      },
       "OidcProvider": {
-        "additionalProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OidcProviderBody"
+          },
+          {
+            "properties": {
+              "uid": {
+                "description": "The provider's unique ID",
+                "type": "integer",
+                "x-go-type": "json.Number"
+              }
+            },
+            "required": [
+              "uid",
+              "name",
+              "enabled",
+              "scope",
+              "issuer",
+              "jwks_uri",
+              "jwks_refresh_interval_seconds",
+              "jwks_max_stale_seconds",
+              "algorithms",
+              "identity_claim",
+              "resource_claim",
+              "clock_skew_seconds"
+            ],
+            "type": "object"
+          }
+        ],
         "description": "An OIDC provider whose tokens databases can accept for data-plane authentication. Which databases accept them depends on the provider's scope.",
         "example": {
           "algorithms": [
             "RS256"
           ],
+          "clock_skew_seconds": 60,
+          "enabled": true,
+          "identity_claim": "sub",
           "issuer": "https://acme.example/tenant_example",
+          "jwks_max_stale_seconds": 86400,
+          "jwks_refresh_interval_seconds": 3600,
           "jwks_uri": "https://acme.example/tenant_example/jwks.json",
           "name": "acme",
           "resource_claim": "resource",
           "scope": "bound_databases",
           "uid": 1
-        },
+        }
+      },
+      "OidcProviderBody": {
+        "additionalProperties": false,
+        "description": "Common OIDC provider properties shared across OIDC provider payloads.",
         "properties": {
           "account_id": {
             "description": "SM account ID. When set, only databases of this account can use the provider; when not set, any database can. Cannot be changed after creation.",
@@ -1507,12 +1585,6 @@
               "all_databases"
             ],
             "type": "string"
-          },
-          "uid": {
-            "description": "The provider's unique ID",
-            "readOnly": true,
-            "type": "integer",
-            "x-go-type": "json.Number"
           }
         },
         "type": "object"
@@ -1520,7 +1592,7 @@
       "OidcProviderCreateRequest": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/OidcProvider"
+            "$ref": "#/components/schemas/OidcProviderBody"
           },
           {
             "required": [
@@ -1592,6 +1664,17 @@
           "audiences"
         ],
         "type": "object"
+      },
+      "OidcProviderUpdateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OidcProviderBody"
+          }
+        ],
+        "description": "Request body for updating an OIDC provider. Fields that are not set keep their value.",
+        "example": {
+          "enabled": false
+        }
       },
       "PasswordHashMethod": {
         "description": "Used when password is passed pre-hashed",
@@ -3174,7 +3257,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OidcMapping"
+                "$ref": "#/components/schemas/OidcMappingUpdateRequest"
               }
             }
           },
@@ -3411,7 +3494,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OidcProvider"
+                "$ref": "#/components/schemas/OidcProviderUpdateRequest"
               }
             }
           },
