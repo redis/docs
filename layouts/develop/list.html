@@ -55,7 +55,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="flex flex-col md:table-row">
+              <tr class="flex flex-col md:table-row bg-redis-neutral-200">
                 <td class="align-top px-4 py-3 w-full md:w-[40%] text-base font-mono">
                   <code><a class="no-underline hover:underline" href="/commands/ping">PING</a></code></br>
                   <code><a class="no-underline hover:underline" href="/commands/hset">HSET</a> user:1 name antirez vocation artist</code></br>
@@ -87,6 +87,42 @@ PING
         {{ end }}
         
         {{ .Content }}
+        {{- /* The client picker on /develop/ switches panels with CSS alone (radio
+               inputs). This preselects the language the reader last chose in a code
+               example, and a choice here sets the code examples to match. It runs
+               inline, straight after the content, so the default panel never paints
+               first. */ -}}
+        {{ if strings.HasSuffix .RelPermalink "/develop/" }}
+        <script>
+          (function () {
+            var radios = document.querySelectorAll('input[name="client-picker"]');
+            if (!radios.length) return;
+            var toTab = { python: 'Python', dotnet: 'dotnet-Sync (SE-Redis)', nodejs: 'Node-js',
+              jedis: 'Java-Sync', lettuce: 'Lettuce-Sync', go: 'Go', php: 'PHP', ioredis: 'ioredis',
+              rust: 'Rust-Sync', hiredis: 'C', ruby: 'Ruby' };
+            function fromTab(tab) {
+              if (!tab) return null;
+              if (tab === 'Java-Async' || tab === 'Java-Reactive') return 'lettuce';
+              if (tab.indexOf('dotnet') === 0) return 'dotnet';
+              if (tab.indexOf('Rust') === 0) return 'rust';
+              for (var id in toTab) if (toTab[id] === tab) return id;
+              return null;
+            }
+            function savedTab() {
+              try { return localStorage.getItem('selectedCodeTab'); } catch (e) { return null; }
+            }
+            var saved = document.getElementById('client-' + fromTab(savedTab()));
+            if (saved) saved.checked = true;
+            radios.forEach(function (radio) {
+              radio.addEventListener('change', function () {
+                // Keep a more specific tab, such as Java-Async for Lettuce.
+                if (fromTab(savedTab()) === radio.value) return;
+                try { localStorage.setItem('selectedCodeTab', toTab[radio.value]); } catch (e) {}
+              });
+            });
+          })();
+        </script>
+        {{ end }}
         {{ if not .Params.hideListLinks }}
           <nav>
             {{ range .CurrentSection.Pages }}
