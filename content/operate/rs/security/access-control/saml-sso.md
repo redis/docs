@@ -24,7 +24,7 @@ Before users can sign in to the Cluster Manager UI with SSO, the identity provid
 
 With just-in-time (JIT) user provisioning, Redis Software automatically creates user accounts for new users assigned to the SAML application in your identity provider when they sign in to the Cluster Manager UI for the first time. For these users, you must configure the `redisRoleMapping` attribute in your identity provider to assign appropriate roles for [role-based access control](/content/operate/rs/security/access-control/_index.md).
 
-As of Redis Software version 8.2.6, Redis Software checks `redisRoleMapping` each time a JIT-provisioned user signs in and replaces the user's roles with the mapped roles. Role changes you make in the identity provider take effect at the user's next sign-in, and roles you assign to these users in Redis Software are replaced. If the attribute is missing or contains no valid role UIDs, the sign-in fails and the user's roles are removed. Users who existed in Redis Software before you set up SSO keep their existing roles.
+As of Redis Software version 8.2.6-25, Redis Software checks `redisRoleMapping` each time a JIT-provisioned user signs in and replaces the user's roles with the mapped roles. Role changes you make in the identity provider take effect at the user's next sign-in, and roles you assign to these users in Redis Software are replaced. If the attribute is missing or contains no valid role UIDs, the sign-in fails and the user's roles are removed. Users who existed in Redis Software before you set up SSO keep their existing roles.
 
 ### IdP-initiated SSO
 
