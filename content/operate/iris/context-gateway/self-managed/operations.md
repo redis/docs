@@ -32,18 +32,18 @@ The public service probes are also available at `/iris/v1/context-gateway/health
 | --- | --- |
 | Upstream credential | Update the Upstream with a new value through the Control Plane. After an in-place rotation in Vault or AWS Secrets Manager, refresh the Upstream's catalog so cached results stop being served. |
 | Agent key | Rotate or revoke it through the Identity Service. See [Rotate or revoke agent keys](/content/operate/iris/context-gateway/self-managed/api-examples.md#rotate-or-revoke-agent-keys). A revoked key stops working within 300 seconds by default. |
-| Admin token, internal token | Replace the Secret. The Control Plane rereads the file, so no restart is needed. Coordinate an internal token change with the Identity Service release. |
-| Runtime token | Replace the Secret and update the matching Identity Service credential. The Data Plane rereads it on its next key check. |
+| Admin token, internal token | Change `iris-context-gateway-admin-token` or `iris-context-gateway-internal-token` in place. The Control Plane rereads the file, so no restart is needed. The Identity Service mounts the same internal token Secret. |
+| Runtime token | Change `iris-context-gateway-dataplane-credential` in place. The Identity Service mounts the same Secret, and the Data Plane rereads it on its next key check. |
 | Metadata, credential, and registered database URLs, Vault tokens | Replace the Secret, then restart the planes that read it. |
 
-Set a file reference's `checksum`, then run `helm upgrade`, to roll out the planes predictably after any file change.
+Set a file reference's `checksum` under `contextGateway:`, then [upgrade the release](/content/operate/iris/context-gateway/self-managed/deploy.md#3-install-or-upgrade-the-release), to roll out the planes predictably after any file change.
 
 ### Rotate the encryption keyring
 
 The keyring is loaded at startup, so each step needs a rollout of both planes:
 
-1. Add `k2` to the keyring and to `credentialStorage.redis.keyFiles`, and keep `k1` active. Change `credentialStorage.redis.keyring.checksum` and upgrade. Both planes can now read either key.
-1. Set `credentialStorage.redis.activeKeyId: k2` and upgrade. New credential writes use `k2`, and existing credentials still open with `k1`.
+1. Add `k2` to the keyring and to `contextGateway.credentialStorage.redis.keyFiles`, and keep `k1` active. Change `contextGateway.credentialStorage.redis.keyring.checksum` and upgrade. Both planes can now read either key.
+1. Set `contextGateway.credentialStorage.redis.activeKeyId: k2` and upgrade. New credential writes use `k2`, and existing credentials still open with `k1`.
 1. Rewrite the remaining credentials through the Control Plane. Keep `k1` until you can prove nothing uses it, including rollbacks and retained backups.
 
 ## Monitor the cache
@@ -77,8 +77,7 @@ The cache and handles have separate memory shares, in addition to the database-w
 
 A partial Surface handle can also mean that paging reached a row, byte, time, or concurrency limit. Check its warning before increasing limits. The stored count describes only the captured records.
 
-
-## Update configuration and license Secrets
+## Update configuration Secrets
 
 Replace the Secret, then roll out both planes. Set `checksum` on a file reference to trigger the rollout automatically.
 
@@ -88,11 +87,13 @@ Back up Metadata Redis and credential storage together. A Gateway record without
 
 <!-- TODO: Confirm supported backup and restore guarantees. -->
 
-## Upgrade the chart
+## Upgrade
 
-Upgrade both planes together and roll forward, not back. An older Data Plane cannot read tool policy members that a newer Control Plane wrote, and serves those tools uncached. `helm rollback` restores the release's Kubernetes resources only. It does not undo database writes or restore external Secrets.
+Context Gateway upgrades with the suite release, as [Upgrade](/content/operate/iris/self-managed/operations.md#upgrade) describes. Roll forward, not back. An older Data Plane cannot read tool policy members that a newer Control Plane wrote, and serves those tools uncached. `helm rollback` restores the release's Kubernetes resources only. It does not undo database writes or restore external Secrets.
 
-Chart 1.0.0 renamed the `dataplane.config` blocks `result_cache` to `cache` and `result_handles` to `compression`. Every nested key keeps its name. Move these settings before you upgrade: the values schema rejects the old blocks, and a Data Plane ignores them. Upgrade the chart and images together, because an older image ignores the new keys and leaves both features off. The same release renamed the Gateway fields `resultCache` and `resultHandles` to `cache` and `compression`. Gateways stored under the old names lose their settings and tool policies, so set them again.
+### Reinstall over a preview Gateway database
+
+When you [move from a preview chart](/content/operate/iris/self-managed/_index.md#move-from-a-preview-or-standalone-install) against the same databases, these changes apply. Chart 1.0.0 renamed the `dataplane.config` blocks `result_cache` to `cache` and `result_handles` to `compression`. Every nested key keeps its name. Move these settings before you upgrade: the values schema rejects the old blocks, and a Data Plane ignores them. Upgrade the chart and images together, because an older image ignores the new keys and leaves both features off. The same release renamed the Gateway fields `resultCache` and `resultHandles` to `cache` and `compression`. Gateways stored under the old names lose their settings and tool policies, so set them again.
 
 After an upgrade, refresh an Upstream's catalog when the release notes ask for it.
 
@@ -102,18 +103,8 @@ Update dashboards and alerts to the `iris_context_gateway_*` metrics. The previo
 
 If MCP sign-in uses the shared `api://redis-iris` audience, the upgraded Data Plane refuses to start. Move it to an API of its own first, as [Upgrade from the shared audience](/content/operate/iris/context-gateway/self-managed/authentication.md#upgrade-from-the-shared-audience) describes.
 
-```bash
-helm upgrade gateway redis-ai/redis-context-gateway \
-  --version <new-chart-version> \
-  --namespace <namespace-name> \
-  -f gateway-values.yaml \
-  --wait --timeout 5m
-```
+## Remove or uninstall
 
-## Uninstall the chart
-
-```bash
-helm uninstall gateway --namespace <namespace-name>
-```
+To remove Context Gateway and its data, see [Remove a service permanently](/content/operate/iris/self-managed/operations.md#remove-a-service-permanently). To remove the whole suite, see [Uninstall](/content/operate/iris/self-managed/operations.md#uninstall).
 
 Uninstall removes the planes only. Redis databases, Secrets, Container Storage Interface (CSI) provider classes, Upstream credentials, and Gateway records stay. To remove Gateways and their credentials, delete them through the Control Plane before you uninstall.

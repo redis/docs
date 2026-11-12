@@ -27,7 +27,7 @@ export IRIS_IDENTITY_TENANT='<tenant-id>'
 umask 077
 ```
 
-`IRIS_INTENT_ROUTER_SERVICE_TOKEN` holds the admin token and `IRIS_IDENTITY_TOKEN` holds the Identity Service control token. `IRIS_IDENTITY_TENANT` is the deployment's `tenantId`. For application deployment, use the endpoints your platform exposes.
+`IRIS_INTENT_ROUTER_SERVICE_TOKEN` holds the admin token and `IRIS_IDENTITY_TOKEN` holds the Identity Service control token. `IRIS_IDENTITY_TENANT` is the suite's `global.iris.tenantId`. For application deployment, use the endpoints your platform exposes.
 
 ## Create a Router
 

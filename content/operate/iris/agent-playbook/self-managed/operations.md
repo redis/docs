@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - iris
-description: Check health, rotate keys and Secrets, clear, suspend, or delete playbooks, back up storage, and upgrade Agent Playbooks.
+description: Check health, rotate keys and Secrets, clear, suspend, or delete playbooks, back up storage, and upgrade Agent Playbooks in a redis-iris suite release.
 linkTitle: Operations
 weight: 90
 hideListLinks: true
@@ -24,14 +24,14 @@ curl --fail-with-body -sS http://localhost:9202/health/readiness
 Inspect pods and the affected service's logs when readiness fails:
 
 ```bash
-kubectl -n <namespace-name> get pods -l app.kubernetes.io/instance=playbook
+kubectl -n <namespace-name> get pods -l app.kubernetes.io/instance=iris,app.kubernetes.io/name=redis-agent-playbook
 kubectl -n <namespace-name> describe pod <pod-name>
-kubectl -n <namespace-name> logs deployment/playbook-dataplane
+kubectl -n <namespace-name> logs deployment/redis-agent-playbook-dataplane
 ```
 
 Redact credentials and content before you share logs or configuration. For common symptoms, see [Troubleshooting](/content/operate/iris/agent-playbook/self-managed/reference.md#troubleshooting).
 
-Scrape `/metrics` on every control-plane and data-plane pod, on ports `9200` and `9201`, and on the [extraction worker](/content/operate/iris/agent-playbook/self-managed/extraction.md#monitor-extraction). Metrics use bounded operation and outcome labels. Agent Playbooks doesn't emit per-entry usage records. All three services can export traces through the shared [tracing configuration](/content/operate/iris/agent-playbook/self-managed/configuration.md#configure-security-and-tracing).
+Scrape `/metrics` on every control-plane and data-plane pod, on ports `9200` and `9201`, and on the [extraction worker](/content/operate/iris/agent-playbook/self-managed/extraction.md#monitor-extraction). Metrics use bounded operation and outcome labels. Agent Playbooks doesn't emit per-entry usage records. All three services can export traces through the shared [tracing configuration](/content/operate/iris/agent-playbook/self-managed/configuration.md#configure-tracing).
 
 ## Rotate or revoke agent keys
 
@@ -46,7 +46,7 @@ curl --fail-with-body -sS \
   -H "Authorization: Bearer $IRIS_IDENTITY_TOKEN" > rotated-key.json
 ```
 
-Store the returned token and update its consumers before the grace period ends. The Identity Service caps the grace period with `apiKeys.maxRotateGraceSeconds`, 604,800 seconds (seven days) by default.
+Store the returned token and update its consumers before the grace period ends. The Identity Service caps the grace period with `identityService.apiKeys.maxRotateGraceSeconds`, 604,800 seconds (seven days) by default.
 
 Revoke a key:
 
@@ -58,7 +58,7 @@ curl --fail-with-body -sS \
 
 With the Iris command-line interface (CLI), run `iris identity keys rotate <key-id> --grace 1h` or `iris identity keys revoke <key-id>`.
 
-Key validation is cached. The Identity Service release's `runtime.cache.hardTtlSeconds` defaults to 300 seconds. Allow for cached decisions, and verify that the old key is denied before you treat revocation as complete.
+Key validation is cached. `identityService.runtime.cache.hardTtlSeconds` defaults to 300 seconds. Allow for cached decisions, and verify that the old key is denied before you treat revocation as complete.
 
 ## Clear playbook content
 
@@ -100,7 +100,7 @@ curl --fail-with-body -sS \
 
 Deleting needs the same roles as clearing.
 
-## Update configuration, license, and credential Secrets
+## Update configuration and license Secrets
 
 Update an existing Secret from its source files. For example, update the storage configuration:
 
@@ -128,21 +128,18 @@ kubectl -n <namespace-name> get secret playbook-storage -o json \
 
 {{< /multitabs >}}
 
-Copy it into `storage.existingSecretChecksum` in `playbook-values.yaml` and [upgrade the chart](#upgrade-the-chart). A changed checksum rolls only the workloads that consume that Secret. It triggers a rollout; it doesn't validate integrity. If a Secret controller already restarts consumers on rotation, leave the checksum empty. Without a checksum, restart the affected Deployment after you change a Secret in place.
+Copy it into `playbook.storage.existingSecretChecksum` in `iris-values.yaml` and [upgrade the release](#upgrade-the-release). A changed checksum rolls only the workloads that consume that Secret. It triggers a rollout; it doesn't validate integrity. If a Secret controller already restarts consumers on rotation, leave the checksum empty. Without a checksum, restart the affected Deployment after you change a Secret in place.
 
 The same pattern applies to these Secrets:
 
 | Secret | Checksum value | Rolls |
 | --- | --- | --- |
-| License | `license.existingSecretChecksum` | Control plane, data plane, and extraction worker |
-| Embedding configuration | `inference.existingSecretChecksum` | Data plane |
-| Private certificate authority (CA) | `tls.caCertSecretChecksum` | Every workload |
-| Admin token | `controlplane.adminToken.existingSecretChecksum` | Control plane and data plane |
-| Internal token | `controlplane.internalToken.existingSecretChecksum` | Control plane |
-| Data-plane runtime credential | `identityService.credential.existingSecretChecksum` | Data plane |
-| Extraction worker configuration | `worker.existingSecretChecksum` | Extraction worker |
+| License | `playbook.license.existingSecretChecksum` | Control plane, data plane, and extraction worker |
+| Embedding configuration | `playbook.inference.existingSecretChecksum` | Data plane |
+| Private certificate authority (CA) | `playbook.tls.caCertSecretChecksum` | Every workload |
+| Extraction worker configuration | `playbook.worker.existingSecretChecksum` | Extraction worker |
 
-Both planes reread the admin-token file on each request, but Kubernetes updates mounted Secrets eventually, so rotation isn't atomic across pods. The internal token and the runtime credential are shared with the Identity Service release: update the Secret, then roll both releases. For immutable Secrets, create a new name and update the reference.
+To rotate the admin token, the internal token, or the data-plane credential, change the suite's Secret in place, as [Credentials](/content/operate/iris/self-managed/_index.md#credentials) describes. Both planes and the Identity Service reread those files, so no rollout is needed, but Kubernetes updates mounted Secrets eventually, so rotation isn't atomic across pods. For immutable Secrets, create a new name and update the reference.
 
 ## Back up the deployment
 
@@ -151,44 +148,26 @@ Both planes reread the admin-token file on each request, but Kubernetes updates 
 - Back up the Identity Service metadata Redis, which holds agent-key records.
 - Keep the values files, configuration files, license material, and secret-manager records you need to recreate the services.
 
-Coordinate metadata and content snapshots. A metadata-only restore can't recover authored content. Validate restore procedures in an isolated environment before you rely on them.
+Coordinate metadata and content snapshots. See [Back up ahead of time](/content/operate/iris/self-managed/operations.md#back-up-ahead-of-time) for the whole suite. A metadata-only restore can't recover authored content. Validate restore procedures in an isolated environment before you rely on them.
 
 <!-- TODO: Add a qualified backup and restore procedure and supported recovery guarantees for the GA release. -->
 
-## Upgrade the chart
+## Upgrade the release
 
-Review the target release's configuration and compatibility notes. Keep the control-plane and data-plane image tags on the same release, and recalculate checksums for changed Secrets.
-
-```bash
-helm upgrade playbook redis-ai/redis-agent-playbook \
-  --version <chart-version> \
-  --namespace <namespace-name> \
-  -f playbook-values.yaml \
-  --wait --timeout 10m
-```
-
-Include `-f playbook-extraction-values.yaml` when extraction is configured. Then check the rollouts and rerun the chart tests:
+Agent Playbooks upgrades with the rest of the suite. Follow [Upgrade](/content/operate/iris/self-managed/operations.md#upgrade), and recalculate checksums for changed Secrets first. Then check the Agent Playbooks rollouts:
 
 ```bash
-kubectl -n <namespace-name> rollout status deployment/playbook-controlplane
-kubectl -n <namespace-name> rollout status deployment/playbook-dataplane
-helm test playbook --namespace <namespace-name> --logs
+kubectl -n <namespace-name> rollout status deployment/redis-agent-playbook-controlplane
+kubectl -n <namespace-name> rollout status deployment/redis-agent-playbook-dataplane
 ```
 
-If the worker is enabled, also run `kubectl -n <namespace-name> rollout status deployment/playbook-worker`. Reconnect the local port-forwards, then repeat the [application-access check](/content/operate/iris/agent-playbook/self-managed/api-examples.md#verify-application-access). Review release compatibility before a rollback; Helm doesn't restore Redis data.
+With extraction on, also run `kubectl -n <namespace-name> rollout status deployment/redis-agent-playbook-worker`. Reconnect the local port-forwards, then repeat the [application-access check](/content/operate/iris/agent-playbook/self-managed/api-examples.md#verify-application-access). Helm doesn't restore Redis data on a rollback.
 
-### Upgrade from earlier charts
+Upgrades from preview or standalone charts aren't supported. Reinstall with the suite chart against the same Redis databases, as [Move from a preview or standalone install](/content/operate/iris/self-managed/_index.md#move-from-a-preview-or-standalone-install) describes. When you carry values over:
 
-- **`0.1.x`**: those charts bundled the Identity Service. `helm upgrade` to `1.0.0` is unsupported. Install a separate Identity Service release that uses the same metadata Redis and key namespace, so existing agent keys keep working, then install `1.0.0` with the connection values. Remove every old `identityService.*` key except `allowInsecureTransport` and `credential`, and remove `storage.identityServiceKey`; the schema rejects them.
-- **Embedding configuration**: the data plane and control plane reject the legacy `inference.models[].client` field. Keep only `provider`, `model`, and `dimensions` in `inference.models`, and move endpoints and credentials into `embedders_connection_details` in the [embedding Secret](/content/operate/iris/agent-playbook/self-managed/configuration.md#embedding-configuration). Keep the same vector-space identity.
+- **Embedding configuration**: the data plane and control plane reject the legacy `inference.models[].client` field. Keep only `provider`, `model`, and `dimensions` in `playbook.inference.models`, and move endpoints and credentials into `embedders_connection_details` in the [embedding Secret](/content/operate/iris/agent-playbook/self-managed/configuration.md#embedding-configuration). Keep the same vector-space identity.
 - **OIDC audience**: see [Configure operator OIDC access](/content/operate/iris/agent-playbook/self-managed/authentication.md#configure-operator-oidc-access).
 
-Upgrades from the published `0.10.x` preview charts aren't supported. Reinstall with the suite chart against the same Redis databases, as [Move from a preview or standalone install](/content/operate/iris/self-managed/_index.md#move-from-a-preview-or-standalone-install) describes.
+## Remove Agent Playbooks
 
-## Uninstall
-
-```bash
-helm uninstall playbook --namespace <namespace-name>
-```
-
-Helm keeps the generated admin-token Secret, which is annotated `helm.sh/resource-policy: keep`. Delete it, the Secrets you created, and the Redis data if you don't plan to reinstall. Uninstalling Agent Playbooks doesn't remove the Identity Service release or its agent-key records.
+To switch Agent Playbooks off, set `global.iris.products.playbook.enabled: false` and upgrade the release. Its credentials and data stay, so turning it on again continues where it stopped. To remove it for good, follow [Remove a service permanently](/content/operate/iris/self-managed/operations.md#remove-a-service-permanently). To remove the whole suite, see [Uninstall](/content/operate/iris/self-managed/operations.md#uninstall).

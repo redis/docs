@@ -11,19 +11,15 @@ weight: 30
 hideListLinks: true
 ---
 
-The chart reads non-secret settings from Helm values and every credential from a mounted file. Prepare `gateway-values.yaml` and the Secrets it references before you [deploy](/content/operate/iris/context-gateway/self-managed/deploy.md).
+Context Gateway reads non-secret settings from Helm values and every credential from a mounted file. Every value on this page sits under the `contextGateway:` key of the suite's `iris-values.yaml`. The suite sets the tenant, license, tokens, CA bundle, and Identity Service connection from `global.iris`. Prepare the values and the Secrets they reference before you [deploy](/content/operate/iris/context-gateway/self-managed/deploy.md).
 
 ## Helm values
 
 | Value | Purpose |
 | --- | --- |
-| `tenantId` | The deployment's tenant. Must equal the Identity Service's single tenant ID. |
 | `publicBaseURL` | The Data Plane's public origin, used in every Gateway's `mcpEndpoint`. |
 | `dataplane.ingress` | An optional Ingress for the Data Plane, off by default. When on, `hosts` must include the `publicBaseURL` host and route `/` with `pathType: Prefix`, `annotations` must not rewrite paths, and for an `https://` origin a `tls` entry with a `secretName` must cover that host. Otherwise rendering fails. |
-| `identityService.baseURL` | The Identity Service runtime API that checks agent keys. |
-| `identityService.allowInsecureTransport` | `true` for an in-cluster `http://` Identity Service URL. Default `false`. |
 | `profile` | `prod` (default) or `dev` logging. |
-| `security.profile` | `standard` (default) or `fips`. See [Configure security and tracing](#configure-security-and-tracing). |
 | `imagePullSecrets` | Credentials for a private registry. |
 | `controlplane.config`, `dataplane.config` | Application settings for each plane. They default to `{}`, so the image's defaults apply. |
 
@@ -41,13 +37,8 @@ Each credential has its own reference. Point it at a Kubernetes Secret key with 
 | `credentialStorage.vault.credentials.controlplane` | YAML with `credential_storage.vault.token`, with write and delete access. | Control Plane |
 | `credentialStorage.vault.credentials.dataplane` | YAML with `credential_storage.vault.token`, with read access. | Data Plane |
 | `databaseConnections[]` | YAML with `databases.<id>.urls`. | Both planes |
-| `controlplane.adminToken` | The admin token operators send to the Control Plane. | Control Plane |
-| `controlplane.internalToken` | The token Identity Service sends to the grant callback. | Control Plane |
-| `dataplane.runtimeToken` | The token the Data Plane sends to Identity Service. | Data Plane |
-| `license` | The license file as issued. | Both planes |
-| `tls.caBundle` | A PEM-encoded certificate authority (CA) bundle. | Both planes |
 
-The admin, internal, and runtime tokens must be distinct. Keep the admin token, the internal token, and the Vault writer token out of every CSI class the Data Plane mounts.
+The suite supplies the admin, internal, and runtime tokens from its [generated credentials](/content/operate/iris/self-managed/_index.md#credentials), the license from `global.iris.license`, and the certificate authority (CA) bundle from `global.tls.caCertSecret`. Keep the Vault writer token out of every CSI class the Data Plane mounts.
 
 ## Credential storage
 
@@ -166,7 +157,7 @@ dataplane:
       secretKey: config.yaml
 ```
 
-Keep the real key out of `gateway-values.yaml` and source control. The overlay contains application settings under `context_surface`, without a Helm `dataplane.config` wrapper.
+Keep the real key out of `iris-values.yaml` and source control. The overlay contains application settings under `context_surface`, without a Helm `dataplane.config` wrapper.
 
 Without an embedding service, every other tool still works, and semantic or hybrid search calls fail with `embedding_unavailable`. The embedding client ignores proxy variables and dials the endpoint directly, and with an API key set every endpoint must use HTTPS.
 
@@ -228,19 +219,15 @@ dataplane:
 
 ## Trust a private CA
 
-Set `tls.caBundle` to a PEM bundle, or mount a single certificate under `/etc/ssl/certs` with the chart's `examples/certificates.yaml`. Restart both planes after you rotate a certificate.
+Set `global.tls.caCertSecret` to a Secret with the PEM bundle under the key `ca.crt`. Restart both planes after you rotate a certificate.
 
-## Configure security and tracing
-
-`security.profile: fips` runs the Federal Information Processing Standards (FIPS)-oriented profile. Both planes then reject plaintext Redis URLs and disabled certificate verification, including in the registered databases.
+## Configure metrics and tracing
 
 Both planes serve Prometheus metrics at `/metrics`. Set `shared.config.opentelemetry.enable_tracing: true` and an OpenTelemetry Protocol (OTLP) endpoint for traces.
 
 ## Scale and schedule the planes
 
-Each plane starts one replica. Set `replicaCount`, or turn on `autoscaling`, with `resources`, `nodeSelector`, `tolerations`, and `affinity` under `controlplane` and `dataplane`. Autoscaling is off by default, needs Metrics Server, and needs `resources.requests.cpu` or `resources.requests.memory` for each target it uses. Leave headroom for old and new pods during upgrades.
-
-Set `podDisruptionBudget.enabled: true` to give each plane that keeps more than one pod a PodDisruptionBudget with `maxUnavailable: 1`. `dataplane.strategy` sets the Data Plane Deployment's rollout strategy.
+The suite runs two Data Plane replicas and one Control Plane replica, and fixes the rollout strategy and PodDisruptionBudgets. See [Availability](/content/operate/iris/self-managed/_index.md#availability). Set `replicaCount`, or turn on `autoscaling`, with `resources`, `nodeSelector`, `tolerations`, and `affinity` under `controlplane` and `dataplane`. Autoscaling is off by default, needs Metrics Server, and needs `resources.requests.cpu` or `resources.requests.memory` for each target it uses. Leave headroom for old and new pods during upgrades.
 
 The `startupProbe`, `livenessProbe`, and `readinessProbe` of each plane use `/health/liveness` and `/health/readiness` by default, and accept native Kubernetes probe fields. Set a probe to `null` to turn it off. The default startup probe allows 150 seconds before liveness checks begin.
 

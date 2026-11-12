@@ -5,80 +5,44 @@ categories:
 - docs
 - operate
 - iris
-description: Set the Helm values, storage Secret, retention, ingest, Identity Service connection, and TLS trust for Lens.
+description: Set the Helm values, storage Secret, retention, ingest, and TLS trust for Lens.
 linkTitle: Configuration
 weight: 30
 hideListLinks: true
 ---
 
-You configure self-managed Lens with a Helm values file and the Secrets it references. The values file sets your tenant, instance, retention, and the Identity Service connection. The Secrets hold what shouldn't be in a values file: Redis URLs, tokens, and the license.
+You configure self-managed Lens with its values under the `lens:` key of the suite's `iris-values.yaml`, and the storage Secret those values reference. The suite sets the tenant, license, credentials, and Identity Service connection from `global.iris`. See [Add the Lens values](/content/operate/iris/lens/self-managed/deploy.md#2-add-the-lens-values) for the values it sets.
 
 ## Helm values
 
-This values file is the starting point for [Deploy](/content/operate/iris/lens/self-managed/deploy.md). It assumes an Identity Service release named `ids` in the same namespace. Save it as `lens-values.yaml`:
+Add these values to `iris-values.yaml`. The chart's `examples/lens.yaml` sets only `storage.existingSecret`:
 
 ```yaml
-tenantId: default
-
-instance:
-  id: default
-
-ingest:
-  enabled: true
-
-storage:
-  existingSecret: lens-storage
-
-license:
-  existingSecret: lens-license
-
-dataplane:
-  # The Identity Service release's Service. In-cluster, it speaks plain HTTP.
-  identityServiceBaseURL: http://ids-iris-identity-service:9200
-
-identityService:
-  allowInsecureTransport: true
-  credential:
-    existingSecret: lens-dp-credential
-
-controlplane:
-  internalToken:
-    existingSecret: lens-internal-token
-
-tests:
-  enabled: true
+lens:
+  ingest:
+    enabled: true
+  storage:
+    existingSecret: lens-storage
 ```
 
 | Value | Default | Purpose |
 | --- | --- | --- |
-| `tenantId` | `""` | Required. The tenant the instance belongs to. Must equal the Identity Service's `runtime.apiKeyTenant.singleTenantID`. |
-| `instance.id` | `default` | The one Lens instance this installation serves. Developers use it as their instance ID. |
-| `instance.retention.streamTrim` | `24h` | Recorded on the instance. See [Retention](#retention). |
-| `instance.retention.contentTTL` | `168h` | How long Lens keeps captured content. |
-| `instance.retention.indexRetention` | `720h` | How long Lens keeps turn structure, timing, scores, and outcomes. |
-| `ingest.enabled` | `false` | Accept turns. See [Ingest](#ingest). |
-| `ingest.region` | `onprem` | Scopes the stream keys. Use one value per installation. |
-| `storage.existingSecret` | `""` | Required. The [storage Secret](#storage-secret). |
-| `storage.keyPrefix` | `iris:lens` | The prefix of every key Lens writes. |
-| `license.existingSecret` | `""` | Required. The license Secret, with the key `license`. |
-| `dataplane.image.repository`, `dataplane.image.tag` | `redislabs/iris-lens-data`, the chart version | The data-plane and worker image. |
-| `controlplane.image.repository`, `controlplane.image.tag` | `redislabs/iris-lens-control`, the chart version | The control-plane image. |
-| `dataplane.identityServiceBaseURL` | `""` | Required. The Identity Service release's URL. Must be `https://` unless `identityService.allowInsecureTransport=true`. |
-| `identityService.allowInsecureTransport` | `false` | Accept an `http://` Identity Service URL, such as the in-cluster Service. |
-| `identityService.credential.existingSecret` | `""` | Required. The data plane's runtime credential, key `token`. |
-| `controlplane.internalToken.existingSecret` | `""` | The control plane's internal token, key `token`. Set it, because the Identity Service release must mount the same Secret. |
-| `controlplane.adminToken.existingSecret` | `""` | Supply your own admin token. Empty, the chart generates one. |
-| `dataplane.server.replicaCount`, `dataplane.worker.replicaCount`, `controlplane.replicaCount` | `1` | Replicas for each workload. |
-| `podDisruptionBudget.enabled` | `false` | Add a PodDisruptionBudget (`maxUnavailable: 1`) for each Deployment with more than one replica. |
-| `dataplane.server.strategy` | `{}` | The data-plane Deployment's `spec.strategy`, rendered as given. |
-| `tls.caCertSecret` | `""` | A certificate authority (CA) bundle every workload trusts. See [TLS trust](#tls-trust). |
-| `security.profile` | `""` | `fips` runs the Federal Information Processing Standards (FIPS) profile. |
-| `imagePullSecrets` | `[]` | Pull Secrets for a private registry. |
-| `tests.enabled` | `false` | Add `helm test` readiness checks. |
+| `lens.instance.retention.streamTrim` | `24h` | Recorded on the instance. See [Retention](#retention). |
+| `lens.instance.retention.contentTTL` | `168h` | How long Lens keeps captured content. |
+| `lens.instance.retention.indexRetention` | `720h` | How long Lens keeps turn structure, timing, scores, and outcomes. |
+| `lens.ingest.enabled` | `false` | Accept turns. See [Ingest](#ingest). |
+| `lens.ingest.region` | `onprem` | Scopes the stream keys. Use one value per installation. |
+| `lens.storage.existingSecret` | `""` | Required. The [storage Secret](#storage-secret). |
+| `lens.storage.keyPrefix` | `iris:lens` | The prefix of every key Lens writes. |
+| `lens.dataplane.image.repository`, `lens.dataplane.image.tag` | `redislabs/iris-lens-data`, the chart version | The data-plane and worker image. |
+| `lens.controlplane.image.repository`, `lens.controlplane.image.tag` | `redislabs/iris-lens-control`, the chart version | The control-plane image. |
+| `lens.controlplane.adminToken.existingSecret` | `""` | Supply your own admin token. Empty, the suite generates `iris-lens-admin-token`. |
+| `lens.dataplane.server.replicaCount`, `lens.dataplane.worker.replicaCount`, `lens.controlplane.replicaCount` | `2`, `1`, `1` | Replicas for each workload. |
+| `lens.imagePullSecrets` | `[]` | Pull Secrets for a private registry. Empty, Lens uses `global.imagePullSecrets`. |
 
 To pull images from a mirror, set each `repository` to your registry. Keep each `tag` at the chart's version.
 
-Every Secret value also has an `existingSecretChecksum`. Set it when you change the Secret's content, so the pods roll. See [Rotate credentials](/content/operate/iris/lens/self-managed/authentication.md#rotate-credentials).
+When you change the storage Secret's content, set `lens.storage.existingSecretChecksum`, so the pods roll.
 
 ## Storage Secret
 
@@ -137,15 +101,6 @@ With `ingest.enabled=false`, the default, the data plane answers `POST /iris/dat
 
 ## TLS trust
 
-No Lens workload terminates TLS. To use an `https://` Identity Service URL, put a TLS-terminating proxy, gateway, or service mesh in front of the Identity Service.
+No Lens workload terminates TLS.
 
-When a certificate, for the Identity Service or a `rediss://` database, is signed by a private CA, create a Secret that holds the CA bundle and set `tls.caCertSecret` to its name. Every workload mounts it at `/etc/ssl/custom` and trusts it in addition to the image's system CAs. Set `tls.caCertSecretChecksum` to roll the workloads when the bundle changes.
-
-## Identity Service in another namespace
-
-The Identity Service release can run in another namespace. Then:
-
-1. Set `dataplane.identityServiceBaseURL` to its fully qualified Service, such as `http://ids-iris-identity-service.<identity-service-namespace>.svc:9200`.
-1. Set the Identity Service's `productValidation.products.lens.baseURL` to `http://lens-redis-lens-controlplane.<namespace-name>.svc:9300`.
-1. Create the runtime credential and internal token Secrets with the same values in both namespaces. A pod mounts Secrets only from its own namespace.
-1. Allow the Identity Service pods to reach the control plane on port `9300`, and the data plane to reach the Identity Service.
+When a `rediss://` database's certificate is signed by a private certificate authority (CA), create a Secret that holds the CA bundle and set `global.tls.caCertSecret` to its name. Every workload mounts it at `/etc/ssl/custom` and trusts it in addition to the image's system CAs. Set `lens.tls.caCertSecretChecksum` to roll the workloads when the bundle changes.

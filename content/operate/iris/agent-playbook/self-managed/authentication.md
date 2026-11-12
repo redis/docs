@@ -24,14 +24,16 @@ Keep administrative tokens out of application configuration and model prompts.
 
 ## Credentials
 
-| Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
-| --- | --- | --- | --- | --- |
-| Admin token | Operator → control plane (`:9200`) and data plane (`:9201`) | `playbook-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Full Agent Playbooks access in `tenantId` on both planes, including content, proposals, and skill uploads |
-| Control-plane internal token | Identity Service → control plane | `playbook-controlplane-internal` / `token` in the walkthrough | You provision it for both releases | Validating playbook grants before a key is stored. Set `controlplane.internalToken.existingSecret` on Agent Playbooks and `productValidation.products.playbook.credential.existingSecret` on Identity Service. |
-| Data-plane runtime credential | Data plane → Identity Service | `playbook-dp-credential` / `token` in the walkthrough | You provision it for both releases | Checking agent keys for `playbook`. Set `identityService.credential.existingSecret` on Agent Playbooks and register it in `runtime.serviceCredentials[]` as `playbook-dp` on Identity Service. |
-| Identity Service control token | Operator → Identity Service (`:9200`) | `ids-control-token` / `token` in the walkthrough | Supplied through `control.existingSecret` on Identity Service; that chart can also generate one | Creating, listing, rotating, and revoking agent keys |
+The `redis-iris` chart generates each credential once and keeps it across upgrades, rollbacks, and uninstalls. See [Credentials](/content/operate/iris/self-managed/_index.md#credentials) in the suite guide.
 
-Keep every credential distinct. The chart refuses to mount one Secret key as two of its credentials, but it can't compare values held in differently named Secrets.
+| Credential | Who presents it to whom | Secret / key | What it unlocks |
+| --- | --- | --- | --- |
+| Admin token | Operator → control plane (`:9200`) and data plane (`:9201`) | `iris-playbook-admin-token` / `token` | Full Agent Playbooks access in `global.iris.tenantId` on both planes, including content, proposals, and skill uploads |
+| Control-plane internal token | Identity Service → control plane | `iris-playbook-internal-token` / `playbook` | Validating playbook grants before a key is stored |
+| Data-plane runtime credential | Data plane → Identity Service | `iris-playbook-dataplane-credential` / `playbook-dp` | Checking agent keys for `playbook` |
+| Identity Service control token | Operator → Identity Service (`:9200`) | `iris-identity-service-control-token` / `token` | Creating, listing, rotating, and revoking agent keys |
+
+Keep every credential distinct when you supply your own. The chart can't compare values held in differently named Secrets.
 
 The admin token is a shared recovery credential. It grants no access to other Iris products, and audits identify shared recovery use rather than an individual operator. Prefer [operator OIDC access](#configure-operator-oidc-access) for day-to-day administration and keep the admin token for recovery.
 
@@ -44,25 +46,25 @@ export IRIS_AGENT_PLAYBOOKS_SERVICE_URL='http://localhost:9200'
 export IRIS_AGENT_PLAYBOOKS_URL='http://localhost:9201'
 export IRIS_IDENTITY_URL='http://localhost:9202'
 export IRIS_AGENT_PLAYBOOKS_SERVICE_TOKEN="$(kubectl -n <namespace-name> get secret \
-  playbook-controlplane-admin-token -o jsonpath='{.data.token}' | base64 --decode)"
+  iris-playbook-admin-token -o jsonpath='{.data.token}' | base64 --decode)"
 export IRIS_IDENTITY_TOKEN="$(kubectl -n <namespace-name> get secret \
-  ids-control-token -o jsonpath='{.data.token}' | base64 --decode)"
+  iris-identity-service-control-token -o jsonpath='{.data.token}' | base64 --decode)"
 ```
 
-The Secret name assumes `fullnameOverride: playbook` and a chart-generated admin token. If you set `controlplane.adminToken.existingSecret`, read that Secret, or load the token from your secret manager. The [API examples](/content/operate/iris/agent-playbook/self-managed/api-examples.md) and the Iris command-line interface (CLI) read these variables.
+The Secret names assume chart-generated tokens. If you set `playbook.controlplane.adminToken.existingSecret`, read that Secret, or load the token from your secret manager. The [API examples](/content/operate/iris/agent-playbook/self-managed/api-examples.md) and the Iris command-line interface (CLI) read these variables.
 
 ## Supply the admin token
 
-By default, the chart generates the admin token in a Secret annotated `helm.sh/resource-policy: keep` and reuses its value on each live `helm upgrade`. For GitOps or offline chart rendering, which can't look up the existing value, supply your own Secret so a fresh render doesn't generate a new token:
+By default, the suite generates the admin token in `iris-playbook-admin-token` and reuses it on each `helm upgrade`. To supply your own value, create a Secret with that name before you install, or point Agent Playbooks at another Secret, which suppresses the generated one:
 
 ```yaml
-controlplane:
-  adminToken:
-    existingSecret: playbook-controlplane-admin
-    autoGenerate: false
+playbook:
+  controlplane:
+    adminToken:
+      existingSecret: playbook-controlplane-admin
 ```
 
-The same `existingSecret`, `secretKey` (default `token`), `autoGenerate`, and `existingSecretChecksum` settings apply to `controlplane.internalToken`. The data-plane runtime credential has no generator; you always supply it.
+For GitOps or offline rendering, which can't look up existing values, also supply the internal token and the data-plane credential, as [Credentials](/content/operate/iris/self-managed/_index.md#credentials) describes.
 
 ## Agent-key grants
 
@@ -78,7 +80,7 @@ Each grant names a tenant, the `playbook` product and resource type, one playboo
 }
 ```
 
-Set `tenant` to the deployment's `tenantId`. The Identity Service fills an omitted tenant with its `runtime.apiKeyTenant.singleTenantID` and rejects grants for another tenant. Before it stores a key, it asks the control plane to confirm that the playbook exists.
+Set `tenant` to the release's `global.iris.tenantId`. The Identity Service fills an omitted tenant with it and rejects grants for another tenant. Before it stores a key, it asks the control plane to confirm that the playbook exists.
 
 | Action | What it allows |
 | --- | --- |
@@ -91,40 +93,30 @@ Set `tenant` to the deployment's `tenantId`. The Identity Service fills an omitt
 
 ## Configure operator OIDC access
 
-You can keep the admin token and also accept OIDC access tokens from your identity provider (IdP). The control plane and data plane share one issuer, tenant source, audience, and trusted group mapping. Both validate tokens locally against the IdP's JSON Web Key Set (JWKS); neither calls the Identity Service for this. Agent keys stay enabled.
-
-Add this overlay to `playbook-values.yaml`:
+You can keep the admin token and also accept OIDC access tokens from your identity provider (IdP). The suite configures both planes from the values it shares with every service, so you set them once under `global.iris.auth`:
 
 ```yaml
-auth:
-  oidc:
-    audience: api://redis-iris
-
-dataplane:
-  oidc:
-    enabled: true
-    issuer: https://<identity-provider-host>/<issuer-path>
-    jwksURI: https://<identity-provider-host>/<jwks-path>
-    tenantIDClaim: <tenant-claim>
-    roleClaims:
-      - groups
-    roleMappings:
-      <viewer-group>: viewer
-      <operator-group>: operator
-      <playbook-admin-group>: product_admin
-
-controlplane:
-  oidc:
-    enabled: true
+global:
+  iris:
+    auth:
+      oidc:
+        issuer: https://<identity-provider-host>/<issuer-path>
+        jwksURI: https://<identity-provider-host>/<jwks-path>
+      roleBindings:
+        - { group: <viewer-group>, role: viewer, product: playbook }
+        - { group: <operator-group>, role: operator, product: playbook }
+        - { group: <playbook-admin-group>, role: product_admin, product: playbook }
 ```
 
-- `auth.oidc.audience` is the value your IdP puts in the token's `aud` claim. It defaults to `api://redis-iris`, the audience shared by every Iris service; use the same value in every Iris chart. On Entra ID with v2 tokens, use the API's Application (client) ID instead. The chart refuses an empty or wildcard audience.
-- `issuer` is compared with the token's `iss` claim and is never fetched, so it can use `http://`, including under the Federal Information Processing Standards (FIPS) profile. On Active Directory Federation Services (AD FS), set it to the discovery document's `access_token_issuer`, such as `http://<adfs-host>/adfs/services/trust`.
-- `jwksURI` is fetched for signing keys, so it must use `https://` unless you set the development-only `allowInsecureTransport: true`. The FIPS profile refuses that setting. Mount a private CA through `tls.caCertSecret` when the IdP uses one, and allow both planes egress to the JWKS endpoint.
-- Set exactly one of `tenantIDClaim` and `staticTenantID`. A resolved or static tenant must equal `tenantId`. Use `staticTenantID` only when the issuer and its mapped groups are confined to this deployment's tenant.
-- `controlplane.oidc.enabled` requires `dataplane.oidc.enabled` and non-empty `roleMappings`.
+- The suite derives `auth.oidc.audience`, `dataplane.oidc`, and `controlplane.oidc.enabled` for Agent Playbooks. Don't set them under `playbook:`: a differing value fails the render. The tenant is the release's `global.iris.tenantId`.
+- `global.iris.auth.oidc.audience` is the value your IdP puts in the token's `aud` claim. It defaults to `api://redis-iris`. On Entra ID with v2 tokens, use the API's Application (client) ID instead.
+- `issuer` is compared with the token's `iss` claim and is never fetched. On Active Directory Federation Services (AD FS), set `accessTokenIssuer` to the discovery document's `access_token_issuer`, such as `http://<adfs-host>/adfs/services/trust`. It defaults to `issuer`.
+- `jwksURI` is fetched for signing keys, so it must use `https://` outside development clusters. Mount a private CA through `global.tls.caCertSecret` when the IdP uses one, and allow both planes egress to the JWKS endpoint.
+- The control plane accepts OIDC tokens only when at least one role binding applies to Agent Playbooks. Both planes validate tokens locally against the IdP's JSON Web Key Set (JWKS); neither calls the Identity Service for this. Agent keys stay enabled.
 
-`roleMappings` defaults to empty. Unmapped claim values grant no access, even when a value matches an Iris role name. Map only trusted human administrator groups, and keep service identities out of them.
+See [Tenancy and identity provider limits](/content/operate/iris/self-managed/_index.md#tenancy-and-identity-provider-limits) for what a release accepts.
+
+`global.iris.auth.roleBindings` defaults to empty. Unmapped groups grant no access, even when a value matches an Iris role name. Bind only trusted human administrator groups, and keep service identities out of them. A `suite_admin` binding takes no `product` and applies to every service.
 
 The control plane applies these role tiers:
 
@@ -134,7 +126,7 @@ The control plane applies these role tiers:
 | `operator` | Viewer access plus create and update playbooks. |
 | `product_admin`, `suite_admin` | Operator access plus clear or delete playbooks, and list extraction sources and create or enable extraction bindings. |
 
-On the data plane, explicitly mapped `product_admin` and `suite_admin` users receive full Agent Playbooks access within the configured tenant.
+On the data plane, `product_admin` and `suite_admin` users receive full Agent Playbooks access within the release's tenant.
 
 The planes cache the JWKS for 10 minutes and allow 5 minutes of clock skew. If a key refresh fails and no cached key validates the token, the request fails with a temporary service error rather than an authentication error. A signed token normally stays usable until it expires. Account for these fixed defaults when you set token lifetimes and retire an IdP signing key.
 

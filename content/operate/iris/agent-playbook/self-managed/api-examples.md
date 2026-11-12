@@ -80,7 +80,7 @@ jq -n --arg id "$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID" '{
 }' > publisher-grant.json
 ```
 
-Use the deployment's `tenantId` as `tenant`. Issue the key through the Identity Service:
+Use the release's `global.iris.tenantId` as `tenant`. Issue the key through the Identity Service:
 
 ```bash
 curl --fail-with-body -sS \

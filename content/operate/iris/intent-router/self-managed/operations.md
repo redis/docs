@@ -11,7 +11,7 @@ weight: 90
 hideListLinks: true
 ---
 
-This page describes how to operate self-managed Intent Router after you deploy it and give Routers to developers. It covers routine checks, such as service health and data-plane Redis memory, and how the deployment responds when Redis is unavailable. It also covers the maintenance tasks you run with `helm upgrade`: rotating credentials, updating Secrets, and upgrading the chart. It ends with backing up and uninstalling the deployment.
+This page describes how to operate self-managed Intent Router after you deploy it and give Routers to developers. It covers routine checks, such as service health and data-plane Redis memory, and how the deployment responds when Redis is unavailable. It also covers rotating credentials, updating Secrets, and backing up. Upgrades and uninstalls run on the suite release.
 
 ## Check service health
 
@@ -30,15 +30,15 @@ curl -sS "$IRIS_INTENT_ROUTER_URL/iris/data/v1/intent/routers/$IRIS_INTENT_ROUTE
   -H "Authorization: Bearer $IRIS_INTENT_ROUTER_API_KEY" | jq .
 ```
 
-With `tests.enabled=true`, `helm test intent -n <namespace-name>` probes every service and runs the shared security-profile checks.
+`helm test iris --namespace <namespace-name>` creates a Router with the admin token, mints a scoped key, and calls the data plane with it.
 
 ## Rotate credentials
 
-Rotate the control plane and Identity Service tokens as described in [Rotate credentials](/content/operate/iris/intent-router/self-managed/authentication.md#rotate-credentials). To rotate an embedding provider credential, update `embedders_connection_details` in the inference Secret, update `inference.existingSecretChecksum`, and run `helm upgrade`, so the data plane rolls.
+Rotate the control plane and Identity Service tokens as described in [Rotate credentials](/content/operate/iris/intent-router/self-managed/authentication.md#rotate-credentials). To rotate an embedding provider credential, update `embedders_connection_details` in the inference Secret, update `intent.inference.existingSecretChecksum`, and [upgrade the release](/content/operate/iris/intent-router/self-managed/deploy.md#3-install-or-upgrade-the-release), so the data plane rolls.
 
 ## Watch the data-plane Redis
 
-The data-plane Redis holds every Router's examples and vector index. Watch its memory against the estimate in [Size memory](/content/operate/iris/intent-router/self-managed/prerequisites.md#size-memory), and add memory before a large authoring run. Intent limits stop a Router growing past `dataplane.limits.max_intents_per_router`, but not past the memory of the database. A Router whose database runs out of memory answers `424` with `/errors/database-out-of-memory`.
+The data-plane Redis holds every Router's examples and vector index. Watch its memory against the estimate in [Size memory](/content/operate/iris/intent-router/self-managed/prerequisites.md#size-memory), and add memory before a large authoring run. Intent limits stop a Router growing past `intent.dataplane.limits.max_intents_per_router`, but not past the memory of the database. A Router whose database runs out of memory answers `424` with `/errors/database-out-of-memory`.
 
 The data plane rebuilds a Router's index if it is lost, and reports the Router ready only after the index is built. While it rebuilds, match requests return `503` with `Retry-After`.
 
@@ -46,9 +46,9 @@ The data plane rebuilds a Router's index if it is lost, and reports the Router r
 
 A Router whose database is unreachable answers `503` with `Retry-After` until the database returns. See [Customer databases](/content/operate/iris/intent-router/self-managed/configuration.md#customer-databases) for what happens to a new Router.
 
-## Update configuration and license Secrets
+## Update configuration Secrets
 
-When you change a Secret, update its `existingSecretChecksum` in the values and run `helm upgrade`, so the pods roll and read the new content. Changing a customer database URL needs this restart.
+When you change the storage or inference Secret, update its `existingSecretChecksum` under `intent:` and upgrade the release, so the pods roll and read the new content. Changing a customer database URL needs this restart.
 
 ## Back up the deployment
 
@@ -56,23 +56,8 @@ Back up the metadata Redis, which holds the Router records, and the data-plane R
 
 A restored data-plane Redis rebuilds its Router indexes. Embeddings are stored with each example, so a restore doesn't call the embedding provider.
 
-## Upgrade the chart
+## Upgrade, remove, or uninstall
 
-```bash
-helm repo update redis-ai
-helm upgrade intent redis-ai/redis-intent-router \
-  --version <chart-version> \
-  --namespace <namespace-name> \
-  -f intent-values.yaml \
-  --wait --timeout 5m
-```
+Intent Router upgrades with the suite release. Check readiness on every service afterward. See [Upgrade](/content/operate/iris/self-managed/operations.md#upgrade).
 
-Set the image tags to the new chart version. Check readiness on every service afterward.
-
-## Uninstall the chart
-
-```bash
-helm uninstall intent --namespace <namespace-name>
-```
-
-Uninstalling doesn't delete the Redis databases or the Secrets you created. The chart keeps the auto-generated token Secrets (`helm.sh/resource-policy: keep`), so delete them yourself if you don't plan to reinstall.
+To remove Intent Router and its data, see [Remove a service permanently](/content/operate/iris/self-managed/operations.md#remove-a-service-permanently). To remove the whole suite, see [Uninstall](/content/operate/iris/self-managed/operations.md#uninstall).
