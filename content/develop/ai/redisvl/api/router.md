@@ -235,7 +235,7 @@ run index-metadata commands.
   * **redis_client** (*Redis* *|* *RedisCluster* *|* *None*)
   * **redis_url** (*str*)
 * **Return type:**
-  [SemanticRouter](#semanticrouter)
+  *Self*
 
 #### `classmethod from_yaml(file_path, **kwargs)`
 

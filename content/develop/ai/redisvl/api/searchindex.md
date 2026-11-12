@@ -555,16 +555,21 @@ query = VectorQuery(
 results = index.query(query)
 ```
 
-#### `search(*args, **kwargs)`
+#### `search(query, query_params=None)`
 
 Perform a search against the index.
 
 Wrapper around the search API that adds the index name
-to the query and passes along the rest of the arguments
-to the redis-py ft().search() method.
+to the query and passes the query and its parameters to
+redis-py’s `ft().search()`.
 
+* **Parameters:**
+  * **query** (*str* *|* *Query*) – The query string or redis-py `Query` to run.
+  * **query_params** (*dict* *[* *str* *,* *Any* *]*  *|* *None*) – Values for the parameters
+    the query refers to, such as a query vector. Defaults to None.
 * **Returns:**
-  Raw Redis search results.
+  The search results as a redis-py `Result`, on every
+  protocol.
 * **Return type:**
   Result
 
@@ -1214,16 +1219,21 @@ query = VectorQuery(
 results = await index.query(query)
 ```
 
-#### `async search(*args, **kwargs)`
+#### `async search(query, query_params=None)`
 
 Perform an async search against the index.
 
 Wrapper around the search API that adds the index name
-to the query and passes along the rest of the arguments
-to the redis-py ft().search() method.
+to the query and passes the query and its parameters to
+redis-py’s `ft().search()`.
 
+* **Parameters:**
+  * **query** (*str* *|* *Query*) – The query string or redis-py `Query` to run.
+  * **query_params** (*dict* *[* *str* *,* *Any* *]*  *|* *None*) – Values for the parameters
+    the query refers to, such as a query vector. Defaults to None.
 * **Returns:**
-  Raw Redis search results.
+  The search results as a redis-py `Result`, on every
+  protocol.
 * **Return type:**
   Result
 

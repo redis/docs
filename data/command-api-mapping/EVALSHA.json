@@ -520,6 +520,22 @@
           "description": "Script execution result"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "evalsha(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "the SHA1 String of a loaded script, then optional keys and argv arrays, or a Hash with :keys and :argv"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the script"
+        }
+      }
     ]
   }
 }

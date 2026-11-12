@@ -34409,7 +34409,87 @@
       "nredisstack_async": [],
       "php": [],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "ioredis": [
+        {
+          "signature": "debug(subcommand: string, callback?: Callback<unknown>)",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "callback?",
+              "type": "Callback<unknown>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<unknown, Context>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "debug(...args: [ subcommand: string, ...args: (string | Buffer | number)[], callback: Callback<unknown> ])",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "...args",
+              "type": "(string | Buffer | number)[]",
+              "description": ""
+            },
+            {
+              "name": "callback",
+              "type": "Callback<unknown>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<unknown, Context>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "debug(...args: [subcommand: string, ...args: (string | Buffer | number)[]])",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "...args",
+              "type": "(string | Buffer | number)[]",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<unknown, Context>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "debug(*args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "the subcommand, then its arguments"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the subcommand, a String for OBJECT and SLEEP"
+          }
+        }
+      ]
     }
   },
   "DECR": {
@@ -37390,6 +37470,22 @@
             "description": "Script execution result"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "eval(*args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "the script String, then optional keys and argv arrays, or a Hash with :keys and :argv"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the script"
+          }
+        }
       ]
     }
   },
@@ -37913,6 +38009,22 @@
           "returns": {
             "type": "mixed",
             "description": "Script execution result"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "evalsha(*args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "the SHA1 String of a loaded script, then optional keys and argv arrays, or a Hash with :keys and :argv"
+            }
+          ],
+          "returns": {
+            "type": "Object",
+            "description": "depends on the script"
           }
         }
       ]
@@ -98619,7 +98731,39 @@
         }
       ],
       "redis_rs_sync": [],
-      "redis_rs_async": []
+      "redis_rs_async": [],
+      "ioredis": [
+        {
+          "signature": "monitor(callback?: Callback<Redis>)",
+          "params": [
+            {
+              "name": "callback?",
+              "type": "Callback<Redis>",
+              "description": "Called with the monitoring connection. A promise is returned when it is omitted"
+            }
+          ],
+          "returns": {
+            "type": "Promise<Redis>",
+            "description": "A new connection in monitor mode, so the current connection is not disturbed"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "monitor",
+          "params": [
+            {
+              "name": "&block",
+              "type": "Block",
+              "description": "called for every line of output, with the timestamp and command as a String"
+            }
+          ],
+          "returns": {
+            "type": "nil",
+            "description": "does not return, there is no way to interrupt it"
+          }
+        }
+      ]
     }
   },
   "MOVE": {
@@ -104643,6 +104787,22 @@
             "description": "List of active channels matching the pattern"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "pubsub(:channels, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "an optional glob-style pattern to match channel names"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": "the active channels"
+          }
+        }
       ]
     }
   },
@@ -104699,6 +104859,16 @@
           "returns": {
             "type": "mixed",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "pubsub(:help)",
+          "params": [],
+          "returns": {
+            "type": "Array<String>",
+            "description": "lines of help text"
           }
         }
       ]
@@ -104862,6 +105032,16 @@
           "returns": {
             "type": "mixed",
             "description": "Number of unique pattern subscriptions"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "pubsub(:numpat)",
+          "params": [],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of pattern subscriptions"
           }
         }
       ]
@@ -105120,6 +105300,22 @@
             "description": "Map of channel names to subscriber counts"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "pubsub(:numsub, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "the channel names"
+            }
+          ],
+          "returns": {
+            "type": "Array",
+            "description": "each channel name followed by its number of subscribers"
+          }
+        }
       ]
     }
   },
@@ -105349,6 +105545,22 @@
             "description": "List of active shard channels matching the pattern"
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "pubsub(:shardchannels, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "an optional glob-style pattern to match shard channel names"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": "the active shard channels"
+          }
+        }
       ]
     }
   },
@@ -105563,6 +105775,22 @@
           "returns": {
             "type": "mixed",
             "description": "Map of shard channel names to subscriber counts"
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "pubsub(:shardnumsub, *args)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "the shard channel names"
+            }
+          ],
+          "returns": {
+            "type": "Array",
+            "description": "each shard channel name followed by its number of subscribers"
           }
         }
       ]
@@ -116901,6 +117129,16 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "shutdown",
+          "params": [],
+          "returns": {
+            "type": "nil",
+            "description": "the server closes the connection, so there is no reply"
+          }
+        }
       ]
     }
   },
@@ -118900,6 +119138,27 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "slaveof(host, port)",
+          "params": [
+            {
+              "name": "host",
+              "type": "String",
+              "description": "the host of the master, or NO to promote the server to master"
+            },
+            {
+              "name": "port",
+              "type": "Integer",
+              "description": "the port of the master, or ONE when host is NO"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
       ]
     }
   },
@@ -119224,6 +119483,16 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "slowlog(:help)",
+          "params": [],
+          "returns": {
+            "type": "Array<String>",
+            "description": "lines of help text"
           }
         }
       ]
@@ -127309,6 +127578,16 @@
           "returns": {
             "type": "Result<unknown, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "sync",
+          "params": [],
+          "returns": {
+            "type": "Object",
+            "description": "internal replication command, the server then streams the dataset and later writes on this connection"
           }
         }
       ]
@@ -148913,11 +149192,11 @@
       ],
       "ioredis": [
         {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+          "signature": "xgroup(subcommand: \"CREATECONSUMER\", key: RedisKey, groupname: string | Buffer, consumername: string | Buffer, callback?: Callback<unknown>)",
           "params": [
             {
               "name": "subcommand",
-              "type": "\"CREATE\"",
+              "type": "\"CREATECONSUMER\"",
               "description": ""
             },
             {
@@ -148931,174 +149210,8 @@
               "description": ""
             },
             {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
+              "name": "consumername",
               "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "entriesReadToken",
-              "type": "\"ENTRIESREAD\"",
-              "description": ""
-            },
-            {
-              "name": "entriesRead",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "mkstream",
-              "type": "\"MKSTREAM\"",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "mkstream",
-              "type": "\"MKSTREAM\"",
-              "description": ""
-            },
-            {
-              "name": "entriesReadToken",
-              "type": "\"ENTRIESREAD\"",
-              "description": ""
-            },
-            {
-              "name": "entriesRead",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "newId",
-              "type": "\"$\"",
               "description": ""
             },
             {
@@ -149188,6 +149301,32 @@
           "returns": {
             "type": "int",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "xgroup(:createconsumer, key, group, consumer)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "the stream key"
+            },
+            {
+              "name": "group",
+              "type": "String",
+              "description": "the consumer group name"
+            },
+            {
+              "name": "consumer",
+              "type": "String",
+              "description": "the consumer name"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "1 when the consumer was created, 0 when it already existed"
           }
         }
       ]
@@ -149417,11 +149556,11 @@
       ],
       "ioredis": [
         {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+          "signature": "xgroup(subcommand: \"DELCONSUMER\", key: RedisKey, groupname: string | Buffer, consumername: string | Buffer, callback?: Callback<unknown>)",
           "params": [
             {
               "name": "subcommand",
-              "type": "\"CREATE\"",
+              "type": "\"DELCONSUMER\"",
               "description": ""
             },
             {
@@ -149435,174 +149574,8 @@
               "description": ""
             },
             {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
+              "name": "consumername",
               "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "entriesReadToken",
-              "type": "\"ENTRIESREAD\"",
-              "description": ""
-            },
-            {
-              "name": "entriesRead",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "mkstream",
-              "type": "\"MKSTREAM\"",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "mkstream",
-              "type": "\"MKSTREAM\"",
-              "description": ""
-            },
-            {
-              "name": "entriesReadToken",
-              "type": "\"ENTRIESREAD\"",
-              "description": ""
-            },
-            {
-              "name": "entriesRead",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "newId",
-              "type": "\"$\"",
               "description": ""
             },
             {
@@ -149979,11 +149952,11 @@
       ],
       "ioredis": [
         {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+          "signature": "xgroup(subcommand: \"DESTROY\", key: RedisKey, groupname: string | Buffer, callback?: Callback<unknown>)",
           "params": [
             {
               "name": "subcommand",
-              "type": "\"CREATE\"",
+              "type": "\"DESTROY\"",
               "description": ""
             },
             {
@@ -149994,177 +149967,6 @@
             {
               "name": "groupname",
               "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "entriesReadToken",
-              "type": "\"ENTRIESREAD\"",
-              "description": ""
-            },
-            {
-              "name": "entriesRead",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "mkstream",
-              "type": "\"MKSTREAM\"",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "mkstream",
-              "type": "\"MKSTREAM\"",
-              "description": ""
-            },
-            {
-              "name": "entriesReadToken",
-              "type": "\"ENTRIESREAD\"",
-              "description": ""
-            },
-            {
-              "name": "entriesRead",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "newId",
-              "type": "\"$\"",
               "description": ""
             },
             {
@@ -150551,11 +150353,11 @@
       ],
       "ioredis": [
         {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+          "signature": "xgroup(subcommand: \"SETID\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
           "params": [
             {
               "name": "subcommand",
-              "type": "\"CREATE\"",
+              "type": "\"SETID\"",
               "description": ""
             },
             {
@@ -150585,11 +150387,11 @@
           }
         },
         {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+          "signature": "xgroup(subcommand: \"SETID\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
           "params": [
             {
               "name": "subcommand",
-              "type": "\"CREATE\"",
+              "type": "\"SETID\"",
               "description": ""
             },
             {
@@ -150629,99 +150431,11 @@
           }
         },
         {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
+          "signature": "xgroup(subcommand: \"SETID\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
           "params": [
             {
               "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "mkstream",
-              "type": "\"MKSTREAM\"",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "id",
-              "type": "string | Buffer | number",
-              "description": ""
-            },
-            {
-              "name": "mkstream",
-              "type": "\"MKSTREAM\"",
-              "description": ""
-            },
-            {
-              "name": "entriesReadToken",
-              "type": "\"ENTRIESREAD\"",
-              "description": ""
-            },
-            {
-              "name": "entriesRead",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CREATE\"",
+              "type": "\"SETID\"",
               "description": ""
             },
             {
@@ -150737,6 +150451,50 @@
             {
               "name": "newId",
               "type": "\"$\"",
+              "description": ""
+            },
+            {
+              "name": "callback?",
+              "type": "Callback<unknown>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Result<unknown, Context>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "xgroup(subcommand: \"SETID\", key: RedisKey, groupname: string | Buffer, newId: \"$\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+          "params": [
+            {
+              "name": "subcommand",
+              "type": "\"SETID\"",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": ""
+            },
+            {
+              "name": "groupname",
+              "type": "string | Buffer",
+              "description": ""
+            },
+            {
+              "name": "newId",
+              "type": "\"$\"",
+              "description": ""
+            },
+            {
+              "name": "entriesReadToken",
+              "type": "\"ENTRIESREAD\"",
+              "description": ""
+            },
+            {
+              "name": "entriesRead",
+              "type": "number | string",
               "description": ""
             },
             {
@@ -151126,102 +150884,6 @@
             "type": "Result<unknown, Context>",
             "description": ""
           }
-        },
-        {
-          "signature": "xinfo(subcommand: \"GROUPS\", key: RedisKey, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"GROUPS\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xinfo(subcommand: \"HELP\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"HELP\"",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"STREAM\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, fullToken: \"FULL\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"STREAM\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "fullToken",
-              "type": "\"FULL\"",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
         }
       ],
       "redis_rs_sync": [
@@ -151497,35 +151159,6 @@
       ],
       "ioredis": [
         {
-          "signature": "xinfo(subcommand: \"CONSUMERS\", key: RedisKey, groupname: string | Buffer, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CONSUMERS\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
           "signature": "xinfo(subcommand: \"GROUPS\", key: RedisKey, callback?: Callback<unknown>)",
           "params": [
             {
@@ -151536,78 +151169,6 @@
             {
               "name": "key",
               "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xinfo(subcommand: \"HELP\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"HELP\"",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"STREAM\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, fullToken: \"FULL\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"STREAM\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "fullToken",
-              "type": "\"FULL\"",
               "description": ""
             },
             {
@@ -151940,78 +151501,6 @@
         }
       ],
       "ioredis": [
-        {
-          "signature": "xinfo(subcommand: \"CONSUMERS\", key: RedisKey, groupname: string | Buffer, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"CONSUMERS\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "groupname",
-              "type": "string | Buffer",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xinfo(subcommand: \"GROUPS\", key: RedisKey, callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"GROUPS\"",
-              "description": ""
-            },
-            {
-              "name": "key",
-              "type": "RedisKey",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
-        {
-          "signature": "xinfo(subcommand: \"HELP\", callback?: Callback<unknown>)",
-          "params": [
-            {
-              "name": "subcommand",
-              "type": "\"HELP\"",
-              "description": ""
-            },
-            {
-              "name": "callback?",
-              "type": "Callback<unknown>",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Result<unknown, Context>",
-            "description": ""
-          }
-        },
         {
           "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, callback?: Callback<unknown>)",
           "params": [

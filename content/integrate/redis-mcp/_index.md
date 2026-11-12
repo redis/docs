@@ -35,6 +35,9 @@ an LLM chat using instructions and questions like the following:
 - "How many keys does my database have?"
 - "What is user:1's email?"
 
+To manage Redis Cloud subscriptions and databases without installing anything,
+use the [Redis Cloud remote MCP server](/content/integrate/redis-mcp/remote-cloud-mcp.md).
+
 See the other pages in this section to learn how to set up and use Redis MCP.
 See also the [GitHub repository](https://github.com/redis/mcp-redis) for
 the latest changes.

@@ -43,6 +43,8 @@ jobs:
         with:
           python-version: '3.11'
 
+      # myst-parser comes in with myst_nb. It's pinned because a new release can
+      # change the generated Markdown, which opens a PR for every version.
       - name: 'Install deps'
         run: |
           pip3 install \
@@ -52,6 +54,7 @@ jobs:
             nbsphinx==0.9.7 \
             sphinx_favicon==1.1.0 \
             myst_nb==1.4.0 \
+            myst-parser==5.2.0 \
             sphinx_markdown_builder==0.6.8 \
             sphinxcontrib-mermaid==1.0.0 \
             jupyter==1.1.1
