@@ -492,14 +492,7 @@ Jobs compute settings don't include Spark configuration properties. Set them in 
 
 Feature Form submits each step of an apply as a separate one-time Databricks run. It doesn't combine steps into one multi-task Databricks job.
 
-| Resource | Databricks runs |
-| --- | --- |
-| Dataset | None |
-| Transformation | One |
-| Training set | One |
-| Feature view | Several: one to compute the feature view, one to load the online store, and one to commit the result |
-
-Deleting Feature Form-managed outputs can also start runs. A run starts only after the runs that produce its inputs finish. You can't set the order of independent resources directly. To run one group of resources before another, apply each group separately with `ff apply --merge --wait --wait-for finished`.
+You can't set the order of independent resources directly. To run one group of resources before another, apply each group separately with `ff apply --merge --wait --wait-for finished`.
 
 With `job_cluster`, each run starts its own Jobs compute. To reduce startup time, use an instance pool, or use `existing_cluster` so runs share a running cluster.
 
@@ -697,7 +690,7 @@ Keep Transport Layer Security (TLS) enabled when the Redis deployment requires i
 
 ## Control who can use Databricks providers
 
-Providers and their credentials belong to one Feature Form [workspace](/content/develop/ai/featureform/concepts.md#workspaces), and resources can use only providers in their own workspace. Within a workspace, there's no permission for an individual provider. Any user with the `operator` role or higher can register or update any provider in that workspace and apply resources that use it. Databricks runs always use the provider's credential, not the identity of the user who runs `ff apply`.
+Providers and their credentials belong to one Feature Form [workspace](/content/develop/ai/featureform/concepts.md#workspaces), and resources can use only providers in their own workspace. Within a workspace, there's no permission for an individual provider. Any user with the `operator` role or higher can register or update data and compute providers in that workspace and apply resources that use it. Registering or updating a secret provider, such as `databricks-secret`, requires `workspace_admin` or higher. Databricks runs always use the provider's credential, not the identity of the user who runs `ff apply`.
 
 To isolate tenants that share a Databricks workspace:
 
