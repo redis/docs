@@ -25,7 +25,7 @@ By the end of this guide, you will be able to:
 - Store and retrieve cached LLM responses
 - Understand entry IDs and keys for fetching and deleting specific entries
 - Customize semantic similarity thresholds
-- Configure TTL policies and understand TTL refresh behavior
+- Configure TTL policies and control TTL refresh behavior
 - Implement access controls with tags and filters for multi-user scenarios
 
 First, import [OpenAI](https://platform.openai.com) to use their API for responding to user prompts. The following code creates a simple `ask_openai` helper method to assist.
@@ -374,15 +374,17 @@ Understanding how TTL works with `SemanticCache` is important for production use
 | Scenario | Behavior |
 |----------|----------|
 | `ttl=None` (default) | Entries persist forever. `check()` does not affect TTL. |
-| `ttl=3600` at init | Entries get TTL on `store()`. TTL is **refreshed** on every `check()` hit. |
-| Set TTL later with `set_ttl(3600)` | **Existing entries keep no TTL**, but `check()` will now **add** TTL to matched entries. |
+| `ttl=3600` at init | Entries get TTL on `store()`. TTL is **refreshed** on every `check()` hit by default. |
+| `refresh_ttl_on_hit=False` at init | Entries keep their stored TTL, and `check()` does not extend matched entries unless overridden per call. |
+| `check(..., refresh_ttl=False)` | Skips TTL refresh for that lookup only. |
+| Set TTL later with `set_ttl(3600)` | **Existing entries keep no TTL**, but `check()` will now **add** TTL to matched entries unless TTL refresh is disabled. |
 | Remove TTL with `set_ttl(None)` | Existing entries keep their TTL, but `check()` no longer refreshes it. |
 
-**Important:** The `check()` method automatically refreshes TTL on all matched entries (sliding window pattern). This keeps frequently accessed entries alive but can unexpectedly add TTL to entries that were originally stored without one.
+**Important:** By default, the `check()` method refreshes TTL on all matched entries (sliding window pattern). This keeps frequently accessed entries alive but can unexpectedly add TTL to entries that were originally stored without one. Use `refresh_ttl_on_hit=False` or `check(..., refresh_ttl=False)` when cache reads should not extend entry lifetime.
 
 ### TTL Refresh on Check
 
-When `check()` finds matching entries, it refreshes the TTL on **all** matched results, not just the one you use:
+When `check()` finds matching entries, it refreshes the TTL on **all** matched results, not just the one you use. Pass `refresh_ttl=False` for an individual lookup that should not extend the matched entries' TTL:
 
 
 ```python
@@ -394,6 +396,9 @@ llmcache.store("What is Python?", "A programming language")
 
 # Every time check() finds this entry, TTL resets to 300 seconds
 result = llmcache.check("What is Python?")  # TTL refreshed
+
+# Skip TTL refresh for one lookup
+result = llmcache.check("What is Python?", refresh_ttl=False)
 
 # Reset for next examples
 llmcache.set_ttl()
