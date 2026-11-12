@@ -8,7 +8,7 @@ categories:
 - rdi
 description: Configure disaster recovery for Redis Data Integration with GCS or DynamoDB leader election.
 group: di
-hideListLinks: false
+hideListLinks: true
 linkTitle: Disaster recovery (DR)
 summary: Set up and operate RDI across two or more sites.
 type: integration

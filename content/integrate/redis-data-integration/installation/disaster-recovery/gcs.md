@@ -15,7 +15,7 @@ type: integration
 weight: 10
 ---
 
-Use an object in a Google Cloud Storage (GCS) bucket to coordinate leader election between
+Use an object in a Google Cloud Storage (GCS) bucket to coordinate a leader election between
 Redis Data Integration (RDI) sites. All sites must use the same bucket and object name.
 To use one bucket for several disaster recovery (DR) setups, see
 [Share a lease store between DR setups](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#share-a-lease-store-between-dr-setups).
@@ -89,22 +89,6 @@ operator:
       iam.gke.io/gcp-service-account: <operator-service-account-email>
 ```
 
-### Service account key file
-
-Pass a service account key file when installing RDI. Append this option to each site's
-command in [Install RDI](#install-rdi), using that site's file:
-
-```text
---set-file operator.leaderElection.gcsLease.credentials="<credentials-file>"
-```
-
-RDI 2.2.1 and later accept only service account key files, not Workload Identity Federation
-credential configuration files.
-
-After creating the lease resource and granting access, return to
-[Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
-to complete the source, target, and network preparation.
-
 ## Configure both instances
 
 Merge the following settings into the `operator.leaderElection` section of each site's
@@ -164,8 +148,20 @@ values identify the two RDI instances.
      --values rdi-values-site-b.yaml
    ```
 
-   If you use a [service account key file](#service-account-key-file), append its `--set-file`
-   option to each site's command.
+   > [!NOTE]
+   > If you use a service account key file, you must pass
+   > it to the `helm upgrade` commands shown above using an extra `--set-file` option
+   >
+   > ```text
+   > --set-file operator.leaderElection.gcsLease.credentials="<creds-file>"
+   > ```
+   > RDI 2.2.1 and later accept only service account key files, not Workload Identity Federation
+   > credential configuration files.
+   >
+   > After creating the lease resource and granting access, return to
+   > [Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
+   > to complete the source, target, and network preparation.
+
 
 Continue with [Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets)
 to configure RDI CLI contexts. One leader, one follower, and no access errors in the operator

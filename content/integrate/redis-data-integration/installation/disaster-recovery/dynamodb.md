@@ -152,30 +152,6 @@ operator:
       eks.amazonaws.com/role-arn: arn:aws:iam::<aws-account-id>:role/<operator-role>
 ```
 
-### Shared credentials file
-
-An operator running outside AWS can use an AWS shared credentials file. Append this option
-to each site's command in [Install RDI](#install-rdi), using that site's file:
-
-```text
---set-file operator.leaderElection.dynamoDBLease.credentials="<aws-credentials-file>"
-```
-
-For example, the file can contain:
-
-```ini
-[default]
-aws_access_key_id = <access-key-id>
-aws_secret_access_key = <secret-access-key>
-```
-
-Don't use temporary credentials in this file. RDI reads it only at startup, so they stop
-working when they expire.
-
-After creating the lease resource and granting access, return to
-[Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
-to complete the source, target, and network preparation.
-
 ## Configure both instances
 
 Merge the following settings into the `operator.leaderElection` section of each site's
@@ -218,20 +194,40 @@ RDI creates the lease item.
 
 ## Install RDI
 
-1. With the AWS identity configured for both operators, install RDI in each Kubernetes cluster:
+With the AWS identity configured for both operators, install RDI in each Kubernetes cluster:
 
-   ```bash
-   helm upgrade --install rdi "rdi-<tag>.tgz" \
-     --kube-context "<site-a-kube-context>" --namespace rdi --create-namespace \
-     --values rdi-values-site-a.yaml
+```bash
+helm upgrade --install rdi "rdi-<tag>.tgz" \
+  --kube-context "<site-a-kube-context>" --namespace rdi --create-namespace \
+  --values rdi-values-site-a.yaml
 
-   helm upgrade --install rdi "rdi-<tag>.tgz" \
-     --kube-context "<site-b-kube-context>" --namespace rdi --create-namespace \
-     --values rdi-values-site-b.yaml
-   ```
+helm upgrade --install rdi "rdi-<tag>.tgz" \
+  --kube-context "<site-b-kube-context>" --namespace rdi --create-namespace \
+  --values rdi-values-site-b.yaml
+```
 
-   If you use a [shared credentials file](#shared-credentials-file), append its `--set-file`
-   option to each site's command.
+An operator running outside AWS can use an AWS shared credentials file.
+If you use a shared credentials file, you must pass it to the `helm upgrade`
+commands shown above using the `--set-file` option:
+
+```text
+--set-file operator.leaderElection.dynamoDBLease.credentials="<aws-creds-file>"
+```
+
+For example, the file can contain:
+
+```ini
+[default]
+aws_access_key_id = <access-key-id>
+aws_secret_access_key = <secret-access-key>
+```
+
+Don't use temporary credentials in this file. RDI reads it only at startup, so they stop
+working when they expire.
+
+After creating the lease resource and granting access, return to
+[Prepare both sites](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#prepare-both-sites)
+to complete the source, target, and network preparation.
 
 Continue with [Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets)
 to configure RDI CLI contexts. One leader, one follower, and no access errors in the operator
