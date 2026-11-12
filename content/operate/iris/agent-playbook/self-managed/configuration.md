@@ -35,7 +35,7 @@ metadata:
     - rediss://<identity-user>:<identity-password>@<metadata-host>:6379
 ```
 
-The [deploy steps](/content/operate/iris/agent-playbook/self-managed/deploy.md#2-create-secrets) put each file in its own Secret.
+The [deploy steps](/content/operate/iris/agent-playbook/self-managed/deploy.md#1-create-the-agent-playbooks-secrets) put each file in its own Secret.
 
 ## Embedding configuration
 

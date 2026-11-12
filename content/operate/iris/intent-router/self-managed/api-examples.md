@@ -17,7 +17,7 @@ Before you begin, [deploy the chart](/content/operate/iris/intent-router/self-ma
 
 ## Set connection values
 
-Forward the control plane, the data plane, and the Identity Service in separate terminals, as in [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#5-verify-pods-and-health), then export the connection values:
+Forward the control plane, the data plane, and the Identity Service in separate terminals, as in [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#4-verify-the-deployment), then export the connection values:
 
 ```bash
 export IRIS_INTENT_ROUTER_SERVICE_URL='http://localhost:9400'

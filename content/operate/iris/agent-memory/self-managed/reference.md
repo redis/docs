@@ -19,7 +19,7 @@ Use these files to configure a self-managed deployment:
 
 | File | Purpose |
 | --- | --- |
-| `ram-values.yaml` | Memory configuration and its connection to Identity Service. See [step 3](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml). |
+| `ram-values.yaml` | Memory configuration and its connection to Identity Service. See [step 3](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values). |
 | `values-ids.yaml` | Separate Identity Service release configuration, including runtime credential registration, tenant, and Memory grant validation. |
 | `overlay.yaml` | Redis addresses and provider credentials. The Data Plane, the workers, and the Control Plane all mount it. |
 | `ids-metadata.yaml` | Tells the Identity Service where Metadata Redis is. |
@@ -59,9 +59,9 @@ CSI-synced Secrets, make sure a Control Plane pod also mounts the corresponding
 | Server and worker pods `CrashLoopBackOff`; log: `license validation failed; refusing to start: invalid license format` | `memory.license.license_path` is not set | See [CL-1](/content/operate/iris/agent-memory/self-managed/deploy.md#cl-1). |
 | Worker pods `CrashLoopBackOff`; log: `strategies.instruct.llm is required` | The `instruct.llm` block is missing | See [CL-2](/content/operate/iris/agent-memory/self-managed/deploy.md#cl-2). |
 | Pods `CrashLoopBackOff`; log: `provider "<name>" is not defined in inference_providers` | An `llm.provider` doesn't name an `inference_providers` entry | See [CL-3](/content/operate/iris/agent-memory/self-managed/deploy.md#cl-3). |
-| Worker callback cannot resolve the Data Plane host | `memory.dataplane_client.base_url` is wrong | See [CL-4](/content/operate/iris/agent-memory/self-managed/deploy.md#cl-4). |
+| Worker callback cannot resolve the Data Plane host | `memory.dataplane_client.base_url` is wrong | See [Add the Agent Memory values](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values). |
 | Pod is stuck in `ImagePullBackOff` or `ErrImagePull` | Cluster cannot pull the configured image, image tag is wrong, registry requires credentials, or `imagePullSecrets` is missing/wrong | Verify `image.repository`, `image.tag`, registry reachability, and `imagePullSecrets`; use the Redis Agent Memory release image tag. Configure Identity Service's image and pull Secrets on its own release. See [CL-5](/content/operate/iris/agent-memory/self-managed/deploy.md#cl-5). |
-| Worker callbacks rejected with `401` | `auth.worker_identity` doesn't match the worker, or the Data Plane cannot fetch the cluster JWKS | See [CL-6](/content/operate/iris/agent-memory/self-managed/deploy.md#cl-6). |
+| Worker callbacks rejected with `401` | `auth.worker_identity` doesn't match the worker, or the Data Plane cannot fetch the cluster JWKS | See [Prepare worker identity for your platform](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform). |
 | `helm install --atomic --wait` times out and rolls back | Cluster is small or image pull/startup takes longer than Helm's default timeout | Install without `--atomic --wait`, or set a longer `--timeout` and ensure enough cluster capacity. |
 | Pods are pending during install or upgrade | CPU/memory capacity is insufficient for default replicas and rollout overlap | Add nodes/headroom or lower replicas for test deployments. |
 | Data Plane health fails | Pod not ready, config invalid, Redis unavailable, or license invalid | Check pod logs and call `/health/liveness` and `/health/readiness`. |

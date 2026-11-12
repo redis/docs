@@ -11,34 +11,25 @@ weight: 40
 hideListLinks: true
 ---
 
-> [!NOTE]
-> Install Lens with the [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install. Installing the `redis-lens` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `lens:` key.
-
 Lens traces your AI agent turns, so developers can see what each source returned, what entered the prompt, and how each step went. Before developers can send turns, a platform administrator deploys Lens, connects it to an Identity Service, and gives each application an endpoint and API keys.
 
-This guide is for that administrator. It covers deploying Lens on your own Kubernetes cluster with the `redis-lens` Helm chart, then configuring, securing, and operating it. To install, start with the [prerequisites](/content/operate/iris/lens/self-managed/prerequisites.md).
-
-> [!NOTE]
-> You need a license key to deploy self-managed Lens. Contact your Redis representative or
-> [contact sales](https://redis.io/contact/).
-
-These guides use `redis-lens` chart `1.0.0`.
+This guide is for that administrator. It covers deploying Lens on your own Kubernetes cluster, then configuring, securing, and operating it. To install, follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md), then [Deploy](/content/operate/iris/lens/self-managed/deploy.md). You need a suite license key. Contact your Redis representative or [contact sales](https://redis.io/contact/).
 
 ## What you deploy
 
-One release of the `redis-lens` chart runs three workloads. It deploys no Identity Service: it connects to a separate `iris-identity-service` release.
+The `redis-iris` chart `1.0.0` runs three Lens workloads, with the Identity Service. Lens values go under the `lens:` key, and the chart's `examples/lens.yaml` is a working values file to start from.
 
 | Component | Purpose | Service port |
 | --- | --- | --- |
 | Data plane | Receives turns from agents over OpenTelemetry Protocol (OTLP) and serves the read application programming interface (API). | `9000` |
 | Worker | Assembles received steps into turns. Runs the data-plane image, with no Service. | None |
 | Control plane | Holds the single Lens instance record and validates key grants for the Identity Service. | `9300` |
-| Identity Service | Mints Lens API keys and checks them for the data plane. Installed as its own release. | `9200` |
+| Identity Service | Mints Lens API keys and checks them for the data plane. Installed by the suite. | `9200` |
 | Records database | Turn streams and search indexes. | Customer-provided |
 | Content database | Captured prompts, responses, and tool payloads. | Customer-provided |
 | Metadata Redis | The Lens instance record. | Customer-provided |
 
-One installation serves one Lens instance, `default` unless you set `instance.id`. The control plane creates it at startup, so there is no create call.
+One installation serves one Lens instance, `default`. The suite requires that ID, because the Iris console's Lens route queries it. The control plane creates it at startup, so there is no create call.
 
 ### How the components work together
 

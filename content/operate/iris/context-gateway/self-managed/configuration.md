@@ -27,7 +27,7 @@ The chart reads non-secret settings from Helm values and every credential from a
 | `imagePullSecrets` | Credentials for a private registry. |
 | `controlplane.config`, `dataplane.config` | Application settings for each plane. They default to `{}`, so the image's defaults apply. |
 
-Start with the complete [deployment values example](/content/operate/iris/context-gateway/self-managed/deploy.md#3-create-gateway-valuesyaml), then apply the settings you need from this page.
+Start with the complete [deployment values example](/content/operate/iris/context-gateway/self-managed/deploy.md#2-add-the-context-gateway-values), then apply the settings you need from this page.
 
 ## File references
 

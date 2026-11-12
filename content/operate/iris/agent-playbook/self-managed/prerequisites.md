@@ -28,7 +28,7 @@ You provide the Identity Service release, the Redis databases, the embedding pro
 | Bash, curl, jq, and OpenSSL | Generate tokens and run the administrative API examples. Use a curl version that supports `--fail-with-body`. |
 | License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). An Agent Playbooks license or an Iris suite license that includes Agent Playbooks. |
 | Embedding provider | A provider and model the data plane can reach, with its credentials. |
-| Identity Service | An `iris-identity-service` release, chart `1.0.0`, with the Agent Playbooks entries registered. See [Deploy](/content/operate/iris/agent-playbook/self-managed/deploy.md#3-install-identity-service-first). |
+| Identity Service | An `iris-identity-service` release, chart `1.0.0`, with the Agent Playbooks entries registered. See [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md). |
 
 <!-- TODO: Confirm the supported platforms and production sizing for the GA release. -->
 

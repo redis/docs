@@ -17,7 +17,7 @@ aliases:
 The Memory chart renders Data Plane and Control Plane configuration from Helm values
 (`config.render: true` and `controlplane.config.render: true`). Identity Service uses its own
 release and `values-ids.yaml`. Credentials stay in existing Secrets. For a complete
-example, see the values in [step 3 of Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml).
+example, see the values in [step 3 of Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values).
 
 To supply complete configuration files in your own Secrets instead, see
 [Bring-your-own (BYO) configuration](#bring-your-own-byo-configuration).

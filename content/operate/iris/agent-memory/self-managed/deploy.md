@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - iris
-description: Install Redis Agent Memory with chart-rendered configuration and agent-key authentication, then make one authenticated call.
+description: Add Redis Agent Memory to a Redis Iris suite release, then create a store, mint an agent key, and make one authenticated call.
 linkTitle: Deploy
 weight: 50
 hideListLinks: true
@@ -18,84 +18,13 @@ aliases:
 - /operate/iris/agent-memory/self-managed/deploy-static/
 ---
 
-> [!NOTE]
-> For a supported install, see [Install with the Redis Iris suite chart](#install-with-the-redis-iris-suite-chart). The standalone steps on this page show what each value does.
+Agent Memory installs as part of the `redis-iris` Helm chart. Follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md) for the prerequisites, the shared Secrets, the preflight, and the install. This page covers what Agent Memory adds to that release, and ends with one authenticated call to the Data Plane.
 
-These steps install Redis Agent Memory with chart-rendered configuration and agent-key
-authentication, and end with one authenticated call to the Data Plane.
+Agent Memory is on by default (`global.iris.products.memory.enabled: true`). Its values go under the `memory:` key in `iris-values.yaml`. The chart's `examples/memory-only.yaml` is a working values file for these steps. The suite nests Memory's Data Plane values one level down, so the Data Plane's `auth` setting is `memory.memory.auth`.
 
-Install Identity Service as release `ids`, then Memory as release `redis-agent-memory`.
-These steps use Memory chart `1.0.0` and Identity Service chart `1.0.0` in one namespace.
-You create the shared credentials and Identity Service control token; Memory generates its
-Control Plane admin token. See [Credentials](/content/operate/iris/agent-memory/self-managed/authentication.md#credentials).
+## 1. Create the Agent Memory Secrets
 
-Before installing, provide two Transport Layer Security (TLS) endpoints through your hosting
-environment: one forwarding to `ids-iris-identity-service:9200`, and one forwarding to
-`redis-agent-memory-controlplane:9100`. Neither chart terminates TLS. Replace the endpoint
-placeholders with addresses reachable from the calling pods. Obtain their certificate authority
-(CA) certificates as a PEM bundle named `service-ca.crt`; use your organization's trust bundle
-if the endpoints use public certificates.
-
-Ownership enforcement is off by default, so your backend must authorize each user's access to personal memories. To have the server enforce owners, [configure delegated user identity](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) and set `memory.ownership.enabled: true`.
-
-Before you begin, review the [prerequisites](/content/operate/iris/agent-memory/self-managed/prerequisites.md).
-
-### Isolated lab without TLS
-
-For a network-isolated lab without the Federal Information Processing Standards (FIPS) profile,
-you can use the in-cluster HTTP Services instead of TLS frontends. In `ram-values.yaml`, change:
-
-```yaml
-dataplane:
-  identityServiceBaseURL: http://ids-iris-identity-service:9200
-identityService:
-  allowInsecureTransport: true
-  credential:
-    existingSecret: memory-dp-credential
-```
-
-In `values-ids.yaml`, change the validator URL to
-`productValidation.products.memory.baseURL: http://redis-agent-memory-controlplane:9100`.
-Keep the other settings in both files. Tokens travel over plaintext HTTP on these two hops;
-use TLS for production. FIPS refuses this configuration.
-
-For this lab option, skip `service-ca.crt` and the initial `ram-ca` creation in step 2, and omit
-`tls` from `values-ids.yaml`. For self-managed worker identity, still create `ram-ca` from the
-cluster CA as described in [Prepare worker identity](#prepare-worker-identity-for-your-platform).
-On EKS and AKS, omit Memory's `tls` block too unless another connection requires a private CA.
-
-## 1. Create the namespace
-
-```bash
-kubectl create namespace <namespace-name>
-```
-
-## 2. Create Secrets
-
-```bash
-kubectl -n <namespace-name> create secret generic ram-license \
-  --from-file=license=./ram-license.key
-kubectl -n <namespace-name> create secret generic ram-secrets \
-  --from-file=overlay.yaml=./overlay.yaml
-kubectl -n <namespace-name> create secret generic ram-ids-metadata \
-  --from-file=metadata.yaml=./ids-metadata.yaml
-kubectl -n <namespace-name> create secret generic memory-dp-credential \
-  --from-literal=token="$(openssl rand -hex 32)"
-kubectl -n <namespace-name> create secret generic memory-internal-token \
-  --from-literal=token="$(openssl rand -hex 32)"
-kubectl -n <namespace-name> create secret generic ids-control-token \
-  --from-literal=token="$(openssl rand -hex 32)"
-kubectl -n <namespace-name> create secret generic ram-ca \
-  --from-file=ca.crt=./service-ca.crt --save-config
-```
-
-Both releases mount `memory-dp-credential` and `memory-internal-token`. You own these Secrets;
-neither release generates them in this procedure. The runtime credential lets Memory check
-agent keys. The internal token lets Identity Service validate grants against Memory's Control
-Plane. The `ids-control-token` Secret is separate and is used only by Identity Service.
-
-`overlay.yaml` holds the Redis addresses and provider credentials. The Data Plane, the workers, and
-the Control Plane all mount it:
+Memory reads its Redis addresses and provider credentials from an overlay file. The Data Plane, the workers, and the Control Plane all mount it. Save it as `overlay.yaml`:
 
 ```yaml
 metadata:
@@ -120,546 +49,110 @@ promote_session_memory:
           api_key: <openai-api-key>
 ```
 
-`ids-metadata.yaml` tells the Identity Service where Metadata Redis is:
-
-```yaml
-metadata:
-  urls: ["redis://<metadata-redis-host>:6379"]
-```
-
-### Install Identity Service first
-
-For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
-
-Save this as `values-ids.yaml`:
-
-```yaml
-metadata:
-  existingSecret: ram-ids-metadata
-control:
-  existingSecret: ids-control-token
-  autoGenerate: false
-runtime:
-  unscopedGrantsProduct: memory
-  apiKeyTenant:
-    singleTenantID: default
-  serviceCredentials:
-    - name: memory-dp
-      subject: memory-dp
-      allowedOperations: [api-key-introspect]
-      allowedProducts: [memory]
-      existingSecret: memory-dp-credential
-      secretKey: token
-productValidation:
-  products:
-    memory:
-      baseURL: https://<control-plane-tls-endpoint>
-      credential:
-        existingSecret: memory-internal-token
-        secretKey: token
-tls:
-  caCertSecret: ram-ca
-```
+Then create the Secret:
 
 ```bash
-helm repo add redis-ai https://helm.redis.io/ai
-helm repo update redis-ai
-helm install ids redis-ai/iris-identity-service \
-  --version 1.0.0 \
-  --namespace <namespace-name> \
-  -f values-ids.yaml
+kubectl -n <namespace-name> create secret generic mem-secrets \
+  --from-file=overlay.yaml=./overlay.yaml
 ```
 
-The Memory Control Plane does not exist yet. Configure its endpoint now, but wait until both
-releases and the TLS routes are ready before minting keys: Identity Service calls the Control
-Plane to validate each store grant.
+For what each overlay key configures, see [Where each setting goes](/content/operate/iris/agent-memory/self-managed/configuration.md#where-each-setting-goes).
 
-### Prepare worker identity for your platform
+## 2. Add the Agent Memory values
 
-With agent-key authentication, workers call the Data Plane with their projected service account
-token, and the Data Plane checks that token against the cluster's JSON Web Key Set (JWKS). The
-chart's defaults disagree here: the Data Plane defaults to `agent_key` authentication, while
-`workerAuth.enabled` defaults to `false`. With `agent_key`, you must configure worker identity. The
-values in [step 3](#3-create-ram-valuesyaml) do this.
-
-The Data Plane fetches the JWKS without credentials and trusts only the
-certificate authority (CA) bundle in its image. What you set up depends on where the cluster's
-issuer is served:
-
-| Cluster | `issuer` | `jwks_uri` | Extra steps | Tested |
-|---------|----------|------------|-------------|--------|
-| Self-managed (kind, kubeadm, on-premises) | from `kubectl get --raw /.well-known/openid-configuration` (kind: `https://kubernetes.default.svc.cluster.local`) | `https://kubernetes.default.svc/openid/v1/jwks` | `ram-ca` Secret containing the cluster CA + `tls.caCertSecret: ram-ca` + ClusterRoleBinding (cluster admin's decision) | Yes, on kind |
-| Amazon Elastic Kubernetes Service (EKS) | `aws eks describe-cluster --name <cluster> --query cluster.identity.oidc.issuer --output text` | the `jwks_uri` field of `<issuer>/.well-known/openid-configuration` | Data Plane egress to the issuer host, or the `com.amazonaws.<region>.oidc-eks` PrivateLink endpoint with private DNS. The hostname differs for IPv6 clusters and AWS China, so copy it, don't type it | No |
-| Azure Kubernetes Service (AKS), OpenID Connect (OIDC) issuer enabled | `az aks show -n <cluster> -g <resource-group> --query oidcIssuerProfile.issuerUrl -o tsv` (exact, including the trailing slash) | the `jwks_uri` field of `<issuer>.well-known/openid-configuration` | Data Plane egress. The issuer is on by default only for new Standard clusters on 1.34+ and on AKS Automatic. `--enable-oidc-issuer` on an existing cluster restarts the API server and cannot be undone | No |
-| Google Kubernetes Engine (GKE) | as self-managed | as self-managed | as self-managed, because anonymous access to the GKE `jwks` endpoint is not verified | No |
-| Air-gapped (any) | as self-managed | as self-managed | as self-managed | Yes, on kind |
-
-Always take `jwks_uri` from the discovery document. Don't build it from the issuer, because the AKS
-path differs. On EKS and AKS, replace `issuer` and `jwks_uri` in the values and skip
-the rest of this section. With TLS service endpoints, keep `tls.caCertSecret: ram-ca`
-for their trust bundle. For the HTTP-only lab option, omit this block unless another connection
-requires a private CA.
-
-On self-managed, GKE, and air-gapped clusters, add the cluster CA to the service CA bundle
-so the Data Plane also trusts the API server certificate:
-
-```bash
-kubectl -n <namespace-name> get configmap kube-root-ca.crt -o jsonpath="{.data.ca\.crt}" >./cluster-ca.crt
-cat service-ca.crt cluster-ca.crt > ram-ca.crt
-kubectl -n <namespace-name> create secret generic ram-ca \
-  --from-file=ca.crt=./ram-ca.crt --dry-run=client -o yaml | kubectl apply -f -
-```
-
-For the HTTP-only lab option, use `cp cluster-ca.crt ram-ca.crt` instead of the `cat` command;
-there is no service CA file to combine.
-
-The Data Plane also needs to read the JWKS without logging in. Allowing that is the cluster
-admin's decision:
-
-```bash
-kubectl create clusterrolebinding redis-agent-memory-oidc-discovery \
-  --clusterrole=system:service-account-issuer-discovery --group=system:unauthenticated
-```
-
-This binding grants only `get` on `/.well-known/openid-configuration` and `/openid/v1/jwks`, which
-serve issuer metadata and public signing keys, not secrets. It applies to unauthenticated callers
-across the whole cluster. It has no effect where the API server disables anonymous authentication.
-On those clusters, there is no working setup for `agent_key` with workers.
-
-## 3. Create `ram-values.yaml`
-
-```yaml
-tenantId: default
-dataplane:
-  identityServiceBaseURL: https://<identity-service-tls-endpoint>
-identityService:
-  credential:
-    existingSecret: memory-dp-credential
-    secretKey: token
-license:
-  existingSecret: ram-license
-config:
-  render: true
-secrets:
-  secretName: ram-secrets
-shared:
-  databases:
-    "1":
-      name: default
-workerAuth:
-  enabled: true
-memory:
-  license:
-    license_path: /etc/redis-agent-memory/license
-  default_extraction_strategy: instruct
-  embedding:
-    provider: openai
-    models:
-      default_embedding_model: text-embedding-3-small
-      dimensions: 1536
-  embedders_connection_details:
-    openai:
-      base_url: https://api.openai.com
-      credentials:
-        type: static
-  inference_providers:
-    openai:
-      endpoint:
-        base_url: https://api.openai.com/v1
-        timeout: 30s
-        auth_format: bearer
-  promote_session_memory:
-    strategies:
-      instruct:
-        llm:
-          provider: openai
-          credentials:
-            type: static
-          models:
-            default_chat_model: <chat-model>
-  background_jobs:
-    idempotency:
-      enabled: true
-    redis:
-      enabled: true
-      queue_prefix: ram
-      worker_regions: [default]
-  request_region:
-    default: default
-  dataplane_client:
-    base_url: http://redis-agent-memory:9000
-    auth:
-      disabled: false
-      type: service_account_token
-      token_file: /var/run/secrets/redis-agent-memory-worker/token
-  auth:
-    method: agent_key
-    worker_identity:
-      enabled: true
-      issuer: <service-account-issuer>
-      jwks_uri: https://kubernetes.default.svc/openid/v1/jwks
-      audience:
-        - redis-agent-memory
-      subjects:
-        - subject: "system:serviceaccount:<namespace-name>:redis-agent-memory-worker"
-          user_id: redis-agent-memory-worker
-          roles:
-            - operator
-          resources:
-            "mem-store:*":
-              permissions:
-                - write
-  session_summarisation:
-    enabled: false
-image:
-  tag: "1.0.0"
-controlplane:
-  internalToken:
-    existingSecret: memory-internal-token
-  image:
-    tag: "1.0.0"
-  config:
-    render: true
-  configData:
-    profile: prod
-    auth:
-      type: admin-token
-      admin_token:
-        token_file: /etc/controlplane-onprem/admin/token
-    license:
-      license_path: /etc/redis-agent-memory/license
-    embedding:
-      dimensions: 1536
-tls:
-  caCertSecret: ram-ca
-```
-
-- `<chat-model>` is any chat model the endpoint serves.
-- `controlplane.configData.embedding.dimensions` must equal `memory.embedding.models.dimensions`.
-- `background_jobs.idempotency.enabled` prevents successful jobs from running again after
-  redelivery and serializes extraction for the same session. The walkthrough enables it for
-  workers and supplies its Redis URL through the overlay. Keep it enabled in production;
-  without it, workers warn that duplicate memories remain possible. This is separate from
-  queue submission deduplication.
-- `<service-account-issuer>` is the cluster's issuer. Read it with:
-
-  ```bash
-  kubectl get --raw /.well-known/openid-configuration | jq -r .issuer
-  ```
-
-- `tls.caCertSecret` names the CA bundle from [step 2](#2-create-secrets).
-- The chart writes the agent-key introspection settings and mounts `memory-dp-credential` at
-  `/etc/identity-service/runtime/memory-dp/token`. Do not hand-set the introspection endpoint or credential under `memory.auth` or `shared.auth`.
-- `tenantId: default` matches `runtime.apiKeyTenant.singleTenantID` in `values-ids.yaml`.
-  The Control Plane creates admin-token stores in this tenant.
-- Both charts use application version `1.0.0`. The example pins Memory's Data Plane
-  and Control Plane images to that version.
-
-{{< note >}}
-No external model provider? To try the API with local models, see [Evaluate locally](#evaluate-locally).
-{{< /note >}}
-
-## Before you install: check your values
-
-Check each value in `ram-values.yaml` before you install. If one is wrong, you see the symptom in
-its row. The rows are checklist items CL-1 to CL-6.
-
-{{< table-scrollable >}}
-| Row | Check | Symptom | Fix |
-| --- | --- | --- | --- |
-| <a id="cl-1"></a>CL-1 | `memory.license.license_path` is set | Server and worker pods `CrashLoopBackOff`; log: `initialize license enforcement: license validation failed; refusing to start: invalid license format` | Set `memory.license.license_path: /etc/redis-agent-memory/license` |
-| <a id="cl-2"></a>CL-2 | `memory.promote_session_memory.strategies.instruct.llm` is set | Worker pods `CrashLoopBackOff` (server stays Ready); log: `promote_session_memory: Strategies: strategies.instruct.llm is required.` | Add the `instruct.llm` block |
-| <a id="cl-3"></a>CL-3 | Each `llm.provider` names an `inference_providers` entry | Server and worker pods `CrashLoopBackOff`; log: `panic: config validation failed: promote_session_memory.strategies.instruct.llm: provider "<name>" is not defined in inference_providers (defined: <names>)` | Add `memory.inference_providers.<name>` or fix the name |
-| <a id="cl-4"></a>CL-4 | `memory.dataplane_client.base_url` is `http://redis-agent-memory:9000` | Pods Ready, but no memories appear; worker log: `getting session memory: Get "http://<wrong-host>:9000/iris/data/v1/agent-memory/stores/<store-id>/sessions/..."` … `dial tcp: lookup <wrong-host>` (the rest depends on the cluster DNS) | Set `http://redis-agent-memory:9000` |
-| <a id="cl-5"></a>CL-5 | Any overridden image tags exist in the chosen registry | Pods `ImagePullBackOff`, event: `Failed to pull image "redislabs/agent-memory:<tag>": … not found` | Use the published defaults or valid mirrored tags for each release |
-| <a id="cl-6"></a>CL-6 | `auth.worker_identity` matches the worker (issuer, audience, subject with your namespace) | Pods Ready, but no memories appear; worker log: `memory-dataplane API error: status 401`; the Data Plane logs `401` on `GET /iris/data/v1/agent-memory/stores/<store-id>/sessions/<session-id>` with no reason | Fix `issuer` from `/.well-known/openid-configuration` and the namespace in `subject`. The same symptom appears when the Data Plane cannot fetch the cluster JWKS, so also check [worker identity for your platform](#prepare-worker-identity-for-your-platform) |
-{{< /table-scrollable >}}
-
-## 4. Install
-
-```bash
-helm repo add redis-ai https://helm.redis.io/ai
-helm repo update redis-ai
-helm install redis-agent-memory redis-ai/redis-agent-memory \
-  --version 1.0.0 \
-  --namespace <namespace-name> \
-  -f ram-values.yaml
-kubectl -n <namespace-name> get pods -w
-```
-
-On small clusters, install without `--atomic --wait`, as shown, and watch pod status.
-
-If you want Helm to wait, set an explicit timeout that matches the environment:
-
-```bash
-helm install redis-agent-memory redis-ai/redis-agent-memory \
-  --version 1.0.0 \
-  --namespace <namespace-name> \
-  -f ram-values.yaml \
-  --wait \
-  --timeout 15m
-```
-
-## 5. Verify pods and health
-
-```bash
-kubectl -n <namespace-name> get pods -l app.kubernetes.io/name=redis-agent-memory
-```
-
-The server, worker, and `redis-agent-memory-controlplane` pods must be Ready.
-Check the separate Identity Service release too:
-
-```bash
-kubectl -n <namespace-name> get pods -l app.kubernetes.io/instance=ids
-```
-
-Wait for its pod to be Ready. With TLS frontends, verify that both configured endpoints route
-to their Services before creating a key. For the HTTP-only lab option, verify that both
-in-cluster Service addresses are reachable from the calling pods.
-
-Run each `port-forward` in this guide in its own terminal. Port-forward the Data Plane and check its
-health. The health check doesn't need an agent key:
-
-```bash
-kubectl -n <namespace-name> port-forward svc/redis-agent-memory 9000:9000
-curl http://localhost:9000/health/readiness
-```
-
-The response is:
-
-```json
-{"status":"ready"}
-```
-
-## 6. Create a store
-
-Use the Control Plane admin token:
-
-```bash
-kubectl -n <namespace-name> port-forward svc/redis-agent-memory-controlplane 9100:9100
-RAM_ADMIN_TOKEN=$(kubectl -n <namespace-name> get secret \
-  redis-agent-memory-controlplane-admin-token -o jsonpath='{.data.token}' | base64 -d)
-curl -sS -X POST http://localhost:9100/iris/v1/agent-memory/stores \
-  -H "Authorization: Bearer $RAM_ADMIN_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "my-store", "database": {"databaseId": "1"}}'
-```
-
-`database.databaseId` is required. It names an entry in the `databases` registry, here `"1"` from
-`shared.databases` in [step 3](#3-create-ram-valuesyaml) and the overlay. The response carries `storeId`.
-
-## 7. Mint an agent key
-
-Use the Identity Service control token:
-
-```bash
-kubectl -n <namespace-name> port-forward svc/ids-iris-identity-service 9200:9200
-IDS_CONTROL_TOKEN=$(kubectl -n <namespace-name> get secret \
-  ids-control-token -o jsonpath='{.data.token}' | base64 -d)
-curl -sS -X POST http://localhost:9200/v1/api-keys \
-  -H "Authorization: Bearer $IDS_CONTROL_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "my-agent-key",
-    "grants": [
-      {
-        "tenant": "default",
-        "product": "memory",
-        "resourceType": "mem-store",
-        "resourceId": "<store-id>",
-        "actions": ["read", "write"]
-      }
-    ]
-  }'
-```
-
-Use the same tenant as `tenantId` and `runtime.apiKeyTenant.singleTenantID`, here `default`.
-The response's `token` is the agent key. It is shown only once.
-
-## 8. Make one authenticated call
-
-```bash
-curl --fail-with-body -sS "http://localhost:9000/iris/data/v1/agent-memory/stores/<store-id>/health" \
-  -H "Authorization: Bearer <agent-key>"
-```
-
-Check that the store and its memory features are healthy. This verifies the agent key's store access without requiring a user identity. To write personal data, follow the [Data Plane examples](/content/operate/iris/agent-memory/self-managed/api-examples.md#data-plane-api-examples), including delegated user setup.
-
-## Evaluate locally
-
-This setup runs with no external model provider. The `noop` embedder produces meaningless vectors,
-and a small local model produces rough extractions. Use it to try the API, not to judge quality or
-for production.
-
-Save this Deployment and Service as `ollama.yaml`. Replace `<ollama-version>` with 0.13.3 or later:
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ollama
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: ollama
-  template:
-    metadata:
-      labels:
-        app: ollama
-    spec:
-      containers:
-        - name: ollama
-          image: ollama/ollama:<ollama-version>   # 0.13.3 or later
-          env:
-            - name: OLLAMA_CONTEXT_LENGTH
-              value: "8192"
-          command: ["/bin/sh", "-c"]
-          args: ["ollama serve & until ollama list >/dev/null 2>&1; do sleep 1; done; ollama pull qwen2.5:3b; wait"]
-          ports:
-            - containerPort: 11434
-          resources:
-            requests:
-              cpu: "2"
-              memory: 4Gi
-          volumeMounts:
-            - name: models
-              mountPath: /root/.ollama
-      volumes:
-        - name: models
-          emptyDir: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ollama
-spec:
-  selector:
-    app: ollama
-  ports:
-    - port: 11434
-      targetPort: 11434
-```
-
-Deploy it in the release namespace:
-
-```bash
-kubectl -n <namespace-name> apply -f ollama.yaml
-```
-
-The first start downloads about 2 GB.
-
-Edit the existing `ram-values.yaml`: replace the complete `memory.embedding`,
-`memory.embedders_connection_details`, `memory.inference_providers`, and
-`memory.promote_session_memory` maps with the corresponding maps in this snippet. Also update
-`controlplane.configData.embedding.dimensions`. Keep the other settings, including authentication,
-worker callbacks, and `background_jobs.idempotency`.
-
-Apply these edits to the existing file. Passing the snippet as another `-f` file merges the maps
-and retains old OpenAI entries.
+Add the overlay Secret, the database registry, and the model settings to `iris-values.yaml`. See [Data Plane settings](/content/operate/iris/agent-memory/self-managed/configuration.md#data-plane-settings) for each setting.
 
 ```yaml
 memory:
-  embedding:
-    provider: noop
-    models:
-      default_embedding_model: noop
-      dimensions: 384
-  embedders_connection_details:
-    noop:
-      protocol: noop
-  inference_providers:
-    ollama:
-      protocol: openai
-      endpoint:
-        base_url: http://ollama:11434/v1
-        timeout: 300s
-      http_client:
-        timeout: 300s
-  promote_session_memory:
-    strategies:
-      instruct:
-        llm:
-          provider: ollama
-          credentials:
-            type: static
-            api_key: ollama
-          models:
-            default_chat_model: qwen2.5:3b
-controlplane:
-  configData:
-    embedding:
-      dimensions: 384
-```
-
-`api_key: ollama` is a placeholder. The client requires a key, and Ollama ignores it.
-
-Replace `overlay.yaml` with the Redis-only overlay, removing the complete
-`embedders_connection_details` and `promote_session_memory` blocks:
-
-```yaml
-metadata:
-  urls: ["redis://<metadata-redis-host>:6379"]
-databases:
-  "1":
-    urls: ["redis://<store-redis-host>:6379"]
-background_jobs:
-  redis:
-    urls: ["redis://<job-redis-host>:6379"]
-  idempotency:
-    urls: ["redis://<job-redis-host>:6379"]
-```
-
-If Memory is already installed, update the `ram-secrets` Secret from this file, upgrade with
-the edited values, and restart the Data Plane, workers, and Control Plane so they reload the
-overlay. See [Secret rotation](/content/operate/iris/agent-memory/self-managed/operations.md#secret-rotation).
-
-Use this provider switch only in a disposable evaluation installation. Changing the settings
-does not migrate existing stores or their vector indexes. After switching, create a new store
-and agent key using steps 6–7 for local evaluation. Existing stores retain their original
-embedding dimensions and cannot be reused with this example.
-
-## Install with the Redis Iris suite chart
-
-The `redis-iris` Helm chart installs Agent Memory with the Identity Service and the UI in one
-release. Memory is on when `global.iris.products.memory.enabled` is `true`, the default; set the
-`enabled` flag of each product you don't install to `false`. Put Memory's values under the
-`memory:` key, so this guide's `memory.auth` becomes `memory.memory.auth`.
-
-The suite derives these Memory values from `global.iris`. Don't set them under `memory:`: a
-differing value fails the render and names the field.
-
-- The Identity Service connection: `dataplane.identityServiceBaseURL` and `identityService.allowInsecureTransport`.
-- The runtime credential and internal token: `identityService.credential` and `controlplane.internalToken`, generated by the suite or read from `global.iris.secrets`.
-- The tenant and license: `tenantId` and `license.*`, from `global.iris.tenantId` and `global.iris.license`.
-- Worker identity: `workerAuth.enabled`, `memory.dataplane_client`, and `memory.auth.worker_identity`, trusted against `global.iris.workloadIdentity`.
-- OIDC: `auth.oidc.audience` and the Control Plane's `controlplane.configData.auth.oidc`, from `global.iris.auth.oidc` and `global.iris.auth.roleBindings`. Data Plane OIDC stays off unless you set `memory.memory.auth.oidc.enabled: true`; it then takes the same issuer, JWKS URL, role claims, and role mappings.
-
-The suite also fixes `fullnameOverride`, the Service ports, `server.strategy`, and
-`podDisruptionBudget.enabled: true`, and doesn't support the FIPS-oriented posture. The Identity
-Service is named `iris-identity-service`, and the admin token is in Secret `iris-memory-admin-token`.
-
-The suite mounts the license at `/etc/redis-agent-memory/license` but doesn't set the path in Memory's configuration. Set it for the Data Plane and the Control Plane, or both fail to start with `invalid license format`:
-
-```yaml
-memory:
+  secrets:
+    secretName: mem-secrets
+  shared:
+    databases:
+      "1":
+        name: default
   memory:
     license:
       license_path: /etc/redis-agent-memory/license
+    default_extraction_strategy: instruct
+    embedding:
+      provider: openai
+      models:
+        default_embedding_model: text-embedding-3-small
+        dimensions: 1536
+    embedders_connection_details:
+      openai:
+        base_url: https://api.openai.com
+        credentials:
+          type: static
+    inference_providers:
+      openai:
+        endpoint:
+          base_url: https://api.openai.com/v1
+          timeout: 30s
+          auth_format: bearer
+    promote_session_memory:
+      strategies:
+        instruct:
+          llm:
+            provider: openai
+            credentials:
+              type: static
+            models:
+              default_chat_model: <chat-model>
+    background_jobs:
+      idempotency:
+        enabled: true
+      redis:
+        enabled: true
+        queue_prefix: ram
+        worker_regions: [default]
+    request_region:
+      default: default
+    session_summarisation:
+      enabled: false
   controlplane:
     configData:
       license:
         license_path: /etc/redis-agent-memory/license
+      embedding:
+        dimensions: 1536
 ```
 
-```bash
-helm install iris redis-ai/redis-iris \
-  --version 1.0.0 \
-  --namespace <namespace-name> \
-  -f iris-values.yaml
-```
+- The suite mounts the license at `/etc/redis-agent-memory/license` but doesn't set the path in Memory's configuration. Set `license_path` for the Data Plane and the Control Plane, as shown, or both fail to start with `invalid license format`.
+- `<chat-model>` is any chat model the endpoint serves.
+- `memory.controlplane.configData.embedding.dimensions` must equal `memory.memory.embedding.models.dimensions`.
+- `background_jobs.idempotency.enabled` prevents successful jobs from running again after redelivery and serializes extraction for the same session. Keep it enabled in production. Without it, workers warn that duplicate memories remain possible. This is separate from queue submission deduplication.
+- The `"1"` entry in `memory.shared.databases` matches `databases."1"` in the overlay. The release test creates its store in database `1`.
 
-The rest of this guide applies to the values under `memory:`.
+For a local evaluation without a model provider, see [Evaluate on a local kind cluster](/content/operate/iris/self-managed/_index.md#evaluate-on-a-local-kind-cluster).
+
+The suite sets these Agent Memory values itself. Don't set them under `memory:`: a value that differs fails the render and names the field.
+
+- `tenantId` and `license.*`, from `global.iris.tenantId` and `global.iris.license`.
+- `dataplane.identityServiceBaseURL` and `identityService.allowInsecureTransport`, for the suite's own Identity Service, `iris-identity-service`.
+- `identityService.credential` and `controlplane.internalToken`, from the credentials the suite generates or that you supply in `global.iris.secrets`. The admin token is in the Secret `iris-memory-admin-token`.
+- Worker identity: `workerAuth.enabled`, `memory.dataplane_client`, and `memory.auth.worker_identity`, trusted against `global.iris.workloadIdentity`.
+- OIDC: `auth.oidc.audience` and the Control Plane's `controlplane.configData.auth.oidc`, from `global.iris.auth.oidc` and `global.iris.auth.roleBindings`. Data Plane OIDC stays off unless you set `memory.memory.auth.oidc.enabled: true`. It then takes the same issuer, JWKS URL, role claims, and role mappings.
+- `fullnameOverride`, the Service ports, `server.strategy`, and `podDisruptionBudget.enabled: true`, which the suite fixes. The suite doesn't support the FIPS-oriented posture.
+
+Check these values before you install. If one is wrong, you see the symptom in its row.
+
+{{< table-scrollable >}}
+| Check | Symptom | Fix |
+| --- | --- | --- |
+| <a id="cl-1"></a>`license_path` is set under `memory.memory.license` and `memory.controlplane.configData.license` | Pods `CrashLoopBackOff`; log: `initialize license enforcement: license validation failed; refusing to start: invalid license format` | Set `license_path: /etc/redis-agent-memory/license` in both places. |
+| <a id="cl-2"></a>`memory.memory.promote_session_memory.strategies.instruct.llm` is set | Worker pods `CrashLoopBackOff` (server stays Ready); log: `promote_session_memory: Strategies: strategies.instruct.llm is required.` | Add the `instruct.llm` block. |
+| <a id="cl-3"></a>Each `llm.provider` names an `inference_providers` entry | Server and worker pods `CrashLoopBackOff`; log: `panic: config validation failed: promote_session_memory.strategies.instruct.llm: provider "<name>" is not defined in inference_providers (defined: <names>)` | Add `memory.memory.inference_providers.<name>` or fix the name. |
+| <a id="cl-5"></a>Any overridden image tags exist in the chosen registry | Pods `ImagePullBackOff`, event: `Failed to pull image "redislabs/agent-memory:<tag>": … not found` | Use the published defaults or valid mirrored tags. |
+{{< /table-scrollable >}}
+
+### Prepare worker identity for your platform
+
+Memory workers call the Data Plane with their projected ServiceAccount token, and the Data Plane checks that token against the cluster's JSON Web Key Set (JWKS). The suite configures both sides from `global.iris.workloadIdentity`, which defaults to the in-cluster API server. The [preflight](/content/operate/iris/self-managed/_index.md#4-run-the-preflight) fails when the issuer isn't the cluster's ServiceAccount issuer, or when its JWKS isn't reachable without a credential.
+
+- **Self-managed, Google Kubernetes Engine (GKE), and air-gapped clusters:** Keep the default issuer. The Data Plane verifies the API server's certificate, so include the cluster certificate authority (CA) in `cluster-ca`, as in [Create the shared Secrets](/content/operate/iris/self-managed/_index.md#2-create-the-shared-secrets).
+- **Amazon Elastic Kubernetes Service (EKS):** Set both `global.iris.workloadIdentity` fields from the cluster's OIDC issuer, as the [preflight](/content/operate/iris/self-managed/_index.md#4-run-the-preflight) step shows. The Data Plane needs egress to the issuer host, or the `com.amazonaws.<region>.oidc-eks` PrivateLink endpoint with private DNS. The hostname differs for IPv6 clusters and AWS China, so copy it rather than typing it.
+- **Clusters that refuse anonymous access to the issuer:** The Data Plane fetches the JWKS without credentials. Allowing that is the cluster admin's decision. The preflight prints the ClusterRoleBinding to create. It grants only `get` on `/.well-known/openid-configuration` and `/openid/v1/jwks`, which serve issuer metadata and public signing keys, not secrets. Where the API server disables anonymous authentication, the binding has no effect, and there is no working setup for `agent_key` with workers.
 
 ### Ownership and delegation with the suite chart
 
@@ -678,7 +171,7 @@ These Data Plane values are off or unset by default. Each one is described in fu
 | `memory.memory.auth.delegation.audience` | The `auth.oidc` audience | The audience delegated user tokens must carry. Use one that differs from `global.iris.auth.oidc.audience`, which defaults to `api://redis-iris`. |
 | `memory.memory.namespace_features.api` | `false` | Turns on the namespace lifecycle API. See [Configure namespace routing](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-namespace-routing). |
 
-To turn on delegation and ownership enforcement, add this to `iris-values.yaml`:
+With ownership enforcement off, your backend must authorize each user's access to personal memories. To turn on delegation and ownership enforcement, add this to `iris-values.yaml`:
 
 ```yaml
 memory:
@@ -696,16 +189,7 @@ memory:
           - api://memory-delegation
 ```
 
-Then upgrade the release:
-
-```bash
-helm upgrade iris redis-ai/redis-iris \
-  --version 1.0.0 \
-  --namespace <namespace-name> \
-  -f iris-values.yaml
-```
-
-The upgrade changes the rendered configuration, so the Data Plane server and worker pods roll. After the rollout:
+Then upgrade the release as in [Install or upgrade the release](#3-install-or-upgrade-the-release). The upgrade changes the rendered configuration, so the Data Plane server and worker pods roll. After the rollout:
 
 - An agent key alone can still use the store, but can't read or create personal records for a named owner.
 - A request with an agent key and an `X-Iris-User-Token` header acts for that user. The token must carry the delegation audience. The key keeps its own grants: the user token names the user and adds no access.
@@ -714,6 +198,73 @@ The upgrade changes the rendered configuration, so the Data Plane server and wor
 To turn enforcement off again, set `memory.memory.ownership.enabled: false` and upgrade the same way. Records keep their owners. Before you turn it on for existing data, follow [Enable or change ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#enable-or-change-ownership-enforcement).
 
 The suite uses one static tenant, `global.iris.tenantId`. Every valid agent key and every valid user token from the configured issuer acts in that tenant, so Memory never returns the cross-tenant `403` that [Delegate a user with an agent key](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) describes. See [Tenancy and identity provider limits](/content/operate/iris/self-managed/_index.md#tenancy-and-identity-provider-limits).
+
+## 3. Install or upgrade the release
+
+For a new release, follow [Run the preflight](/content/operate/iris/self-managed/_index.md#4-run-the-preflight) and [Install](/content/operate/iris/self-managed/_index.md#5-install). To add Agent Memory to a running release, or to apply changed values, upgrade it:
+
+```bash
+helm upgrade iris redis-ai/redis-iris \
+  --version 1.0.0 \
+  --namespace <namespace-name> \
+  -f iris-values.yaml
+```
+
+## 4. Verify the deployment
+
+```bash
+kubectl -n <namespace-name> rollout status deployment/redis-agent-memory
+kubectl -n <namespace-name> rollout status deployment/redis-agent-memory-worker
+kubectl -n <namespace-name> rollout status deployment/redis-agent-memory-controlplane
+helm test iris --namespace <namespace-name> --logs
+```
+
+`helm test` creates a store in Memory database `1`, mints a scoped agent key, and calls the Data Plane with it. If your `databases` registry uses another key, set `tests.suiteVerify.databaseId`. See [Verify the release](/content/operate/iris/self-managed/_index.md#6-verify-the-release).
+
+To call the services from your workstation, run each port-forward in its own terminal and leave it running:
+
+```bash
+kubectl -n <namespace-name> port-forward svc/redis-agent-memory 9000:9000
+```
+
+```bash
+kubectl -n <namespace-name> port-forward svc/redis-agent-memory-controlplane 9100:9100
+```
+
+```bash
+kubectl -n <namespace-name> port-forward svc/iris-identity-service 9200:9200
+```
+
+Check the Data Plane's health. The health check doesn't need an agent key:
+
+```bash
+curl http://localhost:9000/health/readiness
+```
+
+The response is:
+
+```json
+{"status":"ready"}
+```
+
+## 5. Create a store
+
+Read the Control Plane admin token from the Secret `iris-memory-admin-token`, as in [Credentials](/content/operate/iris/self-managed/_index.md#credentials). Then follow the store creation example in [Control Plane API examples](/content/operate/iris/agent-memory/self-managed/api-examples.md#control-plane-api-examples). `database.databaseId` names an entry in `memory.shared.databases`, here `"1"`. The response carries `storeId`.
+
+To create the store and its agent key in one step instead, use the `iris` CLI as in [Create a store with the `iris` CLI](/content/operate/iris/self-managed/_index.md#7-create-a-store-with-the-iris-cli).
+
+## 6. Mint an agent key
+
+Mint a key with a grant on the store through the Identity Service, using the control token in the Secret `iris-identity-service-control-token`. See [Identity Service API examples](/content/operate/iris/agent-memory/self-managed/api-examples.md#identity-service-api-examples). Use `global.iris.tenantId` as the grant's tenant, `default` unless you changed it. The response's `token` is the agent key. It is shown only once.
+
+## 7. Make one authenticated call
+
+```bash
+curl --fail-with-body -sS "http://localhost:9000/iris/data/v1/agent-memory/stores/<store-id>/health" \
+  -H "Authorization: Bearer <agent-key>"
+```
+
+Check that the store and its memory features are healthy. This verifies the agent key's store access without requiring a user identity. To write personal data, follow the [Data Plane examples](/content/operate/iris/agent-memory/self-managed/api-examples.md#data-plane-api-examples), including delegated user setup.
 
 ## Next steps
 

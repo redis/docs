@@ -33,7 +33,7 @@ An agent key gets `401` from the control plane. A key without a grant on a Route
 
 Every Router operation needs the admin token in `Authorization: Bearer <token>`, and every agent-key operation needs the Identity Service control token. The health routes need no credential.
 
-Load both from their Secrets before you call the control plane or the Identity Service. The admin token uses the Secret name from [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md#2-create-secrets). The control token example assumes an Identity Service release named `ids` that generates its control token; with `control.existingSecret`, read that Secret instead:
+Load both from their Secrets before you call the control plane or the Identity Service. The admin token uses the Secret name from [Credentials](/content/operate/iris/self-managed/_index.md#credentials). The control token example assumes an Identity Service release named `ids` that generates its control token; with `control.existingSecret`, read that Secret instead:
 
 ```bash
 export IRIS_INTENT_ROUTER_SERVICE_TOKEN="$(kubectl -n <namespace-name> get secret \

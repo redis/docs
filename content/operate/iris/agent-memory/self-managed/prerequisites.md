@@ -113,7 +113,7 @@ Plane store records, and losing the Identity Service Metadata Redis removes agen
 
 When `config.render: true` is set, as in the walkthrough, the chart renders configuration from
 Helm values. This option defaults to `false`. Credentials stay in an overlay Secret. Create the following Secrets for the
-[two-release installation](/content/operate/iris/agent-memory/self-managed/deploy.md#2-create-secrets):
+[two-release installation](/content/operate/iris/agent-memory/self-managed/deploy.md#1-create-the-agent-memory-secrets):
 
 | Secret | Default key | Holds |
 | --- | --- | --- |

@@ -326,7 +326,7 @@ Disabling enforcement restores store-wide access within the credential's grants.
 Redis Agent Memory workers consume background jobs and call the Data Plane to read
 session events and write extracted long-term memories.
 
-The [`deploy` values](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml)
+The [`deploy` values](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values)
 already enable worker callbacks. Each platform also needs the setup in
 [Prepare worker identity for your platform](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
 

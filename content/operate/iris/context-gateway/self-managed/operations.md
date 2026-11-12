@@ -15,7 +15,7 @@ hideListLinks: true
 
 Both planes serve `/health/liveness` and `/health/readiness` without a credential. The Control Plane's readiness answers `503` while the admin or internal token cannot be read or is empty, or the license is not valid. The Data Plane's readiness does not check its token or the license. An invalid license stops either plane at startup. The response does not name the failed check, so read the plane's logs.
 
-With the ports forwarded as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#5-verify-pods-and-health):
+With the ports forwarded as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#4-verify-the-deployment):
 
 ```bash
 curl -sS http://localhost:9100/health/readiness

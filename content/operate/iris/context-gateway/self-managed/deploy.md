@@ -5,46 +5,17 @@ categories:
 - docs
 - operate
 - iris
-description: Install Redis Context Gateway with an external Identity Service, then create a Gateway, mint an agent key, and make one authenticated call.
+description: Add Redis Context Gateway to a Redis Iris suite release, then create a Gateway, mint an agent key, and make one authenticated call.
 linkTitle: Deploy
 weight: 50
 hideListLinks: true
 ---
 
-> [!NOTE]
-> For a supported install, see [Install with the Redis Iris suite chart](#install-with-the-redis-iris-suite-chart). The standalone steps on this page show what each value does.
+Context Gateway installs as part of the `redis-iris` Helm chart. Follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md) for the prerequisites, the shared Secrets, the preflight, and the install. This page covers what Context Gateway adds to that release, and ends with one authenticated Model Context Protocol (MCP) call.
 
-These steps install the Context Gateway Control Plane and Data Plane with the `redis-context-gateway` Helm chart, and end with one authenticated Model Context Protocol (MCP) call.
+Context Gateway is on by default (`global.iris.products.contextGateway.enabled: true`). Its values go under the `contextGateway:` key in `iris-values.yaml`. The chart's `examples/context-gateway.yaml` is a working values file for these steps.
 
-You use three credentials along the way: the Control Plane admin token, the Identity Service control token, and an agent key. For what each credential unlocks, see [Credentials](/content/operate/iris/context-gateway/self-managed/authentication.md#credentials).
-
-Before you begin, review the [prerequisites](/content/operate/iris/context-gateway/self-managed/prerequisites.md).
-
-## 1. Create the namespace
-
-```bash
-kubectl create namespace <namespace-name>
-```
-
-## 2. Create Secrets
-
-### Configure the Identity Service release first
-
-For every Identity Service setting, and for running one release that serves several products, see the [Identity Service guide](/content/operate/iris/identity-service/_index.md).
-
-Set these values on the Identity Service release so that it checks Gateway grants and accepts the Data Plane's runtime token:
-
-| Identity Service value | Setting |
-| --- | --- |
-| `runtime.serviceCredentials[]` | A credential for the Data Plane, `name: context-gateway-dp` and `subject: context-gateway-dataplane`, with `allowedOperations: [api-key-introspect]` and `allowedProducts: [context-gateway]`, from the same Secret as `dataplane.runtimeToken`. With Data Plane sign-in on, add `subject-grant-lookup` to `allowedOperations`. |
-| `productValidation.products.context-gateway.baseURL` | The Control Plane Service, for example `http://gateway-redis-context-gateway-controlplane:9100`. |
-| `productValidation.products.context-gateway.credential` | The same Secret as `controlplane.internalToken`. |
-| `productValidation.products.context-gateway.enabled` | `true` |
-| `runtime.apiKeyTenant.singleTenantID` | The same value as `tenantId`. |
-
-If the Identity Service release also serves Agent Memory or Agent Playbooks, add these entries to its existing lists.
-
-### Create the connection files
+## 1. Create the Context Gateway Secrets
 
 Save the Metadata Redis connection as `metadata.yaml`:
 
@@ -53,7 +24,7 @@ metadata_db:
   urls: ["rediss://<metadata-user>:<password>@<metadata-host>:6379"]
 ```
 
-Save the credential Redis connection as `credential-redis.yaml`:
+Save the credential Redis connection as `credential-redis.yaml`. Use a different Redis from the metadata one:
 
 ```yaml
 credential_storage:
@@ -61,9 +32,7 @@ credential_storage:
     urls: ["rediss://<credential-user>:<password>@<credential-host>:6379"]
 ```
 
-Keep real URLs and passwords only in these files, and create Secrets from them.
-
-### Create the Secrets
+Keep real URLs and passwords only in these files, and create Secrets from them. The keyring holds a base64 32-byte key:
 
 ```bash
 umask 077
@@ -71,115 +40,99 @@ openssl rand -base64 32 > k1
 kubectl -n <namespace-name> create secret generic gateway-metadata --from-file=config.yaml=metadata.yaml
 kubectl -n <namespace-name> create secret generic gateway-credential-redis --from-file=config.yaml=credential-redis.yaml
 kubectl -n <namespace-name> create secret generic gateway-keyring --from-file=k1
-kubectl -n <namespace-name> create secret generic gateway-license --from-file=license=./license
-kubectl -n <namespace-name> create secret generic gateway-admin --from-file=token=./admin-token
-kubectl -n <namespace-name> create secret generic gateway-grant-validation --from-file=token=./grant-token
-kubectl -n <namespace-name> create secret generic gateway-runtime --from-file=token=./runtime-token
 ```
 
-Create a `databaseConnections` Secret for the registered databases. See [Database registry](/content/operate/iris/context-gateway/self-managed/configuration.md#database-registry).
+See [Service Secrets and Redis databases](/content/operate/iris/self-managed/_index.md#service-secrets-and-redis-databases) for what each Secret holds in a local evaluation.
 
-## 3. Create `gateway-values.yaml`
+## 2. Add the Context Gateway values
 
-Save this file, replacing the angle-bracket placeholders with your tenant and public Data Plane origin. The chart's default images match its version, so the file sets no image values. It uses the Secrets created in step 2 and an Identity Service release named `ids` in the same namespace.
+Add the storage references and the public Data Plane origin to `iris-values.yaml`. `publicBaseURL` must be an `https://` origin with no path. Also set `dataplane.ingress`, or route to `redis-context-gateway-dataplane:8083` yourself.
 
 ```yaml
-tenantId: <tenant-id>
-publicBaseURL: https://<gateway-host>
-identityService:
-  baseURL: http://ids-iris-identity-service:9200
-  allowInsecureTransport: true
-license:
-  existingSecret: gateway-license
-metadataDB:
-  existingSecret: gateway-metadata
-  secretKey: config.yaml
-credentialStorage:
-  provider: redis
-  redis:
-    connection:
-      existingSecret: gateway-credential-redis
-      secretKey: config.yaml
-    keyring:
-      existingSecret: gateway-keyring
-    keyFiles:
-      k1: k1
-    activeKeyId: k1
-controlplane:
-  adminToken:
-    existingSecret: gateway-admin
-    secretKey: token
-  internalToken:
-    existingSecret: gateway-grant-validation
-    secretKey: token
-dataplane:
-  runtimeToken:
-    existingSecret: gateway-runtime
-    secretKey: token
+contextGateway:
+  publicBaseURL: https://mcp.example.com
+  metadataDB:
+    existingSecret: gateway-metadata
+  credentialStorage:
+    provider: redis
+    redis:
+      connection:
+        existingSecret: gateway-credential-redis
+      keyring:
+        existingSecret: gateway-keyring
 ```
 
 This configuration starts without cache or compression. Add [registered databases](/content/operate/iris/context-gateway/self-managed/configuration.md#database-registry) and feature settings when you need them.
 
-When `identityService.baseURL` is an in-cluster `http://` address, such as `http://ids-iris-identity-service:9200` for an Identity Service release named `ids`, also set `identityService.allowInsecureTransport: true`.
+The suite sets these Context Gateway values itself and registers Context Gateway with its Identity Service. Don't set them under `contextGateway:`: a value that differs fails the render.
 
-## Before you install: check your values
+- `tenantId` and `license`, from `global.iris`.
+- `identityService.baseURL` and `identityService.allowInsecureTransport`, for the suite's own Identity Service.
+- `dataplane.runtimeToken` and `controlplane.internalToken`, which the suite supplies as Kubernetes Secrets. See [Credentials](/content/operate/iris/self-managed/_index.md#credentials).
+- `controlplane.config.auth.oidc`, when `global.iris.auth.oidc` sets an issuer.
+- `fullnameOverride`, both `service.port` values, `dataplane.strategy`, and `podDisruptionBudget.enabled`, which the suite fixes. The suite runs two Data Plane replicas by default.
 
-Check each value in `gateway-values.yaml` before you install. If one is wrong, you see the symptom in its row.
+`tls.caBundle` defaults to `global.tls.caCertSecret`. `controlplane.adminToken` reads the `iris-context-gateway-admin-token` Secret, which the suite generates by default.
+
+Check these values before you install. If one is wrong, you see the symptom in its row.
 
 {{< table-scrollable >}}
 | Check | Symptom | Fix |
 | --- | --- | --- |
-| `tenantId` equals the Identity Service's `runtime.apiKeyTenant.singleTenantID` | Pods Ready, but minting an agent key for a Gateway fails | Set both to the same tenant. |
 | `publicBaseURL` is the Data Plane origin that MCP clients reach | `mcpEndpoint` in Gateway responses points to an address clients cannot reach, and identity provider sign-in fails | Set the public origin, including `https://`. |
-| `identityService.allowInsecureTransport` is `true` for an `http://` Identity Service URL | Rendering fails with `HTTP Identity Service requires explicit allowInsecureTransport`. | Set it, or use an `https://` URL. |
-| The admin, internal, and runtime tokens come from three different Secrets or keys | Rendering fails, or the Identity Service cannot check keys | Create three distinct token files. |
-| `license` points to a valid license | The Control Plane's `/health/readiness` answers `503`, and an invalid license stops either plane at startup | Mount the license file as issued. |
 | Any `image.repository` or `image.tag` override names an image your cluster can pull | Pods `ImagePullBackOff` | Remove the overrides to use the chart's default images, or mirror those images unchanged. |
 {{< /table-scrollable >}}
 
-## 4. Install
+## 3. Install or upgrade the release
+
+For a new release, follow [Run the preflight](/content/operate/iris/self-managed/_index.md#4-run-the-preflight) and [Install](/content/operate/iris/self-managed/_index.md#5-install). To add Context Gateway to a running release, upgrade it:
 
 ```bash
-helm repo add redis-ai https://helm.redis.io/ai
-helm repo update redis-ai
-helm install gateway redis-ai/redis-context-gateway \
+helm upgrade iris redis-ai/redis-iris \
   --version 1.0.0 \
   --namespace <namespace-name> \
-  -f gateway-values.yaml \
-  --wait --timeout 5m
+  -f iris-values.yaml
 ```
 
-Use a published chart version. A merged server change does not by itself publish a chart or image.
-
-## 5. Verify pods and health
+## 4. Verify the deployment
 
 ```bash
-kubectl -n <namespace-name> rollout status deployment/gateway-redis-context-gateway-controlplane
-kubectl -n <namespace-name> rollout status deployment/gateway-redis-context-gateway-dataplane
+kubectl -n <namespace-name> rollout status deployment/redis-context-gateway-controlplane
+kubectl -n <namespace-name> rollout status deployment/redis-context-gateway-dataplane
+helm test iris --namespace <namespace-name> --logs
 ```
 
-Run each port-forward in its own terminal and leave it running:
+`helm test` creates a Gateway, mints a scoped agent key, and calls the Data Plane with it. See [Verify the release](/content/operate/iris/self-managed/_index.md#6-verify-the-release).
+
+To call the services from your workstation, run each port-forward in its own terminal and leave it running:
 
 ```bash
-kubectl -n <namespace-name> port-forward svc/gateway-redis-context-gateway-controlplane 9100:9100
-```
-
-```bash
-kubectl -n <namespace-name> port-forward svc/gateway-redis-context-gateway-dataplane 8083:8083
+kubectl -n <namespace-name> port-forward svc/redis-context-gateway-controlplane 9100:9100
 ```
 
 ```bash
-kubectl -n <namespace-name> port-forward svc/ids-iris-identity-service 9200:9200
+kubectl -n <namespace-name> port-forward svc/redis-context-gateway-dataplane 8083:8083
 ```
 
-Then check readiness on both planes:
+```bash
+kubectl -n <namespace-name> port-forward svc/iris-identity-service 9200:9200
+```
+
+Rerun a port-forward after its pod is replaced. Then check readiness on both planes:
 
 ```bash
 curl -sS http://localhost:9100/health/readiness
 curl -sS http://localhost:8083/health/readiness
 ```
 
-## 6. Create a Gateway
+## 5. Create a Gateway
+
+Read the admin token and the Identity Service control token from the Secrets the suite generates. See [Credentials](/content/operate/iris/self-managed/_index.md#credentials).
+
+```bash
+kubectl -n <namespace-name> get secret iris-context-gateway-admin-token -o jsonpath='{.data.token}' | base64 -d
+kubectl -n <namespace-name> get secret iris-identity-service-control-token -o jsonpath='{.data.token}' | base64 -d
+```
 
 ```bash
 umask 077
@@ -192,9 +145,10 @@ export GATEWAY_ID="$(jq -er '.gatewayId' gateway.json)"
 export MCP_ENDPOINT="$(jq -er '.mcpEndpoint' gateway.json)"
 ```
 
-The response carries `gatewayId` (a `gw_`-prefixed ID) and `mcpEndpoint`. Use that ID in the grant in step 7. The advertised endpoint must be reachable from the shell that makes the MCP calls.
+The response carries `gatewayId` (a `gw_`-prefixed ID) and `mcpEndpoint`. Use that ID in the grant in step 6. The advertised endpoint must be reachable from the shell that makes the MCP calls.
+## 6. Mint an agent key
 
-## 7. Mint an agent key
+Use the suite's `global.iris.tenantId` as `<tenant-id>`:
 
 ```bash
 jq -n --arg tenant '<tenant-id>' --arg gateway "$GATEWAY_ID" \
@@ -210,7 +164,7 @@ export AGENT_KEY="$(jq -er '.token' agent-key.json)"
 > [!WARNING]
 > The response's `token` is the agent key. It is shown only once, so save it in your secret manager.
 
-## 8. Make one authenticated call
+## 7. Make one authenticated call
 
 Send an initialization request to the advertised endpoint. These commands use protocol version `2025-06-18`, which the Gateway supports.
 
@@ -237,44 +191,6 @@ curl --fail-with-body --silent --show-error "$MCP_ENDPOINT" \
 ```
 
 The Gateway is stateless, so no session ID needs to be retained between these requests. A new full-mode Gateway with no Upstreams and compression off returns an empty tool list. Save the key in your secret manager, then remove `agent-key.json`.
-
-## Install with the Redis Iris suite chart
-
-The `redis-iris` Helm chart installs Context Gateway with the Identity Service and the user interface (UI) in one release. Context Gateway is on by default, and `global.iris.products.contextGateway.enabled: false` leaves it out. Put the Context Gateway values under the `contextGateway:` key.
-
-The suite derives these values from `global.iris` and registers Context Gateway with its Identity Service. Leave them unset under `contextGateway:`, because a value that differs fails the render:
-
-- `tenantId` and `license`
-- `identityService.baseURL` and `identityService.allowInsecureTransport`
-- `dataplane.runtimeToken` and `controlplane.internalToken`, which the suite supplies as Kubernetes Secrets
-- `controlplane.config.auth.oidc`, when `global.iris.auth.oidc` sets an issuer
-
-The suite also fixes `fullnameOverride`, both `service.port` values, `dataplane.strategy`, and `podDisruptionBudget.enabled`. `tls.caBundle` defaults to `global.tls.caCertSecret`. The Data Plane defaults to two replicas, and `controlplane.adminToken` reads the `iris-context-gateway-admin-token` Secret, which the suite generates by default.
-
-You set `publicBaseURL`, which must be an `https://` origin with no path, the metadata and credential storage references, and either `dataplane.ingress` or your own routing to `redis-context-gateway-dataplane:8083`:
-
-```yaml
-contextGateway:
-  publicBaseURL: https://mcp.example.com
-  metadataDB:
-    existingSecret: gateway-metadata
-  credentialStorage:
-    provider: redis
-    redis:
-      connection:
-        existingSecret: gateway-credential-redis
-      keyring:
-        existingSecret: gateway-keyring
-```
-
-```bash
-helm install iris redis-ai/redis-iris \
-  --version 1.0.0 \
-  --namespace <namespace-name> \
-  -f iris-values.yaml
-```
-
-The rest of this guide applies to the values under `contextGateway:`, except the Identity Service settings in step 2, which the suite configures. In the `kubectl` commands, use the suite's fixed names: `redis-context-gateway-controlplane`, `redis-context-gateway-dataplane`, and `iris-identity-service`.
 
 ## Next steps
 

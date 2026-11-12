@@ -37,7 +37,7 @@ The admin token is a shared recovery credential. It grants no access to other Ir
 
 ## Load the administrative credentials
 
-Use an account that can read Secrets, with the [port-forwards from Deploy](/content/operate/iris/agent-playbook/self-managed/deploy.md#6-verify-pods-and-health) running:
+Use an account that can read Secrets, with the [port-forwards from Deploy](/content/operate/iris/agent-playbook/self-managed/deploy.md#4-verify-the-deployment) running:
 
 ```bash
 export IRIS_AGENT_PLAYBOOKS_SERVICE_URL='http://localhost:9200'

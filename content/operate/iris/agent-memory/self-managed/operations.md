@@ -32,7 +32,7 @@ aliases:
 
 ## Secret rotation
 
-Use the [Identity Service port-forward and control token](/content/operate/iris/agent-memory/self-managed/deploy.md#7-mint-an-agent-key)
+Use the [Identity Service port-forward and control token](/content/operate/iris/agent-memory/self-managed/deploy.md#6-mint-an-agent-key)
 from the deployment procedure to rotate agent keys:
 
 ```bash

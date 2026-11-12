@@ -32,7 +32,7 @@ If you change the namespace or resource names, change these subjects everywhere.
 
 ## Extraction with the Redis Iris suite chart
 
-With the [`redis-iris` Helm chart](/content/operate/iris/agent-playbook/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), set `global.iris.extraction.enabled: true` instead of the `extraction` values on this page. The suite derives the extraction connection, `worker.enabled`, and `worker.sourceURL`, and configures Redis Agent Memory to trust `system:serviceaccount:<namespace-name>:redis-agent-playbook-controlplane` and `system:serviceaccount:<namespace-name>:redis-agent-playbook-worker`, so skip [Configure Redis Agent Memory trust](#configure-redis-agent-memory-trust). You still create the worker Secret and set `playbook.worker.existingSecret` and `playbook.worker.region`. Leave `config.existingSecret` unset on both Redis Agent Memory planes and on the Agent Playbooks control plane.
+With the [`redis-iris` Helm chart](/content/operate/iris/agent-playbook/self-managed/deploy.md#2-add-the-agent-playbooks-values), set `global.iris.extraction.enabled: true` instead of the `extraction` values on this page. The suite derives the extraction connection, `worker.enabled`, and `worker.sourceURL`, and configures Redis Agent Memory to trust `system:serviceaccount:<namespace-name>:redis-agent-playbook-controlplane` and `system:serviceaccount:<namespace-name>:redis-agent-playbook-worker`, so skip [Configure Redis Agent Memory trust](#configure-redis-agent-memory-trust). You still create the worker Secret and set `playbook.worker.existingSecret` and `playbook.worker.region`. Leave `config.existingSecret` unset on both Redis Agent Memory planes and on the Agent Playbooks control plane.
 
 ## Plan the connection
 

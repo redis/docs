@@ -53,7 +53,7 @@ curl -sS -X POST "$CP_URL/iris/v1/agent-memory/stores" \
 
 `database.databaseId` is required on every create request. It names an entry in the
 `databases` registry of the Data Plane and Control Plane configuration. The
-[deploy walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml)
+[deploy walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values)
 configures one entry, `"1"`.
 
 The response is the full store record. It includes these fields, among others:

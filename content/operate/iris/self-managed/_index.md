@@ -79,16 +79,27 @@ The chart generates every credential the components share, including each servic
 
 Each service you install also needs its own Secrets. The names below are the ones the chart's `examples/*.yaml` files use. Any name works if the value on the right points at it.
 
-| Service | Secret | Keys | Values key | Holds | Local evaluation |
-| --- | --- | --- | --- | --- | --- |
-| Agent Memory | `mem-secrets` | `overlay.yaml` | `memory.secrets.secretName` | The Memory Redis URLs and model provider credentials. | The `noop` embedder and inference work. See the chart's `examples/memory-only.yaml`. |
-| Agent Playbooks | `playbook-storage` | `playbook-storage.yaml` | `playbook.storage.existingSecret` | The metadata and content Redis URLs. They must be two different Redis deployments. | The `noop` embedding model works. |
-| Lens | `lens-storage` | `lens-dataplane-storage.yaml`, `lens-controlplane-storage.yaml` | `lens.storage.existingSecret` | The data plane's streams, content, index, and metadata Redis URLs, and the control plane's metadata Redis URL. | Real Redis URLs. No model provider. |
-| Context Gateway | `gateway-metadata` | `config.yaml` | `contextGateway.metadataDB.existingSecret` | `metadata_db.urls`, the Gateway metadata Redis. | Real Redis URL. |
-| Context Gateway | `gateway-credential-redis` | `config.yaml` | `contextGateway.credentialStorage.redis.connection.existingSecret` | `credential_storage.redis.urls`. Use a different Redis from the metadata one. | Real Redis URL. |
-| Context Gateway | `gateway-keyring` | `k1` | `contextGateway.credentialStorage.redis.keyring.existingSecret` | A base64 32-byte key, from `openssl rand -base64 32`. | Any generated key. |
-| Intent Router | `intent-storage` | `intent-controlplane-storage.yaml`, `intent-dataplane-storage.yaml` | `intent.storage.existingSecret` | The control plane metadata Redis, the data plane Redis, and the database registry. Register each database in both keys with the same ID. | Real Redis URLs. |
-| Intent Router | `intent-inference` | `inference.yaml` | `intent.inference.existingSecret` | `embedders_connection_details` for the embedding provider. | A real OpenAI-compatible endpoint and key. See [Verify the release](#6-verify-the-release). |
+| Service | Secret | Keys | Values key |
+| --- | --- | --- | --- |
+| Agent Memory | `mem-secrets` | `overlay.yaml` | `memory.secrets.secretName` |
+| Agent Playbooks | `playbook-storage` | `playbook-storage.yaml` | `playbook.storage.existingSecret` |
+| Lens | `lens-storage` | `lens-dataplane-storage.yaml`, `lens-controlplane-storage.yaml` | `lens.storage.existingSecret` |
+| Context Gateway | `gateway-metadata` | `config.yaml` | `contextGateway.metadataDB.existingSecret` |
+| Context Gateway | `gateway-credential-redis` | `config.yaml` | `contextGateway.credentialStorage.redis.connection.existingSecret` |
+| Context Gateway | `gateway-keyring` | `k1` | `contextGateway.credentialStorage.redis.keyring.existingSecret` |
+| Intent Router | `intent-storage` | `intent-controlplane-storage.yaml`, `intent-dataplane-storage.yaml` | `intent.storage.existingSecret` |
+| Intent Router | `intent-inference` | `inference.yaml` | `intent.inference.existingSecret` |
+
+What each Secret holds, and what a local evaluation can use instead:
+
+- **`mem-secrets`:** The Memory Redis URLs and model provider credentials. Locally, the `noop` embedder and inference work. See the chart's `examples/memory-only.yaml`.
+- **`playbook-storage`:** The metadata and content Redis URLs. They must be two different Redis deployments. Locally, the `noop` embedding model works.
+- **`lens-storage`:** The data plane's streams, content, index, and metadata Redis URLs, and the control plane's metadata Redis URL. Locally, use real Redis URLs. Lens needs no model provider.
+- **`gateway-metadata`:** `metadata_db.urls`, the Gateway metadata Redis. Locally, use a real Redis URL.
+- **`gateway-credential-redis`:** `credential_storage.redis.urls`. Use a different Redis from the metadata one. Locally, use a real Redis URL.
+- **`gateway-keyring`:** A base64 32-byte key, from `openssl rand -base64 32`. Any generated key works locally.
+- **`intent-storage`:** The control plane metadata Redis, the data plane Redis, and the database registry. Register each database in both keys with the same ID. Locally, use real Redis URLs.
+- **`intent-inference`:** `embedders_connection_details` for the embedding provider. Locally, too, it needs a real OpenAI-compatible endpoint and key. See [Verify the release](#6-verify-the-release).
 
 Each service guide's suite section describes the file format of each key.
 
@@ -158,11 +169,11 @@ ls redis-iris/examples
 
 Then add each service's values under its key, as its guide describes:
 
-- [Agent Memory](/content/operate/iris/agent-memory/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `memory:`. Set the license path as that section shows, or Memory fails to start with `invalid license format`.
-- [Agent Playbooks](/content/operate/iris/agent-playbook/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `playbook:`
-- [Lens](/content/operate/iris/lens/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `lens:`
-- [Context Gateway](/content/operate/iris/context-gateway/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `contextGateway:`
-- [Intent Router](/content/operate/iris/intent-router/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), under `intent:`
+- [Agent Memory](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values), under `memory:`. Set the license path as that section shows, or Memory fails to start with `invalid license format`.
+- [Agent Playbooks](/content/operate/iris/agent-playbook/self-managed/deploy.md#2-add-the-agent-playbooks-values), under `playbook:`
+- [Lens](/content/operate/iris/lens/self-managed/deploy.md#2-add-the-lens-values), under `lens:`
+- [Context Gateway](/content/operate/iris/context-gateway/self-managed/deploy.md#2-add-the-context-gateway-values), under `contextGateway:`
+- [Intent Router](/content/operate/iris/intent-router/self-managed/deploy.md#2-add-the-intent-router-values), under `intent:`
 
 ### Admin token mode
 

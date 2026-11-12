@@ -17,7 +17,7 @@ Before you begin, [deploy the chart](/content/operate/iris/context-gateway/self-
 
 ## Set connection values
 
-Forward the Control Plane and the Identity Service in separate terminals, as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#5-verify-pods-and-health), then export the connection values:
+Forward the Control Plane and the Identity Service in separate terminals, as in [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md#4-verify-the-deployment), then export the connection values:
 
 ```bash
 export IRIS_CONTEXT_GATEWAY_SERVICE_URL='http://localhost:9100'

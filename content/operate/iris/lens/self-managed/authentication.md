@@ -25,7 +25,7 @@ Self-managed Lens uses three kinds of credentials. Service tokens authenticate o
 
 The generated admin token has the key `token`. The chart keeps it across upgrades (`helm.sh/resource-policy: keep`) and never rotates it. The chart refuses to mount one Secret key as two of its credentials.
 
-Load the two administration tokens before you call the control plane or the Identity Service. With the Secret names from [Deploy](/content/operate/iris/lens/self-managed/deploy.md#2-create-secrets):
+Load the two administration tokens before you call the control plane or the Identity Service. With the Secret names from [Credentials](/content/operate/iris/self-managed/_index.md#credentials):
 
 ```bash
 export LENS_ADMIN_TOKEN="$(kubectl -n <namespace-name> get secret \

@@ -15,7 +15,7 @@ hideListLinks: true
 
 | File | Purpose |
 | --- | --- |
-| `gateway-values.yaml` | Helm values for both planes. See [step 3](/content/operate/iris/context-gateway/self-managed/deploy.md#3-create-gateway-valuesyaml). |
+| `gateway-values.yaml` | Helm values for both planes. See [step 3](/content/operate/iris/context-gateway/self-managed/deploy.md#2-add-the-context-gateway-values). |
 | `metadata.yaml` | Metadata Redis URLs. Both planes mount it. |
 | `credential-redis.yaml` | Credential Redis URLs, with the encrypted Redis backend. |
 | `config.yaml` | URLs for each registered database. |

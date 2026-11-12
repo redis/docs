@@ -13,7 +13,7 @@ hideListLinks: true
 
 ## Check service health
 
-With the [local port-forwards](/content/operate/iris/agent-playbook/self-managed/deploy.md#6-verify-pods-and-health) running:
+With the [local port-forwards](/content/operate/iris/agent-playbook/self-managed/deploy.md#4-verify-the-deployment) running:
 
 ```bash
 curl --fail-with-body -sS http://localhost:9200/health/readiness

@@ -60,7 +60,7 @@ The chart renders no NetworkPolicy objects. Its package includes `networkpolicy.
 
 ## Secrets
 
-Create these Secrets before you install Lens. [Deploy](/content/operate/iris/lens/self-managed/deploy.md#2-create-secrets) shows the commands.
+Create these Secrets before you install Lens. [Deploy](/content/operate/iris/lens/self-managed/deploy.md#1-create-the-lens-secrets) shows the commands.
 
 | Secret | Holds | Mounted by |
 | --- | --- | --- |
