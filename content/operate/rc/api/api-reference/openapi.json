@@ -96,7 +96,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_2",
+        "operationId": "proxyDataIntegrationWorkspace",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -166,7 +166,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_1",
+        "operationId": "proxyDataIntegrationWorkspace_4",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -237,7 +237,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace",
+        "operationId": "proxyDataIntegrationWorkspace_2",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -379,7 +379,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_4",
+        "operationId": "proxyDataIntegrationWorkspace_1",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -452,7 +452,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_7",
+        "operationId": "proxyDataIntegrationWorkspace_5",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -522,7 +522,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_6",
+        "operationId": "proxyDataIntegrationWorkspace_9",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -593,7 +593,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_5",
+        "operationId": "proxyDataIntegrationWorkspace_7",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -735,7 +735,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_9",
+        "operationId": "proxyDataIntegrationWorkspace_6",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -8350,6 +8350,12 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
           "200": {
             "description": "Memory stores returned.",
             "content": {
@@ -8360,14 +8366,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
           "401": {
             "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
@@ -8490,14 +8490,14 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
           "404": {
             "description": "Not Found - The resource you were trying to reach was not found or does not exist"
           },
           "401": {
             "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
@@ -8565,14 +8565,11 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
           "403": {
             "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
           },
           "201": {
             "description": "API key created. The generated key value is returned once in the response body.",
@@ -8583,6 +8580,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
           },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
@@ -10079,24 +10079,14 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
           "404": {
             "description": "Not Found - The resource you were trying to reach was not found or does not exist"
           },
           "401": {
             "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "424": {
-            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MemoryProblemDetails"
-                }
-              }
-            }
           },
           "200": {
             "description": "Memory store returned.",
@@ -10104,6 +10094,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MemoryStoreResponse"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryProblemDetails"
                 }
               }
             }
@@ -12804,8 +12804,8 @@
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
           },
-          "204": {
-            "description": "API key deleted."
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
           },
           "404": {
             "description": "Not Found - The resource you were trying to reach was not found or does not exist"
@@ -12813,8 +12813,8 @@
           "401": {
             "description": "Unauthorized - Authentication failed for requested resource"
           },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          "204": {
+            "description": "API key deleted."
           },
           "424": {
             "description": "Failed Dependency - The memory store's database is unavailable or out of memory, e.g. /errors/resource-unavailable or /errors/database-out-of-memory. When the error originates from the Agent Memory service the body is an application/problem+json document (MemoryProblemDetails) carrying the service's error type and detail",
