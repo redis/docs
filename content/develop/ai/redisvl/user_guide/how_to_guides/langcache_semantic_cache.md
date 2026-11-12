@@ -16,7 +16,7 @@ For more on semantic caching, see [Extensions]({{< relref "../../concepts/extens
 
 Before you begin, ensure you have:
 - Installed RedisVL with the LangCache extra: `pip install redisvl[langcache]`
-- Python 3.10+ (same as RedisVL)
+- Python 3.11+ (same as RedisVL)
 - A LangCache service with a **cache ID** and **API key**. You can set up a LangCache service in Redis Cloud [here](https://cloud.redis.io/#/)
 - Optionally: **attributes** configured on your LangCache cache if you plan to pass `metadata` / `attributes` from RedisVL
 

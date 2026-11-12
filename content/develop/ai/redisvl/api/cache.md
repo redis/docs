@@ -10,7 +10,7 @@ aliases:
 
 <a id="semantic-cache-api"></a>
 
-### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None, overwrite=False, create_index=True, **kwargs)`
+### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None, overwrite=False, create_index=True, refresh_ttl_on_hit=True, **kwargs)`
 
 Bases: `BaseLLMCache`
 
@@ -48,6 +48,8 @@ Semantic Cache for Large Language Models.
     externally, or when the credential cannot run `FT.INFO`. See
     [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the ACL details. Defaults to
     true.
+  * **refresh_ttl_on_hit** (*bool*) – Whether cache hits refresh matched
+    entries’ TTL by default. Defaults to True.
 * **Raises:**
   * **TypeError** – If an invalid vectorizer is provided.
   * **TypeError** – If the TTL value is not an int.
@@ -70,7 +72,7 @@ cache = SemanticCache(
 )
 ```
 
-#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
+#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, *, refresh_ttl=None)`
 
 Async check the semantic cache for results similar to the specified prompt
 or vector.
@@ -95,6 +97,9 @@ LLM responses.
     the full cache will be searched.
   * **distance_threshold** (*Optional* *[* *float* *]*) – The threshold for semantic
     vector distance.
+  * **refresh_ttl** (*Optional* *[* *bool* *]*) – Whether this cache hit should refresh
+    matched entries’ TTL. If None, uses the cache-level
+    refresh_ttl_on_hit setting.
 * **Returns:**
   A list of dicts containing the requested
   : return fields for each similar cached response.
@@ -228,7 +233,7 @@ await cache.aupdate(
 )
 ```
 
-#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
+#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, *, refresh_ttl=None)`
 
 Checks the semantic cache for results similar to the specified prompt
 or vector.
@@ -253,6 +258,9 @@ LLM responses.
     the full cache will be searched.
   * **distance_threshold** (*Optional* *[* *float* *]*) – The threshold for semantic
     vector distance.
+  * **refresh_ttl** (*Optional* *[* *bool* *]*) – Whether this cache hit should refresh
+    matched entries’ TTL. If None, uses the cache-level
+    refresh_ttl_on_hit setting.
 * **Returns:**
   A list of dicts containing the requested
   : return fields for each similar cached response.
@@ -499,7 +507,7 @@ Initialize a LangCache semantic cache.
   * **ImportError** – If the langcache package is not installed.
   * **ValueError** – If cache_id or api_key is not provided.
 
-#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None)`
+#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None, *, refresh_ttl=None)`
 
 Async check the cache for semantically similar prompts.
 
@@ -515,6 +523,8 @@ Async check the cache for semantically similar prompts.
     If "normalized", uses (1.0 - distance_threshold) ([0,1] -> [0,1]).
   * **attributes** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – LangCache attributes to filter by.
     Note: Attributes must be pre-configured in your LangCache instance.
+  * **refresh_ttl** (*Optional* *[* *bool* *]*) – Not supported by LangCache; ignored
+    with a warning if set.
 * **Returns:**
   List of matching cache entries.
 * **Return type:**
@@ -619,7 +629,7 @@ This method will raise NotImplementedError.
 * **Return type:**
   None
 
-#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None)`
+#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None, *, refresh_ttl=None)`
 
 Check the cache for semantically similar prompts.
 
@@ -635,6 +645,8 @@ Check the cache for semantically similar prompts.
     If "normalized", uses (1.0 - distance_threshold) ([0,1] -> [0,1]).
   * **attributes** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – LangCache attributes to filter by.
     Note: Attributes must be pre-configured in your LangCache instance.
+  * **refresh_ttl** (*Optional* *[* *bool* *]*) – Not supported by LangCache; ignored
+    with a warning if set.
 * **Returns:**
   List of matching cache entries.
 * **Return type:**

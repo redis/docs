@@ -14,7 +14,7 @@ For the higher-level design, see [RedisVL MCP]({{< relref "../../concepts/mcp" >
 
 RedisVL MCP assumes all of the following are already true:
 
-- you have Python 3.10 or newer
+- you have Python 3.11 or newer
 - you have Redis with Search capabilities available
 - the Redis index already exists
 - you know which text field and vector field the server should use
@@ -117,7 +117,7 @@ When using Streamable HTTP or SSE transport, point your MCP client at the server
 - **Streamable HTTP**: `http://<host>:<port>/mcp`
 - **SSE**: `http://<host>:<port>/sse`
 
-**Note:** `<host>` here is the bind address the server was started with. The default `127.0.0.1` only accepts connections from the same machine. To allow connections from other machines, start the server with `--host 0.0.0.0` and use the machine’s actual IP or hostname in the client URL. Because a `0.0.0.0` bind has no single canonical `Host`, add the client-visible hostname(s) to `REDISVL_MCP_ALLOWED_HOSTS` (or `server.transport_security.allowed_hosts`), or Host validation will reject those requests. See [Transport Security]().
+**Note:** `<host>` here is the bind address the server was started with. The default `127.0.0.1` only accepts connections from the same machine. To allow connections from other machines, start the server with `--host 0.0.0.0` and use the machine’s actual IP or hostname in the client URL. Because a `0.0.0.0` bind has no single canonical `Host`, add the client-visible hostname(s) to `REDISVL_MCP_ALLOWED_HOSTS` (or `server.transport_security.allowed_hosts`), or Host validation will reject those requests. See [Transport Security](#transport-security-host-origin-validation).
 
 For example, to configure a remote MCP client to connect to a Streamable HTTP server running on `192.168.1.10:8000`:
 
