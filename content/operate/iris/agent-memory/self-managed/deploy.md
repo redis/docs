@@ -171,7 +171,7 @@ These Data Plane values are off or unset by default. Each one is described in fu
 | `memory.memory.auth.delegation.audience` | The `auth.oidc` audience | The audience delegated user tokens must carry. Use one that differs from `global.iris.auth.oidc.audience`, which defaults to `api://redis-iris`. |
 | `memory.memory.namespace_features.api` | `false` | Turns on the namespace lifecycle API. See [Configure namespace routing](/content/operate/iris/agent-memory/self-managed/configuration.md#enable-namespace-routing). |
 
-With ownership enforcement off, your backend must authorize each user's access to personal memories. To turn on delegation and ownership enforcement, add this to `iris-values.yaml`:
+With ownership enforcement off, your backend must authorize each user's access to personal memories. To turn on delegation and ownership enforcement, set `global.iris.auth.oidc.issuer` and `jwksURI`, then add this to `iris-values.yaml`. Without the issuer, the render fails:
 
 ```yaml
 memory:

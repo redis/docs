@@ -177,7 +177,7 @@ The Identity Service and the services read the metadata Redis connection only wh
 The Identity Service writes one log line with the message `audit event` for each control operation. It has no audit database, so collect the pod logs with your log system. To search the logs Kubernetes still keeps, across every Identity Service pod:
 
 ```bash
-kubectl -n <namespace-name> logs -l app.kubernetes.io/name=iris-identity-service --tail=-1 \
+kubectl -n <namespace-name> logs -l app.kubernetes.io/name=identityService --tail=-1 \
   | grep '"audit event"' | grep '<key-id>'
 ```
 

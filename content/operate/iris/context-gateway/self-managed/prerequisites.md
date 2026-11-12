@@ -15,26 +15,22 @@ hideListLinks: true
 
 | Item | Where it comes from |
 | --- | --- |
-| Container images | The Context Gateway Control Plane and Data Plane images for the release |
-| Helm chart | `redis-context-gateway` chart in the Redis AI Helm repository, or a chart package provided by Redis |
-| Identity Service | An Identity Service release for the same tenant, shared with other Iris services |
+| Suite | The [suite prerequisites](/content/operate/iris/self-managed/_index.md#prerequisites): the cluster, Helm, the `redis-iris` chart `1.0.0`, the suite license, and the Identity Service the suite installs |
 | Redis databases | You provide Metadata Redis, credential storage, and the databases Gateways use |
-| License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). |
+| Public origin | The `https://` origin MCP clients reach the Data Plane at, set as `contextGateway.publicBaseURL` |
 | Upstream credentials | You provide the tokens or header values each Model Context Protocol (MCP) server needs |
 
 ## Required software
 
 | Software | Purpose |
 | --- | --- |
-| Kubernetes 1.28 or later, and `kubectl` | Run both planes and create Secrets in the installation namespace. |
-| [Helm 3, v3.10.3 or later](https://docs.helm.sh/docs/v3/intro/install/) | Install the chart. |
 | Bash, curl, and jq | Run the API examples. |
 
 <!-- TODO: Confirm the supported platforms for the launch release. -->
 
 ## Redis databases
 
-The chart consumes existing Redis deployments. It does not provision them.
+The suite consumes existing Redis deployments. It doesn't provision them.
 
 | Redis deployment | Requirements | Use |
 | --- | --- | --- |
@@ -49,7 +45,7 @@ Use separately managed Redis deployments for metadata, credentials, and customer
 - Never use one Redis database as both a Surface database and a Gateway database. Keep the two [default databases](/content/operate/iris/context-gateway/self-managed/configuration.md#default-databases) on separate Redis endpoints when compression is on, because `noeviction` would otherwise apply to customer data.
 - Size the Gateway database for handles: the rate of calls that become handles, times the stored result size, times the handle lifetime.
 
-Use `rediss://` URLs with certificate verification. The Federal Information Processing Standards (FIPS)-oriented profile rejects plaintext Redis URLs.
+Use `rediss://` URLs with certificate verification.
 
 ### Redis users for Surface databases
 
@@ -89,7 +85,7 @@ On an OSS Redis Cluster, also grant `+cluster|slots` to both users. Search comma
 | Identity Service | Control Plane | Grant validation. |
 | Operators | Control Plane and Identity Service | Administration. Keep both private. |
 
-The chart creates `ClusterIP` services. It can also create an Ingress for the Data Plane with `dataplane.ingress`, which is off by default. See [Helm values](/content/operate/iris/context-gateway/self-managed/configuration.md#helm-values). Your platform owns the ingress controller, network policy, Domain Name System (DNS) records, and Transport Layer Security (TLS) certificates.
+The suite creates `ClusterIP` services. It can also create an Ingress for the Data Plane with `contextGateway.dataplane.ingress`, which is off by default. See [Helm values](/content/operate/iris/context-gateway/self-managed/configuration.md#helm-values). Your platform owns the ingress controller, network policy, Domain Name System (DNS) records, and Transport Layer Security (TLS) certificates.
 
 Configure the ingress for Streamable HTTP:
 
@@ -99,28 +95,15 @@ Configure the ingress for Streamable HTTP:
 
 ## Credentials and Secrets
 
-Redis URLs, tokens, keyrings, and the license belong in Kubernetes Secrets or Secrets Store Container Storage Interface (CSI) Driver files, never in Helm values or source control. See [Credentials](/content/operate/iris/context-gateway/self-managed/authentication.md#credentials) for each credential and [Configuration](/content/operate/iris/context-gateway/self-managed/configuration.md) for each file reference.
+Redis URLs and keyrings belong in Kubernetes Secrets or Secrets Store Container Storage Interface (CSI) Driver files, never in Helm values or source control. The suite supplies the license and the internal and runtime tokens as Kubernetes Secrets, so don't point those at CSI files. See [Service Secrets and Redis databases](/content/operate/iris/self-managed/_index.md#service-secrets-and-redis-databases), [Credentials](/content/operate/iris/context-gateway/self-managed/authentication.md#credentials) for each credential and [Configuration](/content/operate/iris/context-gateway/self-managed/configuration.md) for each file reference.
 
-## Release artifacts and image tags
+## Images and private registries
 
-| Component | Image |
-| --- | --- |
-| Control Plane | `redislabs/iris-context-gateway-control:<control-plane-image-tag>` |
-| Data Plane | `redislabs/iris-context-gateway-data:<data-plane-image-tag>` |
-
-The chart defaults to these repositories and pins the image tags that match its chart version. Leave `image.repository` and `image.tag` unset for a public install, and override them only to pull from a mirror.
-
-Chart `1.0.0` pins both images to tag `1.0.0`.
-
-## Air-gapped and private registry installs
-
-For a disconnected installation, mirror both images to your registry with their tags unchanged, set each component's `image.repository` and `image.tag`, and set `imagePullSecrets`. Install from a downloaded chart package instead of the Redis AI Helm repository.
+The suite pins the Control Plane and Data Plane images, `redislabs/iris-context-gateway-control` and `redislabs/iris-context-gateway-data`, to `1.0.0`. For a disconnected installation, mirror both images to your registry with their tags unchanged, then set `contextGateway.controlplane.image.repository`, `contextGateway.dataplane.image.repository`, and `global.imagePullSecrets`. Install from the package that `helm pull redis-ai/redis-iris --version 1.0.0` downloads, instead of the Redis AI Helm repository.
 
 ## Helm values to review
 
 | Value | Decide |
 | --- | --- |
-| `tenantId` | One tenant per release, equal to the Identity Service's single tenant ID. |
-| `publicBaseURL` | The Data Plane origin MCP clients reach. |
-| `credentialStorage.provider` | `redis`, `vault`, or `aws_secrets_manager`. |
-| `security.profile` | `standard` (default) or `fips`. |
+| `contextGateway.publicBaseURL` | The Data Plane origin MCP clients reach. |
+| `contextGateway.credentialStorage.provider` | `redis`, `vault`, or `aws_secrets_manager`. |

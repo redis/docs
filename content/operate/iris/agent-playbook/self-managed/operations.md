@@ -24,7 +24,7 @@ curl --fail-with-body -sS http://localhost:9202/health/readiness
 Inspect pods and the affected service's logs when readiness fails:
 
 ```bash
-kubectl -n <namespace-name> get pods -l app.kubernetes.io/instance=iris,app.kubernetes.io/name=redis-agent-playbook
+kubectl -n <namespace-name> get pods -l app.kubernetes.io/instance=iris,app.kubernetes.io/name=playbook
 kubectl -n <namespace-name> describe pod <pod-name>
 kubectl -n <namespace-name> logs deployment/redis-agent-playbook-dataplane
 ```

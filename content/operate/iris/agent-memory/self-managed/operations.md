@@ -125,17 +125,19 @@ the direct caller also has a valid Redis Agent Memory credential.
 
 The Agent Memory chart inside the suite package includes `networkpolicy.reference.yaml` as a
 reference manifest. It is not templated, because allowed callers are environment-specific. Get it
-from the suite package:
+from the suite package, at `redis-iris/charts/redis-agent-memory/networkpolicy.reference.yaml`:
 
 ```bash
 helm pull redis-ai/redis-iris --version 1.0.0 --untar
-tar -xzf redis-iris/charts/redis-agent-memory-1.0.0.tgz redis-agent-memory/networkpolicy.reference.yaml
 ```
 
 Customize the placeholders before applying it:
 
 - `<namespace>`, `<identity-service-namespace>`, and `<playbook-namespace>`: the suite's release namespace.
 - `<release-name>`, `<identity-service-release-name>`, and `<playbook-release-name>`: the suite's release name, `iris`.
+- Pod selectors: the suite labels the Identity Service pods `app.kubernetes.io/name: identityService`
+  and the Agent Playbooks pods `app.kubernetes.io/name: playbook`. Change the file's
+  `iris-identity-service` and `redis-agent-playbook` selectors to match. Agent Memory keeps `redis-agent-memory`.
 - `<caller-namespace>` and caller pod labels: ingress controller, service mesh
   gateway, application pod, or approved internal caller allowed to call Redis Agent Memory.
 

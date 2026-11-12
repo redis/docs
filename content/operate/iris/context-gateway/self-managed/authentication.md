@@ -15,26 +15,26 @@ hideListLinks: true
 
 | Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
 | --- | --- | --- | --- | --- |
-| Control Plane admin token | Operator → Control Plane (`:9100`) | The Secret in `controlplane.adminToken` / `token` | No | Gateway and Upstream management: `/iris/v1/context-gateway/gateways` |
-| Control Plane internal token | Identity Service → Control Plane | The Secret in `controlplane.internalToken` / `token` | No | Checking that the Gateway in a grant exists |
-| Data Plane runtime token | Data Plane → Identity Service | The Secret in `dataplane.runtimeToken` / `token` | No | Checking agent keys for `context-gateway` |
-| Identity Service control token | Operator → Identity Service (`:9200`) | Set on the Identity Service release. By default the Identity Service chart generates it (`control.autoGenerate: true`), so read it from the Secret the chart generates | Yes, by default | Creating, listing, rotating, and revoking agent keys |
+| Control Plane admin token | Operator → Control Plane (`:9100`) | `iris-context-gateway-admin-token` / `token` | Yes, by the suite | Gateway and Upstream management: `/iris/v1/context-gateway/gateways` |
+| Control Plane internal token | Identity Service → Control Plane | `iris-context-gateway-internal-token` / `context-gateway` | Yes, by the suite | Checking that the Gateway in a grant exists |
+| Data Plane runtime token | Data Plane → Identity Service | `iris-context-gateway-dataplane-credential` / `context-gateway-dp` | Yes, by the suite | Checking agent keys for `context-gateway` |
+| Identity Service control token | Operator → Identity Service (`:9200`) | `iris-identity-service-control-token` / `token` | Yes, by the suite | Creating, listing, rotating, and revoking agent keys |
 | Agent key | Agent → Data Plane (`:8083`) | None. Returned once when minted or rotated | No | Listing and calling tools on the Gateways its grants name |
 | Identity provider access token | Agent → Data Plane (`:8083`) | None. Issued by your identity provider | No | With the `gateway_user` role, every Gateway in the tenant. Without it, none |
 
 The admin, internal, and runtime tokens must be distinct. An agent key gets `401` from the Control Plane. No credential that an agent presents is sent to an Upstream.
 
-The chart consumes externally created token files. Provision the admin, internal, and runtime Secrets before installing the release.
+The suite generates these Secrets on first install and keeps them across upgrades. To supply your own, see [Credentials](/content/operate/iris/self-managed/_index.md#credentials).
 
 ## Control Plane admin token
 
-The examples use the admin token in `Authorization: Bearer <token>` for Gateway and Upstream operations. Deployments that configure `controlplane.config.auth.oidc` can also authorize administrators with identity provider access tokens. The admin token remains available, and the health routes need no credential.
+The examples use the admin token in `Authorization: Bearer <token>` for Gateway and Upstream operations. When `global.iris.auth.oidc` sets an issuer, the Control Plane also authorizes administrators with identity provider access tokens. The admin token remains available, and the health routes need no credential.
 
-Load the token from your Secret before you call the Control Plane:
+Load the token before you call the Control Plane:
 
 ```bash
 export IRIS_CONTEXT_GATEWAY_SERVICE_TOKEN="$(kubectl -n <namespace-name> get secret \
-  <admin-token-secret> -o jsonpath='{.data.token}' | base64 --decode)"
+  iris-context-gateway-admin-token -o jsonpath='{.data.token}' | base64 --decode)"
 ```
 
 ## Gateway authorization and grants
@@ -43,7 +43,7 @@ An agent key needs a grant on each Gateway it uses:
 
 | Grant field | Value |
 | --- | --- |
-| `tenant` | The deployment's `tenantId`. |
+| `tenant` | The suite's `global.iris.tenantId`. |
 | `product` | `context-gateway` |
 | `resourceType` | `gateway` |
 | `resourceId` | The Gateway ID. |
@@ -59,7 +59,7 @@ The [API examples](/content/operate/iris/context-gateway/self-managed/api-exampl
 
 Turn on sign-in to let MCP clients use access tokens from your identity provider (IdP). The Data Plane validates each token itself and serves protected resource metadata so that clients can find the IdP. IdP tokens are accepted only in `Authorization: Bearer`, never in `X-Api-Key`, and they never reach an Upstream.
 
-Set these keys under `dataplane.config.auth.oidc`:
+Set these keys under `contextGateway.dataplane.config.auth.oidc`. The suite doesn't derive them from `global.iris.auth.oidc`:
 
 | Key | Value |
 | --- | --- |
@@ -70,17 +70,17 @@ Set these keys under `dataplane.config.auth.oidc`:
 | `user_id_claim` | The claim that identifies a user. `sub` by default, `oid` for Microsoft Entra ID. |
 | `role_mappings` | Maps IdP role or group claim values to Iris roles, such as `gateway_user`. |
 
-`dataplane.config.oauth.public_base_url` defaults to `publicBaseURL`, the Data Plane's public origin. The issuer and key set URLs must use HTTPS.
+`contextGateway.dataplane.config.oauth.public_base_url` defaults to `contextGateway.publicBaseURL`, the Data Plane's public origin. The issuer and key set URLs must use HTTPS.
 
 Register the Data Plane's audience as a separate API at your IdP. On Microsoft Entra ID, that is a second app registration. Don't use the shared `api://redis-iris` audience that the Control Plane and the Iris UI use. MCP clients hold the sign-in token, and the shared audience would also open Agent Memory and Playbook for the user. The Data Plane refuses to start with `api://redis-iris`. It cannot see a renamed shared audience, so if you renamed it, choose a different value here too. Don't give MCP clients the shared audience or its scope either: a token that carries both audiences still opens Agent Memory and Playbook.
 
 ### Upgrade from the shared audience
 
-Earlier chart versions documented `api://redis-iris` for the Data Plane, and the Data Plane now fails at startup with that value. Before you upgrade a deployment that has sign-in turned on with the shared audience:
+Preview charts documented `api://redis-iris` for the Data Plane, and the Data Plane now fails at startup with that value. Before you reinstall a deployment that had sign-in turned on with the shared audience:
 
 1. Register the separate API at your IdP and assign roles on it.
-1. Set `dataplane.config.auth.oidc.audience` to the new API identifier.
-1. Upgrade the chart.
+1. Set `contextGateway.dataplane.config.auth.oidc.audience` to the new API identifier.
+1. Install or upgrade the `iris` release.
 
 MCP clients then need to sign in again to receive tokens for the new audience.
 

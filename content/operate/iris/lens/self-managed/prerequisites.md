@@ -56,7 +56,7 @@ Nothing trims the `streams` role yet, and it must not evict keys, so its memory 
 
 The worker needs no Identity Service access. The suite creates no Lens Ingress: to reach Lens from outside the cluster, publish the data plane through your own Transport Layer Security (TLS) ingress, as described in [Expose the data plane](/content/operate/iris/lens/self-managed/deploy.md#expose-the-data-plane).
 
-The suite renders no NetworkPolicy objects. The `redis-lens` subchart package includes `networkpolicy.reference.yaml`, a default-deny starting point for these flows. Replace every `<placeholder>` before you apply it.
+The suite renders no NetworkPolicy objects. The suite package includes `redis-iris/charts/redis-lens/networkpolicy.reference.yaml`, a default-deny starting point for these flows. Get it with `helm pull redis-ai/redis-iris --version 1.0.0 --untar`. Replace every `<placeholder>` before you apply it. The suite labels the Lens pods `app.kubernetes.io/name: lens` and the Identity Service pods `identityService`, so change the file's `redis-lens` and `iris-identity-service` selectors to match.
 
 ## Secrets
 
