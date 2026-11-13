@@ -11,7 +11,7 @@ title: Redis Software for Kubernetes 8.2.6 release notes
 weight: 82
 ---
 
-Redis Software for Kubernetes 8.2.6 includes new features, bug fixes, enhancements, and support for Redis Software 8.2.6. The latest release is 8.2.6-21 with support for Redis Software version 8.2.6-25.
+Redis Software for Kubernetes 8.2.6 includes new features, bug fixes, enhancements, and support for Redis Software 8.2.6. The latest release is 8.2.6-24 with support for Redis Software version 8.2.6-52.
 
 ## Detailed release notes
 
