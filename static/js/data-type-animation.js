@@ -278,9 +278,13 @@
         p.instant = true;
         for (let i = 0; i < still; i++) await p.step(i, c);
         p.instant = false;
-        if (still > from) await c.wait(STEP);
+        /* A still frame waits here until the reader presses play. It has been on screen for as long as
+           they wanted, so playing moves straight on: to the next step, or from the last step back to
+           the first one. */
+        const resumed = still > from;
+        if (resumed) await c.wait(1);
         for (let i = still; i < steps.length; i++) await p.step(i, c);
-        await c.wait(END_HOLD);
+        if (!resumed || still < steps.length) await c.wait(END_HOLD);
         p.note.classList.remove("is-on");
         p.canvas.style.opacity = "0";
         await c.anim(p.canvas, [{ opacity: 1 }, { opacity: 0 }], 260);
