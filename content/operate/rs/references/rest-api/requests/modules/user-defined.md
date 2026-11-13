@@ -19,11 +19,10 @@ weight: $weight
 | [DELETE](#delete-user-defined-module) | /v2/modules/user-defined/<uid> | Delete a custom module configuration |
 | [DELETE](#delete-local-user-defined-artifacts) | /v2/local/modules/user-defined/artifacts/<module_name>/<version> | Delete a custom module artifact from a node |
 
-{{<note>}}
-Custom module uploads are disabled by default. Before you use either `POST` endpoint on this page, a user with the admin role must set `allow_modules_upload` to `true` in the [cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster" >}}) with a [`PUT /v1/cluster`]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}) request. While the setting is `false`, both upload endpoints return `403 modules_upload_disabled` regardless of role.
-
-Enable the setting only while you upload a module, then set it back to `false`. Custom modules run as native code on your cluster nodes, so keep the period during which they can be added as short as possible.
-{{</note>}}
+> [!NOTE]
+> Custom module uploads are disabled by default. Before you use either `POST` endpoint on this page, a user with the admin role must set `allow_modules_upload` to `true` in the [cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster" >}}) with a [`PUT /v1/cluster`]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}) request. While the setting is `false`, both upload endpoints return `403 modules_upload_disabled` regardless of role.
+>
+> Enable the setting only while you upload a module, then set it back to `false`. Custom modules run as native code on your cluster nodes, so keep the period during which they can be added as short as possible.
 
 ## List custom module artifacts {#get-local-user-defined-artifacts}
 
