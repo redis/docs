@@ -58,7 +58,7 @@ does not require a Control Plane redeploy.
 
 ## Data Plane auth modes
 
-The Data Plane defaults to agent-key authentication whenever no auth method is set.
+The Data Plane defaults to agent-key authentication only when the configuration sets no auth method. It also must enable no other auth provider, such as OIDC or worker identity. Set `auth.method: agent_key` explicitly, so that the security posture is visible in review.
 
 ### Agent-key authentication
 

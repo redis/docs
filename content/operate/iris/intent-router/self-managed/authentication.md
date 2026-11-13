@@ -11,13 +11,14 @@ weight: 60
 hideListLinks: true
 ---
 
-Self-managed Intent Router uses two kinds of credentials. Service tokens authenticate operators and the Intent Router components to each other. The `redis-iris` suite generates them for you. Agent keys authenticate applications to the data plane, and each key's grants control which Routers it can use and what it can do on them.
+Self-managed Intent Router uses three kinds of credentials. Service tokens authenticate operators and the Intent Router components to each other. The `redis-iris` suite generates them for you. Operator access tokens from your identity provider (IdP) authenticate operators to the control plane when you configure OpenID Connect (OIDC). Agent keys authenticate applications to the data plane, and each key's grants control which Routers it can use and what it can do on them.
 
 ## Credentials
 
 | Credential | Who presents it to whom | Secret / key | What it unlocks |
 | --- | --- | --- | --- |
 | Control-plane admin token | Operator → control plane (`:9400`) | `iris-intent-admin-token` / `token` | Router administration: `/iris/v1/intent/routers` and `/iris/v1/intent/models` |
+| Operator access token | Operator → control plane (`:9400`) | None. Your IdP issues it | Router administration, as the operator's Iris role allows |
 | Control-plane internal token | Identity Service → control plane | `iris-intent-internal-token` / `intent` | Checking that the Router in a grant exists |
 | Identity Service control token | Operator → Identity Service (`:9200`) | `iris-identity-service-control-token` / `token` | Creating, listing, rotating, and revoking agent keys |
 | Data-plane runtime credential | Data plane → Identity Service | `iris-intent-dataplane-credential` / `intent-dp` | Checking agent keys for `intent` |
@@ -29,9 +30,19 @@ An agent key gets `401` from the control plane. A key without a grant on a Route
 
 ## Load the administration tokens
 
-Every Router operation needs the admin token in `Authorization: Bearer <token>`, and every agent-key operation needs the Identity Service control token. The health routes need no credential.
+Every Router operation needs a control-plane credential in `Authorization: Bearer <token>`: the admin token, or an operator access token when you configure OIDC. Every agent-key operation needs the Identity Service control token. The health routes need no credential.
 
-Load both from their Secrets before you call the control plane or the Identity Service:
+The suite configures control-plane OIDC from `global.iris.auth.oidc`, and it maps IdP groups to Iris roles with `global.iris.auth.roleBindings` and the product `intent`. See [Write `iris-values.yaml`](/content/operate/iris/self-managed/_index.md#3-write-iris-valuesyaml). An operator access token gives only the access of its role:
+
+| Role | What it allows |
+| --- | --- |
+| `viewer` | List the models, and list and read Routers. |
+| `operator` | Also create and change Routers. |
+| `product_admin`, `suite_admin` | Also delete Routers. |
+
+The admin token allows every Router operation. Without OIDC, use the admin token, as [Admin token mode](/content/operate/iris/self-managed/_index.md#admin-token-mode) describes.
+
+Load the admin token and the Identity Service control token from their Secrets before you call the control plane or the Identity Service:
 
 ```bash
 export IRIS_INTENT_ROUTER_SERVICE_TOKEN="$(kubectl -n <namespace-name> get secret \
