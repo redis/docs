@@ -19,6 +19,11 @@ weight: $weight
 | [DELETE](#delete-user-defined-module) | /v2/modules/user-defined/<uid> | Delete a custom module configuration |
 | [DELETE](#delete-local-user-defined-artifacts) | /v2/local/modules/user-defined/artifacts/<module_name>/<version> | Delete a custom module artifact from a node |
 
+> [!NOTE]
+> Custom module uploads are disabled by default. Before you use either `POST` endpoint on this page, a user with the admin role must set `allow_modules_upload` to `true` in the [cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster" >}}) with a [`PUT /v1/cluster`]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}) request. While the setting is `false`, both upload endpoints return `403 modules_upload_disabled` regardless of role.
+>
+> Enable the setting only while you upload a module, then set it back to `false`. Custom modules run as native code on your cluster nodes, so keep the period during which they can be added as short as possible.
+
 ## List custom module artifacts {#get-local-user-defined-artifacts}
 
 ```sh
@@ -160,6 +165,7 @@ Returns a [module object]({{< relref "/operate/rs/references/rest-api/objects/mo
 | Code | Description |
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, the module was created in the CCS. |
+| [403 Forbidden](https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden) | Custom module uploads are disabled because `allow_modules_upload` is set to `false`. |
 | [406 Not Acceptable](https://www.rfc-editor.org/rfc/rfc9110.html#name-406-not-acceptable) | There was an issue with the module object, such as missing required fields or invalid values. |
 
 ## Upload custom module artifact to a node {#post-local-user-defined-artifacts}
@@ -216,6 +222,7 @@ Returns a status code to indicate upload success or failure.
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Success, module artifact uploaded to local node |
 | [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Missing or bad artifact |
+| [403 Forbidden](https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden) | Custom module uploads are disabled because `allow_modules_upload` is set to `false`. |
 | [406 Not Acceptable](https://www.rfc-editor.org/rfc/rfc9110.html#name-406-not-acceptable) | There was an issue with the module object artifact, such as bad metadata |
 
 ## Delete custom module {#delete-user-defined-module}
