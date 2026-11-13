@@ -84,7 +84,7 @@ Authorization: Bearer <access-token>
 
 The Gateway does not accept IdP tokens in `X-Api-Key`.
 
-The token must be issued for the Gateway's own API. A token issued only for the shared Iris audience used by the Iris console does not grant Gateway access. The signed-in user also needs a grant on the Gateway.
+The token must be issued for the Gateway's own API. A token issued only for the shared Iris audience used by the Iris console does not grant Gateway access. The signed-in user also needs the `gateway_user` role, which gives access to every Gateway in the tenant. Signed-in users can't be limited to selected Gateways. To limit an agent to selected Gateways, use an agent key with a grant for each one. See [Grant signed-in users access](/content/operate/iris/context-gateway/self-managed/authentication.md#grant-signed-in-users-access).
 
 The IdP token is not forwarded to an Upstream. See [Identity provider sign-in](/content/operate/iris/context-gateway/self-managed/authentication.md#identity-provider-sign-in) for deployment configuration.
 
