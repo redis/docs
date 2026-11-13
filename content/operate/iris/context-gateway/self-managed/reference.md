@@ -58,6 +58,6 @@ Each file reference accepts a Kubernetes Secret or a Secrets Store Container Sto
 
 | Need | Reference |
 | --- | --- |
-| Helm chart values | `helm show values redis-ai/redis-iris --version 1.0.0`, with Context Gateway under `contextGateway:` |
+| Helm chart values | `helm show values redis-ai/redis-iris --version 1.0.1`, with Context Gateway under `contextGateway:` |
 | Chart examples | `examples/context-gateway.yaml` in the `redis-iris` chart package |
-| Chart README | `helm show readme redis-ai/redis-iris --version 1.0.0` |
+| Chart README | `helm show readme redis-ai/redis-iris --version 1.0.1` |

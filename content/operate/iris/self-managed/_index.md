@@ -40,7 +40,7 @@ Install one release per namespace, and keep other Iris releases out of that name
 | Requirement | Details |
 | --- | --- |
 | Kubernetes | Kubernetes 1.28 or later. The baseline is 3 worker nodes with 12 vCPU and 24 GiB allocatable in total. The [preflight](#4-run-the-preflight) warns below it. |
-| Node architecture | `linux/amd64`. The `1.0.0` images are published for `amd64` only. To evaluate on Apple silicon, see [Evaluate on a local kind cluster](#evaluate-on-a-local-kind-cluster). |
+| Node architecture | `linux/amd64` or `linux/arm64`. Each `1.0.1` image tag is one multi-platform image, so every node pulls its own. The `1.0.0` images are `amd64` only. |
 | Metrics API | `metrics.k8s.io/v1beta1`, so the HorizontalPodAutoscalers can scale. |
 | Helm | Helm 3.10 or later, with the Redis AI repository `https://helm.redis.io/ai`. Helm 4 isn't supported in this release. |
 | `kubectl` | Configured for the cluster and namespace. |
@@ -163,7 +163,7 @@ ui:
 Every service is installed by default. Turn one off with `global.iris.products.<service>.enabled: false`, where `<service>` is `memory`, `playbook`, `lens`, `contextGateway`, or `intent`. The chart's `examples/` folder has one values file per service, which you can pass as extra `-f` files:
 
 ```bash
-helm pull redis-ai/redis-iris --version 1.0.0 --untar
+helm pull redis-ai/redis-iris --version 1.0.1 --untar
 ls redis-iris/examples
 ```
 
@@ -205,7 +205,7 @@ The chart includes a preflight that checks the cluster before an install. It rea
 Run it with the [`kubectl preflight`](https://troubleshoot.sh/docs/#installation) plugin, v0.124.0 or later. Older versions only warn on the ingress class check. The namespace must exist:
 
 ```bash
-helm template iris redis-ai/redis-iris --version 1.0.0 -n <namespace-name> -f iris-values.yaml \
+helm template iris redis-ai/redis-iris --version 1.0.1 -n <namespace-name> -f iris-values.yaml \
   --show-only templates/preflight.yaml \
   | yq '.stringData["preflight.yaml"]' | kubectl preflight -
 ```
@@ -231,7 +231,7 @@ kubectl create clusterrolebinding <namespace-name>-issuer-discovery \
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install iris redis-ai/redis-iris \
-  --version 1.0.0 \
+  --version 1.0.1 \
   --namespace <namespace-name> \
   -f iris-values.yaml
 ```
@@ -376,17 +376,6 @@ To upgrade, roll back, rotate the metadata Redis credential, restore a lost name
 You can evaluate the suite on a [kind](https://kind.sigs.k8s.io/) cluster on your workstation. This setup isn't for production.
 
 You need Docker Desktop, `kind`, `kubectl`, Helm 3.10 or later, and your license file.
-
-### Run the `amd64` images on Apple silicon
-
-The `1.0.0` images are published for `amd64` only. On Apple silicon, create a native `arm64` kind node, which is the default. Docker Desktop's x86 emulation then runs the `amd64` images inside it.
-
-Don't create an `amd64` kind node. Under QEMU emulation the kubelet reports `seccomp is not supported` and the node doesn't start. If you rebuilt a cluster and Docker cached the `kindest/node` image as `amd64`, check and remove it before you create the cluster again:
-
-```bash
-docker image inspect kindest/node:<tag> --format '{{.Architecture}}'
-docker rmi kindest/node:<tag>
-```
 
 ### Start throwaway Redis databases
 

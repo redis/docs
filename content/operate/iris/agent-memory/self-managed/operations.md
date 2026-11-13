@@ -113,7 +113,7 @@ and then removes what it created. See [Verify the deployment](/content/operate/i
 
 ## FIPS
 
-The suite chart `1.0.0` doesn't support the Federal Information Processing Standards (FIPS)
+The suite chart `1.0.1` doesn't support the Federal Information Processing Standards (FIPS)
 profile. `global.security.profile: fips` fails the install. See
 [Not supported in this release](/content/operate/iris/self-managed/_index.md#not-supported-in-this-release).
 
@@ -125,11 +125,10 @@ the direct caller also has a valid Redis Agent Memory credential.
 
 The Agent Memory chart inside the suite package includes `networkpolicy.reference.yaml` as a
 reference manifest. It is not templated, because allowed callers are environment-specific. Get it
-from the suite package:
+from the suite package, at `redis-iris/charts/redis-agent-memory/networkpolicy.reference.yaml`:
 
 ```bash
-helm pull redis-ai/redis-iris --version 1.0.0 --untar
-tar -xzf redis-iris/charts/redis-agent-memory-1.0.0.tgz redis-agent-memory/networkpolicy.reference.yaml
+helm pull redis-ai/redis-iris --version 1.0.1 --untar
 ```
 
 Customize the placeholders before applying it:

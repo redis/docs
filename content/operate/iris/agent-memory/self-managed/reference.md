@@ -77,8 +77,8 @@ CSI-synced Secrets, make sure a Control Plane pod also mounts the corresponding
 
 | Need | Reference |
 | --- | --- |
-| Suite chart values | `helm show values redis-ai/redis-iris --version 1.0.0` |
-| Agent Memory chart values and README | `charts/redis-agent-memory-1.0.0.tgz` in the suite package (`helm pull redis-ai/redis-iris --version 1.0.0 --untar`) |
+| Suite chart values | `helm show values redis-ai/redis-iris --version 1.0.1` |
+| Agent Memory chart values and README | `redis-iris/charts/redis-agent-memory/` in the suite package (`helm pull redis-ai/redis-iris --version 1.0.1 --untar`) |
 | NetworkPolicy reference | [Network policy](/content/operate/iris/agent-memory/self-managed/operations.md#network-policy) |
 | Redis Agent Memory API reference | [Redis Agent Memory API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}) |
 | Control Plane API reference | [Control Plane API reference]({{< relref "/operate/iris/agent-memory/self-managed/control-plane-api-reference" >}}) |

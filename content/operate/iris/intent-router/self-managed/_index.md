@@ -15,7 +15,7 @@ Intent Router classifies each incoming user message by intent, so your applicati
 
 This guide is for that administrator. It covers deploying Intent Router on your own Kubernetes cluster, then configuring, securing, and operating it. To install, follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md), then [Deploy](/content/operate/iris/intent-router/self-managed/deploy.md).
 
-The `redis-iris` chart `1.0.0` deploys the Intent Router control plane and data plane, with the Identity Service that issues and checks agent keys. Intent Router values go under the `intent:` key, and the chart's `examples/intent.yaml` is a working values file to start from. You provide the Redis databases, the embedding provider credentials, and the suite license.
+The `redis-iris` chart `1.0.1` deploys the Intent Router control plane and data plane, with the Identity Service that issues and checks agent keys. Intent Router values go under the `intent:` key, and the chart's `examples/intent.yaml` is a working values file to start from. You provide the Redis databases, the embedding provider credentials, and the suite license.
 
 Applications call the data plane to author intents and match queries, as described in the [data-plane API reference](/content/develop/ai/context-engine/intent-router/api-reference.md). The [control-plane API reference](/content/operate/iris/intent-router/self-managed/control-plane-api-reference.md) documents the administration endpoints for Routers.
 

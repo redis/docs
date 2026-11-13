@@ -23,7 +23,7 @@ Self-managed Lens runs on your Kubernetes cluster as part of the `redis-iris` su
 | Identity Service | Installed by the suite, as `iris-identity-service`. |
 | Redis databases | A records database, a content database, and a metadata Redis, as described in [Redis databases](#redis-databases). |
 | Container images | Docker Hub: `redislabs/iris-lens-data` (data plane and worker) and `redislabs/iris-lens-control` (control plane). |
-| Helm chart | `redis-iris` chart `1.0.0` in the Redis AI Helm repository, `https://helm.redis.io/ai`. |
+| Helm chart | `redis-iris` chart `1.0.1` in the Redis AI Helm repository, `https://helm.redis.io/ai`. |
 | License key | The suite license. Contact your Redis representative or [contact sales](https://redis.io/contact/). |
 
 ## Redis databases
