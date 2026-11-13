@@ -110,8 +110,8 @@ If you plan to use Snowflake as a source for any of your pipelines, you'll also 
 
 In addition, the RDI Helm chart uses the following 3rd party images:
 
--   [redislabs/debezium-server:3.5.0.Final-rdi.3](https://hub.docker.com/r/redislabs/debezium-server),
-    based on `quay.io/debezium/server/3.5.0.Final` with minor modifications:
+-   [redislabs/debezium-server:3.7.0.Final-rdi.2](https://hub.docker.com/r/redislabs/debezium-server),
+    based on `quay.io/debezium/server/3.7.0.Final` with minor modifications:
     [Debezium](https://debezium.io/), an open source distributed platform for change data capture.
 -   [redis/reloader:v1.4.13](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.4.13`:
     [Reloader](https://github.com/stakater/Reloader), a K8s controller to watch changes to ConfigMaps
