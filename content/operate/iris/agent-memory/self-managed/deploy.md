@@ -205,7 +205,7 @@ For a new release, follow [Run the preflight](/content/operate/iris/self-managed
 
 ```bash
 helm upgrade iris redis-ai/redis-iris \
-  --version 1.0.0 \
+  --version '~1.0.1' \
   --namespace <namespace-name> \
   -f iris-values.yaml
 ```
