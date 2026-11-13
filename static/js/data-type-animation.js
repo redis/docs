@@ -1121,16 +1121,10 @@
       { cmd: "TOPK.ADD bikes:keywords store seat store", reply: "1) (nil)\n2) (nil)\n3) (nil)", note: "Each item is counted as it arrives.",
         run: function (c, st) { return Promise.all([st.bump(c, "store", 3), st.bump(c, "seat", 2)]); } },
       { cmd: "TOPK.ADD bikes:keywords tires tires", reply: '1) "pedals"\n2) (nil)', note: "Now tires is more frequent than pedals, so pedals drops out.",
-        run: async function (c, st) {
-          const r = st.rows[2];
-          c.mark(r.el, "no");
-          await c.wait(420);
-          await Promise.all([r.item, r.val].map(function (el) { return c.anim(el, [{ opacity: 1 }, { opacity: 0 }], 260); }));
-          r.name = r.item.textContent = r.val.textContent = "";
-          c.clear();
-          await st.bump(c, "tires", 2);
-        } },
-      { cmd: "TOPK.LIST bikes:keywords", reply: '1) "store"\n2) "seat"\n3) "tires"', note: "TOPK.LIST returns the current top 3.",
+        run: function (c, st) { return st.replace(c, "pedals", "tires", 2); } },
+      { cmd: "TOPK.ADD bikes:keywords pedals pedals", reply: '1) "seat"\n2) (nil)', note: "Top-K kept the earlier count for pedals, so it comes back with 3 and seat drops out.",
+        run: function (c, st) { return st.replace(c, "seat", "pedals", 3); } },
+      { cmd: "TOPK.LIST bikes:keywords", reply: '1) "store"\n2) "pedals"\n3) "tires"', note: "TOPK.LIST returns the current top 3.",
         run: function (c, st) { st.rows.forEach(function (r) { c.mark(r.el, "read"); }); } },
     ],
     build: function (c) {
@@ -1151,6 +1145,16 @@
         r.val.textContent = r.n = n;
         c.mark(r.el, "write");
         return Promise.all([c.enter(r.item, "translateX(-10px)"), c.enter(r.val, "translateX(-10px)")]);
+      };
+      /* `out` drops out of the list, and `name` takes its place with a count of `n`. */
+      st.replace = async function (c, out, name, n) {
+        const r = st.rows.find(function (x) { return x.name === out; });
+        c.mark(r.el, "no");
+        await c.wait(420);
+        await Promise.all([r.item, r.val].map(function (el) { return c.anim(el, [{ opacity: 1 }, { opacity: 0 }], 260); }));
+        r.name = r.item.textContent = r.val.textContent = "";
+        c.clear();
+        await st.bump(c, name, n);
       };
       return st;
     },
