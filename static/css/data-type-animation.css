@@ -237,6 +237,8 @@
   transition: background-color .3s, border-color .3s, box-shadow .3s;
 }
 .dta-ctr.is-zero { color: var(--dta-faint); }
+/* The smallest of the counters a query read, which is the estimate it returns. */
+.dta-ctr.is-read.is-least { background-color: var(--dta-read); color: var(--dta-read-text); transition: background-color .3s, border-color .3s, box-shadow .3s, color .3s; }
 
 /* ---- SVG scenes ---- */
 .dta-svg { display: block; overflow: visible; }

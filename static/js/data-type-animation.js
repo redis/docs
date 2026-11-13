@@ -1057,7 +1057,7 @@
       { cmd: 'CMS.INCRBY bikes:profit "Rocky Mountain Racer" 200', reply: "1) (integer) 200", note: "Two items can land on the same counter.",
         run: function (c, st) { return st.incr(c, [5, 4, 2], 200); } },
       { cmd: 'CMS.QUERY bikes:profit "Smoky Mountain Striker"', reply: "1) (integer) 100", note: "The estimate is the smallest of the item's counters.",
-        run: function (c, st) { [1, 4, 6].forEach(function (col, r) { c.mark(st.cells[r][col].el, st.cells[r][col].n === 100 ? "read" : "no"); }); } },
+        run: function (c, st) { return st.query(c, [1, 4, 6]); } },
     ],
     build: function (c) {
       const st = { grid: h("div", "dta-cms"), cells: [] };
@@ -1078,6 +1078,15 @@
           c.mark(x.el, "write");
           return c.count(x.el, from, x.n, 450);
         }));
+      };
+      /* A query reads the item's counter in every row. The smallest of them is the estimate, and it is
+         filled in a moment later. */
+      st.query = async function (c, cols) {
+        const read = cols.map(function (col, r) { return st.cells[r][col]; });
+        const least = Math.min.apply(null, read.map(function (x) { return x.n; }));
+        read.forEach(function (x) { c.mark(x.el, "read"); });
+        await c.wait(450);
+        read.forEach(function (x) { if (x.n === least) c.mark(x.el, "least"); });
       };
       return st;
     },
