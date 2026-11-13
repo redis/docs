@@ -1200,6 +1200,7 @@
       document.fonts.load(font).then(function () { players.forEach(function (p) { p.play(p.cur); }); }, function () {});
     }
   }
-  window.DataTypeAnimation = { scenes: SCENES, players: players, mount: mount };
+  /* `kit` is what a scene in another file draws with: use-case-animation.js adds its scenes to `scenes`. */
+  window.DataTypeAnimation = { scenes: SCENES, players: players, mount: mount, kit: { h: h, s: s, add: add, row: row } };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();

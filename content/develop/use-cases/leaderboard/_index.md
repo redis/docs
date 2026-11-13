@@ -40,6 +40,8 @@ You can:
 
 In practice, the leaderboard is stored as a Redis sorted set — one key per board — with members keyed by entity ID and scored by the value you want to rank on. A companion hash per entity holds metadata (name, avatar, tier) so the sorted set stays lightweight.
 
+{{< use-case-animation name="leaderboard" >}}
+
 Redis provides the following features that make it a good fit for leaderboards:
 
 -   [Sorted sets](/content/develop/data-types/sorted-sets.md) maintain rank order automatically, with

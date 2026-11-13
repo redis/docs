@@ -1,0 +1,51 @@
+/* =========================================================================
+   Use case animations
+   What a use case scene adds to the data type animation's stage: whoever
+   sends the commands, the store they go to, the wire between the two, and
+   the messages that travel along it. The colors and the console come from
+   data-type-animation.css, which must load first.
+   ========================================================================= */
+
+/* The room the animation needs, so the page below doesn't jump when the script draws it. This is the
+   height in the widest text column. In a narrower column a long command wraps and the box grows. */
+.dta[data-dta="leaderboard"] { min-height: 316px; }
+
+/* ---- the stage ---- */
+.dta-uc { position: relative; flex: none; }
+.dta-uc-wires { position: absolute; left: 0; top: 0; }
+.dta-uc-wire { fill: none; stroke: var(--dta-line-strong); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 1 5; }
+
+/* Whoever sends the commands, such as the application. */
+.dta-uc-app {
+  position: absolute; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--dta-line-strong); border-radius: 10px; background: var(--dta-surface);
+  font: 700 12.5px/16px var(--dta-mono); white-space: nowrap;
+}
+
+/* A store is a card with a label over it that says where the key lives. */
+.dta-uc-store { position: absolute; display: flex; flex-direction: column; gap: 4px; }
+.dta-uc-label { font: 10px/14px var(--dta-mono); letter-spacing: .5px; text-transform: uppercase; color: var(--dta-faint); }
+.dta-uc-store .dta-card-h { display: flex; align-items: center; height: 25px; padding-top: 0; padding-bottom: 0; white-space: nowrap; }
+.dta-uc-title { overflow: hidden; text-overflow: ellipsis; }
+.dta-uc-store .dta-rows > .dta-r:last-child { border-bottom-color: transparent; }
+
+/* A message on the wire: a command going out, or its answer coming back. */
+.dta-uc-msg {
+  position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none;
+  padding: 1px 7px; border: 1px solid var(--dta-line-strong); border-radius: 9px;
+  font: 700 10.5px/16px var(--dta-mono); white-space: nowrap;
+}
+.dta .dta-uc-msg.is-read { border-color: var(--dta-read); background: #1c2254; color: #d0d3ff; box-shadow: none; }
+.dta .dta-uc-msg.is-write { border-color: var(--dta-write); background: #4b1c1d; color: #ffc9c3; box-shadow: none; }
+
+/* ---- leaderboard: the score bars ---- */
+.dta-uc-bar { display: block; height: 6px; border-radius: 3px; background: var(--dta-line); }
+.dta-uc-bar i { display: block; height: 100%; border-radius: 3px; background: var(--dta-on); transition: width .5s cubic-bezier(.2, .7, .2, 1), background-color .3s; }
+.dta-r.is-write .dta-uc-bar i { background: var(--dta-write); }
+.dta-r.is-read .dta-uc-bar i { background: var(--dta-read); }
+
+@container (max-width: 460px) {
+  .dta-uc-store .dta-card-h { font-size: 10.5px; padding-left: 8px; padding-right: 8px; }
+  .dta-uc-store .dta-r { font-size: 11.5px; column-gap: 8px; padding: 0 8px; }
+  .dta-uc-app { font-size: 11px; }
+}
