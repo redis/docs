@@ -55,7 +55,8 @@
 .dta[data-dta="set"], .dta[data-dta="top-k"] { min-height: 275px; }
 .dta[data-dta="sorted-set"] { min-height: 283px; }
 .dta[data-dta="stream"] { min-height: 295px; }
-.dta[data-dta="timeseries"], .dta[data-dta="vector-set"] { min-height: 333px; }
+.dta[data-dta="vector-set"] { min-height: 313px; }
+.dta[data-dta="timeseries"] { min-height: 333px; }
 .dta[data-dta="geospatial"] { min-height: 353px; }
 
 /* ---- console ---- */
@@ -281,8 +282,14 @@
 .dta-vec.is-write circle { fill: var(--dta-write); }
 .dta-vec.is-read line { stroke: var(--dta-read); }
 .dta-vec.is-read circle, .dta-vec.is-read text { fill: var(--dta-read); }
-.dta-query line { stroke: var(--dta-read); stroke-width: 1.5; stroke-dasharray: 4 3; }
+/* An element's attributes keep their own color until a search reads them. */
+.dta-vec .dta-attr, .dta-vec.is-read .dta-attr { fill: var(--dta-str); font-size: 10px; }
+.dta-vec .dta-attr.is-read { fill: var(--dta-read); }
+.dta-query line, .dta-vec.is-query line { stroke: var(--dta-read); stroke-width: 1.5; stroke-dasharray: 4 3; }
 .dta-query text { fill: var(--dta-read); }
+/* An element's place in a search reply, drawn over the tip of its vector. */
+.dta-vrank circle { fill: var(--dta-read); }
+.dta-vrank text { fill: var(--dta-read-text); font-size: 10px; font-weight: 700; }
 
 /* Bloom and cuckoo filters */
 .dta-box rect { fill: var(--dta-surface); stroke: var(--dta-line-strong); transition: fill .3s, stroke .3s; }

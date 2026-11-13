@@ -788,34 +788,56 @@
         run: function (c, st) { return st.add(c, "pt:A", 1, 1); } },
       { cmd: "VADD points VALUES 2 -1.0 -1.0 pt:B", reply: "(integer) 1", note: "Each element is stored with a vector.",
         run: function (c, st) { return st.add(c, "pt:B", -1, -1); } },
-      { cmd: "VADD points VALUES 2 -1.0 1.0 pt:C", reply: "(integer) 1", note: "Each element is stored with a vector.",
-        run: function (c, st) { return st.add(c, "pt:C", -1, 1); } },
-      { cmd: "VADD points VALUES 2 1.0 -1.0 pt:D", reply: "(integer) 1", note: "Each element is stored with a vector.",
-        run: function (c, st) { return st.add(c, "pt:D", 1, -1); } },
-      { cmd: "VADD points VALUES 2 1.0 0 pt:E", reply: "(integer) 1", note: "Each element is stored with a vector.",
-        run: function (c, st) { return st.add(c, "pt:E", 1, 0); } },
-      { cmd: "VSIM points VALUES 2 0.9 0.1 COUNT 2 WITHSCORES", reply: '1) "pt:E"\n2) "0.9969418649561703"\n3) "pt:A"\n4) "0.8901269808411598"',
-        note: "VSIM returns the elements most similar to a query vector.",
-        run: function (c, st) { return st.query(c, 0.9, 0.1, ["pt:E", "pt:A"]); } },
+      { cmd: "VADD points VALUES 2 -1.0 1.0 pt:C SETATTR '{\"size\":\"large\"}'", reply: "(integer) 1", note: "An element can also have attributes, written as JSON.",
+        run: function (c, st) { return st.add(c, "pt:C", -1, 1, "size: large"); } },
+      { cmd: "VSIM points VALUES 2 0.9 0.1", reply: '1) "pt:A"\n2) "pt:C"\n3) "pt:B"', note: "VSIM ranks the elements by how similar they are to a query vector.",
+        run: function (c, st) { return st.search(c, [0.9, 0.1], ["pt:A", "pt:C", "pt:B"]); } },
+      { cmd: "VSIM points ELE pt:B", reply: '1) "pt:B"\n2) "pt:C"\n3) "pt:A"', note: "With ELE, the query is the vector of an element in the set.",
+        run: function (c, st) { return st.search(c, "pt:B", ["pt:B", "pt:C", "pt:A"]); } },
+      { cmd: "VSIM points VALUES 2 0.9 0.1 FILTER '.size == \"large\"'", reply: '1) "pt:C"', note: "FILTER keeps only the elements whose attributes match.",
+        run: function (c, st) { return st.search(c, [0.9, 0.1], ["pt:C"], true); } },
     ],
     build: function (c) {
       const svg = canvasSvg(c), ox = Math.round(c.W / 2), oy = Math.round(c.H / 2), u = Math.min(50, (c.H - 46) / 2), st = { v: {} };
       add(svg, s("line", { class: "dta-grid", x1: ox - u - 28, x2: ox + u + 28, y1: oy, y2: oy }), s("line", { class: "dta-grid", x1: ox, x2: ox, y1: oy - u - 18, y2: oy + u + 18 }),
         s("text", { x: ox - u - 34, y: oy, dy: ".35em", "text-anchor": "end" }, "points"));
-      st.add = function (c, name, x, y) {
+      /* An element's vector, with its name beside the tip and its attributes, if it has any, under the name. */
+      st.add = function (c, name, x, y, attrs) {
         const px = ox + x * u, py = oy - y * u, g = s("g", { class: "dta-vec" }), dot = s("circle", { cx: px, cy: py, r: 4 });
-        add(svg, add(g, s("line", { x1: ox, y1: oy, x2: px, y2: py }), dot,
-          s("text", { x: px + (x < 0 ? -8 : 8), y: py + (y > 0 ? -4 : 12), "text-anchor": x < 0 ? "end" : "start" }, name)));
-        st.v[name] = g;
+        const side = { x: px + (x < 0 ? -11 : 11), "text-anchor": x < 0 ? "end" : "start" }, ty = py + (y > 0 ? -4 : 12);
+        const v = st.v[name] = { g: g, x: px, y: py, attrs: attrs && s("text", Object.assign({ class: "dta-attr", y: ty + 13 }, side), attrs) };
+        add(svg, add(g, s("line", { x1: ox, y1: oy, x2: px, y2: py }), dot, s("text", Object.assign({ y: ty }, side), name), v.attrs));
         c.mark(g, "write");
         return Promise.all([c.anim(g, [{ opacity: 0 }, { opacity: 1 }], 300), c.enter(dot, "scale(.2)")]);
       };
-      st.query = async function (c, x, y, hits) {
-        const ex = ox + x * u * 1.5, ey = oy - y * u * 1.5;
-        const q = add(s("g", { class: "dta-query" }), s("line", { x1: ox, y1: oy, x2: ex, y2: ey }), s("text", { x: ex + 6, y: ey, dy: ".35em" }, "query"));
-        svg.appendChild(q);
+      /* A search. `from` is the query: a vector [x, y], or the name of an element whose vector is used.
+         `hits` are the elements the reply lists, in order. Each gets its place in the reply, one after
+         the other, and the elements the reply leaves out are dimmed. A search with a filter also reads
+         the attributes. */
+      st.search = async function (c, from, hits, filtered) {
+        const q = s("g", { class: "dta-query" });
+        if (typeof from === "string") {   // the element's own vector is the query: label it on the side its name isn't on
+          const v = st.v[from];
+          c.mark(v.g, "query");
+          add(q, s("text", { x: v.x + (v.x < ox ? 12 : -12), y: v.y, dy: ".35em", "text-anchor": v.x < ox ? "start" : "end" }, "query"));
+        } else {
+          const ex = ox + from[0] * u * 1.5, ey = oy - from[1] * u * 1.5;
+          add(q, s("line", { x1: ox, y1: oy, x2: ex, y2: ey }), s("text", { x: ex + 6, y: ey, dy: ".35em" }, "query"));
+        }
+        svg.appendChild(c.temp(q));
         await c.anim(q, [{ opacity: 0 }, { opacity: 1 }], 400);
-        for (const name in st.v) c.mark(st.v[name], hits.indexOf(name) < 0 ? "dim" : "read");
+        for (const name in st.v) {
+          const v = st.v[name];
+          if (filtered && v.attrs) c.mark(v.attrs, "read");
+          if (hits.indexOf(name) < 0) c.mark(v.g, "dim");
+        }
+        for (let i = 0; i < hits.length; i++) {
+          const v = st.v[hits[i]], rank = add(s("g", { class: "dta-vrank" }), s("circle", { r: 7.5 }), s("text", { "text-anchor": "middle", dy: ".35em" }, i + 1));
+          svg.appendChild(c.temp(add(s("g", { transform: "translate(" + v.x + "," + v.y + ")" }), rank)));
+          c.mark(v.g, "read");
+          c.enter(rank, "scale(.2)", 300);
+          await c.wait(240);
+        }
       };
       return st;
     },
