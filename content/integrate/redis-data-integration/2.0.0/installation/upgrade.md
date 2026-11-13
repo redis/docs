@@ -229,6 +229,14 @@ by the source-qualified table name, such as `mysql.inventory.addresses`, instead
 stream name. Update any dashboard or script that reads the previous form. See
 [Observability](/content/integrate/redis-data-integration/2.0.0/observability.md) for the metrics RDI reports.
 
+### Check the archived log retention of Oracle sources
+
+If you upgrade from a version before 1.18.1 and use an Oracle source, check that your backup and
+cleanup jobs keep archived logs long enough before you upgrade. RDI 1.18.1 and later read older
+changes only from archived logs, so a job that deletes them soon after they are written stops the
+pipeline. See [Archive log retention](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md)
+in the latest documentation for the recommended retention.
+
 ## Enabling the Flink processor
 
 The
