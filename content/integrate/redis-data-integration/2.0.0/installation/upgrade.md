@@ -133,6 +133,8 @@ installation of RDI:
     Before making any changes, save your existing `rdi-values.yaml` if you need to revert 
     to the old RDI version for any reason.
 
+1.  [Label the source and target secrets](#label-the-source-and-target-secrets).
+
 1.  Run the `helm upgrade` command:
     
     ```bash
@@ -198,6 +200,54 @@ For an existing pipeline that uses the classic processor, choose one of these op
 
 If your pipeline already uses `processors.type: flink`, no processor change
 is needed. Continue with the upgrade instructions for your installation.
+
+### Label the source and target secrets
+
+When you upgrade a Kubernetes installation, or a VM installation to RDI 2.0.0, add the pipeline
+labels to its source and target secrets. When you upgrade a VM installation to RDI 2.0.1 or later,
+the `upgrade.sh` script adds them for you.
+
+RDI 2.0.0 finds the secrets of a pipeline by their labels. The `source-db` and `target-db`
+secrets of the installation you upgrade may not have these labels, for example if you created
+them with an earlier version or with `kubectl`. A pipeline upgraded with unlabeled
+secrets keeps running, but:
+
+- `redis-di deploy` fails table validation with an access denied error for the user
+  `${SOURCE_DB_USERNAME}`, also with `--dry-run`.
+- `redis-di list-secrets` doesn't list the source.
+- Changing these secrets doesn't restart the components, so they keep using the previous values.
+
+Before you upgrade, add the labels to the secrets. This doesn't change the secret values. On a VM
+installation, run these commands on each RDI VM.
+
+```bash
+kubectl label secret source-db target-db -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+
+# With source TLS or mTLS
+kubectl label secret source-db-ssl -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+
+# With target TLS or mTLS
+kubectl label secret target-db-ssl -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+```
+
+If you have already upgraded, add the labels in the same way, and then restart the operator so
+that it finds the labeled secrets:
+
+```bash
+kubectl rollout restart deployment/rdi-operator -n rdi
+```
+
+After the upgrade, `redis-di list-secrets` lists the secrets of the source as well as those of the
+target.
 
 ### Clearing a pipeline replaces deleting it
 
