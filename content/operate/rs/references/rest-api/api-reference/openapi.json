@@ -1320,6 +1320,10 @@
           },
           {
             "properties": {
+              "action_uid": {
+                "description": "Action uid, returned by create and update. Progress can be tracked by the GET /actions/\u003cuid\u003e API.",
+                "type": "string"
+              },
               "uid": {
                 "description": "The mapping's unique ID",
                 "type": "integer",
@@ -3176,6 +3180,25 @@
         ],
         "responses": {
           "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "action_uid": "12345-abcde-67890"
+                  },
+                  "properties": {
+                    "action_uid": {
+                      "description": "Action uid for tracking progress.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "action_uid"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
             "description": "OIDC mapping deleted successfully."
           },
           "403": {
