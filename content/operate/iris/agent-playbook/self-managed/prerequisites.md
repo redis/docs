@@ -11,7 +11,7 @@ weight: 20
 hideListLinks: true
 ---
 
-The `redis-iris` chart `1.0.1` deploys the Agent Playbooks control plane, data plane, and optional extraction worker, with the Identity Service. Start with the suite's [prerequisites](/content/operate/iris/self-managed/_index.md#prerequisites). This page lists what Agent Playbooks adds: the Redis databases, the embedding provider, and Kubernetes exposure.
+The `redis-iris` chart `1.0` deploys the Agent Playbooks control plane, data plane, and optional extraction worker, with the Identity Service. Start with the suite's [prerequisites](/content/operate/iris/self-managed/_index.md#prerequisites). This page lists what Agent Playbooks adds: the Redis databases, the embedding provider, and Kubernetes exposure.
 
 ## What you need
 
@@ -75,12 +75,12 @@ The Identity Service's metadata Redis is a suite prerequisite. It can use the Ag
 
 ## Images and network access
 
-The suite chart pins these images:
+The suite chart pins these images, tagged with the chart version:
 
 | Component | Image |
 | --- | --- |
-| Control plane | `redislabs/iris-agent-playbook-control:1.0.1` |
-| Data plane and extraction worker | `redislabs/iris-agent-playbook-data:1.0.1` |
+| Control plane | `redislabs/iris-agent-playbook-control` |
+| Data plane and extraction worker | `redislabs/iris-agent-playbook-data` |
 
 Allow chart downloads, image pulls, Redis connections, and data-plane access to the embedding provider. The data plane and control plane must reach the Identity Service, and the Identity Service must reach the control plane on port `9200`. For a disconnected installation, mirror the images, use a downloaded chart package, and set the image repositories and `imagePullSecrets` under `playbook:` in `iris-values.yaml`.
 

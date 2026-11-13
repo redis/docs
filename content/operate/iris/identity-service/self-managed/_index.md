@@ -17,7 +17,7 @@ The Identity Service is the one place where a self-managed Redis Iris installati
 1. It keeps the grants of each key. A grant says which resource the caller can use, and how.
 1. It answers the data planes when they ask whether a key is valid, and what it can do.
 
-This guide is for the platform administrator who installs the Identity Service, manages agent keys, and manages operator access. The `redis-iris` chart `1.0.1` always installs the Identity Service, as `iris-identity-service`. Its values go under the `identityService:` key, with the shared values under `global.iris`. It needs no license of its own, because the suite license covers it. To install, follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md), then [Deploy](/content/operate/iris/identity-service/self-managed/deploy.md).
+This guide is for the platform administrator who installs the Identity Service, manages agent keys, and manages operator access. The `redis-iris` chart `1.0` always installs the Identity Service, as `iris-identity-service`. Its values go under the `identityService:` key, with the shared values under `global.iris`. It needs no license of its own, because the suite license covers it. To install, follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md), then [Deploy](/content/operate/iris/identity-service/self-managed/deploy.md).
 
 ## What you deploy
 

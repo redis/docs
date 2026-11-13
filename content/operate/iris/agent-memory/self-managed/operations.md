@@ -113,7 +113,7 @@ and then removes what it created. See [Verify the deployment](/content/operate/i
 
 ## FIPS
 
-The suite chart `1.0.1` doesn't support the Federal Information Processing Standards (FIPS)
+The suite chart `1.0` doesn't support the Federal Information Processing Standards (FIPS)
 profile. `global.security.profile: fips` fails the install. See
 [Not supported in this release](/content/operate/iris/self-managed/_index.md#not-supported-in-this-release).
 
@@ -128,7 +128,7 @@ reference manifest. It is not templated, because allowed callers are environment
 from the suite package, at `redis-iris/charts/redis-agent-memory/networkpolicy.reference.yaml`:
 
 ```bash
-helm pull redis-ai/redis-iris --version 1.0.1 --untar
+helm pull redis-ai/redis-iris --version '~1.0.1' --untar
 ```
 
 Customize the placeholders before applying it:

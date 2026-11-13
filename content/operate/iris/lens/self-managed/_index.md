@@ -17,7 +17,7 @@ This guide is for that administrator. It covers deploying Lens on your own Kuber
 
 ## What you deploy
 
-The `redis-iris` chart `1.0.1` runs three Lens workloads, with the Identity Service. Lens values go under the `lens:` key, and the chart's `examples/lens.yaml` is a working values file to start from.
+The `redis-iris` chart `1.0` runs three Lens workloads, with the Identity Service. Lens values go under the `lens:` key, and the chart's `examples/lens.yaml` is a working values file to start from.
 
 | Component | Purpose | Service port |
 | --- | --- | --- |

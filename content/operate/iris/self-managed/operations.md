@@ -62,7 +62,7 @@ helm rollback iris <revision> --namespace <namespace-name> --wait --timeout 15m
 
 A rollback restores the workloads and the values of that revision. It doesn't undo data or metadata written to Redis. It never restores a credential: the generated Secrets aren't part of the release, so a rotated or revoked value stays rotated or revoked. The same version rules as for an upgrade apply. You can't roll back to `1.0.0` on `arm64` nodes, because its images are `amd64` only.
 
-Keep the chart of each version you install, so you can roll back without the repository:
+Keep the chart of each version you install, so you can roll back without the repository. `helm list --namespace <namespace-name>` shows the installed version:
 
 ```bash
 helm pull redis-ai/redis-iris --version <chart-version>

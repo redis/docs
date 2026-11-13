@@ -73,9 +73,9 @@ Run the [suite preflight](/content/operate/iris/self-managed/_index.md#4-run-the
 ```bash
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
-helm pull redis-ai/redis-iris --version 1.0.1 --untar
+helm pull redis-ai/redis-iris --version '~1.0.1' --untar
 helm install iris redis-ai/redis-iris \
-  --version 1.0.1 \
+  --version '~1.0.1' \
   --namespace <namespace-name> \
   -f redis-iris/examples/memory-only.yaml \
   -f iris-values.yaml

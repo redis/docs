@@ -40,7 +40,7 @@ Install one release per namespace, and keep other Iris releases out of that name
 | Requirement | Details |
 | --- | --- |
 | Kubernetes | Kubernetes 1.28 or later. The baseline is 3 worker nodes with 12 vCPU and 24 GiB allocatable in total. The [preflight](#4-run-the-preflight) warns below it. |
-| Node architecture | `linux/amd64` or `linux/arm64`. Each `1.0.1` image tag is one multi-platform image, so every node pulls its own. The `1.0.0` images are `amd64` only. |
+| Node architecture | `linux/amd64` or `linux/arm64`. From `1.0.1`, each image tag is one multi-platform image, so every node pulls its own. The `1.0.0` images are `amd64` only. |
 | Metrics API | `metrics.k8s.io/v1beta1`, so the HorizontalPodAutoscalers can scale. |
 | Helm | Helm 3.10 or later, with the Redis AI repository `https://helm.redis.io/ai`. Helm 4 isn't supported in this release. |
 | `kubectl` | Configured for the cluster and namespace. |
@@ -163,7 +163,7 @@ ui:
 Every service is installed by default. Turn one off with `global.iris.products.<service>.enabled: false`, where `<service>` is `memory`, `playbook`, `lens`, `contextGateway`, or `intent`. The chart's `examples/` folder has one values file per service, which you can pass as extra `-f` files:
 
 ```bash
-helm pull redis-ai/redis-iris --version 1.0.1 --untar
+helm pull redis-ai/redis-iris --version '~1.0.1' --untar
 ls redis-iris/examples
 ```
 
@@ -205,7 +205,7 @@ The chart includes a preflight that checks the cluster before an install. It rea
 Run it with the [`kubectl preflight`](https://troubleshoot.sh/docs/#installation) plugin, v0.124.0 or later. Older versions only warn on the ingress class check. The namespace must exist:
 
 ```bash
-helm template iris redis-ai/redis-iris --version 1.0.1 -n <namespace-name> -f iris-values.yaml \
+helm template iris redis-ai/redis-iris --version '~1.0.1' -n <namespace-name> -f iris-values.yaml \
   --show-only templates/preflight.yaml \
   | yq '.stringData["preflight.yaml"]' | kubectl preflight -
 ```
@@ -231,7 +231,7 @@ kubectl create clusterrolebinding <namespace-name>-issuer-discovery \
 helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm install iris redis-ai/redis-iris \
-  --version 1.0.1 \
+  --version '~1.0.1' \
   --namespace <namespace-name> \
   -f iris-values.yaml
 ```

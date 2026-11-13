@@ -15,7 +15,7 @@ aliases:
 - /operate/iris/agent-memory/self-managed/plan-deployment/
 ---
 
-Agent Memory installs as the `memory` service of the `redis-iris` Helm chart `1.0.1`, from the
+Agent Memory installs as the `memory` service of the `redis-iris` Helm chart `1.0`, from the
 Redis AI Helm repository `https://helm.redis.io/ai`. The suite deploys the Agent Memory Data Plane,
 workers, and Control Plane, with the Identity Service and the Iris console. Start with the
 [suite prerequisites](/content/operate/iris/self-managed/_index.md#prerequisites). This page adds
@@ -25,8 +25,8 @@ what Agent Memory needs.
 
 | Item | Where it comes from |
 | ---- | ------------------- |
-| Helm chart | `redis-ai/redis-iris` `1.0.1` |
-| Container images | Docker Hub: `redislabs/agent-memory:1.0.1` and `redislabs/agent-memory-control-plane:1.0.1`, plus the Identity Service and console images the suite installs |
+| Helm chart | `redis-ai/redis-iris` `1.0` |
+| Container images | Docker Hub: `redislabs/agent-memory` and `redislabs/agent-memory-control-plane`, tagged with the chart version, plus the Identity Service and console images the suite installs |
 | Redis databases | You provide Store Redis, Job Redis, and Metadata Redis |
 | License key | One suite license. Contact your Redis representative or [contact sales](https://redis.io/contact/). |
 | Provider credentials | You provide embedding provider credentials and, when worker features are enabled, promotion or summarization LLM credentials |
@@ -105,20 +105,20 @@ The suite generates Memory's runtime credential, Control Plane internal token, a
 ## Air-gapped and private registry installs
 
 Mirror these Agent Memory images into your internal registry, along with the images of the
-other components the suite installs:
+other components the suite installs. Each Redis image tag is the chart version:
 
 | Image | Needed |
 | --- | --- |
-| `redislabs/agent-memory:1.0.1` | Always (Data Plane and workers) |
-| `redislabs/agent-memory-control-plane:1.0.1` | Always |
-| `redislabs/iris-identity-service:1.0.1` | Always |
+| `redislabs/agent-memory` | Always (Data Plane and workers) |
+| `redislabs/agent-memory-control-plane` | Always |
+| `redislabs/iris-identity-service` | Always |
 | `curlimages/curl:8.17.0` | The suite preflight (`preflight.image`) |
 | `python:3.13-alpine` | `helm test iris` (`tests.suiteVerify.image`) |
 | `ghcr.io/jpedrosouza/asynqdash:1.2.0` | Optional, with `memory.controlplane.queueMonitor` |
 
 ```bash
-skopeo copy --all docker://redislabs/agent-memory:1.0.1 \
-  docker://registry.example.com/redislabs/agent-memory:1.0.1
+skopeo copy --all docker://redislabs/agent-memory:<chart-version> \
+  docker://registry.example.com/redislabs/agent-memory:<chart-version>
 ```
 
 Repeat for each image. `--all` copies every platform. `docker pull` and `docker push` copy only your workstation's, so nodes of the other platform can't pull the image. If the registry requires authentication, create an image pull Secret:

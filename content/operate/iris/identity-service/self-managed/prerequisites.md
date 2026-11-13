@@ -17,7 +17,7 @@ The Identity Service depends on a metadata Redis and Secrets that you set up fir
 
 | Requirement | Detail |
 | --- | --- |
-| Suite chart | `redis-iris` chart `1.0.1` in the Redis AI Helm repository, `https://helm.redis.io/ai`. The suite prerequisites list the Kubernetes, Helm, and Metrics API versions. |
+| Suite chart | `redis-iris` chart `1.0` in the Redis AI Helm repository, `https://helm.redis.io/ai`. The suite prerequisites list the Kubernetes, Helm, and Metrics API versions. |
 | Namespace | A namespace that holds only this release. The examples use `<namespace-name>`. |
 | Metadata Redis | A Redis database for the Identity Service, as described in [Metadata Redis](#metadata-redis). |
 | `kubectl`, `curl` | For the install and administration examples. |
