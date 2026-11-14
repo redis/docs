@@ -27,6 +27,8 @@ For example, you can operate on anything from unsigned 1-bit integers to signed 
 These values are stored using binary-encoded Redis strings.
 Bitfields support atomic read, write and increment operations, making them a good choice for managing counters and similar numerical values.
 
+{{< data-type-animation type="bitfield" >}}
+
 ## Example
 
 Suppose you want to maintain two metrics for various bicycles: the current price and the number of owners over time. You can represent these counters with a 32-bit wide bitfield for each bike.

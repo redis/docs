@@ -32,6 +32,8 @@ Some examples of bitmap use cases include:
 * Efficient set representations for cases where the members of a set correspond to the integers 0-N.
 * Object permissions, where each bit represents a particular permission, similar to the way that file systems store permissions.
 
+{{< data-type-animation type="bitmap" >}}
+
 ## Example
 
 Suppose you have 1000 cyclists racing through the country-side, with sensors on their bikes labeled 0-999.

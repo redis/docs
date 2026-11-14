@@ -57,6 +57,8 @@ See
 [Install Redis Software](/content/operate/rs/installing-upgrading/install/_index.md)
 for full installation instructions.
 
+{{< data-type-animation type="timeseries" >}}
+
 ## Create a time series
 
 You can create a new empty time series with the [`TS.CREATE`](/content/commands/ts.create.md)

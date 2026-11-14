@@ -33,6 +33,8 @@ This data structure is useful for finding nearby points within a given radius or
 > for simpler use cases and doesn't have the range of format options and queries
 > available in Redis Search.
 
+{{< data-type-animation type="geospatial" >}}
+
 ## Examples
 
 Suppose you're building a mobile app that lets you find all of the bike rental stations closest to your current location.
