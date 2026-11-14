@@ -1,0 +1,281 @@
+/* =========================================================================
+   Workbench feedback  —  static/css/redis-workbench-feedback.css
+
+   See js/redis-workbench-feedback.js. Everything here sits inside `.rwb` and
+   uses the dock's own custom properties.
+   ========================================================================= */
+
+/* ---- in the bar ---- */
+
+/* A reader who has not opened the dock has nothing to say about it yet. */
+.rwb:not(.rwb-open) .rwbf-open,
+.rwb:not(.rwb-open) .rwbf-sep { display: none; }
+
+/* The dot between "Leave feedback" and the dock's own two controls. */
+.rwbf-sep {
+  flex: none;
+  width: 4px;
+  height: 4px;
+  margin: 0 0.25rem;
+  border-radius: 50%;
+  background: var(--rwb-muted);
+}
+
+.rwbf-short { display: none; }
+
+/* Held down while its form is open. */
+.rwb-btn.rwbf-open[aria-expanded="true"] {
+  color: #fff;
+  background: #475569;                            /* slate-600 */
+}
+
+/* ---- the form, over the page ---- */
+
+.rwbf-pop {
+  position: absolute;
+  right: var(--rwb-gutter);
+  bottom: calc(100% + 0.5rem);
+  z-index: 2;
+  width: min(21rem, calc(100vw - 2 * var(--rwb-gutter)));
+  max-height: calc(100vh - 7rem);
+  overflow: auto;
+  padding: 0.875rem;
+  color: var(--rwb-ink);
+  background: var(--rwb-bg);
+  border: 1px solid var(--rwb-line);
+  border-radius: 0.5rem;
+  box-shadow: 0 12px 32px rgba(2, 6, 23, .35);
+  font-size: 13px;
+  animation: rwbf-in 150ms ease;
+}
+
+@keyframes rwbf-in {
+  from { opacity: 0; transform: translateY(3px); }
+}
+
+/* A maximised dock: no room over it, so the form opens into the panel. The top
+   is set from the bar's own height. */
+.rwbf-pop-down { bottom: auto; }
+
+.rwbf-form {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+}
+
+.rwbf-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.rwbf-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.rwbf-x {
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--rwb-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 0.25rem;
+  margin: -0.125rem -0.25rem 0 0;
+  padding: 0.125rem 0.375rem;
+  cursor: pointer;
+}
+
+.rwbf-x:hover {
+  color: var(--rwb-ink);
+  background: var(--rwb-bg-3);
+}
+
+.rwbf-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.rwbf-pick,
+.rwbf-chip {
+  font: inherit;
+  color: var(--rwb-ink-2);
+  border: 1px solid var(--rwb-line);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.rwbf-pick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4375rem;
+  font-size: 13px;
+  background: var(--rwb-bg-2);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.5rem;
+}
+
+.rwbf-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The reasons a "no" can pick from. */
+.rwbf-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  animation: rwbf-in 150ms ease;
+}
+
+.rwbf-chips[hidden] { display: none; }
+
+.rwbf-chip {
+  font-size: 12px;
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.1875rem 0.625rem;
+}
+
+.rwbf-pick:hover,
+.rwbf-chip:hover {
+  color: #fff;
+  border-color: var(--rwb-muted);
+}
+
+.rwbf-pick[aria-pressed="true"],
+.rwbf-chip[aria-pressed="true"] {
+  color: #fff;
+  background: var(--rwb-bg-3);
+  border-color: var(--rwb-ink-2);
+}
+
+.rwbf-x:focus-visible,
+.rwbf-pick:focus-visible,
+.rwbf-chip:focus-visible {
+  outline: 2px solid var(--rwb-focus);
+  outline-offset: 1px;
+}
+
+.rwbf-text {
+  display: block;
+  width: 100%;
+  min-height: 4.25rem;
+  resize: vertical;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--rwb-ink);
+  background: var(--rwb-bg-2);
+  border: 1px solid var(--rwb-line);
+  border-radius: 0.375rem;
+  box-shadow: none;
+  outline: 0;
+  padding: 0.4375rem 0.5rem;
+}
+
+.rwbf-text::placeholder {
+  color: var(--rwb-muted);
+  opacity: 1;
+}
+
+/* A lighter border, not the red ring the buttons get: around a text box, red
+   reads as "this is wrong". */
+.rwbf-text:focus {
+  border-color: var(--rwb-ink-2);
+  box-shadow: none;
+}
+
+.rwbf-check {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-size: 12px;
+  color: var(--rwb-ink-2);
+  cursor: pointer;
+}
+
+.rwbf-check input {
+  margin: 0;
+  accent-color: var(--rwb-accent);
+}
+
+/* Turnstile's widget is 65px tall, or 140px at its compact size; hold the room
+   so the form doesn't jump when it arrives. */
+.rwbf-bot { min-height: 65px; }
+
+.rwbf-bot-compact { min-height: 140px; }
+
+/* The check failed, or the answer could not be sent. */
+.rwbf-bot-note,
+.rwbf-problem {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #fca5a5;                                 /* red-300 */
+}
+
+.rwbf-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.rwbf-note {
+  font-size: 12px;
+  color: var(--rwb-muted);
+}
+
+/* The one filled button: it is what sends. Dark text, because white on the
+   Redis red is too faint at this size. */
+.rwb-btn.rwbf-send {
+  color: #0f172a;
+  background: var(--rwb-accent);
+  font-weight: 600;
+}
+
+.rwb-btn.rwbf-send:hover:not(:disabled) {
+  color: #0f172a;
+  background: #ff6b61;
+}
+
+.rwbf-done { margin: 0; }
+
+/* Narrower than the form's own width plus the dock's gutters. The label
+   shortens so the bar still fits on one line, and the form takes the width
+   there is: Turnstile's widget needs 300px of it. */
+@media (max-width: 23.4rem) {
+  .rwbf-long { display: none; }
+
+  .rwbf-short { display: inline; }
+
+  /* The controls keep their size; the key count is what gives. */
+  .rwb-open .rwb-actions { flex: none; }
+
+  .rwbf-pop {
+    left: 0.5rem;
+    right: 0.5rem;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rwbf-pop,
+  .rwbf-chips { animation: none; }
+
+  .rwbf-pick,
+  .rwbf-chip { transition: none; }
+}
