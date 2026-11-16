@@ -55,7 +55,7 @@ Add `telemetry=no` to the module arguments, in both the `MODULE LOAD` command an
 `loadmodule` line:
 
 ```text
-loadmodule /usr/lib/guardian/guardian-community.so registry-url=<registry-url> registry-key=<key-id>:<base64url-public-key> registry-state-dir=/var/lib/redis/guardian telemetry=no
+loadmodule /usr/lib/guardian/guardian-community.so registry-state-dir=/var/lib/redis/guardian telemetry=no
 ```
 
 You can’t change this setting after the module has loaded. Specify it when you load the module with `loadmodule`.

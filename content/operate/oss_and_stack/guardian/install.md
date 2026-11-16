@@ -33,7 +33,9 @@ Installing the package alone doesn't turn on protection.
 - **A private state directory.** Choose a persistent directory owned by the Redis service user
   with mode `0700`, such as `/var/lib/redis/guardian`. In a container, put it on a persistent
   volume. Guardian creates the directory if its parent is writable by the Redis user.
-- **Registry details.** You need the registry URL and the public signing key.
+- **Registry details.** None by default. Guardian uses the official registry at
+  `https://packages.redis.io/guardian` and its public signing key. To use a mirror or your own
+  registry, see [Use a mirror or your own registry](/content/operate/oss_and_stack/guardian/manage.md#use-a-mirror-or-your-own-registry).
   <!-- TODO: Publish the production registry URL and public signing key before release. -->
 - **An operator account.** Guardian works with Redis access control lists (ACLs). The account
   that runs the checks needs to read `INFO`,
@@ -172,13 +174,12 @@ their grants. Existing connections stay open.
 
 1. Connect `redis-cli` to the node with the operator account, using the same TLS options as the
    checker.
-1. At the `redis-cli` prompt, enter the transaction. Use your module path, registry URL, signing
-   key, and state directory. Replace the `ACL SETUSER` line with each exact command the checker
+1. At the `redis-cli` prompt, enter the transaction. Use your module path and state directory. Replace the `ACL SETUSER` line with each exact command the checker
    printed:
 
    ```text
    MULTI
-   MODULE LOAD /usr/lib/guardian/guardian-community.so registry-url=<registry-url> registry-key=<key-id>:<base64url-public-key> registry-state-dir=/var/lib/redis/guardian registry-access=public
+   MODULE LOAD /usr/lib/guardian/guardian-community.so registry-state-dir=/var/lib/redis/guardian registry-access=public
    ACL SETUSER <app-user> +@guardian-execution
    EXEC
    ```
@@ -231,7 +232,7 @@ the grants without the module, the next startup rejects the unknown commands.
 1. Add the module to the startup configuration, with the same arguments and state directory:
 
    ```text
-   loadmodule /usr/lib/guardian/guardian-community.so registry-url=<registry-url> registry-key=<key-id>:<base64url-public-key> registry-state-dir=/var/lib/redis/guardian registry-access=public
+   loadmodule /usr/lib/guardian/guardian-community.so registry-state-dir=/var/lib/redis/guardian registry-access=public
    ```
 
 1. Save the ACL grants:

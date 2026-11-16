@@ -21,9 +21,9 @@ can't change them while the module is loaded. Each argument can appear only once
 
 | Argument | Default | Description |
 |---|---|---|
-| `registry-url` | None (required) | HTTPS URL of the registry or mirror. Certificate and hostname checks are always on. |
-| `registry-key` | None (required with signature checks) | Public signing key, as `<key-id>:<base64url-public-key>`. Repeat to trust more than one key. |
-| `registry-revoked-key` | None | Key ID to stop trusting. Repeat for more than one key. |
+| `registry-url` | `https://packages.redis.io/guardian` | HTTPS URL of the registry or mirror. Certificate and hostname checks are always on. |
+| `registry-key` | `guardian-1:1a2cPl-fr_o_7ZVAeqFjSH8MJfzYOuZFVNHF1y17lKM` for the official registry; none (required with signature checks) for any other URL | Public signing key, as `<key-id>:<base64url-public-key>`. Repeat to trust more than one key. Setting any `registry-key` replaces the built-in key. |
+| `registry-revoked-key` | None | Key ID to stop trusting. Repeat for more than one key. To rotate away from the built-in key, set `registry-revoked-key=guardian-1` together with the new `registry-key`. |
 | `registry-state-dir` | None (required) | Private directory for Guardian state. It must be owned by the Redis user with mode `0700`, and it must persist across restarts. |
 | `registry-access` | `public` | Registry access mode. Use `public`. An unsigned registry requires `public`. |
 | `registry-ca-file` | System certificate authorities | Absolute path to a certificate authority (CA) file, for a registry or mirror that uses a private CA. |

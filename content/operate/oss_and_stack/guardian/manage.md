@@ -113,7 +113,8 @@ You can also use the Redis commands directly: `HOTPATCH.LUA.ALLOW`, `HOTPATCH.LU
 
 ## Use a mirror or your own registry
 
-By default, nodes download signed releases from the registry you configured at installation. You
+By default, nodes download signed releases from the official registry at
+`https://packages.redis.io/guardian`. You
 can serve the same releases from your own HTTPS mirror, or run an unsigned registry with rules you
 edit yourself.
 
@@ -123,7 +124,13 @@ A mirror serves copies of the signed release files. Signatures, not the mirror, 
 content, so the mirror doesn't need a signing key.
 
 1. Set `registry-url` to the mirror URL.
-1. Keep `registry-key` set to the original public signing key.
+1. Set `registry-key` to the official public signing key. The built-in key applies only to the
+   official registry URL, so a mirror must name it:
+
+   ```text
+   registry-key=guardian-1:1a2cPl-fr_o_7ZVAeqFjSH8MJfzYOuZFVNHF1y17lKM
+   ```
+
 1. If the mirror uses a private certificate authority, add `registry-ca-file=<absolute-path-to-ca.pem>`.
 
 <!-- TODO: Document how to copy signed releases to a mirror once the export tool ships to customers. -->
@@ -206,8 +213,6 @@ alone doesn't establish that a destination accepted every key.
      --module <absolute-path-to-new-module> \
      --expect-build <source-revision> \
      --old-module <absolute-path-to-current-module> \
-     --module-arg registry-url=<registry-url> \
-     --module-arg registry-key=<key-id>:<base64url-public-key> \
      --module-arg registry-state-dir=/var/lib/redis/guardian \
      --module-arg registry-access=public \
      --acknowledge-client-disconnects
