@@ -36,8 +36,17 @@ so anything redis-py can do is still available to you alongside the caching help
 
 ## Requirements
 
-See [Requirements](https://github.com/redis/fastapi-redis-sdk#requirements) on the
-GitHub repo for the full set of dependencies used by `fastapi-redis-sdk`.
+| Dependency | Supported versions |
+|------------|--------------------|
+| Python | 3.10 to 3.14 |
+| FastAPI | 0.115 or later |
+| redis-py | 6.0 or later |
+| Pydantic | 2.0 or later |
+| Redis server | 7.4 or later |
+
+Rate limiting uses the atomic `INCREX` command when the server supports it (Redis 8.8
+or later). On earlier servers, it uses an equivalent Lua script with the same
+guarantees, so you don't need to configure anything.
 
 You also need a running Redis server. You can run one locally with
 [Redis Open Source](/content/operate/oss_and_stack/install/archive/install-redis/_index.md),
@@ -119,6 +128,27 @@ so invalid values (for example, a port outside 1–65535) fail fast at startup. 
 full environment-variable reference, TLS options, and programmatic configuration, see
 the [SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/guide/configuration/).
 
+## Deploy to FastAPI Cloud
+
+[FastAPI Cloud](https://fastapicloud.com/) has a built-in
+[Redis Cloud integration](https://fastapicloud.com/docs/integrations/redis-integration/).
+When you connect a Redis Cloud database to your app, FastAPI Cloud sets the connection
+string as the `REDIS_URL` environment variable. The SDK reads that variable by default,
+so you don't need any other configuration:
+
+1. In the FastAPI Cloud dashboard, open your app's **Storage** tab.
+1. Connect an existing Redis Cloud database, or create one.
+1. Redeploy the app if it doesn't pick up the new variable.
+
+To tune other settings, set them as environment variables with the
+`fastapi cloud env` command. Use `--secret` for sensitive values:
+
+```bash
+fastapi cloud env set REDIS_PREFIX myapp
+fastapi cloud env set REDIS_DEFAULT_TTL 600
+fastapi cloud env set --secret REDIS_PASSWORD <your-password>
+```
+
 ## Caching
 
 Enable caching by adding `.caching()` to the builder chain. The SDK then offers two
@@ -179,6 +209,19 @@ Evicting a resource clears its cached entry, so the following read is a `MISS` a
 
 {{< clients-example set="fastapi_tutorial" step="cache_evict" lang_filter="Python" description="Invalidate a cached entry so the next read recomputes the response" difficulty="beginner" buildsUpon="cache_hit_miss" />}}
 
+### What `cache()` stores
+
+`cache()` stores text responses only: JSON, plain text, HTML, CSV, XML, and
+JavaScript. Binary responses such as images and PDFs, responses with no `Content-Type`,
+and bodies over 10 MiB are never stored. The client still receives the full response,
+marked `X-Redis-Cache: BYPASS`, and the SDK logs the reason once per route.
+
+Don't put `cache()` on a route that returns a `StreamingResponse`. The SDK must read the
+whole body before it can store it, so the client receives nothing until the stream ends.
+
+If Redis is unreachable, `cache()` logs the error and still returns the endpoint's
+response.
+
 ### CacheBackend for full control
 
 For conditional caching, cascade invalidation, dynamic TTLs, or caching intermediate
@@ -213,31 +256,38 @@ the server responds with `304 Not Modified` and no body:
 ## Rate limiting
 
 Add `.rate_limiting()` to the builder chain, then attach the `rate_limit()` dependency
-to a route. Counters live in Redis, so limits hold across every worker and pod. Stack
-two limits to cap both bursts and sustained traffic. Give each a distinct `scope` so
-their counters stay independent:
+to a route. Counters for the rate limiters are stored in Redis, so the limits hold across
+every worker and pod. Stack two limits to cap both bursts and sustained traffic.
+Give each a distinct `scope` so their counters stay independent. The example below uses
+a deliberately low limit so that the third request is rejected:
 
-```python
-from fastapi import Depends, FastAPI
-from redis_fastapi import FastAPIRedis, rate_limit
+{{< clients-example set="fastapi_tutorial" step="rate_limit" lang_filter="Python" description="Foundational: stack a burst limit and a sustained limit on one route and see the third request rejected with 429" difficulty="beginner" />}}
 
-app = FastAPI()
-FastAPIRedis(app).lifespan().rate_limiting()
-
-@app.get(
-    "/search",
-    dependencies=[
-        Depends(rate_limit("10/second", scope="search:burst")),
-        Depends(rate_limit("100/minute", scope="search:sustained")),
-    ],
-)
-async def search():
-    return {"results": []}
-```
-
-Limits count per client IP by default. A request that exceeds either limit gets a
+By default, a limit is incremented by one for each client IP. A request that exceeds either limit gets a
 `429 Too Many Requests` response with a `Retry-After` header, and every response carries
 `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers.
+
+To apply one limit to every route, pass `global_rate` to the builder, for example
+`.rate_limiting(global_rate="1000/minute")`. Per-route limits stack on top of it, and a
+request must pass both.
+
+If Redis is unreachable, the limiter fails open: it allows the request and logs a
+warning. Set `REDIS_RATE_LIMIT_FAIL_CLOSED=true` to reject requests instead.
+
+### Run behind a proxy
+
+The default identifier is the client address that the ASGI (Asynchronous Server Gateway
+Interface) server reports. It never reads `X-Forwarded-For`, because clients can forge
+that header. Behind a load balancer, every client then shares one counter unless your
+server passes on the real client address. With Uvicorn, trust only your proxies:
+
+```bash
+uvicorn app:app --proxy-headers --forwarded-allow-ips="10.0.0.0/8"
+```
+
+Don't set `--forwarded-allow-ips="*"`. It trusts the header from any peer and lets
+clients evade their own limits. If your server has no proxy-header support, pass your
+own `identifier` function to `rate_limit()`.
 
 See the [SDK rate limiting guide](https://redis.github.io/fastapi-redis-sdk/guide/rate-limiting/)
 for custom identifiers, an app-wide limiter, custom `429` responses, and the behavior
@@ -250,28 +300,34 @@ only an opaque session ID, and Redis enforces both an idle timeout and an absolu
 timeout. Inject `SessionDep` to read and write the session, and add `valid_session()` to
 return `401` when a request has no live session:
 
-```python
-from fastapi import Depends, FastAPI
-from redis_fastapi import FastAPIRedis, SessionDep, valid_session
-
-app = FastAPI()
-FastAPIRedis(app).lifespan().sessions()
-
-@app.post("/login")
-async def login(session: SessionDep):
-    session["user_id"] = 42  # rotates the session ID after the endpoint completes
-    return {"ok": True}
-
-@app.get("/me", dependencies=[Depends(valid_session())])
-async def me(session: SessionDep):
-    return {"user_id": session.get("user_id")}
-```
+{{< clients-example set="fastapi_tutorial" step="sessions" lang_filter="Python" description="Foundational: store a user ID in a Redis-backed session and require a live session on a route" difficulty="beginner" />}}
 
 Changing the signed-in user rotates the session ID automatically. `request.session`
 also works, so code written for Starlette's `SessionMiddleware` runs unchanged. See the
 [SDK sessions guide](https://redis.github.io/fastapi-redis-sdk/guide/sessions/) for
 timeouts, sign-out everywhere, CSRF (cross-site request forgery) protection, and
 encryption.
+
+Sessions have two constraints to plan for:
+
+- **Eviction policy:** A session store isn't a cache. Under the `allkeys-lru`,
+  `allkeys-lfu`, or `allkeys-random` [eviction policies](/content/develop/reference/eviction/index.md),
+  Redis can evict live sessions and sign users out with no log entry. Use
+  `volatile-ttl` or `noeviction`, or give sessions their own database or instance.
+- **WebSockets:** Sessions cover HTTP requests only. Don't use `SessionDep` in a
+  WebSocket handler. Authenticate during the HTTP handshake instead.
+
+If Redis is unreachable, a failed session read returns an empty session, so the user
+will appear to be signed out. A failed write raises `SessionStoreError`. Set
+`session_fail_closed=True` to fail reads with an error as well.
+
+## Test your app
+
+The SDK works with FastAPI's `dependency_overrides`, so you can replace the Redis client
+in tests without patching. This example uses
+[fakeredis](https://pypi.org/project/fakeredis/):
+
+{{< clients-example set="fastapi_tutorial" step="testing" lang_filter="Python" description="Intermediate: replace the Redis client with an in-memory fake using dependency_overrides so tests need no server" difficulty="intermediate" />}}
 
 ## Cluster mode
 
