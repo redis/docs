@@ -21,6 +21,7 @@ relatedPages:
 - /develop/clients/nodejs/connect#connect-using-client-side-caching
 - /develop/clients/jedis/connect#connect-using-client-side-caching
 - /develop/clients/go/connect#connect-using-client-side-caching
+- /develop/clients/dotnet/connect#connect-using-client-side-caching
 topics:
 - client-side-caching
 - performance
@@ -94,6 +95,7 @@ The following client libraries support CSC from the stated version onwards:
 | [`Jedis`](/content/develop/clients/jedis/connect.md#connect-using-client-side-caching) | v5.2.0 |
 | [`node-redis`](/content/develop/clients/nodejs/connect.md#connect-using-client-side-caching) | v5.1.0 |
 | [`go-redis`](/content/develop/clients/go/connect.md#connect-using-client-side-caching) | v9.22.0 |
+| [`StackExchange.Redis`](/content/develop/clients/dotnet/connect.md#connect-using-client-side-caching) | v4.0 (pre-release) |
 
 Note that some other clients support the [`CLIENT TRACKING`](/content/commands/client-tracking.md) command to configure CSC on the server, but this does not mean they support the
 features required for CSC themselves.
@@ -115,6 +117,12 @@ will use cached data, except for the following:
     give different results each time they are called.
 -   Redis Search commands (with the `FT.*` prefix), such as
     [`FT.SEARCH`](/content/commands/ft.search.md).
+
+The details vary between client libraries, so check the client-side caching
+section for your client. For example,
+[StackExchange.Redis](/content/develop/clients/dotnet/connect.md#connect-using-client-side-caching)
+caches `HSCAN` pages, and by default it caches a reply the second time you read
+it rather than the first.
 
 You can use the [`MONITOR`](/content/commands/monitor.md) command to
 check the server's behavior when you are using client-side caching. Because `MONITOR` only
