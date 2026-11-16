@@ -117,7 +117,7 @@ The most commonly used variables are described in the table below:
 Configuration is validated with [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/),
 so invalid values (for example, a port outside 1–65535) fail fast at startup. For the
 full environment-variable reference, TLS options, and programmatic configuration, see
-the [SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/guide/configuration/).
+the [SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/configuration/).
 
 ## Caching
 
@@ -198,7 +198,7 @@ async def dashboard(user_id: int, cache: CacheBackendDep):
     return result
 ```
 
-See the [SDK caching guide](https://redis.github.io/fastapi-redis-sdk/guide/caching/)
+See the [SDK caching guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/caching/)
 for detailed patterns and best practices.
 
 ## HTTP caching
@@ -239,7 +239,7 @@ Limits count per client IP by default. A request that exceeds either limit gets 
 `429 Too Many Requests` response with a `Retry-After` header, and every response carries
 `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers.
 
-See the [SDK rate limiting guide](https://redis.github.io/fastapi-redis-sdk/guide/rate-limiting/)
+See the [SDK rate limiting guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/rate-limiting/)
 for custom identifiers, an app-wide limiter, custom `429` responses, and the behavior
 when Redis is unreachable.
 
@@ -269,7 +269,7 @@ async def me(session: SessionDep):
 
 Changing the signed-in user rotates the session ID automatically. `request.session`
 also works, so code written for Starlette's `SessionMiddleware` runs unchanged. See the
-[SDK sessions guide](https://redis.github.io/fastapi-redis-sdk/guide/sessions/) for
+[SDK sessions guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/sessions/) for
 timeouts, sign-out everywhere, CSRF (cross-site request forgery) protection, and
 encryption.
 
@@ -320,7 +320,7 @@ FastAPIRedis(app).lifespan().caching().otel()
 Calling `.otel()` on the builder is what activates the cache telemetry. To also emit
 redis-py's low-level command spans and connection-pool metrics, set
 `REDIS_OTEL_REDIS_ENABLED=true`. See the
-[SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/guide/configuration/#opentelemetry)
+[SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/configuration/#opentelemetry)
 for the full list of spans and metrics that are emitted.
 
 ## More information
