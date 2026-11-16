@@ -2525,7 +2525,7 @@ The parameters are the following:
 * **metaname**: A 4 characters metadata class name that MUST be unique in the Redis
   Modules ecosystem. Use the charset A-Z a-z 0-9, plus the two "-_" characters.
   Redis prepends "META-" to it internally to form the 9 characters entity name
-  (for example, "idx1" becomes "META-idx1"). To use both lower case and upper case
+  (e.g. "idx1" becomes "META-idx1"). To use both lower case and upper case
   letters helps in order to prevent collisions.
 
 * **metaver**: Encoding version, which is the version of the serialization
@@ -2654,7 +2654,7 @@ The parameters are the following:
   - Callback should write data using RDB assisting functions: `RedisModule_Save*()`.
   - `meta` is passed as a pointer to the 8-byte metadata slot.
   - If the callback writes nothing, the class entry is dropped from the RDB
-    for that key and nothing is persisted for this class.
+    for that key, i.e. nothing is persisted for this class.
 
 * **aof_rewrite**: A callback function pointer for AOF rewrite (optional).
   Called during AOF rewrite to emit commands that reconstruct the metadata.
@@ -7378,6 +7378,33 @@ currently used, relative to the Redis "maxmemory" configuration.
 * Exactly 1 - Memory limit reached.
 * Greater 1 - More memory used than the configured limit.
 
+<span id="RedisModule_GetUsedMemoryRatioEstimate"></span>
+
+### `RedisModule_GetUsedMemoryRatioEstimate`
+
+    float RedisModule_GetUsedMemoryRatioEstimate(void);
+
+**Available since:** unreleased
+
+Return a number between 0 and 1 indicating the amount of memory currently
+used, relative to the Redis "maxmemory" configuration, like
+[`RedisModule_GetUsedMemoryRatio()`](#RedisModule_GetUsedMemoryRatio), with two differences:
+
+* The used memory is the raw allocator total (INFO `used_memory`). The
+  replication and AOF buffers that [`RedisModule_GetUsedMemoryRatio()`](#RedisModule_GetUsedMemoryRatio) excludes
+  are counted, because reading them is what makes that API main-thread only.
+* It is thread safe: it may be called from any thread, with or without
+  holding the GIL.
+
+The value is approximate: used memory is a relaxed sum of per-thread
+counters, and the maxmemory snapshot is refreshed by the main thread when
+the configuration changes.
+
+* 0 - No memory limit configured.
+* Between 0 and 1 - The percentage of the memory used normalized in 0-1 range.
+* Exactly 1 - Memory limit reached.
+* Greater 1 - More memory used than the configured limit.
+
 <span id="section-scanning-keyspace-and-hashes"></span>
 
 ## Scanning keyspace and hashes
@@ -9226,6 +9253,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_GetToKeyNameFromOptCtx`](#RedisModule_GetToKeyNameFromOptCtx)
 * [`RedisModule_GetTypeMethodVersion`](#RedisModule_GetTypeMethodVersion)
 * [`RedisModule_GetUsedMemoryRatio`](#RedisModule_GetUsedMemoryRatio)
+* [`RedisModule_GetUsedMemoryRatioEstimate`](#RedisModule_GetUsedMemoryRatioEstimate)
 * [`RedisModule_HashFieldMinExpire`](#RedisModule_HashFieldMinExpire)
 * [`RedisModule_HashGet`](#RedisModule_HashGet)
 * [`RedisModule_HashSet`](#RedisModule_HashSet)
