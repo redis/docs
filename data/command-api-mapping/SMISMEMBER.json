@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SMISMEMBER(key: RedisArgument, members: Array<RedisArgument>)",
+        "signature": "smIsMember(key: RedisArgument, members: Array<RedisArgument>)",
         "params": [
           {
             "name": "key",
@@ -171,37 +171,57 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply>",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "smismember(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<number[]>, ])",
+        "signature": "smismember(...args: [ key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<number[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...members",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "smismember(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<number[]>, ])",
+        "signature": "smismember(...args: [ key: RedisKey, members: (string | Buffer | number)[], callback: Callback<number[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number[], Context>",
           "description": ""
         }
       },
@@ -209,13 +229,18 @@
         "signature": "smismember(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...members",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number[], Context>",
           "description": ""
         }
       },
@@ -223,13 +248,18 @@
         "signature": "smismember(...args: [key: RedisKey, members: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number[], Context>",
           "description": ""
         }
       }
@@ -324,59 +354,11 @@
           "type": "bool[]",
           "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
         }
-      },
-      {
-        "signature": "SetContains(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
-        }
-      },
-      {
-        "signature": "SetContains(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "values",
-            "type": "RedisValue[]",
-            "description": "The members to check for."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool[]",
-          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SetContains(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetContainsAsync(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -395,12 +377,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
         }
       },
       {
-        "signature": "SetContains(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetContainsAsync(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -419,55 +401,7 @@
           }
         ],
         "returns": {
-          "type": "bool[]",
-          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
-        }
-      },
-      {
-        "signature": "SetContains(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
-        }
-      },
-      {
-        "signature": "SetContains(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "values",
-            "type": "RedisValue[]",
-            "description": "The members to check for."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool[]",
+          "type": "Task<bool[]>",
           "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
         }
       }
@@ -482,8 +416,8 @@
             "description": ""
           },
           {
-            "name": "$members",
-            "type": "string ...",
+            "name": "...$members",
+            "type": "string",
             "description": ""
           }
         ],

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "vadd(, key: KeyT,, vector: Union[List[float], bytes],, element: str,, reduce_dim: Optional[int] = None,, cas: Optional[bool] = False,, quantization: Optional[QuantizationOptions] = None,, ef: Optional[Number] = None,, attributes: Optional[Union[dict, str]] = None,, numlinks: Optional[int] = None,)",
+        "signature": "vadd(key: KeyT, vector: Union[List[float], bytes], element: str, reduce_dim: Optional[int] = None, cas: Optional[bool] = False, quantization: Optional[QuantizationOptions] = None, ef: Optional[Number] = None, attributes: Optional[Union[dict, str]] = None, numlinks: Optional[int] = None)",
         "params": [
           {
             "name": "key",
@@ -585,7 +585,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VADD(key: RedisArgument, vector: Array<number>, element: RedisArgument, options?: VAddOptions)",
+        "signature": "vAdd(key: RedisArgument, vector: Array<number>, element: RedisArgument, options?: VAddOptions)",
         "params": [
           {
             "name": "key",
@@ -770,38 +770,83 @@
             "description": ""
           },
           {
-            "name": "int $dim = null",
-            "type": "Any",
+            "name": "$dim",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $cas = false",
-            "type": "Any",
+            "name": "$cas",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "string $quant = VADD::QUANT_DEFAULT",
-            "type": "Any",
+            "name": "$quant",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $bef = null",
-            "type": "Any",
+            "name": "$bef",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "string|array $attributes = null",
-            "type": "Any",
+            "name": "$attributes",
+            "type": "string|array",
             "description": ""
           },
           {
-            "name": "int $numlinks = null",
-            "type": "Any",
+            "name": "$numlinks",
+            "type": "int",
             "description": ""
           }
         ],
         "returns": {
           "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "vadd(...args: [key: RedisKey, ...args: (RedisValue)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(RedisValue)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vadd(...args: [key: RedisKey, ...args: (RedisValue)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(RedisValue)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

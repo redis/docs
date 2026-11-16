@@ -227,7 +227,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SINTERCARD(keys: RedisVariadicArgument, options?: SInterCardOptions | number)",
+        "signature": "sInterCard(keys: RedisVariadicArgument, options?: SInterCardOptions | number)",
         "params": [
           {
             "name": "keys",
@@ -241,23 +241,33 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "sintercard(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "sintercard(...args: [ numkeys: number | string, keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -265,13 +275,18 @@
         "signature": "sintercard(...args: [numkeys: number | string, ...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -279,41 +294,86 @@
         "signature": "sintercard(...args: [numkeys: number | string, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "sintercard(...args: [, numkeys: number | string, ...keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number>, ])",
+        "signature": "sintercard(...args: [ numkeys: number | string, ...keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "limitToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "sintercard(...args: [, numkeys: number | string, keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number>, ])",
+        "signature": "sintercard(...args: [ numkeys: number | string, keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "limitToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -342,35 +402,11 @@
           "type": "long",
           "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
         }
-      },
-      {
-        "signature": "SetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sets."
-          },
-          {
-            "name": "limit",
-            "type": "long",
-            "description": "The number of elements to check (defaults to 0 and means unlimited)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetIntersectionLengthAsync(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "keys",
@@ -389,31 +425,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
-        }
-      },
-      {
-        "signature": "SetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sets."
-          },
-          {
-            "name": "limit",
-            "type": "long",
-            "description": "The number of elements to check (defaults to 0 and means unlimited)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
         }
       }
@@ -428,8 +440,8 @@
             "description": ""
           },
           {
-            "name": "int $limit = 0",
-            "type": "Any",
+            "name": "$limit",
+            "type": "int",
             "description": ""
           }
         ],

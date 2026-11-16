@@ -13,14 +13,9 @@ aliases:
 - /operate/iris/context-retriever/self-managed/
 ---
 
-> [!NOTE]
-> Install Context Gateway with the [`redis-iris` suite chart](/content/operate/iris/self-managed/_index.md), the supported self-managed install. Installing the `redis-context-gateway` chart on its own isn't a supported install path. These guides document its values, which you set under the suite chart's `contextGateway:` key.
-
-The `redis-context-gateway` Helm chart deploys one tenant's Context Gateway Control Plane and Data Plane. You provide the Identity Service release, the Redis databases, and the license. The chart does not install Identity Service, Redis, Vault, or Secrets Store CSI (Container Storage Interface) Driver resources.
+The `redis-iris` chart `1.0.0` deploys the Context Gateway Control Plane and Data Plane, with the Identity Service that issues and checks agent keys. Context Gateway values go under the `contextGateway:` key, and the chart's `examples/context-gateway.yaml` is a working values file to start from. You provide the Redis databases, the `https://` origin MCP clients reach the Data Plane at, and the suite license. The chart doesn't install Redis, Vault, or Secrets Store CSI (Container Storage Interface) Driver resources. To install, follow [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md), then [Deploy](/content/operate/iris/context-gateway/self-managed/deploy.md).
 
 Agents call the Data Plane's Model Context Protocol (MCP) endpoint, described in the [MCP API Reference](/content/develop/ai/context-engine/context-gateway/api-reference.md). The [Control Plane API Reference](/content/operate/iris/context-gateway/self-managed/control-plane-api-reference.md) documents the self-managed administration endpoints for Gateways and Upstreams.
-
-These guides use `redis-context-gateway` chart `1.0.0`. Each chart release pins its matching Control Plane and Data Plane images by default.
 
 ## What you deploy
 
@@ -28,7 +23,7 @@ These guides use `redis-context-gateway` chart `1.0.0`. Each chart release pins 
 | --- | --- | --- |
 | Control Plane | Create Gateways, register Upstreams, write credentials, and validate agent-key grants. | `9100` |
 | Data Plane | Serve each Gateway's MCP endpoint and call its Upstreams. | `8083` |
-| Identity Service | Issue agent keys and check them for the Data Plane. Installed as its own release. | `9200` |
+| Identity Service | Issue agent keys and check them for the Data Plane. Installed by the suite. | `9200` |
 | Metadata Redis | Store Gateway and Upstream records. | Customer-provided |
 | Credential storage | Store Upstream credentials: encrypted Redis by default, or Vault or AWS Secrets Manager. | Customer-provided |
 | Registered databases | Context Surface data, and the Gateway database for cached results and handles. | Customer-provided |

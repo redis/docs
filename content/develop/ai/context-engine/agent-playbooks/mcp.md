@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: MCP
 title: Connect with MCP
 weight: 60
+aliases:
+- /develop/ai/context-engine/agent-playbook/mcp/
 ---
 
 Connect a Streamable HTTP MCP client to retrieve published FAQs and skill content. Redis Agent Playbooks expose three tools and standard skill resources. For framework examples that retrieve context before a model turn, see [Integrate with an agent]({{< relref "/develop/ai/context-engine/agent-playbooks/agent-integration" >}}).

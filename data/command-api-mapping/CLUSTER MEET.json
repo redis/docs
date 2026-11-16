@@ -1,6 +1,31 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_meet(host: str, port: int, target_nodes: TargetNodesT | None = None)",
+        "params": [
+          {
+            "name": "host",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterMeet(final String ip, final int port)",
@@ -50,13 +75,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, host: string, port: number)",
+        "signature": "clusterMeet(host: string, port: number)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The Redis command parser"
-          },
           {
             "name": "host",
             "type": "string",
@@ -141,7 +161,53 @@
     "nredisstack_async": [],
     "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "cluster(subcommand: \"MEET\", ip: string | Buffer, port: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"MEET\"",
+            "description": ""
+          },
+          {
+            "name": "ip",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "cluster(:meet, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the subcommand"
+        }
+      }
+    ]
   }
 }
-

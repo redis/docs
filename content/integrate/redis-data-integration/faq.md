@@ -43,11 +43,14 @@ For the complete list of supported source databases and versions, see
 
 ## How much data can RDI process?
 
-RDI uses the concept of *processing units*. Each processing unit uses 1 CPU core and can process
-about 10,000 records per second, assuming the records have a size of about 1KB each. This throughput
-might change slightly depending on the number of columns, the number of data transformations,
-and the speed of the network. Typically, one processing unit is enough for RDI to deal with the
-traffic from a relational database.
+With the Flink processor, RDI can process up to 20K records per second during change data capture
+(CDC) and up to 60K records per second during full sync. These figures assume an average record
+size of about 1KB and a pipeline without transformations. The classic processor supports about
+half of each limit. Throughput can change with the number of columns, the number of data
+transformations, and the speed of the network.
+
+See [When to use RDI](/content/integrate/redis-data-integration/when-to-use.md) for the full
+throughput and data-size guidelines.
 
 ## Can RDI work with any Redis database?
 
@@ -66,12 +69,15 @@ installations. See
 [Installing with High Availability](/content/integrate/redis-data-integration/installation/install-vm.md#installing-with-high-availability).
 
 In a DR setup, each site runs its own RDI instance against its local instance of the
-Active-Active RDI database, so leader election needs an external lease. Google Cloud Storage
-(GCS) is currently the only supported lease mechanism, and you can configure it only for
-[Helm based installations](/content/integrate/redis-data-integration/installation/install-k8s.md).
+Active-Active RDI database, so leader election needs an external lease. RDI supports Google
+Cloud Storage (GCS) and Amazon DynamoDB leases for Helm installations. See
+[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md)
+for the supported setup and configuration steps.
 
-**Important:** Use a DR setup only when both sites capture changes from the same source
-database server. Both RDI instances must point at that same server, not at a replica of it.
+Each site captures from the source database named in its pipeline configuration, which can be
+the active source database or a replica of it. Configure the source database and its replicas
+so that RDI can resume capture after a failover. See
+[Source databases and data after a failover](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#source-databases-and-data-after-a-failover).
 
 ## Can I run multiple RDI installations in the same Kubernetes cluster?
 

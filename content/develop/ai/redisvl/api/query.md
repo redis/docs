@@ -399,7 +399,7 @@ Return the parameters for the query.
 * **Return type:**
   Dict[str, Any]
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -882,7 +882,7 @@ Return the parameters for the query.
 * **Return type:**
   Dict[str, Any]
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -1271,7 +1271,7 @@ Get the text weights.
 
 ## HybridQuery
 
-### `class HybridQuery(text, text_field_name, vector, vector_field_name, vector_param_name='vector', text_scorer='BM25STD', yield_text_score_as=None, vector_search_method=None, knn_ef_runtime=10, range_radius=None, range_epsilon=0.01, yield_vsim_score_as=None, filter_expression=None, combination_method=None, rrf_window=20, rrf_constant=60, linear_alpha=0.3, yield_combined_score_as=None, dtype='float32', num_results=10, return_fields=None, stopwords='english', text_weights=None)`
+### `class HybridQuery(text, text_field_name, vector, vector_field_name, vector_param_name='vector', text_scorer='BM25STD', yield_text_score_as=None, vector_search_method=None, knn_ef_runtime=None, range_radius=None, range_epsilon=None, yield_vsim_score_as=None, filter_expression=None, combination_method=None, rrf_window=20, rrf_constant=60, linear_alpha=0.3, yield_combined_score_as=None, dtype='float32', num_results=10, return_fields=None, stopwords='english', text_weights=None)`
 
 Bases: `object`
 
@@ -1320,10 +1320,11 @@ Instantiates a HybridQuery object.
     see [https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/)
   * **yield_text_score_as** (*str* *|* *None*) – The name of the field to yield the text score as.
   * **vector_search_method** (*Literal* *[* *'KNN'* *,*  *'RANGE'* *]*  *|* *None*) – The vector search method to use. Options are {KNN, RANGE}. Defaults to None.
-  * **knn_ef_runtime** (*int*) – The exploration factor parameter for HNSW, optional if vector_search_method is "KNN".
-  * **range_radius** (*float* *|* *None*) – The search radius to use, required if vector_search_method is "RANGE".
-  * **range_epsilon** (*float*) – The epsilon value to use, optional if vector_search_method is "RANGE"; defines the
-    accuracy of the search.
+  * **knn_ef_runtime** (*int* *|* *None*) – The exploration factor for HNSW when vector_search_method is "KNN".
+    Defaults to None, which omits EF_RUNTIME and uses the index’s configured value.
+  * **range_radius** (*float* *|* *None*) – The search radius, required if vector_search_method is "RANGE". Zero is valid.
+  * **range_epsilon** (*float* *|* *None*) – The search accuracy parameter for HNSW and SVS-VAMANA when
+    vector_search_method is "RANGE". Defaults to None, which omits EPSILON and uses the index’s configured value.
   * **yield_vsim_score_as** (*str* *|* *None*) – The name of the field to yield the vector similarity score as.
   * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *|* *None*) – The filter expression to use for both the text and vector searches. Defaults to None.
   * **combination_method** (*Literal* *[* *'RRF'* *,*  *'LINEAR'* *]*  *|* *None*) – The combination method to use. Options are {RRF, LINEAR}. If not specified, the server
@@ -1334,7 +1335,8 @@ Instantiates a HybridQuery object.
     fusion scope.
   * **rrf_constant** (*int*) – The constant to use for the reciprocal rank fusion (RRF) combination method. Controls decay
     of rank influence.
-  * **linear_alpha** (*float*) – The weight of the text query for the linear combination method (LINEAR).
+  * **linear_alpha** (*float*) – The weight of the text query for the linear combination method (LINEAR). Both the text and
+    vector searches still run at 0 and 1, so use VectorQuery or TextQuery when only one is needed.
   * **yield_combined_score_as** (*str* *|* *None*) – The name of the field to yield the combined score as.
   * **dtype** (*str*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *|* *None*) – The number of results to return.
@@ -1689,7 +1691,7 @@ The filter expression for the query.
 
 Return the query parameters.
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -1962,7 +1964,7 @@ The filter expression for the query.
 
 Return the query parameters.
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -2213,7 +2215,7 @@ The filter expression for the query.
 
 Return the query parameters.
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 

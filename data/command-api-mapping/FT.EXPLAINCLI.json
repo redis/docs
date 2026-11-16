@@ -1,21 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "explain_cli(query: Union[str, Query])",
-        "params": [
-          {
-            "name": "query",
-            "type": "Union[str, Query]",
-            "description": "The query to explain"
-          }
-        ],
-        "returns": {
-          "type": "List[str]",
-          "description": "The execution plan in CLI format"
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "List<String> ftExplainCli(String indexName, Query query)",
@@ -68,7 +53,7 @@
     ],
     "node_redis": [
       {
-        "signature": "EXPLAINCLI(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
+        "signature": "client.ft.explainCli(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
         "params": [
           {
             "name": "index",
@@ -87,7 +72,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<Array<string>>",
+          "type": "Array<string>",
           "description": "The execution plan in CLI format"
         }
       }

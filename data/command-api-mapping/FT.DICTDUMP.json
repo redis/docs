@@ -2,10 +2,10 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "dictdump(dict_name: str)",
+        "signature": "dict_dump(name: str)",
         "params": [
           {
-            "name": "dict_name",
+            "name": "name",
             "type": "str",
             "description": "The dictionary name"
           }
@@ -32,9 +32,54 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<String> ftDictdump(String dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "a list of all terms in the dictionary"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<String>> ftDictdump(String dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<String>>",
+          "description": "a list of all terms in the dictionary"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<String> ftDictdump(String dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "Flux<String>",
+          "description": "a list of all terms in the dictionary"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTDictDump(ctx context.Context, dict string)",
@@ -58,7 +103,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DICTDUMP(dictionary: RedisArgument)",
+        "signature": "client.ft.dictDump(dictionary: RedisArgument)",
         "params": [
           {
             "name": "dictionary",
@@ -67,7 +112,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<Array<string>>",
+          "type": "Array<string>",
           "description": "All terms in the dictionary"
         }
       }

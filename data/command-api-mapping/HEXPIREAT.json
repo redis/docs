@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hexpireat(, name: KeyT,, unix_time_seconds: AbsExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+        "signature": "hexpireat(name: KeyT, unix_time_seconds: AbsExpiryT, *fields: str, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
         "params": [
           {
             "name": "name",
@@ -583,7 +583,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HEXPIREAT(key: RedisArgument, fields: RedisVariadicArgument, timestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "hExpireAt(key: RedisArgument, fields: RedisVariadicArgument, timestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -607,7 +607,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply>",
           "description": ""
         }
       }
@@ -742,79 +742,11 @@
           "type": "ExpireResult[]",
           "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
         }
-      },
-      {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to set expire time."
-          },
-          {
-            "name": "expiry",
-            "type": "TimeSpan",
-            "description": "The exact date to expiry to set."
-          },
-          {
-            "name": "when",
-            "type": "ExpireWhen",
-            "description": "under which condition the expiration will be set using ExpireWhen."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "ExpireResult[]",
-          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
-        }
-      },
-      {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to set expire time."
-          },
-          {
-            "name": "expiry",
-            "type": "DateTime",
-            "description": "The exact date to expiry to set."
-          },
-          {
-            "name": "when",
-            "type": "ExpireWhen",
-            "description": "under which condition the expiration will be set using ExpireWhen."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "ExpireResult[]",
-          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldExpireAsync(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -843,12 +775,12 @@
           }
         ],
         "returns": {
-          "type": "ExpireResult[]",
+          "type": "Task<ExpireResult[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
         }
       },
       {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldExpireAsync(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -877,75 +809,7 @@
           }
         ],
         "returns": {
-          "type": "ExpireResult[]",
-          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
-        }
-      },
-      {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to set expire time."
-          },
-          {
-            "name": "expiry",
-            "type": "TimeSpan",
-            "description": "The exact date to expiry to set."
-          },
-          {
-            "name": "when",
-            "type": "ExpireWhen",
-            "description": "under which condition the expiration will be set using ExpireWhen."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "ExpireResult[]",
-          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
-        }
-      },
-      {
-        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to set expire time."
-          },
-          {
-            "name": "expiry",
-            "type": "DateTime",
-            "description": "The exact date to expiry to set."
-          },
-          {
-            "name": "when",
-            "type": "ExpireWhen",
-            "description": "under which condition the expiration will be set using ExpireWhen."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "ExpireResult[]",
+          "type": "Task<ExpireResult[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
         }
       }
@@ -970,13 +834,215 @@
             "description": ""
           },
           {
-            "name": "string $flag = null",
-            "type": "Any",
+            "name": "$flag",
+            "type": "string",
             "description": ""
           }
         ],
         "returns": {
           "type": "array|null",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hexpireat(...args: [key: RedisKey, unixTimeSeconds: number | string, fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "'FIELDS'",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hexpireat(...args: [key: RedisKey, unixTimeSeconds: number | string, fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "'FIELDS'",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hexpireat(...args: [key: RedisKey, unixTimeSeconds: number | string, nx: 'NX', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "'NX'",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "'FIELDS'",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hexpireat(...args: [key: RedisKey, unixTimeSeconds: number | string, nx: 'NX', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "'NX'",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "'FIELDS'",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hexpireat(...args: [key: RedisKey, unixTimeSeconds: number | string, xx: 'XX', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "'XX'",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "'FIELDS'",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
           "description": ""
         }
       }

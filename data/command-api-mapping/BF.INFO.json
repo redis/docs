@@ -125,7 +125,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.INFO(key: RedisArgument)",
+        "signature": "client.bf.info(key: RedisArgument)",
         "params": [
           {
             "name": "key",

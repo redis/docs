@@ -41,7 +41,7 @@
         "signature": "functionKill()",
         "params": [],
         "returns": {
-          "type": "Promise<SimpleStringReply>",
+          "type": "SimpleStringReply",
           "description": "Status response"
         }
       }
@@ -76,13 +76,42 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "function(subcommand: \"KILL\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"KILL\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "kill()",
+        "params": [],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

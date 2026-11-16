@@ -55,7 +55,7 @@
     ],
     "node_redis": [
       {
-        "signature": "INFO(key: string)",
+        "signature": "client.ts.info(key: string)",
         "params": [
           {
             "name": "key",
@@ -121,8 +121,8 @@
             "description": ""
           },
           {
-            "name": "?InfoArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?InfoArguments",
             "description": ""
           }
         ],

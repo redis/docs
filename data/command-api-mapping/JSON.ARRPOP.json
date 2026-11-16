@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "arrpop(, name: str,, path: Optional[str] = Path.root_path(),, index: Optional[int] = -1,)",
+        "signature": "arrpop(name: str, path: Optional[str] = Path.root_path(), index: Optional[int] = -1)",
         "params": [
           {
             "name": "name",
@@ -338,7 +338,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRPOP(key: RedisArgument, options?: RedisArrPopOptions)",
+        "signature": "client.json.arrPop(key: RedisArgument, options?: RedisArrPopOptions)",
         "params": [
           {
             "name": "key",
@@ -393,13 +393,13 @@
             "description": ""
           },
           {
-            "name": "string $path = '$'",
-            "type": "Any",
+            "name": "$path",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $index = -1",
-            "type": "Any",
+            "name": "$index",
+            "type": "int",
             "description": ""
           }
         ],
@@ -489,6 +489,32 @@
         "returns": {
           "type": "Array, Object, nil",
           "description": "the popped value(s); an Array for a JSONPath, a single value for a legacy path, nil for an empty array or a non-array match"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ArrPopAsync(RedisKey key, string? path = null, long? index = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": ""
         }
       }
     ]

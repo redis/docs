@@ -16,9 +16,27 @@
         }
       }
     ],
-    "jedis": [],
+    "jedis": [
+      {
+        "signature": "String reset()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "reset()",
+        "params": [],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
@@ -26,7 +44,23 @@
     "nredisstack_async": [],
     "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "reset(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }
 

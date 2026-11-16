@@ -192,6 +192,51 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "arinfo(key: RedisKey, callback?: Callback<(string | number)[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<(string | number)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | number)[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arinfo(key: RedisKey, full: 'FULL', callback?: Callback<(string | number)[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "full",
+            "type": "'FULL'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<(string | number)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | number)[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

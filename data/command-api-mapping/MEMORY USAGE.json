@@ -158,28 +158,68 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "memory(string $subcommand, ...$args)",
+        "signature": "memory(subcommand: \"USAGE\", key: RedisKey, callback?: Callback<number | null>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"USAGE\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "int",
+          "type": "Result<number | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "memory(subcommand: \"USAGE\", key: RedisKey, countToken: \"SAMPLES\", count: number | string, callback?: Callback<number | null>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"USAGE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"SAMPLES\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number | null, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

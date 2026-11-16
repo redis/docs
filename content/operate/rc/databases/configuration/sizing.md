@@ -36,6 +36,8 @@ Here are some general guidelines:
 
 Memory limits in Redis Cloud are subject to the same considerations as Redis Software; to learn more, see [Database memory limits](/content/operate/rs/databases/memory-performance/memory-limit.md).
 
+To estimate your dataset size from one typical record, see [Compare memory use](/content/develop/data-types/compare-data-types.md#compare-memory-use).
+
 ## Throughput
 
 Throughput is the number of operations a database can handle over a certain period of time. For Redis Cloud databases, throughput is defined in operations per second (ops/sec).

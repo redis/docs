@@ -121,6 +121,27 @@
           "description": "the size(s) in bytes: an Array for a JSONPath, a single integer for a legacy path or when no path is given (0 for a missing key)"
         }
       }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "DebugMemoryAsync(string key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

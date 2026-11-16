@@ -66,11 +66,139 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
-    "ioredis": [],
+    "node_redis": [
+      {
+        "signature": "pubSubShardChannels(pattern?: RedisArgument)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<K> pubsubShardChannels()",
+        "params": [],
+        "returns": {
+          "type": "List<K>",
+          "description": "List<K> array-reply a list of active channels."
+        }
+      },
+      {
+        "signature": "List<K> pubsubShardChannels(K pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "K",
+            "description": "the pattern type: patternkey (pattern)."
+          }
+        ],
+        "returns": {
+          "type": "List<K>",
+          "description": "List<K> array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<K>> pubsubShardChannels()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<K>>",
+          "description": "List<K> array-reply a list of active channels."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<K>> pubsubShardChannels(K pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "K",
+            "description": "the pattern type: patternkey (pattern)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<K>>",
+          "description": "List<K> array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<K> pubsubShardChannels()",
+        "params": [],
+        "returns": {
+          "type": "Flux<K>",
+          "description": "K array-reply a list of active channels."
+        }
+      },
+      {
+        "signature": "Flux<K> pubsubShardChannels(K pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "K",
+            "description": "the pattern type: patternkey (pattern)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<K>",
+          "description": "K array-reply a list of active channels, optionally matching the specified pattern."
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "pubsub(subcommand: \"SHARDCHANNELS\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SHARDCHANNELS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "pubsub(subcommand: \"SHARDCHANNELS\", pattern: string, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SHARDCHANNELS\"",
+            "description": ""
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
@@ -94,6 +222,22 @@
         "returns": {
           "type": "mixed",
           "description": "List of active shard channels matching the pattern"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:shardchannels, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "an optional glob-style pattern to match shard channel names"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "the active shard channels"
         }
       }
     ]

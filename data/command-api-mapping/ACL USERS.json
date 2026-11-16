@@ -84,28 +84,47 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
+        "signature": "acl_users()",
+        "params": [],
         "returns": {
-          "type": "array",
+          "type": "(Vec<String>)",
           "description": ""
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [
+      {
+        "signature": "acl_users()",
+        "params": [],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"USERS\", callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"USERS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

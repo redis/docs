@@ -123,7 +123,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<ReplyUnion>",
+          "type": "ReplyUnion",
           "description": "Script execution result"
         }
       }
@@ -293,7 +293,143 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "evalsha(sha1: string | Buffer, numkeys: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha(...args: [ sha1: string | Buffer, numkeys: number | string, ...args: (string | Buffer | number)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha(...args: [ sha1: string | Buffer, numkeys: number | string, ...args: (string | Buffer | number)[] ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha(...args: [ sha1: string | Buffer, numkeys: number | string, ...keys: RedisKey[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "evalsha(...args: [ sha1: string | Buffer, numkeys: number | string, keys: RedisKey[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
@@ -374,14 +510,30 @@
             "description": "Number of keys in the script"
           },
           {
-            "name": "$keyOrArg",
-            "type": "string...",
+            "name": "...$keyOrArg",
+            "type": "string",
             "description": "Keys and arguments for the script"
           }
         ],
         "returns": {
           "type": "mixed",
           "description": "Script execution result"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "evalsha(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "the SHA1 String of a loaded script, then optional keys and argv arrays, or a Hash with :keys and :argv"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the script"
         }
       }
     ]

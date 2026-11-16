@@ -56,6 +56,11 @@ and API configuration.
     reranked results.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
     Defaults to None.
+  * **\*\*kwargs** – Passed to the Cohere `Client` and `AsyncClient`, for
+    example `timeout` or `base_url`. A custom `httpx_client` is
+    synchronous, so it goes to the sync client only and `arank`
+    falls back to it; pass `async_httpx_client` (an
+    `httpx.AsyncClient`) to give the async client its own.
 * **Raises:**
   * **ImportError** – If the cohere library is not installed.
   * **ValueError** – If the API key is not provided.

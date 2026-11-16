@@ -153,14 +153,23 @@ existence check entirely. See [Install RedisVL]({{< relref "../user_guide/instal
 Redis Search reports an absent index as an ordinary error reply rather than a distinct
 type, and the wording has changed between versions – older releases say `Unknown index
 name`, Redis 8.6 and earlier say `<name>: no such index`, and Redis 8.8 introduced
-`SEARCH_INDEX_NOT_FOUND Index not found: <name>`. There is no error code to branch on,
-so code that needs to distinguish "missing" from "something went wrong" has to match the
-message.
+`SEARCH_INDEX_NOT_FOUND Index not found: <name>`. Matching the message couples your code
+to one of those wordings.
 
-[`exists()`]({{< relref "searchindex/#exists" >}}) already does this for you, which is the reason
-to prefer it over catching errors from [`info()`]({{< relref "searchindex/#info" >}}): it
-returns `False` only for a recognized missing-index reply and re-raises everything
-else, so a permission or connection failure is never reported as an absent index.
+[`exists()`]({{< relref "searchindex/#exists" >}}) makes the distinction without reading the
+message, which is the reason to prefer it over catching errors from
+[`info()`]({{< relref "searchindex/#info" >}}). redis-py raises a plain `ResponseError` for an
+ordinary error reply, and a more specific exception for the replies that mean the check
+itself failed, such as `NoPermissionError`, `BusyLoadingError` or `ClusterDownError`;
+connection failures are not `ResponseError` at all. The exceptions are `BUSY`, sent
+while a script or function is running, and `ERRCLUSTER`, which Redis Search sends on a
+cluster whose topology is not yet initialized; redis-py leaves both as a plain
+`ResponseError` with the code leading the message. A server with Redis Search not loaded
+at all answers with `unknown command` instead, which is checked for separately since
+that phrase isn’t a leading code. `exists()` returns `False` only for a plain
+`ResponseError` that is none of these, and re-raises everything else, so a permission,
+connection, busy-server, cluster-startup, or missing-module failure is never reported as an
+absent index.
 
 ```python
 # Prefer this
@@ -176,10 +185,10 @@ except RedisSearchError as e:
         index.create()
 ```
 
-When you do need the distinction elsewhere, read `e.__cause__` rather than the
-[RedisSearchError](#redissearcherror) message: the wrapper interpolates the index name, so an index
-whose name happens to contain one of the wordings above would make an unrelated failure
-look like an absence.
+When you do need the distinction elsewhere, apply the same rule to `e.__cause__`, the
+original redis-py exception: a plain `ResponseError` that starts with neither `BUSY` nor
+`ERRCLUSTER`, and doesn’t contain `unknown command`, means the index is absent, and
+anything else means the check failed.
 
 ### `Catching everything`
 

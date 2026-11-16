@@ -103,7 +103,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GET(key: RedisArgument, options?: TsGetOptions)",
+        "signature": "client.ts.get(key: RedisArgument, options?: TsGetOptions)",
         "params": [
           {
             "name": "key",
@@ -174,8 +174,8 @@
             "description": ""
           },
           {
-            "name": "?GetArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?GetArguments",
             "description": ""
           }
         ],

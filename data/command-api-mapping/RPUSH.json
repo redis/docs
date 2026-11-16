@@ -171,7 +171,7 @@
     ],
     "node_redis": [
       {
-        "signature": "RPUSH(key: RedisArgument, element: RedisVariadicArgument)",
+        "signature": "rPush(key: RedisArgument, element: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -185,23 +185,33 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "rpush(...args: [, key: RedisKey, ...elements: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "rpush(...args: [ key: RedisKey, ...elements: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...elements",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -209,13 +219,18 @@
         "signature": "rpush(...args: [key: RedisKey, ...elements: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...elements",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -344,69 +359,11 @@
           "type": "long",
           "description": "The length of the list after the push operation."
         }
-      },
-      {
-        "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "when",
-            "type": "When",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the list after the push operation."
-        }
-      },
-      {
-        "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "values",
-            "type": "RedisValue[]",
-            "description": "The values to add to the tail of the list."
-          },
-          {
-            "name": "when",
-            "type": "When",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the list after the push operation."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRightPushAsync(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -430,12 +387,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the push operation."
         }
       },
       {
-        "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRightPushAsync(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -459,12 +416,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the push operation."
         }
       },
       {
-        "signature": "ListRightPush(RedisKey key, RedisValue[] values, CommandFlags flags)",
+        "signature": "ListRightPushAsync(RedisKey key, RedisValue[] values, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -483,65 +440,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The length of the list after the push operation."
-        }
-      },
-      {
-        "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "when",
-            "type": "When",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the list after the push operation."
-        }
-      },
-      {
-        "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "values",
-            "type": "RedisValue[]",
-            "description": "The values to add to the tail of the list."
-          },
-          {
-            "name": "when",
-            "type": "When",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the push operation."
         }
       }

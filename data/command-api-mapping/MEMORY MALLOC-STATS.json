@@ -27,34 +27,74 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "node_redis": [
       {
-        "signature": "memory(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
+        "signature": "memoryMallocStats()",
+        "params": [],
         "returns": {
-          "type": "string",
+          "type": "BlobStringReply",
           "description": ""
         }
       }
     ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [
+      {
+        "signature": "string? MemoryAllocatorStats(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": "The full text result of memory allocation stats."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<string?> MemoryAllocatorStatsAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<string?>",
+          "description": "The full text result of memory allocation stats."
+        }
+      }
+    ],
+    "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "memory(subcommand: \"MALLOC-STATS\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"MALLOC-STATS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

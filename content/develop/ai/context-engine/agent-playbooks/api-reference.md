@@ -9,6 +9,8 @@ params:
   sortOperationsAlphabetically: false
   schemaDefinitionsTagName: Data models
   showPageContent: true
+aliases:
+- /develop/ai/context-engine/agent-playbook/api-reference/
 ---
 
 Use the Redis Agent Playbooks data-plane API to author, publish, and retrieve FAQs and skills, and review proposals. FAQs and skills have separate authoring operations.

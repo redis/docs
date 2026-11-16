@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "alter(, key: KeyT,, retention_msecs: Optional[int] = None,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+        "signature": "alter(key: KeyT, retention_msecs: Optional[int] = None, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None)",
         "params": [
           {
             "name": "key",
@@ -95,7 +95,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ALTER(key: RedisArgument, options?: TsAlterOptions)",
+        "signature": "client.ts.alter(key: RedisArgument, options?: TsAlterOptions)",
         "params": [
           {
             "name": "key",
@@ -109,7 +109,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }
@@ -234,8 +234,8 @@
             "description": ""
           },
           {
-            "name": "?TSAlterArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?TSAlterArguments",
             "description": ""
           }
         ],

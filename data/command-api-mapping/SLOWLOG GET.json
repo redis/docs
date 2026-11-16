@@ -139,20 +139,60 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "nredisstack_sync": [
       {
-        "signature": "slowlog(string $operation, ?int $length = null)",
+        "signature": "CommandTrace[] SlowlogGet(int count = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
-            "name": "$operation",
+            "name": "count",
+            "type": "int",
+            "description": "The count of items to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "CommandTrace[]",
+          "description": "The slow command traces as recorded by the Redis server."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<CommandTrace[]> SlowlogGetAsync(int count = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of items to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<CommandTrace[]>",
+          "description": "The slow command traces as recorded by the Redis server."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "slowlog($subcommand, $argument = null)",
+        "params": [
+          {
+            "name": "$subcommand",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$length",
-            "type": "int|null",
+            "name": "$argument",
+            "type": "mixed",
             "description": ""
           }
         ],
@@ -163,6 +203,67 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "slowlog(subcommand: \"GET\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "slowlog(subcommand: \"GET\", count: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "slowlog(:get, length = nil)",
+        "params": [
+          {
+            "name": "length",
+            "type": "Integer",
+            "description": "maximum number of entries to return"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Integer, String",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }

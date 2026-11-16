@@ -70,7 +70,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.EXISTS(key: RedisArgument, item: RedisArgument)",
+        "signature": "client.cf.exists(key: RedisArgument, item: RedisArgument)",
         "params": [
           {
             "name": "key",

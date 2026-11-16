@@ -156,28 +156,99 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
+        "signature": "acl_genpass()",
+        "params": [],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_genpass_bits(bits: isize)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
+            "name": "bits",
+            "type": "isize",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "(String)",
           "description": ""
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [
+      {
+        "signature": "acl_genpass()",
+        "params": [],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_genpass_bits(bits: isize)",
+        "params": [
+          {
+            "name": "bits",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"GENPASS\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GENPASS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(subcommand: \"GENPASS\", bits: number | string, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GENPASS\"",
+            "description": ""
+          },
+          {
+            "name": "bits",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

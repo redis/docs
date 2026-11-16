@@ -12,6 +12,7 @@ categories:
 - rdi
 description: Prepare Oracle and Oracle RAC databases to work with RDI
 group: di
+hideListLinks: true
 linkTitle: Prepare Oracle
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
@@ -35,6 +36,7 @@ You may find it helpful to use them to track your progress as you work through t
 - [ ] [Enable supplemental logging](#supp-logging)
 - [ ] [Check the redo log sizing](#3-check-the-redo-log-sizing)
 - [ ] [Set the Archive log destination](#4-set-the-archive-log-destination)
+- [ ] [Check that you keep archived logs for a suitable length of time](#archive-log-retention)
 - [ ] [Create a user for the connector](#create-dbz-user)
 ```
 
@@ -178,7 +180,7 @@ If you have more than one destination with these settings,
 then you should consult your database administrator about which one to
 choose for Debezium.
 
-Use the `log.mining.archive.destination.name` property in the connector configuration
+Use the `archive.destination.name` property in the connector configuration
 to select the archive log destination for Debezium.
 
 For example, suppose you have two archive destinations, `LOG_ARCHIVE_DEST_2` and
@@ -189,11 +191,15 @@ use the following setting:
 
 ```json
 {
-    "log.mining.archive.destination.name": "LOG_ARCHIVE_DEST_3"
+    "archive.destination.name": "LOG_ARCHIVE_DEST_3"
 }
 ```
 
-### 5. Create a user for the connector {#create-dbz-user}
+### 5. Check that you keep archived logs for a suitable length of time {#archive-log-retention}
+
+After the snapshot, RDI captures changes by reading the online redo logs and the archived logs. Oracle does not know which archived logs RDI still needs, so your backup and cleanup jobs must keep them available. We recommend keeping at least 24 hours of archived logs, so that the collector can recover from a stop, for example during maintenance or a large batch job, without a new snapshot. See [Archive log retention](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md) to configure this for the fast recovery area or for a dedicated destination.
+
+### 6. Create a user for the connector {#create-dbz-user}
 
 The Debezium Oracle connector must run as an Oracle LogMiner user with specific permissions.
 
@@ -377,7 +383,7 @@ you should also revoke `LOCK` on all tables:
 REVOKE LOCK ANY TABLE FROM c##dbzuser container=all;
 ```
 
-### 6. Configuration is complete {#logminer-complete}
+### 7. Configuration is complete {#logminer-complete}
 
 Once you have followed the steps above, your Oracle database is ready
 for Debezium to use.
@@ -454,6 +460,8 @@ For Oracle RAC (cluster) environments, the Fast Recovery Area (FRA) must be on *
   ```
 
 {{< /multitabs >}}
+
+Size the recovery area for the archived logs that RDI needs. See [Archive log retention](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md).
 
 ### 2. Enable GoldenGate replication
 

@@ -117,7 +117,7 @@
     ],
     "node_redis": [
       {
-        "signature": "STRLEN(key: RedisArgument)",
+        "signature": "strLen(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -126,14 +126,14 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "strlen(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Listen for messages published to the given channels, * - _group_: pubsub, * - _complexity_: O(N) where N is the number of channels to subscribe to., * - _since_: 2.0.0, */, subscribe(, ...args: [...channels: (string | Buffer)[], callback: Callback<unknown>])",
+        "signature": "strlen(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
@@ -142,17 +142,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "...args",
-            "type": "[...channels",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -232,54 +227,11 @@
           "type": "long",
           "description": "The length of the string at key, or 0 when key does not exist."
         }
-      },
-      {
-        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field containing the string."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the string at field, or 0 when key does not exist."
-        }
-      },
-      {
-        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the string at key, or 0 when key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashStringLengthAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -298,12 +250,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the string at field, or 0 when key does not exist."
         }
       },
       {
-        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -317,50 +269,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The length of the string at key, or 0 when key does not exist."
-        }
-      },
-      {
-        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field containing the string."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the string at field, or 0 when key does not exist."
-        }
-      },
-      {
-        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the string at key, or 0 when key does not exist."
         }
       }

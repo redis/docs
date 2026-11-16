@@ -43,6 +43,17 @@ Translation rules:
   `ARGREP_WITHVALUES`). Put both `arGrep` and `arGrepWithValues` as two signature objects in
   the single `ARGREP.json`. Cross-check the canonical command list in `data/commands*.json`
   before creating a file — if the name isn't there, it's a variant to fold, not a new file.
+- **Both spellings exist; entries use camelCase (DOC-7267).** `index.ts` lists each command
+  under an UPPER key and a camelCase key (`APPEND`, `append`). Use the camelCase one. Module
+  commands are `client.<namespace>.<method>`: `bf cf cms tDigest topK` (bloom), `json`, `ft`
+  (search), `ts` (time-series), so `client.bf.add`, never the dotted `BF.ADD`.
+- **Read the reply type from the source `transformReply`, not the published `.d.ts`**, which
+  expands aliases (`ArrayReply<BlobStringReply<string>>`). Where a command declares both `2:`
+  and `3:`, use the RESP2 type, the client default. Use the `.d.ts` only to check names and
+  arity: `tsc --strict` on `typeof client.<name>` proves a name exists on the real client.
+- Tooling: sources come from `gh api repos/redis/node-redis/tarball/redis@<version>`, and
+  `npm install redis typescript --cache ./.npm-cache` gives the declarations and `tsc`. Both
+  need the sandbox off.
 
 ## redis_py (Python)
 - Method names are the command lowercased with **no word separators** (`arset`, `arget`,
@@ -63,6 +74,17 @@ Translation rules:
 - redis-py exposes **one method per command**, folding options into params (`argrep` has
   `withvalues`/`nocase` flags; `arop` takes `operation` + optional `value`) — unlike Lettuce,
   which splits these into separate named methods.
+- **Some methods exist but raise `NotImplementedError` (DOC-7267).** In 8.1.0: `command_docs`,
+  `command_info`, `failover`, `explain_cli`, `hello`, `latency_doctor`, `latency_graph`,
+  `latency_histogram`, `memory_doctor`, `script_debug`. Don't author a signature. Leave the
+  list empty and record `unsupported` in the status file. Confirm by calling the method on a
+  `Redis()`: the error fires before any connection.
+- Module methods live on their own classes (`Search`, `JSON`, `TimeSeries`, `BFBloom` and its
+  siblings, `VectorSet`), and names like `add` and `exists` repeat across them, so resolve a
+  method against the class for the command's prefix. The dictionary methods are `dict_add`,
+  `dict_del` and `dict_dump`.
+- Pin the version to check against: `pip install --no-deps --target <dir> redis==<version>`,
+  then run with `PYTHONPATH=<dir>`.
 
 ## go-redis (Go)
 - New command families get a dedicated `<type>_commands.go` at the repo root (e.g. arrays are in
@@ -117,6 +139,13 @@ Translation rules:
   `IDatabaseAsync.cs`). Module commands (JSON/Search/TimeSeries) are in NRedisStack.
 - XML doc comments (`<summary>`, `<param>`, `<returns>`) → descriptions; strip `<see cref=…>`.
 - Drop trailing `CommandFlags flags = CommandFlags.None` optional param or note it.
+- **An async entry is never a copy of the sync one (DOC-7267).** The name gains `Async` and
+  `returns.type` is `Task<T>` (or `Task`). The scan overloads (`HashScanAsync`, `SetScanAsync`,
+  `SortedSetScanAsync`, `KeysAsync`) return `IAsyncEnumerable<T>` directly and take `cursor` and
+  `pageOffset` (`KeysAsync` also `database`). Verify by reflection over `IDatabaseAsync`,
+  `IServer` and `ISubscriber` on the pinned StackExchange.Redis version: the method must exist
+  with the same parameter names and types.
+- Core entries leave the return type out of `signature` and put `Task<T>` in `returns.type`.
 
 ## php (predis)
 - **`@method` docblocks in `src/ClientInterface.php` are the authoritative, complete source** —
@@ -150,6 +179,32 @@ Translation rules:
 - snake_case methods inside the `implement_commands!` macro. Drop `&self`/`&mut self`.
 - Return type is generally `RedisResult<T>` (sync) / a future of it (async).
 - `///` doc comments → descriptions when present.
+
+## Receivers that aren't the obvious client (DOC-7263)
+- **redis_py:** `cluster_*` methods exist only on `RedisCluster`; subscribe methods are on the
+  `PubSub` object (`r.pubsub()`); FT.HYBRID is `r.ft(...).hybrid_search`. Some methods are
+  stubs that raise `NotImplementedError`. Read the body, not the name.
+- **node_redis:** `select`, `quit`, `reset`, `monitor` and the subscribe family are methods on
+  `RedisClient`, not command files, and are `undefined` on a cluster client. `LOLWUT` is
+  registered uppercase only. Commands in `@redis/search` and similar need that package.
+- **go-redis:** `CLIENT SETINFO` and `HELLO` are on `StatefulCmdable`/`*Conn`, not `Cmdable`.
+  `HotKeys*` is on `*Client` only. `Monitor` is on the `cmdable` struct but not the
+  `Cmdable` interface. Subscribe methods return `*PubSub`; unsubscribe is on `*PubSub`.
+- **jedis:** `cluster*` methods are on `Jedis` only (not `UnifiedJedis` or `RedisClient`).
+  `unsubscribe`/`punsubscribe`/`sunsubscribe` are on the callback objects
+  (`JedisPubSubBase`, `JedisShardedPubSubBase`), `ssubscribe`/`spublish` on the cluster clients.
+- **lettuce:** subscribe methods are on the pub/sub connection interfaces. `RediSearchCommands`
+  takes only `K` (no `V`).
+- **nredisstack:** server commands are on `IServer` (`FooAsync` twins), subscribe on
+  `ISubscriber`, sharded pub/sub through `RedisChannel.Sharded(...)`. `Save(SaveType)` covers
+  SAVE, BGSAVE and BGREWRITEAOF.
+- **php (predis):** a container subcommand reached only through `__call` (no `@method` in
+  `src/Command/Container/*.php`) is `generic_only`, not a typed method. Consumer methods
+  (`pubSubLoop()`) are the typed home for PSUBSCRIBE/PUNSUBSCRIBE.
+- **redis_rs:** methods come from `implement_commands!` and are generated for four traits.
+  `HotkeysCommands`/`AsyncHotkeysCommands` are separate traits. Some methods need a feature
+  (`acl`, `script` default on; `search_unfinished` is not stable). Async cluster connections
+  carry SSUBSCRIBE/SUNSUBSCRIBE.
 
 ## General
 - **Never invent descriptions.** Empty string beats a plausible-but-unverified sentence.

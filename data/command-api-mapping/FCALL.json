@@ -99,7 +99,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<ReplyUnion>",
+          "type": "ReplyUnion",
           "description": "Function execution result"
         }
       }
@@ -269,7 +269,61 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "fcall(...args: [ function: string | Buffer, numkeys: number | string, ...args: RedisValue[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "function",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "fcall(...args: [ function: string | Buffer, numkeys: number | string, ...args: RedisValue[] ])",
+        "params": [
+          {
+            "name": "function",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
@@ -290,8 +344,8 @@
             "description": "Keys for the function"
           },
           {
-            "name": "$args",
-            "type": "...",
+            "name": "...$args",
+            "type": "",
             "description": "Arguments for the function"
           }
         ],

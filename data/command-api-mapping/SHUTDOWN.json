@@ -89,22 +89,7 @@
         }
       }
     ],
-    "node_redis": [
-      {
-        "signature": "SHUTDOWN(options?: ShutdownOptions)",
-        "params": [
-          {
-            "name": "options",
-            "type": "ShutdownOptions",
-            "description": "Options for the shutdown process"
-          }
-        ],
-        "returns": {
-          "type": "void | SimpleStringReply",
-          "description": ""
-        }
-      }
-    ],
+    "node_redis": [],
     "lettuce_sync": [
       {
         "signature": "void shutdown(boolean save)",
@@ -195,7 +180,27 @@
         }
       }
     ],
-    "nredisstack_sync": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Shutdown(ShutdownMode shutdownMode = ShutdownMode.Default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "shutdownMode",
+            "type": "ShutdownMode",
+            "description": "The mode of the shutdown."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
     "nredisstack_async": [],
     "php": [
       {
@@ -229,6 +234,113 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "shutdown(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "shutdown(abort: \"ABORT\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "abort",
+            "type": "\"ABORT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "shutdown(force: \"FORCE\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "force",
+            "type": "\"FORCE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "shutdown(force: \"FORCE\", abort: \"ABORT\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "force",
+            "type": "\"FORCE\"",
+            "description": ""
+          },
+          {
+            "name": "abort",
+            "type": "\"ABORT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "shutdown(now: \"NOW\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "now",
+            "type": "\"NOW\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "shutdown",
+        "params": [],
+        "returns": {
+          "type": "nil",
+          "description": "the server closes the connection, so there is no reply"
+        }
+      }
+    ]
   }
 }

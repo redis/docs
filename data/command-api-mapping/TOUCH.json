@@ -97,16 +97,16 @@
     ],
     "node_redis": [
       {
-        "signature": "TOUCH(keys: RedisVariadicArgument)",
+        "signature": "touch(key: RedisVariadicArgument)",
         "params": [
           {
-            "name": "keys",
+            "name": "key",
             "type": "RedisVariadicArgument",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -249,13 +249,81 @@
             "description": ""
           },
           {
-            "name": "$keys",
-            "type": "string ...",
+            "name": "...$keys",
+            "type": "string",
             "description": ""
           }
         ],
         "returns": {
           "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "touch(...args: [...keys: RedisKey[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "touch(...args: [keys: RedisKey[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "touch(...args: [...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "touch(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

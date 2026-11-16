@@ -42,16 +42,102 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
-    "ioredis": [],
+    "node_redis": [
+      {
+        "signature": "pubSubNumPat()",
+        "params": [],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long pubsubNumpat()",
+        "params": [],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of patterns all the clients are subscribed to."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> pubsubNumpat()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of patterns all the clients are subscribed to."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> pubsubNumpat()",
+        "params": [],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of patterns all the clients are subscribed to."
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "pubsub(subcommand: \"NUMPAT\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"NUMPAT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long SubscriptionPatternCount(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "the number of patterns all the clients are subscribed to."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> SubscriptionPatternCountAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "the number of patterns all the clients are subscribed to."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "pubsub($subcommand, $argument)",
@@ -70,6 +156,16 @@
         "returns": {
           "type": "mixed",
           "description": "Number of unique pattern subscriptions"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:numpat)",
+        "params": [],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of pattern subscriptions"
         }
       }
     ]

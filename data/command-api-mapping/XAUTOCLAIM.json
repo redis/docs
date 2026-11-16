@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xautoclaim(, name: KeyT,, groupname: GroupT,, consumername: ConsumerT,, min_idle_time: int,, start_id: StreamIdT = \"0-0\",, count: Optional[int] = None,, justid: bool = False,)",
+        "signature": "xautoclaim(name: KeyT, groupname: GroupT, consumername: ConsumerT, min_idle_time: int, start_id: StreamIdT = \"0-0\", count: Optional[int] = None, justid: bool = False)",
         "params": [
           {
             "name": "name",
@@ -182,40 +182,6 @@
           "type": "Map.Entry<StreamEntryID, List<StreamEntryID>>",
           "description": ""
         }
-      },
-      {
-        "signature": "Map.Entry<StreamEntryID, List<StreamEntry>> xautoclaim(String key, String group, String consumerName long minIdleTime, StreamEntryID start, XAutoClaimParams params)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "group",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "minIdleTime",
-            "type": "String consumerName long",
-            "description": ""
-          },
-          {
-            "name": "start",
-            "type": "StreamEntryID",
-            "description": ""
-          },
-          {
-            "name": "params",
-            "type": "XAutoClaimParams",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Map.Entry<StreamEntryID, List<StreamEntry>>",
-          "description": ""
-        }
       }
     ],
     "lettuce_sync": [
@@ -323,7 +289,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XAUTOCLAIM(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, start: RedisArgument, options?: XAutoClaimOptions)",
+        "signature": "xAutoClaim(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, start: RedisArgument, options?: XAutoClaimOptions)",
         "params": [
           {
             "name": "key",
@@ -398,7 +364,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
@@ -442,7 +408,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
@@ -491,7 +457,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
@@ -545,7 +511,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }
@@ -676,55 +642,11 @@
           "type": "StreamAutoClaimResult",
           "description": "An instance of StreamAutoClaimResult."
         }
-      },
-      {
-        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "consumerGroup",
-            "type": "RedisValue",
-            "description": "The consumer group."
-          },
-          {
-            "name": "claimingConsumer",
-            "type": "RedisValue",
-            "description": "The consumer claiming the messages(s)."
-          },
-          {
-            "name": "minIdleTimeInMs",
-            "type": "long",
-            "description": "The minimum idle time threshold for pending messages to be claimed."
-          },
-          {
-            "name": "startAtId",
-            "type": "RedisValue",
-            "description": "The starting ID to scan for pending messages that have an idle time greater than minIdleTimeInMs."
-          },
-          {
-            "name": "count",
-            "type": "int?",
-            "description": "The upper limit of the number of entries that the command attempts to claim. If null, Redis will default the value to 100."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamAutoClaimResult",
-          "description": "An instance of StreamAutoClaimResult."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAutoClaimAsync(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -763,51 +685,7 @@
           }
         ],
         "returns": {
-          "type": "StreamAutoClaimResult",
-          "description": "An instance of StreamAutoClaimResult."
-        }
-      },
-      {
-        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "consumerGroup",
-            "type": "RedisValue",
-            "description": "The consumer group."
-          },
-          {
-            "name": "claimingConsumer",
-            "type": "RedisValue",
-            "description": "The consumer claiming the messages(s)."
-          },
-          {
-            "name": "minIdleTimeInMs",
-            "type": "long",
-            "description": "The minimum idle time threshold for pending messages to be claimed."
-          },
-          {
-            "name": "startAtId",
-            "type": "RedisValue",
-            "description": "The starting ID to scan for pending messages that have an idle time greater than minIdleTimeInMs."
-          },
-          {
-            "name": "count",
-            "type": "int?",
-            "description": "The upper limit of the number of entries that the command attempts to claim. If null, Redis will default the value to 100."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamAutoClaimResult",
+          "type": "Task<StreamAutoClaimResult>",
           "description": "An instance of StreamAutoClaimResult."
         }
       }
@@ -842,13 +720,13 @@
             "description": ""
           },
           {
-            "name": "?int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "bool $justId = false",
-            "type": "Any",
+            "name": "$justId",
+            "type": "bool",
             "description": ""
           }
         ],

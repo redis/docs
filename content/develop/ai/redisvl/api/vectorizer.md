@@ -564,8 +564,9 @@ environment variable. User must obtain an API key from Cohere’s website
 ([https://dashboard.cohere.com/](https://dashboard.cohere.com/)). Additionally, the cohere python
 client must be installed with pip install cohere.
 
-The vectorizer supports only synchronous operations, allows for batch
-processing of texts and flexibility in handling preprocessing tasks.
+The vectorizer supports both synchronous and asynchronous operations,
+allows for batch processing of texts and flexibility in handling
+preprocessing tasks.
 
 You can optionally enable caching to improve performance when generating
 embeddings for repeated text inputs.
@@ -624,6 +625,11 @@ Visit [https://cohere.ai/embed](https://cohere.ai/embed) to learn about embeddin
     to Cohere’s corresponding embedding types. Defaults to ‘float32’.
   * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
     better performance with repeated texts. Defaults to None.
+  * **\*\*kwargs** – Passed to the Cohere `Client` and `AsyncClient`, for
+    example `timeout` or `base_url`. A custom `httpx_client` is
+    synchronous, so it goes to the sync client only and the async
+    methods fall back to it; pass `async_httpx_client` (an
+    `httpx.AsyncClient`) to give the async client its own.
   * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the cohere library is not installed.

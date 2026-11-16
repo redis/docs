@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "arrindex(, name: str,, path: str,, scalar: int,, start: Optional[int] = None,, stop: Optional[int] = None,)",
+        "signature": "arrindex(name: str, path: str, scalar: int, start: Optional[int] = None, stop: Optional[int] = None)",
         "params": [
           {
             "name": "name",
@@ -443,7 +443,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRINDEX(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonArrIndexOptions)",
+        "signature": "client.json.arrIndex(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonArrIndexOptions)",
         "params": [
           {
             "name": "key",
@@ -467,7 +467,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }
@@ -528,13 +528,13 @@
             "description": ""
           },
           {
-            "name": "int $start = 0",
-            "type": "Any",
+            "name": "$start",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "int $stop = 0",
-            "type": "Any",
+            "name": "$stop",
+            "type": "int",
             "description": ""
           }
         ],
@@ -702,6 +702,42 @@
         "returns": {
           "type": "Array<Integer>, Integer",
           "description": "the index/indices of the first match (-1 if not found)"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ArrIndexAsync(RedisKey key, string path, object value, long? start = null, long? stop = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "object",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long?[]>",
+          "description": ""
         }
       }
     ]

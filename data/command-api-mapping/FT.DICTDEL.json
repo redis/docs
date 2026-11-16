@@ -2,10 +2,10 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "dictdel(dict_name: str, *terms: str)",
+        "signature": "dict_del(name: str, *terms: str)",
         "params": [
           {
-            "name": "dict_name",
+            "name": "name",
             "type": "str",
             "description": "The dictionary name"
           },
@@ -42,9 +42,69 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long ftDictdel(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of terms that were deleted"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> ftDictdel(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of terms that were deleted"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> ftDictdel(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "the terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of terms that were deleted"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTDictDel(ctx context.Context, dict string, terms ...interface{})",
@@ -73,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DICTDEL(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
+        "signature": "client.ft.dictDel(dictionary: RedisArgument, term: Array<RedisArgument> | RedisArgument)",
         "params": [
           {
             "name": "dictionary",
@@ -81,13 +141,13 @@
             "description": "The dictionary name"
           },
           {
-            "name": "terms",
+            "name": "term",
             "type": "Array<RedisArgument> | RedisArgument",
             "description": "Terms to delete"
           }
         ],
         "returns": {
-          "type": "Promise<number>",
+          "type": "number",
           "description": "Number of terms deleted"
         }
       }
@@ -147,7 +207,7 @@
             "description": "The dictionary name"
           },
           {
-            "name": "$term",
+            "name": "...$term",
             "type": "string",
             "description": "Terms to delete (variadic)"
           }

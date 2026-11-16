@@ -156,7 +156,7 @@
     ],
     "node_redis": [
       {
-        "signature": "PSETEX(key: RedisArgument, ms: number, value: RedisArgument)",
+        "signature": "pSetEx(key: RedisArgument, ms: number, value: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -175,7 +175,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }
@@ -206,7 +206,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -274,12 +274,12 @@
           },
           {
             "name": "$milliseconds",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$value",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

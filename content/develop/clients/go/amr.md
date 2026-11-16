@@ -77,8 +77,8 @@ The example below shows how to import the required modules and call
 
 ```go
 import (
-    "github.com/redis-developer/go-redis-entraid/entraid"
-    "github.com/redis-developer/go-redis-entraid/identity"
+    "github.com/redis/go-redis-entraid/entraid"
+    "github.com/redis/go-redis-entraid/identity"
         ...
 )
     .
@@ -107,13 +107,15 @@ managed identity (see the
 
 The example below shows how to import the required modules and call
 `NewManagedIdentityCredentialsProvider()`.
-Pass `identity.SystemAssignedIdentity` or `identity.UserAssignedIdentity`
+Pass `identity.SystemAssignedIdentity` or `identity.UserAssignedObjectID`
 as the `ManagedIdentityType` parameter.
+For a user-assigned identity, set `UserAssignedObjectID` to the identity's
+object (principal) ID, not its client ID.
 
 ```go
 import (
-    "github.com/redis-developer/go-redis-entraid/entraid"
-    "github.com/redis-developer/go-redis-entraid/identity"
+    "github.com/redis/go-redis-entraid/entraid"
+    "github.com/redis/go-redis-entraid/identity"
         ...
 )
     .
@@ -122,7 +124,7 @@ provider, err := entraid.NewManagedIdentityCredentialsProvider(
 	entraid.ManagedIdentityCredentialsProviderOptions{
 		ManagedIdentityProviderOptions: identity.ManagedIdentityProviderOptions{
 			ManagedIdentityType:  identity.UserAssignedObjectID,
-			UserAssignedObjectID: "<your-user-assigned-client-id>",
+			UserAssignedObjectID: "<your-user-assigned-object-id>",
 		},
 	},
 )
@@ -162,7 +164,7 @@ provider, err := entraid.NewManagedIdentityCredentialsProvider(
 	    CredentialsProviderOptions: options,
 		ManagedIdentityProviderOptions: identity.ManagedIdentityProviderOptions{
 			ManagedIdentityType:  identity.UserAssignedObjectID,
-			UserAssignedObjectID: "<your-user-assigned-client-id>",
+			UserAssignedObjectID: "<your-user-assigned-object-id>",
 		},
 	},
 )
@@ -214,7 +216,7 @@ import (
     "os"
     "strings"
 
-    "github.com/redis-developer/go-redis-entraid/entraid"
+    "github.com/redis/go-redis-entraid/entraid"
     "github.com/redis/go-redis/v9"
 )
 

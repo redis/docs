@@ -193,7 +193,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XINFO_STREAM(key: RedisArgument)",
+        "signature": "xInfoStream(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -208,78 +208,6 @@
       }
     ],
     "ioredis": [
-      {
-        "signature": "xinfo(subcommand: \"CONSUMERS\", key: RedisKey, groupname: string | Buffer, callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"CONSUMERS\"",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupname",
-            "type": "string | Buffer",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "xinfo(subcommand: \"GROUPS\", key: RedisKey, callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"GROUPS\"",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "xinfo(subcommand: \"HELP\", callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"HELP\"",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
       {
         "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, callback?: Callback<unknown>)",
         "params": [
@@ -300,7 +228,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -329,7 +257,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -385,30 +313,11 @@
           "type": "StreamInfo",
           "description": "A StreamInfo instance with information about the stream."
         }
-      },
-      {
-        "signature": "StreamInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamInfo",
-          "description": "A StreamInfo instance with information about the stream."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamInfoAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -422,26 +331,7 @@
           }
         ],
         "returns": {
-          "type": "StreamInfo",
-          "description": "A StreamInfo instance with information about the stream."
-        }
-      },
-      {
-        "signature": "StreamInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamInfo",
+          "type": "Task<StreamInfo>",
           "description": "A StreamInfo instance with information about the stream."
         }
       }
@@ -456,14 +346,30 @@
             "description": ""
           },
           {
-            "name": "XInfoStreamOptions $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "XInfoStreamOptions",
             "description": ""
           }
         ],
         "returns": {
           "type": "array",
           "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xinfo(:stream, key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          }
+        ],
+        "returns": {
+          "type": "Hash",
+          "description": "information of the stream if subcommand is `stream`"
         }
       }
     ]

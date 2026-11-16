@@ -190,7 +190,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BZPOPMIN(keys: RedisVariadicArgument, timeout: number)",
+        "signature": "bzPopMin(keys: RedisVariadicArgument, timeout: number)",
         "params": [
           {
             "name": "keys",
@@ -211,30 +211,50 @@
     ],
     "ioredis": [
       {
-        "signature": "bzpopmin(...args: [, ...keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null>, ])",
+        "signature": "bzpopmin(...args: [ ...keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, ...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[key: string, member: string, score: string] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, member: string, score: string] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "bzpopmin(...args: [, keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null>, ])",
+        "signature": "bzpopmin(...args: [ keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[key: string, member: string, score: string] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, member: string, score: string] | null, Context>",
           "description": ""
         }
       },
@@ -242,13 +262,18 @@
         "signature": "bzpopmin(...args: [...keys: RedisKey[], timeout: number | string])",
         "params": [
           {
-            "name": "...args",
-            "type": "[...keys",
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, member: string, score: string] | null, Context>",
           "description": ""
         }
       },
@@ -256,13 +281,18 @@
         "signature": "bzpopmin(...args: [keys: RedisKey[], timeout: number | string])",
         "params": [
           {
-            "name": "...args",
-            "type": "[keys",
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[key: string, member: string, score: string] | null, Context>",
           "description": ""
         }
       }
@@ -347,30 +377,6 @@
           "type": "Tuple<RedisKey, RedisValueWithScore>?",
           "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
         }
-      },
-      {
-        "signature": "BZPopMin(db, [key], timeout)",
-        "params": [
-          {
-            "name": "db",
-            "type": "Any",
-            "description": "The IDatabase class where this extension method is applied."
-          },
-          {
-            "name": "[key]",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "timeout",
-            "type": "Any",
-            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
-        }
       }
     ],
     "php": [
@@ -412,6 +418,46 @@
         "returns": {
           "type": "Array<String, String, Float>",
           "description": "a tuple of key, member and score"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "BZPopMinAsync(RedisKey[] keys, double timeout)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, RedisValueWithScore>?>",
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
+        }
+      },
+      {
+        "signature": "BZPopMinAsync(RedisKey key, double timeout)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to check."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, RedisValueWithScore>?>",
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
         }
       }
     ]

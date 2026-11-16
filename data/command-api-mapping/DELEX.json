@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "delex(, name: KeyT,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
+        "signature": "delex(name: KeyT, ifeq: Optional[Union[bytes, str]] = None, ifne: Optional[Union[bytes, str]] = None, ifdeq: Optional[str] = None, ifdne: Optional[str] = None)",
         "params": [
           {
             "name": "name",
@@ -193,7 +193,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StringDelete(RedisKey key, ValueCondition when, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringDeleteAsync(RedisKey key, ValueCondition when, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -212,7 +212,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": ""
         }
       }
@@ -233,7 +233,7 @@
           },
           {
             "name": "$flagValue",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],
@@ -245,7 +245,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DELEX(key: RedisArgument, options?: { condition: DelexCondition; matchValue: RedisArgument })",
+        "signature": "delEx(key: RedisArgument, options?: { condition: DelexCondition; matchValue: RedisArgument })",
         "params": [
           {
             "name": "key",
@@ -259,7 +259,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply<1 | 0>",
           "description": ""
         }
       }

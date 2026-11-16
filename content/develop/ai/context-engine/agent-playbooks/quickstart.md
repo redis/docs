@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Quickstart
 title: Redis Agent Playbooks quickstart
 weight: 10
+aliases:
+- /develop/ai/context-engine/agent-playbook/quickstart/
 ---
 
 Use Redis Agent Playbooks to publish a FAQ, retrieve its answer to “Where can I see how my refund is progressing?”, and update the answer agents receive.

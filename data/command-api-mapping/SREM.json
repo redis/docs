@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SREM(key: RedisArgument, members: RedisVariadicArgument)",
+        "signature": "sRem(key: RedisArgument, members: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,37 +166,57 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "srem(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "srem(...args: [ key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...members",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "srem(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "srem(...args: [ key: RedisKey, members: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -204,13 +224,18 @@
         "signature": "srem(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...members",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -218,13 +243,18 @@
         "signature": "srem(...args: [key: RedisKey, members: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -319,59 +349,11 @@
           "type": "long",
           "description": "The number of members that were removed from the set, not including non existing members."
         }
-      },
-      {
-        "signature": "SetRemove(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "The number of members that were removed from the set, not including non existing members."
-        }
-      },
-      {
-        "signature": "SetRemove(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "values",
-            "type": "RedisValue[]",
-            "description": "The values to remove."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of members that were removed from the set, not including non existing members."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SetRemove(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetRemoveAsync(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -390,12 +372,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "The number of members that were removed from the set, not including non existing members."
         }
       },
       {
-        "signature": "SetRemove(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetRemoveAsync(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -414,55 +396,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of members that were removed from the set, not including non existing members."
-        }
-      },
-      {
-        "signature": "SetRemove(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "The number of members that were removed from the set, not including non existing members."
-        }
-      },
-      {
-        "signature": "SetRemove(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "values",
-            "type": "RedisValue[]",
-            "description": "The values to remove."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of members that were removed from the set, not including non existing members."
         }
       }

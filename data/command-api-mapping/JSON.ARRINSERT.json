@@ -309,7 +309,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRINSERT(key: RedisArgument, path: RedisArgument, index: number, json: RedisJSON, ...jsons: Array<RedisJSON>)",
+        "signature": "client.json.arrInsert(key: RedisArgument, path: RedisArgument, index: number, json: RedisJSON, ...jsons: Array<RedisJSON>)",
         "params": [
           {
             "name": "key",
@@ -338,7 +338,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }
@@ -394,8 +394,8 @@
             "description": ""
           },
           {
-            "name": "$value",
-            "type": "string ...",
+            "name": "...$value",
+            "type": "string",
             "description": ""
           }
         ],
@@ -500,6 +500,37 @@
         "returns": {
           "type": "Array<Integer>, Integer",
           "description": "the new array length(s)"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ArrInsertAsync(RedisKey key, string path, long index, params object[] values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "object[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long?[]>",
+          "description": ""
         }
       }
     ]

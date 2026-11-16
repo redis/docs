@@ -56,20 +56,6 @@
         }
       },
       {
-        "signature": "long jsonDel(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": ""
-        }
-      },
-      {
         "signature": "long jsonDel(String key, Path2 path)",
         "params": [
           {
@@ -222,7 +208,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DEL(key: RedisArgument, options?: JsonDelOptions)",
+        "signature": "client.json.del(key: RedisArgument, options?: JsonDelOptions)",
         "params": [
           {
             "name": "key",
@@ -236,7 +222,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -272,8 +258,8 @@
             "description": ""
           },
           {
-            "name": "string $path = '$'",
-            "type": "Any",
+            "name": "$path",
+            "type": "string",
             "description": ""
           }
         ],
@@ -343,6 +329,27 @@
         "returns": {
           "type": "Integer",
           "description": "the number of values deleted"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "DelAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
         }
       }
     ]

@@ -117,7 +117,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SCARD(key: RedisArgument)",
+        "signature": "sCard(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -126,14 +126,14 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "scard(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Set the debug mode for executed scripts., * - _group_: scripting, * - _complexity_: O(1), * - _since_: 3.2.0, */, script(, subcommand: \"DEBUG\", yes: \"YES\", callback?: Callback<unknown>)",
+        "signature": "scard(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
@@ -142,27 +142,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "subcommand",
-            "type": "\"DEBUG\"",
-            "description": ""
-          },
-          {
-            "name": "yes",
-            "type": "\"YES\"",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -218,30 +203,11 @@
           "type": "long",
           "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
         }
-      },
-      {
-        "signature": "SetLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SetLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -255,26 +221,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
-        }
-      },
-      {
-        "signature": "SetLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
         }
       }

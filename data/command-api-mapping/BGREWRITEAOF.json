@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BGREWRITEAOF()",
+        "signature": "bgRewriteAof()",
         "params": [],
         "returns": {
           "type": "SimpleStringReply",
@@ -82,8 +82,48 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Save(SaveType type, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "type",
+            "type": "SaveType",
+            "description": "The method of the save (e.g. background or foreground)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task SaveAsync(SaveType type, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "type",
+            "type": "SaveType",
+            "description": "The method of the save (e.g. background or foreground)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "bgrewriteaof()",
@@ -95,6 +135,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "bgrewriteaof(callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bgrewriteaof()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
+    ]
   }
 }

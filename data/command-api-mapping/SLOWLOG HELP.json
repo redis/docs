@@ -11,7 +11,7 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "slowlog(string $subcommand, ...$args)",
+        "signature": "slowlog($subcommand, $argument = null)",
         "params": [
           {
             "name": "$subcommand",
@@ -19,7 +19,7 @@
             "description": ""
           },
           {
-            "name": "$args",
+            "name": "$argument",
             "type": "mixed",
             "description": ""
           }
@@ -31,6 +31,37 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "slowlog(subcommand: \"HELP\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HELP\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "slowlog(:help)",
+        "params": [],
+        "returns": {
+          "type": "Array<String>",
+          "description": "lines of help text"
+        }
+      }
+    ]
   }
 }

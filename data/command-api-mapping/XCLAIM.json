@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xclaim(, name: KeyT,, groupname: GroupT,, consumername: ConsumerT,, min_idle_time: int,, message_ids: Union[List[StreamIdT], Tuple[StreamIdT]],, idle: Optional[int] = None,, time: Optional[int] = None,, retrycount: Optional[int] = None,, force: bool = False,, justid: bool = False,)",
+        "signature": "xclaim(name: KeyT, groupname: GroupT, consumername: ConsumerT, min_idle_time: int, message_ids: Union[List[StreamIdT], Tuple[StreamIdT]], idle: Optional[int] = None, time: Optional[int] = None, retrycount: Optional[int] = None, force: bool = False, justid: bool = False)",
         "params": [
           {
             "name": "name",
@@ -195,40 +195,6 @@
         ],
         "returns": {
           "type": "List<StreamEntryID>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "List<StreamEntry> xclaim(String key, String group, String consumerName, long minIdleTime XClaimParams params, StreamEntryID... ids)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "group",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "consumerName",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "params",
-            "type": "long minIdleTime XClaimParams",
-            "description": ""
-          },
-          {
-            "name": "ids",
-            "type": "StreamEntryID...",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "List<StreamEntry>",
           "description": ""
         }
       }
@@ -455,7 +421,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XCLAIM(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, id: RedisVariadicArgument, options?: XClaimOptions)",
+        "signature": "xClaim(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, id: RedisVariadicArgument, options?: XClaimOptions)",
         "params": [
           {
             "name": "key",
@@ -496,72 +462,202 @@
     ],
     "ioredis": [
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], callback: Callback<unknown[]>, ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], callback: Callback<unknown[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\", callback: Callback<unknown[]>, ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\", callback: Callback<unknown[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "justid",
+            "type": "\"JUSTID\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\", ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\" ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "justid",
+            "type": "\"JUSTID\"",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], force: \"FORCE\", callback: Callback<unknown[]>, ])",
+        "signature": "xclaim(...args: [ key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], force: \"FORCE\", callback: Callback<unknown[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "force",
+            "type": "\"FORCE\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }
@@ -755,50 +851,11 @@
           "type": "StreamEntry[]",
           "description": "The messages successfully claimed by the given consumer."
         }
-      },
-      {
-        "signature": "StreamClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "consumerGroup",
-            "type": "RedisValue",
-            "description": "The consumer group."
-          },
-          {
-            "name": "claimingConsumer",
-            "type": "RedisValue",
-            "description": "The consumer claiming the given message(s)."
-          },
-          {
-            "name": "minIdleTimeInMs",
-            "type": "long",
-            "description": "The minimum message idle time to allow the reassignment of the message(s)."
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": "The IDs of the messages to claim for the given consumer."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamEntry[]",
-          "description": "The messages successfully claimed by the given consumer."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamClaimAsync(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -832,46 +889,7 @@
           }
         ],
         "returns": {
-          "type": "StreamEntry[]",
-          "description": "The messages successfully claimed by the given consumer."
-        }
-      },
-      {
-        "signature": "StreamClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "consumerGroup",
-            "type": "RedisValue",
-            "description": "The consumer group."
-          },
-          {
-            "name": "claimingConsumer",
-            "type": "RedisValue",
-            "description": "The consumer claiming the given message(s)."
-          },
-          {
-            "name": "minIdleTimeInMs",
-            "type": "long",
-            "description": "The minimum message idle time to allow the reassignment of the message(s)."
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": "The IDs of the messages to claim for the given consumer."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamEntry[]",
+          "type": "Task<StreamEntry[]>",
           "description": "The messages successfully claimed by the given consumer."
         }
       }
@@ -906,33 +924,33 @@
             "description": ""
           },
           {
-            "name": "?int $idle = null",
-            "type": "Any",
+            "name": "$idle",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?int $time = null",
-            "type": "Any",
+            "name": "$time",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "?int $retryCount = null",
-            "type": "Any",
+            "name": "$retryCount",
+            "type": "?int",
             "description": ""
           },
           {
-            "name": "bool $force = false",
-            "type": "Any",
+            "name": "$force",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $justId = false",
-            "type": "Any",
+            "name": "$justId",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "?string $lastId = null",
-            "type": "Any",
+            "name": "$lastId",
+            "type": "?string",
             "description": ""
           }
         ],

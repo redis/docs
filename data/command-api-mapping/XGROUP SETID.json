@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xgroup_setid(, name: KeyT,, groupname: GroupT,, id: StreamIdT,, entries_read: Optional[int] = None,)",
+        "signature": "xgroup_setid(name: KeyT, groupname: GroupT, id: StreamIdT, entries_read: Optional[int] = None)",
         "params": [
           {
             "name": "name",
@@ -201,7 +201,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XGROUP_SETID(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupSetIdOptions)",
+        "signature": "xGroupSetId(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupSetIdOptions)",
         "params": [
           {
             "name": "key",
@@ -225,18 +225,18 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+        "signature": "xgroup(subcommand: \"SETID\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
         "params": [
           {
             "name": "subcommand",
-            "type": "\"CREATE\"",
+            "type": "\"SETID\"",
             "description": ""
           },
           {
@@ -261,16 +261,16 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+        "signature": "xgroup(subcommand: \"SETID\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
         "params": [
           {
             "name": "subcommand",
-            "type": "\"CREATE\"",
+            "type": "\"SETID\"",
             "description": ""
           },
           {
@@ -305,104 +305,16 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
+        "signature": "xgroup(subcommand: \"SETID\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
         "params": [
           {
             "name": "subcommand",
-            "type": "\"CREATE\"",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupname",
-            "type": "string | Buffer",
-            "description": ""
-          },
-          {
-            "name": "id",
-            "type": "string | Buffer | number",
-            "description": ""
-          },
-          {
-            "name": "mkstream",
-            "type": "\"MKSTREAM\"",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"CREATE\"",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupname",
-            "type": "string | Buffer",
-            "description": ""
-          },
-          {
-            "name": "id",
-            "type": "string | Buffer | number",
-            "description": ""
-          },
-          {
-            "name": "mkstream",
-            "type": "\"MKSTREAM\"",
-            "description": ""
-          },
-          {
-            "name": "entriesReadToken",
-            "type": "\"ENTRIESREAD\"",
-            "description": ""
-          },
-          {
-            "name": "entriesRead",
-            "type": "number | string",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"CREATE\"",
+            "type": "\"SETID\"",
             "description": ""
           },
           {
@@ -427,7 +339,51 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"SETID\", key: RedisKey, groupname: string | Buffer, newId: \"$\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETID\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "newId",
+            "type": "\"$\"",
+            "description": ""
+          },
+          {
+            "name": "entriesReadToken",
+            "type": "\"ENTRIESREAD\"",
+            "description": ""
+          },
+          {
+            "name": "entriesRead",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -513,40 +469,11 @@
           "type": "bool",
           "description": "true if successful, false otherwise."
         }
-      },
-      {
-        "signature": "StreamConsumerGroupSetPosition(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group."
-          },
-          {
-            "name": "position",
-            "type": "RedisValue",
-            "description": "The position from which to read for the consumer group."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if successful, false otherwise."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamConsumerGroupSetPosition(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamConsumerGroupSetPositionAsync(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -570,36 +497,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
-          "description": "true if successful, false otherwise."
-        }
-      },
-      {
-        "signature": "StreamConsumerGroupSetPosition(RedisKey key, RedisValue groupName, RedisValue position, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group."
-          },
-          {
-            "name": "position",
-            "type": "RedisValue",
-            "description": "The position from which to read for the consumer group."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if successful, false otherwise."
         }
       }
@@ -624,8 +522,8 @@
             "description": ""
           },
           {
-            "name": "?string $entriesRead = null",
-            "type": "Any",
+            "name": "$entriesRead",
+            "type": "?string",
             "description": ""
           }
         ],

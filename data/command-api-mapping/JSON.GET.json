@@ -121,20 +121,6 @@
           "type": "<T> T",
           "description": ""
         }
-      },
-      {
-        "signature": "Object jsonGet(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Object",
-          "description": ""
-        }
       }
     ],
     "lettuce_sync": [
@@ -300,7 +286,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GET(key: RedisArgument, options?: JsonGetOptions)",
+        "signature": "client.json.get(key: RedisArgument, options?: JsonGetOptions)",
         "params": [
           {
             "name": "key",
@@ -340,7 +326,7 @@
           }
         ],
         "returns": {
-          "type": "public T?",
+          "type": "T?",
           "description": ""
         }
       }
@@ -355,23 +341,23 @@
             "description": ""
           },
           {
-            "name": "string $indent = ''",
-            "type": "Any",
+            "name": "$indent",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "string $newline = ''",
-            "type": "Any",
+            "name": "$newline",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "string $space = ''",
-            "type": "Any",
+            "name": "$space",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "$paths",
-            "type": "string ...",
+            "name": "...$paths",
+            "type": "string",
             "description": ""
           }
         ],
@@ -446,6 +432,32 @@
         "returns": {
           "type": "Object, String, nil",
           "description": "the parsed JSON value (or the raw JSON string when raw is true), or nil if the key does not exist"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "GetAsync<T>(RedisKey key, string path = \"$\", JsonSerializerOptions? serializerOptions = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "serializerOptions",
+            "type": "JsonSerializerOptions?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<T?>",
+          "description": ""
         }
       }
     ]

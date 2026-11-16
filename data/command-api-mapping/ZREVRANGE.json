@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrevrange(, name: KeyT,, start: int,, end: int,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zrevrange(name: KeyT, start: int, end: int, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "name",
@@ -284,7 +284,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -318,7 +318,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -457,45 +457,11 @@
           "type": "RedisValue[]",
           "description": "List of elements in the specified range."
         }
-      },
-      {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index to get."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index to get."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of elements in the specified range."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByRankAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -524,41 +490,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
-          "description": "List of elements in the specified range."
-        }
-      },
-      {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index to get."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index to get."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified range."
         }
       }
@@ -583,8 +515,8 @@
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

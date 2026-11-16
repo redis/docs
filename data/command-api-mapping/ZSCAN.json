@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "name",
@@ -458,7 +458,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZSCAN(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
+        "signature": "zScan(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
         "params": [
           {
             "name": "key",
@@ -498,12 +498,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -532,12 +532,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -566,12 +566,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -610,12 +610,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       }
@@ -692,36 +692,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "pattern",
-            "type": "RedisValue",
-            "description": "The pattern to match."
-          },
-          {
-            "name": "pageSize",
-            "type": "int",
-            "description": "The page size to iterate by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "IEnumerable<SortedSetEntry>",
-          "description": "Yields all matching elements of the sorted set."
-        }
-      },
-      {
-        "signature": "SortedSetScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetScanAsync(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -755,7 +726,7 @@
           }
         ],
         "returns": {
-          "type": "IEnumerable<SortedSetEntry>",
+          "type": "IAsyncEnumerable<SortedSetEntry>",
           "description": "Yields all matching elements of the sorted set."
         }
       }
@@ -775,8 +746,8 @@
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

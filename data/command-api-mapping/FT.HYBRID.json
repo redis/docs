@@ -1,12 +1,211 @@
 {
   "api_calls": {
-    "redis_py": [],
-    "jedis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
-    "go-redis": [],
-    "node_redis": [],
+    "redis_py": [
+      {
+        "signature": "hybrid_search(query: HybridQuery, combine_method: Optional[CombineResultsMethod] = None, post_processing: Optional[HybridPostProcessingConfig] = None, params_substitution: Optional[Dict[str, Union[str, int, float, bytes]]] = None, timeout: Optional[int] = None, cursor: Optional[HybridCursorQuery] = None)",
+        "params": [
+          {
+            "name": "query",
+            "type": "HybridQuery",
+            "description": ""
+          },
+          {
+            "name": "combine_method",
+            "type": "Optional[CombineResultsMethod] = None",
+            "description": ""
+          },
+          {
+            "name": "post_processing",
+            "type": "Optional[HybridPostProcessingConfig] = None",
+            "description": ""
+          },
+          {
+            "name": "params_substitution",
+            "type": "Optional[Dict[str, Union[str, int, float, bytes]]] = None",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "Optional[HybridCursorQuery] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[HybridResult, HybridCursorResult, Pipeline]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "HybridResult ftHybrid(String indexName, FTHybridParams hybridParams)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "hybridParams",
+            "type": "FTHybridParams",
+            "description": "the hybrid query arguments"
+          }
+        ],
+        "returns": {
+          "type": "HybridResult",
+          "description": "the hybrid search results"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "HybridReply<K> ftHybrid(String index, HybridArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "args",
+            "type": "HybridArgs",
+            "description": "the hybrid query arguments"
+          }
+        ],
+        "returns": {
+          "type": "HybridReply<K>",
+          "description": "the hybrid search results"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<HybridReply<K>> ftHybrid(String index, HybridArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "args",
+            "type": "HybridArgs",
+            "description": "the hybrid query arguments"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<HybridReply<K>>",
+          "description": "the hybrid search results"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<HybridReply<K>> ftHybrid(String index, HybridArgs args)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "args",
+            "type": "HybridArgs",
+            "description": "the hybrid query arguments"
+          }
+        ],
+        "returns": {
+          "type": "Mono<HybridReply<K>>",
+          "description": "the hybrid search results"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "FTHybrid(ctx context.Context, index string, searchExpr string, vectorField string, vectorData Vector) *FTHybridCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "searchExpr",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "vectorField",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "vectorData",
+            "type": "Vector",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*FTHybridCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "FTHybridWithArgs(ctx context.Context, index string, options *FTHybridOptions) *FTHybridCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "*FTHybridOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*FTHybridCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "client.ft.hybrid(index: RedisArgument, options: FtHybridOptions)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "FtHybridOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "HybridSearchResult",
+          "description": ""
+        }
+      }
+    ],
     "ioredis": [],
     "redis_rs_sync": [],
     "redis_rs_async": [],

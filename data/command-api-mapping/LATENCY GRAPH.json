@@ -1,26 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "latency_graph(event: str, **kwargs)",
-        "params": [
-          {
-            "name": "event",
-            "type": "str",
-            "description": ""
-          },
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "str",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "String latencyGraph(String event)",
@@ -59,28 +39,34 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "latency(string $subcommand, ...$args)",
+        "signature": "latency(subcommand: \"GRAPH\", event: string | Buffer, callback?: Callback<string>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"GRAPH\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "event",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<string, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

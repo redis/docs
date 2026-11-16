@@ -14,6 +14,8 @@ cascade:
   - Python (Iris)
   - CLI (Iris)
   - cURL (Iris)
+aliases:
+- /develop/ai/context-engine/agent-playbook/
 ---
 
 ## What are Redis Agent Playbooks?

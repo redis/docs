@@ -60,13 +60,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, message: RedisArgument)",
+        "signature": "echo(message: RedisArgument)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The command parser"
-          },
           {
             "name": "message",
             "type": "RedisArgument",
@@ -79,9 +74,54 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "V echo(V msg)",
+        "params": [
+          {
+            "name": "msg",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> echo(V msg)",
+        "params": [
+          {
+            "name": "msg",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> echo(V msg)",
+        "params": [
+          {
+            "name": "msg",
+            "type": "V",
+            "description": "the message type: value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
     "nredisstack_sync": [
       {
         "signature": "RedisValue Echo(RedisValue message, CommandFlags flags = CommandFlags.None)",
@@ -141,7 +181,43 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "echo(message: string | Buffer, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "message",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "echo(value)",
+        "params": [
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ]
   }
 }
-

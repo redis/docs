@@ -274,7 +274,7 @@
     ],
     "node_redis": [
       {
-        "signature": "LRANGE(key: RedisArgument, start: number, stop: number)",
+        "signature": "lRange(key: RedisArgument, start: number, stop: number)",
         "params": [
           {
             "name": "key",
@@ -293,7 +293,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }
@@ -324,7 +324,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -410,40 +410,11 @@
           "type": "RedisValue[]",
           "description": "List of elements in the specified range."
         }
-      },
-      {
-        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index of the list."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index of the list."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of elements in the specified range."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRangeAsync(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -467,36 +438,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
-          "description": "List of elements in the specified range."
-        }
-      },
-      {
-        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index of the list."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index of the list."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified range."
         }
       }
