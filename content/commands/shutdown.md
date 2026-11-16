@@ -52,6 +52,13 @@ command_flags:
 - stale
 - no_multi
 - allow_busy
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(N) when saving, where N is the total number of keys in all databases
   when saving data, otherwise O(1)
 description: Synchronously saves the database(s) to disk and shuts down the Redis
@@ -150,9 +157,7 @@ To minimize the risk of data loss in such setups, it's advised to trigger a manu
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

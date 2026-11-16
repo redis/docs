@@ -201,6 +201,15 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    general: supported
+    flex: limited
+  cloud:
+    pro: supported
+    essentials: supported
+  notes:
+  - Limited support on [Flex databases](/content/operate/rs/flex/_index.md).
 complexity: O(K) at creation where K is the number of fields, O(N) if scanning the
   keyspace is triggered, where N is the number of keys in the keyspace
 description: Creates an index with the given spec
@@ -509,9 +518,7 @@ The following example uses data similar to the hash examples above but uses JSON
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span> | <span title="Limited">&#x26A0;&#xFE0F; Limited</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> | Limited support on [Flex databases](/content/operate/rs/flex/_index.md). |
+{{< command-compatibility >}}
 
 ## Return information
 

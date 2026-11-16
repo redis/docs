@@ -131,6 +131,13 @@ categories:
 command_flags:
 - write
 - denyoom
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N+log(M)) where N is the number of elements in the grid-aligned bounding
   box area around the shape provided as the filter and M is the number of items inside
   the shape
@@ -288,9 +295,7 @@ redis> ZRANGE key2 0 -1 WITHSCORES
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

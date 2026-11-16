@@ -68,7 +68,7 @@ The following features are not yet supported with Flex:
 Redis Search on Flex stores search indexes on flash, so large indexes don't need to fit in RAM. You use the same Redis Search commands and client libraries as you do with an in-memory database.
 
 > [!NOTE]
-> Redis Search on Flex is in preview and supports a subset of Redis Search features. For supported features and limitations, see [Index and search data in Flex databases](/content/operate/rs/flex/search.md). For command support, see [Redis Search commands](/content/operate/oss_and_stack/stack-with-enterprise/search/commands.md).
+> Redis Search on Flex is in preview and supports a subset of Redis Search features. For supported features and limitations, see [Index and search data in Flex databases](/content/operate/rs/flex/search.md). For command support, see [Redis Search commands](/content/commands/_index.md?group=search,suggestion).
 
 To use Redis Search on Flex, you need Redis Software for Kubernetes version 8.2.6 or later and Redis database version 8.8 or later.
 

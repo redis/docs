@@ -27,6 +27,15 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
+  notes:
+  - Deprecated as of Redis v2.0.0.
 complexity: O(N) where N is the length of the returned string. The complexity is ultimately
   determined by the returned length, but because creating a substring from an existing
   string is very cheap, it can be considered O(1) for small strings.
@@ -103,9 +112,7 @@ redis> GETRANGE mykey 10 100
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v2.0.0. |
+{{< command-compatibility >}}
 
 ## Return information
 

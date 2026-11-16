@@ -46,6 +46,17 @@ categories:
 command_flags:
 - write
 - fast
+compatibility:
+  software:
+    standard: supported
+    active_active:
+      status: supported
+      note: Not supported for HyperLogLog.
+  cloud:
+    standard: supported
+    active_active:
+      status: supported
+      note: Not supported for HyperLogLog.
 complexity: O(1)
 description: Returns the string value of a key after setting its expiration time.
 group: string
@@ -135,9 +146,7 @@ redis> TTL mykey
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | \*Not supported for HyperLogLog. |
+{{< command-compatibility >}}
 
 ## Return information
 

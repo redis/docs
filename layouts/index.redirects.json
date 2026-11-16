@@ -70,8 +70,20 @@
       {{- $parent := path.Dir $rel -}}
       {{- $from = path.Join (cond (eq $parent ".") "/" $parent) $from -}}
     {{- end -}}
+    {{- /* A page's `alias_query` names the filtered view an alias lands on, which
+           layouts/alias.html redirects to with JavaScript. Publish that URL, not the
+           bare page, so the map matches what a reader actually gets. */ -}}
+    {{- $target := $to -}}
+    {{- with $page.Params.alias_query -}}
+      {{- $q := where . "from" $from -}}
+      {{- if not $q -}}
+        {{- warnf "%s: alias %q has no alias_query entry" $page.File.Path $from -}}
+      {{- else if (index $q 0).query -}}
+        {{- $target = printf "%s?%s" $to (index $q 0).query -}}
+      {{- end -}}
+    {{- end -}}
     {{- $targets := index ($seen.Get "map" | default dict) $from | default slice -}}
-    {{- $seen.SetInMap "map" $from ($targets | append $to | uniq) -}}
+    {{- $seen.SetInMap "map" $from ($targets | append $target | uniq) -}}
   {{- end -}}
 {{- end -}}
 {{- /* Move dates, written into data/ before the build by

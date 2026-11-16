@@ -33,6 +33,15 @@ command_flags:
 - write
 - denyoom
 - fast
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Deprecated as of Redis v4.0.0.
 complexity: O(N) where N is the number of fields being set.
 deprecated_since: 4.0.0
 description: Sets the values of multiple fields.
@@ -93,9 +102,7 @@ redis> HGET myhash field2
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v4.0.0. |
+{{< command-compatibility >}}
 
 ## Return information
 

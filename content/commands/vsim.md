@@ -9,6 +9,13 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    standard: supported
+    active_active: unsupported
+  cloud:
+    standard: supported
+    active_active: unsupported
 complexity: O(log(N)) where N is the number of elements in the vector set.
 description: Return elements by vector similarity.
 group: vector_set
@@ -137,9 +144,7 @@ executes the search in the main thread instead of a background thread. Useful fo
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

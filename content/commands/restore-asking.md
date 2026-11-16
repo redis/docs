@@ -54,6 +54,13 @@ command_flags:
 - write
 - denyoom
 - asking
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(1) to create the new key and additional O(N*M) to reconstruct the serialized
   value, where N is the number of Redis objects composing the value and M their average
   size. For small string values the time complexity is thus O(1)+O(1*M) where M is
@@ -143,9 +150,7 @@ Set the key's access-frequency counter (for LFU eviction) to this value.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

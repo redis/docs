@@ -22,6 +22,13 @@ categories:
 - clients
 command_flags:
 - READONLY
+compatibility:
+  software:
+    standard: supported
+    active_active: unsupported
+  cloud:
+    standard: supported
+    active_active: unsupported
 complexity: O(log(K)+M) where K is the number of elements in the start prefix, and
   M is the number of elements returned. In practical terms, the command is just O(M)
 description: Return elements in a lexicographical range
@@ -101,9 +108,7 @@ VRANGE mykey - + -1
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

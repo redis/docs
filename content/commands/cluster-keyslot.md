@@ -18,6 +18,15 @@ categories:
 - clients
 command_flags:
 - stale
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Only supported with the [OSS cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md).
 complexity: O(N) where N is the number of bytes in the key
 description: Returns the hash slot for a key.
 group: cluster
@@ -61,9 +70,7 @@ The key name to compute the hash slot for.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md). |
+{{< command-compatibility >}}
 
 ## Return information
 

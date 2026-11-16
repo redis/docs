@@ -43,6 +43,15 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Deprecated as of Redis v6.2.0.
 complexity: O(log(N)+M) with N being the number of elements in the sorted set and
   M the number of elements being returned. If M is constant (e.g. always asking for
   the first 10 elements with LIMIT), you can consider it O(log(N)).
@@ -145,9 +154,7 @@ redis> ZREVRANGEBYSCORE myzset (2 (1
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
+{{< command-compatibility >}}
 
 ## Return information
 

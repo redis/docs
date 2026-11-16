@@ -42,6 +42,13 @@
 
 {{- /* Expand embed-md shortcodes before other transforms so embedded content can be processed too. */ -}}
 {{- $content = partial "markdown-embed-md.html" (dict "RawContent" $content "Page" .Page "Visited" $visited) -}}
+{{- /* Expand the command-compatibility shortcode into a plain Markdown table built from
+       the page's frontmatter. Runs before the link rewrites below so links in notes
+       become absolute like every other link. `replace`, not replaceRE, so a "$" in a
+       note is never read as a capture reference. */ -}}
+{{- range findRE `\{\{(?:<|&lt;)\s*command-compatibility\s*(?:>|&gt;)\}\}` $content -}}
+  {{- $content = replace $content . (partial "command-compatibility.html" (dict "page" $.Page "format" "md")) -}}
+{{- end -}}
 {{- /* Split wide table-scrollable blocks for AI-facing Markdown output only. */ -}}
 {{- $content = partial "markdown-scrollable-tables.html" (dict "RawContent" $content) -}}
 {{- /* Trim opt-in long blocks for AI-facing Markdown output only. */ -}}

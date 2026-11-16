@@ -25,6 +25,19 @@ categories:
 - clients
 command_flags:
 - write
+compatibility:
+  software:
+    standard: supported
+    active_active:
+      status: supported
+      note: Not supported for stream consumer group info.
+  cloud:
+    standard: supported
+    active_active:
+      status: supported
+      note: Not supported for stream consumer group info.
+  notes:
+  - For Active-Active or clustered databases, the original key and new key must be in the same hash slot.
 complexity: O(1)
 description: Renames a key and overwrites the destination.
 group: generic
@@ -102,9 +115,7 @@ redis> GET myotherkey
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | For Active-Active or clustered databases, the original key and new key must be in the same hash slot.<br /><br />\*Not supported for stream consumer group info. |
+{{< command-compatibility >}}
 
 ## Return information
 
