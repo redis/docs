@@ -222,7 +222,7 @@ alone doesn't establish that a destination accepted every key.
    reloads the current one.
 1. Update the `loadmodule` path in the startup configuration to the new module.
 1. Restart one test node through your normal deployment process, and run
-   `guardian-preflight --require-active-rules`.
+   `guardian-preflight --host <host> --port <port> --user <operator-user> --application-user <app-user> --require-active-rules`.
 1. Keep the old module file until your rollback window ends.
 
 Until you update the startup configuration, an unexpected restart loads the old module.

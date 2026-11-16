@@ -250,7 +250,7 @@ the grants without the module, the next startup rejects the unknown commands.
 Test the saved configuration on a test or staging node before you rely on it.
 
 1. Restart the node from the saved configuration.
-1. Run `guardian-preflight --require-active-rules` and the application user tests again.
+1. Run `guardian-preflight --host <host> --port <port> --user <operator-user> --application-user <app-user> --require-active-rules` and the application user tests again.
 
 Keep the state directory across restarts and container replacements to let Guardian restore
 the accepted protection when the registry is unreachable. Each new node needs the same

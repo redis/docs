@@ -5,6 +5,7 @@ categories:
 - stack
 - oss
 description: Use live rule updates to protect Redis Open Source against known vulnerabilities without upgrading Redis.
+hideListLinks: true
 linkTitle: Guardian Community
 title: Guardian Community
 weight: 65
@@ -82,5 +83,5 @@ Builds earlier than Redis 6.2, musl-based systems, and macOS aren't supported.
 - [Manage Guardian Community](/content/operate/oss_and_stack/guardian/manage.md)
 - [Guardian telemetry](/content/operate/oss_and_stack/guardian/telemetry.md)
 - [Guardian reference](/content/operate/oss_and_stack/guardian/reference.md)
-- [Guardian and your application](/content/develop/using-commands/guardian.md), for application
+- [Guardian and your application](/content/operate/oss_and_stack/guardian/commands.md), for application
   developers
