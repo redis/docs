@@ -163,6 +163,46 @@ the elements sorted in a descending way.
 (integer) 2
 {{< /clients-example >}}
 
+## Move members between sorted sets
+
+Starting with Redis 8.12, use [`ZMOVE`](/content/commands/zmove.md) to atomically
+move members between sorted sets while preserving their scores:
+
+- `MIN` or `MAX` moves the lowest-scoring or highest-scoring members. Add
+  `COUNT count` to move more than one; without it, one member is moved.
+- `BYSCORE score-min score-max` moves a score range. Add `COUNT count` to cap
+  the batch size; without it, all matching members are moved.
+
+Use [`ZMOVEMEMBER`](/content/commands/zmovemember.md) with a counted
+`MEMBERS num-members member [member ...]` block to move named members. You can
+place an `NX` or `XX` destination-membership condition before or after that
+block. Use [`BZMOVE`](/content/commands/bzmove.md) to wait for lowest-scoring or
+highest-scoring members to become available.
+
+For example, a consumer can claim up to 500 bookmarks updated before a cutoff
+while writers continue updating the source:
+
+```text
+ZMOVE bookmarks:{user:42} batch:{user:42}:001 BYSCORE -inf (1700000000 COUNT 500
+```
+
+The `(` makes the cutoff exclusive. Members are selected in ascending score
+order, with lexicographical ordering for ties. All three move commands return
+an array of member/score pairs, nested even for a single member, or null if
+nothing moves. When specified, `COUNT` must be a positive integer.
+
+Give each batch a separate destination key. Process and persist its members,
+then delete the batch key after success. A later update to a source member
+remains in the source when the batch key is deleted. The move does not provide
+acknowledgments, automatic retries, or snapshots of values stored under other
+keys; your application must recover unfinished batches.
+
+A moved member's source score overwrites its score if it already exists in the
+destination, unless you use a `ZMOVEMEMBER` condition to skip it. Other
+destination members are retained. In Redis Open Source Cluster, both keys must
+share a hash slot; the shared `{user:42}` hash tag in this example provides
+that placement.
+
 ## Lexicographical scores
 
 In version Redis 2.8, a new feature was introduced that allows

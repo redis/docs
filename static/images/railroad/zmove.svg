@@ -1,0 +1,62 @@
+<svg class="railroad-diagram" height="131" viewBox="0 0 934.5 131" width="934.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 30v20m10 -20v20m-10 -10h20"></path></g><path d="M40 40h10"></path><g>
+<path d="M50 40h0.0"></path><path d="M884.5 40h0.0"></path><g class="terminal ">
+<path d="M50.0 40h0.0"></path><path d="M112.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="62.5" x="50.0" y="29"></rect><text x="81.25" y="44">ZMOVE</text></g><path d="M112.5 40h10"></path><path d="M122.5 40h10"></path><g class="non-terminal ">
+<path d="M132.5 40h0.0"></path><path d="M203.5 40h0.0"></path><rect height="22" width="71.0" x="132.5" y="29"></rect><text x="168.0" y="44">source</text></g><path d="M203.5 40h10"></path><path d="M213.5 40h10"></path><g class="non-terminal ">
+<path d="M223.5 40h0.0"></path><path d="M337.0 40h0.0"></path><rect height="22" width="113.5" x="223.5" y="29"></rect><text x="280.25" y="44">destination</text></g><path d="M337.0 40h10"></path><g>
+<path d="M347.0 40h0.0"></path><path d="M699.5 40h0.0"></path><path d="M347.0 40h20"></path><g class="terminal ">
+<path d="M367.0 40h133.5"></path><path d="M546.0 40h133.5"></path><rect height="22" rx="10" ry="10" width="45.5" x="500.5" y="29"></rect><text x="523.25" y="44">MIN</text></g><path d="M679.5 40h20"></path><path d="M347.0 40a10 10 0 0 1 10 10v10a10 10 0 0 0 10 10"></path><g class="terminal ">
+<path d="M367.0 70h133.5"></path><path d="M546.0 70h133.5"></path><rect height="22" rx="10" ry="10" width="45.5" x="500.5" y="59"></rect><text x="523.25" y="74">MAX</text></g><path d="M679.5 70a10 10 0 0 0 10 -10v-10a10 10 0 0 1 10 -10"></path><path d="M347.0 40a10 10 0 0 1 10 10v40a10 10 0 0 0 10 10"></path><g>
+<path d="M367.0 100h0.0"></path><path d="M679.5 100h0.0"></path><g class="terminal ">
+<path d="M367.0 100h0.0"></path><path d="M446.5 100h0.0"></path><rect height="22" rx="10" ry="10" width="79.5" x="367.0" y="89"></rect><text x="406.75" y="104">BYSCORE</text></g><path d="M446.5 100h10"></path><path d="M456.5 100h10"></path><g class="non-terminal ">
+<path d="M466.5 100h0.0"></path><path d="M563.0 100h0.0"></path><rect height="22" width="96.5" x="466.5" y="89"></rect><text x="514.75" y="104">score-min</text></g><path d="M563.0 100h10"></path><path d="M573.0 100h10"></path><g class="non-terminal ">
+<path d="M583.0 100h0.0"></path><path d="M679.5 100h0.0"></path><rect height="22" width="96.5" x="583.0" y="89"></rect><text x="631.25" y="104">score-max</text></g></g><path d="M679.5 100a10 10 0 0 0 10 -10v-40a10 10 0 0 1 10 -10"></path></g><g>
+<path d="M699.5 40h0.0"></path><path d="M884.5 40h0.0"></path><path d="M699.5 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M719.5 20h145.0"></path></g><path d="M864.5 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M699.5 40h20"></path><g>
+<path d="M719.5 40h0.0"></path><path d="M864.5 40h0.0"></path><g class="terminal ">
+<path d="M719.5 40h0.0"></path><path d="M782.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="62.5" x="719.5" y="29"></rect><text x="750.75" y="44">COUNT</text></g><path d="M782.0 40h10"></path><path d="M792.0 40h10"></path><g class="non-terminal ">
+<path d="M802.0 40h0.0"></path><path d="M864.5 40h0.0"></path><rect height="22" width="62.5" x="802.0" y="29"></rect><text x="833.25" y="44">count</text></g></g><path d="M864.5 40h20"></path></g></g><path d="M884.5 40h10"></path><path d="M 894.5 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>
