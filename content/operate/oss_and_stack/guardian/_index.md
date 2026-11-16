@@ -58,6 +58,18 @@ Builds earlier than Redis 6.2, musl-based systems, and macOS aren't supported.
 - **Redis 6.2 has a smaller set of rules.** Redis 6.2 lacks the module interfaces that some
   rules need, so those rules aren't sent to Redis 6.2 nodes. Lua approvals aren't available on
   Redis 6.2.
+- **Renamed commands aren't supported.** Using Redis's `rename-command` setting can
+  prevent rules from applying or prevent an entire rule release from activating. Use
+  Redis access control lists (ACLs) to restrict command access instead.
+- **Different protection policies can cause missing keys during data transfer.** Different
+  Guardian builds, rule releases, or `monitor` and `block` actions across primaries,
+  replicas, or shards can cause a destination to reject data accepted by the source.
+  This can also happen temporarily during rolling upgrades or rule updates. In asynchronous
+  slot migration (ASM) and replication, a destination's Guardian rejection doesn't
+  necessarily fail the transfer: keys can be missing at the destination, and migration
+  can still remove them from the source. Keep builds and policies aligned, check each
+  node's active rules, and verify transferred data when changing protection. Aligning
+  policies reduces mismatch risk; it doesn't change the underlying rejection handling.
 - **Every node needs its own setup.** Module configuration, ACL grants, and the state directory
   are local to each node. New and replacement nodes need the same setup.
 - **Some rules can block legitimate requests.** Conservative Lua checks can refuse application

@@ -22,6 +22,10 @@ Installing the package alone doesn't turn on protection.
 
 - **A supported platform.** See
   [Supported platforms](/content/operate/oss_and_stack/guardian/_index.md#supported-platforms).
+- **Original command names.** Guardian doesn't support commands changed with
+  `rename-command`. Use ACLs to restrict access instead. Review the
+  [known limits](/content/operate/oss_and_stack/guardian/_index.md#limits), including
+  the data-transfer risk when nodes use different Guardian builds or rules.
 - **Module loading.** To load Guardian into a running Redis 7 or later server, the server needs
   `enable-module-command local` (or a setting that allows your operator connection). You can't
   change this setting at runtime. If module loading is off, add Guardian to the startup

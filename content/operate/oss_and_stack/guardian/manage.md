@@ -170,6 +170,12 @@ Schedule a maintenance window, and make sure clients reconnect and retry.
 
 ### Before you upgrade
 
+A rolling upgrade can temporarily leave nodes on different Guardian builds or rules.
+Review the [data-transfer limitation](/content/operate/oss_and_stack/guardian/_index.md#limits)
+before upgrading primaries, replicas, or shards. Check `HOTPATCH.STATUS` and
+`HOTPATCH.RULES` on each node and verify transferred data; a successful transfer status
+alone doesn't establish that a destination accepted every key.
+
 1. Install the new module at a different absolute path from the current one. Don't overwrite or
    delete the current module file: `guardian-upgrade` uses it to roll back.
 1. Keep the startup configuration pointing at the current module until the upgrade succeeds.
