@@ -1554,6 +1554,19 @@ Set commands operate on unordered collections of unique strings.
 Sorted set commands operate on sets of unique strings ordered by a score.
 
 <details>
+<summary><strong><a href="/commands/bzmove/">BZMOVE</a></strong> - Moves highest- or lowest-scoring members from one sorted set to another, preserving scores. Blocks until a member is available otherwise. Deletes the source sorted set if the last member was moved. <span style="color: #e74c3c;">⭐ New in 8.12</span></summary>
+
+**Syntax:** `BZMOVE source destination <MIN | MAX> timeout [COUNT count]`
+
+**Description:** Moves highest- or lowest-scoring members from one sorted set to another, preserving scores. Blocks until a member is available otherwise. Deletes the source sorted set if the last member was moved.
+
+**Complexity:** O(K*(log(N)+log(M))) where K is the number of moved members and N and M are the source and destination sizes.
+
+**Since:** 8.12.0
+
+</details>
+
+<details>
 <summary><strong><a href="/commands/bzmpop/">BZMPOP</a></strong> - Removes and returns a member by score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.</summary>
 
 **Syntax:** `BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT count]`
@@ -1722,6 +1735,34 @@ Sorted set commands operate on sets of unique strings ordered by a score.
 **Complexity:** O(log(N)) with N being the number of elements in the sorted set.
 
 **Since:** 2.8.9
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/zmove/">ZMOVE</a></strong> - Moves highest- or lowest-scoring members, or a score range of members, from one sorted set to another, preserving scores. Deletes the source sorted set if the last member was moved. <span style="color: #e74c3c;">⭐ New in 8.12</span></summary>
+
+**Syntax:** `ZMOVE source destination <MIN | MAX | BYSCORE score-min score-max>
+  [COUNT count]`
+
+**Description:** Moves highest- or lowest-scoring members, or a score range of members, from one sorted set to another, preserving scores. Deletes the source sorted set if the last member was moved.
+
+**Complexity:** O(log(N) + K*(log(N)+log(M))) where N and M are the source and destination sizes and K is the number of moved members.
+
+**Since:** 8.12.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/zmovemember/">ZMOVEMEMBER</a></strong> - Moves specified members from one sorted set to another, preserving scores. Can restrict moves to members absent from or present in the destination. Deletes the source sorted set if the last member was moved. <span style="color: #e74c3c;">⭐ New in 8.12</span></summary>
+
+**Syntax:** `ZMOVEMEMBER source destination [NX | XX] MEMBERS num-members member
+  [member ...]`
+
+**Description:** Moves specified members from one sorted set to another, preserving scores. Can restrict moves to members absent from or present in the destination. Deletes the source sorted set if the last member was moved.
+
+**Complexity:** O(K*(log(N)+log(M))) where K is the number of given members and N and M are the source and destination sizes.
+
+**Since:** 8.12.0
 
 </details>
 
