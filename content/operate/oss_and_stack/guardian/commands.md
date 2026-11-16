@@ -1,13 +1,13 @@
 ---
 categories:
 - docs
-- develop
+- operate
 - stack
 - oss
 description: How Guardian Community can affect your application's commands, Lua scripts, and connections.
-linkTitle: Guardian
+linkTitle: Applications
 title: Guardian and your application
-weight: 40
+weight: 35
 ---
 
 If your Redis Open Source servers run [Guardian Community](/content/operate/oss_and_stack/guardian/_index.md),
