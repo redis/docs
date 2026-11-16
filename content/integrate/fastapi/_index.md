@@ -258,25 +258,10 @@ the server responds with `304 Not Modified` and no body:
 Add `.rate_limiting()` to the builder chain, then attach the `rate_limit()` dependency
 to a route. Counters for the rate limiters are stored in Redis, so the limits hold across
 every worker and pod. Stack two limits to cap both bursts and sustained traffic.
-Give each a distinct `scope` so their counters stay independent:
+Give each a distinct `scope` so their counters stay independent. The example below uses
+a deliberately low limit so that the third request is rejected:
 
-```python
-from fastapi import Depends, FastAPI
-from redis_fastapi import FastAPIRedis, rate_limit
-
-app = FastAPI()
-FastAPIRedis(app).lifespan().rate_limiting()
-
-@app.get(
-    "/search",
-    dependencies=[
-        Depends(rate_limit("10/second", scope="search:burst")),
-        Depends(rate_limit("100/minute", scope="search:sustained")),
-    ],
-)
-async def search():
-    return {"results": []}
-```
+{{< clients-example set="fastapi_tutorial" step="rate_limit" lang_filter="Python" description="Foundational: stack a burst limit and a sustained limit on one route and see the third request rejected with 429" difficulty="beginner" />}}
 
 By default, a limit is incremented by one for each client IP. A request that exceeds either limit gets a
 `429 Too Many Requests` response with a `Retry-After` header, and every response carries
@@ -315,22 +300,7 @@ only an opaque session ID, and Redis enforces both an idle timeout and an absolu
 timeout. Inject `SessionDep` to read and write the session, and add `valid_session()` to
 return `401` when a request has no live session:
 
-```python
-from fastapi import Depends, FastAPI
-from redis_fastapi import FastAPIRedis, SessionDep, valid_session
-
-app = FastAPI()
-FastAPIRedis(app).lifespan().sessions()
-
-@app.post("/login")
-async def login(session: SessionDep):
-    session["user_id"] = 42  # rotates the session ID after the endpoint completes
-    return {"ok": True}
-
-@app.get("/me", dependencies=[Depends(valid_session())])
-async def me(session: SessionDep):
-    return {"user_id": session.get("user_id")}
-```
+{{< clients-example set="fastapi_tutorial" step="sessions" lang_filter="Python" description="Foundational: store a user ID in a Redis-backed session and require a live session on a route" difficulty="beginner" />}}
 
 Changing the signed-in user rotates the session ID automatically. `request.session`
 also works, so code written for Starlette's `SessionMiddleware` runs unchanged. See the
@@ -344,8 +314,8 @@ Sessions have two constraints to plan for:
   `allkeys-lfu`, or `allkeys-random` [eviction policies](/content/develop/reference/eviction/index.md),
   Redis can evict live sessions and sign users out with no log entry. Use
   `volatile-ttl` or `noeviction`, or give sessions their own database or instance.
-- **WebSockets:** Sessions cover HTTP requests only. In a WebSocket handler,
-  `SessionDep` raises `SessionConfigurationError`.
+- **WebSockets:** Sessions cover HTTP requests only. Don't use `SessionDep` in a
+  WebSocket handler. Authenticate during the HTTP handshake instead.
 
 If Redis is unreachable, a failed session read returns an empty session, so the user
 will appear to be signed out. A failed write raises `SessionStoreError`. Set
@@ -357,18 +327,7 @@ The SDK works with FastAPI's `dependency_overrides`, so you can replace the Redi
 in tests without patching. This example uses
 [fakeredis](https://pypi.org/project/fakeredis/):
 
-```python
-import fakeredis.aioredis
-from fastapi.testclient import TestClient
-from redis_fastapi import get_async_redis
-
-fake = fakeredis.aioredis.FakeRedis()
-app.dependency_overrides[get_async_redis] = lambda: fake
-
-with TestClient(app) as client:
-    assert client.get("/items").headers["X-Redis-Cache"] == "MISS"
-    assert client.get("/items").headers["X-Redis-Cache"] == "HIT"
-```
+{{< clients-example set="fastapi_tutorial" step="testing" lang_filter="Python" description="Intermediate: replace the Redis client with an in-memory fake using dependency_overrides so tests need no server" difficulty="intermediate" />}}
 
 ## Cluster mode
 
