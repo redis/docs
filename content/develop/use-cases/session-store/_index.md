@@ -80,9 +80,8 @@ The following libraries and frameworks provide Redis session store integrations:
     ([express-session](https://www.npmjs.com/package/express-session) store)
 -   **Python**: [Flask-Session](/content/integrate/flask/_index.md#store-sessions),
     [django-redis](/content/integrate/django/_index.md#store-sessions)
--   **API gateways**: [Kong](https://docs.konghq.com/hub/kong-inc/session/),
-    [Envoy](https://www.envoyproxy.io/docs/envoy/latest/start/quick-start/configuration-dynamic-control-plane)
-    (Redis-backed session and token storage)
+-   **API gateways**: [Apache APISIX](/content/integrate/apisix/_index.md#other-plugins)
+    (the `openid-connect` plugin can store sessions in Redis)
 
 ## Code examples to build your own Redis session store
 
