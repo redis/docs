@@ -88,13 +88,12 @@ The following libraries implement reliable job-queue patterns on Redis:
     [RQ](/content/integrate/rq/_index.md),
     [Dramatiq](/content/integrate/dramatiq/_index.md)
 -   **Ruby**: [Sidekiq](/content/integrate/sidekiq/_index.md),
-    [Resque](https://github.com/resque/resque)
+    [Resque](/content/integrate/resque/_index.md)
 -   **Node.js**: [Bull](https://github.com/OptimalBits/bull),
     [BullMQ](/content/integrate/bullmq/_index.md)
--   **Go**: [Asynq](https://github.com/hibiken/asynq)
--   **Java**: [Redisson](https://redisson.org/),
-    [Spring Batch](https://spring.io/projects/spring-batch) (Redis job repository)
--   **.NET**: [Hangfire](https://www.hangfire.io/) (Redis storage)
+-   **Go**: [Asynq](/content/integrate/asynq/_index.md)
+-   **Java**: [Redisson](https://redisson.org/)
+-   **.NET**: [Hangfire](/content/integrate/hangfire/_index.md) (community Redis storage package)
 
 ## Code examples to build your own Redis job queue
 
