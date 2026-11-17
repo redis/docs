@@ -85,8 +85,8 @@ Redis provides the following features that make it a good fit for background job
 The following libraries implement reliable job-queue patterns on Redis:
 
 -   **Python**: [Celery](/content/integrate/celery/_index.md),
-    [RQ](https://python-rq.org/),
-    [Dramatiq](https://dramatiq.io/)
+    [RQ](/content/integrate/rq/_index.md),
+    [Dramatiq](/content/integrate/dramatiq/_index.md)
 -   **Ruby**: [Sidekiq](/content/integrate/sidekiq/_index.md),
     [Resque](https://github.com/resque/resque)
 -   **Node.js**: [Bull](https://github.com/OptimalBits/bull),
