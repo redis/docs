@@ -11,7 +11,7 @@ title: Redis Enterprise for Kubernetes 7.22.2 release notes
 weight: 90
 ---
 
-Redis Enterprise for Kubernetes 7.22.2 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.22.2-47 with support for Redis Enterprise Software version 7.22.2-204.
+Redis Enterprise for Kubernetes 7.22.2 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.22.2-51 with support for Redis Enterprise Software version 7.22.2-227.
 
 ## Detailed release notes
 
