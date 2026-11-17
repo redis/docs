@@ -16,7 +16,7 @@
   if (!D || D.useCases) return;   // the player didn't load, or this file already ran
   D.useCases = true;
   const h = D.kit.h, s = D.kit.s, add = D.kit.add, row = D.kit.row;
-  const CROSS = 320;   // ms a message takes to cross a wire
+  const CROSS = 900;   // ms a message takes to cross a wire, long enough to read what it says
 
   /* ---- the stage ---- */
 
