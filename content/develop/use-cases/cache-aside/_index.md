@@ -73,9 +73,9 @@ The following libraries and frameworks provide Redis-backed cache-aside integrat
     [Spring Data Redis (`@Cacheable`/`@CacheEvict`)](/content/integrate/spring-framework-cache/cache.md),
     [Redis Smart Cache](https://github.com/redis-field-engineering/redis-smart-cache)
     (transparent JDBC-layer cache-aside)
--   **Python**: [Flask-Caching](https://flask-caching.readthedocs.io/)
+-   **Python**: [Flask-Caching](/content/integrate/flask/_index.md#cache-views-and-functions)
     (Redis backend),
-    [Django cache framework](https://docs.djangoproject.com/en/stable/topics/cache/)
+    [Django cache framework](/content/integrate/django/_index.md#cache-data)
     (with [redis-py](https://redis.readthedocs.io/))
 -   **Node.js**: [node-redis](https://github.com/redis/node-redis),
     [ioredis](https://github.com/redis/ioredis) (wrap route handlers with a cache-aside helper)
