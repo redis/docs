@@ -82,6 +82,8 @@ The following libraries and frameworks provide Redis-backed cache-aside integrat
 -   **API gateways**:
     [Kong Redis response caching](https://docs.konghq.com/hub/kong-inc/proxy-cache-advanced/)
     (configurable TTL per route)
+-   **Java**: [Redisson](https://redisson.pro/docs/integration-with-spring/#spring-cache)
+    (Spring Cache manager backed by Redis).
 
 ## Code examples to build your own Redis cache-aside
 

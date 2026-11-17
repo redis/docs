@@ -120,6 +120,8 @@ The following libraries and frameworks use Redis Streams for event-driven worklo
     [Azure Managed Redis](https://azure.microsoft.com/en-us/products/managed-redis) with
     [Azure Functions](https://azure.microsoft.com/en-us/products/functions) for serverless event
     backbones.
+-   **Java**: [Redisson](https://redisson.pro/docs/data-and-services/queues/#stream)
+    (`RStream`) for stream producers and consumers.
 
 ## Code examples to build your own Redis streaming pipeline
 

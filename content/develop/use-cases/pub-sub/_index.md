@@ -104,6 +104,8 @@ The following frameworks and libraries use Redis pub/sub for broadcast messaging
     cluster-wide notifications
 -   **Infrastructure**: [Kong](https://konghq.com/) and [NGINX](https://www.nginx.com/) event
     hooks; Kubernetes cluster-wide event bus via a shared Redis instance
+-   **Java**: [Redisson](https://redisson.pro/docs/data-and-services/publish-subscribe/#topic)
+    (`RTopic`) for publishing and subscribing to channels.
 
 ## Code examples to build your own Redis pub/sub broadcaster
 
