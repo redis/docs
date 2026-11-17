@@ -222,6 +222,12 @@ redis> ZMOVEMEMBER source:{tokens} destination:{tokens} NX MEMBERS 4 NX XX MEMBE
 The `NX` before `MEMBERS` is the condition. The four names in the counted
 block are literal members, including the second `MEMBERS`.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="zmovemember-return-info" tab1="RESP2" tab2="RESP3" >}}

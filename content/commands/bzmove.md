@@ -187,6 +187,12 @@ In a second connection, run `ZADD ready:{queue} 1 job:1`. The blocked command
 returns one nested member/score pair for `job:1`; it does not wait for nine
 more members.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="bzmove-return-info" tab1="RESP2" tab2="RESP3" >}}
