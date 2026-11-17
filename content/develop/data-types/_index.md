@@ -31,23 +31,7 @@ Each overview includes a comprehensive tutorial with code samples.
 [Redis Open Source](/content/operate/oss_and_stack/_index.md)
 implements the following data types:
 
-- [Strings](#strings)
-    - [Bitmaps](#bitmaps)
-    - [Bitfields](#bitfields)
-- [Arrays](#arrays)
-- [Geospatial indexes](#geospatial-indexes)
-- [Hashes](#hashes)
-- [JSON](#json)
-- [Lists](#lists)
-- [Probabilistic data types](#probabilistic-data-types)
-- [Sets](#sets)
-- [Sorted sets](#sorted-sets)
-- [Streams](#streams)
-- [Time series](#time-series)
-- [Vector sets](#vector-sets)
-
-See [Compare data types](/content/develop/data-types/compare-data-types.md)
-for advice on which of the general-purpose data types is best for common tasks.
+{{< data-type-tabs >}}
 
 ### Strings 
 
@@ -57,7 +41,7 @@ For more information, see:
 * [Overview of Redis strings](/content/develop/data-types/strings/_index.md)
 * [Redis string command reference](/commands/?group=string)
 
-### Bitfields
+#### Bitfields
 
 [Redis bitfields](/content/develop/data-types/strings/bitfields.md) efficiently encode multiple counters in a string value.
 Bitfields provide atomic get, set, and increment operations and support different overflow policies.
@@ -66,7 +50,7 @@ For more information, see:
 * [Overview of Redis bitfields](/content/develop/data-types/strings/bitfields.md)
 * The [`BITFIELD`](/content/commands/bitfield.md) command.
 
-### Bitmaps
+#### Bitmaps
 
 [Redis bitmaps](/content/develop/data-types/strings/bitmaps.md) let you perform bitwise operations on strings. 
 For more information, see:
@@ -132,7 +116,7 @@ available:
 - [t-digest](#t-digest)
 - [Top-K](#top-k)
 
-### Bloom filter
+#### Bloom filter
 
 [Redis Bloom filters](/content/develop/data-types/probabilistic/bloom-filter.md)
 let you check for the presence or absence of an element in a set. For more
@@ -141,7 +125,7 @@ information, see:
 - [Overview of Redis Bloom filters](/content/develop/data-types/probabilistic/bloom-filter.md)
 - [Bloom filter command reference](/commands?group=bf)
 
-### Count-min sketch
+#### Count-min sketch
 
 [Redis Count-min sketch](/content/develop/data-types/probabilistic/count-min-sketch.md)
 estimate the frequency of a data point within a stream of values.
@@ -150,7 +134,7 @@ For more information, see:
 - [Redis Count-min sketch overview](/content/develop/data-types/probabilistic/count-min-sketch.md)
 - [Count-min sketch command reference](/commands?group=cms)
 
-### Cuckoo filter
+#### Cuckoo filter
 
 [Redis Cuckoo filters](/content/develop/data-types/probabilistic/cuckoo-filter.md)
 let you check for the presence or absence of an element in a set. They are similar to
@@ -160,14 +144,14 @@ and performance. For more information, see:
 - [Overview of Redis Cuckoo filters](/content/develop/data-types/probabilistic/cuckoo-filter.md)
 - [Cuckoo filter command reference](/commands?group=cf)
 
-### HyperLogLog
+#### HyperLogLog
 
 The [Redis HyperLogLog](/content/develop/data-types/probabilistic/hyperloglogs.md) data structures provide probabilistic estimates of the cardinality (i.e., number of elements) of large sets. For more information, see:
 
 * [Overview of Redis HyperLogLog](/content/develop/data-types/probabilistic/hyperloglogs.md)
 * [Redis HyperLogLog command reference](/commands/?group=hyperloglog)
 
-### t-digest
+#### t-digest
 
 [Redis t-digest](/content/develop/data-types/probabilistic/t-digest.md)
 structures estimate percentiles from a stream of data values. For more
@@ -176,7 +160,7 @@ information, see:
 - [Redis t-digest overview](/content/develop/data-types/probabilistic/t-digest.md)
 - [t-digest command reference](/commands?group=tdigest)
 
-### Top-K
+#### Top-K
 
 [Redis Top-K](/content/develop/data-types/probabilistic/top-k.md)
 structures estimate the ranking of a data point within a stream of values.
@@ -227,6 +211,11 @@ For more information, see:
 
 * [Overview of Redis vector sets](/content/develop/data-types/vector-sets/_index.md)
 * [Redis vector set command reference](/commands/?group=vector_set)
+
+{{< /data-type-tabs >}}
+
+See [Compare data types](/content/develop/data-types/compare-data-types.md)
+for advice on which of the general-purpose data types is best for common tasks.
 
 ## Adding extensions
 
