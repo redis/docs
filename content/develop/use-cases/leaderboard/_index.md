@@ -64,7 +64,7 @@ Redis provides the following features that make it a good fit for leaderboards:
 The following libraries and frameworks provide Redis sorted set integrations suitable for leaderboards:
 
 -   **Java**:
-    [Spring Data Redis (`ZSetOperations`)](https://docs.spring.io/spring-data/redis/reference/redis/template.html)
+    [Spring Data Redis (`ZSetOperations`)](/content/integrate/spring-framework-cache/data-structures.md)
 -   **Python**: [redis-py](https://redis.readthedocs.io/),
     [redis-om-python](https://github.com/redis/redis-om-python)
 -   **Node.js**: [ioredis](https://github.com/redis/ioredis),

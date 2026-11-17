@@ -70,7 +70,7 @@ Redis provides the following features that make it a good fit for cache-aside:
 The following libraries and frameworks provide Redis-backed cache-aside integrations:
 
 -   **Java**:
-    [Spring Data Redis (`@Cacheable`/`@CacheEvict`)](https://docs.spring.io/spring-data/redis/reference/redis/redis-cache.html),
+    [Spring Data Redis (`@Cacheable`/`@CacheEvict`)](/content/integrate/spring-framework-cache/cache.md),
     [Redis Smart Cache](https://github.com/redis-field-engineering/redis-smart-cache)
     (transparent JDBC-layer cache-aside)
 -   **Python**: [Flask-Caching](https://flask-caching.readthedocs.io/)
