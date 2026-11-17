@@ -80,8 +80,9 @@ The following libraries and frameworks provide Redis-backed cache-aside integrat
 -   **Node.js**: [node-redis](https://github.com/redis/node-redis),
     [ioredis](https://github.com/redis/ioredis) (wrap route handlers with a cache-aside helper)
 -   **API gateways**:
-    [Kong Redis response caching](https://docs.konghq.com/hub/kong-inc/proxy-cache-advanced/)
-    (configurable TTL per route)
+    [Kong Redis response caching](/content/integrate/kong/_index.md#kong-gateway-enterprise)
+    (Kong Gateway Enterprise only; configurable TTL per route),
+    [OpenResty](/content/integrate/openresty/_index.md#cache-responses-with-redis) (NGINX with Lua)
 -   **Java**: [Redisson](https://redisson.pro/docs/integration-with-spring/#spring-cache)
     (Spring Cache manager backed by Redis).
 

@@ -67,10 +67,11 @@ The following libraries and frameworks provide Redis-backed rate limiting:
     plus custom implementations on top of [redis-py](https://redis.readthedocs.io/)
 -   **Go**: [go-redis/redis_rate](https://github.com/go-redis/redis_rate)
 -   **API gateways**:
-    [Apache APISIX](https://apisix.apache.org/docs/apisix/plugins/limit-count/),
-    [Kong](https://docs.konghq.com/hub/kong-inc/rate-limiting/), and
-    [Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter)
-    use Redis for distributed rate limiting
+    [Apache APISIX](/content/integrate/apisix/_index.md),
+    [Kong](/content/integrate/kong/_index.md), and
+    [Envoy](/content/integrate/envoy/_index.md)
+    use Redis for distributed rate limiting, and
+    [OpenResty](/content/integrate/openresty/_index.md) (NGINX with Lua) can do the same
 
 ## Code examples to build your own Redis rate limiter
 
