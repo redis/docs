@@ -106,7 +106,7 @@ Redis provides the following features that make it a good fit for streaming:
 The following libraries and frameworks use Redis Streams for event-driven workloads:
 
 -   **Java**:
-    [Spring Data Redis Streams](https://docs.spring.io/spring-data/redis/reference/redis/redis-streams.html)
+    [Spring Data Redis Streams](/content/integrate/spring-framework-cache/streams.md)
     for consumer-group processing with producer/consumer abstractions and pending-entries handling.
 -   **Node.js**: [`node-redis`](https://github.com/redis/node-redis) and
     [`ioredis`](https://github.com/redis/ioredis) for stream producers and consumers in

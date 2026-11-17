@@ -75,7 +75,7 @@ Redis provides the following features that make it a good fit for session storag
 The following libraries and frameworks provide Redis session store integrations:
 
 -   **Java**:
-    [Spring Session Data Redis](https://docs.spring.io/spring-session/reference/configuration/redis.html)
+    [Spring Session Data Redis](/content/integrate/spring-framework-cache/session.md)
 -   **Node.js**: [`connect-redis`](https://www.npmjs.com/package/connect-redis)
     ([express-session](https://www.npmjs.com/package/express-session) store)
 -   **Python**: [Flask-Session](https://flask-session.readthedocs.io/en/latest/),

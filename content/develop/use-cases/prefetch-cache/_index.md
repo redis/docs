@@ -75,8 +75,8 @@ Redis provides the following features that make it a good fit for prefetch cachi
 The following libraries and frameworks support Redis-backed prefetch caching:
 
 -   **Java**:
-    [Spring Cache abstraction (`@Cacheable` with Redis cache store)](https://docs.spring.io/spring-data/redis/reference/redis/redis-cache.html),
-    populated by a startup `CommandLineRunner` for the bulk load.
+    [Spring Cache abstraction (`@Cacheable` with Redis cache store)](/content/integrate/spring-framework-cache/cache.md),
+    populated by a startup `ApplicationRunner` for the bulk load.
 -   **Node.js**:
     [Redis OM](https://github.com/redis/redis-om-node) for object-mapping
     prefetched JSON documents.
