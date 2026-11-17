@@ -100,11 +100,11 @@ Redis provides the following features that make it a good fit for a recommendati
 
 The following libraries and frameworks build on Redis Search for recommendation workloads:
 
--   **Python**: [RedisVL](https://github.com/redis/redis-vl-python) for a high-level vector-search
+-   **Python**: [RedisVL](/content/develop/ai/redisvl/_index.md) for a high-level vector-search
     client, and the
-    [LangChain Redis integration](https://python.langchain.com/docs/integrations/vectorstores/redis/)
+    [LangChain Redis integration](/content/integrate/langchain-redis/_index.md)
     for embedding-driven retrieval chains.
--   **Node.js**: [`redis-om-node`](https://github.com/redis/redis-om-node) for object-mapped
+-   **Node.js**: [`redis-om-node`](/content/integrate/redisom-for-node-js/_index.md) for object-mapped
     Hash/JSON documents and Redis Search queries.
 -   **Go**: [`go-redis`](https://github.com/redis/go-redis) with first-class Redis Search support
     for FT.SEARCH KNN and structured filters.
