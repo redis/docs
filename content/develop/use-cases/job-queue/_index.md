@@ -84,13 +84,13 @@ Redis provides the following features that make it a good fit for background job
 
 The following libraries implement reliable job-queue patterns on Redis:
 
--   **Python**: [Celery](https://docs.celeryq.dev/),
+-   **Python**: [Celery](/content/integrate/celery/_index.md),
     [RQ](https://python-rq.org/),
     [Dramatiq](https://dramatiq.io/)
--   **Ruby**: [Sidekiq](https://sidekiq.org/),
+-   **Ruby**: [Sidekiq](/content/integrate/sidekiq/_index.md),
     [Resque](https://github.com/resque/resque)
 -   **Node.js**: [Bull](https://github.com/OptimalBits/bull),
-    [BullMQ](https://docs.bullmq.io/)
+    [BullMQ](/content/integrate/bullmq/_index.md)
 -   **Go**: [Asynq](https://github.com/hibiken/asynq)
 -   **Java**: [Redisson](https://redisson.org/),
     [Spring Batch](https://spring.io/projects/spring-batch) (Redis job repository)
