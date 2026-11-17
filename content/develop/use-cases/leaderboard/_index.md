@@ -71,6 +71,8 @@ The following libraries and frameworks provide Redis sorted set integrations sui
     [node-redis](https://github.com/redis/node-redis)
 -   **Infrastructure**: [Redis Cloud](/content/operate/rc/_index.md)
     (Active-Active for multi-region with conflict-free replicated sorted sets)
+-   **Java**: [Redisson](https://redisson.pro/docs/data-and-services/collections/#scoredsortedset)
+    (`RScoredSortedSet`).
 
 ## Code examples to build your own Redis leaderboard
 
