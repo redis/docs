@@ -68,7 +68,7 @@ Call `tools/list` on an initialized connection to get the input schemas. Tool ar
 
 Semantic results can include a `score` between 0 and 1. For example, `"score": 0.87` indicates a higher similarity than `"score": 0.63`. Filter-only results omit it.
 
-On a deployment that supports retrieval-time expiration refresh, call `search_long_term_memory` with `refresh_ttl: true` to extend eligible memories on the returned page. Use a credential with store write permission. Document-managed memories keep their own retention. See [Extend memory retention on retrieval](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#extend-memory-retention-on-retrieval) for the expiry rule.
+Call `search_long_term_memory` with `refresh_ttl: true` to refresh expiry for the returned memories. Document-managed memories keep their own expiry. Use a credential with store write permission. See [Refresh memory expiry on retrieval](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#refresh-memory-expiry-on-retrieval) for the expiry rule.
 
 ## Connect a client
 

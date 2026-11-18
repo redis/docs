@@ -105,7 +105,7 @@ Extraction runs in the background. Saving "I am vegetarian" as a session event m
 
 When nothing matches, `recall` returns an empty result and `as_prompt()` returns `What we know: nothing yet.` A REST search returns an empty `items` array. The session history and current question remain available. If you expect a memory but it does not appear:
 
-1. Check that background extraction is enabled on the store, if the service exposes that control. In the Redis Cloud console, check **Extraction cadence** on the **Configuration** tab. Wait at least that interval after adding the event, then search again.
+1. On the Redis Cloud console's **Configuration** tab, check **Background extraction** and **Extraction cadence** under **Long-Term Memory**. After you add an event, wait at least that interval before searching again.
 1. If you expect a custom memory type, check that it is enabled under **Memory types & extraction**. Check that its extraction prompt covers the information in the event.
 1. Compare the request's `ownerId`, `memoryType`, and namespace filters with the IDs and type used for the memory. Start with the owner filter alone to check whether an added filter excludes it.
 
@@ -133,7 +133,7 @@ Before retrying a write, follow its idempotency or recovery contract.
 
 Every operation reports a `424` as `FailedDependencyErrorResponseContent`, with the problem fields under `error.data`. Its `error.data.type` tells the failures apart: an unavailable resource, database memory exhaustion, invalid model credentials, or an exceeded model quota. The generated client's exceptions are in `redis_iris.agent_memory.errors`.
 
-On releases that report a store database write failure as `424`, inspect the problem before retrying. For example, invalid database credentials require operator action. If an embedding provider rejects an invalid input and the service returns `400`, correct the input before retrying.
+If a store database write returns `424`, inspect `error.data.type` before retrying. Invalid database credentials require operator action. If the service returns `400` because the embedding provider rejected the input, correct the input before retrying.
 
 `recall` raises `StoreUnusable` from `redis_iris.errors` instead when the `424` response sets a `*_required` flag, such as `memory_recreation_required` after the store's embedding model changed. That store needs an operator, so retrying does not help. `error.required` lists the flags.
 

@@ -519,17 +519,19 @@ A service value that sets any of these differently fails the render, and the err
 | `role_mappings`, `issuer`, or `jwks_uri` in a service OIDC block that differs from `global.iris.auth.oidc` | The suite derives them once for every service. |
 | `audience` in a service OIDC block that differs from `global.iris.auth.oidc.audience` | Every service accepts the one audience. |
 
-To serve a second tenant or issuer, install another release in its own namespace.
+In the single-tenant setup, install another release in its own namespace to serve a second tenant or issuer.
 
 In this mode, each valid agent key and user token acts in `global.iris.tenantId`.
 
 ### Use a tenant claim
 
-On a suite release that supports claim-based tenancy, set `global.iris.auth.oidc.tenantIdClaim` to the identity provider's tenant claim. Remove the fixed tenant settings, including `global.iris.tenantId` and product `tenantId` values. Configure the issuer and audience for that release.
+Requires self-managed Redis Iris 1.1 or later.
+
+Set `global.iris.auth.oidc.tenantIdClaim` to the identity provider's tenant claim. Remove the fixed tenant settings, including `global.iris.tenantId` and product `tenantId` values. Configure the issuer and audience for that release.
 
 Agent keys and grants belong to a tenant. Create a key in the tenant that owns its target store. When granting access using the Identity Service control token, name the grant's tenant. Static admin tokens use the reserved `_system` tenant by default. Use your identity provider to administer stores in a user tenant. Tenant claim values that start with an underscore are reserved.
 
-Check the release notes for the products that can use claim-based tenancy on your chart version. Self-managed 1.0.1 uses the single-tenant setup.
+Self-managed Redis Iris 1.0.1 uses the single-tenant setup.
 
 ## Not supported in this release
 
@@ -538,4 +540,4 @@ Check the release notes for the products that can use claim-based tenancy on you
 | FIPS profile (`global.security.profile: fips`) | The install fails. Planned for `1.1`. |
 | Helm 4 | Planned for `1.1`. |
 | Standalone product chart installs | Published as dependencies of `redis-iris` only. |
-| More than one tenant, issuer, or audience per release | A release has one of each. An empty `global.iris.tenantId` fails the install. See [Tenancy and identity provider limits](#tenancy-and-identity-provider-limits). |
+| More than one tenant, issuer, or audience per release | Redis Iris 1.0.1 uses one of each. See [Tenancy and identity provider limits](#tenancy-and-identity-provider-limits). |

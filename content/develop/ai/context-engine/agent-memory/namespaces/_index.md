@@ -112,11 +112,11 @@ List direct children with `parentId`:
 | Archive | Set `state` to `ARCHIVED` to stop new children and placements. You cannot unarchive a namespace. |
 | Delete | Delete an empty leaf namespace. A namespace with children or memory placements returns `409 Conflict`. |
 
-Creating or renaming a namespace can return `409 Conflict` when the name is occupied. If the response includes `existingId`, retrieve that namespace by ID and check that it matches the one your application intended to use. The service can return the ID for an accessible, active namespace. Archived or inaccessible namespaces keep their IDs hidden. If a duplicate conflict omits the ID, list the relevant roots or direct children and look for the exact name. See the [namespace API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/CreateNamespace).
+Creating or renaming a namespace can return `409 Conflict` when the name is occupied. `existingId` appears only when the existing namespace is active and you can access it. Retrieve it by ID and check that it matches the namespace you intended to use. If a duplicate conflict omits the ID, list the relevant roots or direct children and look for the exact name. Save and reuse the ID on subsequent agent turns. See the [namespace API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/CreateNamespace).
 
 ## Find namespaces by name
 
-On a deployment that supports [`SearchNamespaces`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchNamespaces), send a search request to populate a namespace picker. This example finds direct children of a selected namespace:
+Use [`SearchNamespaces`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchNamespaces) to populate a namespace picker. This example finds direct children of a selected namespace:
 
 ```bash
 memory_api="${IRIS_AGENT_MEMORY_URL%/}/iris/data/v1/agent-memory/stores/$IRIS_AGENT_MEMORY_STORE_ID"
@@ -126,9 +126,11 @@ curl --fail-with-body -X POST "$memory_api/namespaces/search" \
   --data '{"query":"trip","match":"PREFIX","filter":{"parentId":"<parent-id>"},"limit":20}'
 ```
 
-`EXACT` matches the entire name and is the default when you supply a query. `PREFIX` matches the start of the name. Both match case. Omit the query and match mode for a filter-only search. Omit the hierarchy filter to search at every depth, or use `rootsOnly: true` for roots. Store access and ownership checks apply before paging.
+`EXACT` matches the entire name and is the default when you supply a query. `PREFIX` matches the start of the name. Both are case-sensitive. Omit the query and match mode for a filter-only search. Omit the hierarchy filter to search at every depth, or use `rootsOnly: true` for roots.
 
-Use each item's ID for placement and its current path for display. Follow `nextCursor` with the same request even if a page contains fewer items than the limit. Prefixes must contain at least two characters. Redis can require a longer prefix or limit how many distinct names a broad prefix can match.
+Use each item's ID for placement and its current path for display. Access checks run before paging. Redis result limits can shorten a page, so follow `nextCursor` with the same request until the response omits it.
+
+Prefixes accept 2–64 characters. If the prefix is shorter than the database's [`search-min-prefix`](/content/develop/ai/search-and-query/administration/configuration.md#search-min-prefix), the result can be empty. [`search-max-prefix-expansions`](/content/develop/ai/search-and-query/administration/configuration.md#search-max-prefix-expansions) defaults to 200 and can exclude matches from a broad prefix search. Paging cannot recover those matches.
 
 ## Sort namespaces
 

@@ -152,7 +152,9 @@ For what each mechanism does, how a match is handled, and which memory paths exc
 
 ### Change ownership or extraction for a store
 
-On versions that support these store controls, send a `PATCH /iris/v1/agent-memory/stores/{storeId}` request with an authorized Control Plane credential. For example, this body inherits the ownership policy and pauses built-in extraction:
+Requires self-managed Redis Iris 1.1 or later.
+
+Send a `PATCH /iris/v1/agent-memory/stores/{storeId}` request with an authorized Control Plane credential. For example, this body inherits the ownership policy and pauses built-in extraction:
 
 ```json
 {
@@ -162,9 +164,9 @@ On versions that support these store controls, send a `PATCH /iris/v1/agent-memo
 }
 ```
 
-Both extraction switches default to true on store creation. When `extractionEnabled` is false, automatic session extraction pauses for built-in and custom types and for opted-in long-term session recaps. The store keeps the built-in switch's configured value. Keeping the master switch enabled and turning off `builtinExtractionEnabled` allows custom extraction to continue. Session compaction, direct writes, and document ingestion have independent controls.
+Both extraction switches default to true on store creation. Turning off `extractionEnabled` pauses built-in extraction, custom extraction, and long-term session recaps. It preserves the value of `builtinExtractionEnabled`. To pause only built-in extraction, leave `extractionEnabled` on and turn off `builtinExtractionEnabled`. Automatic summarization, direct writes, and document ingestion have independent controls.
 
-Allow time for the settings to propagate. Queued jobs check the settings after propagation, and jobs already running can finish. Omit any field you want to preserve.
+If the server or worker caches store settings, allow up to `metadata.cache_ttl` for a change to take effect. For example, with a cache time to live of `1m`, allow up to one minute. Queued jobs use the settings they read when they start. Jobs already running can finish. Omit any field you want to preserve.
 
 ## Manage a service with the Control Plane SDK
 

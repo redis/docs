@@ -15,7 +15,7 @@ A Summary View turns selected long-term memories into a reusable text or structu
 
 A **definition** specifies the sources, filters, grouping, output, and refresh policy. A **partition** is one materialized result for an exact combination of grouping values. An ungrouped definition has one result. Results are derived data; they do not enter long-term-memory search or replace the source records.
 
-Summary Views differ from [session summarization](/content/develop/ai/context-engine/agent-memory/sessions/_index.md#configure-automatic-summarization), which compacts conversation events. The supported source is `LONG_TERM`. Document-managed MemoryETL records are excluded from Summary View sources.
+Summary Views use long-term memories. [Automatic summarization](/content/develop/ai/context-engine/agent-memory/sessions/_index.md#configure-automatic-summarization) summarizes conversation events within a session. The supported Summary View source is `LONG_TERM`. Document-managed MemoryETL records are excluded from Summary View sources.
 
 ## Prepare the service and identity
 
@@ -25,13 +25,13 @@ Summary Views are available in Redis Cloud and enabled in self-managed deploymen
 
 The server assigns the definition's immutable `ownerId` from the caller's authenticated user ID. A create request cannot supply an owner field.
 
-In on-prem deployments with ownership enforcement enabled, creating a view requires an authenticated user ID, including when an agent key is used. Use [delegated user identity](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) and send the user token on every Summary View request: pass `http_headers={"X-Iris-User-Token": user_token}` to each Python call, or add `-H "X-Iris-User-Token: $USER_TOKEN"` to each cURL request. The verified user becomes the owner, so filter sources by that user's ID.
+On a self-managed store with ownership enforcement enabled, creating a view requires an authenticated user ID, including when an agent key is used. Use [delegated user identity](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) and send the user token on every Summary View request. Pass `http_headers={"X-Iris-User-Token": user_token}` to each Python call, or add `-H "X-Iris-User-Token: $USER_TOKEN"` to each cURL request. The verified user becomes the owner, so filter sources by that user's ID.
 
 On a self-managed store with ownership enforcement disabled, agent keys without a user can create, refresh, and read views of either visibility. `ownerId` is empty when the caller has no authenticated user ID. Check the store's [effective ownership policy](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before choosing a visibility.
 
 ### Choose private or shared visibility
 
-In on-prem deployments with ownership enforcement enabled:
+On self-managed stores with ownership enforcement enabled:
 
 | Visibility | Who can read | Sources |
 |:-----------|:-------------|:--------|
@@ -40,7 +40,7 @@ In on-prem deployments with ownership enforcement enabled:
 
 Shared does not mean a particular team. Enforce team membership in your backend or use separate stores and grants.
 
-On a self-managed store with enforcement disabled, both visibilities use store-level access. Readers and memory sources can belong to any owner allowed by the store-level policy. Apply your application's own checks to personal data. A view records its source-access policy at creation. Replace views whose policy differs from the store's effective policy after a change. Keep the server and worker configuration aligned.
+With ownership enforcement disabled, every caller with store read access can read a `PRIVATE` view. Both `PRIVATE` and `SHARED` views can include personal memories. Your backend must authorize access to personal data. A view records its source-access policy at creation. Replace views whose policy differs from the store's effective policy after a change. Keep the server and worker configuration aligned.
 
 ## Create, refresh, and read a view
 
@@ -79,7 +79,7 @@ Result reads validate contributing source records. Deleted, changed, or newly in
 
 ### Track refresh progress
 
-On deployments that report refresh progress, a result can include `refresh` while a newer attempt is outstanding. Use `value` and `stale` to decide whether to serve the cached result. Use `refresh.status` to inspect the attempt:
+A result can include `refresh` while a newer attempt is outstanding. Use `value` and `stale` to decide whether to serve the cached result. Use `refresh.status` to inspect the attempt:
 
 | Status | Meaning |
 |:-------|:--------|
@@ -88,11 +88,11 @@ On deployments that report refresh progress, a result can include `refresh` whil
 | `INTERRUPTED` | The worker's lease expired and another attempt can recover the work. |
 | `FAILED` | The last attempt failed. Inspect the result's error and retry as appropriate. |
 
-When available, `lastHeartbeatAt` shows worker activity and `lastProgressAt` advances at source-page and generation-batch boundaries. These timestamps give no completion estimate. If a terminal failure leaves newer changes pending, a continuous view picks them up during reconciliation. For a manual view, request another refresh after addressing the failure.
+`lastHeartbeatAt` shows worker activity. `lastProgressAt` updates as the worker processes sources and generates output. If a terminal failure leaves newer changes pending, a continuous view picks them up during reconciliation. For a manual view, request another refresh after addressing the failure.
 
 ## Filter and group sources
 
-Use `filter` for owners, sessions, stable namespace IDs, topics, memory types, creation times, and typed attributes. `filter.op` defaults to `ALL`; `ANY` combines optional filters with OR. Exact partition scope and time-window restrictions apply separately, as do ownership checks in on-prem deployments. Legacy `namespace` labels are unsupported for Summary Views; use `namespaceId`.
+Use `filter` for owners, sessions, stable namespace IDs, topics, memory types, creation times, and typed attributes. `filter.op` defaults to `ALL`; `ANY` combines optional filters with OR. Exact partition scope, time windows, and self-managed ownership checks apply independently. Use `namespaceId` to filter by namespace.
 
 `groupBy` accepts up to four distinct fields: `ownerId`, `sessionId`, `namespaceId`, and `memoryType`. A result read or `target: PARTITION` refresh must supply exactly those fields. Missing or extra scope fields are invalid. `groupBy: []` creates a singleton; omit all scope fields when reading it.
 
@@ -111,7 +111,7 @@ Send the same scope as query parameters on result reads. `target: FULL` reconcil
 
 `timeWindowSeconds` sets a rolling window for source selection. The default time basis, `createdAt`, uses the time when Agent Memory stored each memory. The window only affects which memories the view uses.
 
-On a deployment that supports event-time windows, set `"timeBasis": "eventTime"` when you create the view and include a `timeWindowSeconds` value. For example, use `1209600` for a 14-day window. This keeps historical session imports out of a recent view. Agent Memory ranks eligible memories by event time before applying source limits.
+Set `"timeBasis": "eventTime"` when you create the view and include a `timeWindowSeconds` value. For example, use `1209600` for a 14-day window. This keeps historical session imports out of a recent view. Agent Memory ranks eligible memories by event time before applying source limits.
 
 - For a session-derived memory, event time is the newest rendered message time from its recorded extraction sources. Send original message timestamps when importing sessions.
 - For a new direct memory, event time is the memory's creation time.

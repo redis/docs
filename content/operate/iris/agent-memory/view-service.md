@@ -82,7 +82,7 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 | **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 
-If your service exposes extraction switches under **Long-Term Memory**, turn off **Background extraction** to pause all automatic session extraction. Turn off **Built-in extraction** to pause only built-in extraction and keep enabled custom types running. The console preserves your extraction settings while extraction is paused. Session compaction, direct writes, and MemoryETL continue under their own settings.
+Under **Long-Term Memory**, turn off **Background extraction** to pause all automatic session extraction. Turn off **Built-in extraction** to pause only built-in extraction and keep enabled custom types running. The console preserves your extraction settings while extraction is paused. Automatic summarization, direct writes, and MemoryETL continue under their own settings.
 
 ### AI model and credentials {#ai-model-and-credentials}
 
@@ -185,7 +185,7 @@ The view also shows **Latency by phase**, with charts for **Retrieval latency**,
 
 The **Token consumption** view shows how many large language model (LLM) and embedding tokens the service used, with a breakdown by feature, such as extraction and session summaries. Select **Export** to download the data as a comma-separated values (CSV) file.
 
-Store metrics are a Redis Cloud management capability. Use the **Metrics** tab with the required Cloud permission. Self-managed deployments use their own observability stack.
+To open the **Metrics** tab, you need the Redis Cloud permission `agent_memory_metrics_get`. Self-managed deployments use their own observability stack.
 
 ## Create an API key {#create-an-api-key}
 

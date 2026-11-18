@@ -108,13 +108,15 @@ To move from a standalone `redis-agent-memory` release or a preview chart, see
 
 ## Collect and inspect audit records
 
-On a release with Agent Memory audit logging, use the production logging profile to emit structured records to the container logs. Configure your collector to select logger `audit` or names ending in `.audit`. Collect records from Agent Memory and the Identity Service. Use `audit_product: memory` to find Memory events.
+Requires self-managed Redis Iris 1.1 or later.
+
+Use the production logging profile to emit structured records to the container logs. Configure your collector to select logger `audit` or names ending in `.audit`. Collect records from Agent Memory and the Identity Service. Use `audit_product: memory` to find Memory events.
 
 Retain the JSON records in storage with access controls and monitor the collector for output failures, retries, buffer growth, and low disk space. Audit records bypass log sampling and use best-effort delivery. A service crash or collector failure can lose or repeat a record.
 
 Use `subject` and `user_id` to identify the authenticated actor. Use `store_id`, `resource_id`, and `owner_id` to identify the affected data when those fields are available. The `result` field is `allowed`, `denied`, or `failed`. An allowed mutation confirms persistence, while an allowed authorization event confirms the access check.
 
-Baseline coverage includes authentication and authorization results, store and namespace changes, long-term memory writes, and document ingestion transitions. On releases with extended coverage, look for these additional actions:
+Coverage includes authentication and authorization results, store and namespace changes, long-term memory writes, and document ingestion transitions. The following actions cover session and Summary View changes and authentication:
 
 | Actions | What they record |
 | --- | --- |
@@ -127,7 +129,9 @@ Use request logs and metrics for routine reads. For write retries, use the opera
 
 ## Investigate partial bulk writes
 
-If bulk creation returns HTTP `201`, inspect the per-record `errors` before retrying. On deployments that emit bulk-write diagnostics, use the request ID in the worker warning to find the corresponding Data Plane log entries. Inspect the failure stage to distinguish placement, admission, and persistence problems. The summary gives the created, failed, and omitted counts when the service caps individual warnings.
+Requires self-managed Redis Iris 1.1 or later.
+
+If bulk creation returns HTTP `201`, inspect the per-record `errors` before retrying. In the worker log, find the warning `partial failures in bulk create`. Use its `api_request_id` to find the matching Data Plane log entries. Check the failure stage to distinguish placement, admission, and persistence problems. The summary gives the created, failed, and omitted counts when the service caps individual warnings.
 
 ## Release tests
 

@@ -21,7 +21,9 @@ Redis Agent Memory provides a persistent, structured memory layer that AI agents
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
 
-Use an active Redis Cloud Essentials or Pro database with a public endpoint, an enabled [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) with a password, a supported Redis version, and vector search. Redis Agent Memory requires a non-Active-Active database. If the database selector lists an unmet requirement, correct that setting or choose another database.
+Use an active Redis Cloud Essentials or Pro database running Redis 7.2 through 8.8. The database needs a public endpoint, an enabled [default user](/content/operate/rc/security/access-control/data-access-control/default-user.md) with a password, and vector search. If the database selector lists an unmet requirement, correct that setting or choose another database.
+
+Redis Agent Memory doesn't support [Redis Flex](/content/operate/rc/databases/create-database/create-flex-database.md), databases that use [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md), or [Active-Active](/content/operate/rc/databases/active-active/_index.md) databases.
 
 If the database you select has a Classless Inter-Domain Routing (CIDR) allow list, the console lists the Internet Protocol (IP) addresses to add to it so Agent Memory can reach the database. Add them under **Security** in the database's settings. The console also warns you if the database has Transport Layer Security (TLS) turned off.
 
@@ -184,7 +186,7 @@ Custom detectors match patterns you write yourself, such as tenant IDs, internal
 
 You can define up to 32 custom detectors.
 
-On deployments with direct-write screening, enabled patterns have a limit of 1,024 compiled RE2 instructions and a conservative 64 KiB budget for rune-table references. Repeated groups can exceed these limits even within the pattern's character limit. Simplify or disable a pattern that exceeds either limit. See [Direct-write exclusions](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#direct-write-exclusions).
+Repeated groups can exceed the limit of 1,024 compiled RE2 instructions. Broad Unicode character classes and case-insensitive patterns can exceed the 64 KiB limit for compiled character ranges. If a write fails because of a pattern limit, reduce repetition, narrow the character classes, or disable the pattern. See [Direct-write exclusions](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#direct-write-exclusions).
 
 #### On match {#on-match}
 

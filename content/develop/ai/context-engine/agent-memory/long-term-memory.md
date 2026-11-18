@@ -73,7 +73,7 @@ This example finds memories about the user's food preferences. `recall` restrict
 
 {{< clients-example set="iris_agent_memory_long_term_memory" step="ltm-search" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
-A semantic search hit can include a `score` from 0 to 1. A higher score means the memory is more similar to the query. Filter-only searches omit `score`. In Python, read the field from the generated Agent Memory client response with `redis-agent-memory` 1.2.0 or later.
+A semantic search hit can include a `score` from 0 to 1. A higher score means the memory is more similar to the query. Filter-only searches omit `score`. Python clients expose `score` in `redis-agent-memory` 1.2.0 and later.
 
 ### Filter and sort without semantic search
 
@@ -107,9 +107,9 @@ For example, this search request combines the owner, type, and dietary requireme
 
 Use exactly one typed clause per attribute: `string`, `number`, `boolean`, or `list`, matching the registered field type.
 
-### Extend memory retention on retrieval
+### Refresh memory expiry on retrieval
 
-On deployments that support retrieval-time expiration refresh, send `"refreshTtl": true` in a search request or to [`RetrieveLongTermMemory`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/RetrieveLongTermMemory) to keep a memory available after you use it:
+To refresh expiry on retrieval, send `"refreshTtl": true` in a search request or to [`RetrieveLongTermMemory`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/RetrieveLongTermMemory):
 
 ```bash
 memory_api="${IRIS_AGENT_MEMORY_URL%/}/iris/data/v1/agent-memory/stores/$IRIS_AGENT_MEMORY_STORE_ID"
@@ -119,7 +119,7 @@ curl --fail-with-body -X POST "$memory_api/memories/<memory-id>/retrieve" \
   --data '{"refreshTtl": true}'
 ```
 
-The credential needs store write permission. Search refreshes eligible records on the returned page. Each refresh extends expiry to at least the current time plus the store's long-term memory TTL and preserves any later expiry. Document-managed memories keep their own retention. Ordinary searches and `GET` requests leave expiry unchanged.
+The credential needs store write permission. Search can refresh expiry for the memories on the returned page. Document-managed memories keep their own expiry. A refresh sets expiry to the current time plus the store's long-term memory TTL unless the memory already expires later. Ordinary searches and `GET` requests leave expiry unchanged.
 
 ## Update a memory
 
@@ -235,9 +235,9 @@ If results remain empty, check that the type is enabled and that the owner ID ma
 
 ### Unregister a custom memory type
 
-Use the [Control Plane API](/content/operate/iris/agent-memory/self-managed/control-plane-api-reference.md#operation/RemoveMemoryType) on a deployment that supports custom memory type removal. Disable the type's session extraction strategy and remove any document extractors bound to the type before you unregister it. A remaining dependency returns `409 Conflict`.
+Use the [Control Plane API](/content/operate/iris/agent-memory/self-managed/control-plane-api-reference.md#operation/RemoveMemoryType) to unregister a custom memory type. First disable the type's session extraction strategy and remove any document extractors that use it. A remaining dependency returns `409 Conflict`.
 
-Send the type's current `revision` as the `expectedRevision` query parameter to protect the deletion from concurrent updates. On `412 Precondition Failed`, read the type again before retrying. A successful removal returns `204 No Content`. The service retains existing memories and their indexed fields and reserves the type name for that store. Work already admitted under the previous configuration can finish.
+Send the type's current `revision` as the `expectedRevision` query parameter to protect the deletion from concurrent updates. On `412 Precondition Failed`, read the type again before retrying. A successful removal returns `204 No Content`. The service retains existing memories and their indexed fields. You can’t register a new type with that name in this store. Extraction jobs that had already started can finish.
 
 ### Create a custom memory directly
 
@@ -251,7 +251,7 @@ See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#
 
 ## Direct-write exclusions
 
-Direct-write screening requires a deployment that supports it. For example, self-managed Redis Iris 1.0.1 applies exclusions during extraction and lacks screening for direct writes.
+Self-managed Redis Iris 1.0.1 applies exclusions only during extraction.
 
 Enabled built-in and custom detectors check direct creates, replacements, and content updates before embedding or saving. Extraction prompts and semantic exclusions apply only during automatic extraction.
 

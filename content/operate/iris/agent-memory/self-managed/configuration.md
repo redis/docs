@@ -64,11 +64,11 @@ explicitly when combining agent keys with worker or other authentication methods
 
 For ownership enforcement, use `memory.memory.ownership.enabled` in Helm values or `ownership.enabled` in a BYO Data Plane configuration file. `MEM_OWNERSHIP_ENABLED` overrides the file setting. Enabling this option does not bind agent keys to users or rewrite existing owners.
 
-On releases with per-store ownership, this variable configures the deployment's fallback. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) for store and tenant precedence.
+For stores that inherit the deployment policy, `MEM_OWNERSHIP_ENABLED` overrides the deployment fallback. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) for store and tenant precedence.
 
 ### Verify Redis Enterprise TLS
 
-From self-managed Redis Iris 1.0.1, you can add `tls_server_name` to a `rediss://` URL for Metadata Redis, Store Redis, or Job Redis. Use the database Service host in the URL and a name covered by its Transport Layer Security (TLS) certificate in the parameter:
+Starting with self-managed Redis Iris 1.0.1, you can add `tls_server_name` to a `rediss://` URL for Metadata Redis, Store Redis, or Job Redis. Use the database Service host in the URL and a name covered by its Transport Layer Security (TLS) certificate in the parameter:
 
 ```text
 rediss://<database-service-host>:<port>?tls_server_name=<certificate-name>
@@ -78,7 +78,7 @@ Agent Memory connects to the Service host and verifies the certificate against `
 
 ### Configure additional inference providers
 
-Use these settings on a self-managed release with Cohere or Anthropic support. Redis Iris 1.0.1 predates these integrations.
+Requires self-managed Redis Iris 1.1 or later.
 
 | Provider | Supported roles | Configuration |
 | --- | --- | --- |
@@ -367,7 +367,9 @@ Roll out both the server and worker. Confirm store health, then [create an extra
 
 ### Connect the console to the Data Plane
 
-On a release that supports the Agent Memory Data Plane tools, keep the console's `memory-dp` route enabled and point it at the Agent Memory Data Plane service. Sign in with the operator credential configured for the console. In admin token mode, use the Agent Memory Control Plane admin token configured for the same release. Connect to the store to use Memory Inspector, Playground, the API explorer, and document extraction.
+Requires self-managed Redis Iris 1.1 or later.
+
+Keep the console's `memory-dp` route enabled and point it at the Agent Memory Data Plane service. Sign in with the operator credential configured for the console. In admin token mode, use the Agent Memory Control Plane admin token configured for the same release. Connect to the store to use Memory Inspector, Playground, the API explorer, and document extraction.
 
 If the console reports `Document ingestion is not enabled`, enable document ingestion on the server and worker using the settings in this section. Then verify that the store has an enabled extractor and that the worker can reach the configured model provider.
 

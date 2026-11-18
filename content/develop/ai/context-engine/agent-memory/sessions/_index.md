@@ -59,7 +59,7 @@ Your application must check that the current user can access this session before
 
 ### Read part of a transcript
 
-On a deployment that supports [`ListSessionEvents`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/ListSessionEvents), fetch just the events you need for the next agent turn. For example, request the last 20 retained events in transcript order:
+Use [`ListSessionEvents`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/ListSessionEvents) to fetch the events you need for the next agent turn. For example, request the last 20 retained events in transcript order:
 
 ```bash
 memory_api="${IRIS_AGENT_MEMORY_URL%/}/iris/data/v1/agent-memory/stores/$IRIS_AGENT_MEMORY_STORE_ID"
@@ -77,7 +77,7 @@ curl --fail-with-body --get "$memory_api/sessions/<session-id>/events" \
   --data-urlencode "afterEventId=<summarized-up-to-event-id>"
 ```
 
-If the checkpoint is absent or returns `404 Event Not Found`, restart without `afterEventId` and without the cursor. If only the cursor's event was deleted, the service returns `400 Invalid Cursor`. Restart the same range without the cursor.
+If the recap has no checkpoint or the request returns `404 Event Not Found` for the checkpoint, restart without `afterEventId` or a cursor. If the event your cursor points to was deleted, the service returns `400 Invalid Cursor`. Restart the same range without the cursor.
 
 ## List sessions
 
@@ -136,9 +136,9 @@ To group a session and its extracted memories, use an optional [namespace]({{< r
 
 ## Store searchable session recaps
 
-Transcript compaction helps you resume a conversation. A long-term session recap is a searchable memory about a conversation. User-defined [Summary Views](/content/develop/ai/context-engine/agent-memory/summary-views.md) summarize a set of long-term memories.
+Automatic summarization helps you resume a conversation. A long-term session recap is a searchable memory about a conversation. User-defined [Summary Views](/content/develop/ai/context-engine/agent-memory/summary-views.md) summarize a set of long-term memories.
 
-On a deployment with recap extraction enabled, set `"longTermMemory": {"sessionSummaryEnabled": true}` when creating or updating the store. The store setting defaults to false. Self-managed deployments also need [recap extraction on the server and worker](/content/operate/iris/agent-memory/self-managed/configuration.md#configure-searchable-session-recaps).
+To enable recaps, set `"longTermMemory": {"sessionSummaryEnabled": true}` when creating or updating the store. The store setting defaults to false. Self-managed deployments also need [recap extraction on the server and worker](/content/operate/iris/agent-memory/self-managed/configuration.md#configure-searchable-session-recaps).
 
 Search for the recap using the session and memory type:
 
@@ -151,7 +151,7 @@ Search for the recap using the session and memory type:
 }
 ```
 
-The older `session_summary_view` name can also match these recaps. If the store already has a custom type named `session_summary`, the custom type and the older built-in name stay separate.
+The legacy memory type `session_summary_view` also matches these recaps. In a store with an existing custom type named `session_summary`, use `session_summary_view` to find the built-in recaps.
 
 ## Try automatic summarization
 

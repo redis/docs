@@ -148,9 +148,13 @@ Operation mapping:
 | `write` | Add/delete session events, delete session memory, set session summary, set session property, create/update/delete long-term memory. |
 {{< /table-scrollable >}}
 
-On deployments supporting federated service subjects, grant `read_all_owners` explicitly for a specific store to let a service read across owners. The action is read-only and applies to service subjects. Agent keys use the store grants and ownership rules.
+For a federated service subject that needs to read across owners, grant `read_all_owners` explicitly for the target store. This grant is read-only. Agent keys use their store grants and the store's ownership rules.
 
-On deployments configured to accept Iris access tokens, send the token in the `Authorization: Bearer` header. Use an access token with the Data Plane audience and a principal with a grant for the target store.
+### Authenticate with an Iris access token
+
+Requires self-managed Redis Iris 1.1 or later.
+
+Send the Iris access token in the `Authorization: Bearer` header. Use a token with the Data Plane audience and a principal with a grant for the target store.
 
 ## Server-side ownership enforcement
 
@@ -158,7 +162,11 @@ Store grants authorize access to a store. Ownership enforcement adds a check wit
 
 In self-managed Redis Iris 1.0.1, use the deployment setting `memory.memory.ownership.enabled`. It defaults to false. Configure a user identity before enabling enforcement. See [Enable or change ownership enforcement](#enable-or-change-ownership-enforcement).
 
-On a deployment that supports store policies, use `ownership.mode` in the store create or update request. Set `ENABLED` or `DISABLED` to override the default for one store. `INHERIT` uses the tenant default if configured, then the deployment setting. Read `ownership.enabled` and `ownership.source` in the store response to check the effective policy. Changes take effect after the deployment's configuration cache refreshes.
+### Set ownership for one store
+
+Requires self-managed Redis Iris 1.1 or later.
+
+Set `ownership.mode` in the store create or update request. Use `ENABLED` or `DISABLED` to override the default. `INHERIT` uses the tenant default if configured, then the deployment setting. Read `ownership.enabled` and `ownership.source` in the response to check the effective policy. If the server or worker caches store settings, allow up to `metadata.cache_ttl` for the change to take effect.
 
 | Setting | Personal access | Shared access |
 | --- | --- | --- |
