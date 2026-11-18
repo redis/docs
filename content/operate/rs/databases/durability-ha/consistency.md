@@ -28,7 +28,7 @@ Any updates that are issued to the database are typically performed with the fol
 7. The write to a replica is persisted to disk.
 8. The write is acknowledged within the replica.
 
-![](/images/rs/weak-consistency.png)
+![Non-blocking write: the master acknowledges the app in steps 1 to 4, then replication and storage happen in steps 5 to 8](/images/rs/weak-consistency.png)
 
 ## Blocking write operation on replication
 
@@ -44,7 +44,7 @@ the replica. The flow of a write operation with `WAIT` or `WAITAOF` is:
 
 The application only gets the acknowledgment from the write after durability is achieved with replication to the replica for `WAIT` or `WAITAOF` and to the persistent storage for `WAITAOF` only.
 
-![](/images/rs/strong-consistency.png)
+![Blocking write: the app's write passes the proxy, master, replica and storage in steps 1 to 5 before the reply returns in steps 6 to 8](/images/rs/strong-consistency.png)
 
 The `WAIT` command always returns the number of replicas that acknowledged the write commands sent by the current client before the `WAIT` command, both in the case where the specified number of replicas are reached, or when the timeout is reached. In Redis Software, the number of replicas for HA enabled databases is always 1.
 

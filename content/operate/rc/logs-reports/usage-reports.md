@@ -12,7 +12,7 @@ weight: 70
 
 The **Usage Report** shows the daily memory usage and shard usage of all databases from the subscriptions associated with your account.
 
-![](/images/rc/usage-report-memory-usage.png)
+![Redis Cloud Usage Report with the Memory Usage tab, filters and a bar chart of daily memory usage in GB for May 2026](/images/rc/usage-report-memory-usage.png)
 
 To filter the data, you can:
 * Select a month and year from the **View Statement For** list to view the daily memory usage during a specific month.

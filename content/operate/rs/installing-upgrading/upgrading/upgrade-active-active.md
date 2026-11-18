@@ -138,7 +138,7 @@ To check the status of the Active-Active database on a participating cluster, ru
 rladmin status
 ```
 
-![](/images/rs/crdb-upgrade-node.png)
+![rladmin status shards for an Active-Active database with the status OK, OLD CRDB PROTOCOL VERSION](/images/rs/crdb-upgrade-node.png)
 
 The statuses of the Active-Active database on the cluster can indicate:
 

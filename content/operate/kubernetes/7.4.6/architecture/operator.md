@@ -69,4 +69,4 @@ The operator creates the following resources:
 The following diagram shows the high-level architecture of the Redis
 Enterprise operator:
 
-![](/images/k8s/k8-high-level-architecture-diagram-of-redis-enterprise.png)
+![Redis Enterprise operator managing the cluster resource, services controller and broker, headless and UI services, and a StatefulSet of Redis pods](/images/k8s/k8-high-level-architecture-diagram-of-redis-enterprise.png)

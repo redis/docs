@@ -32,7 +32,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-![](/images/rs/redis-enterprise-newrelic.png)
+![New Relic Cluster Dashboard for Redis Software showing latency, key count, node count, request rate, memory and connections](/images/rs/redis-enterprise-newrelic.png)
 ## Install Redis' New Relic Integration for Redis Software
 
 The New Relic Integration for Redis is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 

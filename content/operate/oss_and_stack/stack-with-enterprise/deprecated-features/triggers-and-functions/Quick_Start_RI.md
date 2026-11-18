@@ -25,35 +25,35 @@ If you haven't already installed Redis Insight, you can download the latest vers
 
 Open the Redis Insight application, and connect to your database by clicking on its database alias.
 
-![](/images/triggers-and-functions/tf-rdi-0.png)
+![Redis Insight with the database alias selected to connect to Redis Stack](/images/triggers-and-functions/tf-rdi-0.png)
 
 ## Load a library
 
 Click on the triggers and functions icon and then on **+ Library** as shown below.
 
-![](/images/triggers-and-functions/tf-rdi-1.png)
+![Redis Insight triggers and functions page with the + Library button](/images/triggers-and-functions/tf-rdi-1.png)
 
 Add your code to the **Library Code** section of the right-hand panel and then click **Add Library**.
 
-![](/images/triggers-and-functions/tf-rdi-2.png)
+![Redis Insight Add Library panel with a code editor and the Add Library button](/images/triggers-and-functions/tf-rdi-2.png)
 
 You'll see the following when the library was added:
 
-![](/images/triggers-and-functions/tf-rdi-3.png)
+![Redis Insight confirmation that the library was added, listing its functions](/images/triggers-and-functions/tf-rdi-3.png)
 
 The `TFCALL` command is used to execute the JavaScript Function. If the command fails, an error will be returned. Click on the **>_ CLI**  button in the lower left-hand corner to open a console window and then run the command shown below.
 
-![](/images/triggers-and-functions/tf-rdi-3a.png)
+![Redis Insight CLI panel running TFCALL to execute a JavaScript function in the library](/images/triggers-and-functions/tf-rdi-3a.png)
 
 To update a library you can edit the library code directly in the interface by clicking on the edit (pencil) icon. When you save your changes, the libary will be reloaded.
 
-![](/images/triggers-and-functions/tf-rdi-4.png)
+![Redis Insight library code editor with the pencil icon for editing and saving the library](/images/triggers-and-functions/tf-rdi-4.png)
 
 ## Uploading an external file
 
 Click on the **+ Add Library** button as before and, instead of adding the code directly into the editor, click on the **Upload** button, select the file from your file browser, and then click on **Add Library**. The file needs to contain the header, which contains the engine identifier, the API version, and the library name: `#!js api_version=1.0 name=myFirstLibrary`.
 
-![](/images/triggers-and-functions/tf-rdi-5.png)
+![Redis Insight Add Library dialog with the Upload button for loading a code file](/images/triggers-and-functions/tf-rdi-5.png)
 
 ## Creating triggers
 
