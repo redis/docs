@@ -65,7 +65,7 @@
     return null;
   }
   
-  function renderTimeline(container, versions, title) {
+  function renderTimeline(container, versions, title, options = {}) {
     // Calculate date range
     const allDates = versions.flatMap(v => [v.releaseDate, v.eolDate]).filter(d => d);
     const minDate = new Date(Math.min(...allDates));
@@ -77,7 +77,8 @@
 
     // Make responsive - use container width or default
     const containerWidth = container.offsetWidth || 800;
-    const svgWidth = Math.min(containerWidth - 20, 1000); // Leave some margin
+    const minWidth = Math.min(Math.max(options.minWidth || 0, 0), 1000);
+    const svgWidth = Math.min(Math.max(containerWidth - 20, minWidth), 1000); // Leave some margin
     const rowHeight = 60; // Increased spacing between rows
     const svgHeight = 80 + versions.length * rowHeight + 20; // Reduced bottom padding
     const chartLeft = 80; // Reduced from 120 to 80
@@ -94,6 +95,14 @@
     svg.style.marginBottom = '1em';
     svg.style.maxWidth = '100%';
     svg.style.height = 'auto';
+    if (minWidth) {
+      container.style.overflowX = 'auto';
+      svg.style.minWidth = `${minWidth}px`;
+      svg.style.width = `${svgWidth}px`;
+      svg.style.maxWidth = 'none';
+      svg.setAttribute('role', 'img');
+      svg.setAttribute('aria-label', `${title}. ${versions.map(v => `${v.version}: GA ${v.release}, EOL ${v.eol}`).join('; ')}`);
+    }
     
     // Title
     const titleEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -113,7 +122,8 @@
     versionHeader1.style.fontSize = '13px';
     versionHeader1.style.fontWeight = '900';
     versionHeader1.style.fill = '#333';
-    versionHeader1.textContent = 'Cluster';
+    const [versionHeading, ...versionDetail] = (options.versionLabel || 'Cluster version').split(' ');
+    versionHeader1.textContent = versionHeading;
     svg.appendChild(versionHeader1);
 
     const versionHeader2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -123,7 +133,7 @@
     versionHeader2.style.fontSize = '13px';
     versionHeader2.style.fontWeight = '900';
     versionHeader2.style.fill = '#333';
-    versionHeader2.textContent = 'version';
+    versionHeader2.textContent = versionDetail.join(' ');
     svg.appendChild(versionHeader2);
     
     // Time axis
@@ -269,7 +279,10 @@
       const versions = parseTimelineData(yamlText);
       
       const container = pre.parentNode;
-      renderTimeline(container, versions, title);
+      renderTimeline(container, versions, title, {
+        versionLabel: pre.getAttribute('data-timeline-version-label'),
+        minWidth: parseInt(pre.getAttribute('data-timeline-min-width'), 10) || 0
+      });
     });
   });
 })();

@@ -7,21 +7,12 @@ weight: 2
 ---
 
 Use this page to check release support dates and deployment requirements for
-self-managed Redis Data Integration (RDI), starting with release family `1.8.x`.
-This page covers all listed families and is shared across documentation versions.
-
-> [!WARNING]
-> **Draft proposal.** The lifecycle policy and end-of-life dates on this page are
-> proposed, not an approved support commitment. The compatibility tables also
-> contain entries that need verification. Confirm your deployment combination
-> with [Redis support](https://redis.io/support/) before relying on this draft.
+self-managed Redis Data Integration (RDI).
 
 For a new deployment, start with the latest RDI release, **{{< rdi-version >}}**,
 and check its compatibility with your environment. See the [RDI installation requirements](/content/integrate/redis-data-integration/installation/reqsummary.md)
 and [upgrade instructions](/content/integrate/redis-data-integration/installation/upgrade.md).
 For the managed RDI service, see [Data Integration in Redis Cloud](/content/operate/rc/rdi/_index.md).
-
-Downgrading from RDI 2.0.0 or later to a version before 2.0.0 is not supported.
 
 ## Proposed lifecycle policy
 
@@ -40,64 +31,90 @@ Under this proposal:
   family. Upgrade to a supported family before that date.
 - The same calculation applies to existing families, without an initial grace period.
 
-### Proposed end-of-life schedule
+### End-of-life schedule
 
 Release months refer to the first GA release in each family, not its latest patch.
 
-| RDI family | First GA release | Proposed EOL |
-|---|---|---|
-| 2.2.x | October 2026 | April 30, 2028 |
-| 2.0.x | September 2026 | March 31, 2028 |
-| 1.19.x | July 2026 | January 31, 2028 |
-| 1.18.x | April 2026 | October 31, 2027 |
-| 1.16.x | January 2026 | July 31, 2027 |
-| 1.15.x | October 2025 | April 30, 2027 |
-| 1.14.x | August 2025 | February 28, 2027 |
-| 1.12.x | June 2025 | December 31, 2026 |
-| 1.10.x | May 2025 | November 30, 2026 |
-| 1.8.x | May 2025 | November 30, 2026 |
+Each bar starts at the first GA release month and ends on the EOL date. The chart
+uses the first day of the release month for positioning, not as the exact GA date.
 
-## Redis target compatibility
+```timeline {title="RDI lifecycle: GA to EOL" version-label="RDI family" min-width="600"}
+2.2.x: Oct 2026 - Apr 30, 2028
+2.0.x: Sep 2026 - Mar 31, 2028
+1.19.x: Jul 2026 - Jan 31, 2028
+1.18.x: Apr 2026 - Oct 31, 2027
+1.16.x: Jan 2026 - Jul 31, 2027
+1.15.x: Oct 2025 - Apr 30, 2027
+1.14.x: Aug 2025 - Feb 28, 2027
+1.12.x: Jun 2025 - Dec 31, 2026
+1.10.x: May 2025 - Nov 30, 2026
+1.8.x: May 2025 - Nov 30, 2026
+```
 
-The target database receives your pipeline's output. Its Redis Software cluster
-version and Redis database version are separate compatibility requirements.
-Do not use the minimum version for the internal RDI database as the minimum for a target.
+## RDI upgrade and downgrade paths
 
-**Not verified** means that this draft does not establish support for the
-combination. It does not mean **unsupported**. No row marked **Not verified** is
-a recommendation for a production deployment.
+Rows identify your current release family. Columns identify the destination family.
+
+- **Upgrade**: Follow the [RDI upgrade instructions](/content/integrate/redis-data-integration/installation/upgrade.md), including the changes for the destination version.
+- **Review**: Check the downgrade restrictions before proceeding. The 2.0.0 boundary alone does not establish that a downgrade is supported.
+- **Not supported**: Downgrading from RDI 2.0.0 or later to a version before 2.0.0 is not supported.
+- **—**: Both versions belong to the same release family.
 
 {{< table-scrollable >}}
 
-| RDI family | Redis product | Cluster version | Redis database version | Conditions |
-|---|---|---|---|---|
-| 2.2.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 2.0.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 1.19.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 1.18.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 1.16.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 1.15.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 1.14.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 1.12.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 1.10.x | Redis Software | Not verified | Not verified | Version qualification pending. |
-| 1.8.x | Redis Software | Not verified | Not verified | Version qualification pending. |
+| Current RDI family | 1.8.x | 1.10.x | 1.12.x | 1.14.x | 1.15.x | 1.16.x | 1.18.x | 1.19.x | 2.0.x | 2.2.x |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1.8.x | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
+| 1.10.x | Review | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
+| 1.12.x | Review | Review | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
+| 1.14.x | Review | Review | Review | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
+| 1.15.x | Review | Review | Review | Review | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
+| 1.16.x | Review | Review | Review | Review | Review | — | Upgrade | Upgrade | Upgrade | Upgrade |
+| 1.18.x | Review | Review | Review | Review | Review | Review | — | Upgrade | Upgrade | Upgrade |
+| 1.19.x | Review | Review | Review | Review | Review | Review | Review | — | Upgrade | Upgrade |
+| 2.0.x | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | — | Upgrade |
+| 2.2.x | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Review | — |
 
 {{< /table-scrollable >}}
 
-Redis Cloud target database versions and plans are also **not verified** for these
-families in this draft. A managed RDI service's target requirements do not establish
-compatibility for self-managed RDI.
+The upgrade instructions also document these requirements:
+
+- To upgrade from a version before 1.8.0 to 2.2.0, [upgrade to 2.0.0 first](/content/integrate/redis-data-integration/installation/upgrade.md#upgrade-from-a-version-before-180-in-two-steps).
+- Before upgrading from 1.19.x or earlier to 2.0.0 or later, review the [processor migration and configuration changes](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200). Migrating a classic pipeline to the Flink processor requires migration on 1.19.0 before the upgrade.
+- [Do not downgrade from 2.2.0 after creating a pipeline other than `default`](/content/integrate/redis-data-integration/installation/upgrade.md#downgrade-from-rdi-220).
+- A disaster recovery (DR) setup using a DynamoDB lease requires 2.2.0 or later. Downgrading a setup using a Google Cloud Storage (GCS) lease to 2.0.0 requires downtime and additional steps. See [Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
+- Downgrading from 1.8.0 or later to a version before 1.8.0 with `helm upgrade` does not work. The [upgrade verification instructions](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade) require uninstalling and reinstalling the earlier version.
+
+## Redis target compatibility
+
+The target Redis Enterprise (RE) cluster receives your pipeline's output.
+The RDI release notes do not specify minimum or maximum supported RE cluster
+versions for the listed families. **Not documented** does not mean unrestricted
+support. Confirm your cluster version with [Redis support](https://redis.io/support/).
+
+{{< table-scrollable >}}
+
+| RDI family | Minimum RE cluster version | Maximum RE cluster version |
+|---|---|---|
+| 2.2.x | Not documented | Not documented |
+| 2.0.x | Not documented | Not documented |
+| 1.19.x | Not documented | Not documented |
+| 1.18.x | Not documented | Not documented |
+| 1.16.x | Not documented | Not documented |
+| 1.15.x | Not documented | Not documented |
+| 1.14.x | Not documented | Not documented |
+| 1.12.x | Not documented | Not documented |
+| 1.10.x | Not documented | Not documented |
+| 1.8.x | Not documented | Not documented |
+
+{{< /table-scrollable >}}
 
 RDI can write to one Redis Active-Active database endpoint. It does not support
 writing the same pipeline to multiple Active-Active replicas.
-For JavaScript Object Notation (JSON) output, check the target's JSON capabilities. RDI `1.15.0` adds native
-`JSON.MERGE` for RedisJSON 2.6.0 and later, with a fallback for older versions.
-Starting with `1.19.0`, the Flink processor's JSON merge deletes null leaf values
-on both paths; the classic processor's fallback preserves them.
 
 The internal RDI database stores pipeline state. Its separate
 [RDI database requirements](/content/integrate/redis-data-integration/installation/reqsummary.md#rdi-database-requirements)
-do not qualify a target database version.
+do not establish supported target RE cluster versions.
 
 ## Deployment platform compatibility
 

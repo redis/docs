@@ -19,8 +19,8 @@ from the [Redis Software cluster lifecycle](https://redis.io/docs/latest/operate
 which describes 24 months after the subsequent major cluster release.
 The proposed RDI rule must not be presented as either existing policy.
 
-The draft labels both the policy and dates as proposed. Adopting the proposal is
-a product/support decision outside this documentation change. In particular,
+The policy remains a proposal. Adopting it is a product/support decision outside
+this documentation change. In particular,
 1.8.x and 1.10.x would reach EOL on November 30, 2026, without a notice period.
 
 ## Compatibility evidence and gaps
@@ -82,7 +82,7 @@ shared requirements or a configured test job.
   example metadata, and public remote examples. These adjustments were made only
   in temporary build copies; no dependency changes are part of this change.
 
-### Independent prospective-customer review
+### Initial independent prospective-customer review
 
 The final validation step reviews only rendered documentation and public links,
 without these review notes or internal evidence.
@@ -126,3 +126,42 @@ defect in the new page's handling of the reviewed points. It confirmed that the
 page repeats neither disputed sharding position, promises no rollback path,
 separates target and state requirements, and presents the dates and compatibility
 gaps as a draft. Policy adoption and product qualification remain open.
+
+## Local review revision
+
+- Removed the requested introductory scope sentences and the draft warning.
+  The lifecycle policy remains labelled as proposed; the schedule uses EOL.
+- Replaced the release-date table with a Gantt-style lifecycle chart. All ten
+  release months and EOL dates appear on the chart. Month-only release dates
+  use the first day for positioning, without asserting an exact GA day.
+- Reused the site's timeline renderer, with optional version-label and minimum
+  width attributes. Existing charts keep their cluster-version heading and
+  sizing. The RDI chart labels release families and scrolls on narrow screens.
+- Added a release-family upgrade/downgrade matrix. Newer-family entries point to
+  the upgrade procedure; downgrades from 2.x to 1.x are explicitly unsupported.
+  Other downgrade entries require review rather than assuming that the absence
+  of a restriction establishes support.
+- Included additional published restrictions: the pre-1.8.0 to 2.2.0 route via
+  2.0.0, processor migration on 1.19.0 when switching from classic to Flink,
+  the named-pipeline downgrade restriction, disaster recovery lease constraints,
+  and the Helm downgrade boundary at 1.8.0.
+- Searched all 36 public RDI release-note pages, including releases before 1.8.0,
+  for RE cluster support additions and version bounds. No minimum or maximum
+  supported target RE cluster version was specified. Target compatibility now
+  has only RDI family, minimum RE cluster version, and maximum RE cluster version;
+  missing bounds are labelled **Not documented**, not inferred from test inputs.
+- Relevant release-note changes do not establish RE cluster version bounds:
+  1.10.0 adds MongoDB sources; 1.14.0 adds Spanner sources; 1.18.0 introduces
+  Snowflake sources in preview; 1.15.0 adds native JSON merge with an older-module
+  fallback and describes sharded internal RDI databases; 1.19.0 unifies Flink JSON
+  merge behavior. Source and module versions are not RE cluster versions.
+- Passed: production build with Hugo 0.143.1, chart date calculations, matrix
+  downgrade-boundary checks, and all ten article links and their section anchors.
+  The lifecycle article adds no unresolved-link warning.
+- Passed: desktop and narrow-screen chart rendering. All chart labels fit inside
+  the diagram, horizontal scrolling preserves readable dates on narrow screens,
+  and the existing Redis Software lifecycle chart keeps its default heading.
+- The independent prospective-customer reviewer checked this revision and found
+  no blocking new issue. It confirmed the chart's date precision, the matrix's
+  2.x-to-1.x restriction and conditional downgrade wording, and the distinction
+  between undocumented RE cluster bounds and unrestricted support.
