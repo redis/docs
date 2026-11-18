@@ -1,6 +1,8 @@
 ---
 Title: Compatibility with Redis Open Source commands
 alwaysopen: false
+bannerText: Redis Software command compatibility is now documented on each command page. These pages will be removed in a future documentation update.
+bannerChildren: true
 categories:
 - docs
 - operate

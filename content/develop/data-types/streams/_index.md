@@ -39,6 +39,8 @@ Redis streams support several trimming strategies (to prevent streams from growi
 
 Beginning with Redis 8.6, Redis streams support idempotent message processing (at-most-once production) to prevent duplicate entries when using at-least-once delivery patterns. This feature enables reliable message submission with automatic deduplication. See [Idempotent Message Processing](/content/develop/data-types/streams/idempotency.md) for more information.
 
+{{< data-type-animation type="stream" >}}
+
 ## Examples
 
 * When our racers pass a checkpoint, we add a stream entry for each racer that includes the racer's name, speed, position, and location ID:

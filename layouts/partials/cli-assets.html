@@ -26,6 +26,10 @@
        cells, and does nothing on pages without them. */ -}}
 <script src='{{ relURL "js/redis-workbench-notebook.js" }}' defer></script>
 <link rel="stylesheet" href='{{ relURL "css/redis-workbench.css" }}'>
+{{- /* Feedback on the workbench: a "Leave feedback" button in the dock's bar,
+       and the form it opens. The answer goes to DocuSight. */ -}}
+<script src='{{ relURL "js/redis-workbench-feedback.js" }}' defer></script>
+<link rel="stylesheet" href='{{ relURL "css/redis-workbench-feedback.css" }}'>
 {{- /* A code example's "Try it" belongs to its redis-cli tab, but the language
        a reader picked is restored by codetabs.js, which is deferred: the page
        first paints with every example on its first tab, redis-cli, and the

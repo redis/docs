@@ -1,6 +1,7 @@
 ---
 Title: Probabilistic data structure commands
 alwaysopen: false
+bannerText: Redis Software command compatibility is now documented on each command page. This page will be removed in a future documentation update.
 categories:
 - docs
 - operate

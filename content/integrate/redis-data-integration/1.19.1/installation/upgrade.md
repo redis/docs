@@ -180,6 +180,14 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 > described in [Uninstall RDI](/content/integrate/redis-data-integration/1.19.1/installation/install-k8s.md#uninstall-rdi),
 > and then install the old version.
 
+## Upgrading from RDI versions before 1.18.1
+
+If you upgrade from a version before 1.18.1 and use an Oracle source, check that your backup and
+cleanup jobs keep archived logs long enough before you upgrade. RDI 1.18.1 and later read older
+changes only from archived logs, so a job that deletes them soon after they are written stops the
+pipeline. See [Archive log retention](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md)
+in the latest documentation for the recommended retention.
+
 ## Enabling the Flink processor
 
 The

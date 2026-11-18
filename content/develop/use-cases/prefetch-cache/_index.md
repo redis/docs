@@ -75,17 +75,19 @@ Redis provides the following features that make it a good fit for prefetch cachi
 The following libraries and frameworks support Redis-backed prefetch caching:
 
 -   **Java**:
-    [Spring Cache abstraction (`@Cacheable` with Redis cache store)](https://docs.spring.io/spring-data/redis/reference/redis/redis-cache.html),
-    populated by a startup `CommandLineRunner` for the bulk load.
+    [Spring Cache abstraction (`@Cacheable` with Redis cache store)](/content/integrate/spring-framework-cache/cache.md),
+    populated by a startup `ApplicationRunner` for the bulk load.
 -   **Node.js**:
-    [Redis OM](https://github.com/redis/redis-om-node) for object-mapping
+    [Redis OM](/content/integrate/redisom-for-node-js/_index.md) for object-mapping
     prefetched JSON documents.
 -   **Change-data-capture (CDC)** pipelines that stream source-database changes
     into Redis without custom application code:
     [Redis Data Integration (RDI)](/content/integrate/redis-data-integration/_index.md)
     for relational and NoSQL sources on Redis Enterprise / Redis Cloud;
     [Debezium](https://debezium.io/) plus a lightweight Redis consumer for
-    open-source Redis.
+    open-source Redis; the
+    [Redis Sink connector for Confluent Cloud](/content/integrate/confluent-with-redis-cloud/_index.md)
+    to write Kafka topics into Redis Cloud.
 -   **API gateways**:
     [Kong](https://docs.konghq.com/hub/) plugins to route reference-data reads to
     Redis directly, bypassing the backend service entirely.

@@ -67,6 +67,20 @@ Choose one based on where you want Redis to run and how much of its deployment a
       </ol>
     </div>
   </div>
+  <div class="relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/integrate/azure-managed-redis" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10 pointer-events-none">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-blue-gray-bubble border border-redis-pen-600 flex-shrink-0"></span>
+        <span>Azure Managed Redis</span>
+      </div>
+      <ol class="flex flex-wrap items-center gap-x-2 gap-y-2 list-none m-0 px-6 py-4 text-sm text-redis-pen-600 font-geist">
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/integrate/azure-managed-redis#create-an-instance" >}}">Create an instance</a><span aria-hidden="true">→</span></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/integrate/azure-managed-redis#connect-your-application" >}}">Connect your application</a><span aria-hidden="true">→</span></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/integrate/azure-managed-redis#migrate-an-existing-deployment" >}}">Migrate</a></li>
+      </ol>
+    </div>
+  </div>
 </div>
 
 ## AI and data services

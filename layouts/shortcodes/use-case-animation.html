@@ -1,0 +1,38 @@
+{{- /*
+  use-case-animation
+  ------------------
+  A short looping animation for a use case page. It draws the application
+  and Redis, types each command the application sends, shows the reply, and
+  draws what the command did. Runs entirely in the browser on recorded
+  replies; no Redis server is called.
+
+  Usage:
+      {{< use-case-animation name="leaderboard" >}}
+
+  name is one of: leaderboard.
+
+  It runs on the data type animation player, so it loads that script and
+  stylesheet too. The assets are emitted on every call rather than
+  deduplicated with .Page.Store: the store survives `hugo server` rebuilds,
+  so a page that isn't edited would lose its assets after the first rebuild.
+  The scripts guard against running twice.
+*/ -}}
+{{- $names := slice "leaderboard" -}}
+{{- $name := .Get "name" -}}
+{{- if not (in $names $name) -}}
+  {{- errorf "use-case-animation: unknown name %q at %s" $name .Position -}}
+{{- end -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/data-type-animation.css" "css/use-case-animation.css" "js/demo-highlight.js" "js/data-type-animation.js" "js/use-case-animation.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/data-type-animation.css" | relURL }}?v={{ index $v "css/data-type-animation.css" }}">
+<link rel="stylesheet" href="{{ "css/use-case-animation.css" | relURL }}?v={{ index $v "css/use-case-animation.css" }}">
+<script defer src="{{ "js/demo-highlight.js" | relURL }}?v={{ index $v "js/demo-highlight.js" }}"></script>
+<script defer src="{{ "js/data-type-animation.js" | relURL }}?v={{ index $v "js/data-type-animation.js" }}"></script>
+<script defer src="{{ "js/use-case-animation.js" | relURL }}?v={{ index $v "js/use-case-animation.js" }}"></script>
+
+<noscript><style>.dta { display: none; }</style></noscript>
+<div class="dta" data-dta="{{ $name }}"></div>
