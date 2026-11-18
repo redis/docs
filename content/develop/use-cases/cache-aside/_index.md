@@ -79,6 +79,8 @@ The following libraries and frameworks provide Redis-backed cache-aside integrat
     (with [redis-py](https://redis.readthedocs.io/))
 -   **Node.js**: [node-redis](https://github.com/redis/node-redis),
     [ioredis](https://github.com/redis/ioredis) (wrap route handlers with a cache-aside helper)
+-   **.NET**: [FusionCache](/content/integrate/fusioncache/_index.md#cache-data-with-the-cache-aside-pattern)
+    (hybrid memory and Redis cache with stampede protection and Fail-Safe)
 -   **API gateways**:
     [Kong Redis response caching](/content/integrate/kong/_index.md#kong-gateway-enterprise)
     (Kong Gateway Enterprise only; configurable TTL per route),
