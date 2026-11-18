@@ -29,7 +29,7 @@ documents the self-managed admin endpoints for stores.
 
 ## What you are deploying
 
-The `redis-iris` chart `1.0.0` deploys the Agent Memory Data Plane, workers, and Control Plane,
+The `redis-iris` chart `1.0` deploys the Agent Memory Data Plane, workers, and Control Plane,
 with the Identity Service and the Iris console, under fixed names. Agent Memory's values go under
 the `memory:` key, and the chart's `examples/memory-only.yaml` is a working values file to start
 from. You provide the Redis databases.

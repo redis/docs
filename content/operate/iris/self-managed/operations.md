@@ -39,6 +39,12 @@ Helm upgrades every component at the same time. Upgrade within one minor version
 
 With `--atomic`, Helm returns to the previous revision by itself when the upgrade doesn't become ready. It reverts Kubernetes resources and Helm values, but it doesn't undo writes to Redis. A value that the new version refuses fails the render, names the field, and applies nothing.
 
+`1.0.1` renames the Agent Memory queue monitor from `redis-agent-memory-asynqmon` to `redis-agent-memory-asynqdash`. If you turned on its Ingress, delete the old one before you upgrade to `1.0.1` or roll back to `1.0.0`, and update any NetworkPolicy or monitoring rule that matches the old name:
+
+```bash
+kubectl -n <namespace-name> delete ingress redis-agent-memory-asynqmon
+```
+
 ### Recover an interrupted upgrade
 
 An upgrade whose client was interrupted leaves the release in `pending-upgrade`, and Helm refuses every later upgrade. Find the last `deployed` revision, then roll back to it:
@@ -54,9 +60,9 @@ helm rollback iris <revision> --namespace <namespace-name> --wait --timeout 15m
 helm rollback iris <revision> --namespace <namespace-name> --wait --timeout 15m
 ```
 
-A rollback restores the workloads and the values of that revision. It doesn't undo data or metadata written to Redis. It never restores a credential: the generated Secrets aren't part of the release, so a rotated or revoked value stays rotated or revoked. The same version rules as for an upgrade apply.
+A rollback restores the workloads and the values of that revision. It doesn't undo data or metadata written to Redis. It never restores a credential: the generated Secrets aren't part of the release, so a rotated or revoked value stays rotated or revoked. The same version rules as for an upgrade apply. You can't roll back to `1.0.0` on `arm64` nodes, because its images are `amd64` only.
 
-Keep the chart of each version you install, so you can roll back without the repository:
+Keep the chart of each version you install, so you can roll back without the repository. `helm list --namespace <namespace-name>` shows the installed version:
 
 ```bash
 helm pull redis-ai/redis-iris --version <chart-version>
@@ -72,7 +78,7 @@ These values name Secrets that can hold the metadata Redis connection. Check eve
 | --- | --- | --- |
 | Identity Service | `identityService.metadata.existingSecret` | `metadata.urls` |
 | Agent Memory | `memory.secrets.secretName` | The `metadata`, `databases`, and `background_jobs` URLs |
-| Agent Memory queue monitor, with `memory.controlplane.queueMonitor.enabled` | `memory.controlplane.queueMonitor.redis.existingSecret` | `REDIS_URL`, the `background_jobs` Redis |
+| Agent Memory queue monitor, with `memory.controlplane.queueMonitor.enabled` | `memory.controlplane.queueMonitor.redis.existingSecret` | `REDIS_URL`, the `background_jobs` Redis, and optionally `REDIS_USERNAME` |
 | Agent Playbooks | `playbook.storage.existingSecret` | `storage.metadata`, and `storage.content` |
 | Agent Playbooks worker, with extraction | `playbook.worker.existingSecret` | `worker.redis`, the extraction queue |
 | Lens | `lens.storage.existingSecret` | `storage.metadata` in both planes |
@@ -92,7 +98,7 @@ These values name Secrets that can hold the metadata Redis connection. Check eve
    restart iris-identity-service
    restart redis-agent-memory-controlplane redis-agent-playbook-controlplane redis-lens-controlplane \
      redis-context-gateway-controlplane redis-intent-router-controlplane
-   restart redis-agent-memory redis-agent-memory-worker redis-agent-memory-asynqmon redis-agent-playbook-dataplane \
+   restart redis-agent-memory redis-agent-memory-worker redis-agent-memory-asynqdash redis-agent-playbook-dataplane \
      redis-agent-playbook-worker redis-lens-dataplane redis-lens-worker redis-context-gateway-dataplane \
      redis-intent-router-dataplane
    restart iris-ui iris-ui-auth

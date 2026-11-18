@@ -78,7 +78,7 @@ Create these Secrets before you install: the storage Secret that holds the Redis
 
 ## Release artifacts and image tags
 
-The chart uses two images, `redislabs/iris-intent-router-control` and `redislabs/iris-intent-router-data`, tagged with the chart version, such as `1.0.0`. Rendering fails with a named message when a `tag` is empty. To install from a private registry, mirror both images, then set `controlplane.image.repository`, `dataplane.image.repository`, and `imagePullSecrets`.
+The chart uses two images, `redislabs/iris-intent-router-control` and `redislabs/iris-intent-router-data`, tagged with the chart version, such as `1.0.1`. Rendering fails with a named message when a `tag` is empty. To install from a private registry, mirror both images, then set `controlplane.image.repository`, `dataplane.image.repository`, and `imagePullSecrets`.
 
 ## Helm values to review
 

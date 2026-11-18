@@ -11,7 +11,7 @@ weight: 30
 hideListLinks: true
 ---
 
-The `redis-iris` chart `1.0.0` renders the Agent Playbooks control-plane and data-plane configuration from the `playbook:` values in `iris-values.yaml`. Storage URLs and provider credentials stay in Secrets you create. The suite supplies the tenant, the license, and the Identity Service connection and credentials, as [Add the Agent Playbooks values](/content/operate/iris/agent-playbook/self-managed/deploy.md#2-add-the-agent-playbooks-values) lists.
+The `redis-iris` chart `1.0` renders the Agent Playbooks control-plane and data-plane configuration from the `playbook:` values in `iris-values.yaml`. Storage URLs and provider credentials stay in Secrets you create. The suite supplies the tenant, the license, and the Identity Service connection and credentials, as [Add the Agent Playbooks values](/content/operate/iris/agent-playbook/self-managed/deploy.md#2-add-the-agent-playbooks-values) lists.
 
 ## Storage configuration
 
@@ -86,7 +86,7 @@ The install fails with a named message when a required value is missing: `playbo
 For every value and its default, see the [configuration reference](/content/operate/iris/agent-playbook/self-managed/reference.md#configuration-reference), or run:
 
 ```bash
-helm show values redis-ai/redis-iris --version 1.0.0
+helm show values redis-ai/redis-iris --version '~1.0.1'
 ```
 
 ## Trust a private CA
@@ -102,7 +102,7 @@ Set `global.tls.caCertSecret: playbook-ca` for every service, or `playbook.tls.c
 
 ## Configure tracing
 
-The Federal Information Processing Standards (FIPS) profile isn't supported in `redis-iris` `1.0.0`. See [Not supported in this release](/content/operate/iris/self-managed/_index.md#not-supported-in-this-release).
+The Federal Information Processing Standards (FIPS) profile isn't supported in `redis-iris` `1.0`. See [Not supported in this release](/content/operate/iris/self-managed/_index.md#not-supported-in-this-release).
 
 To export traces from the control plane, data plane, and extraction worker, configure a trusted OpenTelemetry Protocol (OTLP) collector:
 
