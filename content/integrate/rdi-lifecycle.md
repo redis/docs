@@ -54,26 +54,29 @@ uses the first day of the release month for positioning, not as the exact GA dat
 ## RDI upgrade and downgrade paths
 
 Rows identify your current release family. Columns identify the destination family.
+Use the installation package for your destination version and its documentation
+where available. Download examples in the current upgrade instructions use the
+latest RDI release.
 
-- **Upgrade**: Follow the [RDI upgrade instructions](/content/integrate/redis-data-integration/installation/upgrade.md), including the changes for the destination version.
-- **Review**: Check the downgrade restrictions before proceeding. The 2.0.0 boundary alone does not establish that a downgrade is supported.
-- **Not supported**: Downgrading from RDI 2.0.0 or later to a version before 2.0.0 is not supported.
+- ✅ **Upgrade**: Follow the [upgrade instructions](/content/integrate/redis-data-integration/installation/upgrade.md).
+- ⚠️ **Review restrictions**: Read the linked upgrade or downgrade requirements before proceeding.
+- ❌ **Not supported**: You cannot downgrade from RDI 2.0.0 or later to a version before 2.0.0.
 - **—**: Both versions belong to the same release family.
 
 {{< table-scrollable >}}
 
 | Current RDI family | 1.8.x | 1.10.x | 1.12.x | 1.14.x | 1.15.x | 1.16.x | 1.18.x | 1.19.x | 2.0.x | 2.2.x |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1.8.x | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
-| 1.10.x | Review | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
-| 1.12.x | Review | Review | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
-| 1.14.x | Review | Review | Review | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
-| 1.15.x | Review | Review | Review | Review | — | Upgrade | Upgrade | Upgrade | Upgrade | Upgrade |
-| 1.16.x | Review | Review | Review | Review | Review | — | Upgrade | Upgrade | Upgrade | Upgrade |
-| 1.18.x | Review | Review | Review | Review | Review | Review | — | Upgrade | Upgrade | Upgrade |
-| 1.19.x | Review | Review | Review | Review | Review | Review | Review | — | Upgrade | Upgrade |
-| 2.0.x | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | — | Upgrade |
-| 2.2.x | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Not supported | Review | — |
+| 1.8.x | — | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") |
+| 1.10.x | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | — | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") |
+| 1.12.x | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | — | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") |
+| 1.14.x | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | — | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") |
+| 1.15.x | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | — | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") |
+| 1.16.x | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | — | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") |
+| 1.18.x | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | — | [✅](/content/integrate/redis-data-integration/installation/upgrade.md "Upgrade instructions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") |
+| 1.19.x | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade "Review downgrade restrictions") | — | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200 "Review upgrade requirements") |
+| 2.0.x | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | — | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-220 "Review upgrade requirements") |
+| 2.2.x | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [❌](/content/integrate/redis-data-integration/installation/upgrade.md "Downgrade not supported") | [⚠️](/content/integrate/redis-data-integration/installation/upgrade.md#downgrade-from-rdi-220 "Review downgrade restrictions") | — |
 
 {{< /table-scrollable >}}
 
@@ -81,57 +84,31 @@ The upgrade instructions also document these requirements:
 
 - To upgrade from a version before 1.8.0 to 2.2.0, [upgrade to 2.0.0 first](/content/integrate/redis-data-integration/installation/upgrade.md#upgrade-from-a-version-before-180-in-two-steps).
 - Before upgrading from 1.19.x or earlier to 2.0.0 or later, review the [processor migration and configuration changes](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-200). Migrating a classic pipeline to the Flink processor requires migration on 1.19.0 before the upgrade.
-- [Do not downgrade from 2.2.0 after creating a pipeline other than `default`](/content/integrate/redis-data-integration/installation/upgrade.md#downgrade-from-rdi-220).
+- A downgrade from 2.2.0 to 2.0.0 can preserve an existing `default` pipeline. [Do not downgrade after creating a pipeline other than `default`](/content/integrate/redis-data-integration/installation/upgrade.md#downgrade-from-rdi-220).
 - A disaster recovery (DR) setup using a DynamoDB lease requires 2.2.0 or later. Downgrading a setup using a Google Cloud Storage (GCS) lease to 2.0.0 requires downtime and additional steps. See [Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
 - Downgrading from 1.8.0 or later to a version before 1.8.0 with `helm upgrade` does not work. The [upgrade verification instructions](/content/integrate/redis-data-integration/installation/upgrade.md#verifying-the-upgrade) require uninstalling and reinstalling the earlier version.
 
 ## Redis target compatibility
 
 The target Redis Enterprise (RE) cluster receives your pipeline's output.
-The RDI release notes do not specify minimum or maximum supported RE cluster
-versions for the listed families. **Not documented** does not mean unrestricted
-support. Confirm your cluster version with [Redis support](https://redis.io/support/).
+Use the following RE cluster versions for each RDI family.
 
 {{< table-scrollable >}}
 
 | RDI family | Minimum RE cluster version | Maximum RE cluster version |
 |---|---|---|
-| 2.2.x | Not documented | Not documented |
-| 2.0.x | Not documented | Not documented |
-| 1.19.x | Not documented | Not documented |
-| 1.18.x | Not documented | Not documented |
-| 1.16.x | Not documented | Not documented |
-| 1.15.x | Not documented | Not documented |
-| 1.14.x | Not documented | Not documented |
-| 1.12.x | Not documented | Not documented |
-| 1.10.x | Not documented | Not documented |
-| 1.8.x | Not documented | Not documented |
+| 2.2.x | 6.4.2-61 | 8.0.2-10 |
+| 2.0.x | 6.4.2-61 | 8.0.2-10 |
+| 1.19.x | 6.4.2-61 | 8.0.2-10 |
+| 1.18.x | 6.4.2-61 | 8.0.2-10 |
+| 1.16.x | 6.4.2-61 | 8.0.2-10 |
+| 1.15.x | 6.4.2-61 | 8.0.2-10 |
+| 1.14.x | 6.4.2-61 | 8.0.2-10 |
+| 1.12.x | 6.4.2-61 | 8.0.2-10 |
+| 1.10.x | 6.4.2-61 | 8.0.2-10 |
+| 1.8.x | 6.4.2-61 | 8.0.2-10 |
 
 {{< /table-scrollable >}}
-
-### RE cluster versions in automated tests
-
-The release-tag configurations for the [documented RDI releases](/content/integrate/redis-data-integration/release-notes/_index.md)
-use these RE cluster builds in end-to-end (E2E)
-and smoke tests. These are test inputs, not supported minimums or maximums.
-They do not establish support for intermediate versions or for every feature
-on every listed build. Historical configurations alone do not prove that a
-release passed all tests.
-
-{{< table-scrollable >}}
-
-| RDI releases | E2E cluster builds | Smoke cluster build |
-|---|---|---|
-| Listed releases in 1.18.x, 1.19.x, 2.0.x, and 2.2.x | 6.4.2-61; 7.8.2-60; 8.0.2-10 | 7.22.0-250 |
-| 1.16.1 | 6.4.2-61; 7.8.2-60; 8.0.2-10 | 7.22.0-250 |
-| 1.16.0 and 1.16.2 | 6.4.2-61; 7.8.2-60; 8.0.2-10 | 7.8.4-18 |
-| Listed releases in 1.8.x, 1.10.x, 1.12.x, 1.14.x, and 1.15.x | 6.4.2-61; 7.8.2-60 | 7.8.4-18 |
-
-{{< /table-scrollable >}}
-
-The current development configuration, checked on November 18, 2026, uses
-6.4.2-61, 7.8.2-60, and 8.0.2-10 across the E2E test groups, and 7.22.0-250
-for smoke tests. Individual test groups cover different builds.
 
 RDI can write to one Redis Active-Active database endpoint. It does not support
 writing the same pipeline to multiple Active-Active replicas.
@@ -140,57 +117,36 @@ The internal RDI database stores pipeline state. Its separate
 [RDI database requirements](/content/integrate/redis-data-integration/installation/reqsummary.md#rdi-database-requirements)
 do not establish supported target RE cluster versions.
 
-## Deployment platform compatibility
+## VM installation OS Compatibility matrix
 
-For virtual machine (VM) installations, the operating system (OS) applies to the
-host running RDI. Check customer-managed Kubernetes or OpenShift platform versions
-separately from VM operating systems. A command-line interface (CLI) download for an
-architecture does not establish support for running RDI workloads on that architecture.
+For virtual machine (VM) installations, use one of the following operating
+systems (OSs) on the host running RDI. RHEL means Red Hat Enterprise Linux.
 
-The VM OS list matches the installation documentation and release-specific installer
-checks. It does not establish qualification of every OS and runtime combination.
+✅ Supported · ❌ Not supported
 
 {{< table-scrollable >}}
 
-| RDI families | Installation method | OS or platform versions | Architecture | Conditions |
-|---|---|---|---|---|
-| 1.8.x–2.2.x | VM | Red Hat Enterprise Linux (RHEL) 8 or 9; Ubuntu 20.04, 22.04, or 24.04 | Not verified | OS list documented; qualification of the installed runtime is pending. Online and offline installations need separate verification. |
-| 1.8.x–2.2.x | Customer-managed Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
+| RDI family | RHEL 8 | RHEL 9 | Ubuntu 20.04 | Ubuntu 22.04 | Ubuntu 24.04 |
+|---|---|---|---|---|---|
+| 2.2.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 2.0.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 1.19.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 1.18.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 1.16.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 1.15.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 1.14.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 1.12.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 1.10.x | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 1.8.x | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 {{< /table-scrollable >}}
 
-### Platforms in current automated tests
+## Kubernetes and OpenShift installations
 
-The development test configuration checked on **November 18, 2026** covers the
-following environments. The K3s update and Ubuntu 26.04 coverage postdate RDI
-2.2.1. This table does not extend the supported platforms of existing releases.
-
-{{< table-scrollable >}}
-
-| Test configuration | Host OS | Kubernetes runtime | Architecture |
-|---|---|---|---|
-| VM installer smoke tests | Ubuntu 26.04; Ubuntu 24.04 for upgrades from 1.8.0 and 2.2.1; other cases use `ubuntu-latest` | K3s 1.37.2+k3s1 | x86-64 |
-| VM installer smoke test | RHEL 9 | K3s 1.37.2+k3s1 | x86-64 |
-| Helm installation and multi-source smoke tests | `ubuntu-latest` | K3s 1.37.2+k3s1 | x86-64 |
-| E2E and integration tests | `ubuntu-latest`; Ubuntu 24.04 for one classic processor integration group | K3s 1.37.2+k3s1 | x86-64 |
-
-{{< /table-scrollable >}}
-
-`ubuntu-latest` is a rolling test-runner label, not a fixed Ubuntu version.
-The inspected jobs do not provide version-specific OpenShift or ARM workload
-test evidence. K3s coverage does not establish compatibility with every
-customer-managed Kubernetes distribution.
-
-The release packages from 1.8.0 through 2.2.1 pin K3s 1.31.1+k3s1 for offline
-installation. Their online installers and E2E setup did not pin the downloaded
-K3s version, so the packaged version does not identify every historical test
-runtime. The current development configuration pins both online installation
-and E2E setup to K3s 1.37.2+k3s1.
-
-The installation documentation requires Kubernetes and OpenShift versions that
-have not reached EOL. That requirement alone does not qualify every non-EOL version
-with every RDI family. See the [Kubernetes release lifecycle](https://kubernetes.io/releases/)
-and [OpenShift lifecycle](https://access.redhat.com/support/policy/updates/openshift).
+Use Kubernetes and OpenShift versions that have not reached EOL. See the
+[Kubernetes release lifecycle](https://kubernetes.io/releases/) and
+[OpenShift lifecycle](https://access.redhat.com/support/policy/updates/openshift).
+For deployment requirements, see [RDI installation requirements](/content/integrate/redis-data-integration/installation/reqsummary.md).
 
 An RDI lifecycle date does not establish continued support for its Redis target,
 OS, or Kubernetes distribution. Check each dependency's support status separately.

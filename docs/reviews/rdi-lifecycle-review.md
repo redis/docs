@@ -4,6 +4,28 @@ This change creates a shared documentation draft at
 `content/integrate/rdi-lifecycle.md`. It does not approve a lifecycle policy or
 qualify new deployment combinations.
 
+## Current customer-facing revision
+
+The public page uses the compatibility values explicitly requested during review:
+
+- RE cluster minimum 6.4.2-61 and maximum 8.0.2-10 for all ten listed families.
+- Every listed family supports all five documented OS columns: RHEL 8 and 9;
+  Ubuntu 20.04, 22.04, and 24.04.
+- Test configurations, development coverage, and qualification discussion are
+  removed from the customer-facing article. The research remains in these notes.
+- Upgrade/downgrade cells use linked check, warning, and cross icons. Upgrades
+  into 2.x and all downgrade paths that need review use warnings. The 2.x-to-1.x
+  downgrade boundary remains explicitly unsupported.
+- The reviewer reports testing a downgrade from 2.2.0 to 2.0.0 with the deployed
+  pipeline continuing to run. The article describes preservation of the existing
+  default pipeline and links the named-pipeline and disaster-recovery restrictions.
+  It does not promise downtime-free downgrades for DR setups.
+
+These are requested draft product values, not support bounds derived from the
+automated-test history. In particular, earlier release tags lack RE 8.0 test
+entries, and Ubuntu 26.04 coverage appears after 2.2.1. The historical research
+and its limitations remain valid; it is not a customer-facing support matrix.
+
 ## Policy status
 
 The proposed policy follows the requested decisions: 18 months from the first
@@ -265,9 +287,9 @@ smoke, and one RHEL 9 smoke. The run completed on November 18, 2026 in Sofia
 (November 17 UTC). This verifies that snapshot's selected jobs, not every
 OS/RE/processor combination, all historical releases, or an approved support range.
 
-The public page separates documented requirements, historical test inputs, and
-current development environments. It retains unknown support bounds and the
-existing product limitations.
+The research distinguishes documented requirements, historical test inputs, and
+current development environments. The subsequent customer-facing revision uses
+the requested compatibility values recorded in the current revision section.
 
 ### Validation of test-coverage revision
 
@@ -285,3 +307,26 @@ existing product limitations.
   K3s 1.37.2+k3s1 explicitly in the development pinning sentence. The reviewer
   could find EOL, patch behavior, and upgrade guidance. It still could not choose
   a fully supported production combination without product qualification.
+
+### Validation of customer-facing matrices
+
+- Full current docs build passed. The lifecycle page adds no unresolved-link
+  warning; unrelated pre-existing warnings remain.
+- All nine unique installation links, including section anchors used by the
+  icon cells, resolve in the rendered documentation.
+- Verified all ten RE rows use the requested bounds and all fifty VM OS cells
+  contain support checkmarks. The path matrix has sixteen unsupported 2.x-to-1.x
+  entries, ten same-family entries, and linked upgrade/restriction icons.
+- Inspected desktop and 390-pixel rendering. Matrices stay within horizontal
+  scrolling containers, and the article has no test/development status prose.
+
+- The customer review found that Ubuntu 26.04 came from development coverage and
+  conflicts with the released requirements. Removed that extra column; all five
+  documented OS versions remain checked for every family. No neighboring
+  requirements page was changed.
+- Addressed the review's destination-version finding: the matrix now tells
+  readers to use the destination package and documentation where available,
+  because the current upgrade instructions show the latest release in examples.
+- The final follow-up customer review confirmed both findings are resolved:
+  the OS columns match the linked requirements, destination guidance is clear,
+  and the 11-by-11 icon matrix renders correctly. No blocking new issue remains.
