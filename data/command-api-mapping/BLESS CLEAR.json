@@ -1,0 +1,217 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bless_clear(name: KeyT, flag: BlessFlag)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "blessClear(key: RedisArgument, flag: BlessFlag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BlessClear(ctx context.Context, key string, flag BlessFlag) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "clear(string $key, string $flag)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bless_clear(key, flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean blessClear(K key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to turn off, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the flag was turned off, false if it was not set on key."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> blessClear(K key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to turn off, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the flag was turned off, false if it was not set on key."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> blessClear(K key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to turn off, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the flag was turned off, false if it was not set on key."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long blessClear(byte[] key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long blessClear(String key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

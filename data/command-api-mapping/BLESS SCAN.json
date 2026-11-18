@@ -1,0 +1,466 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bless_scan(cursor: int, flag: BlessFlag, count: int | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "tuple[int, list[bytes | str]]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "blessScan(cursor: RedisArgument, flag: BlessFlag, options?: BlessScanOptions)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "BlessScanOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "{ cursor: BlobStringReply; keys: ArrayReply<BlobStringReply> }",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BlessScan(ctx context.Context, cursor uint64, flag BlessFlag, count int64) *ScanCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ScanCmd",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "scan($cursor, string $flag, ?array $options = null)",
+        "params": [
+          {
+            "name": "$cursor",
+            "type": "mixed",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$options",
+            "type": "?array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bless_scan(cursor, flag, count: nil)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "String, Integer",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array(String, Array<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "KeyScanCursor<K> blessScan(BlessFlag flag)",
+        "params": [
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "KeyScanCursor<K> blessScan(BlessFlag flag, BlessScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "BlessScanArgs",
+            "description": "scan arguments, can be null."
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "KeyScanCursor<K> blessScan(ScanCursor scanCursor, BlessFlag flag)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "KeyScanCursor<K> blessScan(ScanCursor scanCursor, BlessFlag flag, BlessScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "BlessScanArgs",
+            "description": "scan arguments, can be null."
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> blessScan(BlessFlag flag)",
+        "params": [
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> blessScan(BlessFlag flag, BlessScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "BlessScanArgs",
+            "description": "scan arguments, can be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> blessScan(ScanCursor scanCursor, BlessFlag flag)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> blessScan(ScanCursor scanCursor, BlessFlag flag, BlessScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "BlessScanArgs",
+            "description": "scan arguments, can be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<KeyScanCursor<K>> blessScan(BlessFlag flag)",
+        "params": [
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "Mono<KeyScanCursor<K>> blessScan(BlessFlag flag, BlessScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "BlessScanArgs",
+            "description": "scan arguments, can be null."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "Mono<KeyScanCursor<K>> blessScan(ScanCursor scanCursor, BlessFlag flag)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "Mono<KeyScanCursor<K>> blessScan(ScanCursor scanCursor, BlessFlag flag, BlessScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": "the blessing flag to filter on, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "BlessScanArgs",
+            "description": "scan arguments, can be null."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "ScanResult<byte[]> blessScan(byte[] cursor, BlessFlag flag)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<byte[]>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ScanResult<byte[]> blessScan(byte[] cursor, BlessFlag flag, int count)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<byte[]>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ScanResult<String> blessScan(String cursor, BlessFlag flag)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ScanResult<String> blessScan(String cursor, BlessFlag flag, int count)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<String>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,347 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bitrangeintarray(key: KeyT, start: int, end: int, mode: str | None = None, limit: int | None = None, zeros: bool = False)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "zeros",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[int]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "bitRangeIntArray(key: RedisArgument, start: number | string, end: number | string, options?: BitRangeIntArrayOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "BitRangeIntArrayOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BitRangeIntArray(ctx context.Context, key string, start, end int64) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BitRangeIntArrayWithArgs(ctx context.Context, key string, start, end int64, args *BitRangeIntArrayArgs) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "*BitRangeIntArrayArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bitrangeintarray(key, start, stop, scale: nil, limit: nil, zeros: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "scale",
+            "type": "String, Symbol",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "zeros",
+            "type": "Boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> bitrangeintarray(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the first byte of the range, inclusive; negative values count from the end."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the last byte of the range, inclusive; negative values count from the end."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "the bit offsets, possibly empty, never null."
+        }
+      },
+      {
+        "signature": "List<Long> bitrangeintarray(K key, long start, long end, BitRangeIntArrayArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the first index of the range, inclusive, in the unit of args; negative values count from the end."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the last index of the range, inclusive, in the unit of args; negative values count from the end."
+          },
+          {
+            "name": "args",
+            "type": "BitRangeIntArrayArgs",
+            "description": "the unit, limit and clear-bit options, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "the bit offsets, possibly empty, never null."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> bitrangeintarray(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the first byte of the range, inclusive; negative values count from the end."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the last byte of the range, inclusive; negative values count from the end."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "the bit offsets, possibly empty, never null."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> bitrangeintarray(K key, long start, long end, BitRangeIntArrayArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the first index of the range, inclusive, in the unit of args; negative values count from the end."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the last index of the range, inclusive, in the unit of args; negative values count from the end."
+          },
+          {
+            "name": "args",
+            "type": "BitRangeIntArrayArgs",
+            "description": "the unit, limit and clear-bit options, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "the bit offsets, possibly empty, never null."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> bitrangeintarray(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the first byte of the range, inclusive; negative values count from the end."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the last byte of the range, inclusive; negative values count from the end."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "the bit offsets, possibly none."
+        }
+      },
+      {
+        "signature": "Flux<Long> bitrangeintarray(K key, long start, long end, BitRangeIntArrayArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key, must not be null."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the first index of the range, inclusive, in the unit of args; negative values count from the end."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the last index of the range, inclusive, in the unit of args; negative values count from the end."
+          },
+          {
+            "name": "args",
+            "type": "BitRangeIntArrayArgs",
+            "description": "the unit, limit and clear-bit options, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "the bit offsets, possibly none."
+        }
+      }
+    ]
+  }
+}
