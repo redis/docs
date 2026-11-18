@@ -1189,7 +1189,7 @@ After you run an initial
 [snapshot](/content/integrate/redis-data-integration/data-pipelines/_index.md#pipeline-lifecycle),
 the XML data appears in your Redis target database:
 
-![](/images/rdi/ingest/xmltype-example.webp)
+![Redis Insight JSON view of key tab1:XMLID:1 holding an XMLID of 1 and the XML text in COL1](/images/rdi/ingest/xmltype-example.webp)
 
 ## FAQ
 

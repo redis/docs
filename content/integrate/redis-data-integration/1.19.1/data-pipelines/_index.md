@@ -47,7 +47,7 @@ Data transformation involves two stages:
 
 The diagram below shows the flow of data through the pipeline:
 
-![](/images/rdi/ingest/RDIPipeDataflow.webp)
+![RDI pipeline: the collector turns table changes into JSON events on Redis Streams, and the stream processor writes Redis keys](/images/rdi/ingest/RDIPipeDataflow.webp)
 
 You can provide a job file for each source table that needs a custom
 transformation. You can also add a *default job file* for any tables that don't have their own.

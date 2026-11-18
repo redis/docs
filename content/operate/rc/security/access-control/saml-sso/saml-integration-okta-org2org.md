@@ -92,11 +92,11 @@ Create an Okta "Org2Org" SAML integration appliction.
    * **Attribute required**: `Yes`
    * **Group priority**: `Combine values across groups`
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_app_int_11.png)
+    ![Okta Add Attribute form for redisAccountMapping, required and combining values across groups](/images/rc/saml/okta_saml_app_int_11.png)
 
 1. Once you add the attribute, it appears in the list of profile attributes.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_9.png)
+    ![Okta profile attribute list including the newly added redisAccountMapping attribute](/images/rc/saml/okta_saml_9.png)
 
 1. Add a Redis Cloud icon to the application because it's easier for users to identify the application. Select the pencil icon on the application logo and upload a Redis image using these steps:
 
@@ -112,23 +112,23 @@ Now that our SAML IdP is configured, create an Okta group and assign the Redis C
 
 1. In the left menu, select **Directory > Groups**, then select **Add group**.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_1.png)
+    ![Okta Directory Groups page with the Add group button](/images/rc/saml/okta_saml_group_1.png)
 
 1. Enter **Name** and **Description**.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_2.png)
+    ![Okta Add group dialog with the name and description both set to Redis Cloud User Group](/images/rc/saml/okta_saml_group_2.png)
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_3.png)
+    ![Okta Groups list with the Redis Cloud User Group highlighted](/images/rc/saml/okta_saml_group_3.png)
 
 ### Assign users to the group
 
 1. Select the group, then select **Assign people**.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_4.png)
+    ![Okta group page with the Assign people button](/images/rc/saml/okta_saml_group_4.png)
 
 1. For each user you want to add to the group, highlight the user in the table and select **+**. You can also add all users by selecting **Add all**. After you add all the users to your group, select **Save**.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_5.png)
+    ![Okta Assign people dialog with users selected and the add button](/images/rc/saml/okta_saml_group_5.png)
 
 ### Assign application to the group
 
@@ -136,29 +136,29 @@ Now that your group is populated with its users, assign the SAML integration app
 
 1. From the menu, select **Applications > Applications > Redis Cloud**. Then, select **Assign to groups**.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_6.png)
+    ![Okta Redis Cloud application page with the Assign to groups option](/images/rc/saml/okta_saml_group_6.png)
 
 1. In the **Redis Cloud User Group**, select **Assign**.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_7.png)
+    ![Okta Assign Redis Cloud to groups dialog with Assign next to Redis Cloud User Group](/images/rc/saml/okta_saml_group_7.png)
 
 1. Now, define the Redis account mapping string default for this group and select **Save and go back**. The key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your **Redis Cloud Account ID** found in the [account settings](/content/operate/rc/accounts/account-settings.md). Select **"Done"**.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_8.png)
+    ![Okta assignment dialog with the redisAccountMapping default for the group and Save and go back](/images/rc/saml/okta_saml_group_8.png)
 
     The mapping field is now defined as a default for each member of the group. 
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_9.png)
+    ![Okta Redis Cloud application listing the group with its redisAccountMapping default set](/images/rc/saml/okta_saml_group_9.png)
 
 ### Editing the mapping field for the group
 
 To modify the Redis mapping field, select the pencil icon of the Redis Cloud group in the "Redis Cloud" application screen.
 
-![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_10.png)
+![Okta Redis Cloud application with the pencil icon next to the group, for editing its mapping](/images/rc/saml/okta_saml_group_10.png)
 
 You can modify the mapping field for the whole group on the edit screen that appears.
 
-![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_11.png)
+![Okta Edit Group Assignment dialog for changing the mapping field of the whole group](/images/rc/saml/okta_saml_group_11.png)
 
 ### Editing the mapping field for a specific user
 
@@ -168,17 +168,17 @@ To override the Redis mapping field at an individual user level, select the **Pe
 
 Set the user's **Assignment master** to `Administrator` to enable group policy overrides. Select **Save**.
 
-![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_13.png)
+![Okta Edit User Assignment dialog with Assignment master set to Administrator](/images/rc/saml/okta_saml_group_13.png)
 
 The user's **Type** is set to `Individual`.
 
-![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_14.png)
+![Okta Redis Cloud application list showing a user whose type is Individual](/images/rc/saml/okta_saml_group_14.png)
 
 On the screen that appears, select the pencil icon of the user to modify the Redis mapping field.
 
-![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_15.png)
+![Okta Redis Cloud application Assignments tab with the pencil icon circled next to an individual user](/images/rc/saml/okta_saml_group_15.png)
 
-![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/okta_saml_group_16.png)
+![Okta Edit User Assignment with redisAccountMapping set to 123456=owner,456789=member and Save](/images/rc/saml/okta_saml_group_16.png)
 
 ## Step 3: Configure SAML support in Redis Cloud
 
@@ -198,33 +198,33 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
    * **IdP server URL**: IdP Single Sign-On Url
    * **Assertion signing certificate**: Drag and drop the file you downloaded to disk in the form text area.
 
-    ![Use the Okta admin console to locate the Org2Org application template.](/images/rc/saml/sm_saml_1.png)
+    ![Redis Cloud Access Management Single Sign-On tab with the SAML setup form and Enable button](/images/rc/saml/sm_saml_1.png)
 
 1. Select **Enable** and wait a few seconds for the status to change. Then, download the service provider (SP) metadata. Save the file to your local hard disk.
 
-    ![](/images/rc/saml/sm_saml_3.png)
+    ![Redis Cloud panel for downloading the service provider (SP) metadata file](/images/rc/saml/sm_saml_3.png)
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
    * **EntityID**: Unique name of the service provider (SP)
 
-    ![](/images/rc/saml/sm_saml_4.png)
+    ![Service provider metadata XML with the entityID value circled](/images/rc/saml/sm_saml_4.png)
 
    * **Location**: Location of the assertion consumer service
 
-    ![](/images/rc/saml/sm_saml_5.png)
+    ![Service provider metadata XML with the Assertion Consumer Service Location value circled](/images/rc/saml/sm_saml_5.png)
 
 
 1. Return to Okta, select **Applications > Redis Cloud > General**, then select **Edit**.
 
-    ![](/images/rc/saml/sm_saml_6.png)
+    ![Okta General tab for the Redis Cloud application with the Edit button, used to enter the SP values](/images/rc/saml/sm_saml_6.png)
 
 1. Update this information in **Advanced Sign-on Settings**.
 
    * **Hub ACS URL**: Use the information that you copied for **Location**.
    * **Audience URI**: Use the information that you copied for **EntityID**.
 
-    ![](/images/rc/saml/sm_saml_7.png)
+    ![Okta SAML settings with the single sign-on URL and audience URI fields filled from the SP metadata](/images/rc/saml/sm_saml_7.png)
 
 
 Select **Save**.
@@ -240,13 +240,13 @@ To use IdP-initiated SSO with identity providers, set the RelayState parameter t
 
 1. Return to Redis Cloud console and select **Activate**.
 
-    ![](/images/rc/saml/sm_saml_8.png)
+    ![Redis Cloud Activate SAML integration panel with the Activate button](/images/rc/saml/sm_saml_8.png)
 
    A popup appears, explaining that, to test the SAML connection, you need to log in with Okta credentials of the user defined in the Redis Cloud group. This user is part of the group to which you assigned the Redis Cloud application. Select **Continue** to go to the Okta login screen.
 
 1. The Okta login screen appears. Enter the credentials and select **Sign In**.
 
-    ![](/images/rc/saml/sm_saml_10.png)
+    ![Okta sign-in screen shown after activating SAML from Redis Cloud](/images/rc/saml/sm_saml_10.png)
 
 If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
 

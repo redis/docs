@@ -129,7 +129,7 @@ You can also use custom keys for the parent entity, as long as you use the same 
 To join one-to-many relationships, you can use the *Nesting* strategy.
 With this, the parent object (the "one") is represented as a JSON document with the children (the "many") nested inside it as a JSON map attribute. The diagram below shows a nesting with the child objects in a map called `InvoiceLineItems`:
 
-![](/images/rdi/ingest/nest-flow.webp)
+![RDI nesting a one-to-many relationship: an Invoice and its line items become one JSON parent with a map of child objects in Redis](/images/rdi/ingest/nest-flow.webp)
 {width="500px"}
 
 

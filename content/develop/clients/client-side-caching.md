@@ -36,14 +36,14 @@ Redis database server through the client library for every read request.
 The diagram below shows the flow of communication from the user app,
 through the application server to the database and back again:
 
-![](/images/csc/CSCNoCache.drawio.svg)
+![Without client-side caching, every read request goes from the app through the application server to Redis and back](/images/csc/CSCNoCache.drawio.svg)
 
 When you use client-side caching, the client library
 maintains a local cache of data items as it retrieves them
 from the database. When the same items are needed again, the client
 can satisfy the read requests from the cache instead of the database:
 
-![](/images/csc/CSCWithCache.drawio.svg)
+![With client-side caching, the client library answers reads from its local cache, lowering latency and reducing load on Redis](/images/csc/CSCWithCache.drawio.svg)
 
 Accessing the cache is much faster than communicating with the database over the
 network and it reduces network traffic. Client-side caching reduces
@@ -82,7 +82,7 @@ with the updated data.
 The sequence diagram below shows how two clients might interact as they
 access and update the same key:
 
-![](/images/csc/CSCSeqDiagram.drawio.svg)
+![Sequence diagram: two clients cache city after reading it from Redis, then an update to city invalidates both caches](/images/csc/CSCSeqDiagram.drawio.svg)
 
 ## Which client libraries support client-side caching?
 
