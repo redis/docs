@@ -97,7 +97,7 @@ Agent frameworks usually have two extension points: one before the model runs an
 
 The hooks do not load the conversation history; the framework keeps it. Pass `shared=[...]` with shared namespace names to recall from those namespaces too. Pass `fail_open=True` to continue without memory when the store is temporarily unavailable.
 
-For LangGraph, `redis_iris.integrations.langgraph.attach(memory, graph)` adds the hooks to a `StateGraph` before you compile it. It takes the owner and session from the run's `configurable.user_id` and `configurable.thread_id`, and requires `redis-iris[langgraph]`. For Google Agent Development Kit (ADK), `redis_iris.integrations.adk.attach(memory, agent)` adds them to an `LlmAgent`'s model callbacks.
+For LangGraph, `redis_iris.integrations.langgraph.attach(memory, graph)` adds the hooks to a `StateGraph` before you compile it. It takes the owner and session from the run's `configurable.user_id` and `configurable.thread_id`, and requires `redis-iris[langgraph]`. To store LangGraph checkpoints and memories in your own Redis database instead, see [Redis with LangGraph](/content/integrate/langgraph/_index.md). For Google Agent Development Kit (ADK), `redis_iris.integrations.adk.attach(memory, agent)` adds them to an `LlmAgent`'s model callbacks.
 
 ## Handle long-term recall
 
