@@ -11,6 +11,7 @@
       <section class="prose w-full py-12 max-w-none">
         <h1>{{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-5">{{ . | markdownify }}</p>{{ end }}
+        {{ if eq .Path "/integrate" }}{{ .Content }}{{ end }}
       </section>
       <form id="integration-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
         <label class="relative flex items-center">
