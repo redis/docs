@@ -127,8 +127,8 @@ EXEC
 -WRONGTYPE Operation against a key holding the wrong kind of value
 ```
 
-[`EXEC`](/content/commands/exec.md) returned two-element [bulk string reply](/content/develop/reference/protocol-spec.md#bulk-string-reply) where one is an `OK` code and
-the other an error reply. It's up to the client library to find a
+[`EXEC`](/content/commands/exec.md) returned a two-element [array](/content/develop/reference/protocol-spec.md#arrays). The first element is the simple string `OK`,
+and the second is an error reply. It's up to the client library to find a
 sensible way to provide the error to the user.
 
 It's important to note that
@@ -180,7 +180,7 @@ transactions.
 
 [`WATCH`](/content/commands/watch.md)ed keys are monitored in order to detect changes against them. If
 at least one watched key is modified before the [`EXEC`](/content/commands/exec.md) command, the
-whole transaction aborts, and [`EXEC`](/content/commands/exec.md) returns a [Null reply](/content/develop/reference/protocol-spec.md#nil-reply) to notify that
+whole transaction aborts, and [`EXEC`](/content/commands/exec.md) returns a [null array](/content/develop/reference/protocol-spec.md#null-arrays) in RESP2 or a [null](/content/develop/reference/protocol-spec.md#nulls) in RESP3 to notify that
 the transaction failed.
 
 For example, imagine we have the need to atomically increment the value
@@ -276,7 +276,7 @@ ZREM zset element
 EXEC
 ```
 
-If [`EXEC`](/content/commands/exec.md) fails (i.e. returns a [Null reply](/content/develop/reference/protocol-spec.md#nil-reply)) we just repeat the operation.
+If [`EXEC`](/content/commands/exec.md) returns a null array in RESP2 or a null in RESP3 we just repeat the operation.
 
 ## Redis scripting and transactions
 
