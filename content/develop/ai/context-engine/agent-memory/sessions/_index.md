@@ -69,7 +69,15 @@ curl --fail-with-body "$memory_api/sessions/<session-id>/events?last=20" \
 
 Use `afterEventId` or `beforeEventId` to set exclusive bounds. Use `limit` and `order` for a page in either direction, or use `last` on its own to page backwards while each page stays in transcript order. Pass `nextCursor` as `cursor` with the same bounds and ordering to continue.
 
-If a [long-term recap](#store-searchable-session-recaps) includes `summarizedUpToEventId`, pass it as `afterEventId` to retrieve the events after the recap. If the checkpoint is absent or returns `404 Event Not Found`, restart without `afterEventId` and without the cursor. If only the cursor's event was deleted, the service returns `400 Invalid Cursor`. Restart the same range without the cursor.
+If a [long-term recap](#store-searchable-session-recaps) includes `summarizedUpToEventId`, use it as the lower bound:
+
+```bash
+curl --fail-with-body --get "$memory_api/sessions/<session-id>/events" \
+  -H "Authorization: Bearer $IRIS_AGENT_MEMORY_API_KEY" \
+  --data-urlencode "afterEventId=<summarized-up-to-event-id>"
+```
+
+If the checkpoint is absent or returns `404 Event Not Found`, restart without `afterEventId` and without the cursor. If only the cursor's event was deleted, the service returns `400 Invalid Cursor`. Restart the same range without the cursor.
 
 ## List sessions
 

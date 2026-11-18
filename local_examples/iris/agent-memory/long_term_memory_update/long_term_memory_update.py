@@ -45,6 +45,23 @@ replaced = memory.client.upsert_long_term_memory(
 print(replaced.created)
 # STEP_END
 
+# STEP_START ltm-stale-revision
+from redis_agent_memory.errors import AgentMemoryError
+
+try:
+    memory.client.update_long_term_memory(
+        memory_id=MEMORY_ID,
+        text="The user prefers a window seat on short flights.",
+        expected_revision=current.revision,
+        idempotency_key=str(uuid4()),
+    )
+except AgentMemoryError as error:
+    if error.status_code != 412:
+        raise
+    latest = memory.client.get_long_term_memory(memory_id=MEMORY_ID)
+    print("Review the current record before reapplying the change:", latest.text)
+# STEP_END
+
 # HIDE_START
 memory.delete([MEMORY_ID])
 # HIDE_END

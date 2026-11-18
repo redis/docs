@@ -148,7 +148,7 @@ Send `expectedRevision` with the `revision` you read to apply a `PATCH` or `PUT`
 
 This request reuses the revision read before the partial update, so it fails:
 
-{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-stale-revision" description="" lang_filter="cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-stale-revision" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 `PATCH` and `PUT` also accept an `idempotencyKey`. Reuse the key with the same request to retry safely; Redis Agent Memory replays the saved result during the retry window, which lasts at most 24 hours and no longer than the store's memory TTL. Reusing a key with a different request returns `409 Conflict`.
 

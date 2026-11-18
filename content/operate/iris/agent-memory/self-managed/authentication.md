@@ -150,6 +150,8 @@ Operation mapping:
 
 On deployments supporting federated service subjects, grant `read_all_owners` explicitly for a specific store to let a service read across owners. The action is read-only and applies to service subjects. Agent keys use the store grants and ownership rules.
 
+On deployments configured to accept Iris access tokens, send the token in the `Authorization: Bearer` header. Use an access token with the Data Plane audience and a principal with a grant for the target store.
+
 ## Server-side ownership enforcement
 
 Store grants authorize access to a store. Ownership enforcement adds a check within that store: ordinary callers can access their own personal records and shared records.
