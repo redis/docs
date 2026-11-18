@@ -1291,6 +1291,8 @@
               "issuer": "https://acme.example/tenant_example",
               "jwks_max_stale_seconds": 86400,
               "jwks_refresh_interval_seconds": 3600,
+              "jwks_retry_attempts": 0,
+              "jwks_retry_backoff_ms": 100,
               "jwks_uri": "https://acme.example/tenant_example/jwks.json",
               "name": "acme",
               "resource_claim": "resource",
@@ -1461,6 +1463,8 @@
               "jwks_uri",
               "jwks_refresh_interval_seconds",
               "jwks_max_stale_seconds",
+              "jwks_retry_attempts",
+              "jwks_retry_backoff_ms",
               "algorithms",
               "identity_claim",
               "resource_claim",
@@ -1480,6 +1484,8 @@
           "issuer": "https://acme.example/tenant_example",
           "jwks_max_stale_seconds": 86400,
           "jwks_refresh_interval_seconds": 3600,
+          "jwks_retry_attempts": 0,
+          "jwks_retry_backoff_ms": 100,
           "jwks_uri": "https://acme.example/tenant_example/jwks.json",
           "name": "acme",
           "resource_claim": "resource",
@@ -1541,7 +1547,7 @@
           },
           "identity_claim": {
             "default": "sub",
-            "description": "The claim whose value names the connection and must equal the AUTH username",
+            "description": "The claim whose value names the connection. A username sent with AUTH, other than default, must equal it",
             "pattern": "^[A-Za-z0-9_.:-]{1,255}$",
             "type": "string"
           },
@@ -1562,6 +1568,19 @@
             "description": "How often the key set is refreshed, in seconds",
             "maximum": 86400,
             "minimum": 60,
+            "type": "integer"
+          },
+          "jwks_retry_attempts": {
+            "default": 0,
+            "description": "Number of retry attempts for a key set fetch that fails on a transient error",
+            "maximum": 100,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "jwks_retry_backoff_ms": {
+            "default": 100,
+            "description": "Backoff between key set fetch retry attempts, in milliseconds",
+            "minimum": 0,
             "type": "integer"
           },
           "jwks_uri": {
@@ -2960,6 +2979,7 @@
         "tags": [
           "Cluster"
         ],
+        "x-cnm-http-fallback": true,
         "x-publish-docs": true,
         "x-stability-level": "stable"
       },
@@ -2992,6 +3012,7 @@
         "tags": [
           "Cluster"
         ],
+        "x-cnm-http-fallback": true,
         "x-publish-docs": true,
         "x-stability-level": "stable"
       },
@@ -3037,6 +3058,7 @@
         "tags": [
           "Cluster"
         ],
+        "x-cnm-http-fallback": true,
         "x-publish-docs": true,
         "x-stability-level": "stable"
       }
@@ -3701,6 +3723,7 @@
         "tags": [
           "LDAP Mapping"
         ],
+        "x-cnm-http-fallback": true,
         "x-publish-docs": true,
         "x-stability-level": "stable"
       },
@@ -3749,6 +3772,7 @@
         "tags": [
           "LDAP Mapping"
         ],
+        "x-cnm-http-fallback": true,
         "x-publish-docs": true,
         "x-stability-level": "stable"
       }
@@ -3808,6 +3832,7 @@
         "tags": [
           "LDAP Mapping"
         ],
+        "x-cnm-http-fallback": true,
         "x-publish-docs": true,
         "x-stability-level": "stable"
       },
@@ -3856,6 +3881,7 @@
         "tags": [
           "LDAP Mapping"
         ],
+        "x-cnm-http-fallback": true,
         "x-publish-docs": true,
         "x-stability-level": "stable"
       },
@@ -3920,6 +3946,7 @@
         "tags": [
           "LDAP Mapping"
         ],
+        "x-cnm-http-fallback": true,
         "x-publish-docs": true,
         "x-stability-level": "stable"
       }
