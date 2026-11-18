@@ -38,7 +38,7 @@ Release months refer to the first GA release in each family, not its latest patc
 Each bar starts at the first GA release month and ends on the EOL date. The chart
 uses the first day of the release month for positioning, not as the exact GA date.
 
-```timeline {title="RDI lifecycle: GA to EOL" version-label="RDI family" min-width="600"}
+```timeline {title="RDI lifecycle: GA to EOL" version-label="RDI family" min-width="600" show-today="true"}
 2.2.x: Oct 2026 - Apr 30, 2028
 2.0.x: Sep 2026 - Mar 31, 2028
 1.19.x: Jul 2026 - Jan 31, 2028

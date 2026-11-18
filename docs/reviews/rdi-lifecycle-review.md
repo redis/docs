@@ -165,3 +165,19 @@ gaps as a draft. Policy adoption and product qualification remain open.
   no blocking new issue. It confirmed the chart's date precision, the matrix's
   2.x-to-1.x restriction and conditional downgrade wording, and the distinction
   between undocumented RE cluster bounds and unrestricted support.
+
+### Dynamic current-date marker
+
+The RDI chart opts into a blue vertical line labelled with the current date.
+The browser calculates the date when rendering the page, so deployed content
+needs no daily edit or rebuild. The marker uses the reader's local calendar day.
+An open page checks for a new day every minute and when the reader returns to it.
+The time axis includes the current day even after the listed lifecycle dates.
+
+Browser checks simulated November 18 and 19, 2026 without editing the page or
+rebuilding it: both the label and line position updated, with exactly one marker.
+A December 31, 2030 check verified an extended axis and an unclipped label.
+The current-date marker also fits the narrow-screen chart. Existing Redis
+Software lifecycle charts retain their previous behavior unless they opt in.
+The independent customer review confirmed that the Today line is clear and
+leaves the release and EOL labels readable.

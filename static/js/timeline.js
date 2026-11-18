@@ -66,8 +66,15 @@
   }
   
   function renderTimeline(container, versions, title, options = {}) {
+    const now = options.showToday ? new Date() : null;
+    const today = now ? new Date(now.getFullYear(), now.getMonth(), now.getDate()) : null;
+    const todayDateLabel = today ? today.toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    }) : '';
+
     // Calculate date range
     const allDates = versions.flatMap(v => [v.releaseDate, v.eolDate]).filter(d => d);
+    if (today) allDates.push(today);
     const minDate = new Date(Math.min(...allDates));
     const maxDate = new Date(Math.max(...allDates));
 
@@ -101,7 +108,7 @@
       svg.style.width = `${svgWidth}px`;
       svg.style.maxWidth = 'none';
       svg.setAttribute('role', 'img');
-      svg.setAttribute('aria-label', `${title}. ${versions.map(v => `${v.version}: GA ${v.release}, EOL ${v.eol}`).join('; ')}`);
+      svg.setAttribute('aria-label', `${title}. ${versions.map(v => `${v.version}: GA ${v.release}, EOL ${v.eol}`).join('; ')}${today ? `. Today: ${todayDateLabel}` : ''}`);
     }
     
     // Title
@@ -262,16 +269,50 @@
       }
     });
     
-    // Replace fallback content
+    if (today) {
+      const todayX = dateToX(today);
+      const todayLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      todayLine.setAttribute('class', 'timeline-today-line');
+      todayLine.setAttribute('x1', todayX);
+      todayLine.setAttribute('x2', todayX);
+      todayLine.setAttribute('y1', 78);
+      todayLine.setAttribute('y2', svgHeight - 40);
+      todayLine.style.stroke = '#2563eb';
+      todayLine.style.strokeWidth = '2';
+      todayLine.style.strokeDasharray = '5 4';
+      svg.appendChild(todayLine);
+
+      const todayText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      todayText.setAttribute('class', 'timeline-today-label');
+      todayText.setAttribute('x', todayX);
+      todayText.setAttribute('y', 74);
+      todayText.setAttribute('text-anchor', todayX > chartRight - 75 ? 'end' : todayX < chartLeft + 75 ? 'start' : 'middle');
+      todayText.style.fontSize = '11px';
+      todayText.style.fontWeight = 'bold';
+      todayText.style.fill = '#2563eb';
+      todayText.textContent = `Today: ${todayDateLabel}`;
+      svg.appendChild(todayText);
+
+      // Keep date labels legible where the current-day line crosses them.
+      svg.querySelectorAll('text').forEach(text => svg.appendChild(text));
+    }
+
+    // Replace fallback content or the previous day's chart.
     const fallback = container.querySelector('.timeline-fallback');
     if (fallback) {
       container.removeChild(fallback);
     }
-    container.appendChild(svg);
+    const previous = container.querySelector('svg');
+    if (previous) {
+      container.replaceChild(svg, previous);
+    } else {
+      container.appendChild(svg);
+    }
   }
   
   document.addEventListener('DOMContentLoaded', function() {
     const sources = document.querySelectorAll('pre.timeline-source');
+    const dynamicTimelines = [];
     
     sources.forEach(pre => {
       const title = pre.getAttribute('data-timeline-title') || 'Timeline';
@@ -279,10 +320,28 @@
       const versions = parseTimelineData(yamlText);
       
       const container = pre.parentNode;
-      renderTimeline(container, versions, title, {
+      const options = {
         versionLabel: pre.getAttribute('data-timeline-version-label'),
-        minWidth: parseInt(pre.getAttribute('data-timeline-min-width'), 10) || 0
-      });
+        minWidth: parseInt(pre.getAttribute('data-timeline-min-width'), 10) || 0,
+        showToday: pre.getAttribute('data-timeline-show-today') === 'true'
+      };
+      const render = () => renderTimeline(container, versions, title, options);
+      render();
+      if (options.showToday) dynamicTimelines.push(render);
     });
+
+    if (dynamicTimelines.length) {
+      let renderedDay = new Date().toDateString();
+      const refreshToday = () => {
+        const currentDay = new Date().toDateString();
+        if (currentDay !== renderedDay) {
+          dynamicTimelines.forEach(render => render());
+          renderedDay = currentDay;
+        }
+      };
+      window.setInterval(refreshToday, 60000);
+      window.addEventListener('pageshow', refreshToday);
+      document.addEventListener('visibilitychange', refreshToday);
+    }
   });
 })();

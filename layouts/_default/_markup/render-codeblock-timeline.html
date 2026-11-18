@@ -6,6 +6,7 @@
        data-timeline-title="{{ $title }}" 
        data-timeline-version-label="{{ index .Attributes "version-label" | default "Cluster version" }}"
        data-timeline-min-width="{{ index .Attributes "min-width" | default "0" }}"
+       data-timeline-show-today="{{ index .Attributes "show-today" | default "false" }}"
        style="display: none;">{{ .Inner | htmlEscape }}</pre>
   <div class="timeline-fallback">
     <h4>{{ $title }}</h4>
