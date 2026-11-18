@@ -276,7 +276,7 @@ ZREM zset element
 EXEC
 ```
 
-If [`EXEC`](/content/commands/exec.md) returns a null array in RESP2 or a null in RESP3 we just repeat the operation.
+If [`EXEC`](/content/commands/exec.md) returns a null array in RESP2 or a null in RESP3, we just repeat the operation.
 
 ## Redis scripting and transactions
 
