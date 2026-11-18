@@ -61,7 +61,7 @@ Redis provides the following features that make it a good fit for a memory layer
 The following libraries, frameworks, and managed services build on Redis for a memory layer:
 
 -   **Python**: [RedisVL](/content/develop/ai/redisvl/_index.md) provides vector-index, session-manager, and semantic-memory helpers you can compose into a memory layer.
--   **Frameworks**: [LangChain](/content/integrate/langchain-redis/_index.md) supports Redis as a chat history and memory backend, and [LangGraph & Redis](https://redis.io/blog/langgraph-redis-build-smarter-ai-agents-with-memory-persistence/) ships a Redis checkpointer for persisting graph state across runs.
+-   **Frameworks**: [LangChain](/content/integrate/langchain-redis/_index.md) supports Redis as a chat history and memory backend, and [LangGraph](/content/integrate/langgraph/_index.md) has Redis checkpointers for thread state and a Redis store for long-term memories that span threads.
 -   **AWS**: [Amazon Bedrock](/content/integrate/amazon-bedrock/_index.md) agent runtimes integrate with Redis for memory persistence and vector search.
 -   **Any language**: standard Redis client libraries cover the pattern below for custom agent loops.
 -   **Managed**: [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) is a managed agent memory service with REST and MCP interfaces, working and long-term memory tiers, deduplication, summarization, and background consolidation — useful when you'd rather not build and operate the pattern below yourself.
