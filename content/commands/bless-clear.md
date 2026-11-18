@@ -1,6 +1,6 @@
 ---
 acl_categories:
-- '@keyspace'
+- '@dangerous'
 - '@write'
 - '@fast'
 arguments:
