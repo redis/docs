@@ -31,10 +31,11 @@ this documentation change. In particular,
   20 releases: Ubuntu 20.04, 22.04, and 24.04; RHEL 8 and 9. This supports
   grouping the documented OS list, not claiming that all runtime combinations
   passed qualification.
-- Available test configurations are not evidence of completed successful tests
-  or a complete support matrix. Cluster versions also do not establish the Redis
-  database versions used by the target. The draft leaves target versions
-  unverified instead of deriving them from the state database's requirements.
+- Release-tag test configurations identify cluster builds, not supported bounds
+  or completed release qualification. A successful current development run
+  provides separate evidence for that snapshot only. The draft records the
+  configured builds without deriving support bounds from them or from the state
+  database's requirements.
 - No complete release-specific qualification evidence was found for Redis Cloud
   target plans, workload architectures, or Kubernetes/OpenShift versions. Those
   combinations remain explicitly unverified.
@@ -181,3 +182,106 @@ The current-date marker also fits the narrow-screen chart. Existing Redis
 Software lifecycle charts retain their previous behavior unless they opt in.
 The independent customer review confirmed that the Today line is clear and
 leaves the release and EOL labels readable.
+
+## Automated test coverage research
+
+Checked the current development snapshot on November 18, 2026, and the remote
+release-tag objects for all 20 documented releases. The development snapshot is
+`d5dbdf4cbe03e073e9ffcbb5331c1de77e76dbb8`. Release-tag configuration evidence is
+separate from successful test execution and from an approved support matrix.
+The extra 1.9.0 tag has no corresponding public release notes and is not added
+to the lifecycle schedule as a confirmed GA family.
+
+### Redis target findings
+
+- Current E2E groups use RE 6.4.2-61, 7.8.2-60, and 8.0.2-10. Groups and
+  processors do not exercise every scenario on every build. Smoke tests use
+  RE 7.22.0-250. The smoke setup creates the internal and target databases on
+  that cluster, so this is target-cluster evidence.
+- The E2E command's default is also 7.22.0-250, but the workflow overrides it.
+  It is not an additional E2E matrix entry.
+- All documented releases through 1.15.1 configure E2E with 6.4.2-61 and
+  7.8.2-60. From 1.16.0, the union of E2E configurations also includes 8.0.2-10.
+- Smoke configuration uses 7.8.4-18 through 1.16.0, switches to 7.22.0-250 in
+  1.16.1, still uses 7.8.4-18 in the 1.16.2 release branch, and uses 7.22.0-250
+  in the documented 1.18.x through 2.2.x releases. Do not infer inheritance
+  between patch branches or label 1.16.2 an intentional reversal without evidence.
+- Image OS suffixes describe the RE container, not the RDI host operating system.
+  The public page uses numeric cluster builds and omits internal image locations.
+- The observed lowest and highest cluster builds are useful qualification
+  candidates. They do not establish supported bounds or support for versions
+  between the observed builds. The minimum/maximum columns remain undocumented.
+
+### Platform findings
+
+- Current development jobs explicitly select Ubuntu 26.04 for one VM installer
+  case, Ubuntu 24.04 for upgrades from 1.8.0 and 2.2.1, and a RHEL 9 runner for
+  one VM smoke case. Other Ubuntu cases use the rolling ubuntu-latest label.
+- E2E jobs also use ubuntu-latest, except one classic integration group pinned
+  to Ubuntu 24.04. The workflows select amd64 tooling and an x64 RHEL runner.
+  This provides x86-64 configuration evidence, not ARM workload qualification.
+- Helm and multi-source smoke jobs install K3s, rather than a separate
+  customer-managed Kubernetes or OpenShift distribution. No version-specific
+  OpenShift test configuration was found in the inspected workflows and scripts.
+- All 20 release packages pin K3s 1.31.1+k3s1 for offline installation. Their
+  online installers and E2E setup downloaded an unpinned version. Historical
+  online runtime versions cannot be reconstructed from those tags alone.
+- Current development pins online installation and E2E setup to K3s
+  1.37.2+k3s1. This and Ubuntu 26.04 coverage postdate 2.2.1. They must not be
+  presented as released-family platform support.
+- Current development also changes installer OS acceptance. The page preserves
+  the published released-family OS list instead of applying unreleased changes
+  retroactively. Online/offline qualification remains separate.
+
+### Changes in test configuration
+
+Dates are commit dates in the project's Europe/Sofia timezone. These dates
+identify configuration changes, not first GA support commitments.
+
+| Date | Change |
+|---|---|
+| February 1, 2024 | E2E pipeline includes RE 6.4.2-61 and 7.2.4-64. |
+| May 27, 2024 | Smoke test configuration starts with RE 6.4.2-61. |
+| October 6, 2024 | Packaged K3s pinned to 1.31.1+k3s1. |
+| October 14, 2024 | RE test container OS changes from RHEL 7 to RHEL 8; this is not host OS coverage. |
+| December 16, 2024 | E2E replaces RE 7.2.4-64 with 7.8.2-60 and keeps 6.4.2-61. |
+| March 20, 2025 | Smoke RE changes from 6.4.2-61 to 7.8.4-18. |
+| April 29, 2025 | RHEL 9 smoke coverage added alongside Ubuntu. |
+| October 23, 2025 | RE 8.0.2-10 added to classic and Flink E2E configurations. The first documented initial family release tag containing it is 1.16.0. |
+| February 11, 2026 | Smoke RE changes to 7.22.0-250. Release branches differ, including 1.16.2. |
+| April 17, 2026 | Classic E2E retains 6.4 and 7.8; Flink E2E retains 6.4 and 8.0. The union still contains all three versions. |
+| July 16, 2026 | Matrix redesign distributes 6.4, 7.8, and 8.0 across both classic and Flink groups. |
+| November 5, 2026 | Explicit Ubuntu 26.04 installer smoke case added. |
+| November 10, 2026 | One classic integration group pinned to Ubuntu 24.04; E2E and online installer setup begin using the packaged K3s pin. |
+| November 11, 2026 | Packaged K3s changes to 1.37.2+k3s1. |
+| November 12, 2026 | Ubuntu 24.04 smoke upgrade from 2.2.1 added. |
+| November 13, 2026 | Ubuntu 24.04 smoke upgrade from 1.8.0 added. |
+
+### Execution evidence
+
+The completed main-branch run for the checked snapshot passed all 63 relevant
+jobs: 14 classic, 22 Flink, 14 Helm smoke, nine installer smoke, three multi-source
+smoke, and one RHEL 9 smoke. The run completed on November 18, 2026 in Sofia
+(November 17 UTC). This verifies that snapshot's selected jobs, not every
+OS/RE/processor combination, all historical releases, or an approved support range.
+
+The public page separates documented requirements, historical test inputs, and
+current development environments. It retains unknown support bounds and the
+existing product limitations.
+
+### Validation of test-coverage revision
+
+- Full current documentation build passed with the pinned Hugo version. No
+  unresolved-link warning references the lifecycle page; unrelated warnings remain.
+- Checked desktop and 390-pixel rendering. The added tables use the existing
+  horizontal scrolling wrapper and do not widen the page.
+- The release-notes link resolves to the current index. The rendered article
+  includes no private source or issue-tracker links.
+- Re-extracted all 20 release-tag configurations and checked every grouped RE
+  row, including both 1.16.x smoke configurations and the offline K3s pin.
+- The final independent prospective-customer review found no blocking new issue.
+  It confirmed the separation between support claims, release-tag test inputs,
+  and current development coverage. Its wording finding was addressed by naming
+  K3s 1.37.2+k3s1 explicitly in the development pinning sentence. The reviewer
+  could find EOL, patch behavior, and upgrade guidance. It still could not choose
+  a fully supported production combination without product qualification.

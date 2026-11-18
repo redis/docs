@@ -109,6 +109,30 @@ support. Confirm your cluster version with [Redis support](https://redis.io/supp
 
 {{< /table-scrollable >}}
 
+### RE cluster versions in automated tests
+
+The release-tag configurations for the [documented RDI releases](/content/integrate/redis-data-integration/release-notes/_index.md)
+use these RE cluster builds in end-to-end (E2E)
+and smoke tests. These are test inputs, not supported minimums or maximums.
+They do not establish support for intermediate versions or for every feature
+on every listed build. Historical configurations alone do not prove that a
+release passed all tests.
+
+{{< table-scrollable >}}
+
+| RDI releases | E2E cluster builds | Smoke cluster build |
+|---|---|---|
+| Listed releases in 1.18.x, 1.19.x, 2.0.x, and 2.2.x | 6.4.2-61; 7.8.2-60; 8.0.2-10 | 7.22.0-250 |
+| 1.16.1 | 6.4.2-61; 7.8.2-60; 8.0.2-10 | 7.22.0-250 |
+| 1.16.0 and 1.16.2 | 6.4.2-61; 7.8.2-60; 8.0.2-10 | 7.8.4-18 |
+| Listed releases in 1.8.x, 1.10.x, 1.12.x, 1.14.x, and 1.15.x | 6.4.2-61; 7.8.2-60 | 7.8.4-18 |
+
+{{< /table-scrollable >}}
+
+The current development configuration, checked on November 18, 2026, uses
+6.4.2-61, 7.8.2-60, and 8.0.2-10 across the E2E test groups, and 7.22.0-250
+for smoke tests. Individual test groups cover different builds.
+
 RDI can write to one Redis Active-Active database endpoint. It does not support
 writing the same pipeline to multiple Active-Active replicas.
 
@@ -131,18 +155,37 @@ checks. It does not establish qualification of every OS and runtime combination.
 | RDI families | Installation method | OS or platform versions | Architecture | Conditions |
 |---|---|---|---|---|
 | 1.8.x–2.2.x | VM | Red Hat Enterprise Linux (RHEL) 8 or 9; Ubuntu 20.04, 22.04, or 24.04 | Not verified | OS list documented; qualification of the installed runtime is pending. Online and offline installations need separate verification. |
-| 1.8.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 1.10.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 1.12.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 1.14.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 1.15.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 1.16.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 1.18.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 1.19.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 2.0.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
-| 2.2.x | Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
+| 1.8.x–2.2.x | Customer-managed Kubernetes/OpenShift | Not verified | Not verified | Release-specific version qualification pending. |
 
 {{< /table-scrollable >}}
+
+### Platforms in current automated tests
+
+The development test configuration checked on **November 18, 2026** covers the
+following environments. The K3s update and Ubuntu 26.04 coverage postdate RDI
+2.2.1. This table does not extend the supported platforms of existing releases.
+
+{{< table-scrollable >}}
+
+| Test configuration | Host OS | Kubernetes runtime | Architecture |
+|---|---|---|---|
+| VM installer smoke tests | Ubuntu 26.04; Ubuntu 24.04 for upgrades from 1.8.0 and 2.2.1; other cases use `ubuntu-latest` | K3s 1.37.2+k3s1 | x86-64 |
+| VM installer smoke test | RHEL 9 | K3s 1.37.2+k3s1 | x86-64 |
+| Helm installation and multi-source smoke tests | `ubuntu-latest` | K3s 1.37.2+k3s1 | x86-64 |
+| E2E and integration tests | `ubuntu-latest`; Ubuntu 24.04 for one classic processor integration group | K3s 1.37.2+k3s1 | x86-64 |
+
+{{< /table-scrollable >}}
+
+`ubuntu-latest` is a rolling test-runner label, not a fixed Ubuntu version.
+The inspected jobs do not provide version-specific OpenShift or ARM workload
+test evidence. K3s coverage does not establish compatibility with every
+customer-managed Kubernetes distribution.
+
+The release packages from 1.8.0 through 2.2.1 pin K3s 1.31.1+k3s1 for offline
+installation. Their online installers and E2E setup did not pin the downloaded
+K3s version, so the packaged version does not identify every historical test
+runtime. The current development configuration pins both online installation
+and E2E setup to K3s 1.37.2+k3s1.
 
 The installation documentation requires Kubernetes and OpenShift versions that
 have not reached EOL. That requirement alone does not qualify every non-EOL version
