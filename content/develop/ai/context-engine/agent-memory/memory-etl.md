@@ -92,6 +92,8 @@ With [ingestion webhooks](/content/develop/ai/context-engine/agent-memory/ingest
 
 ## Trace memories to their sources
 
+On deployments that check source-link index readiness, a query can return `424` with the title `Database Server Busy` while Redis rebuilds the index. Retry the query with backoff before deciding whether there are any source links.
+
 Provenance connects a memory to document or session inputs used during extraction. A `sourceId` identifies one revisioned origin in the store; an `ingestionId` identifies a particular document run. Session evidence lists input event IDs. Document evidence identifies ingestions, chunks, and optional source spans. These describe the input supplied to extraction, not a guarantee that each sentence in the resulting memory is a quoted fact.
 
 | Request | Python method | REST endpoint |

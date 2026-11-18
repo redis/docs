@@ -112,7 +112,23 @@ List direct children with `parentId`:
 | Archive | Set `state` to `ARCHIVED` to stop new children and placements. You cannot unarchive a namespace. |
 | Delete | Delete an empty leaf namespace. A namespace with children or memory placements returns `409 Conflict`. |
 
-Creating a namespace at an occupied location returns `409 Conflict`, including when the existing namespace is archived. Save and reuse the returned ID instead of creating the same namespace on each agent turn. For request fields and error responses, see the [namespace API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/CreateNamespace).
+Creating or renaming a namespace can return `409 Conflict` when the name is occupied. If the response includes `existingId`, retrieve that namespace by ID and check that it matches the one your application intended to use. The service can return the ID for an accessible, active namespace. Archived or inaccessible namespaces keep their IDs hidden. If a duplicate conflict omits the ID, list the relevant roots or direct children and look for the exact name. See the [namespace API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/CreateNamespace).
+
+## Find namespaces by name
+
+On a deployment that supports [`SearchNamespaces`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchNamespaces), send a search request to populate a namespace picker. This example finds direct children of a selected namespace:
+
+```bash
+memory_api="${IRIS_AGENT_MEMORY_URL%/}/iris/data/v1/agent-memory/stores/$IRIS_AGENT_MEMORY_STORE_ID"
+curl --fail-with-body -X POST "$memory_api/namespaces/search" \
+  -H "Authorization: Bearer $IRIS_AGENT_MEMORY_API_KEY" \
+  -H 'Content-Type: application/json' \
+  --data '{"query":"trip","match":"PREFIX","filter":{"parentId":"<parent-id>"},"limit":20}'
+```
+
+`EXACT` matches the entire name and is the default when you supply a query. `PREFIX` matches the start of the name. Both match case. Omit the query and match mode for a filter-only search. Omit the hierarchy filter to search at every depth, or use `rootsOnly: true` for roots. Store access and ownership checks apply before paging.
+
+Use each item's ID for placement and its current path for display. Follow `nextCursor` with the same request even if a page contains fewer items than the limit. Prefixes must contain at least two characters. Redis can require a longer prefix or limit how many distinct names a broad prefix can match.
 
 ## Sort namespaces
 

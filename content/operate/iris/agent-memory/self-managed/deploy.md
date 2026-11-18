@@ -197,7 +197,7 @@ Then upgrade the release as in [Install or upgrade the release](#3-install-or-up
 
 To turn enforcement off again, set `memory.memory.ownership.enabled: false` and upgrade the same way. Records keep their owners. Before you turn it on for existing data, follow [Enable or change ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#enable-or-change-ownership-enforcement).
 
-The suite uses one static tenant, `global.iris.tenantId`. Every valid agent key and every valid user token from the configured issuer acts in that tenant, so Memory never returns the cross-tenant `403` that [Delegate a user with an agent key](/content/operate/iris/agent-memory/self-managed/authentication.md#delegate-a-user-with-an-agent-key) describes. See [Tenancy and identity provider limits](/content/operate/iris/self-managed/_index.md#tenancy-and-identity-provider-limits).
+The single-tenant setup in this procedure uses `global.iris.tenantId`. Every valid agent key and user token from the configured issuer acts in that tenant. For releases that support multiple tenants, see [Use a tenant claim](/content/operate/iris/self-managed/_index.md#use-a-tenant-claim).
 
 ## 3. Install or upgrade the release
 

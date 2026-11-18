@@ -106,6 +106,29 @@ kubectl -n <namespace-name> rollout status deployment/redis-agent-memory-control
 To move from a standalone `redis-agent-memory` release or a preview chart, see
 [Move from a preview or standalone install](/content/operate/iris/self-managed/_index.md#move-from-a-preview-or-standalone-install).
 
+## Collect and inspect audit records
+
+On a release with Agent Memory audit logging, use the production logging profile to emit structured records to the container logs. Configure your collector to select logger `audit` or names ending in `.audit`. Collect records from Agent Memory and the Identity Service. Use `audit_product: memory` to find Memory events.
+
+Retain the JSON records in storage with access controls and monitor the collector for output failures, retries, buffer growth, and low disk space. Audit records bypass log sampling and use best-effort delivery. A service crash or collector failure can lose or repeat a record.
+
+Use `subject` and `user_id` to identify the authenticated actor. Use `store_id`, `resource_id`, and `owner_id` to identify the affected data when those fields are available. The `result` field is `allowed`, `denied`, or `failed`. An allowed mutation confirms persistence, while an allowed authorization event confirms the access check.
+
+Baseline coverage includes authentication and authorization results, store and namespace changes, long-term memory writes, and document ingestion transitions. On releases with extended coverage, look for these additional actions:
+
+| Actions | What they record |
+| --- | --- |
+| `session.create`, `session.event.create`, `session.delete`, `session.event.delete`, `session.events.delete`, `session.summary.update`, `session.property.update` | Committed session changes. Single-event operations can carry an `event_id`. |
+| `summary_view.create`, `summary_view.update`, `summary_view.delete.begin`, `summary_view.delete` | Definition changes and deletion progress. |
+| `summary_view.refresh.accept`, `summary_view.refresh.complete` | A newly accepted manual refresh or a committed result. |
+| `authenticate_delegated_user`, `authenticate_oidc`, `introspect_api_key`, `token.exchange` | Authentication and token exchange outcomes with verified identities and bounded reasons. |
+
+Use request logs and metrics for routine reads. For write retries, use the operation's idempotency contract. A confirmed mutation can have a follow-up failure event if later work failed.
+
+## Investigate partial bulk writes
+
+If bulk creation returns HTTP `201`, inspect the per-record `errors` before retrying. On deployments that emit bulk-write diagnostics, use the request ID in the worker warning to find the corresponding Data Plane log entries. Inspect the failure stage to distinguish placement, admission, and persistence problems. The summary gives the created, failed, and omitted counts when the service caps individual warnings.
+
 ## Release tests
 
 `helm test iris` creates a temporary store, mints a scoped agent key, calls the Data Plane with it,

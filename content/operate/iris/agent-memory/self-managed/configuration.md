@@ -64,6 +64,61 @@ explicitly when combining agent keys with worker or other authentication methods
 
 For ownership enforcement, use `memory.memory.ownership.enabled` in Helm values or `ownership.enabled` in a BYO Data Plane configuration file. `MEM_OWNERSHIP_ENABLED` overrides the file setting. Enabling this option does not bind agent keys to users or rewrite existing owners.
 
+On releases with per-store ownership, this variable configures the deployment's fallback. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) for store and tenant precedence.
+
+### Verify Redis Enterprise TLS
+
+From self-managed Redis Iris 1.0.1, you can add `tls_server_name` to a `rediss://` URL for Metadata Redis, Store Redis, or Job Redis. Use the database Service host in the URL and a name covered by its Transport Layer Security (TLS) certificate in the parameter:
+
+```text
+rediss://<database-service-host>:<port>?tls_server_name=<certificate-name>
+```
+
+Agent Memory connects to the Service host and verifies the certificate against `tls_server_name`. Configure the trusted certificate authority as described in [Prerequisites](/content/operate/iris/agent-memory/self-managed/prerequisites.md).
+
+### Configure additional inference providers
+
+Use these settings on a self-managed release with Cohere or Anthropic support. Redis Iris 1.0.1 predates these integrations.
+
+| Provider | Supported roles | Configuration |
+| --- | --- | --- |
+| Cohere | Embeddings and language model generation | Use `cohere` for the embedding protocol and the Cohere OpenAI-compatible endpoint. Set the embedding dimension to match your model in the Data Plane and Control Plane. |
+| Anthropic | Language model generation | Use `anthropic` with the Anthropic OpenAI-compatible endpoint. Configure a separate provider for embeddings. |
+
+For example, merge this fragment under `memory.memory` to use Cohere embeddings and an Anthropic model for built-in session extraction. Store the real keys in the overlay Secret:
+
+```yaml
+embedding:
+  provider: cohere
+  models:
+    default_embedding_model: embed-v5.0-pro
+    dimensions: 2048
+embedders_connection_details:
+  cohere:
+    protocol: cohere
+    base_url: https://api.cohere.ai/compatibility/v1
+    credentials:
+      type: static
+      api_key: <embedding-api-key>
+inference_providers:
+  anthropic:
+    endpoint:
+      base_url: https://api.anthropic.com/v1/
+      auth_format: bearer
+promote_session_memory:
+  strategies:
+    instruct:
+      llm:
+        provider: anthropic
+        credentials:
+          type: static
+          api_key: <generation-api-key>
+        models:
+          default_chat_model: <anthropic-chat-model>
+```
+
+Set the Control Plane's `embedding.dimensions` to the same value when provisioning stores. Use this configuration on stores whose indexes match the chosen embedding model and dimensions. For structured generation, check the schema against the provider's supported keywords. Test extraction and structured Summary View output with your selected model before using them in production.
+
 ## Bring-your-own (BYO) configuration
 
 With BYO configuration, you supply each complete configuration file in your own Secret, and the
@@ -309,6 +364,16 @@ Use a model supported by your configured `inference_providers.openai` connection
 For a bring-your-own configuration, place these fields at the file root instead of under `memory.memory`. Keep the worker's queue retries and timeout consistent with the ingestion limits. All numeric ingestion limits must be positive. Byte, estimated token, and chunk limits apply together.
 
 Roll out both the server and worker. Confirm store health, then [create an extractor and submit a document](/content/develop/ai/context-engine/agent-memory/memory-etl.md). Setting `enabled: false` rejects new ingestions; it does not undo memories already written.
+
+### Connect the console to the Data Plane
+
+On a release that supports the Agent Memory Data Plane tools, keep the console's `memory-dp` route enabled and point it at the Agent Memory Data Plane service. Sign in with the operator credential configured for the console. In admin token mode, use the Agent Memory Control Plane admin token configured for the same release. Connect to the store to use Memory Inspector, Playground, the API explorer, and document extraction.
+
+If the console reports `Document ingestion is not enabled`, enable document ingestion on the server and worker using the settings in this section. Then verify that the store has an enabled extractor and that the worker can reach the configured model provider.
+
+## Configure searchable session recaps
+
+Set `session_summary_view.enabled: true` under `memory.memory` in the suite values, or at the root of both the server and worker configuration files. Configure a chat model for `session_summary_view.llm` on the worker. Then enable `longTermMemory.sessionSummaryEnabled` for each intended store. See [Store searchable session recaps](/content/develop/ai/context-engine/agent-memory/sessions/_index.md#store-searchable-session-recaps).
 
 ## Configure Summary Views {#enable-summary-views}
 

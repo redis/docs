@@ -148,16 +148,20 @@ Operation mapping:
 | `write` | Add/delete session events, delete session memory, set session summary, set session property, create/update/delete long-term memory. |
 {{< /table-scrollable >}}
 
+On deployments supporting federated service subjects, grant `read_all_owners` explicitly for a specific store to let a service read across owners. The action is read-only and applies to service subjects. Agent keys use the store grants and ownership rules.
+
 ## Server-side ownership enforcement
 
 Store grants authorize access to a store. Ownership enforcement adds a check within that store: ordinary callers can access their own personal records and shared records.
 
-This section applies to on-prem deployments. Ownership enforcement is off by default in the on-prem server, worker, and chart. Turn it on with `memory.memory.ownership.enabled: true` after you configure a user identity; see [Enable or change ownership enforcement](#enable-or-change-ownership-enforcement).
+In self-managed Redis Iris 1.0.1, use the deployment setting `memory.memory.ownership.enabled`. It defaults to false. Configure a user identity before enabling enforcement. See [Enable or change ownership enforcement](#enable-or-change-ownership-enforcement).
+
+On a deployment that supports store policies, use `ownership.mode` in the store create or update request. Set `ENABLED` or `DISABLED` to override the default for one store. `INHERIT` uses the tenant default if configured, then the deployment setting. Read `ownership.enabled` and `ownership.source` in the store response to check the effective policy. Changes take effect after the deployment's configuration cache refreshes.
 
 | Setting | Personal access | Shared access |
 | --- | --- | --- |
-| `ownership.enabled: false` | Your trusted backend must authorize every read and write, including direct-ID requests. Owner fields and filters do not authenticate the user. | Your backend checks which shared namespaces the user may access. |
-| `ownership.enabled: true` | The server compares the stored owner with the authenticated user ID. Search and list restrictions apply in addition to client filters. | Callers with the required store permission can access shared records. Shared scope does not enforce team membership. |
+| Effective policy disabled | Your trusted backend must authorize every read and write, including direct-ID requests. Use verified identity for those checks. | Your backend checks which shared namespaces the user may access. |
+| Effective policy enabled | The server compares the stored owner with the authenticated user ID. Search and list restrictions apply in addition to client filters. | Callers with the required store permission can access shared records. Apply team restrictions in your backend. |
 
 Keep application-specific checks in your backend in both modes. Use separate stores and grants if teams need separate server-enforced access. Worker credentials are for background services; do not give them to applications.
 
@@ -297,7 +301,7 @@ Before upgrading an existing deployment:
 1. Compare stored personal owners with the verified user IDs your application will send. Resolve owner mismatches before enabling enforcement; the setting does not rewrite owners.
 1. Configure delegation, then set `memory.memory.ownership.enabled: true` in chart-rendered values. For a bring-your-own file, use `ownership.enabled: true` at the root.
 1. Apply the setting to both Data Plane servers and workers, then roll out those processes. `MEM_OWNERSHIP_ENABLED` overrides the file value; check both for conflicting settings.
-1. Replace existing Summary Views when changing this setting. A view retains the source-access policy from its creation.
+1. Replace each existing Summary View whose source-access policy differs from the store's new effective policy. A view retains the source-access policy from its creation.
 1. Test two users: each can access their own personal records, neither can retrieve or search for the other's records, and both can access shared records allowed by their store grants.
 1. Test an agent key without a user token: it must not retrieve personal records or create a session for a named owner.
 

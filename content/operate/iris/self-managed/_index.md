@@ -504,7 +504,7 @@ Data in those databases is kept, except from Agent Memory `0.0.x` and Agent Play
 
 ## Tenancy and identity provider limits
 
-A release has one tenant, one identity provider issuer, and one token audience. The chart takes each from `global.iris` and applies it to every service, so every key and token resolves to that tenant.
+The single-tenant setup uses one tenant, one identity provider issuer, and one token audience. The chart takes each from `global.iris` and applies it to every service.
 
 - `global.iris.tenantId` becomes the tenant of every service and the Identity Service's `singleTenantID`. An empty value fails the schema check.
 - `global.iris.auth.oidc` supplies the issuer, JWKS URL, role claims, role mappings, and audience.
@@ -521,7 +521,15 @@ A service value that sets any of these differently fails the render, and the err
 
 To serve a second tenant or issuer, install another release in its own namespace.
 
-Because a release has one tenant, every valid agent key and every valid token from the configured issuer acts in `global.iris.tenantId`. No request can name another tenant, so the suite never refuses a request as cross-tenant.
+In this mode, each valid agent key and user token acts in `global.iris.tenantId`.
+
+### Use a tenant claim
+
+On a suite release that supports claim-based tenancy, set `global.iris.auth.oidc.tenantIdClaim` to the identity provider's tenant claim. Remove the fixed tenant settings, including `global.iris.tenantId` and product `tenantId` values. Configure the issuer and audience for that release.
+
+Agent keys and grants belong to a tenant. Create a key in the tenant that owns its target store. When granting access using the Identity Service control token, name the grant's tenant. Static admin tokens use the reserved `_system` tenant by default. Use your identity provider to administer stores in a user tenant. Tenant claim values that start with an underscore are reserved.
+
+Check the release notes for the products that can use claim-based tenancy on your chart version. Self-managed 1.0.1 uses the single-tenant setup.
 
 ## Not supported in this release
 

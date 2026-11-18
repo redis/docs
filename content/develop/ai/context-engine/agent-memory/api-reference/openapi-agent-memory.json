@@ -3134,7 +3134,7 @@
                 ]
             },
             "post": {
-                "description": "Creates a namespace resource as a root, direct child, or explicit hierarchy path. Returns 409 when an active or archived namespace already occupies the requested location.",
+                "description": "Creates a namespace resource as a root, direct child, or explicit hierarchy path. Returns 409 when an active or archived namespace already occupies the requested location; when an active namespace the caller can access occupies it, the problem's existingId is that namespace's ID. existingId is optional: older servers and lost races can omit it, so clients fall back to listing by name.",
                 "operationId": "CreateNamespace",
                 "requestBody": {
                     "content": {
@@ -3586,7 +3586,7 @@
                 ]
             },
             "patch": {
-                "description": "Renames or archives a namespace. Returns 409 when the namespace changed concurrently, an active or archived sibling already uses the requested name, or the namespace is archived.",
+                "description": "Renames or archives a namespace. Returns 409 when the namespace changed concurrently, an active or archived sibling already uses the requested name, or the namespace is archived.\n\nA duplicate-name conflict can include existingId for an accessible, active namespace on supported releases.",
                 "operationId": "UpdateNamespace",
                 "requestBody": {
                     "content": {
@@ -4602,6 +4602,220 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/IngestionHookRetryErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Session Memory"
+                ]
+            },
+            "get": {
+                "description": "Lists events still stored in the session, including events covered by a session summary until cleanup removes them. With DESC, the first page starts at the end of the range.\n\nAvailability depends on the deployed Agent Memory release.",
+                "operationId": "ListSessionEvents",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 35,
+                            "minLength": 35,
+                            "pattern": "^st_[0-9a-f]{32}$",
+                            "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "sessionId",
+                        "in": "path",
+                        "description": "Session identifier (1-64 chars: letters, digits, underscores and hyphens, case-sensitive). When the server generates one, it uses 32 lowercase hex characters.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9_-]+$",
+                            "description": "Session identifier (1-64 chars: letters, digits, underscores and hyphens, case-sensitive). When the server generates one, it uses 32 lowercase hex characters."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "afterEventId",
+                        "in": "query",
+                        "description": "Exclusive lower bound by position in the session. Returns 404 Event Not Found if the bound event is no longer retained. If this ID came from a summary checkpoint, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 36,
+                            "minLength": 36,
+                            "pattern": "^evt_[0-9a-f]{32}$",
+                            "description": "Exclusive lower bound by position in the session. Returns 404 Event Not Found if the bound event is no longer retained. If this ID came from a summary checkpoint, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents."
+                        }
+                    },
+                    {
+                        "name": "beforeEventId",
+                        "in": "query",
+                        "description": "Exclusive upper bound by position in the session. Returns 404 if the event is no longer retained.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 36,
+                            "minLength": 36,
+                            "pattern": "^evt_[0-9a-f]{32}$",
+                            "description": "Exclusive upper bound by position in the session. Returns 404 if the event is no longer retained."
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Direction of session order. Defaults to ASC, which starts at the oldest event in the range.",
+                        "schema": {
+                            "$ref": "#/components/schemas/SessionListSortOrder"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum number of events to return. Defaults to 50.",
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "description": "Maximum number of events to return. Defaults to 50.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "last",
+                        "in": "query",
+                        "description": "Return the last N events in the range in session order. Each continuation returns an earlier page in session order. Mutually exclusive with limit and order.",
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "description": "Return the last N events in the range in session order. Each continuation returns an earlier page in session order. Mutually exclusive with limit and order.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "cursor",
+                        "in": "query",
+                        "description": "Continuation from a previous page. Keep the session, bounds, order, and last the same. If the cursor's event was deleted, returns 400 Invalid Cursor. Restart without the cursor.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 1024,
+                            "minLength": 1,
+                            "description": "Continuation from a previous page. Keep the session, bounds, order, and last the same. If the cursor's event was deleted, returns 400 Invalid Cursor. Restart without the cursor."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListSessionEvents 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListSessionEventsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
                                 }
                             }
                         }
@@ -6186,6 +6400,310 @@
                     "Summary Views"
                 ]
             }
+        },
+        "/iris/data/v1/agent-memory/stores/{storeId}/memories/{memoryId}/retrieve": {
+            "post": {
+                "description": "Returns a long-term memory by its ID with optional expiry refresh.\n\nAvailability depends on the deployed Agent Memory release.",
+                "operationId": "RetrieveLongTermMemory",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RetrieveLongTermMemoryOptions"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 35,
+                            "minLength": 35,
+                            "pattern": "^st_[0-9a-f]{32}$",
+                            "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "memoryId",
+                        "in": "path",
+                        "description": "Memory record identifier (1-64 chars: letters, digits, underscores and hyphens, case-sensitive). Client-provided for idempotent long-term memory creation.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9_-]+$",
+                            "description": "Memory record identifier (1-64 chars: letters, digits, underscores and hyphens, case-sensitive). Client-provided for idempotent long-term memory creation."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "RetrieveLongTermMemory 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RetrieveLongTermMemoryResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Long-Term Memory"
+                ]
+            }
+        },
+        "/iris/data/v1/agent-memory/stores/{storeId}/namespaces/search": {
+            "post": {
+                "description": "Searches namespace names within a store. Prefix searches use Redis expansion limits and may omit matching names. Pagination covers only the matches Redis returned. Set Redis search-on-timeout to FAIL to prevent partial pages on timeout. Retry a timed-out search with the same request.\n\nAvailability depends on the deployed Agent Memory release.",
+                "operationId": "SearchNamespaces",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SearchNamespacesRequestContent"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 35,
+                            "minLength": 35,
+                            "pattern": "^st_[0-9a-f]{32}$",
+                            "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SearchNamespaces 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SearchNamespacesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Namespaces"
+                ]
+            }
         }
     },
     "components": {
@@ -6930,6 +7448,9 @@
                     },
                     "refreshPolicy": {
                         "$ref": "#/components/schemas/SummaryViewRefreshPolicy"
+                    },
+                    "timeBasis": {
+                        "$ref": "#/components/schemas/SummaryViewTimeBasis"
                     }
                 },
                 "required": [
@@ -7012,6 +7533,9 @@
                     "updatedAt": {
                         "type": "string",
                         "format": "date-time"
+                    },
+                    "timeBasis": {
+                        "$ref": "#/components/schemas/SummaryViewTimeBasis"
                     }
                 },
                 "required": [
@@ -7433,6 +7957,17 @@
                     "documentManaged": {
                         "type": "boolean",
                         "description": "True when this memory was created by document ingestion and is protected from generic overwrite."
+                    },
+                    "score": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Similarity score of a semantic search hit: (2 - cosine distance) / 2, in the range 0-1, with higher values indicating greater similarity. Absent from filter-only search and other responses.",
+                        "format": "double"
+                    },
+                    "summarizedUpToEventId": {
+                        "type": "string",
+                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents. Omitted when no checkpoint was recorded."
                     }
                 },
                 "required": [
@@ -7614,6 +8149,9 @@
                     "updatedAt": {
                         "type": "string",
                         "format": "date-time"
+                    },
+                    "timeBasis": {
+                        "$ref": "#/components/schemas/SummaryViewTimeBasis"
                     }
                 },
                 "required": [
@@ -7706,6 +8244,9 @@
                     },
                     "errorCode": {
                         "$ref": "#/components/schemas/SummaryViewResultErrorCode"
+                    },
+                    "refresh": {
+                        "$ref": "#/components/schemas/SummaryViewRefreshProgress"
                     }
                 },
                 "required": [
@@ -8243,6 +8784,17 @@
                     "documentManaged": {
                         "type": "boolean",
                         "description": "True when this memory was created by document ingestion and is protected from generic overwrite."
+                    },
+                    "score": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Similarity score of a semantic search hit: (2 - cosine distance) / 2, in the range 0-1, with higher values indicating greater similarity. Absent from filter-only search and other responses.",
+                        "format": "double"
+                    },
+                    "summarizedUpToEventId": {
+                        "type": "string",
+                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents. Omitted when no checkpoint was recorded."
                     }
                 },
                 "required": [
@@ -8865,7 +9417,7 @@
             },
             "RegexSpec": {
                 "type": "object",
-                "description": "A regular expression to match against.\n\nEvaluated by RE2, which runs in linear time \u2014 so an expensive pattern is not a\ndenial-of-service risk, but lookaround and backreferences are unavailable.\nRejected on write if it does not compile, or if it can match without consuming\ntext: such a pattern matches at every position, so it would exclude every memory\nthe store writes.",
+                "description": "A regular expression to match against.\n\nEvaluated by RE2, which runs in linear time — so an expensive pattern is not a\ndenial-of-service risk, but lookaround and backreferences are unavailable.\nRejected on write if it does not compile, or if it can match without consuming\ntext: such a pattern matches at every position, so it would exclude every memory\nthe store writes.",
                 "properties": {
                     "pattern": {
                         "type": "string",
@@ -8992,6 +9544,10 @@
                         "maxLength": 1024,
                         "minLength": 1,
                         "description": "Opaque token from a previous response for the next page."
+                    },
+                    "refreshTtl": {
+                        "type": "boolean",
+                        "description": "When true, extend the expiry of eligible memories returned on this page to at least the current time plus the store's long-term memory TTL. Requires store write permission. Document-managed memories keep their own retention policy. Omit or set false to search without refreshing expiry."
                     }
                 }
             },
@@ -9436,6 +9992,9 @@
                     "updatedAt": {
                         "type": "string",
                         "format": "date-time"
+                    },
+                    "timeBasis": {
+                        "$ref": "#/components/schemas/SummaryViewTimeBasis"
                     }
                 },
                 "required": [
@@ -10101,6 +10660,17 @@
                     "documentManaged": {
                         "type": "boolean",
                         "description": "True when this memory was created by document ingestion and is protected from generic overwrite."
+                    },
+                    "score": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Similarity score of a semantic search hit: (2 - cosine distance) / 2, in the range 0-1, with higher values indicating greater similarity. Absent from filter-only search and other responses.",
+                        "format": "double"
+                    },
+                    "summarizedUpToEventId": {
+                        "type": "string",
+                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents. Omitted when no checkpoint was recorded."
                     }
                 },
                 "required": [
@@ -10260,6 +10830,9 @@
                     "updatedAt": {
                         "type": "string",
                         "format": "date-time"
+                    },
+                    "timeBasis": {
+                        "$ref": "#/components/schemas/SummaryViewTimeBasis"
                     }
                 },
                 "required": [
@@ -10363,6 +10936,298 @@
                 "required": [
                     "created",
                     "memoryId"
+                ]
+            },
+            "ListSessionEventsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SessionEvent"
+                        }
+                    },
+                    "nextCursor": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Continuation cursor. Omitted when there are no more events in the range."
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "NamespaceNameMatch": {
+                "type": "string",
+                "enum": [
+                    "EXACT",
+                    "PREFIX"
+                ]
+            },
+            "NamespaceSearchFilter": {
+                "type": "object",
+                "properties": {
+                    "rootsOnly": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Search only roots. Defaults to false. Cannot be true when parentId is supplied."
+                    },
+                    "parentId": {
+                        "type": "string",
+                        "maxLength": 35,
+                        "minLength": 35,
+                        "pattern": "^ns_[0-9a-f]{32}$",
+                        "description": "Search only direct children of this namespace. A missing or inaccessible parent yields an empty result."
+                    },
+                    "scope": {
+                        "$ref": "#/components/schemas/NamespaceScope"
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^(?:[\\w+=@-][\\w+=.@-]*|\\.[\\w+=@-][\\w+=.@-]*|\\.\\.[\\w+=.@-]+)$",
+                        "description": "Restrict results to personal namespaces of this root owner, at any depth. Cannot be combined with SHARED scope."
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/NamespaceState"
+                    }
+                }
+            },
+            "RetrieveLongTermMemoryOptions": {
+                "type": "object",
+                "properties": {
+                    "refreshTtl": {
+                        "type": "boolean",
+                        "description": "When true, extend the memory's expiry to at least the current time plus the store's long-term memory TTL. Requires store write permission. Document-managed memories keep their own retention policy. Omit or set false to retrieve without refreshing expiry."
+                    }
+                }
+            },
+            "RetrieveLongTermMemoryResponseContent": {
+                "type": "object",
+                "description": "A long-term memory record.",
+                "properties": {
+                    "attributes": {
+                        "$ref": "#/components/schemas/AttributeMap"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "Timestamp when the memory was created (UTC).",
+                        "format": "date-time"
+                    },
+                    "documentManaged": {
+                        "type": "boolean",
+                        "description": "True when this memory was created by document ingestion and is protected from generic overwrite."
+                    },
+                    "memoryId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9_-]+$",
+                        "description": "Unique memory record ID."
+                    },
+                    "memoryType": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Type of memory. Built-in or a custom type registered on the store."
+                    },
+                    "namespaceId": {
+                        "type": "string",
+                        "maxLength": 35,
+                        "minLength": 35,
+                        "pattern": "^ns_[0-9a-f]{32}$",
+                        "description": "Current namespace. Absent when the record has no namespace."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^(?:[\\w+=@-][\\w+=.@-]*|\\.[\\w+=@-][\\w+=.@-]*|\\.\\.[\\w+=.@-]+)$",
+                        "description": "Owner ID associated with this memory."
+                    },
+                    "revision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Opaque revision for conditional writes. Legacy search results can omit it; read the memory by ID before a conditional update."
+                    },
+                    "score": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Similarity score of a semantic search hit: (2 - cosine distance) / 2, in the range 0-1, with higher values indicating greater similarity. Absent from filter-only search and other responses.",
+                        "format": "double"
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9_-]+$",
+                        "description": "Session ID associated with this memory."
+                    },
+                    "sources": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MemorySourceLink"
+                        },
+                        "description": "Generic source links for this memory. Document sources include the customer document ID and revision that produced the memory."
+                    },
+                    "sourcesNextCursor": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Opaque token for additional source links when this response truncated attribution. Absent when every link is included."
+                    },
+                    "summarizedUpToEventId": {
+                        "type": "string",
+                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents. Omitted when no checkpoint was recorded."
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "The memory content."
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "description": "Topic name (1-100 chars)."
+                        },
+                        "maxItems": 50,
+                        "description": "Topic tags for categorization."
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "Timestamp when the memory was last updated (UTC).",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "memoryId",
+                    "text",
+                    "updatedAt"
+                ]
+            },
+            "SearchNamespacesRequestContent": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9_-]+$",
+                        "description": "Case-sensitive namespace name or prefix. Omit to search by filters alone. The API requires at least two characters in a prefix. Redis can return an empty page for prefixes shorter than its configured search-min-prefix."
+                    },
+                    "match": {
+                        "$ref": "#/components/schemas/NamespaceNameMatch"
+                    },
+                    "filter": {
+                        "$ref": "#/components/schemas/NamespaceSearchFilter"
+                    },
+                    "sortBy": {
+                        "$ref": "#/components/schemas/NamespaceSortBy"
+                    },
+                    "sortOrder": {
+                        "$ref": "#/components/schemas/NamespaceSortOrder"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "default": 50,
+                        "maximum": 200,
+                        "minimum": 1,
+                        "description": "Maximum number of results. Defaults to 50. A Redis result cap can shorten a page that still has a nextCursor.",
+                        "format": "int32"
+                    },
+                    "cursor": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Opaque token from the previous page. Search continues after the last returned result in sort order. Keep the query, matching mode, filters, and sort options unchanged. Concurrent changes can shift results between pages."
+                    }
+                }
+            },
+            "SearchNamespacesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Namespace"
+                        }
+                    },
+                    "nextCursor": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Opaque token for the next page. Omitted when the result set is exhausted. A prefix search may hit the Redis expansion limit before finding all matching names."
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "SummaryViewRefreshProgress": {
+                "type": "object",
+                "description": "Current refresh attempt. RUNNING means the worker has a live lease; lastProgressAt advances only at source-page and generation-batch boundaries. INTERRUPTED means its lease expired. FAILED means the last attempt failed and may be retried. No time estimate or percentage is implied.",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/SummaryViewRefreshStatus"
+                    },
+                    "queuedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastHeartbeatAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastProgressAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "phase": {
+                        "type": "string"
+                    },
+                    "sourcePage": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    },
+                    "batch": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "queuedAt",
+                    "status"
+                ]
+            },
+            "SummaryViewRefreshStatus": {
+                "type": "string",
+                "enum": [
+                    "QUEUED",
+                    "RUNNING",
+                    "INTERRUPTED",
+                    "FAILED"
+                ]
+            },
+            "SummaryViewTimeBasis": {
+                "type": "string",
+                "description": "Immutable rolling-window time basis. createdAt uses memory storage time. eventTime uses the newest known source message time; memories without a known event time are excluded. Views without a time window retain storage-time ordering.",
+                "enum": [
+                    "createdAt",
+                    "eventTime"
                 ]
             }
         },

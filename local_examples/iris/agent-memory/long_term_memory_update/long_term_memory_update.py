@@ -1,5 +1,7 @@
 # EXAMPLE: iris_agent_memory_long_term_memory_update
 # HIDE_START
+from uuid import uuid4
+
 from redis_iris.agent_memory import AgentMemory
 
 OWNER_ID = "quickstart-user"
@@ -15,16 +17,32 @@ memory.client.bulk_create_long_term_memories(memories=[{
 
 # STEP_START ltm-get
 current = memory.client.get_long_term_memory(memory_id=MEMORY_ID)
-print(current.text, current.topics, current.updated_at)
+print(current.text, current.topics, current.updated_at, current.revision)
 # STEP_END
 
 # STEP_START ltm-patch
+patch_key = str(uuid4())
 updated = memory.client.update_long_term_memory(
     memory_id=MEMORY_ID,
     text="The user prefers an aisle seat on long flights.",
     topics=["travel", "flights"],
+    expected_revision=current.revision,
+    idempotency_key=patch_key,
 )
 print(updated.text, updated.topics, updated.updated_at)
+# STEP_END
+
+# STEP_START ltm-put
+replace_key = str(uuid4())
+replaced = memory.client.upsert_long_term_memory(
+    memory_id=MEMORY_ID,
+    text="The user prefers an aisle seat.",
+    owner_id=OWNER_ID,
+    topics=["travel"],
+    expected_revision=updated.revision,
+    idempotency_key=replace_key,
+)
+print(replaced.created)
 # STEP_END
 
 # HIDE_START

@@ -57,6 +57,20 @@ The `events` array contains the retained conversation messages. If older events 
 
 Your application must check that the current user can access this session before using it. The request selects a session by ID; it does not include an owner filter. Compare the returned `ownerId` (`transcript.owner` in Python) with the authenticated user, as the example does.
 
+### Read part of a transcript
+
+On a deployment that supports [`ListSessionEvents`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/ListSessionEvents), fetch just the events you need for the next agent turn. For example, request the last 20 retained events in transcript order:
+
+```bash
+memory_api="${IRIS_AGENT_MEMORY_URL%/}/iris/data/v1/agent-memory/stores/$IRIS_AGENT_MEMORY_STORE_ID"
+curl --fail-with-body "$memory_api/sessions/<session-id>/events?last=20" \
+  -H "Authorization: Bearer $IRIS_AGENT_MEMORY_API_KEY"
+```
+
+Use `afterEventId` or `beforeEventId` to set exclusive bounds. Use `limit` and `order` for a page in either direction, or use `last` on its own to page backwards while each page stays in transcript order. Pass `nextCursor` as `cursor` with the same bounds and ordering to continue.
+
+If a [long-term recap](#store-searchable-session-recaps) includes `summarizedUpToEventId`, pass it as `afterEventId` to retrieve the events after the recap. If the checkpoint is absent or returns `404 Event Not Found`, restart without `afterEventId` and without the cursor. If only the cursor's event was deleted, the service returns `400 Invalid Cursor`. Restart the same range without the cursor.
+
 ## List sessions
 
 To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /iris/data/v1/agent-memory/stores/{storeId}/sessions`, `memory.sessions(owner)` or `memory.client.list_sessions` in Python, or `iris agent-memory sessions list`. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/sessions/list-sessions.md) for SDK examples and pagination.
@@ -111,6 +125,25 @@ See [automatic summarization]({{< relref "/operate/iris/agent-memory/create-serv
 For an example that combines session events with long-term recall, follow the [developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}). For complete schemas, see the [session-memory application programming interface (API) reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/GetSessionMemory).
 
 To group a session and its extracted memories, use an optional [namespace]({{< relref "/develop/ai/context-engine/agent-memory/namespaces#place-and-retrieve-memories" >}}).
+
+## Store searchable session recaps
+
+Transcript compaction helps you resume a conversation. A long-term session recap is a searchable memory about a conversation. User-defined [Summary Views](/content/develop/ai/context-engine/agent-memory/summary-views.md) summarize a set of long-term memories.
+
+On a deployment with recap extraction enabled, set `"longTermMemory": {"sessionSummaryEnabled": true}` when creating or updating the store. The store setting defaults to false. Self-managed deployments also need [recap extraction on the server and worker](/content/operate/iris/agent-memory/self-managed/configuration.md#configure-searchable-session-recaps).
+
+Search for the recap using the session and memory type:
+
+```json
+{
+  "filter": {
+    "sessionId": {"eq": "<session-id>"},
+    "memoryType": {"eq": "session_summary"}
+  }
+}
+```
+
+The older `session_summary_view` name can also match these recaps. If the store already has a custom type named `session_summary`, the custom type and the older built-in name stay separate.
 
 ## Try automatic summarization
 

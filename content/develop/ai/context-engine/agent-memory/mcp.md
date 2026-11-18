@@ -66,6 +66,10 @@ Call `tools/list` on an initialized connection to get the input schemas. Tool ar
 
 `edit_long_term_memory` and `upsert_long_term_memory` accept `expected_revision` to apply a change only when the memory's `revision` is current. The write tools accept `idempotency_key` so a retry replays the original result instead of writing twice.
 
+Semantic results can include a `score` between 0 and 1. For example, `"score": 0.87` indicates a higher similarity than `"score": 0.63`. Filter-only results omit it.
+
+On a deployment that supports retrieval-time expiration refresh, call `search_long_term_memory` with `refresh_ttl: true` to extend eligible memories on the returned page. Use a credential with store write permission. Document-managed memories keep their own retention. See [Extend memory retention on retrieval](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#extend-memory-retention-on-retrieval) for the expiry rule.
+
 ## Connect a client
 
 This client connects, lists the tools, creates a memory, searches for it, and then deletes it.

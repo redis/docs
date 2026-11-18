@@ -150,6 +150,22 @@ A store may define at most 32 custom detectors. Update an existing store's polic
 
 For what each mechanism does, how a match is handled, and which memory paths exclusions apply to, see [exclude sensitive data from automatic extraction]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#exclude-sensitive-data-from-automatic-extraction" >}}).
 
+### Change ownership or extraction for a store
+
+On versions that support these store controls, send a `PATCH /iris/v1/agent-memory/stores/{storeId}` request with an authorized Control Plane credential. For example, this body inherits the ownership policy and pauses built-in extraction:
+
+```json
+{
+  "ownership": {"mode": "INHERIT"},
+  "extractionEnabled": true,
+  "builtinExtractionEnabled": false
+}
+```
+
+Both extraction switches default to true on store creation. When `extractionEnabled` is false, automatic session extraction pauses for built-in and custom types and for opted-in long-term session recaps. The store keeps the built-in switch's configured value. Keeping the master switch enabled and turning off `builtinExtractionEnabled` allows custom extraction to continue. Session compaction, direct writes, and document ingestion have independent controls.
+
+Allow time for the settings to propagate. Queued jobs check the settings after propagation, and jobs already running can finish. Omit any field you want to preserve.
+
 ## Manage a service with the Control Plane SDK
 
 The same package supplies two independently configured clients:
