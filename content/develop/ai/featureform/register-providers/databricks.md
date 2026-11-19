@@ -53,8 +53,7 @@ Provider registration and workload execution use different identities and networ
 | --- | --- |
 | Feature Form server | The bootstrap secret backend, Databricks workspace APIs, configured catalogs and clusters, and Redis for provider health checks and inference-time feature reads |
 | Unity Catalog provider principal | Catalog lookup and Feature Form dataframe reads; read and write access to a configured artifact Volume when used |
-| Databricks provider principal | Inspect existing compute or submit Jobs compute; delete Feature Form-managed output tables |
-| Databricks run principal | Read input catalogs, write the output catalog, read and write execution artifacts, read the Redis password secret, and connect to Redis during feature-view materialization |
+| Databricks provider principal | Inspect existing compute or submit Jobs compute; delete Feature Form-managed output tables; in Databricks runs, read input catalogs, write the output catalog, read and write execution artifacts, read the Redis password secret, and connect to Redis during feature-view materialization |
 
 Allow each connection independently. A successful connection from the Feature Form server doesn't prove that Databricks compute can reach the same endpoint. See the [Unity Catalog privilege reference](https://docs.databricks.com/aws/en/data-governance/unity-catalog/access-control/privileges-reference) for catalog permissions and the [Databricks authentication documentation](https://docs.databricks.com/aws/en/dev-tools/auth) for workspace authentication.
 
@@ -80,9 +79,11 @@ databricks_workspace = DatabricksWorkspaceConfig(
 
 ## Understand which identity accesses data
 
-Databricks runs use one identity for every catalog they read or write: the Databricks run principal. By default, the run principal is the `databricks` provider's principal, which is the PAT owner or the OAuth M2M service principal. When `job_cluster.data_security_mode` is `SINGLE_USER`, Unity Catalog authorizes the run as the user named in `single_user_name` instead.
+Databricks runs use the `databricks` provider's principal for every catalog they read or write. That principal is the PAT owner or the OAuth M2M service principal.
 
-Feature Form passes only catalog names to Databricks runs, not `unity-catalog` provider credentials. Unity Catalog checks every catalog a run uses against the run principal's grants. If a run reads tables from three catalogs, the run principal needs access to all three, even when each catalog's provider uses a different principal.
+On dedicated access mode compute assigned to a different user or service principal, runs use the assigned principal instead. This applies to an existing cluster in dedicated access mode, and to Jobs compute with `job_cluster.data_security_mode` set to `SINGLE_USER`, which runs as the user in `single_user_name`. Grant that assigned principal the privileges this page lists for the `databricks` provider principal. See [Manage identities, permissions, and privileges for Lakeflow Jobs](https://docs.databricks.com/aws/en/jobs/privileges).
+
+Feature Form passes only catalog names to Databricks runs, not `unity-catalog` provider credentials. Unity Catalog checks every catalog a run uses against the grants of the identity the run uses. If a run reads tables from three catalogs, that identity needs access to all three, even when each catalog's provider uses a different principal.
 
 Feature Form uses a `unity-catalog` provider's credentials only for work the Feature Form server does itself:
 
@@ -96,14 +97,14 @@ Grant these [Unity Catalog privileges](https://docs.databricks.com/aws/en/data-g
 
 | Principal | Object | Privileges |
 | --- | --- | --- |
-| Databricks run principal | Each input catalog, schema, and table | `USE CATALOG`, `USE SCHEMA`, and `SELECT` |
-| Databricks run principal | Output catalog | `USE CATALOG` and `CREATE SCHEMA` |
-| Databricks run principal | Artifact Volume, its schema, and its catalog | `USE CATALOG`, `USE SCHEMA`, and `READ VOLUME`; add `WRITE VOLUME` when you run incremental transformations |
-| Databricks run principal | Databricks secret scope that holds the Redis password | `READ` permission on the secret scope |
+| `databricks` provider principal | Each input catalog, schema, and table | `USE CATALOG`, `USE SCHEMA`, and `SELECT` |
+| `databricks` provider principal | Output catalog | `USE CATALOG` and `CREATE SCHEMA` |
+| `databricks` provider principal | Artifact Volume, its schema, and its catalog | `USE CATALOG`, `USE SCHEMA`, and `READ VOLUME`; add `WRITE VOLUME` when you run incremental transformations |
+| `databricks` provider principal | Databricks secret scope that holds the Redis password | `READ` permission on the secret scope |
 | Artifact-store `unity-catalog` provider principal | Artifact Volume, its schema, and its catalog | `USE CATALOG`, `USE SCHEMA`, `READ VOLUME`, and `WRITE VOLUME` |
 | Every `unity-catalog` provider principal | Its catalog | `USE CATALOG` for the registration health check |
 
-Feature Form creates the schemas and tables it writes in the output catalog, so the run principal owns them. Don't transfer ownership of Feature Form-managed tables. If the run principal isn't the `databricks` provider's principal, also grant the provider's principal `MANAGE` on Feature Form-managed tables so it can delete them.
+Feature Form creates the schemas and tables it writes in the output catalog, so the `databricks` provider's principal owns them. Don't transfer ownership of Feature Form-managed tables. On dedicated access mode compute assigned to a different principal, that assigned principal owns them. Grant the `databricks` provider's principal `MANAGE` on those tables so it can still delete them.
 
 Feature Form doesn't create the artifact schema or Volume, so no `CREATE VOLUME` privilege is needed. If one principal backs both the `databricks` provider and the artifact-store provider, grant the Volume privileges once. Registration doesn't check these grants. A missing grant first appears as a failed apply.
 
@@ -182,7 +183,7 @@ One `unity-catalog` provider represents one physical Databricks catalog. You can
 | Feature Form-managed outputs | `DatabricksConfig.output_catalog` or `--databricks-output-catalog` |
 | Unity Catalog Volume artifacts | `artifact_store.provider` or `--databricks-artifact-store-provider` |
 
-All catalog and compute providers that one workload uses must belong to the same Feature Form workspace and identify the same Databricks workspace host. Each provider can authenticate with its own Databricks credential. Databricks runs always authenticate as the [Databricks run principal](#understand-which-identity-accesses-data). Register the output and artifact catalog providers before the compute provider. An input catalog provider must exist before you apply a dataset that refers to it. The compute examples on this page use the same `<catalog-provider-name>` for managed outputs and artifact storage.
+All catalog and compute providers that one workload uses must belong to the same Feature Form workspace and identify the same Databricks workspace host. Each provider can authenticate with its own Databricks credential. Databricks runs authenticate as the [`databricks` provider's principal](#understand-which-identity-accesses-data). Register the output and artifact catalog providers before the compute provider. An input catalog provider must exist before you apply a dataset that refers to it. The compute examples on this page use the same `<catalog-provider-name>` for managed outputs and artifact storage.
 
 ### Refer to catalogs from datasets
 
@@ -500,7 +501,7 @@ With `job_cluster`, each run starts its own Jobs compute. To reduce startup time
 
 Feature Form publishes temporary execution artifacts for Databricks jobs. Explicitly configure a Unity Catalog Volume for every new Databricks compute provider. If you omit `artifact_store`, Feature Form uses the legacy Workspace Files and DBFS policy for compatibility; this policy isn't recommended for new registrations.
 
-To use a [Unity Catalog Volume](https://docs.databricks.com/aws/en/volumes/), create the schema and Volume first. Feature Form creates directories inside the Volume. The artifact-store provider's principal uploads and deletes files, and the Databricks run principal reads them. Incremental transformations also write files, so the run principal needs `WRITE VOLUME` for them. See [Grant Unity Catalog privileges](#grant-unity-catalog-privileges) for the exact grants.
+To use a [Unity Catalog Volume](https://docs.databricks.com/aws/en/volumes/), create the schema and Volume first. Feature Form creates directories inside the Volume. The artifact-store provider's principal uploads and deletes files, and Databricks runs read them. Incremental transformations also write files, so the `databricks` provider's principal needs `WRITE VOLUME` for them. See [Grant Unity Catalog privileges](#grant-unity-catalog-privileges) for the exact grants.
 
 In Python, import `DatabricksUnityCatalogArtifactStoreConfig` from `featureform.types` and set `artifact_store=DatabricksUnityCatalogArtifactStoreConfig(provider="<catalog-provider-name>", schema="<schema-name>", volume="<volume-name>")` on `DatabricksConfig`. With the CLI, add these flags to the compute registration command:
 
@@ -684,7 +685,7 @@ ff provider register <redis-provider-name> \
 
 For both `job_cluster` and `existing_cluster` Spark feature-view materialization, the Redis password must use a `databricks@<provider>:<scope>#<key>` reference. With `job_cluster`, Feature Form adds the reference to the job environment so Databricks can resolve it. With `existing_cluster`, the cluster resolves the scope and key directly.
 
-The password never appears in a run definition or in an execution artifact. With `job_cluster`, the run definition shows only a `{{secrets/<scope>/<key>}}` template, which Databricks resolves when the cluster starts. With `existing_cluster`, the run reads the secret while it runs. In both cases, the Databricks run principal needs `READ` permission on the secret scope. The Redis username isn't a secret and appears in execution artifacts.
+The password never appears in a run definition or in an execution artifact. With `job_cluster`, the run definition shows only a `{{secrets/<scope>/<key>}}` template, which Databricks resolves when the cluster starts. With `existing_cluster`, the run reads the secret while it runs. In both cases, the `databricks` provider's principal needs `READ` permission on the secret scope. The Redis username isn't a secret and appears in execution artifacts.
 
 Keep Transport Layer Security (TLS) enabled when the Redis deployment requires it. For Spark materialization, Redis certificate paths must also be available to the Databricks runtime; secret-backed Redis TLS certificate fields aren't projected to Spark. Verify Redis connectivity separately from the Feature Form server and the Databricks compute environment.
 
@@ -829,12 +830,12 @@ In Python, use `providers.get()` or `providers.list()` for data providers and `s
 | Existing-cluster health fails | Check the cluster ID, workspace authentication, server network access, and permission to inspect the cluster |
 | Jobs compute validation fails | Supply a runtime, a node type or pool, and either fixed workers or valid autoscaling bounds |
 | A Jobs run is rejected by a compute policy | Confirm that the provider principal can use the policy, required fixed values match, and policy defaults are applied when needed |
-| A Jobs run starts but can't access a catalog | Check the Databricks run principal's grants on the input and output catalogs, schemas, tables, and storage locations, not the catalog provider's grants |
+| A Jobs run starts but can't access a catalog | Check the grants of the [identity the run uses](#understand-which-identity-accesses-data) on the input and output catalogs, schemas, tables, and storage locations, not the catalog provider's grants |
 | A Databricks secret fails on first use | Check the bootstrap credential, Databricks secret scope and key, and the principal's secret access |
 | Redis health passes but materialization can't connect | Test name resolution, routing, firewall rules, and TLS from the Databricks compute environment, not only from the Feature Form server |
 | Existing-cluster materialization rejects the Redis password reference | Use a `databricks@<provider>:<scope>#<key>` reference for the Redis password |
 | Volume publication fails | Check that the schema and Volume exist and that the artifact-store provider's principal has the [required grants](#grant-unity-catalog-privileges) |
-| An incremental transformation fails writing to the Volume | Grant the Databricks run principal `WRITE VOLUME` on the artifact Volume |
+| An incremental transformation fails writing to the Volume | Grant the [identity the run uses](#understand-which-identity-accesses-data) `WRITE VOLUME` on the artifact Volume |
 | An existing-cluster run is rejected or can't import the Feature Form runtime | [Install the Feature Form Spark runtime](#install-the-feature-form-spark-runtime) that matches your server version on the cluster |
 | Planning rejects `transform_job_config` | Databricks providers don't support per-resource Spark job settings; [register a provider for each compute profile](#register-a-provider-for-each-compute-profile) |
 | An apply fails with `provider changed since the apply was submitted` | A provider it uses was updated while the apply was queued; resubmit the apply |
