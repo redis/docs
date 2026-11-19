@@ -1328,7 +1328,8 @@ Instantiates a HybridQuery object.
   * **yield_vsim_score_as** (*str* *|* *None*) – The name of the field to yield the vector similarity score as.
   * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *|* *None*) – The filter expression to use for both the text and vector searches. Defaults to None.
   * **combination_method** (*Literal* *[* *'RRF'* *,*  *'LINEAR'* *]*  *|* *None*) – The combination method to use. Options are {RRF, LINEAR}. If not specified, the server
-    defaults to RRF. If "RRF" is specified, then at least one of rrf_window or rrf_constant must be
+    defaults to RRF. If only yield_combined_score_as is set, RRF is sent explicitly so the alias
+    reaches the server. If "RRF" is specified, then at least one of rrf_window or rrf_constant must be
     provided. If "LINEAR" is specified, then at least one of linear_alpha or linear_beta must be
     provided.
   * **rrf_window** (*int*) – The window size to use for the reciprocal rank fusion (RRF) combination method. Limits
@@ -1445,7 +1446,8 @@ A query for running a full text search, along with an optional filter expression
     within the query text. Defaults to None, as no modifications will be made to the
     text_scorer score.
 * **Raises:**
-  * **ValueError** – if stopwords language string cannot be loaded.
+  * **ValueError** – If the text is empty after stopword filtering, or the
+        stopwords language string cannot be loaded.
   * **TypeError** – If stopwords is not a valid iterable set of strings.
 
 #### `dialect(dialect)`
