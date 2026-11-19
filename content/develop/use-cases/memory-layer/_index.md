@@ -65,6 +65,7 @@ The following libraries, frameworks, and managed services build on Redis for a m
 -   **AWS**: [Amazon Bedrock](/content/integrate/amazon-bedrock/_index.md) agent runtimes integrate with Redis for memory persistence and vector search.
 -   **Any language**: standard Redis client libraries cover the pattern below for custom agent loops.
 -   **Managed**: [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) is a managed agent memory service with REST and MCP interfaces, working and long-term memory tiers, deduplication, summarization, and background consolidation — useful when you'd rather not build and operate the pattern below yourself.
+-   **Python**: [Mem0](/content/integrate/mem0/_index.md) extracts facts from conversations and keeps them in Redis as memories that you search by meaning, for each user, agent, or run.
 
 ## Code examples to build your own Redis memory layer
 
