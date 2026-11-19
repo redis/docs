@@ -19,6 +19,9 @@ weight: 5
 The sections below summarize the software and hardware requirements for
 an RDI installation.
 
+For proposed release support dates and compatibility verification status, see
+[RDI lifecycle and compatibility](/content/integrate/rdi-lifecycle.md).
+
 ## Hardware requirements for VM installation
 
 {{< embed-md "rdi-vm-reqs.md" >}}
