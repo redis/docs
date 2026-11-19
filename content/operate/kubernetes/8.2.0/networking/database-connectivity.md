@@ -151,7 +151,7 @@ See [OpenShift routes](/content/operate/kubernetes/8.2.0/networking/routes.md) f
 
 ### Custom port configuration
 
-You can specify custom ports using the `databasePort` field in your REDB specification:
+You can specify custom ports using the `databaseServicePort` field in your REDB specification:
 
 ```yaml
 apiVersion: app.redislabs.com/v1alpha1
@@ -160,7 +160,7 @@ metadata:
   name: mydb
 spec:
   memorySize: 256MB
-  databasePort: 6379
+  databaseServicePort: 6379
 ```
 
 Custom ports replace the default service port and are reflected in the database secret.
