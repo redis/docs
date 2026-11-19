@@ -2251,6 +2251,11 @@
             "description": "Human-readable error description",
             "type": "string"
           },
+          "details": {
+            "additionalProperties": true,
+            "description": "Additional structured information about the error; its shape depends on the endpoint and the error_code",
+            "type": "object"
+          },
           "error_code": {
             "description": "Semantic error code",
             "type": "string"
