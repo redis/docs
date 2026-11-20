@@ -36,12 +36,12 @@ console.log(proposal.proposalId, proposal.revision);
 
 // STEP_START playbook-update-review
 const reviewed = await playbook.getProposal(proposal.proposalId);
-console.log(reviewed.action);
+console.dir(reviewed.action, { depth: null });
 const revised = await playbook.replaceProposal(reviewed.proposalId, {
   expectedRevision: reviewed.revision,
   action: actionFor("proposal-content-reviewed.json", entryId),
 });
-console.log(revised.action, revised.revision);
+console.dir({ action: revised.action, revision: revised.revision }, { depth: null });
 if (!("update" in revised.action)) throw new Error("Expected an UPDATE proposal");
 const payload = revised.action.update.candidate.content.payload;
 if ("skill" in payload) {
@@ -68,7 +68,7 @@ const receipt = accepted.result.versionCreated;
 const version = receipt.entryKind === "FAQ"
   ? await playbook.getFaqVersion(receipt.entryId, receipt.version)
   : await playbook.getSkillVersion(receipt.entryId, receipt.version);
-console.log(receipt.entryId, receipt.version, version.content);
+console.dir({ entryId: receipt.entryId, version: receipt.version, content: version.content }, { depth: null });
 // STEP_END
 
 // STEP_START playbook-update-publish

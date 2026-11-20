@@ -173,18 +173,18 @@ The accepted skill remains published. Use its returned entry identifier with the
 
 ## Update an existing entry
 
-Use a Playbooks deployment that supports existing-entry proposals. For TypeScript, install `@redis-iris/agent-playbook@1.3.0`.
+Use a Playbooks deployment that supports UPDATE proposals. For TypeScript, install `@redis-iris/agent-playbook@1.3.0`.
 
 ### Submit a complete candidate
 
-For this walkthrough, choose a sample FAQ or skill in a test playbook. Set its identifier and the positive version number you edited:
+Choose an FAQ or skill in a test playbook. Set the entry ID and the version you edited.
 
 ```bash
 export PLAYBOOK_ENTRY_ID='<entry-id>'
 export PLAYBOOK_BASED_ON_VERSION=1
 ```
 
-The basis records the entry version you edited. Acceptance can append a new version even when the entry has a newer draft. Compare the candidate with both versions before acceptance. The entry keeps its identifier, key, and history.
+The basis version records what you edited. You can still accept the proposal if a newer draft exists. The entry keeps its ID, key, and version history.
 
 For Python, TypeScript, and cURL, save the full authored content as `proposal-content.json`. For an FAQ, include the question, answer, and any intents, attributes, and metadata you want to retain.
 
@@ -201,7 +201,7 @@ For Python, TypeScript, and cURL, save the full authored content as `proposal-co
 }
 ```
 
-For a skill, package the complete directory using [the skill packaging steps](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#prepare-a-skill-package). Put the archive in `payload.skillPackage.packageBase64` and put authored settings beside `payload`. For example:
+For a skill, [prepare the sample ZIP](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#prepare-a-skill-package), which includes the reply template you’ll review. Save the archive and its attributes in the candidate file.
 
 ```bash
 jq -n --rawfile package <(base64 < refund-support-reply.zip | tr -d '\n') '{
@@ -212,23 +212,25 @@ jq -n --rawfile package <(base64 < refund-support-reply.zip | tr -d '\n') '{
 
 The candidate is a full replacement. Omitted intents, attributes, metadata, and skill files are removed from the new version.
 
-In Python, pass `entry_id` and `based_on_version` to `propose_faq` or `propose_skill`. Use a JSON object if you include `metadata`. The later steps use `playbook.client` for review, acceptance, and publication.
+In Python, pass `entry_id` and `based_on_version` to `propose_faq` or `propose_skill`. Use a JSON object if you include `metadata`. Use `playbook.client` to review, accept, and publish.
 
-For the CLI, set `PLAYBOOK_ENTRY_TYPE` to `faq` or `skill`. Set `PLAYBOOK_UPDATE_CANDIDATE` to a FAQ JSON file from `iris agent-playbooks faqs export` or a complete skill directory. `--update ENTRY` accepts a key or ID. If you omit `--based-on`, the CLI reads the latest version. With only `propose` permission, supply the ID and `--based-on`.
+For the CLI, set `PLAYBOOK_ENTRY_TYPE` to `faq` or `skill`. Set `PLAYBOOK_UPDATE_CANDIDATE` to a FAQ JSON file from `iris agent-playbooks faqs export` or a complete skill directory. `--update ENTRY` accepts a key or ID. If you omit `--based-on`, the CLI reads the latest version. Supply the entry ID and `--based-on` to submit without a lookup.
 
 {{< clients-example set="iris_playbook_proposals_update" step="playbook-update-submit" description="" lang_filter="Python (Iris),TypeScript (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Review and replace the candidate
 
-Inspect the proposal and compare it with the basis version. Check the current draft and publication for changes made since that version. `expectedRevision` guards the proposal revision during replacement and acceptance.
+Compare the candidate with the basis version, the latest draft, and the published version. Save the complete corrected content as `proposal-content-reviewed.json`. For the CLI, set `PLAYBOOK_UPDATE_REVISED` to the revised FAQ file or skill directory.
 
-For this walkthrough, edit the candidate and save the complete corrected content as `proposal-content-reviewed.json`. For the CLI tab, point `PLAYBOOK_UPDATE_REVISED` to the revised file or directory. The API requires `write` to replace the candidate. The CLI also needs `read` to fetch the stored target. Keep the action, entry, basis and kind, and send the `expectedRevision` you reviewed. If the service returns `412`, read and review the current revision before replacing it. Review the returned candidate after replacing it. For skills, use an SDK or the cURL tab to read the candidate files for that revision before accepting. The example checks the reply template against its digest.
+Replace the candidate with a key that has `write` permission. Keep the action, entry ID, basis version, and entry kind. The CLI reads the target from the stored proposal. Pass the proposal revision you reviewed as `expectedRevision`. If the service returns HTTP 412, review the current revision before retrying.
+
+Inspect the replacement before accepting it. For skills, use Python, TypeScript, or cURL to read the revised files. The sample checks the reply template against its digest.
 
 {{< clients-example set="iris_playbook_proposals_update" step="playbook-update-review" description="" lang_filter="Python (Iris),TypeScript (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Accept and publish the new version
 
-Accept the reviewed revision. Acceptance appends an unpublished version. If the response is uncertain, repeat acceptance for the same proposal and revision to recover the recorded receipt. If the target was deleted before acceptance could write, acceptance fails. A receipt from an earlier completed acceptance is historical, so read the exact version before publishing it.
+Accept the reviewed revision to append an unpublished version. If you lose the response, repeat acceptance with the same proposal ID and revision to recover the receipt. Acceptance fails if the entry was deleted before the write. Read the version in the receipt before publishing it.
 
 {{< clients-example set="iris_playbook_proposals_update" step="playbook-update-accept" description="" lang_filter="Python (Iris),TypeScript (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 

@@ -1,8 +1,6 @@
 # EXAMPLE: iris_playbook_proposals_update
-# HIDE_START
-set -euo pipefail
-# HIDE_END
 # STEP_START playbook-update-submit
+set -euo pipefail
 iris --json --no-input agent-playbooks proposals create "$PLAYBOOK_UPDATE_CANDIDATE" \
   --entry-type "$PLAYBOOK_ENTRY_TYPE" --update "$PLAYBOOK_ENTRY_ID" \
   --based-on "$PLAYBOOK_BASED_ON_VERSION" > proposal-created.json

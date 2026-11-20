@@ -142,10 +142,7 @@ def update_scripts():
         for suffix in pieces:
             assert ALL_CLIENTS[suffix] in attrs["lang_filter"].split(",")
             pieces[suffix].append(step(paths[suffix], attrs["step"]))
-    scripts = {suffix: "\n\n".join(parts) + "\n" for suffix, parts in pieces.items()}
-    for suffix in ("sh", "cli.sh"):
-        scripts[suffix] = "set -euo pipefail\n\n" + scripts[suffix]
-    return scripts
+    return {suffix: "\n\n".join(parts) + "\n" for suffix, parts in pieces.items()}
 
 
 def agent_scripts():

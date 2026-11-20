@@ -1,8 +1,6 @@
 # EXAMPLE: iris_playbook_proposals_update
-# HIDE_START
-set -euo pipefail
-# HIDE_END
 # STEP_START playbook-update-submit
+set -euo pipefail
 PLAYBOOK_API="${IRIS_AGENT_PLAYBOOKS_URL%/}/iris/data/v1/agent-playbooks/playbooks/$IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID"
 
 playbook_request() {
