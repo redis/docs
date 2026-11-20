@@ -78,11 +78,11 @@ For skills, the agent selects a preview, loads its instructions, and fetches sup
 
 ## Proposals
 
-A proposal is a suggested playbook entry awaiting expert review. See the [proposal model]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference#schema/GetProposalResponseContent" >}}) for fields and types.
+A proposal is candidate content for a new or existing playbook entry awaiting review. See the [proposal model]({{< relref "/develop/ai/context-engine/agent-playbooks/api-reference#schema/GetProposalResponseContent" >}}) for fields and types.
 
 A human or agent can suggest a FAQ or skill, edit the candidate, or attach evidence.
 
-Accepting a reviewed proposal *promotes* its FAQ or skill candidate into a new *unpublished* entry. Publication remains a separate action. Proposals do not revise existing entries.
+Accepting an `ADD` proposal creates an entry. Accepting an `UPDATE` proposal appends a version to the existing entry. Both versions are unpublished until you publish them.
 
 ### Evidence
 
@@ -98,6 +98,6 @@ See [Review proposals]({{< relref "/develop/ai/context-engine/agent-playbooks/pr
 
 An administrator connects a Redis Agent Memory store to a playbook through an **extraction binding** and enables a background worker. The worker reads eligible idle sessions, derives questions and answers from their events or summaries, and compares them with published FAQs and open proposals. It can create a proposal or attach another observation as evidence to an existing open proposal. An observation already covered by a published FAQ can require no new proposal.
 
-You can also build your own producer that calls the proposal and evidence APIs directly. Your application chooses the source material, generates candidates, and decides whether to create a proposal or add evidence. Both approaches use the same review process: acceptance creates an unpublished entry, and publication makes the reviewed version available to agents.
+You can also build your own producer that calls the proposal and evidence APIs directly. Your application chooses the source material, generates candidates, and decides whether to create a proposal or add evidence. Both approaches use the same review process. Acceptance records an unpublished version, and publication makes the reviewed version available to agents.
 
 Background extraction supports FAQs. Applications can submit FAQ or skill proposals directly. See [Automate proposal generation](/content/develop/ai/context-engine/agent-playbooks/proposals.md#automate-proposal-generation) for both approaches and [extraction setup](/content/operate/iris/agent-playbook/manage-playbook.md#automatic-faq-extraction) for administration.

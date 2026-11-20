@@ -1,14 +1,14 @@
 {
   "sdk_repository": "git@github.com:redis/iris-sdks",
-  "sdk_revision": "8ae98bca70b8833452e76e108bab0bdaf17e1aa4",
-  "python_package": "redis-agent-playbook==1.0.0b2",
-  "unified_python_package": "redis-iris==1.0.0b2",
+  "sdk_revision": "294600dc7d977aaab73456083779891261e6bc25",
+  "python_package": "redis-agent-playbook==1.3.0",
+  "unified_python_package": "redis-iris==1.1.0",
   "unified_sdk_repository": "https://github.com/redis/redis-iris",
-  "unified_sdk_revision": "c6bba849e290a23ba7d6ccf3f2be5e3398394d33",
-  "sdk_generator_version": "1.0.0-beta.2",
+  "unified_sdk_revision": "0999b7ee12779b107c9f4cb0d44c88e8af2334e3",
+  "sdk_generator_version": "1.3.0",
   "sdk_contract_path": "openapi-playbook.json",
-  "data_plane_contract_sha256": "bc97a2408422b2c3fd543f04283603be48e1c3a636076d81eb46be089d679510",
+  "data_plane_contract_sha256": "6ed3f94a2ef567d5cc0fa5e96b030c0a6ab16877bfb40a19442fde86c43fcf9d",
   "sdk_example_overlay_path": ".speakeasy/playbook/overlay-code-samples.yaml",
-  "sdk_example_overlay_sha256": "25099e77fc591e76da0cae17969bd36ef969a2393319351f3385f03c3a4e4c51",
-  "service_revision": "0d9ccad23977a7f0f778253331d6e54a56e8f244"
+  "sdk_example_overlay_sha256": "663da9c4643a7e947b53cb3a23707d8fe9fc598d302a5e229df20ffc9b0a586c",
+  "service_revision": "961d1fe5dec4994ccaf220e8222ad31d4eab16bc"
 }

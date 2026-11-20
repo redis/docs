@@ -146,18 +146,30 @@ class ContractFixture:
         assert cursor == 'fixture+page/2=', query
         return {'items': deepcopy(items[1:])}
 
+    def rendered_proposal_action(self, action):
+        action = deepcopy(action)
+        member = next(iter(action.values()))
+        payload = member['candidate']['content']['payload']
+        if 'skillPackage' in payload:
+            authored = self.parse_package(payload['skillPackage'])
+            member['candidate']['content']['payload'] = authored['payload']
+            for resource in authored['payload']['skill']['resources']:
+                resource.pop('uri', None)
+        return action
+
     def proposal_preview(self, proposal):
         preview = deepcopy(proposal)
         preview.pop('evidence')
         preview.pop('source', None)
         preview.pop('result', None)
-        content = preview['action']['add']['candidate']['content']
+        member = next(iter(preview['action'].values()))
+        content = member['candidate']['content']
         payload = content['payload']
         if 'faq' in payload:
             candidate = {'faq': {'question': payload['faq']['question']}}
         else:
             candidate = {'skill': {key: payload['skill']['manifest'][key] for key in ('name', 'description')}}
-        preview['action']['add']['candidate']['content'] = {'payload': candidate}
+        member['candidate']['content'] = {'payload': candidate}
         return preview
 
     def mcp(self, body):
@@ -353,15 +365,9 @@ class ContractFixture:
             pid = 'prp_' + f'{len(self.proposals) + 1:032x}'
             result = {'proposalId': pid, 'state': 'OPEN', 'contentDigest': DIGEST, 'revision': 'revision+1/=',
                       'evidenceCount': 0, 'createdAt': NOW, 'updatedAt': NOW, 'inboxExpiresAt': NOW,
-                      'purgeAt': NOW, 'action': body['action'], 'evidence': []}
+                      'purgeAt': NOW, 'action': self.rendered_proposal_action(body['action']), 'evidence': []}
             if 'source' in body:
                 result['source'] = body['source']
-            payload = result['action']['add']['candidate']['content']['payload']
-            if 'skillPackage' in payload:
-                authored = self.parse_package(payload['skillPackage'])
-                result['action']['add']['candidate']['content']['payload'] = authored['payload']
-                for resource in authored['payload']['skill']['resources']:
-                    resource.pop('uri', None)
             self.proposals[pid] = deepcopy(result)
             code = 201
         elif name == 'GetProposalResource':
@@ -369,7 +375,8 @@ class ContractFixture:
             if query['expectedRevision'] != proposal['revision']:
                 return 412, {'status': 412, 'type': '/errors/revision-conflict',
                              'title': 'Revision conflict', 'currentRevision': proposal['revision']}
-            resource = next(r for r in proposal['action']['add']['candidate']['content']['payload']['skill']['resources']
+            member = next(iter(proposal['action'].values()))
+            resource = next(r for r in member['candidate']['content']['payload']['skill']['resources']
                             if r['resourceId'] == params['resourceId'])
             return 200, self.resource_contents[resource['digest']]
         elif name == 'GetProposal':
@@ -390,23 +397,41 @@ class ContractFixture:
             result = {'evidenceId': params['evidenceId'], 'disposition': 'ADDED', 'evidenceCount': 1, 'updatedAt': NOW}
         elif name in ('ReplaceProposal', 'DismissProposal', 'RestoreProposal'):
             p = self.proposals[pid]
-            if name != 'RestoreProposal':
-                assert body['expectedRevision'] == p['revision']
+            if name != 'RestoreProposal' and body['expectedRevision'] != p['revision']:
+                return 412, {'status': 412, 'type': '/errors/revision-conflict',
+                             'title': 'Revision conflict', 'currentRevision': p['revision']}
             if name == 'ReplaceProposal':
-                p['action'] = body['action']
+                assert body['action'].keys() == p['action'].keys()
+                if 'update' in p['action']:
+                    assert p['action']['update']['target'] == body['action']['update']['target']
+                p['action'] = self.rendered_proposal_action(body['action'])
                 p['revision'] = p['revision'] + '-updated'
             p['state'] = 'TRASHED' if name == 'DismissProposal' else 'OPEN'
             result = deepcopy(p)
         elif name == 'AcceptProposal':
             p = self.proposals[pid]
+            if body['expectedRevision'] != p['revision']:
+                return 412, {'status': 412, 'type': '/errors/revision-conflict',
+                             'title': 'Revision conflict', 'currentRevision': p['revision']}
+            if p['state'] == 'PROMOTED':
+                return 201, {'result': deepcopy(p['result'])}
             assert p['state'] == 'OPEN'
-            assert body['expectedRevision'] == p['revision']
-            content = deepcopy(p['action']['add']['candidate']['content'])
+            member = next(iter(p['action'].values()))
+            content = deepcopy(member['candidate']['content'])
             kind = 'faq' if 'faq' in content['payload'] else 'skill'
             if kind == 'skill':
                 for resource in content['payload']['skill']['resources']:
                     resource['uri'] = 'skill://accepted-version/' + resource['path']
-            created = self.create(kind, content)
+            if 'update' in p['action']:
+                target = member['target']['existingEntry']
+                entry = self.entries.get(target['entryId'])
+                if entry is None:
+                    return 404, {'status': 404, 'type': '/errors/not-found', 'title': 'Entry not found'}
+                assert entry['kind'] == kind.upper()
+                assert 0 < target['basedOnVersion'] <= entry['latestVersion']
+                created = self.append(target['entryId'], content)
+            else:
+                created = self.create(kind, content)
             receipt = {
                 'entryId': created['entry']['entryId'],
                 'entryKind': kind.upper(),

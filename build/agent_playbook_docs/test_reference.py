@@ -9,7 +9,7 @@ from xml.etree import ElementTree
 from openapi_spec_validator import validate
 
 from check_sdk_source import check
-from examples import ALL_CLIENTS, CLIENTS, GUIDES, bundle, calls, processed, source_path, step
+from examples import ALL_CLIENTS, CLIENTS, GUIDES, UPDATE_SET, bundle, calls, processed, source_path, step
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -81,14 +81,11 @@ def test_tce_sources_cover_rendered_steps():
                     assert "STEP_START" not in source and "EXAMPLE:" not in source
 
 
-def test_playbook_examples_use_only_the_documented_clients():
+def test_typescript_tabs_use_the_checked_update_example():
     for page in (*GUIDES, "agent-integration"):
         for attrs in calls(page):
-            assert "TypeScript (Iris)" not in attrs["lang_filter"].split(",")
-    for path in DOCS.glob("*.md"):
-        source = path.read_text()
-        assert not re.search(r"```(?:typescript|javascript)|\.mts\b|npx tsx|npm install", source), path
-    assert not list((ROOT / "local_examples/iris/playbooks").rglob("*.mts"))
+            if "TypeScript (Iris)" in attrs["lang_filter"].split(","):
+                assert attrs["set"] == UPDATE_SET
 
 
 def test_quickstart_headings_work_with_toc_selectors():
