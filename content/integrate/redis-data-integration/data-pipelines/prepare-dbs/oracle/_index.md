@@ -970,7 +970,7 @@ configmap:
 kubectl get configmap rdi-operator -n rdi -o yaml | grep -A 5 'collector:'
 ```
 
-The examples below use `redislabs/debezium-server:3.7.0.Final-rdi.2`, the image that
+The examples below use `redislabs/debezium-server:3.7.1.Final-rdi.1`, the image that
 RDI 2.4.0 uses. Replace it with the repository and tag from your configmap.
 
 1.  On the Docker machine, download the Instant Client package for Linux x64 from the Oracle website
@@ -988,7 +988,7 @@ RDI 2.4.0 uses. Replace it with the repository and tag from your configmap.
 1.  Create a `Dockerfile` in the `./dbz-ora` directory with the following contents:
 
     ```docker
-    FROM redislabs/debezium-server:3.7.0.Final-rdi.2
+    FROM redislabs/debezium-server:3.7.1.Final-rdi.1
 
     USER root
 
@@ -1016,8 +1016,8 @@ RDI 2.4.0 uses. Replace it with the repository and tag from your configmap.
 1.  Add the image to the K3s image registry using the following commands:
 
     ```bash
-    docker tag dbz-ora redislabs/debezium-server:3.7.0.Final-rdi.2-xstream
-    docker image save redislabs/debezium-server:3.7.0.Final-rdi.2-xstream -o dbz-xstream-linux-amd.tar
+    docker tag dbz-ora redislabs/debezium-server:3.7.1.Final-rdi.1-xstream
+    docker image save redislabs/debezium-server:3.7.1.Final-rdi.1-xstream -o dbz-xstream-linux-amd.tar
     sudo k3s ctr images import dbz-xstream-linux-amd.tar all
     ```
 
@@ -1038,7 +1038,7 @@ custom image:
           pullPolicy: IfNotPresent
           registry: docker.io
           repository: redislabs/debezium-server
-          tag: 3.7.0.Final-rdi.2 # Change this to `3.7.0.Final-rdi.2-xstream`
+          tag: 3.7.1.Final-rdi.1 # Change this to `3.7.1.Final-rdi.1-xstream`
 ```
 
 Save the configmap. Once it is saved, the operator will restart automatically and will apply the changes.
@@ -1097,7 +1097,7 @@ To support `XMLTYPE` columns, you must create a custom [Docker](https://www.dock
 that includes the required Oracle XML libraries. As with the
 [XStream image](#7-add-a-custom-docker-image-for-the-debezium-server), build it from the
 Debezium Server image that your RDI version uses. The examples below use
-`redislabs/debezium-server:3.7.0.Final-rdi.2`, the image that RDI 2.4.0 uses.
+`redislabs/debezium-server:3.7.1.Final-rdi.1`, the image that RDI 2.4.0 uses.
 
 1. Download the required libraries from Maven Central:
 
@@ -1113,7 +1113,7 @@ Debezium Server image that your RDI version uses. The examples below use
 2. Create a `Dockerfile` in the same directory:
 
    ```dockerfile
-   FROM redislabs/debezium-server:3.7.0.Final-rdi.2
+   FROM redislabs/debezium-server:3.7.1.Final-rdi.1
 
    USER root
 
@@ -1126,8 +1126,8 @@ Debezium Server image that your RDI version uses. The examples below use
    ```bash
    cd ..
    docker build -t dbz-xml xml
-   docker tag dbz-xml redislabs/debezium-server:3.7.0.Final-rdi.2-xml
-   docker image save redislabs/debezium-server:3.7.0.Final-rdi.2-xml -o dbz-xml-linux-amd.tar
+   docker tag dbz-xml redislabs/debezium-server:3.7.1.Final-rdi.1-xml
+   docker image save redislabs/debezium-server:3.7.1.Final-rdi.1-xml -o dbz-xml-linux-amd.tar
    ```
 
 4. Add the image to your K3s image repository:
@@ -1137,7 +1137,7 @@ Debezium Server image that your RDI version uses. The examples below use
    ```
 
 5. Change the collector image tag in the `rdi-operator` configmap to
-   `3.7.0.Final-rdi.2-xml`, as described in
+   `3.7.1.Final-rdi.1-xml`, as described in
    [Make RDI use the custom image](#8-make-rdi-use-the-custom-image-vm-installation).
 
 ### Configure RDI for XMLTYPE support
