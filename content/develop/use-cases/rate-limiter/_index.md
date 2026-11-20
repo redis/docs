@@ -72,6 +72,8 @@ The following libraries and frameworks provide Redis-backed rate limiting:
     [Envoy](/content/integrate/envoy/_index.md)
     use Redis for distributed rate limiting, and
     [OpenResty](/content/integrate/openresty/_index.md) (NGINX with Lua) can do the same
+-   **LLM routing**: the [LiteLLM](/content/integrate/litellm/_index.md) router counts
+    requests and tokens per model deployment in Redis, so several processes share one limit
 
 ## Code examples to build your own Redis rate limiter
 
