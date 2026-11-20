@@ -29,7 +29,9 @@ def test_cleanup_preserves_original_validation_failure(monkeypatch, failure, rea
             if failure == "close":
                 raise OSError("close failed")
 
-    monkeypatch.setattr(live_operator, "AgentPlaybooksService", lambda **kwargs: Control())
+    control = Control()
+    control.sdk_configuration = SimpleNamespace()
+    monkeypatch.setattr(live_operator, "AgentPlaybooks", lambda settings: SimpleNamespace(service=control))
     monkeypatch.setenv("PLAYBOOK_ADMIN_TOKEN", "test-admin")
     monkeypatch.setenv("PLAYBOOK_IDS_CONTROL_TOKEN", "test-identity")
     args = SimpleNamespace(cp_url="http://control.invalid", embedding_provider="noop",

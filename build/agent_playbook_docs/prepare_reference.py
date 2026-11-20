@@ -12,8 +12,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DESCRIPTIONS = {
+    "CreateProposal": (
+        "Submits a complete FAQ or skill candidate for review. Use add to propose a new entry.\n"
+        "Use update to propose a new version of an existing entry and supply its entryId and basedOnVersion.\n"
+        "Extraction and agent submissions share proposalPolicy.maxOpenProposals. When the inbox is full, "
+        "HTTP 409 content-limit-exceeded identifies the configured limit and observed open count. "
+        "Dismiss existing proposals or ask an administrator to raise the limit before retrying. "
+        "The open count is advisory because search is eventually consistent."
+    ),
     "ReplaceProposal": (
-        "Replaces an open proposal's candidate with the complete action supplied.\n"
+        "Replaces an open proposal's complete candidate while preserving its action and target.\n"
         "expectedRevision is required and must match the revision you reviewed.\n"
         "A stale revision returns HTTP 412 /errors/revision-conflict."
     ),
@@ -28,10 +36,10 @@ DESCRIPTIONS = {
         "HTTP 412 /errors/revision-conflict; responses must not be cached."
     ),
     "AcceptProposal": (
-        "Promotes the reviewed FAQ or skill candidate into one canonical unpublished entry.\n"
+        "Creates an unpublished entry for ADD or appends an unpublished version to an existing entry for UPDATE.\n"
         "expectedRevision is required and must match the revision you reviewed.\n"
-        "Concurrent calls and retries resume or return the proposal's recorded target.\n"
-        "A complete target may be visible to management before the proposal reaches\n"
+        "Concurrent calls and retries resume acceptance or return the same versionCreated receipt.\n"
+        "The accepted version may be visible to management before the proposal reaches\n"
         "promoted, but remains absent from serving until separately published."
     ),
 }

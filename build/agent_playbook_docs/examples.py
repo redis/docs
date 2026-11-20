@@ -28,7 +28,8 @@ for row in (ROOT / "build/example-test-harness/clients.tsv").read_text().splitli
         fields = row.split("\t")
         CLIENTS[fields[6].rsplit(".", 1)[1]] = fields[1]
 assert set(CLIENTS) == {"py", "sh"}
-ALL_CLIENTS = {**CLIENTS, "cli.sh": "CLI (Iris)"}
+UPDATE_SET = "iris_playbook_proposals_update"
+ALL_CLIENTS = {**CLIENTS, "cli.sh": "CLI (Iris)", "mts": "TypeScript (Iris)"}
 CALLS = re.compile(r'\{\{< clients-example\s+([^>]*?)/>\}\}', re.S)
 ATTRS = re.compile(r'(\w+)="([^"]*)"')
 FENCE = re.compile(r"```(?:python|bash)\n(.*?)\n```", re.S)
@@ -81,6 +82,8 @@ def blocks(page):
     result = []
     seen = set()
     for attrs in calls(page):
+        if attrs["set"] == UPDATE_SET:
+            continue
         if not {CLIENTS["py"], CLIENTS["sh"]}.issubset(attrs.get("lang_filter", "").split(",")):
             continue
         name = attrs["step"]
@@ -110,12 +113,13 @@ def scripts(page, omit=()):
 
 def full_examples():
     return {source_path(page, suffix): processed(source_path(page, suffix))[0]
-            for page in ("quickstart", "skills") for suffix in ALL_CLIENTS}
+            for page in ("quickstart", "skills") for suffix in ("py", "sh", "cli.sh")}
 
 
 def cli_script(page):
     selected = [attrs for attrs in calls(page)
                 if "CLI (Iris)" in attrs.get("lang_filter", "").split(",")
+                and attrs["set"] != UPDATE_SET
                 and not attrs["set"].endswith(("_delete", "_withdraw"))]
     if not selected:
         return None
@@ -127,6 +131,18 @@ def cli_script(page):
     if page == "skills":
         pieces.insert(0, skill_package())
     return "set -euo pipefail\n\n" + "\n\n".join(pieces) + "\n"
+
+
+def update_scripts():
+    paths = bundle(UPDATE_SET)
+    pieces = {suffix: [] for suffix in ALL_CLIENTS}
+    for attrs in calls("proposals"):
+        if attrs["set"] != UPDATE_SET:
+            continue
+        for suffix in pieces:
+            assert ALL_CLIENTS[suffix] in attrs["lang_filter"].split(",")
+            pieces[suffix].append(step(paths[suffix], attrs["step"]))
+    return {suffix: "\n\n".join(parts) + "\n" for suffix, parts in pieces.items()}
 
 
 def agent_scripts():
@@ -161,6 +177,8 @@ if __name__ == "__main__":
             (args.output / f"{page}_example.{suffix}").write_text(source)
         if source := cli_script(page):
             (args.output / f"{page}_example.cli.sh").write_text(source)
+    for suffix, source in update_scripts().items():
+        (args.output / f"proposals_update_example.{suffix}").write_text(source)
     for path, source in full_examples().items():
         suffix = "cli.sh" if path.name.endswith(".cli.sh") else path.suffix[1:]
         name = path.name.removesuffix("." + suffix)
