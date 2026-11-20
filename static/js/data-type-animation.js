@@ -18,7 +18,10 @@
      steps     [{ cmd, reply, note, run(c, state) }]. run() changes the
                drawing, and may return a promise that resolves when its
                animation ends. Every step is paced the same way: there is
-               no per-step timing to set.
+               no per-step timing to set. A step with `event` in place of
+               `cmd` and `reply` is something that happens outside Redis,
+               such as a worker crashing. The console shows that text, and
+               nothing is typed.
    `c` is the run's context: wait, anim, enter, leave, flip, tween, count,
    mark, and temp. Every one of them does its work without animating when
    the player is fast-forwarding, which is how a click on a step and the
@@ -66,6 +69,9 @@
   function esc(x) { return String(x).replace(/[&<>]/g, function (ch) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[ch]; }); }
   function hlCmd(x) { return window.DemoHL ? window.DemoHL.redis(x) : esc(x); }
   function hlReply(x) { return window.DemoHL ? window.DemoHL.reply(x) : esc(x); }
+  /* What a step puts in the console: its command and reply, or the text of an event, which has no reply. */
+  function cmdHtml(st) { return st.cmd ? hlCmd(st.cmd) : '<span class="dta-event">' + esc(st.event) + "</span>"; }
+  function replyHtml(st) { return st.cmd ? hlReply(st.reply) : ""; }
 
   const ICON = {
     pause: '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>',
@@ -142,8 +148,8 @@
     let term = 0, note = 0;
     p.term.style.minHeight = p.note.style.minHeight = "";
     sc.steps.forEach(function (st) {
-      p.cmd.innerHTML = hlCmd(st.cmd);
-      p.reply.innerHTML = hlReply(st.reply);
+      p.cmd.innerHTML = cmdHtml(st);
+      p.reply.innerHTML = replyHtml(st);
       p.note.textContent = st.note || "";
       term = Math.max(term, p.term.offsetHeight);
       note = Math.max(note, p.note.offsetHeight);
@@ -238,17 +244,19 @@
     p.dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); d.classList.toggle("is-done", k < i); });
     if (p.note.textContent !== (st.note || "")) p.note.classList.remove("is-on");
     p.reply.innerHTML = "";
-    if (p.instant) p.cmd.innerHTML = hlCmd(st.cmd);
-    else {
-      p.root.classList.add("is-typing");
+    p.root.classList.toggle("is-event", !st.cmd);
+    if (p.instant || !st.cmd) p.cmd.innerHTML = cmdHtml(st);
+    if (!p.instant) {
+      /* An event isn't typed, but it waits through the same ticks, so its step starts as late as the others. */
+      p.root.classList.toggle("is-typing", !!st.cmd);
       for (let k = 1; k <= TICKS; k++) {
-        p.cmd.innerHTML = hlCmd(st.cmd.slice(0, Math.ceil(st.cmd.length * k / TICKS)));
+        if (st.cmd) p.cmd.innerHTML = hlCmd(st.cmd.slice(0, Math.ceil(st.cmd.length * k / TICKS)));
         await c.wait(TYPE / TICKS);
       }
       p.root.classList.remove("is-typing");
       await c.wait(160);
     }
-    p.reply.innerHTML = hlReply(st.reply);
+    p.reply.innerHTML = replyHtml(st);
     p.note.textContent = st.note || "";
     p.note.classList.toggle("is-on", !!st.note);
     if (!i) {   // the first command creates the key, so the whole drawing appears with it
@@ -1214,6 +1222,6 @@
     }
   }
   /* `kit` is what a scene in another file draws with: use-case-animation.js adds its scenes to `scenes`. */
-  window.DataTypeAnimation = { scenes: SCENES, players: players, mount: mount, kit: { h: h, s: s, add: add, row: row } };
+  window.DataTypeAnimation = { scenes: SCENES, players: players, mount: mount, kit: { h: h, s: s, add: add, row: row, cell: cell, shake: shake } };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();
