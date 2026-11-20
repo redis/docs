@@ -1,1 +1,0 @@
-redis-agent-playbook==1.3.0

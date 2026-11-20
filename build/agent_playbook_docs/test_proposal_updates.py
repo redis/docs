@@ -12,7 +12,7 @@ from urllib.request import Request, urlopen
 
 import pytest
 
-from examples import bundle, step, update_scripts
+from examples import update_scripts
 from test_examples import PB, fixture_server, package_sample
 
 
@@ -42,31 +42,11 @@ def candidate_files(kind, directory):
     return inputs
 
 
-def unified_update_runtime(env):
-    iris_bin = os.getenv('PLAYBOOK_DOCS_UPDATE_IRIS_BIN')
-    python = sys.executable
-    if iris_bin:
-        env = {**env, 'PATH': iris_bin + os.pathsep + env['PATH']}
-        python = str(Path(iris_bin) / 'python')
-    help_result = subprocess.run(
-        ['iris', 'agent-playbooks', 'proposals', 'create', '--help'],
-        env=env, capture_output=True, text=True, check=True,
-    )
-    if '--update' not in help_result.stdout:
-        if iris_bin or os.getenv('PLAYBOOK_DOCS_REQUIRE_UNIFIED_UPDATE') == '1':
-            pytest.fail('The selected redis-iris package must support UPDATE proposals')
-        pytest.skip('The pinned redis-iris release does not support UPDATE proposals')
-    return python, env
-
-
 def run_example(suffix, directory, env):
     script = directory / f'proposals_update.{suffix}'
     script.write_text(update_scripts()[suffix])
     if suffix == 'py':
-        python = os.getenv('PLAYBOOK_DOCS_UPDATE_PYTHON')
-        if not python:
-            pytest.skip('set PLAYBOOK_DOCS_UPDATE_PYTHON to the core 1.3.0 environment')
-        command = [python, str(script)]
+        command = [sys.executable, str(script)]
     elif suffix == 'mts':
         prefix = os.getenv('PLAYBOOK_DOCS_UPDATE_NODE_DIR')
         if not prefix:
@@ -77,8 +57,6 @@ def run_example(suffix, directory, env):
                         '--target', 'ES2022', str(script)], cwd=directory, check=True, capture_output=True)
         command = ['node', str(script)]
     else:
-        if suffix == 'cli.sh':
-            _, env = unified_update_runtime(env)
         command = ['bash', str(script)]
     return subprocess.run(command, cwd=directory, env=env, text=True, capture_output=True, timeout=30)
 
@@ -97,29 +75,8 @@ def setup_update(kind, fixture_server, directory):
     initial, revised = candidate_files(kind, directory)
     env.update(PLAYBOOK_ENTRY_ID=entry_id, PLAYBOOK_BASED_ON_VERSION='1', PLAYBOOK_ENTRY_TYPE=kind,
                PLAYBOOK_UPDATE_CANDIDATE=str(initial), PLAYBOOK_UPDATE_REVISED=str(revised))
+    env['PATH'] = str(Path(sys.executable).parent) + os.pathsep + env['PATH']
     return state, env, entry_id
-
-
-@pytest.mark.parametrize('kind', ('faq', 'skill'))
-def test_unified_python_submits_an_update(kind, fixture_server, tmp_path):
-    state, env, entry_id = setup_update(kind, fixture_server, tmp_path)
-    python, env = unified_update_runtime(env)
-    source = bundle('iris_playbook_proposals_update_unified')['py']
-    script = tmp_path / source.name
-    script.write_text(step(source, 'playbook-update-unified-submit') + '\n')
-    result = subprocess.run([python, str(script)], cwd=tmp_path, env=env, text=True,
-                            capture_output=True, timeout=30)
-    assert not state.errors, state.errors
-    assert result.returncode == 0, result.stdout + result.stderr
-    proposal, = state.proposals.values()
-    update = proposal['action']['update']
-    assert update['target'] == {'existingEntry': {'entryId': entry_id, 'basedOnVersion': 1}}
-    candidate = update['candidate']['content']
-    assert candidate['attributes'] == {'topic': 'refund'}
-    assert kind in candidate['payload']
-    assert proposal['proposalId'] in result.stdout and proposal['revision'] in result.stdout
-    assert state.entries[entry_id]['latestVersion'] == 2
-    assert state.entries[entry_id]['publication']['version'] == 1
 
 
 @pytest.mark.parametrize('suffix', ('py', 'sh', 'mts', 'cli.sh'))
@@ -129,6 +86,16 @@ def test_update_appends_to_the_target_and_publishes_the_receipt(kind, suffix, fi
     original = state.request
 
     def check_publication(method, path, body):
+        if method == 'PATCH' and '/proposals/' in path:
+            proposal, = state.proposals.values()
+            update = proposal['action']['update']
+            assert update['target'] == {'existingEntry': {'entryId': entry_id, 'basedOnVersion': 1}}
+            content = update['candidate']['content']
+            assert content['attributes'] == {'topic': 'refund'}
+            assert content['metadata'] == {'review': 'First draft'}
+            assert kind in content['payload']
+            assert state.entries[entry_id]['latestVersion'] == 2
+            assert state.entries[entry_id]['publication']['version'] == 1
         if method == 'PUT' and path.endswith('/publication'):
             assert state.entries[entry_id]['publication']['version'] == 1
             assert state.entries[entry_id]['latestVersion'] == 3
