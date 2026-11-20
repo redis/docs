@@ -27,13 +27,13 @@ To authenticate to the Swagger UI:
 
 1. Open the [Swagger UI](https://api.redislabs.com/v1/swagger-ui.html) page in a browser.
 
-    ![](/images/rv/api/swagger-authorize-and-try-now.png)
+    ![Swagger UI for the Redis Cloud API with the Authorize button and the Try it out option](/images/rv/api/swagger-authorize-and-try-now.png)
 
 1. Select `Authorize`.
 
     The **Available Authorizations** box is shown with the headers and values that are used for authentication in all API interactions with Swagger.
 
-    ![](/images/rv/api/swagger-authorizations.png)
+    ![Swagger Available authorizations dialog with fields for the API key and secret key headers](/images/rv/api/swagger-authorizations.png)
 
 1. Insert the API Key values:
 
@@ -46,7 +46,7 @@ To authenticate to the Swagger UI:
 
 When authorization is successful, the lock icon displays a closed lock.
 
-![](/images/rv/api/swagger-closed-lock.png)
+![Swagger Authorize button showing a closed lock after successful authorization](/images/rv/api/swagger-closed-lock.png)
 
 ### Make API requests
 
@@ -56,14 +56,14 @@ After you complete the authorization in the Swagger UI, you can make an API requ
 
     For example, in the `Account` category select the `GET /payment-methods` operation.
 
-    ![](/images/rv/api/swagger-payment-methods-try-it-now.png)
+    ![Swagger GET /payment-methods operation under the Account category with the Try it out button](/images/rv/api/swagger-payment-methods-try-it-now.png)
 
 1. Select **Try it out** and then select **Execute**.
 
     The API response is shown in the **Responses** section of the API operation.
     The results include an example of how to execute the same operation in a standard command-line utility using `cURL`.
 
-    ![](/images/rv/api/swagger-query-results.png)
+    ![Swagger results for an executed request, including the cURL command, request URL and response body](/images/rv/api/swagger-query-results.png)
 
 #### Inputs for operations in Swagger
 
@@ -71,17 +71,17 @@ Some API operations require input, such as:
 
 - **Parameters** - When an API operation requires URI parameters, such as "get subscription by subscription id", you can enter the values for the parameters.
 
-    ![](/images/rv/api/swagger-parameters.png)
+    ![Swagger operation with a parameter field, such as a subscription ID, and the Try it out button](/images/rv/api/swagger-parameters.png)
 
 - **JSON Request Body** - For API operations that require a JSON request body, you can either:
 
     - Use the **model display** to write the request based on the expected JSON structure and parameters.
 
-        ![](/images/rv/api/swagger-post-body-model.png)
+        ![Swagger POST operation showing the Example Value and Model tabs for the expected JSON request body](/images/rv/api/swagger-post-body-model.png)
 
     - Use the **Try it now** sample JSON created by Swagger as a base template that you can edit and execute.
 
-        ![](/images/rv/api/swagger-post-edit-body.png)
+        ![Swagger POST operation with the sample JSON request body open for editing before Execute](/images/rv/api/swagger-post-edit-body.png)
 
 > [!WARNING]
 > The Swagger UI generates default JSON examples for `POST` and `PUT` operations. You should modify these examples to suit your specific needs and account settings. The examples will fail if used as-is. <br/><br/>For more examples showing how to use specific endpoints, see [REST API examples](/content/operate/rc/api/examples/_index.md).

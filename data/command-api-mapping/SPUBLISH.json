@@ -171,7 +171,32 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "spublish(shardchannel: string | Buffer, message: string | Buffer, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "shardchannel",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [
       {
         "signature": "spublish(channel: K, message: E)",

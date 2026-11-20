@@ -84,27 +84,7 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
-      {
-        "signature": "acl(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "string",
-          "description": ""
-        }
-      }
-    ],
+    "php": [],
     "redis_rs_sync": [
       {
         "signature": "acl_save()",
@@ -121,6 +101,27 @@
         "params": [],
         "returns": {
           "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"SAVE\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SAVE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       }

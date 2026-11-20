@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xgroup_create(, name: KeyT,, groupname: GroupT,, id: StreamIdT = \"$\",, mkstream: bool = False,, entries_read: Optional[int] = None,)",
+        "signature": "xgroup_create(name: KeyT, groupname: GroupT, id: StreamIdT = \"$\", mkstream: bool = False, entries_read: Optional[int] = None)",
         "params": [
           {
             "name": "name",
@@ -317,7 +317,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XGROUP_CREATE(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupCreateOptions)",
+        "signature": "xGroupCreate(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupCreateOptions)",
         "params": [
           {
             "name": "key",
@@ -341,7 +341,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }
@@ -377,7 +377,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -421,7 +421,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -460,7 +460,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -509,7 +509,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -543,7 +543,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -711,74 +711,11 @@
           "type": "bool",
           "description": "true if the group was created, false otherwise."
         }
-      },
-      {
-        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the group to create."
-          },
-          {
-            "name": "position",
-            "type": "RedisValue?",
-            "description": "The position to begin reading the stream. Defaults to NewMessages."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if the group was created, false otherwise."
-        }
-      },
-      {
-        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position = null, bool createStream = true, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the group to create."
-          },
-          {
-            "name": "position",
-            "type": "RedisValue?",
-            "description": "The position to begin reading the stream. Defaults to NewMessages."
-          },
-          {
-            "name": "createStream",
-            "type": "bool",
-            "description": "Create the stream if it does not already exist."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if the group was created, false otherwise."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position, CommandFlags flags)",
+        "signature": "StreamCreateConsumerGroupAsync(RedisKey key, RedisValue groupName, RedisValue? position, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -802,12 +739,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the group was created, false otherwise."
         }
       },
       {
-        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position = null, bool createStream = true, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamCreateConsumerGroupAsync(RedisKey key, RedisValue groupName, RedisValue? position = null, bool createStream = true, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -836,70 +773,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
-          "description": "true if the group was created, false otherwise."
-        }
-      },
-      {
-        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the group to create."
-          },
-          {
-            "name": "position",
-            "type": "RedisValue?",
-            "description": "The position to begin reading the stream. Defaults to NewMessages."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if the group was created, false otherwise."
-        }
-      },
-      {
-        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position = null, bool createStream = true, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the group to create."
-          },
-          {
-            "name": "position",
-            "type": "RedisValue?",
-            "description": "The position to begin reading the stream. Defaults to NewMessages."
-          },
-          {
-            "name": "createStream",
-            "type": "bool",
-            "description": "Create the stream if it does not already exist."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the group was created, false otherwise."
         }
       }
@@ -924,13 +798,13 @@
             "description": ""
           },
           {
-            "name": "bool $mkStream = false",
-            "type": "Any",
+            "name": "$mkStream",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "?string $entriesRead = null",
-            "type": "Any",
+            "name": "$entriesRead",
+            "type": "?string",
             "description": ""
           }
         ],

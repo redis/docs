@@ -637,9 +637,11 @@ hybrid_score = (alpha) * text_score + (1 - alpha) * vector_score
 Where `alpha` controls the balance between text and vector search (default: 0.3 for `HybridQuery` and 0.7 for `AggregateHybridQuery`). Note that `AggregateHybridQuery` reverses the definition of `alpha` to be the weight of the vector score.
 
 The `alpha` parameter controls the weight between text and vector search:
-- `alpha=1.0`: Pure text search (or pure vector search for `AggregateHybridQuery`)
-- `alpha=0.0`: Pure vector search (or pure text search for `AggregateHybridQuery`)
+- `alpha=1.0`: Text score only (or vector score only for `AggregateHybridQuery`)
+- `alpha=0.0`: Vector score only (or text score only for `AggregateHybridQuery`)
 - `alpha=0.3` (default - `HybridQuery`): 30% text, 70% vector
+
+Both searches still run at `alpha=0.0` and `alpha=1.0`, so use `VectorQuery` or `TextQuery` when only one is needed.
 
 
 ```python

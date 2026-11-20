@@ -160,7 +160,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HGETALL(key: RedisArgument)",
+        "signature": "hGetAll(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -169,7 +169,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "MapReply<BlobStringReply, BlobStringReply>",
           "description": ""
         }
       }
@@ -190,7 +190,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<Record<string, string>, Context>",
           "description": ""
         }
       }
@@ -246,30 +246,11 @@
           "type": "HashEntry[]",
           "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
         }
-      },
-      {
-        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash to get all entries from."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "HashEntry[]",
-          "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAllAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -283,26 +264,7 @@
           }
         ],
         "returns": {
-          "type": "HashEntry[]",
-          "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
-        }
-      },
-      {
-        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash to get all entries from."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "HashEntry[]",
+          "type": "Task<HashEntry[]>",
           "description": "List of fields and their values stored in the hash, or an empty list when key does not exist."
         }
       }

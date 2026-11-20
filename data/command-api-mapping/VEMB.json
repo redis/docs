@@ -102,25 +102,6 @@
           "type": "RawVector",
           "description": "RawVector containing raw vector data, quantization type, and metadata"
         }
-      },
-      {
-        "signature": "List<Double> vemb(String key, String element)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "element",
-            "type": "String",
-            "description": "the name of the element whose vector you want to retrieve"
-          }
-        ],
-        "returns": {
-          "type": "List<Double>",
-          "description": "list of real numbers representing the vector"
-        }
       }
     ],
     "lettuce_sync": [
@@ -276,7 +257,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VEMB(key: RedisArgument, element: RedisArgument)",
+        "signature": "vEmb(key: RedisArgument, element: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -404,13 +385,68 @@
             "description": ""
           },
           {
-            "name": "bool $raw = false",
-            "type": "Any",
+            "name": "$raw",
+            "type": "bool",
             "description": ""
           }
         ],
         "returns": {
           "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "vemb(key: RedisKey, element: string | Buffer | number, callback?: Callback<string[] | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[] | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vemb(key: RedisKey, element: string | Buffer | number, raw: 'RAW', callback?: Callback<string[] | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "raw",
+            "type": "'RAW'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[] | null, Context>",
           "description": ""
         }
       }

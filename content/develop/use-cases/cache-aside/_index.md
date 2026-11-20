@@ -70,18 +70,23 @@ Redis provides the following features that make it a good fit for cache-aside:
 The following libraries and frameworks provide Redis-backed cache-aside integrations:
 
 -   **Java**:
-    [Spring Data Redis (`@Cacheable`/`@CacheEvict`)](https://docs.spring.io/spring-data/redis/reference/redis/redis-cache.html),
+    [Spring Data Redis (`@Cacheable`/`@CacheEvict`)](/content/integrate/spring-framework-cache/cache.md),
     [Redis Smart Cache](https://github.com/redis-field-engineering/redis-smart-cache)
     (transparent JDBC-layer cache-aside)
--   **Python**: [Flask-Caching](https://flask-caching.readthedocs.io/)
+-   **Python**: [Flask-Caching](/content/integrate/flask/_index.md#cache-views-and-functions)
     (Redis backend),
-    [Django cache framework](https://docs.djangoproject.com/en/stable/topics/cache/)
+    [Django cache framework](/content/integrate/django/_index.md#cache-data)
     (with [redis-py](https://redis.readthedocs.io/))
 -   **Node.js**: [node-redis](https://github.com/redis/node-redis),
     [ioredis](https://github.com/redis/ioredis) (wrap route handlers with a cache-aside helper)
+-   **.NET**: [FusionCache](/content/integrate/fusioncache/_index.md#cache-data-with-the-cache-aside-pattern)
+    (hybrid memory and Redis cache with stampede protection and Fail-Safe)
 -   **API gateways**:
-    [Kong Redis response caching](https://docs.konghq.com/hub/kong-inc/proxy-cache-advanced/)
-    (configurable TTL per route)
+    [Kong Redis response caching](/content/integrate/kong/_index.md#kong-gateway-enterprise)
+    (Kong Gateway Enterprise only; configurable TTL per route),
+    [OpenResty](/content/integrate/openresty/_index.md#cache-responses-with-redis) (NGINX with Lua)
+-   **Java**: [Redisson](https://redisson.pro/docs/integration-with-spring/#spring-cache)
+    (Spring Cache manager backed by Redis).
 
 ## Code examples to build your own Redis cache-aside
 

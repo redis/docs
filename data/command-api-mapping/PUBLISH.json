@@ -176,7 +176,32 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "publish(channel: string | Buffer, message: string | Buffer, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [
       {
         "signature": "publish(channel: K, message: E)",

@@ -256,7 +256,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SRANDMEMBER(key: RedisArgument)",
+        "signature": "sRandMember(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -265,7 +265,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }
@@ -286,7 +286,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -310,7 +310,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -357,8 +357,8 @@
             "description": ""
           },
           {
-            "name": "?int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "?int",
             "description": ""
           }
         ],

@@ -2,10 +2,10 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "dictdump(dict_name: str)",
+        "signature": "dict_dump(name: str)",
         "params": [
           {
-            "name": "dict_name",
+            "name": "name",
             "type": "str",
             "description": "The dictionary name"
           }
@@ -103,7 +103,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DICTDUMP(dictionary: RedisArgument)",
+        "signature": "client.ft.dictDump(dictionary: RedisArgument)",
         "params": [
           {
             "name": "dictionary",
@@ -112,7 +112,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<Array<string>>",
+          "type": "Array<string>",
           "description": "All terms in the dictionary"
         }
       }

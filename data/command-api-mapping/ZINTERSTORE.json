@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zinterstore(, dest: KeyT,, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,)",
+        "signature": "zinterstore(dest: KeyT, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]], aggregate: Optional[str] = None)",
         "params": [
           {
             "name": "dest",
@@ -277,7 +277,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZINTERSTORE(destination: RedisArgument, keys: ZKeys, options?: ZInterOptions)",
+        "signature": "zInterStore(destination: RedisArgument, keys: ZKeys, options?: ZInterOptions)",
         "params": [
           {
             "name": "destination",
@@ -296,51 +296,91 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "zinterstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "zinterstore(...args: [ destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zinterstore(...args: [, destination: RedisKey, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "zinterstore(...args: [ destination: RedisKey, numkeys: number | string, keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zinterstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], ])",
+        "signature": "zinterstore(...args: [ destination: RedisKey, numkeys: number | string, ...keys: RedisKey[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -348,27 +388,62 @@
         "signature": "zinterstore(...args: [destination: RedisKey, numkeys: number | string, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zinterstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], aggregate: \"AGGREGATE\", sum: \"SUM\", callback: Callback<number>, ])",
+        "signature": "zinterstore(...args: [ destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], aggregate: \"AGGREGATE\", sum: \"SUM\", callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "aggregate",
+            "type": "\"AGGREGATE\"",
+            "description": ""
+          },
+          {
+            "name": "sum",
+            "type": "\"SUM\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -645,89 +720,11 @@
           "type": "long",
           "description": "The number of elements in the resulting sorted set at destination."
         }
-      },
-      {
-        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key to store the results in."
-          },
-          {
-            "name": "first",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "second",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "aggregate",
-            "type": "Aggregate",
-            "description": "The aggregation method (defaults to sum)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting sorted set at destination."
-        }
-      },
-      {
-        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key to store the results in."
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "weights",
-            "type": "double[]?",
-            "description": "The optional weights per set that correspond to keys."
-          },
-          {
-            "name": "aggregate",
-            "type": "Aggregate",
-            "description": "The aggregation method (defaults to sum)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting sorted set at destination."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetCombineAndStoreAsync(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -761,12 +758,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the resulting sorted set at destination."
         }
       },
       {
-        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetCombineAndStoreAsync(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -800,85 +797,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting sorted set at destination."
-        }
-      },
-      {
-        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key to store the results in."
-          },
-          {
-            "name": "first",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "second",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "aggregate",
-            "type": "Aggregate",
-            "description": "The aggregation method (defaults to sum)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting sorted set at destination."
-        }
-      },
-      {
-        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key to store the results in."
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "weights",
-            "type": "double[]?",
-            "description": "The optional weights per set that correspond to keys."
-          },
-          {
-            "name": "aggregate",
-            "type": "Aggregate",
-            "description": "The aggregation method (defaults to sum)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the resulting sorted set at destination."
         }
       }
@@ -898,13 +817,13 @@
             "description": ""
           },
           {
-            "name": "int[] $weights = []",
-            "type": "Any",
+            "name": "$weights",
+            "type": "int[]",
             "description": ""
           },
           {
-            "name": "string $aggregate = 'sum'",
-            "type": "Any",
+            "name": "$aggregate",
+            "type": "string",
             "description": ""
           }
         ],

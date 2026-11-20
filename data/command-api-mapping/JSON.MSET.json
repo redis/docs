@@ -87,7 +87,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MSET(items: Array<JsonMSetItem>)",
+        "signature": "client.json.mSet(items: Array<JsonMSetItem>)",
         "params": [
           {
             "name": "items",
@@ -96,7 +96,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }
@@ -122,8 +122,8 @@
         "signature": "jsonmset(string ...$keyPathValue)",
         "params": [
           {
-            "name": "$keyPathValue",
-            "type": "string ...",
+            "name": "...$keyPathValue",
+            "type": "string",
             "description": ""
           }
         ],
@@ -183,6 +183,22 @@
         "returns": {
           "type": "String",
           "description": "the raw \"OK\" reply"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MSetAsync(KeyPathValue[] KeyPathValueList)",
+        "params": [
+          {
+            "name": "KeyPathValueList",
+            "type": "KeyPathValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
         }
       }
     ]

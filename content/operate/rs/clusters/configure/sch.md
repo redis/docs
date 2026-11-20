@@ -20,15 +20,26 @@ The degree of support for SCH depends on the specific upgrade method you use, as
 
 To enable SCH on a Redis Software server, you must use the
 [/v1/cluster](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster)
-REST API request to set the `client_maint_notifications` option to `true`.
-The example below shows how to do this using the
+REST API request. Both options below default to `false`. Each one applies to
+databases with a different routing setup, so set the one that matches your databases
+(or both):
+
+| Option | Applies to |
+| :-- | :-- |
+| `client_maint_notifications` | Databases that use standard routing |
+| `oss_cluster_client_maint_notifications` | Databases that use the [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) |
+
+A database checks only the option that matches its routing setup. For example, a
+database with the OSS Cluster API enabled ignores `client_maint_notifications`.
+
+The example below shows how to set both options to `true` using the
 [`curl`](https://curl.se/) command line utility:
 
 ```bash
 curl -k -X PUT -H "accept: application/json" \
     -H "content-type: application/json" \
     -u "<username>:<password>" \
-    -d '{ "client_maint_notifications": true }' \
+    -d '{ "client_maint_notifications": true, "oss_cluster_client_maint_notifications": true }' \
     https://<host>:<port>/v1/cluster
 ```
 

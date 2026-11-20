@@ -132,7 +132,7 @@ To retrieve your password, navigate to the OpenShift management console, select 
 
 Retrieve your password by selecting "Reveal Secret."
 
-![](/images/rs/openshift-password-retrieval.png)
+![OpenShift console secret page with the Reveal Secret link showing the license, password and username values](/images/rs/openshift-password-retrieval.png)
 
 
 ## What capabilities, privileges and permissions are defined by the Security Context Constraint (SCC) yaml?

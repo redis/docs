@@ -91,7 +91,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CMS.INCRBY(key, items)",
+        "signature": "client.cms.incrBy(key, items)",
         "params": [
           {
             "name": "key",

@@ -13,79 +13,33 @@ hideListLinks: true
 
 Background extraction reads idle Redis Agent Memory sessions and creates frequently asked question (FAQ) proposals for human review. It doesn't publish FAQs or create skills. An accepted proposal still needs review and publication before agents receive it.
 
-Extraction is optional. It needs Redis Agent Memory in the same tenant, a persistent queue Redis, a generation model, and workload identity between the two products. It needs no Identity Service subject grants, lookup credentials, or Identity Service control trust.
+Extraction is optional. It needs Redis Agent Memory and Agent Playbooks in the same `redis-iris` release, a persistent queue Redis, and a generation model. It needs no Identity Service subject grants, lookup credentials, or Identity Service control trust.
 
 ## How extraction is wired
 
-| Caller | Calls | Credential | Trust you configure |
+| Caller | Calls | Credential | Trust |
 | --- | --- | --- | --- |
-| Agent Playbooks control plane | Redis Agent Memory control plane, to list stores and confirm the source store's tenant | Projected ServiceAccount token, audience `api://memory-cp` | `controlplane.configData.auth.workload_identity` on Redis Agent Memory, role `viewer` |
-| Extraction worker | Redis Agent Memory data plane, to read sessions | Projected ServiceAccount token, audience `api://memory-dp` | `memory.auth.jwt_subjects` on Redis Agent Memory, `authority: static`, `mem-store:*` read |
-| Extraction worker | Agent Playbooks data plane, to search and propose | Projected ServiceAccount token, audience `api://playbook-dp` | Rendered by this chart when the worker is enabled |
+| Agent Playbooks control plane | Redis Agent Memory control plane, to list stores and confirm the source store's tenant | Projected ServiceAccount token, audience `api://memory-cp` | Set by the suite, role `viewer` |
+| Extraction worker | Redis Agent Memory data plane, to read sessions | Projected ServiceAccount token, audience `api://memory-dp` | Set by the suite, `mem-store:*` read |
+| Extraction worker | Agent Playbooks data plane, to search and propose | Projected ServiceAccount token, audience `api://playbook-dp` | Set by the suite |
 
-With release `playbook`, namespace `<namespace-name>`, and `fullnameOverride: playbook`, the two subjects are:
-
-- `system:serviceaccount:<namespace-name>:playbook-controlplane`
-- `system:serviceaccount:<namespace-name>:playbook-worker`
-
-If you change the namespace or resource names, change these subjects everywhere.
+The two subjects are `system:serviceaccount:<namespace-name>:redis-agent-playbook-controlplane` and `system:serviceaccount:<namespace-name>:redis-agent-playbook-worker`.
 
 ## Extraction with the Redis Iris suite chart
 
-With the [`redis-iris` Helm chart](/content/operate/iris/agent-playbook/self-managed/deploy.md#install-with-the-redis-iris-suite-chart), set `global.iris.extraction.enabled: true` instead of the `extraction` values on this page. The suite derives the extraction connection, `worker.enabled`, and `worker.sourceURL`, and configures Redis Agent Memory to trust `system:serviceaccount:<namespace-name>:redis-agent-playbook-controlplane` and `system:serviceaccount:<namespace-name>:redis-agent-playbook-worker`, so skip [Configure Redis Agent Memory trust](#configure-redis-agent-memory-trust). You still create the worker Secret and set `playbook.worker.existingSecret` and `playbook.worker.region`. Leave `config.existingSecret` unset on both Redis Agent Memory planes and on the Agent Playbooks control plane.
+Set `global.iris.extraction.enabled: true`. The suite derives the extraction connection, `playbook.worker.enabled`, and `playbook.worker.sourceURL`, and configures Redis Agent Memory to trust both subjects. A value you set by hand under `playbook.extraction`, `playbook.worker.enabled`, `playbook.worker.sourceURL`, `memory.memory.auth.jwt_subjects`, or `memory.controlplane.configData.auth.workload_identity` that differs fails the render and names it.
 
-## Plan the connection
-
-Prepare these values before you enable extraction:
+You still provide:
 
 | Value | Purpose |
 | --- | --- |
-| Redis Agent Memory store | The source store for a binding. Its tenant must match `tenantId`. |
-| ServiceAccount issuer and JSON Web Key Set (JWKS) URI | Validate the projected control-plane and worker tokens. Both must use `https://`. The issuer must exactly match the issuer Redis Agent Memory accepts. |
-| Redis Agent Memory control-plane URL | Let the Agent Playbooks control plane discover stores and check ownership. |
-| Redis Agent Memory data-plane URL | Let the worker read sessions. |
+| Redis Agent Memory store | The source store for a binding, in the release's tenant. |
+| `global.iris.workloadIdentity.issuer` and `global.iris.workloadIdentity.jwksURI` | Validate the projected control-plane and worker tokens. They default to the in-cluster API server. On Amazon EKS, set both. The [preflight](/content/operate/iris/self-managed/_index.md#4-run-the-preflight) checks that the issuer matches and that the JSON Web Key Set (JWKS) is reachable without a credential. |
 | Queue Redis URL | Store extraction jobs. Use persistence, `noeviction`, and capacity monitoring. Don't reuse the Agent Playbooks metadata or content Redis. |
 | Generation provider and model | Extract and consolidate FAQ candidates. These credentials are separate from the embedding configuration. |
+| `playbook.worker.existingSecret` and `playbook.worker.region` | The worker configuration Secret, and the region that names its queues. |
 
-Use certificate-verified endpoints. Redis Agent Memory must be able to fetch the JWKS without a bearer token. See [Prepare worker identity for your platform](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform) for where each Kubernetes platform serves its issuer. Allow network paths for the control plane, worker, queue Redis, both data planes, and the model provider.
-
-## Configure Redis Agent Memory trust
-
-Add these settings to the Redis Agent Memory values. Merge the list entries with its existing worker identity and authentication settings, and keep `memory.auth.method: agent_key`:
-
-```yaml
-memory:
-  auth:
-    method: agent_key
-    jwt_subjects:
-      - issuer: https://<service-account-issuer>
-        jwks_uri: https://<service-account-jwks-uri>
-        audience: [api://memory-dp]
-        subjects:
-          - subject: system:serviceaccount:<namespace-name>:playbook-worker
-            authority: static
-            roles: [viewer]
-            resources:
-              "mem-store:*": {permissions: [read]}
-
-controlplane:
-  configData:
-    auth:
-      workload_identity:
-        enabled: true
-        issuer: https://<service-account-issuer>
-        jwks_uri: https://<service-account-jwks-uri>
-        audience: [api://memory-cp]
-        subjects:
-          - subject: system:serviceaccount:<namespace-name>:playbook-controlplane
-            tenant: default
-            roles: [viewer]
-```
-
-Set `tenant` to the Agent Playbooks `tenantId`. Don't give the control-plane subject a suite administrator role: that bypasses the ownership checks extraction relies on. Upgrade the Redis Agent Memory release, and wait for its planes to be ready.
-
-See the [Redis Agent Memory authentication guide](/content/operate/iris/agent-memory/self-managed/authentication.md) before you change an existing authentication configuration.
-
+Leave `config.existingSecret` unset on both Redis Agent Memory planes and on the Agent Playbooks control plane: the derived trust and extraction settings land only in the configurations the charts render. Allow network paths for the worker, the queue Redis, and the model provider.
 
 ## Configure Agent Playbooks extraction
 
@@ -130,45 +84,36 @@ kubectl -n <namespace-name> create secret generic playbook-extraction-worker \
   --from-file=worker.yaml=./worker.yaml
 ```
 
-Save `playbook-extraction-values.yaml`:
+Add the extraction values to `iris-values.yaml`:
 
 ```yaml
-extraction:
-  enabled: true
-  connection:
-    enabled: true
-    issuer: https://<service-account-issuer>
-    jwksURI: https://<service-account-jwks-uri>
-    ramControlPlaneBaseURL: https://<memory-control-plane-host>
+global:
+  iris:
+    extraction:
+      enabled: true
 
-worker:
-  enabled: true
-  replicaCount: 1
-  region: <region>
-  existingSecret: playbook-extraction-worker
-  sourceURL: https://<memory-data-plane-host>
-  scanConcurrency: 1
-  extractConcurrency: 1
+playbook:
+  worker:
+    region: <region>
+    existingSecret: playbook-extraction-worker
+    scanConcurrency: 1
+    extractConcurrency: 1
 ```
 
-- `ramControlPlaneBaseURL` is the Redis Agent Memory control plane. `extraction.enabled` requires it.
-- `worker.sourceURL` is the Redis Agent Memory data plane. `worker.targetURL` defaults to this release's data-plane Service; set an `https://` endpoint when the security profile requires it.
 - `worker.region` names the queues, `playbook-extraction:<region>:scan` and `playbook-extraction:<region>:extract`. Run one active regional deployment per binding inventory.
 - Bindings start disabled, so the worker reads nothing until you [enable a binding](#create-and-enable-a-binding).
 
-Apply both values files:
+Upgrade the release:
 
 ```bash
-helm upgrade playbook redis-ai/redis-agent-playbook \
+helm upgrade iris redis-ai/redis-iris \
   --version 1.0.0 \
   --namespace <namespace-name> \
-  -f playbook-values.yaml \
-  -f playbook-extraction-values.yaml \
-  --wait --timeout 10m
-kubectl -n <namespace-name> rollout status deployment/playbook-worker
+  -f iris-values.yaml
+kubectl -n <namespace-name> rollout status deployment/redis-agent-playbook-worker
 ```
 
-Startup fails when the source URL, model, region, or token file is missing, or when the queue Redis is unreachable. Check the worker's `/health/readiness` and `/metrics` on port `9203` before you enable a binding.
+The upgrade creates the worker, and rolls the Redis Agent Memory planes and worker and the Agent Playbooks planes once. Startup fails when the model, region, or token file is missing, or when the queue Redis is unreachable. Check the worker's `/health/readiness` and `/metrics` on port `9203` before you enable a binding.
 
 ## Create and enable a binding
 
@@ -219,11 +164,13 @@ Enabling checks the store and the caller again. A stale `expectedRevision` retur
 
 The Iris command-line interface (CLI) runs the same steps: `iris agent-playbooks extraction bind <memory-store-id> --enable`, then `extraction list`, `show`, `pause`, `enable`, and `delete`.
 
-The worker looks for due bindings every five minutes (`worker.scanInterval`, default `300s`). A session must stay idle for 30 minutes by default before the worker extracts from it. Set `job.idleWindowSeconds` from 60 to 86,400 when you create or update a binding. Neither setting is an end-to-end freshness guarantee: queue and model time also affect when a proposal appears.
+The worker looks for due bindings every five minutes (`playbook.worker.scanInterval`, default `300s`). A session must stay idle for 30 minutes by default before the worker extracts from it. Set `job.idleWindowSeconds` from 60 to 86,400 when you create or update a binding. Neither setting is an end-to-end freshness guarantee: queue and model time also affect when a proposal appears.
 
 For the first run, send a small session with a known FAQ to the bound store, let it go idle, and review the proposals and evidence in the playbook. A healthy deployment can produce no proposal for a session that has no reusable FAQ.
 
 ## Tune the worker
+
+Set these under `playbook:`.
 
 | Value | Default | Purpose |
 | --- | --- | --- |
@@ -252,8 +199,6 @@ Four charged failures exhaust a session's attempts. An empty queue doesn't prove
 
 To pause a binding, send `enabled: false` with its current `expectedRevision`. To remove it, send `DELETE` to the binding; the request returns `202`. Both work while Redis Agent Memory is unavailable. Deleting a binding doesn't delete Redis Agent Memory data, proposals, or FAQs.
 
-Work the worker already accepted can still finish after a pause or delete. The worker's static read access lasts until you remove its subject from the Redis Agent Memory values and both data planes roll out.
+Work the worker already accepted can still finish after a pause or delete. The worker's read access lasts until you turn extraction off and the Redis Agent Memory planes roll out.
 
-To stop new extraction configuration while keeping the worker and connection, set `extraction.enabled: false`. Bindings can still be paused and deleted.
-
-To remove extraction from the deployment, delete the bindings first, then set `extraction.enabled`, `extraction.connection.enabled`, and `worker.enabled` to `false` together, and remove both subjects from the Redis Agent Memory values. The chart refuses an enabled connection without the worker unless `extraction.connection.workerSubjects` lists another worker.
+To remove extraction from the deployment, pause or delete the bindings first, then set `global.iris.extraction.enabled: false` and upgrade the release. The suite removes the worker, the connection, and Redis Agent Memory's trust in both subjects. The bindings stay in the Agent Playbooks metadata Redis.

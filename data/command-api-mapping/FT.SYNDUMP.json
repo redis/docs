@@ -97,7 +97,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SYNDUMP(index: RedisArgument)",
+        "signature": "client.ft.synDump(index: RedisArgument)",
         "params": [
           {
             "name": "index",
@@ -106,7 +106,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<FTSynDumpResult>",
+          "type": "FTSynDumpResult",
           "description": "The contents of the synonym group"
         }
       }

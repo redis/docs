@@ -21,13 +21,13 @@ The Redis Enterprise cluster (REC) custom resource must reside in the same names
 
 The standard and simplest deployment deploys your Redis Enterprise databases (REDB) in the same namespace as the Redis Enterprise cluster (REC). No additional configuration is required for this, since there is no communication required to cross namespaces. See [Deploy Redis Enterprise for Kubernetes](/content/operate/kubernetes/deployment/quick-start.md).
 
-![](/images/k8s/k8s-deploy-one-to-one.png)
+![Single REC and one namespace: the REC operator manages the cluster pods, the services rigger and the DB service](/images/k8s/k8s-deploy-one-to-one.png)
 
 ## Single REC and multiple namespaces (one-to-many)
 
 Multiple Redis Enterprise databases (REDB) spread across multiple namespaces within the same K8s cluster can be associated with the same Redis Enterprise cluster (REC). See [Manage databases in multiple namespaces](/content/operate/kubernetes/re-clusters/multi-namespace.md) for more information.
 
-![](/images/k8s/k8s-deploy-one-to-many.png)
+![One REC with its operator in one namespace, managing REDB resources, DB services and secrets in two other namespaces](/images/k8s/k8s-deploy-one-to-many.png)
 
 ## Multiple RECs and multiple namespaces (many-to-many)
 
@@ -38,7 +38,7 @@ You have the flexibility to create databases in separate namespaces, or in the s
 See [Manage databases in multiple namespaces](/content/operate/kubernetes/re-clusters/multi-namespace.md) for more information.
 
 
-![](/images/k8s/k8s-deploy-many-to-many-new.png)
+![Two RECs with operators and services riggers in separate namespaces, each serving DB services for REDBs in other namespaces](/images/k8s/k8s-deploy-many-to-many-new.png)
 
 ## Unsupported deployment patterns
 
@@ -46,10 +46,10 @@ See [Manage databases in multiple namespaces](/content/operate/kubernetes/re-clu
 
 Redis Enterprise for Kubernetes does not support operations that cross Kubernetes clusters. Redis Enterprise clusters (REC) work inside a single K8s cluster. Crossing clusters could result in functional and security issues.
 
-![](/images/k8s/k8s-deploy-cross-namespaces.png)
+![Marked NOT SUPPORTED: databases in two namespaces linked to RECs in two other namespaces, including one database tied to a second REC](/images/k8s/k8s-deploy-cross-namespaces.png)
 
 ### Multiple RECs in one namespace
 
 Redis Enterprise for Kubernetes does not support multiple Redis Enterprise clusters (REC) in the same namespace. Creating more than one REC in the same namespace will result in errors.
 
-![](/images/k8s/k8s-deploy-multicluster-antipattern.png)
+![Marked NOT SUPPORTED: two Redis Enterprise clusters, REC A and REC B, running in the same namespace](/images/k8s/k8s-deploy-multicluster-antipattern.png)

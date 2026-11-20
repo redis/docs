@@ -87,10 +87,12 @@ Classify each empty (command, client) against the **released** client, not the f
 
 - `real_gap`: a typed method exists but the mapping has no signature. Fill it.
 - `generic_only`: reachable only through `execute_command`, `call`, `Do`, `sendCommand`,
-  `executeRaw`, `redis::cmd` or container magic dispatch with no typed `@method`. Leave empty.
+  `executeRaw`, `redis::cmd` or container magic dispatch with no typed `@method`. Leave empty
+  and record it in the status file (below).
 - `unsupported`: no way to call it, the method throws or panics (`Quit`/`Sync` in go-redis,
   `memory_doctor` in redis-py), it is `[Obsolete(error: true)]` (SE.Redis `SlaveOf`), or it
   is client-side and sends no command (`SELECT` as `GetDatabase`, `CLUSTER KEYSLOT`).
+  Leave empty and record it in the status file (below).
 - Bare container rows (`ACL`, `CLIENT`, `CLUSTER`, `CONFIG`, `LATENCY`, `MEMORY`, `MODULE`,
   `SLOWLOG`, `FUNCTION`, `SCRIPT`, `PUBSUB`) stay empty: the subcommand rows carry the
   signatures. `HOTKEYS` is not one: check whether its subcommand files already exist.
@@ -98,6 +100,14 @@ Classify each empty (command, client) against the **released** client, not the f
 A name match is a hypothesis. Read the method, and check a sample of hits before trusting a
 count. Typed methods on a non-obvious receiver (`StatefulCmdable`, `IServer`, a `PubSub`
 object, a callback object) still count as `real_gap`: cite the receiver in your report.
+
+**Record why a list stays empty in `data/command-api-mapping-status.json`**, not in the
+per-command files: `{command: {client_id: "generic_only" | "unsupported"}}`. The tab reads it
+only when the list is empty, so an entry for a list you later fill is harmless but stale;
+remove it. Keep it out of `api_calls`, other scripts read that shape. Sync and async clients
+of one library can differ on purpose (SE.Redis `ReplicaOfAsync` works while `ReplicaOf` is
+obsolete), so check the filled data before calling a pair unpaired. The README section "Why a
+client has no signature" has the format; `genericCall` per client is in `config.toml`.
 
 To fill many at once, write one fragment per client (`{command: [signatures]}`) outside the
 repo, verify every signature by compiling or reflecting against the released artifact, then

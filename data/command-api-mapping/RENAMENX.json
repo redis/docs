@@ -89,7 +89,7 @@
     ],
     "node_redis": [
       {
-        "signature": "RENAMENX(key: RedisArgument, newKey: RedisArgument)",
+        "signature": "renameNX(key: RedisArgument, newKey: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -103,7 +103,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -272,6 +272,32 @@
         "returns": {
           "type": "Boolean",
           "description": "whether the key was renamed or not"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "renamenx(key: RedisKey, newkey: RedisKey, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "newkey",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
         }
       }
     ]

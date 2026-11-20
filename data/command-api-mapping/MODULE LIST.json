@@ -57,28 +57,29 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "module(string $subcommand, ...$args)",
+        "signature": "module(subcommand: \"LIST\", callback?: Callback<unknown>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"LIST\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "callback?",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "array",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

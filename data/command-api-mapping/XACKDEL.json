@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xackdel(, name: KeyT,, groupname: GroupT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)",
+        "signature": "xackdel(name: KeyT, groupname: GroupT, *ids: StreamIdT, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\")",
         "params": [
           {
             "name": "name",
@@ -366,7 +366,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XACKDEL(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)",
+        "signature": "xAckDel(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)",
         "params": [
           {
             "name": "key",
@@ -390,7 +390,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<StreamDeletionReplyCode>",
           "description": ""
         }
       }
@@ -525,79 +525,11 @@
           "type": "StreamTrimResult[]",
           "description": ""
         }
-      },
-      {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "mode",
-            "type": "StreamTrimMode",
-            "description": ""
-          },
-          {
-            "name": "messageId",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "StreamTrimResult",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "mode",
-            "type": "StreamTrimMode",
-            "description": ""
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "StreamTrimResult[]",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAndDeleteAsync(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -626,12 +558,12 @@
           }
         ],
         "returns": {
-          "type": "StreamTrimResult",
+          "type": "Task<StreamTrimResult>",
           "description": ""
         }
       },
       {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAndDeleteAsync(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -660,75 +592,7 @@
           }
         ],
         "returns": {
-          "type": "StreamTrimResult[]",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "mode",
-            "type": "StreamTrimMode",
-            "description": ""
-          },
-          {
-            "name": "messageId",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "StreamTrimResult",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "mode",
-            "type": "StreamTrimMode",
-            "description": ""
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "StreamTrimResult[]",
+          "type": "Task<StreamTrimResult[]>",
           "description": ""
         }
       }

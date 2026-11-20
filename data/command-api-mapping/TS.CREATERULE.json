@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "createrule(, source_key: KeyT,, dest_key: KeyT,, aggregation_type: str,, bucket_size_msec: int,, align_timestamp: Optional[int] = None,)",
+        "signature": "createrule(source_key: KeyT, dest_key: KeyT, aggregation_type: str, bucket_size_msec: int, align_timestamp: Optional[int] = None)",
         "params": [
           {
             "name": "source_key",
@@ -178,7 +178,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CREATERULE(sourceKey: RedisArgument, destinationKey: RedisArgument, aggregationType: TimeSeriesAggregationType, bucketDuration: number, alignTimestamp?: number)",
+        "signature": "client.ts.createRule(sourceKey: RedisArgument, destinationKey: RedisArgument, aggregationType: TimeSeriesAggregationType, bucketDuration: number, alignTimestamp?: number)",
         "params": [
           {
             "name": "sourceKey",
@@ -207,7 +207,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }
@@ -289,8 +289,8 @@
             "description": ""
           },
           {
-            "name": "int $alignTimestamp = 0",
-            "type": "Any",
+            "name": "$alignTimestamp",
+            "type": "int",
             "description": ""
           }
         ],

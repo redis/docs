@@ -20,7 +20,7 @@ For operations that do not create or modify resources or do not require addition
 
 Asynchronous operations have two main phases: processing and provisioning.  A resource is not available until both phases are complete.
 
-![](/images/rv/api/processing-and-provisioning.png)
+![Async API operation phases: processing (received, in progress, completed or error), then provisioning (pending, active, deleting or error)](/images/rv/api/processing-and-provisioning.png)
 
 ## Task processing
 

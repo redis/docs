@@ -32,7 +32,8 @@ To get started:
 - Kubernetes 1.27+.
 - Helm 3.14+.
 - Network access to the chart and image repositories. Configure `imagePullSecrets` if your cluster requires registry credentials.
-- An OIDC issuer URL, an API audience, and a CLI client configured for device authorization. See [Register a CLI client]({{< relref "/operate/featureform/configure-auth#register-a-cli-client" >}}).
+- An OIDC identity provider reachable over HTTPS at one issuer URL from browsers, CLI hosts, and the cluster, with a CLI client configured for device authorization. See [Prepare the identity provider]({{< relref "/operate/featureform/configure-auth#prepare-the-identity-provider" >}}).
+- The identity provider subject (`sub`) of the user who becomes the first global admin. See [Provision the first global admin]({{< relref "/operate/featureform/configure-auth#provision-the-first-global-admin" >}}).
 - An external PostgreSQL database for production state. Its role must be able to create and alter Feature Form tables during migrations.
 - A Feature Form license key from your Redis account team.
 - A public domain name and Transport Layer Security (TLS) certificate for each externally exposed endpoint.
@@ -95,12 +96,17 @@ Feature Form accepts any value that isn't empty after trimming whitespace. Chang
 stateBackend: postgres
 
 auth:
-  enabled: true
+  interactive:
+    enabled: true
+    clientIDs:
+      - "featureform-cli"
   oidcIssuerURL: "https://idp.example.com/realms/featureform"
-  oidcClientID: "featureform-api"
   oidcCLIClientID: "featureform-cli"
   oidcCLIScopes: "openid profile offline_access"
   oidcCLILoginMethods: "device_code"
+  bootstrapGlobalAdmins:
+    - principalType: user
+      principalID: "<admin-subject>"
   deploymentID: "<stable-deployment-id>"
   publicRestEndpoint: "https://api.example.com"
   publicGrpcEndpoint: "grpc.example.com:443"
@@ -145,9 +151,11 @@ grpc:
           - grpc.example.com
 ```
 
+For every key, its default, and the rules that connect keys, see the [Helm values reference]({{< relref "/operate/featureform/helm-values" >}}).
+
 In `values-production.yaml`, replace the ingress class and gRPC backend annotation placeholders with the values required by your maintained ingress controller. The controller must support gRPC backends and TLS termination.
 
-`auth.publicRestEndpoint` and `auth.publicGrpcEndpoint` show the public endpoints through authentication discovery. Use addresses reachable by your CLI users. If internal services reach the identity provider through a different URL, configure the internal and public OIDC URLs as described in [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
+`auth.publicRestEndpoint` and `auth.publicGrpcEndpoint` show the public endpoints through authentication discovery. Use addresses reachable by your CLI users. Feature Form pods must reach the identity provider at the same `auth.oidcIssuerURL` that users reach. For the authentication settings, see [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
 
 ### 4. Render and install the release
 
@@ -228,11 +236,12 @@ pip install redis-featureform==<featureform-version>
 ff version --client-only
 ```
 
-When you expose the gRPC endpoint publicly, connect the CLI through that endpoint. gRPC is the CLI default, but the explicit transport makes the saved profile clear:
+The CLI trusts the certificate authorities in the operating system's trust store, for both Feature Form and the identity provider. If either uses a private certificate authority, add it to the operating system's trust store before you log in.
+
+When you expose the gRPC endpoint publicly, connect the CLI through that endpoint. gRPC is the CLI default transport, and login saves it in the profile:
 
 ```bash
-ff --server grpc.example.com:443 --transport grpc \
-  auth login --profile production
+ff --server grpc.example.com:443 auth login --profile production
 ```
 
 If you expose only REST, log in through that endpoint instead:
@@ -252,8 +261,7 @@ kubectl --namespace <namespace> port-forward \
 Then log in from another terminal:
 
 ```bash
-ff --server localhost:9090 --transport grpc \
-  auth login --profile production
+ff --server localhost:9090 auth login --profile production
 ```
 
 After login, verify the authenticated principal and the selected endpoint:
@@ -286,6 +294,147 @@ Don't combine `ingress.*` with service-specific ingress settings. The chart reje
 
 Terminate TLS at the ingress controller or load balancer. Use `grpc.ingress.*` only with a controller that supports gRPC backends. If ingress isn't suitable, use `grpc.service.type=LoadBalancer` and `rest.service.type=LoadBalancer`.
 
+### Ingress controller examples
+
+The REST service accepts HTTP/1.1 on port `8080`. The gRPC service accepts unencrypted HTTP/2 on port `9090`. The dashboard service accepts HTTP/1.1 on port `3000`. Your ingress controller terminates TLS and forwards traffic to these ports. Each example gives the REST API, gRPC API, and dashboard their own host and routes `/` on each one, so the REST host also serves the API explorer at `https://api.example.com/swagger/index.html`.
+
+Merge an example into `values-production.yaml`, replacing the `rest.ingress`, `grpc.ingress`, and `dashboard.ingress` settings. Keep `auth.publicRestEndpoint: "https://api.example.com"` and `auth.publicGrpcEndpoint: "grpc.example.com:443"`. These examples cover exposure only. For the dashboard's OIDC client and secrets, see [Dashboard requirements](#dashboard-requirements).
+
+#### AWS Load Balancer Controller
+
+This example uses the AWS Load Balancer Controller to put all three hosts on one Application Load Balancer (ALB), with a certificate from AWS Certificate Manager (ACM):
+
+```yaml
+rest:
+  ingress:
+    enabled: true
+    className: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/group.name: featureform
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/certificate-arn: "<acm-certificate-arn>"
+      alb.ingress.kubernetes.io/healthcheck-path: /health/ready
+    hosts:
+      - host: api.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+grpc:
+  ingress:
+    enabled: true
+    className: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/group.name: featureform
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/certificate-arn: "<acm-certificate-arn>"
+      alb.ingress.kubernetes.io/backend-protocol-version: GRPC
+      alb.ingress.kubernetes.io/healthcheck-path: /grpc.health.v1.Health/Check
+      alb.ingress.kubernetes.io/success-codes: "0"
+    hosts:
+      - host: grpc.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+dashboard:
+  enabled: true
+  publicAPIURL: "https://api.example.com"
+  auth:
+    url: "https://dashboard.example.com"
+  ingress:
+    enabled: true
+    className: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/group.name: featureform
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/certificate-arn: "<acm-certificate-arn>"
+      alb.ingress.kubernetes.io/healthcheck-path: /api/health
+    hosts:
+      - host: dashboard.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+```
+
+- `target-type: ip` sends traffic directly to pod IPs. It's required because the Feature Form services are `ClusterIP`.
+- The ALB serves gRPC only on an HTTPS listener. The gRPC health check calls the standard gRPC health service and expects gRPC status code `0`.
+- The ACM certificate replaces the ingress `tls` entries, so these ingresses have none. Because the chart builds the dashboard's URLs from `tls` entries, set `dashboard.publicAPIURL` and `dashboard.auth.url` to their `https://` addresses explicitly.
+- Keep `path: /` with `pathType: Prefix` on the gRPC host so the ALB forwards every gRPC method.
+- Ingresses that share a `group.name` share one ALB. Use `scheme: internal` for a load balancer reachable only from your virtual private cloud (VPC).
+
+#### Traefik
+
+This example uses Traefik's Kubernetes Ingress provider with TLS certificates stored in Kubernetes Secrets:
+
+```yaml
+rest:
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    hosts:
+      - host: api.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: featureform-api-tls
+        hosts:
+          - api.example.com
+
+grpc:
+  service:
+    annotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: h2c
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    hosts:
+      - host: grpc.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: featureform-grpc-tls
+        hosts:
+          - grpc.example.com
+
+dashboard:
+  enabled: true
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    hosts:
+      - host: dashboard.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: featureform-dashboard-tls
+        hosts:
+          - dashboard.example.com
+```
+
+- The `h2c` annotation goes on the gRPC Service, not on the ingress. Without it, Traefik forwards HTTP/1.1 to the gRPC port and gRPC calls fail.
+- `router.tls: "true"` enables TLS on each router. The `tls` entries only select the certificate Secret.
+- Replace `traefik` with your IngressClass name and `websecure` with the name of your TLS entry point.
+- Because each ingress has `tls` entries, the chart builds `https://` dashboard and API URLs from the hosts. You don't need to set `dashboard.publicAPIURL` or `dashboard.auth.url`.
+
 ### Dashboard requirements
 
 Enabling the dashboard requires:
@@ -294,6 +443,8 @@ Enabling the dashboard requires:
 - `dashboard.publicAPIURL`, a REST ingress host, or unified `ingress.*` configuration.
 - A resolvable dashboard authentication URL.
 - An OIDC client secret and dashboard session secret. Use `dashboard.auth.existingSecret` for production.
+- The dashboard's OIDC client ID, `dashboard.auth.oidcClientID`. With paired sign-in, also list it in `auth.interactive.clientIDs`.
+- `dashboard.auth.oidcIssuerURL` left empty or set to the same value as `auth.oidcIssuerURL`.
 
 The dashboard Secret keys default to `FEATUREFORM_OIDC_CLIENT_SECRET` and `FEATUREFORM_DASHBOARD_AUTH_SECRET`.
 
@@ -327,9 +478,17 @@ Horizontal Pod Autoscaling requires the Kubernetes resource metrics API. Use `se
 
 By default, each server process starts two effective scheduler workers. To bound per-replica job concurrency, use `scheduler.workerCount` and `scheduler.workerMaxInflight`. Tune these values with server replica count and downstream provider capacity; increasing API replicas also increases the number of workers that can claim jobs.
 
+### Plan for identity provider availability
+
+A server pod doesn't accept requests until it reads the identity provider's discovery document. It retries temporary failures for up to `auth.discoveryTimeoutSeconds` (default `120`) and exits if it still can't read it. Configuration and certificate errors stop the pod immediately. The startup probe allows that time plus `server.startupAllowanceSeconds` (default `60`); increase the allowance if migrations or storage initialization take longer.
+
+Rolling updates start one new server pod before stopping an old one. Reserve cluster capacity for one additional server pod, including its resource requests. If the identity provider is unreachable during a rollout, the new pod doesn't become ready and the existing pods keep serving. Fix the identity provider configuration or connectivity, or roll back the release. Don't delete healthy pods while the identity provider is unavailable: a pod that restarts during an outage can't start until the identity provider recovers.
+
+After startup, an identity provider outage makes sign-in requests fail with HTTP `503` or gRPC `Unavailable`, but doesn't restart pods. Machine credentials keep working.
+
 ## Configure Kubernetes Secret access
 
-No token is needed to consume Secrets already referenced by pod environment variables or volumes. The chart doesn't mount a Kubernetes service-account token by default.
+No token is needed to consume Secrets already referenced by pod environment variables or volumes. The chart mounts the server's service-account token by default.
 
 If you register a Kubernetes secret provider for server-side secret resolution, enable the token mount and grant the Feature Form service account `get` access to the required Secret objects. For Secrets in the release namespace:
 
@@ -381,19 +540,31 @@ Keep the server, dashboard, chart, and `ff` versions aligned. Replacing an exter
 
 Helm rollback restores chart-managed resources, but it doesn't reverse PostgreSQL migrations or restore externally managed Secrets. Preserve the database backup, previous license key, image version, and Helm revision until the rollback window closes.
 
+### Upgrade from 3.2 to 3.3.0
+
+Feature Form 3.3.0 changes how authentication is configured. Update your values file before you upgrade:
+
+- Enable at least one authentication method: paired OIDC sign-in with `auth.interactive.enabled` and `auth.interactive.clientIDs`, resource-server authentication with `auth.resourceServer.*`, or both. The release doesn't install or start without one. See [Choose authentication methods](/content/operate/featureform/configure-auth.md#choose-authentication-methods).
+- Roles in identity provider token claims no longer grant access. If your admins got `global_admin` from a claim, list them in `auth.bootstrapGlobalAdmins` before you upgrade. See [Provision the first global admin](/content/operate/featureform/configure-auth.md#provision-the-first-global-admin).
+- Upgrade the `ff` CLI and Python client to 3.3.0 along with the server. Paired sign-in requires 3.3.0 clients.
+- After the upgrade, run `ff rbac whoami` from the CLI and check the dashboard. Some identity providers issue a different principal ID for each client, so confirm each one has the role bindings it needs.
+
 ## Troubleshoot installation
 
-- **Helm reports missing authentication values.** Set `auth.enabled=true`, `auth.oidcIssuerURL`, `auth.oidcClientID`, and a stable `auth.deploymentID`.
+- **Helm reports missing authentication values.** Set a stable `auth.deploymentID`, and enable paired OIDC sign-in with `auth.interactive.enabled`, `auth.interactive.clientIDs`, and `auth.oidcIssuerURL`, resource-server authentication with `auth.resourceServer.*` and `auth.oidcIssuerURL`, or machine credentials with `auth.machineAuthEnabled`.
 - **A pod shows `ImagePullBackOff`.** Confirm registry network access and configure `imagePullSecrets` when credentials are required.
 - **The migration init container fails.** Check PostgreSQL reachability, TLS settings, credentials, and the database role's schema permissions.
 - **The server reports a missing or invalid license.** Check the Secret name and `license.key` entry, then inspect `featureformctl license status` without printing the key.
-- **OIDC discovery or login fails.** Verify the internal and public issuer URLs, client IDs, redirect URIs, and endpoint reachability.
-- **The dashboard fails chart validation.** Supply its public API URL, authentication URL, OIDC client secret, and session secret.
+- **The server pod never becomes ready.** Check that the pod can reach `auth.oidcIssuerURL` and that the identity provider's certificate is trusted. See [Plan for identity provider availability](#plan-for-identity-provider-availability).
+- **OIDC discovery or login fails.** Verify the issuer URL, client IDs, redirect URIs, and endpoint reachability.
+- **The dashboard fails chart validation.** Supply its public API URL, authentication URL, OIDC client ID, OIDC client secret, and session secret. With paired sign-in, list its client ID in `auth.interactive.clientIDs`.
 - **Ingress values conflict.** Configure either unified `ingress.*` or service-specific ingress settings, not both.
 
 ## Next steps
 
 - [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}) — set up OIDC and grant roles.
+- [Configure Okta]({{< relref "/operate/featureform/configure-okta" >}}) — set up Okta for paired sign-in or resource-server authentication.
+- [Helm values reference]({{< relref "/operate/featureform/helm-values" >}}) — look up chart values, defaults, and validation rules.
 - [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}) — create your first workspace.
 - [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}) — connect production data infrastructure.
 - [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}) — verify the install end to end.

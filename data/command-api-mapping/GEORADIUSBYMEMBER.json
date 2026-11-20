@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "georadiusbymember(, name: KeyT,, member: FieldT,, radius: float,, unit: Optional[str] = None,, withdist: bool = False,, withcoord: bool = False,, withhash: bool = False,, count: Optional[int] = None,, sort: Optional[str] = None,, store: Union[KeyT, None] = None,, store_dist: Union[KeyT, None] = None,, any: bool = False,)",
+        "signature": "georadiusbymember(name: KeyT, member: FieldT, radius: float, unit: Optional[str] = None, withdist: bool = False, withcoord: bool = False, withhash: bool = False, count: Optional[int] = None, sort: Optional[str] = None, store: Union[KeyT, None] = None, store_dist: Union[KeyT, None] = None, any: bool = False)",
         "params": [
           {
             "name": "name",
@@ -533,7 +533,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GEORADIUSBYMEMBER(key: RedisArgument, from: RedisArgument, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
+        "signature": "geoRadiusByMember(key: RedisArgument, from: RedisArgument, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
         "params": [
           {
             "name": "key",
@@ -562,37 +562,72 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "georadiusbymember(...args: [, key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], callback: Callback<unknown>, ])",
+        "signature": "georadiusbymember(...args: [ key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], callback: Callback<unknown> ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number | string",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "georadiusbymember(...args: [, key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], ])",
+        "signature": "georadiusbymember(...args: [ key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[] ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number | string",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -680,22 +715,22 @@
           },
           {
             "name": "$member",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$radius",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$unit",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

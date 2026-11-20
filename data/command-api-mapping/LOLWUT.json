@@ -82,23 +82,48 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "lolwut(...$args)",
+        "signature": "lolwut(callback?: Callback<string>)",
         "params": [
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "callback?",
+            "type": "Callback<string>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lolwut(versionToken: \"VERSION\", version: number | string, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "versionToken",
+            "type": "\"VERSION\"",
+            "description": ""
+          },
+          {
+            "name": "version",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

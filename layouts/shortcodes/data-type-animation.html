@@ -1,0 +1,37 @@
+{{- /*
+  data-type-animation
+  -------------------
+  A short looping animation for a data type page, placed just before the
+  page's examples. It types a few commands, shows each reply, and draws what
+  the command does to the data. Runs entirely in the browser on recorded
+  replies; no Redis server is called.
+
+  Usage:
+      {{< data-type-animation type="list" >}}
+
+  type is one of: string, hash, list, set, sorted-set, stream, geospatial,
+  bitmap, bitfield, json, timeseries, vector-set, array, bloom, cuckoo,
+  hyperloglog, count-min-sketch, t-digest, top-k.
+
+  The assets are emitted on every call rather than deduplicated with
+  .Page.Store: the store survives `hugo server` rebuilds, so a page that
+  isn't edited would lose its assets after the first rebuild. The scripts
+  guard against running twice.
+*/ -}}
+{{- $types := slice "string" "hash" "list" "set" "sorted-set" "stream" "geospatial" "bitmap" "bitfield" "json" "timeseries" "vector-set" "array" "bloom" "cuckoo" "hyperloglog" "count-min-sketch" "t-digest" "top-k" -}}
+{{- $type := .Get "type" -}}
+{{- if not (in $types $type) -}}
+  {{- errorf "data-type-animation: unknown type %q at %s" $type .Position -}}
+{{- end -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/data-type-animation.css" "js/demo-highlight.js" "js/data-type-animation.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/data-type-animation.css" | relURL }}?v={{ index $v "css/data-type-animation.css" }}">
+<script defer src="{{ "js/demo-highlight.js" | relURL }}?v={{ index $v "js/demo-highlight.js" }}"></script>
+<script defer src="{{ "js/data-type-animation.js" | relURL }}?v={{ index $v "js/data-type-animation.js" }}"></script>
+
+<noscript><style>.dta { display: none; }</style></noscript>
+<div class="dta" data-dta="{{ $type }}"></div>

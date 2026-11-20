@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "bitfield(self: Union[\"redis.client.Redis\", \"redis.asyncio.client.Redis\"],, key: KeyT,, default_overflow: Optional[str] = None,)",
+        "signature": "bitfield(key: KeyT, default_overflow: Optional[str] = None)",
         "params": [
           {
             "name": "key",
@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BITFIELD(key: RedisArgument, operations: BitFieldOperations)",
+        "signature": "bitField(key: RedisArgument, operations: BitFieldOperations)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }
@@ -202,7 +202,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -241,7 +241,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -280,7 +280,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -329,7 +329,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -378,7 +378,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -394,12 +394,12 @@
           },
           {
             "name": "$subcommand",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "$subcommandArg",
-            "type": "...",
+            "name": "...$subcommandArg",
+            "type": "",
             "description": ""
           }
         ],

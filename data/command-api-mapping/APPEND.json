@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "APPEND(key: RedisArgument, value: RedisArgument)",
+        "signature": "append(key: RedisArgument, value: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -192,7 +192,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -263,35 +263,11 @@
           "type": "long",
           "description": "The length of the string after the append operation."
         }
-      },
-      {
-        "signature": "StringAppend(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to append to the string."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the string after the append operation."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StringAppend(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringAppendAsync(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -310,31 +286,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The length of the string after the append operation."
-        }
-      },
-      {
-        "signature": "StringAppend(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to append to the string."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the string after the append operation."
         }
       }
@@ -350,7 +302,7 @@
           },
           {
             "name": "$value",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

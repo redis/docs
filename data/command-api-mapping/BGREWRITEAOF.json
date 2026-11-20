@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BGREWRITEAOF()",
+        "signature": "bgRewriteAof()",
         "params": [],
         "returns": {
           "type": "SimpleStringReply",
@@ -135,6 +135,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "bgrewriteaof(callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bgrewriteaof()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
+    ]
   }
 }

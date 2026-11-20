@@ -22,13 +22,13 @@ curl -sS http://localhost:9000/health/readiness
 curl -sS http://localhost:9300/health/readiness
 ```
 
-The worker has no Service. Check it with `kubectl -n <namespace-name> get pods -l app.kubernetes.io/instance=lens`. With `tests.enabled=true`, `helm test lens -n <namespace-name>` runs the readiness checks.
+The worker has no Service. Check it with `kubectl -n <namespace-name> rollout status deployment/redis-lens-worker`. `helm test iris --namespace <namespace-name>` checks the Lens instance with the admin token and reads with a scoped key.
 
 ## Watch the records database
 
 Nothing trims the span streams yet, and the `streams` role must use `noeviction`. While ingest is on, the records database grows without bound. Watch its memory, and add memory before it fills. When it fills, writes fail rather than evicting data.
 
-To stop growth, set `ingest.enabled=false` and run `helm upgrade`. Agents then get `503` and retry, and reads keep working.
+To stop growth, set `lens.ingest.enabled: false` in `iris-values.yaml` and [upgrade the release](/content/operate/iris/lens/self-managed/deploy.md#3-install-or-upgrade-the-release). Agents then get `503` and retry, and reads keep working.
 
 ## Change retention
 
@@ -41,7 +41,7 @@ curl -sS http://localhost:9300/iris/v1beta1/lens/instance \
 
 Retention lives in two places, so change both together:
 
-1. Set the new windows in `instance.retention` in `lens-values.yaml`, and run `helm upgrade`. The data plane stamps content expiry from `contentTTL` as rendered here.
+1. Set the new windows in `lens.instance.retention` in `iris-values.yaml`, and upgrade the release. The data plane stamps content expiry from `contentTTL` as rendered here.
 1. Send the same windows, in seconds, to the control plane. A supplied `retention` replaces the stored one, so include all three fields:
 
     ```bash
@@ -51,59 +51,25 @@ Retention lives in two places, so change both together:
       -d '{"retention":{"streamTrimSeconds":86400,"contentTtlSeconds":259200,"indexRetentionSeconds":1209600}}'
     ```
 
-The windows must satisfy `streamTrimSeconds` < `contentTtlSeconds` ≤ `indexRetentionSeconds`. The control plane records `instance.retention` only when it creates the instance, so `helm upgrade` never changes what the instance record reports.
+The windows must satisfy `streamTrimSeconds` < `contentTtlSeconds` ≤ `indexRetentionSeconds`. The control plane records `instance.retention` only when it creates the instance, so an upgrade never changes what the instance record reports.
 
 ## Connect the console
 
-The Iris console reads Lens through its gateway, which forwards to the data-plane Service root. Add a `lens` entry to the console gateway's `products`, with `instanceId` set to your `instance.id`:
-
-```yaml
-products:
-  - key: lens
-    label: Lens
-    product: lens
-    authScheme: bearer
-    healthPath: /health/readiness
-    instanceId: default
-    upstream:
-      host: lens-redis-lens-dataplane.<namespace-name>.svc.cluster.local
-      port: 9000
-      basePath: ""
-      scheme: http
-```
-
-<!-- TODO: link the self-managed Iris console guide when it exists. -->
-
-Without sign-in, the console asks each reader for a read key. With [operator sign-in](/content/operate/iris/lens/self-managed/authentication.md#operator-sign-in), it uses the operator's IdP token.
+The suite adds the console's Lens route for the instance `default`, so there's nothing to configure. Without sign-in, the console asks each reader for a read key. With [operator sign-in](/content/operate/iris/lens/self-managed/authentication.md#operator-sign-in), it uses the operator's IdP token.
 
 ## Update Secrets
 
-When you change a Secret's content, update its `existingSecretChecksum` in the values and run `helm upgrade`, so the pods roll and read it. This applies to the storage, license, CA bundle, and token Secrets. For the tokens both releases share, see [Rotate credentials](/content/operate/iris/lens/self-managed/authentication.md#rotate-credentials).
+When you change the storage Secret, update `lens.storage.existingSecretChecksum` and upgrade the release, so the pods roll and read it. To rotate a suite credential, see [Rotate credentials](/content/operate/iris/lens/self-managed/authentication.md#rotate-credentials).
 
 ## Back up the deployment
 
 Back up the metadata Redis, which holds the instance record, and the records and content databases, which hold your agents' turns. Back up the Identity Service's metadata too, so API keys survive a restore. Keep the Secrets and values files in your secret store and source control.
 
-## Upgrade the chart
+## Upgrade, remove, or uninstall
 
-```bash
-helm repo update redis-ai
-helm upgrade lens redis-ai/redis-lens \
-  --version <chart-version> \
-  --namespace <namespace-name> \
-  -f lens-values.yaml \
-  --wait --timeout 5m
-```
+Lens upgrades with the suite release. The admin token and instance survive upgrades. Check readiness afterward. See [Upgrade](/content/operate/iris/self-managed/operations.md#upgrade).
 
-The admin token and instance survive upgrades. Check readiness afterward. If you turned on operator sign-in, the upgrade notes repeat the audience that IdP tokens must carry.
-
-## Uninstall the chart
-
-```bash
-helm uninstall lens --namespace <namespace-name>
-```
-
-Uninstalling doesn't delete the Redis databases, the Secrets you created, or the Identity Service release. The chart keeps the generated admin token Secret, so delete it yourself if you don't plan to reinstall. Revoke the Lens API keys on the Identity Service.
+To remove Lens and its data, see [Remove a service permanently](/content/operate/iris/self-managed/operations.md#remove-a-service-permanently). Revoke the Lens API keys on the Identity Service first.
 
 ## Troubleshooting
 
@@ -115,9 +81,9 @@ Uninstalling doesn't delete the Redis databases, the Secrets you created, or the
 | A pod doesn't start, or readiness stays false | The license is missing, invalid, or in its grace period. Check the license Secret. |
 | Pods report `ImagePullBackOff` | The image tag doesn't exist or the cluster can't reach the registry. Check the tags and `imagePullSecrets`. |
 | Agents get `503` on ingest | `ingest.enabled` is `false`. |
-| API keys fail with `401`, operator tokens work | The data plane can't reach the Identity Service, or its runtime credential doesn't match. Check `dataplane.identityServiceBaseURL`, the shared Secret, and the data-plane logs. |
-| Creating a key fails grant validation | The Identity Service can't reach the control plane, or the internal token doesn't match. Check `productValidation.products.lens.baseURL` and the shared Secret. |
+| API keys fail with `401`, operator tokens work | The data plane can't reach the Identity Service, or its runtime credential doesn't match. Check the `iris-lens-dataplane-credential` Secret and the data-plane logs. |
+| Creating a key fails grant validation | The Identity Service can't reach the control plane, or the internal token doesn't match. Check the `iris-lens-internal-token` Secret and the Identity Service logs. |
 | An ingest key gets `403` on reads | Expected. Reads need a `read` or `full` key. |
-| Operator tokens fail, API keys work | The data plane can't reach `jwksURI`, or the token's `iss` or `aud` doesn't match `issuer` or `auth.oidc.audience` (`401`). An unmapped role or another tenant gets `403`. |
+| Operator tokens fail, API keys work | The data plane can't reach `jwksURI`, or the token's `iss` or `aud` doesn't match `global.iris.auth.oidc` (`401`). An unmapped role or another tenant gets `403`. |
 | Operator tokens fail right after the IdP rotated its signing keys | The data plane refreshes keys at most once every 30 seconds. Wait and retry. |
 | An operator token gets `403` on ingest | Expected. Ingest always needs an API key. |

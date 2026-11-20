@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "incrby(, key: KeyT,, value: Number,, timestamp: Optional[Union[int, str]] = None,, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+        "signature": "incrby(key: KeyT, value: Number, timestamp: Optional[Union[int, str]] = None, retention_msecs: Optional[int] = None, uncompressed: Optional[bool] = False, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None)",
         "params": [
           {
             "name": "key",
@@ -158,16 +158,26 @@
     ],
     "node_redis": [
       {
-        "signature": "INCRBY(...args: Parameters<typeof parseIncrByArguments>)",
+        "signature": "client.ts.incrBy(key: RedisArgument, value: number, options?: TsIncrByOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof parseIncrByArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "TsIncrByOptions",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -317,8 +327,8 @@
             "description": ""
           },
           {
-            "name": "?IncrByArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?IncrByArguments",
             "description": ""
           }
         ],

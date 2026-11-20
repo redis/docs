@@ -1,21 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "memory_doctor(**kwargs)",
-        "params": [
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "str",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "String memoryDoctor()",
@@ -72,28 +57,29 @@
         }
       }
     ],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "memory(string $subcommand, ...$args)",
+        "signature": "memory(subcommand: \"DOCTOR\", callback?: Callback<string>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"DOCTOR\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "callback?",
+            "type": "Callback<string>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<string, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

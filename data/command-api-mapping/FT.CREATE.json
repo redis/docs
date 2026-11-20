@@ -239,7 +239,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CREATE(index: RedisArgument, schema: Array<SchemaField>, options?: FTCreateOptions)",
+        "signature": "client.ft.create(index: RedisArgument, schema: Array<SchemaField>, options?: FTCreateOptions)",
         "params": [
           {
             "name": "index",
@@ -258,7 +258,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }

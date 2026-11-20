@@ -160,6 +160,9 @@ The sections below explore the pros and cons of each data type for
 particular tasks. Note that you should regard
 the suggestions as "rules-of-thumb" rather than strict prescriptions, since
 there are potentially many subtle reasons to prefer one data type over another.
+Memory use is one of these reasons. To compare how much memory one of your
+records needs as a string, a hash, or a JSON document, use the calculator in
+[Compare memory use](#compare-memory-use).
 
 ### Documents
 
@@ -251,6 +254,12 @@ questions:
                     label: "Use strings"
                     id: stringOutcome
 ```
+
+#### Compare memory use
+
+How much memory each type needs depends on your data. To compare the types for one of your own records, use the calculator.
+
+{{< sizing-calculator >}}
 
 ### Collections
 

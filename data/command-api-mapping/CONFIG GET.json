@@ -247,6 +247,67 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "config(...args: [ subcommand: \"GET\", ...parameters: (string | Buffer)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "...parameters",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "config(...args: [subcommand: \"GET\", ...parameters: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "...parameters",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "config(:get, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Hash",
+          "description": "string reply, or hash when retrieving more than one property with `CONFIG GET`"
+        }
+      }
+    ]
   }
 }

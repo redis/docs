@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "vsim(, key: KeyT,, input: Union[List[float], bytes, str],, with_scores: Optional[bool] = False,, with_attribs: Optional[bool] = False,, count: Optional[int] = None,, ef: Optional[Number] = None,, filter: Optional[str] = None,, filter_ef: Optional[str] = None,, truth: Optional[bool] = False,, no_thread: Optional[bool] = False,, epsilon: Optional[Number] = None,)",
+        "signature": "vsim(key: KeyT, input: Union[List[float], bytes, str], with_scores: Optional[bool] = False, with_attribs: Optional[bool] = False, count: Optional[int] = None, ef: Optional[Number] = None, filter: Optional[str] = None, filter_ef: Optional[str] = None, truth: Optional[bool] = False, no_thread: Optional[bool] = False, epsilon: Optional[Number] = None)",
         "params": [
           {
             "name": "key",
@@ -552,7 +552,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VSIM(key: RedisArgument, query: RedisArgument | Array<number>, options?: VSimOptions)",
+        "signature": "vSim(key: RedisArgument, query: RedisArgument | Array<number>, options?: VSimOptions)",
         "params": [
           {
             "name": "key",
@@ -571,7 +571,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }
@@ -733,53 +733,98 @@
             "description": ""
           },
           {
-            "name": "bool $isElem = false",
-            "type": "Any",
+            "name": "$isElem",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $withScores = false",
-            "type": "Any",
+            "name": "$withScores",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "float $epsilon = null",
-            "type": "Any",
+            "name": "$epsilon",
+            "type": "float",
             "description": ""
           },
           {
-            "name": "int $ef = null",
-            "type": "Any",
+            "name": "$ef",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "string $filter = null",
-            "type": "Any",
+            "name": "$filter",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $filterEf = null",
-            "type": "Any",
+            "name": "$filterEf",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $truth = false",
-            "type": "Any",
+            "name": "$truth",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $noThread = false",
-            "type": "Any",
+            "name": "$noThread",
+            "type": "bool",
             "description": ""
           }
         ],
         "returns": {
           "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "vsim(...args: [key: RedisKey, ...args: (RedisValue)[], callback: Callback<(string | null)[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(RedisValue)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vsim(...args: [key: RedisKey, ...args: (RedisValue)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(RedisValue)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       }

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "range(, key: KeyT,, from_time: Union[int, str],, to_time: Union[int, str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)",
+        "signature": "range(key: KeyT, from_time: Union[int, str], to_time: Union[int, str], count: Optional[int] = None, aggregation_type: Optional[str] = None, bucket_size_msec: Optional[int] = 0, filter_by_ts: Optional[List[int]] = None, filter_by_min_value: Optional[int] = None, filter_by_max_value: Optional[int] = None, align: Optional[Union[int, str]] = None, latest: Optional[bool] = False, bucket_timestamp: Optional[str] = None, empty: Optional[bool] = False)",
         "params": [
           {
             "name": "key",
@@ -188,11 +188,26 @@
     ],
     "node_redis": [
       {
-        "signature": "RANGE(...args: Parameters<typeof transformRangeArguments>)",
+        "signature": "client.ts.range(key: RedisArgument, fromTimestamp: Timestamp, toTimestamp: Timestamp, options?: TsRangeOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof transformRangeArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "fromTimestamp",
+            "type": "Timestamp",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "Timestamp",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "TsRangeOptions",
             "description": ""
           }
         ],
@@ -355,17 +370,17 @@
           },
           {
             "name": "$fromTimestamp",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$toTimestamp",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "?RangeArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?RangeArguments",
             "description": ""
           }
         ],

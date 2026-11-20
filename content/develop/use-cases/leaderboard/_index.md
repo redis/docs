@@ -40,6 +40,8 @@ You can:
 
 In practice, the leaderboard is stored as a Redis sorted set — one key per board — with members keyed by entity ID and scored by the value you want to rank on. A companion hash per entity holds metadata (name, avatar, tier) so the sorted set stays lightweight.
 
+{{< use-case-animation name="leaderboard" >}}
+
 Redis provides the following features that make it a good fit for leaderboards:
 
 -   [Sorted sets](/content/develop/data-types/sorted-sets.md) maintain rank order automatically, with
@@ -64,13 +66,15 @@ Redis provides the following features that make it a good fit for leaderboards:
 The following libraries and frameworks provide Redis sorted set integrations suitable for leaderboards:
 
 -   **Java**:
-    [Spring Data Redis (`ZSetOperations`)](https://docs.spring.io/spring-data/redis/reference/redis/template.html)
+    [Spring Data Redis (`ZSetOperations`)](/content/integrate/spring-framework-cache/data-structures.md)
 -   **Python**: [redis-py](https://redis.readthedocs.io/),
     [redis-om-python](https://github.com/redis/redis-om-python)
 -   **Node.js**: [ioredis](https://github.com/redis/ioredis),
     [node-redis](https://github.com/redis/node-redis)
 -   **Infrastructure**: [Redis Cloud](/content/operate/rc/_index.md)
     (Active-Active for multi-region with conflict-free replicated sorted sets)
+-   **Java**: [Redisson](https://redisson.pro/docs/data-and-services/collections/#scoredsortedset)
+    (`RScoredSortedSet`).
 
 ## Code examples to build your own Redis leaderboard
 

@@ -141,7 +141,43 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "select(index: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "index",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "select(db)",
+        "params": [
+          {
+            "name": "db",
+            "type": "Integer",
+            "description": "zero-based index of the DB to use (0 to 15)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
+    ]
   }
 }
-

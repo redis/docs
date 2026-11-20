@@ -164,28 +164,69 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "client(...args: [ subcommand: \"TRACKING\", ...args: RedisValue[], callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"TRACKING\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client(...args: [subcommand: \"TRACKING\", ...args: RedisValue[]])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"TRACKING\"",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rb": [
+      {
+        "signature": "client(:tracking, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Hash",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }

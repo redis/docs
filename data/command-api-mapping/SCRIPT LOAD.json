@@ -64,7 +64,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<BlobStringReply>",
+          "type": "BlobStringReply",
           "description": "SHA1 digest of the script"
         }
       }
@@ -159,7 +159,32 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "script(subcommand: \"LOAD\", script: string | Buffer, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOAD\"",
+            "description": ""
+          },
+          {
+            "name": "script",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [
       {
         "signature": "load_script(script: &'a crate::Script)",
@@ -291,6 +316,22 @@
         "returns": {
           "type": "mixed",
           "description": "Command result"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "script(:load, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Boolean, Array<Boolean>, ...",
+          "description": "depends on subcommand"
         }
       }
     ]

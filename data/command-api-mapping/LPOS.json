@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "lpos(, name: KeyT,, value: str,, rank: Optional[int] = None,, count: Optional[int] = None,, maxlen: Optional[int] = None,)",
+        "signature": "lpos(name: KeyT, value: str, rank: Optional[int] = None, count: Optional[int] = None, maxlen: Optional[int] = None)",
         "params": [
           {
             "name": "name",
@@ -494,7 +494,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number | null, Context>",
           "description": ""
         }
       },
@@ -528,7 +528,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number | null, Context>",
           "description": ""
         }
       },
@@ -562,7 +562,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number[], Context>",
           "description": ""
         }
       },
@@ -606,7 +606,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number[], Context>",
           "description": ""
         }
       },
@@ -640,7 +640,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number | null, Context>",
           "description": ""
         }
       }
@@ -770,84 +770,11 @@
           "type": "long[]",
           "description": ""
         }
-      },
-      {
-        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "element",
-            "type": "RedisValue",
-            "description": "The element to search for."
-          },
-          {
-            "name": "rank",
-            "type": "long",
-            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
-          },
-          {
-            "name": "maxLength",
-            "type": "long",
-            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The 0-based index of the first matching element, or -1 if not found."
-        }
-      },
-      {
-        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "element",
-            "type": "RedisValue",
-            "description": "The element to search for."
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "of indexes of matching elements. If none are found, and empty array is returned.</returns> <remarks></remarks>"
-          },
-          {
-            "name": "rank",
-            "type": "long",
-            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
-          },
-          {
-            "name": "maxLength",
-            "type": "long",
-            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long[]",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListPositionAsync(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -876,12 +803,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The 0-based index of the first matching element, or -1 if not found."
         }
       },
       {
-        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListPositionsAsync(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -915,80 +842,7 @@
           }
         ],
         "returns": {
-          "type": "long[]",
-          "description": ""
-        }
-      },
-      {
-        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "element",
-            "type": "RedisValue",
-            "description": "The element to search for."
-          },
-          {
-            "name": "rank",
-            "type": "long",
-            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
-          },
-          {
-            "name": "maxLength",
-            "type": "long",
-            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The 0-based index of the first matching element, or -1 if not found."
-        }
-      },
-      {
-        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "element",
-            "type": "RedisValue",
-            "description": "The element to search for."
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "of indexes of matching elements. If none are found, and empty array is returned.</returns> <remarks></remarks>"
-          },
-          {
-            "name": "rank",
-            "type": "long",
-            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
-          },
-          {
-            "name": "maxLength",
-            "type": "long",
-            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long[]",
+          "type": "Task<long[]>",
           "description": ""
         }
       }

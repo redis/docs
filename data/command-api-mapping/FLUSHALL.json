@@ -63,7 +63,7 @@
     ],
     "node_redis": [
       {
-        "signature": "FLUSHALL(mode?: RedisFlushMode)",
+        "signature": "flushAll(mode?: RedisFlushMode)",
         "params": [
           {
             "name": "mode",
@@ -260,6 +260,76 @@
         "returns": {
           "type": "()",
           "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "flushall(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushall(async: \"ASYNC\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "async",
+            "type": "\"ASYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushall(sync: \"SYNC\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "sync",
+            "type": "\"SYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "flushall(options = nil)",
+        "params": [
+          {
+            "name": "options",
+            "type": "Hash",
+            "description": "- `:async => Boolean`: async flush (default: false)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
         }
       }
     ]

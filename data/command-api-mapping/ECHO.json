@@ -60,13 +60,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, message: RedisArgument)",
+        "signature": "echo(message: RedisArgument)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The command parser"
-          },
           {
             "name": "message",
             "type": "RedisArgument",
@@ -186,7 +181,43 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "echo(message: string | Buffer, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "message",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "echo(value)",
+        "params": [
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ]
   }
 }
-

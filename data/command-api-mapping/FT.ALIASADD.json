@@ -128,7 +128,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ALIASADD(alias: RedisArgument, index: RedisArgument)",
+        "signature": "client.ft.aliasAdd(alias: RedisArgument, index: RedisArgument)",
         "params": [
           {
             "name": "alias",
@@ -142,7 +142,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }

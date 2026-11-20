@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Limits and errors
 title: Service limits and errors
 weight: 90
+aliases:
+- /develop/ai/context-engine/agent-playbook/limits/
 ---
 
 Check these limits when preparing content or handling request failures. Confirm deployment overrides with your administrator.

@@ -122,7 +122,70 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "pubsub(subcommand: \"NUMSUB\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"NUMSUB\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "pubsub(...args: [ subcommand: \"NUMSUB\", ...channels: (string | Buffer)[], callback: Callback<unknown[]> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"NUMSUB\"",
+            "description": ""
+          },
+          {
+            "name": "...channels",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "pubsub(...args: [subcommand: \"NUMSUB\", ...channels: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"NUMSUB\"",
+            "description": ""
+          },
+          {
+            "name": "...channels",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
@@ -186,6 +249,22 @@
         "returns": {
           "type": "mixed",
           "description": "Map of channel names to subscriber counts"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pubsub(:numsub, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "the channel names"
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "each channel name followed by its number of subscribers"
         }
       }
     ]

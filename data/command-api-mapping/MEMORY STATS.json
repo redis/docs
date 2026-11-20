@@ -114,28 +114,29 @@
         }
       }
     ],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "memory(string $subcommand, ...$args)",
+        "signature": "memory(subcommand: \"STATS\", callback?: Callback<unknown[]>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"STATS\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "array",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

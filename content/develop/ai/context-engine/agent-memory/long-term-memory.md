@@ -109,7 +109,7 @@ Use exactly one typed clause per attribute: `string`, `number`, `boolean`, or `l
 
 Redis Agent Memory provides two ways to change a memory you manage:
 
-* **Partial update:** [`PATCH /memories/{memoryId}`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/UpdateLongTermMemory) changes only the fields you send: `text`, `memoryType`, `topics`, `namespaceId`, `ownerId`, or `sessionId`. It does not change `attributes`. An update that changes only `namespaceId` keeps the memory's current expiration; any other update restarts the long-term-memory TTL.
+* **Partial update:** [`PATCH /memories/{memoryId}`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/UpdateLongTermMemory) accepts `text`, `memoryType`, `topics`, `namespaceId`, `ownerId`, or `sessionId`. You cannot supply `attributes` in a PATCH request. Content updates apply the store's current detectors to the resulting record, which can also redact existing text, topics, or attributes. An update that changes only `namespaceId` skips these checks and keeps the memory's current expiration; any other update restarts the long-term-memory TTL.
 * **Replace or create:** [`PUT /memories/{memoryId}`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/UpsertLongTermMemory) creates the memory if it does not exist, or replaces it completely. It requires `text` and `ownerId`. Omitted optional fields, including `attributes`, are cleared, and `memoryType` defaults to `semantic`. Replacement keeps `createdAt` and restarts the TTL. The response's `created` field reports whether the memory was new.
 
 To change a custom memory's `attributes`, replace the record with `PUT`.
@@ -223,9 +223,21 @@ If your application already has structured trip data, write it directly using th
 
 {{< clients-example set="iris_agent_memory_long_term_memory_custom_types" step="custom-memory-direct" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-Inspect the response's `errors` array for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Creating a record whose `memoryId` already exists fails for that record and leaves the stored memory unchanged; use [`PUT`](#update-a-memory) to replace it. Access checks and protection for document-managed records still apply.
+Inspect the response's `errors` array for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation applies [built-in and custom detectors](#direct-write-exclusions) without waiting for background extraction. It does not apply extraction prompts or semantic exclusions. Creating a record whose `memoryId` already exists fails for that record and leaves the stored memory unchanged; use [`PUT`](#update-a-memory) to replace it. Access checks and protection for document-managed records still apply.
 
 See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
+
+## Direct-write exclusions
+
+Enabled built-in and custom detectors check direct creates, replacements, and content updates before embedding or saving. Extraction prompts and semantic exclusions apply only during automatic extraction.
+
+A detector can redact matched content or reject the affected memory. Bulk creates without an input webhook report rejected records in the response's `errors` array and keep accepted records. With an input webhook, a detector rejection during admission can stop the whole request with HTTP `422`; see [webhook failures](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#handle-failures-and-inspect-status). An update rejected by a detector returns HTTP `400` and leaves the stored record unchanged. An attribute-only field update is also rejected if redaction removes every value from its patch.
+
+Each API write request shares a one-second screening budget across records, fields, and detectors. If screening exceeds the budget, the request returns HTTP `400` before any memory content from that request is saved. Reduce the batch size, attribute nesting, or pattern complexity before retrying. Cancellation is checked between detector calls, so a running scan can finish after the deadline.
+
+When detectors are active, API screening also limits attributes to 32 value levels below each attributes root and 100,000 value nodes across the request. Each root, object, array, and scalar counts as one node. Screening checks each record's structure before copying its attributes. Exceeding either limit returns HTTP `400` without saving memory content. Content updates also check the stored attributes, so updating a memory with deeper attributes requires replacing them with a shallower structure. Updates that only move a memory between namespaces skip screening. These limits also apply to API writes of extracted memories; legacy extraction matching is unchanged.
+
+API writes also return HTTP `400` if an enabled custom pattern expands to more than 1,024 compiled RE2 instructions, even for short input. Repeated groups can make a short pattern exceed this limit. Simplify or disable the pattern before retrying. You can still save these patterns in the store configuration, but API writes, including writes of extracted memories, fail while an oversized pattern is enabled.
 
 ## Test semantic exclusions
 
@@ -249,6 +261,6 @@ Search for the safe hotel information. The examples search every 10 seconds unti
 > **What to expect:** A memory similar to `User booked Hotel Sakura in Tokyo` without the fictional confirmation code `DEMO-7QX9`. If the code appears, refine the exclusion prompt and test again.
 
 > [!WARNING]
-> Semantic exclusions are advisory and do not guarantee that sensitive information is excluded. Session content still reaches the extraction model provider. Do not use real sensitive data in this exercise. Exclusions do not apply to directly created long-term memories.
+> Semantic exclusions are advisory and do not guarantee that sensitive information is excluded. Session content still reaches the extraction model provider. Do not use real sensitive data in this exercise. Direct writes apply built-in and custom detectors, but do not run the semantic exclusion prompt.
 
 See [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) for configuration details.

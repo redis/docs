@@ -128,7 +128,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TAGVALS(index: RedisArgument, fieldName: RedisArgument)",
+        "signature": "client.ft.tagVals(index: RedisArgument, fieldName: RedisArgument)",
         "params": [
           {
             "name": "index",
@@ -142,7 +142,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<Array<string>>",
+          "type": "Array<string>",
           "description": "The distinct tags indexed in the field"
         }
       }

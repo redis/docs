@@ -103,7 +103,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ALIASDEL(alias: RedisArgument)",
+        "signature": "client.ft.aliasDel(alias: RedisArgument)",
         "params": [
           {
             "name": "alias",
@@ -112,7 +112,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }

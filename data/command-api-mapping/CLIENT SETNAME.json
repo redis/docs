@@ -126,21 +126,16 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "setName(string $connectionName)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "$connectionName",
             "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Status",
           "description": ""
         }
       }
@@ -174,6 +169,48 @@
         "returns": {
           "type": "(())",
           "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "client(subcommand: \"SETNAME\", connectionName: string | Buffer, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETNAME\"",
+            "description": ""
+          },
+          {
+            "name": "connectionName",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "client(:setname, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Hash",
+          "description": "depends on subcommand"
         }
       }
     ]

@@ -97,7 +97,7 @@ Agent frameworks usually have two extension points: one before the model runs an
 
 The hooks do not load the conversation history; the framework keeps it. Pass `shared=[...]` with shared namespace names to recall from those namespaces too. Pass `fail_open=True` to continue without memory when the store is temporarily unavailable.
 
-For LangGraph, `redis_iris.integrations.langgraph.attach(memory, graph)` adds the hooks to a `StateGraph` before you compile it. It takes the owner and session from the run's `configurable.user_id` and `configurable.thread_id`, and requires `redis-iris[langgraph]`. For Google Agent Development Kit (ADK), `redis_iris.integrations.adk.attach(memory, agent)` adds them to an `LlmAgent`'s model callbacks.
+For LangGraph, `redis_iris.integrations.langgraph.attach(memory, graph)` adds the hooks to a `StateGraph` before you compile it. It takes the owner and session from the run's `configurable.user_id` and `configurable.thread_id`, and requires `redis-iris[langgraph]`. To store LangGraph checkpoints and memories in your own Redis database instead, see [Redis with LangGraph](/content/integrate/langgraph/_index.md). For Google Agent Development Kit (ADK), `redis_iris.integrations.adk.attach(memory, agent)` adds them to an `LlmAgent`'s model callbacks.
 
 ## Handle long-term recall
 
@@ -143,7 +143,7 @@ The ingestion-hook `503` retry error and `422` stopped error also have distinct 
 
 ## Create long-term memories
 
-Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID. Creating an eligible record with the same ID again replaces it; access checks and protection for document-managed records still apply. Check the bulk response for per-record errors. Direct creation does not apply automatic extraction or sensitive-data exclusions.
+Create memories directly when your application already has information to store, such as a preference submitted through a form. Set the owner and a stable record ID. Bulk creation rejects an existing ID; use `PUT` to replace the record. Access checks and protection for document-managed records still apply. Check the bulk response for per-record errors. Direct creation applies enabled built-in and custom detectors. It does not run extraction prompts or semantic exclusions.
 
 {{< clients-example set="iris_agent_memory_developer_guide" step="agent-memory-remember" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
@@ -171,9 +171,9 @@ For example, create a personal `travel` namespace and save its `namespaceId`. Us
 
 See [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}) for hierarchy, placement, search filters, and management.
 
-## Exclude sensitive data from automatic extraction
+## Exclude sensitive data {#exclude-sensitive-data-from-automatic-extraction}
 
-Sensitive-data exclusions keep specified information out of long-term memory during automatic extraction. A store's exclusions policy combines three mechanisms that you enable independently:
+Sensitive-data exclusions keep specified information out of long-term memory. Built-in and custom detectors apply during automatic extraction and direct writes. Semantic exclusions apply only during automatic extraction. A store's exclusions policy combines three mechanisms that you enable independently:
 
 * **Built-in detectors:** Validated patterns for common identifiers, such as payment card numbers, email addresses, phone numbers, Internet Protocol (IP) addresses, and US Social Security numbers. Select the ones a store should apply.
 * **Custom detectors:** Regular expressions you write yourself, for identifiers specific to your domain such as tenant IDs or internal reference numbers.
@@ -181,7 +181,7 @@ Sensitive-data exclusions keep specified information out of long-term memory dur
 
 Every detector chooses what happens to a memory it matches: redact the matched text and keep the rest, or drop the memory. When a memory matches several detectors that choose different actions, the memory is dropped.
 
-Exclusions apply to automatic extraction from session events. They do not apply when an application creates long-term memories directly, and session memory itself is never altered.
+Direct creates and content updates use the store's current detector settings. Moving a memory to another namespace without changing its content does not run detectors. Session memory is unchanged. See [direct-write exclusions](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#direct-write-exclusions) for rejection responses and screening limits.
 
 > [!WARNING]
 > Detector matches are deterministic, but semantic exclusions are advisory and do not guarantee exclusion. Sensitive session content still reaches the extraction model provider. Use appropriate controls before sending sensitive information to Redis Agent Memory or the model provider.

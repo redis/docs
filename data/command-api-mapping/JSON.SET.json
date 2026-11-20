@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "set(, name: str,, path: str,, obj: JsonType,, nx: Optional[bool] = False,, xx: Optional[bool] = False,, decode_keys: Optional[bool] = False,)",
+        "signature": "set(name: str, path: str, obj: JsonType, nx: Optional[bool] = False, xx: Optional[bool] = False, decode_keys: Optional[bool] = False, fpha: Optional[Union[FPHAType, str]] = None)",
         "params": [
           {
             "name": "name",
@@ -33,10 +33,15 @@
             "name": "decode_keys",
             "type": "Optional[bool] = False",
             "description": ""
+          },
+          {
+            "name": "fpha",
+            "type": "Optional[Union[FPHAType, str]] = None",
+            "description": "Force Redis to store all floating-point homogeneous arrays in obj as this type: BF16, FP16, FP32 or FP64"
           }
         ],
         "returns": {
-          "type": "Optional[str]",
+          "type": "Optional[bool]",
           "description": ""
         }
       },
@@ -544,7 +549,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SET(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonSetOptions)",
+        "signature": "client.json.set(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonSetOptions)",
         "params": [
           {
             "name": "key",
@@ -568,41 +573,12 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'> | NullReply",
           "description": ""
         }
       }
     ],
     "nredisstack_sync": [
-      {
-        "signature": "Set(key, path, json, when)",
-        "params": [
-          {
-            "name": "key",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "path",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "json",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "when",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": ""
-        }
-      },
       {
         "signature": "Set(RedisKey key, RedisValue path, RedisValue json, When when = When.Always)",
         "params": [
@@ -631,40 +607,11 @@
           "type": "bool",
           "description": ""
         }
-      },
-      {
-        "signature": "Set(key, path, fileContent, when)",
-        "params": [
-          {
-            "name": "key",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "path",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "fileContent",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "when",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": ""
-        }
       }
     ],
     "php": [
       {
-        "signature": "jsonset(string $key, string $path, string $value, ?string $subcommand = null)",
+        "signature": "jsonset(string $key, string $path, string $value, ?string $subcommand = null, ?string $fpha = null)",
         "params": [
           {
             "name": "$key",
@@ -682,9 +629,14 @@
             "description": ""
           },
           {
-            "name": "?string $subcommand = null",
-            "type": "Any",
-            "description": ""
+            "name": "$subcommand",
+            "type": "?string",
+            "description": "NX to set only if the path does not exist, or XX to set only if it exists"
+          },
+          {
+            "name": "$fpha",
+            "type": "?string",
+            "description": "Store floating-point arrays as BF16, FP16, FP32 or FP64, in any letter case"
           }
         ],
         "returns": {
@@ -783,6 +735,37 @@
         "returns": {
           "type": "Boolean, String",
           "description": "when nx or xx is given, true on success and false when the condition was not met; otherwise the raw \"OK\" reply"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetAsync(RedisKey key, RedisValue path, RedisValue json, When when = When.Always)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
         }
       }
     ]

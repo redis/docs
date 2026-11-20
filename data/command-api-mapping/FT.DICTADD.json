@@ -2,10 +2,10 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "dictadd(dict_name: str, *terms: str)",
+        "signature": "dict_add(name: str, *terms: str)",
         "params": [
           {
-            "name": "dict_name",
+            "name": "name",
             "type": "str",
             "description": "The dictionary name"
           },
@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DICTADD(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
+        "signature": "client.ft.dictAdd(dictionary: RedisArgument, term: Array<RedisArgument> | RedisArgument)",
         "params": [
           {
             "name": "dictionary",
@@ -141,13 +141,13 @@
             "description": "The dictionary name"
           },
           {
-            "name": "terms",
+            "name": "term",
             "type": "Array<RedisArgument> | RedisArgument",
             "description": "Terms to add"
           }
         ],
         "returns": {
-          "type": "Promise<number>",
+          "type": "number",
           "description": "Number of terms added"
         }
       }
@@ -207,7 +207,7 @@
             "description": "The dictionary name"
           },
           {
-            "name": "$term",
+            "name": "...$term",
             "type": "string",
             "description": "Terms to add (variadic)"
           }

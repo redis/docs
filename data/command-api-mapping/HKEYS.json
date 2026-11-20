@@ -160,7 +160,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HKEYS(key: RedisArgument)",
+        "signature": "hKeys(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -169,7 +169,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }
@@ -190,7 +190,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -246,30 +246,11 @@
           "type": "RedisValue[]",
           "description": "List of fields in the hash, or an empty list when key does not exist."
         }
-      },
-      {
-        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of fields in the hash, or an empty list when key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashKeysAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -283,26 +264,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
-          "description": "List of fields in the hash, or an empty list when key does not exist."
-        }
-      },
-      {
-        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of fields in the hash, or an empty list when key does not exist."
         }
       }

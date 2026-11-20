@@ -278,7 +278,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SUGGET(key: RedisArgument, prefix: RedisArgument, options?: FTSugGetOptions)",
+        "signature": "client.ft.sugGet(key: RedisArgument, prefix: RedisArgument, options?: FTSugGetOptions)",
         "params": [
           {
             "name": "key",
@@ -297,7 +297,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<Array<string> | Array<FTSuggestion>>",
+          "type": "Array<string> | Array<FTSuggestion>",
           "description": "List of suggestions"
         }
       }

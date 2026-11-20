@@ -40,7 +40,7 @@ along with their release state and available features.
 | :-- | :-- | :-- | :-- | :-- |
 | [Jedis](/content/develop/clients/jedis/failover.md) | Yes | No | No | Yes |
 | [redis-py](/content/develop/clients/redis-py/failover.md) | Yes  (Preview) | Yes | Yes | Yes |
-| [Lettuce](/content/develop/clients/lettuce/failover.md) | Yes (Preview) | Yes | No | Yes |
+| [Lettuce](/content/develop/clients/lettuce/failover.md) | Yes | Yes | No | Yes |
 | [StackExchange.Redis](/content/develop/clients/dotnet/failover.md) | Yes | Yes | Yes | Yes |
 
 ## Concepts

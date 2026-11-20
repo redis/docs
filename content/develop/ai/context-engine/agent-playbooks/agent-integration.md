@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Agent integration
 title: Integrate with an agent
 weight: 65
+aliases:
+- /develop/ai/context-engine/agent-playbook/agent-integration/
 ---
 
 Retrieve playbook context in your application before the first model call. Give the agent the task, returned FAQ answers, and skill previews. The agent then loads the instructions and files it needs through MCP.

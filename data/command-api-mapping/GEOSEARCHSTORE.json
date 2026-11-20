@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "geosearchstore(, dest: KeyT,, name: KeyT,, member: Optional[FieldT] = None,, longitude: Optional[float] = None,, latitude: Optional[float] = None,, unit: str = \"m\",, radius: Optional[float] = None,, width: Optional[float] = None,, height: Optional[float] = None,, sort: Optional[str] = None,, count: Optional[int] = None,, any: bool = False,, storedist: bool = False,)",
+        "signature": "geosearchstore(dest: KeyT, name: KeyT, member: Optional[FieldT] = None, longitude: Optional[float] = None, latitude: Optional[float] = None, unit: str = \"m\", radius: Optional[float] = None, width: Optional[float] = None, height: Optional[float] = None, sort: Optional[str] = None, count: Optional[int] = None, any: bool = False, storedist: bool = False)",
         "params": [
           {
             "name": "dest",
@@ -389,7 +389,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GEOSEARCHSTORE(destination: RedisArgument, source: RedisArgument, from: GeoSearchFrom, by: GeoSearchBy, options?: GeoSearchStoreOptions)",
+        "signature": "geoSearchStore(destination: RedisArgument, source: RedisArgument, from: GeoSearchFrom, by: GeoSearchBy, options?: GeoSearchStoreOptions)",
         "params": [
           {
             "name": "destination",
@@ -418,23 +418,38 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "geosearchstore(...args: [, destination: RedisKey, source: RedisKey, ...args: RedisValue[], callback: Callback<number>, ])",
+        "signature": "geosearchstore(...args: [ destination: RedisKey, source: RedisKey, ...args: RedisValue[], callback: Callback<number> ])",
         "params": [
           {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, destination",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -442,13 +457,23 @@
         "signature": "geosearchstore(...args: [destination: RedisKey, source: RedisKey, ...args: RedisValue[]])",
         "params": [
           {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[destination",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -566,173 +591,6 @@
           "type": "long",
           "description": ""
         }
-      },
-      {
-        "signature": "GeoSearchAndStoreAsync(RedisKey sourceKey, RedisKey destinationKey, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "sourceKey",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "destinationKey",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": ""
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": ""
-          },
-          {
-            "name": "storeDistances",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "GeoSearchAndStoreAsync(RedisKey sourceKey, RedisKey destinationKey, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "sourceKey",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "destinationKey",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "longitude",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "latitude",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": ""
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": ""
-          },
-          {
-            "name": "storeDistances",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "GeoSearchAndStore(RedisKey sourceKey, RedisKey destinationKey, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "sourceKey",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "destinationKey",
-            "type": "RedisKey",
-            "description": ".</returns> <remarks></remarks>"
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": "The shape to use to bound the geo search."
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": "The maximum number of results to pull back."
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": "Whether to terminate the search after finding count results. Must be true of count is -1."
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": "The order to sort by (defaults to unordered)."
-          },
-          {
-            "name": "storeDistances",
-            "type": "bool",
-            "description": "If set to true, the resulting set will be a regular sorted-set containing only distances, rather than a geo-encoded sorted-set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
@@ -742,119 +600,6 @@
           {
             "name": "sourceKey",
             "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "destinationKey",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": ""
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": ""
-          },
-          {
-            "name": "storeDistances",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "GeoSearchAndStoreAsync(RedisKey sourceKey, RedisKey destinationKey, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "sourceKey",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "destinationKey",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "longitude",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "latitude",
-            "type": "double",
-            "description": ""
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": ""
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": ""
-          },
-          {
-            "name": "storeDistances",
-            "type": "bool",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<long>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "GeoSearchAndStore(RedisKey sourceKey, RedisKey destinationKey, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "sourceKey",
-            "type": "RedisKey",
             "description": "The key of the set."
           },
           {
@@ -899,12 +644,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": ""
         }
       },
       {
-        "signature": "GeoSearchAndStore(RedisKey sourceKey, RedisKey destinationKey, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoSearchAndStoreAsync(RedisKey sourceKey, RedisKey destinationKey, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "sourceKey",
@@ -958,61 +703,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": ""
-        }
-      },
-      {
-        "signature": "GeoSearchAndStore(RedisKey sourceKey, RedisKey destinationKey, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, bool storeDistances = false, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "sourceKey",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "destinationKey",
-            "type": "RedisKey",
-            "description": ".</returns> <remarks></remarks>"
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": "The shape to use to bound the geo search."
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": "The maximum number of results to pull back."
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": "Whether to terminate the search after finding count results. Must be true of count is -1."
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": "The order to sort by (defaults to unordered)."
-          },
-          {
-            "name": "storeDistances",
-            "type": "bool",
-            "description": "If set to true, the resulting set will be a regular sorted-set containing only distances, rather than a geo-encoded sorted-set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": ""
         }
       }
@@ -1042,29 +733,90 @@
             "description": ""
           },
           {
-            "name": "?string $sorting = null",
-            "type": "Any",
+            "name": "$sorting",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "int $count = -1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $any = false",
-            "type": "Any",
+            "name": "$any",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $storeDist = false",
-            "type": "Any",
+            "name": "$storeDist",
+            "type": "bool",
             "description": ""
           }
         ],
         "returns": {
           "type": "int",
           "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geosearchstore(destination, source, frommember: nil, fromlonlat: nil, byradius: nil, bybox: nil, sort: nil, count: nil, count_any: false, storedist: false)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "key to store the result in"
+          },
+          {
+            "name": "source",
+            "type": "String",
+            "description": "geospatial sorted set to search"
+          },
+          {
+            "name": "frommember",
+            "type": "String",
+            "description": "use the position of the given existing member as the center"
+          },
+          {
+            "name": "fromlonlat",
+            "type": "Array<Numeric>",
+            "description": "a [longitude, latitude] pair used as the center"
+          },
+          {
+            "name": "byradius",
+            "type": "Array",
+            "description": "a [radius, unit] pair where unit is one of 'm', 'km', 'ft', 'mi'"
+          },
+          {
+            "name": "bybox",
+            "type": "Array",
+            "description": "a [width, height, unit] triple where unit is one of 'm', 'km', 'ft', 'mi'"
+          },
+          {
+            "name": "sort",
+            "type": "'asc', 'desc'",
+            "description": "sort returned items from the nearest to the farthest, or vice versa"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "limit the results to the first N matching items"
+          },
+          {
+            "name": "count_any",
+            "type": "Boolean",
+            "description": "return as soon as enough matches are found (only with count)"
+          },
+          {
+            "name": "storedist",
+            "type": "Boolean",
+            "description": "store the distance from the center point as the score"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of elements stored in the destination key"
         }
       }
     ]

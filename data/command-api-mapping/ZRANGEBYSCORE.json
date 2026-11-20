@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrangebyscore(, name: KeyT,, min: ZScoreBoundT,, max: ZScoreBoundT,, start: Optional[int] = None,, num: Optional[int] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zrangebyscore(name: KeyT, min: ZScoreBoundT, max: ZScoreBoundT, start: Optional[int] = None, num: Optional[int] = None, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "name",
@@ -622,7 +622,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANGEBYSCORE(key: RedisArgument, min: string | number, max: string | number, options?: ZRangeByScoreOptions)",
+        "signature": "zRangeByScore(key: RedisArgument, min: string | number, max: string | number, options?: ZRangeByScoreOptions)",
         "params": [
           {
             "name": "key",
@@ -646,16 +646,31 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       },
       {
-        "signature": "ZRANGEBYSCORE_WITHSCORES(...args: Parameters<typeof ZRANGEBYSCORE.parseCommand>)",
+        "signature": "zRangeByScoreWithScores(key: RedisArgument, min: string | number, max: string | number, options?: ZRangeByScoreOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof ZRANGEBYSCORE.parseCommand>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZRangeByScoreOptions",
             "description": ""
           }
         ],
@@ -691,7 +706,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -735,7 +750,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -769,7 +784,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -818,7 +833,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -976,7 +991,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByScoreAsync(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1020,7 +1035,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified score range."
         }
       }
@@ -1045,8 +1060,8 @@
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

@@ -70,7 +70,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.SCANDUMP(key: RedisArgument, iterator: number)",
+        "signature": "client.cf.scanDump(key: RedisArgument, iterator: number)",
         "params": [
           {
             "name": "key",

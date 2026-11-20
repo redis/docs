@@ -86,19 +86,8 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
+        "signature": "whoami()",
+        "params": [],
         "returns": {
           "type": "string",
           "description": ""
@@ -121,6 +110,27 @@
         "params": [],
         "returns": {
           "type": "(String)",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"WHOAMI\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"WHOAMI\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
           "description": ""
         }
       }

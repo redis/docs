@@ -23,7 +23,7 @@ When you create a database, this default policy is applied to the new database.
 
 To see the current default shard placement policy, run `rladmin info cluster`:
 
-![](/images/rs/shard_placement_info_cluster.png)
+![rladmin info cluster output showing default_shards_placement set to sparse](/images/rs/shard_placement_info_cluster.png)
 
 To change the default shard placement policy so that new databases are created with the `sparse` shard placement policy, run:
 
@@ -35,7 +35,7 @@ rladmin tune cluster default_shards_placement [ dense | sparse ]
 
 To see the shard placement policy for a database in `rladmin status`.
 
-![](/images/rs/shard_placement_rladmin_status.png)
+![rladmin status databases table: db1 uses sparse placement and db2 uses dense placement, each with two shards](/images/rs/shard_placement_rladmin_status.png)
 
 To change the shard placement policy for a database, run:
 

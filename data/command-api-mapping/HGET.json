@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HGET(key: RedisArgument, field: RedisArgument)",
+        "signature": "hGet(key: RedisArgument, field: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -147,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }
@@ -242,59 +242,11 @@
           "type": "RedisValue[]",
           "description": "List of values associated with the given fields, in the same order as they are requested."
         }
-      },
-      {
-        "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "List of values associated with the given fields, in the same order as they are requested."
-        }
-      },
-      {
-        "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to get."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of values associated with the given fields, in the same order as they are requested."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -313,12 +265,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "List of values associated with the given fields, in the same order as they are requested."
         }
       },
       {
-        "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashGetAsync(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -337,55 +289,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
-          "description": "List of values associated with the given fields, in the same order as they are requested."
-        }
-      },
-      {
-        "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "List of values associated with the given fields, in the same order as they are requested."
-        }
-      },
-      {
-        "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to get."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of values associated with the given fields, in the same order as they are requested."
         }
       }
@@ -428,6 +332,32 @@
         ],
         "returns": {
           "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hget(key: RedisKey, field: string | Buffer, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       }

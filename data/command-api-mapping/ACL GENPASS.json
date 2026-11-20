@@ -156,27 +156,7 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
-      {
-        "signature": "acl(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "string",
-          "description": ""
-        }
-      }
-    ],
+    "php": [],
     "redis_rs_sync": [
       {
         "signature": "acl_genpass()",
@@ -221,6 +201,51 @@
         ],
         "returns": {
           "type": "(String)",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"GENPASS\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GENPASS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(subcommand: \"GENPASS\", bits: number | string, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GENPASS\"",
+            "description": ""
+          },
+          {
+            "name": "bits",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
           "description": ""
         }
       }

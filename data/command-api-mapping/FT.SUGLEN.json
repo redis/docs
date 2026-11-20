@@ -103,7 +103,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SUGLEN(key: RedisArgument)",
+        "signature": "client.ft.sugLen(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -112,7 +112,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<number>",
+          "type": "number",
           "description": "The size of the suggestion dictionary"
         }
       }

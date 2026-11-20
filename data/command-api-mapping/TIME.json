@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TIME()",
+        "signature": "time()",
         "params": [],
         "returns": {
           "type": "[BlobStringReply, BlobStringReply]",
@@ -125,6 +125,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "time(callback?: Callback<number[]>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "time()",
+        "params": [],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": "tuple of seconds since UNIX epoch and microseconds in the current second"
+        }
+      }
+    ]
   }
 }

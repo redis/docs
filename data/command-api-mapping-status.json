@@ -3,27 +3,35 @@
     "jedis": "unsupported",
     "go-redis": "unsupported",
     "nredisstack_sync": "unsupported",
-    "nredisstack_async": "unsupported"
+    "nredisstack_async": "unsupported",
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "ACL CAT": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL DELUSER": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL DRYRUN": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL GENPASS": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL GETUSER": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL HELP": {
     "jedis": "generic_only",
@@ -33,35 +41,103 @@
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL LIST": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL LOAD": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL LOG": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL SAVE": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL SETUSER": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL USERS": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ACL WHOAMI": {
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "ARCOUNT": {
+    "redis_rb": "generic_only"
+  },
+  "ARDEL": {
+    "redis_rb": "generic_only"
+  },
+  "ARDELRANGE": {
+    "redis_rb": "generic_only"
+  },
+  "ARGET": {
+    "redis_rb": "generic_only"
+  },
+  "ARGETRANGE": {
+    "redis_rb": "generic_only"
+  },
+  "ARGREP": {
+    "redis_rb": "generic_only"
+  },
+  "ARINFO": {
+    "redis_rb": "generic_only"
+  },
+  "ARINSERT": {
+    "redis_rb": "generic_only"
+  },
+  "ARLASTITEMS": {
+    "redis_rb": "generic_only"
+  },
+  "ARLEN": {
+    "redis_rb": "generic_only"
+  },
+  "ARMGET": {
+    "redis_rb": "generic_only"
+  },
+  "ARMSET": {
+    "redis_rb": "generic_only"
+  },
+  "ARNEXT": {
+    "redis_rb": "generic_only"
+  },
+  "AROP": {
+    "redis_rb": "generic_only"
+  },
+  "ARRING": {
+    "redis_rb": "generic_only"
+  },
+  "ARSCAN": {
+    "redis_rb": "generic_only"
+  },
+  "ARSEEK": {
+    "redis_rb": "generic_only"
+  },
+  "ARSET": {
+    "redis_rb": "generic_only"
   },
   "ASKING": {
     "redis_py": "unsupported",
@@ -78,6 +154,46 @@
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
   },
+  "BF.ADD": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.CARD": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.EXISTS": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.INFO": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.INSERT": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.LOADCHUNK": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.MADD": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.MEXISTS": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.RESERVE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "BF.SCANDUMP": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
   "BGREWRITEAOF": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
@@ -86,18 +202,76 @@
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
   },
+  "BITFIELD": {
+    "redis_rb": "generic_only"
+  },
+  "BITFIELD_RO": {
+    "redis_rb": "generic_only"
+  },
+  "CF.ADD": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.ADDNX": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.COUNT": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.DEL": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.EXISTS": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.INFO": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.INSERT": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.INSERTNX": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.LOADCHUNK": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.MEXISTS": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.RESERVE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CF.SCANDUMP": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
   "CLIENT": {
     "jedis": "unsupported",
     "go-redis": "unsupported",
     "nredisstack_sync": "unsupported",
-    "nredisstack_async": "unsupported"
+    "nredisstack_async": "unsupported",
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "CLIENT CACHING": {
     "go-redis": "generic_only",
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_py": "generic_only"
   },
   "CLIENT GETNAME": {
     "nredisstack_sync": "unsupported",
@@ -108,7 +282,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT HELP": {
     "redis_py": "generic_only",
@@ -126,13 +301,15 @@
   },
   "CLIENT ID": {
     "nredisstack_sync": "unsupported",
-    "nredisstack_async": "unsupported"
+    "nredisstack_async": "unsupported",
+    "php": "generic_only"
   },
   "CLIENT INFO": {
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT KILL": {
     "redis_rs_sync": "generic_only",
@@ -154,13 +331,15 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLIENT PAUSE": {
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT REPLY": {
     "go-redis": "generic_only",
@@ -171,14 +350,16 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT SETINFO": {
     "node_redis": "generic_only",
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLIENT SETNAME": {
     "nredisstack_sync": "unsupported",
@@ -188,7 +369,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLIENT TRACKINGINFO": {
     "go-redis": "generic_only",
@@ -209,7 +391,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
   },
   "CLUSTER": {
     "jedis": "unsupported",
@@ -217,7 +400,9 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "CLUSTER ADDSLOTS": {
     "nredisstack_sync": "generic_only",
@@ -351,7 +536,8 @@
     "nredisstack_async": "generic_only",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLUSTER MYID": {
     "nredisstack_sync": "generic_only",
@@ -365,7 +551,8 @@
     "nredisstack_async": "generic_only",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLUSTER NODES": {
     "php": "generic_only",
@@ -445,7 +632,8 @@
     "nredisstack_async": "generic_only",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "CLUSTER SLOTS": {
     "nredisstack_sync": "generic_only",
@@ -466,19 +654,48 @@
     "nredisstack_async": "generic_only",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
+  },
+  "CMS.INCRBY": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CMS.INFO": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CMS.INITBYDIM": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CMS.INITBYPROB": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CMS.MERGE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "CMS.QUERY": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "COMMAND": {
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "COMMAND COUNT": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "COMMAND DOCS": {
+    "redis_py": "unsupported",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
@@ -486,11 +703,13 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "COMMAND GETKEYS": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "COMMAND GETKEYSANDFLAGS": {
     "lettuce_sync": "generic_only",
@@ -499,7 +718,8 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "COMMAND HELP": {
     "redis_py": "generic_only",
@@ -512,20 +732,24 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "COMMAND INFO": {
+    "redis_py": "unsupported",
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "COMMAND LIST": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "CONFIG": {
     "jedis": "unsupported",
@@ -533,7 +757,9 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "CONFIG GET": {
     "redis_rs_sync": "generic_only",
@@ -573,7 +799,16 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only"
+  },
+  "DELEX": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "DIGEST": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ECHO": {
     "redis_rs_sync": "generic_only",
@@ -589,143 +824,184 @@
   },
   "EVALSHA_RO": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "EVAL_RO": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FAILOVER": {
+    "redis_py": "unsupported",
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "node_redis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FCALL": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FCALL_RO": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FT.AGGREGATE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.ALIASADD": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.ALIASDEL": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.ALIASUPDATE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.ALTER": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
+  },
+  "FT.CREATE": {
+    "ioredis": "generic_only"
   },
   "FT.CURSOR DEL": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_py": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.CURSOR READ": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.DICTADD": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.DICTDEL": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.DICTDUMP": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.DROPINDEX": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.EXPLAIN": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.EXPLAINCLI": {
+    "redis_py": "unsupported",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
-    "php": "generic_only"
+    "php": "generic_only",
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FT.HYBRID": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.INFO": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.PROFILE": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SEARCH": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SPELLCHECK": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SUGADD": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SUGDEL": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SUGGET": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SUGLEN": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SYNDUMP": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.SYNUPDATE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT.TAGVALS": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "FT._LIST": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_py": "generic_only",
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION DELETE": {
     "lettuce_sync": "generic_only",
@@ -734,19 +1010,22 @@
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION DUMP": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION FLUSH": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION HELP": {
     "redis_py": "generic_only",
@@ -760,31 +1039,36 @@
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
-    "php": "generic_only"
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION KILL": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION LIST": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION LOAD": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION RESTORE": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "FUNCTION STATS": {
     "lettuce_sync": "generic_only",
@@ -793,9 +1077,17 @@
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "GEORADIUSBYMEMBER_RO": {
+    "redis_rb": "generic_only"
+  },
+  "GEORADIUS_RO": {
+    "redis_rb": "generic_only"
   },
   "HELLO": {
+    "redis_py": "unsupported",
     "jedis": "generic_only",
     "lettuce_sync": "unsupported",
     "lettuce_async": "unsupported",
@@ -804,16 +1096,132 @@
     "nredisstack_async": "unsupported",
     "php": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "HEXPIREAT": {
+    "redis_rb": "generic_only"
+  },
+  "HEXPIRETIME": {
+    "redis_rb": "generic_only"
+  },
+  "HGETDEL": {
+    "redis_rb": "generic_only"
+  },
+  "HGETEX": {
+    "redis_rb": "generic_only"
   },
   "HOTKEYS": {
     "jedis": "unsupported",
     "nredisstack_sync": "generic_only",
-    "nredisstack_async": "generic_only"
+    "nredisstack_async": "generic_only",
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "HOTKEYS GET": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "HOTKEYS RESET": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "HOTKEYS START": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "HOTKEYS STOP": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "HPERSIST": {
+    "redis_rb": "generic_only"
+  },
+  "HPEXPIREAT": {
+    "redis_rb": "generic_only"
+  },
+  "HPEXPIRETIME": {
+    "redis_rb": "generic_only"
+  },
+  "HSETEX": {
+    "redis_rb": "generic_only"
+  },
+  "HSTRLEN": {
+    "redis_rb": "generic_only"
   },
   "INFO": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
+  },
+  "JSON.ARRAPPEND": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRINDEX": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRINSERT": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRLEN": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRPOP": {
+    "ioredis": "generic_only"
+  },
+  "JSON.ARRTRIM": {
+    "ioredis": "generic_only"
+  },
+  "JSON.CLEAR": {
+    "ioredis": "generic_only"
+  },
+  "JSON.DEBUG MEMORY": {
+    "ioredis": "generic_only"
+  },
+  "JSON.DEL": {
+    "ioredis": "generic_only"
+  },
+  "JSON.FORGET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.GET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.MERGE": {
+    "ioredis": "generic_only"
+  },
+  "JSON.MGET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.MSET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.NUMINCRBY": {
+    "ioredis": "generic_only"
+  },
+  "JSON.OBJKEYS": {
+    "ioredis": "generic_only"
+  },
+  "JSON.OBJLEN": {
+    "ioredis": "generic_only"
+  },
+  "JSON.RESP": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "JSON.SET": {
+    "ioredis": "generic_only"
+  },
+  "JSON.STRAPPEND": {
+    "ioredis": "generic_only"
+  },
+  "JSON.STRLEN": {
+    "ioredis": "generic_only"
+  },
+  "JSON.TOGGLE": {
+    "ioredis": "generic_only"
+  },
+  "JSON.TYPE": {
+    "ioredis": "generic_only"
   },
   "LASTSAVE": {
     "redis_rs_sync": "generic_only",
@@ -828,17 +1236,23 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "LATENCY DOCTOR": {
+    "redis_py": "unsupported",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "LATENCY GRAPH": {
+    "redis_py": "unsupported",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
@@ -846,7 +1260,9 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "LATENCY HELP": {
     "redis_py": "generic_only",
@@ -859,9 +1275,12 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "LATENCY HISTOGRAM": {
+    "redis_py": "unsupported",
     "jedis": "generic_only",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
@@ -870,28 +1289,39 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "LATENCY HISTORY": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "LATENCY LATEST": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "LATENCY RESET": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "LCS": {
+    "redis_rb": "generic_only"
   },
   "LOLWUT": {
     "go-redis": "generic_only",
@@ -901,7 +1331,12 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "LPOS": {
+    "redis_rb": "generic_only"
   },
   "MEMORY": {
     "jedis": "unsupported",
@@ -909,15 +1344,20 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "MEMORY DOCTOR": {
+    "redis_py": "unsupported",
     "go-redis": "generic_only",
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MEMORY HELP": {
     "redis_py": "unsupported",
@@ -930,7 +1370,9 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MEMORY MALLOC-STATS": {
     "go-redis": "generic_only",
@@ -938,24 +1380,32 @@
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MEMORY PURGE": {
     "lettuce_sync": "generic_only",
     "lettuce_async": "generic_only",
     "lettuce_reactive": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MEMORY STATS": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MEMORY USAGE": {
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MODULE": {
     "jedis": "unsupported",
@@ -966,7 +1416,9 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only",
+    "ioredis": "generic_only"
   },
   "MODULE HELP": {
     "redis_py": "generic_only",
@@ -979,7 +1431,9 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MODULE LIST": {
     "lettuce_sync": "generic_only",
@@ -988,7 +1442,9 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MODULE LOAD": {
     "lettuce_sync": "generic_only",
@@ -997,7 +1453,9 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MODULE LOADEX": {
     "node_redis": "generic_only",
@@ -1007,7 +1465,9 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MODULE UNLOAD": {
     "lettuce_sync": "generic_only",
@@ -1016,7 +1476,9 @@
     "nredisstack_sync": "generic_only",
     "nredisstack_async": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "php": "generic_only",
+    "redis_rb": "generic_only"
   },
   "MONITOR": {
     "lettuce_sync": "unsupported",
@@ -1026,6 +1488,9 @@
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
+  },
+  "MSETEX": {
+    "redis_rb": "generic_only"
   },
   "PSYNC": {
     "jedis": "unsupported",
@@ -1038,7 +1503,8 @@
     "nredisstack_async": "unsupported",
     "php": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "PUBSUB CHANNELS": {
     "redis_rs_sync": "generic_only",
@@ -1089,14 +1555,17 @@
     "nredisstack_async": "unsupported",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "READWRITE": {
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "node_redis": "generic_only",
+    "redis_rb": "generic_only"
   },
   "REPLCONF": {
     "redis_py": "unsupported",
@@ -1110,12 +1579,14 @@
     "nredisstack_async": "unsupported",
     "php": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "REPLICAOF": {
     "nredisstack_sync": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "RESET": {
     "go-redis": "generic_only",
@@ -1126,7 +1597,8 @@
     "nredisstack_async": "unsupported",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "RESTORE-ASKING": {
     "redis_py": "generic_only",
@@ -1139,17 +1611,21 @@
     "nredisstack_async": "unsupported",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "ROLE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "SAVE": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "node_redis": "generic_only"
   },
   "SCRIPT DEBUG": {
+    "redis_py": "unsupported",
     "jedis": "generic_only",
     "go-redis": "generic_only",
     "lettuce_sync": "unsupported",
@@ -1196,7 +1672,11 @@
   "SHUTDOWN": {
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "node_redis": "generic_only"
+  },
+  "SINTERCARD": {
+    "redis_rb": "generic_only"
   },
   "SLAVEOF": {
     "node_redis": "generic_only",
@@ -1212,7 +1692,8 @@
     "nredisstack_sync": "unsupported",
     "nredisstack_async": "unsupported",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only"
   },
   "SLOWLOG GET": {
     "node_redis": "generic_only",
@@ -1244,15 +1725,24 @@
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
   },
+  "SORT_RO": {
+    "redis_rb": "generic_only"
+  },
   "SSUBSCRIBE": {
     "redis_rs_sync": "generic_only"
+  },
+  "SUBSTR": {
+    "nredisstack_sync": "generic_only",
+    "nredisstack_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "SUNSUBSCRIBE": {
     "redis_rs_sync": "generic_only"
   },
   "SWAPDB": {
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "redis_rb": "generic_only"
   },
   "SYNC": {
     "jedis": "unsupported",
@@ -1267,9 +1757,96 @@
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
   },
+  "TDIGEST.ADD": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.BYRANK": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.BYREVRANK": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.CDF": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.CREATE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.INFO": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.MAX": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.MERGE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.MIN": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.QUANTILE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.RANK": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.RESET": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.REVRANK": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TDIGEST.TRIMMED_MEAN": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
   "TIME": {
     "redis_rs_sync": "generic_only",
     "redis_rs_async": "generic_only"
+  },
+  "TOPK.ADD": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TOPK.COUNT": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TOPK.INCRBY": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TOPK.INFO": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TOPK.LIST": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TOPK.QUERY": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TOPK.RESERVE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TOUCH": {
+    "redis_rb": "generic_only"
   },
   "TRIMSLOTS": {
     "redis_py": "generic_only",
@@ -1283,6 +1860,138 @@
     "nredisstack_async": "unsupported",
     "php": "generic_only",
     "redis_rs_sync": "generic_only",
-    "redis_rs_async": "generic_only"
+    "redis_rs_async": "generic_only",
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.ADD": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.ALTER": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.CREATE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.CREATERULE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.DECRBY": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.DEL": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.DELETERULE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.GET": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.INCRBY": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.INFO": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.MADD": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.MGET": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.MRANGE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.MREVRANGE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.QUERYINDEX": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.RANGE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "TS.REVRANGE": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "VADD": {
+    "redis_rb": "generic_only"
+  },
+  "VCARD": {
+    "redis_rb": "generic_only"
+  },
+  "VDIM": {
+    "redis_rb": "generic_only"
+  },
+  "VEMB": {
+    "redis_rb": "generic_only"
+  },
+  "VGETATTR": {
+    "redis_rb": "generic_only"
+  },
+  "VINFO": {
+    "redis_rb": "generic_only"
+  },
+  "VISMEMBER": {
+    "redis_rb": "generic_only"
+  },
+  "VLINKS": {
+    "redis_rb": "generic_only"
+  },
+  "VRANDMEMBER": {
+    "redis_rb": "generic_only"
+  },
+  "VRANGE": {
+    "redis_rb": "generic_only"
+  },
+  "VREM": {
+    "redis_rb": "generic_only"
+  },
+  "VSETATTR": {
+    "redis_rb": "generic_only"
+  },
+  "VSIM": {
+    "redis_rb": "generic_only"
+  },
+  "WAIT": {
+    "redis_rb": "generic_only"
+  },
+  "XACKDEL": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "XCFGSET": {
+    "ioredis": "generic_only",
+    "redis_rb": "generic_only"
+  },
+  "XDELEX": {
+    "redis_rb": "generic_only"
+  },
+  "XSETID": {
+    "redis_rb": "generic_only"
+  },
+  "ZINTERCARD": {
+    "redis_rb": "generic_only"
+  },
+  "ZREMRANGEBYLEX": {
+    "redis_rb": "generic_only"
   }
 }

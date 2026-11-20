@@ -9,6 +9,9 @@ hideListLinks: true
 linktitle: Manage skills
 title: Manage skills
 weight: 30
+aliases:
+- /develop/ai/context-engine/agent-playbook/skills/
+- /develop/ai/context-engine/agent-playbook/manage-skills/
 ---
 
 A skill tells an agent how to complete a task: what inputs or tools to use, which decisions to make, and what to return. This example drafts a customer reply by choosing and filling a refund template.

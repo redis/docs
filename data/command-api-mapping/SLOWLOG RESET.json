@@ -107,16 +107,16 @@
     ],
     "php": [
       {
-        "signature": "slowlog(string $operation, ?int $length = null)",
+        "signature": "slowlog($subcommand, $argument = null)",
         "params": [
           {
-            "name": "$operation",
+            "name": "$subcommand",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$length",
-            "type": "int|null",
+            "name": "$argument",
+            "type": "mixed",
             "description": ""
           }
         ],
@@ -127,6 +127,37 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "slowlog(subcommand: \"RESET\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESET\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "slowlog(:reset)",
+        "params": [],
+        "returns": {
+          "type": "Array<String>, Integer, String",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }

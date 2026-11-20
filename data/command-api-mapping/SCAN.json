@@ -132,7 +132,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SCAN(cursor: number, options?: ScanOptions)",
+        "signature": "scan(cursor: number, options?: ScanOptions)",
         "params": [
           {
             "name": "cursor",
@@ -324,8 +324,13 @@
     ],
     "nredisstack_sync": [
       {
-        "signature": "Scan(RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "Keys(int database = -1, RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
+          {
+            "name": "database",
+            "type": "int",
+            "description": ""
+          },
           {
             "name": "pattern",
             "type": "RedisValue",
@@ -360,8 +365,13 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "Scan(RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "KeysAsync(int database = -1, RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
+          {
+            "name": "database",
+            "type": "int",
+            "description": ""
+          },
           {
             "name": "pattern",
             "type": "RedisValue",
@@ -453,6 +463,153 @@
         "returns": {
           "type": "Array",
           "description": "the next cursor and all found keys"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "scan(cursor: number | string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "scan(cursor: number | string, typeToken: \"TYPE\", type: string | Buffer, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "typeToken",
+            "type": "\"TYPE\"",
+            "description": ""
+          },
+          {
+            "name": "type",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "scan(cursor: number | string, countToken: \"COUNT\", count: number | string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "scan(cursor: number | string, countToken: \"COUNT\", count: number | string, typeToken: \"TYPE\", type: string | Buffer, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "typeToken",
+            "type": "\"TYPE\"",
+            "description": ""
+          },
+          {
+            "name": "type",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "scan(cursor: number | string, patternToken: \"MATCH\", pattern: string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "patternToken",
+            "type": "\"MATCH\"",
+            "description": ""
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor: string, elements: string[]]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[cursor: string, elements: string[]], Context>",
+          "description": ""
         }
       }
     ]

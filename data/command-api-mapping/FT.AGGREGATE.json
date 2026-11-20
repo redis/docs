@@ -2,16 +2,16 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "aggregate(query: Union[str, Query], query_params: Optional[Dict[str, Union[str, int, float]]] = None)",
+        "signature": "aggregate(query: Union[AggregateRequest, Cursor], query_params: Optional[Dict[str, Union[str, int, float, bytes]]] = None)",
         "params": [
           {
             "name": "query",
-            "type": "Union[str, Query]",
+            "type": "Union[AggregateRequest, Cursor]",
             "description": "The aggregation query"
           },
           {
             "name": "query_params",
-            "type": "Optional[Dict[str, Union[str, int, float]]]",
+            "type": "Optional[Dict[str, Union[str, int, float, bytes]]]",
             "description": "Optional query parameters"
           }
         ],
@@ -234,7 +234,7 @@
     ],
     "node_redis": [
       {
-        "signature": "AGGREGATE(index: RedisArgument, query: RedisArgument, options?: FTAggregateOptions)",
+        "signature": "client.ft.aggregate(index: RedisArgument, query: RedisArgument, options?: FTAggregateOptions)",
         "params": [
           {
             "name": "index",
@@ -253,7 +253,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<AggregateResult>",
+          "type": "AggregateResult",
           "description": "The aggregation results"
         }
       }

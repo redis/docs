@@ -34,3 +34,5 @@ Redis integration with Vercel enables you to add high-performance data storage a
 ## Getting Started
 
 Learn how to [integrate Redis with Vercel](/content/operate/rc/cloud-integrations/vercel.md) for optimal performance.
+
+To give agents built with the Vercel AI SDK session and long-term memory, see [Redis with the Vercel AI SDK](/content/integrate/vercel-ai-sdk/_index.md).

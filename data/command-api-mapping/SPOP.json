@@ -184,7 +184,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SPOP(key: RedisArgument)",
+        "signature": "sPop(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -193,7 +193,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }
@@ -214,7 +214,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -238,7 +238,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -318,54 +318,11 @@
           "type": "RedisValue[]",
           "description": "An array of elements, or an empty array when key does not exist."
         }
-      },
-      {
-        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "An array of elements, or an empty array when key does not exist."
-        }
-      },
-      {
-        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "The number of elements to return."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "An array of elements, or an empty array when key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetPopAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -379,12 +336,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "An array of elements, or an empty array when key does not exist."
         }
       },
       {
-        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetPopAsync(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -403,50 +360,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
-          "description": "An array of elements, or an empty array when key does not exist."
-        }
-      },
-      {
-        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "An array of elements, or an empty array when key does not exist."
-        }
-      },
-      {
-        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "The number of elements to return."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "An array of elements, or an empty array when key does not exist."
         }
       }
@@ -461,8 +375,8 @@
             "description": ""
           },
           {
-            "name": "?int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "?int",
             "description": ""
           }
         ],

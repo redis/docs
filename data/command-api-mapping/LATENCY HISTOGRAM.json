@@ -1,26 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "latency_histogram(*events, **kwargs)",
-        "params": [
-          {
-            "name": "*events",
-            "type": "str",
-            "description": ""
-          },
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "dict",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [],
     "go-redis": [],
     "node_redis": [
@@ -44,28 +24,72 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "latency(string $subcommand, ...$args)",
+        "signature": "latency(subcommand: \"HISTOGRAM\", callback?: Callback<unknown>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"HISTOGRAM\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "callback?",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "array",
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "latency(...args: [ subcommand: \"HISTOGRAM\", ...commands: (string | Buffer)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HISTOGRAM\"",
+            "description": ""
+          },
+          {
+            "name": "...commands",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "latency(...args: [subcommand: \"HISTOGRAM\", ...commands: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HISTOGRAM\"",
+            "description": ""
+          },
+          {
+            "name": "...commands",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

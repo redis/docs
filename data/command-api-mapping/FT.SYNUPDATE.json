@@ -250,7 +250,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SYNUPDATE(index: RedisArgument, synonymGroupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
+        "signature": "client.ft.synUpdate(index: RedisArgument, groupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
         "params": [
           {
             "name": "index",
@@ -258,7 +258,7 @@
             "description": "The index name"
           },
           {
-            "name": "synonymGroupId",
+            "name": "groupId",
             "type": "RedisArgument",
             "description": "The synonym group ID"
           },
@@ -274,7 +274,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }
@@ -364,7 +364,7 @@
             "description": "Optional arguments (SKIPINITIALSCAN)"
           },
           {
-            "name": "$terms",
+            "name": "...$terms",
             "type": "string",
             "description": "Synonym terms (variadic)"
           }

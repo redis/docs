@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import tomllib
+import unicodedata
 from glob import glob
 from pathlib import Path
 
@@ -870,6 +871,118 @@ def rename_strip_numbers(staging: Path) -> None:
 
 
 
+# Sphinx and Hugo build a heading's ID from its text in different ways, so a
+# link that Sphinx resolved can name an ID that Hugo never generates. For
+# "Transport Security (Host / Origin Validation)":
+#   Sphinx: transport-security-host-origin-validation   (each run of spaces
+#           and punctuation becomes one hyphen)
+#   Hugo:   transport-security-host--origin-validation  (punctuation is
+#           dropped, and each space becomes a hyphen)
+# Such a link opens the right page but doesn't jump to the section.
+_FENCE_RE = re.compile(r"^[ \t]*(`{3,}|~{3,})")
+_ATX_HEADING_RE = re.compile(r"^ {0,3}#{1,6}[ \t]+(.*?)(?:[ \t]+#+)?[ \t]*$")
+_HTML_ID_RE = re.compile(r"""\bid=["']([^"']+)["']""")
+_INLINE_LINK_RE = re.compile(r"\[([^\]]*)\]\([^)]*\)")
+# `](#id)`, `](page.md#id)` and `]({{< relref "page#id" >}})`.
+_FRAGMENT_LINK_RE = re.compile(
+    r'(\]\((?:\{\{<\s*relref\s+")?)([^)#"\s]*)#([^)"\s]+)')
+
+
+def _outside_fences(lines: list[str]):
+    """Yield the index of every line that isn't part of a fenced code block."""
+    fence = ""
+    for i, line in enumerate(lines):
+        m = _FENCE_RE.match(line)
+        if fence:
+            if m and m.group(1).startswith(fence) and not line.strip().strip(fence[0]):
+                fence = ""
+        elif m:
+            fence = m.group(1)
+        else:
+            yield i
+
+
+def _sphinx_heading_id(title: str) -> str:
+    """The ID Sphinx gives a section with this title (docutils `make_id`)."""
+    text = _INLINE_LINK_RE.sub(r"\1", title).lower()
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
+    return re.sub(r"^[-0-9]+|-+$", "", re.sub(r"[^a-z0-9]+", "-", text))
+
+
+def _hugo_heading_id(title: str) -> str:
+    """The ID Hugo gives a heading with this source text, before it numbers
+    duplicates (goldmark's GitHub-style auto heading ID)."""
+    kept = []
+    for ch in title:
+        if ch in " -":
+            kept.append("-")
+        elif ch == "_" or ch.isalpha() or ch.isdecimal():
+            kept.append(ch.lower())
+    return "".join(kept) or "heading"
+
+
+def _page_anchors(text: str) -> tuple[set[str], dict[str, str]]:
+    """Return every ID Hugo renders on a page, and each heading's Hugo ID keyed
+    by its Sphinx ID."""
+    lines = text.split("\n")
+    heading_ids: set[str] = set()
+    html_ids: set[str] = set()
+    by_sphinx_id: dict[str, str] = {}
+    for i in _outside_fences(lines):
+        html_ids.update(_HTML_ID_RE.findall(lines[i]))
+        m = _ATX_HEADING_RE.match(lines[i])
+        # A shortcode in a heading reaches goldmark as a placeholder, so the
+        # ID Hugo builds from it can't be worked out here.
+        if not m or "{{" in m.group(1):
+            continue
+        base = hugo_id = _hugo_heading_id(m.group(1))
+        n = 0
+        while hugo_id in heading_ids:
+            n += 1
+            hugo_id = f"{base}-{n}"
+        heading_ids.add(hugo_id)
+        sphinx_id = _sphinx_heading_id(m.group(1))
+        if sphinx_id:
+            # Sphinx gives a repeated title a counter ID, so only the first
+            # heading with this title has this ID.
+            by_sphinx_id.setdefault(sphinx_id, hugo_id)
+    return heading_ids | html_ids, by_sphinx_id
+
+
+def retarget_heading_links(staging: Path) -> None:
+    """Make links to a heading use the ID Hugo gives it, not the Sphinx one.
+
+    A link changes only when its target page has no such ID and one of that
+    page's headings had the ID in Sphinx. Every other link is left alone.
+    """
+    staging = staging.resolve()
+    pages = {p: p.read_text(encoding="utf-8") for p in sorted(staging.rglob("*.md"))}
+    anchors = {p: _page_anchors(text) for p, text in pages.items()}
+
+    for page, text in pages.items():
+        def repl(m: re.Match) -> str:
+            prefix, dest, fragment = m.groups()
+            target = page
+            if dest:
+                base = os.path.normpath(page.parent / re.sub(r"(\.md|/)$", "", dest))
+                target = next((p for p in (Path(base + ".md"), Path(base) / "_index.md")
+                               if p in anchors), None)
+            if target is None:
+                return m.group(0)
+            ids, by_sphinx_id = anchors[target]
+            if fragment in ids or fragment not in by_sphinx_id:
+                return m.group(0)
+            return f"{prefix}{dest}#{by_sphinx_id[fragment]}"
+
+        lines = text.split("\n")
+        for i in _outside_fences(lines):
+            if "#" in lines[i]:
+                lines[i] = _FRAGMENT_LINK_RE.sub(repl, lines[i])
+        new_text = "\n".join(lines)
+        if new_text != text:
+            page.write_text(new_text, encoding="utf-8")
+
+
 def copy_tree_into(src: Path, dst: Path) -> None:
     """Recursive copy of *contents* of src into dst (cp -r src/* dst/)."""
     dst.mkdir(parents=True, exist_ok=True)
@@ -1084,6 +1197,10 @@ def sync_version(version: str, *, is_latest: bool, repo_dir: Path,
 
     # Step 13: rename to drop NN_.
     rename_strip_numbers(staging_dir)
+
+    # Step 13b: point heading links at the IDs Hugo generates. Runs on the
+    # final file names so that links between pages resolve.
+    retarget_heading_links(staging_dir)
 
     # Step 14: write to destination tree.
     write_to_destination(staging_dir, repo_dir, version, is_latest=is_latest)

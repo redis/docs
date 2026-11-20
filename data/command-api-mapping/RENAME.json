@@ -89,7 +89,7 @@
     ],
     "node_redis": [
       {
-        "signature": "RENAME(key: RedisArgument, newKey: RedisArgument)",
+        "signature": "rename(key: RedisArgument, newKey: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -103,7 +103,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply",
           "description": ""
         }
       }
@@ -262,6 +262,32 @@
         "returns": {
           "type": "String",
           "description": "\"OK\""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "rename(key: RedisKey, newkey: RedisKey, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "newkey",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
         }
       }
     ]

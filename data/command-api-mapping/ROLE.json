@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ROLE()",
+        "signature": "role()",
         "params": [],
         "returns": {
           "type": "RoleReply",
@@ -125,6 +125,22 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "role(callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

@@ -303,7 +303,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SUGADD(key: RedisArgument, string: RedisArgument, score: number, options?: { INCR?: boolean, PAYLOAD?: RedisArgument })",
+        "signature": "client.ft.sugAdd(key: RedisArgument, string: RedisArgument, score: number, options?: { INCR?: boolean, PAYLOAD?: RedisArgument })",
         "params": [
           {
             "name": "key",
@@ -327,7 +327,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<number>",
+          "type": "number",
           "description": "The current size of the suggestion dictionary"
         }
       }

@@ -75,14 +75,13 @@ Redis provides the following features that make it a good fit for session storag
 The following libraries and frameworks provide Redis session store integrations:
 
 -   **Java**:
-    [Spring Session Data Redis](https://docs.spring.io/spring-session/reference/configuration/redis.html)
+    [Spring Session Data Redis](/content/integrate/spring-framework-cache/session.md)
 -   **Node.js**: [`connect-redis`](https://www.npmjs.com/package/connect-redis)
     ([express-session](https://www.npmjs.com/package/express-session) store)
--   **Python**: [Flask-Session](https://flask-session.readthedocs.io/en/latest/),
-    [django-redis](https://pypi.org/project/django-redis/)
--   **API gateways**: [Kong](https://docs.konghq.com/hub/kong-inc/session/),
-    [Envoy](https://www.envoyproxy.io/docs/envoy/latest/start/quick-start/configuration-dynamic-control-plane)
-    (Redis-backed session and token storage)
+-   **Python**: [Flask-Session](/content/integrate/flask/_index.md#store-sessions),
+    [django-redis](/content/integrate/django/_index.md#store-sessions)
+-   **API gateways**: [Apache APISIX](/content/integrate/apisix/_index.md#other-plugins)
+    (the `openid-connect` plugin can store sessions in Redis)
 
 ## Code examples to build your own Redis session store
 

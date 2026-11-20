@@ -231,6 +231,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "swapdb(index1: number | string, index2: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "index1",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "index2",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

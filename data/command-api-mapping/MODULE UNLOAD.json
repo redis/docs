@@ -79,28 +79,34 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "module(string $subcommand, ...$args)",
+        "signature": "module(subcommand: \"UNLOAD\", name: string | Buffer, callback?: Callback<unknown>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"UNLOAD\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "name",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

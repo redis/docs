@@ -1,26 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "command_docs(*commands, **kwargs)",
-        "params": [
-          {
-            "name": "*commands",
-            "type": "str",
-            "description": ""
-          },
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "dict",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "Map<String, Object> commandDocs(String... commands)",
@@ -61,7 +41,7 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "command(string $subcommand, ...$args)",
+        "signature": "command($subcommand, $argument = null)",
         "params": [
           {
             "name": "$subcommand",
@@ -69,7 +49,7 @@
             "description": ""
           },
           {
-            "name": "$args",
+            "name": "$argument",
             "type": "mixed",
             "description": ""
           }
@@ -81,6 +61,70 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "command(subcommand: \"DOCS\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DOCS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "command(...args: [ subcommand: \"DOCS\", ...commandNames: (string | Buffer)[], callback: Callback<unknown[]> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DOCS\"",
+            "description": ""
+          },
+          {
+            "name": "...commandNames",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "command(...args: [subcommand: \"DOCS\", ...commandNames: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DOCS\"",
+            "description": ""
+          },
+          {
+            "name": "...commandNames",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

@@ -58,13 +58,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, message?: RedisArgument)",
+        "signature": "ping(message?: RedisArgument)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The command parser"
-          },
           {
             "name": "message",
             "type": "RedisArgument",
@@ -202,7 +197,57 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "ping(callback?: Callback<\"PONG\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"PONG\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"PONG\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ping(message: string | Buffer, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "message",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ping(message = nil)",
+        "params": [
+          {
+            "name": "message",
+            "type": "optional, String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "`PONG`"
+        }
+      }
     ]
   }
 }
-

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xtrim(, name: KeyT,, maxlen: Optional[int] = None,, approximate: bool = True,, minid: Union[StreamIdT, None] = None,, limit: Optional[int] = None,, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None,)",
+        "signature": "xtrim(name: KeyT, maxlen: Optional[int] = None, approximate: bool = True, minid: Union[StreamIdT, None] = None, limit: Optional[int] = None, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None)",
         "params": [
           {
             "name": "name",
@@ -494,7 +494,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XTRIM(key: RedisArgument, strategy: 'MAXLEN' | 'MINID', threshold: number | string, options?: XTrimOptions)",
+        "signature": "xTrim(key: RedisArgument, strategy: 'MAXLEN' | 'MINID', threshold: number | string, options?: XTrimOptions)",
         "params": [
           {
             "name": "key",
@@ -518,7 +518,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -549,7 +549,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -583,7 +583,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -617,7 +617,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -651,7 +651,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -690,7 +690,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -843,79 +843,11 @@
           "type": "long",
           "description": "The number of messages removed from the stream."
         }
-      },
-      {
-        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "maxLength",
-            "type": "int",
-            "description": "The maximum length of the stream."
-          },
-          {
-            "name": "useApproximateMaxLength",
-            "type": "bool",
-            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of messages removed from the stream."
-        }
-      },
-      {
-        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "maxLength",
-            "type": "long",
-            "description": "The maximum length of the stream."
-          },
-          {
-            "name": "useApproximateMaxLength",
-            "type": "bool",
-            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
-          },
-          {
-            "name": "limit",
-            "type": "long?",
-            "description": "Specifies the maximal count of entries that will be evicted."
-          },
-          {
-            "name": "mode",
-            "type": "StreamTrimMode",
-            "description": "Determines how stream trimming should be performed."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of messages removed from the stream."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "signature": "StreamTrimAsync(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -939,12 +871,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages removed from the stream."
         }
       },
       {
-        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamTrimAsync(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -978,75 +910,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of messages removed from the stream."
-        }
-      },
-      {
-        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "maxLength",
-            "type": "int",
-            "description": "The maximum length of the stream."
-          },
-          {
-            "name": "useApproximateMaxLength",
-            "type": "bool",
-            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of messages removed from the stream."
-        }
-      },
-      {
-        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "maxLength",
-            "type": "long",
-            "description": "The maximum length of the stream."
-          },
-          {
-            "name": "useApproximateMaxLength",
-            "type": "bool",
-            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
-          },
-          {
-            "name": "limit",
-            "type": "long?",
-            "description": "Specifies the maximal count of entries that will be evicted."
-          },
-          {
-            "name": "mode",
-            "type": "StreamTrimMode",
-            "description": "Determines how stream trimming should be performed."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages removed from the stream."
         }
       }
@@ -1071,8 +935,8 @@
             "description": ""
           },
           {
-            "name": "array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "array",
             "description": ""
           }
         ],

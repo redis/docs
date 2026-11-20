@@ -24,6 +24,9 @@ weight: 30
 > [!WARNING]
 > Downgrading from RDI 2.0.0 or later to a version earlier than 2.0.0 is not supported.
 
+For a disaster recovery deployment, also review
+[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
+
 ## Upgrading a VM installation
 
 Follow the steps below to upgrade an existing
@@ -286,6 +289,11 @@ restores at every later failover. This matters most when you upgrade from a vers
 2.0.0: the other instance does not keep a copy of your pipelines, so if it became the leader first, RDI
 would delete your pipelines at the next failover.
 
+In a disaster recovery setup with a GCS lease, the upgraded leader migrates the lease to a
+format that earlier versions can't read. The follower can't take over until you upgrade it
+too, so upgrade it as soon as you've checked the leader. See
+[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
+
 ### Validate your configurations before you redeploy them
 
 RDI 2.2.0 rejects some configurations that earlier versions accepted. After the upgrade, check
@@ -367,6 +375,12 @@ Otherwise, the source stops with an unknown schema error when the new table firs
 keep the previous behavior, set `schema.history.internal.store.only.captured.tables.ddl` to
 `false` in the `advanced.source` section of the source.
 
+### Check the archived log retention of Oracle sources
+
+If you upgrade from a version before 1.18.1 and use an Oracle source, check that your backup and
+cleanup jobs keep archived logs long enough before you upgrade. See
+[Upgrade from RDI versions before 1.18.1](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md#upgrade-from-rdi-versions-before-1181).
+
 ### Downgrade from RDI 2.2.0
 
 Downgrading to a version earlier than 2.0.0 is not supported. Do not downgrade after you create
@@ -423,6 +437,12 @@ The one to check for is the metric collections endpoint, which now keys `data_st
 by the source-qualified table name, such as `mysql.inventory.addresses`, instead of by the Redis
 stream name. Update any dashboard or script that reads the previous form. See
 [Observability](/content/integrate/redis-data-integration/observability.md) for the metrics RDI reports.
+
+### Check the archived log retention of Oracle sources
+
+If you upgrade from a version before 1.18.1 and use an Oracle source, check that your backup and
+cleanup jobs keep archived logs long enough before you upgrade. See
+[Upgrade from RDI versions before 1.18.1](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md#upgrade-from-rdi-versions-before-1181).
 
 ## Enabling the Flink processor
 

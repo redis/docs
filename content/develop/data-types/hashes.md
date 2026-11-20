@@ -26,6 +26,10 @@ weight: 50
 Redis hashes are record types structured as collections of field-value pairs.
 You can use hashes to represent basic objects and to store groupings of counters, among other things.
 
+{{< data-type-animation type="hash" >}}
+
+## Examples
+
 {{< clients-example set="hash_tutorial" step="set_get_all" description="Foundational: Set and retrieve hash fields using HSET and HGET (overwrites existing field values)" >}}
 > HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
 (integer) 4
@@ -83,8 +87,6 @@ You can find the [full list of hash commands in the documentation](/commands?gro
 
 It is worth noting that small hashes (i.e., a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
-
-## Examples
 
 * Store counters for the number of times bike:1 has been ridden, has crashed, or has changed owners:
 {{< clients-example set="hash_tutorial" step="incrby_get_mget" description="Practical pattern: Combine HINCRBY and HMGET to track multiple counters when you need atomic updates across multiple fields" difficulty="intermediate" buildsUpon="hincrby, hmget" >}}

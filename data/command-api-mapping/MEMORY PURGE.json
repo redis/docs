@@ -87,28 +87,29 @@
         }
       }
     ],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "memory(string $subcommand, ...$args)",
+        "signature": "memory(subcommand: \"PURGE\", callback?: Callback<\"OK\">)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"PURGE\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

@@ -235,7 +235,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -321,40 +321,11 @@
           "type": "long",
           "description": "The number of removed elements."
         }
-      },
-      {
-        "signature": "ListRemove(RedisKey key, RedisValue value, long count = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to remove from the list."
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "The count behavior (see method summary)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of removed elements."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "ListRemove(RedisKey key, RedisValue value, long count = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListRemoveAsync(RedisKey key, RedisValue value, long count = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -378,36 +349,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of removed elements."
-        }
-      },
-      {
-        "signature": "ListRemove(RedisKey key, RedisValue value, long count = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to remove from the list."
-          },
-          {
-            "name": "count",
-            "type": "long",
-            "description": "The count behavior (see method summary)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of removed elements."
         }
       }

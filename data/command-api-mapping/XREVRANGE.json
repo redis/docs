@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xrevrange(, name: KeyT,, max: StreamIdT = \"+\",, min: StreamIdT = \"-\",, count: Optional[int] = None,)",
+        "signature": "xrevrange(name: KeyT, max: StreamIdT = \"+\", min: StreamIdT = \"-\", count: Optional[int] = None)",
         "params": [
           {
             "name": "name",
@@ -355,7 +355,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XREVRANGE(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
+        "signature": "xRevRange(key: RedisArgument, start: RedisArgument, end: RedisArgument, options?: XRangeOptions)",
         "params": [
           {
             "name": "key",
@@ -363,8 +363,18 @@
             "description": ""
           },
           {
-            "name": "...args",
-            "type": "Parameters<typeof xRangeArguments>",
+            "name": "start",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "XRangeOptions",
             "description": ""
           }
         ],
@@ -395,12 +405,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[id",
+            "type": "Callback<[id: string, fields: string[]][]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[id: string, fields: string[]][], Context>",
           "description": ""
         }
       },
@@ -434,12 +444,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[id",
+            "type": "Callback<[id: string, fields: string[]][]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[id: string, fields: string[]][], Context>",
           "description": ""
         }
       }
@@ -621,50 +631,11 @@
           "type": "StreamEntry[]",
           "description": "Returns an instance of StreamEntry for each message returned."
         }
-      },
-      {
-        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "minId",
-            "type": "RedisValue?",
-            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream."
-          },
-          {
-            "name": "maxId",
-            "type": "RedisValue?",
-            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream."
-          },
-          {
-            "name": "count",
-            "type": "int?",
-            "description": "The maximum number of messages to return."
-          },
-          {
-            "name": "messageOrder",
-            "type": "Order",
-            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamEntry[]",
-          "description": "Returns an instance of StreamEntry for each message returned."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamRangeAsync(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -698,46 +669,7 @@
           }
         ],
         "returns": {
-          "type": "StreamEntry[]",
-          "description": "Returns an instance of StreamEntry for each message returned."
-        }
-      },
-      {
-        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "minId",
-            "type": "RedisValue?",
-            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream."
-          },
-          {
-            "name": "maxId",
-            "type": "RedisValue?",
-            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream."
-          },
-          {
-            "name": "count",
-            "type": "int?",
-            "description": "The maximum number of messages to return."
-          },
-          {
-            "name": "messageOrder",
-            "type": "Order",
-            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamEntry[]",
+          "type": "Task<StreamEntry[]>",
           "description": "Returns an instance of StreamEntry for each message returned."
         }
       }
@@ -762,8 +694,8 @@
             "description": ""
           },
           {
-            "name": "?int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "?int",
             "description": ""
           }
         ],
