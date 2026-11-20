@@ -4647,7 +4647,7 @@
     },
     "/iris/data/v1/agent-playbooks/playbooks/{playbookId}/proposals": {
       "post": {
-        "description": "Submit an FAQ for human review. Extraction and agent submissions share proposalPolicy.maxOpenProposals. When the Inbox is full, HTTP 409 content-limit-exceeded identifies the configured limit and observed open count; the proposal was not saved. Review/dismiss existing proposals or ask an administrator to increase the configured limit before retrying. Capacity is advisory because Search is eventually consistent.",
+        "description": "Submits a complete FAQ or skill candidate for review. Use add to propose a new entry.\nUse update to propose a new version of an existing entry and supply its entryId and basedOnVersion.\nExtraction and agent submissions share proposalPolicy.maxOpenProposals. When the inbox is full, HTTP 409 content-limit-exceeded identifies the configured limit and observed open count. Dismiss existing proposals or ask an administrator to raise the limit before retrying. The open count is advisory because search is eventually consistent.",
         "operationId": "CreateProposal",
         "requestBody": {
           "content": {

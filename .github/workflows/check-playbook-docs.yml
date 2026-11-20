@@ -2,6 +2,7 @@ name: Check Playbooks documentation
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - 'content/develop/ai/context-engine/agent-playbooks/**'
       - 'content/develop/ai/context-engine/sdk-and-cli.md'
@@ -50,3 +51,4 @@ jobs:
         env:
           PLAYBOOK_DOCS_UPDATE_PYTHON: ${{ runner.temp }}/playbook-docs-update-py/bin/python
           PLAYBOOK_DOCS_UPDATE_NODE_DIR: ${{ runner.temp }}/playbook-docs-update-ts
+          PLAYBOOK_DOCS_REQUIRE_UNIFIED_UPDATE: ${{ (github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft) && '1' || '0' }}
