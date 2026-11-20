@@ -21,7 +21,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from uuid import uuid4
 
-from redis_agent_playbook import Playbook
+from redis_iris.agent_playbooks import AgentPlaybooks
 
 from examples import AGENT_GUIDES, GUIDES, agent_scripts, cli_script, connection_setup, full_examples, scripts, skill_package, standalone_python
 
@@ -148,7 +148,8 @@ def run_case(name, case, args, log_dir):
             env = {**os.environ, "IRIS_AGENT_PLAYBOOKS_URL": args.dp_url, "IRIS_AGENT_PLAYBOOKS_PLAYBOOK_ID": playbook_id,
                    "IRIS_AGENT_PLAYBOOKS_API_KEY": author_key, "OPENAI_AGENTS_DISABLE_TRACING": "1"}
             env["PATH"] = str(Path(sys.executable).parent) + ":" + env["PATH"]
-            with Playbook(server_url=args.dp_url, playbook_id=playbook_id, api_key=author_key, retry_config=None) as client:
+            with AgentPlaybooks.from_env(env).client as client:
+                client.sdk_configuration.retry_config = None
                 if guide in ("retrieval", "limits", "async_search", *AGENT_GUIDES):
                     env["PLAYBOOK_FAQ_ID"] = seed(client, directory, "faq")
                 if guide in ("retrieval", "mcp", *AGENT_GUIDES):

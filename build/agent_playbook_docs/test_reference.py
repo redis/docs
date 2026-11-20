@@ -1,5 +1,6 @@
 """Check the public contract and documentation links without a running service."""
 
+from importlib.metadata import requires
 import json
 from pathlib import Path
 import re
@@ -64,8 +65,16 @@ def test_documentation_links_anchors_and_images_resolve():
                 assert unquote(anchor) in heading_ids(page.read_text()), (path, target)
 
 
+def test_playbook_examples_use_the_unified_sdk():
+    sources = list((ROOT / "local_examples/iris/playbooks").rglob("*.py"))
+    sources.extend(Path(__file__).parent.glob("live_*.py"))
+    direct_import = re.compile(r"^\s*(?:from|import)\s+redis_agent_playbook\b", re.MULTILINE)
+    assert not [path for path in sources if direct_import.search(path.read_text())]
+
+
 def test_source_lock():
-    check()
+    lock = check()
+    assert lock["python_package"] in requires("redis-iris")
 
 
 def test_tce_sources_cover_rendered_steps():

@@ -42,9 +42,8 @@ def digest(document):
 def check(sdk_repo=None):
     lock = json.loads(LOCK.read_text())
     requirements = Path(__file__).with_name("requirements.txt").read_text().splitlines()
-    for name in ("python_package", "unified_python_package"):
-        if lock[name] not in requirements:
-            raise ValueError(f"Documentation requirements differ from {name} in the source lock.")
+    if lock["unified_python_package"] not in requirements:
+        raise ValueError("Documentation requirements differ from the unified SDK source lock.")
     expected = lock["data_plane_contract_sha256"]
     if digest(json.loads(SPEC.read_text())) != expected:
         raise ValueError("Docs contract differs from the locked SDK input. Regenerate and review it.")

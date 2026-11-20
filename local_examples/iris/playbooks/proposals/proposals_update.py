@@ -4,8 +4,8 @@ from base64 import b64decode
 import os
 from pathlib import Path
 
-from redis_agent_playbook import models
 from redis_iris import Iris
+from redis_iris.agent_playbooks import models
 
 playbook = Iris.from_env().agent_playbooks()
 entry_id = os.environ["PLAYBOOK_ENTRY_ID"]

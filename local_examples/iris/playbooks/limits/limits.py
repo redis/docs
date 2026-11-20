@@ -9,12 +9,12 @@ print(playbook.client.get_playbook_health())
 # STEP_START playbook-error-type
 import json
 import os
-from redis_agent_playbook.errors import PlaybookError
+from redis_iris.agent_playbooks import errors
 
 try:
     entry = playbook.client.get_faq(faq_id=os.environ["PLAYBOOK_FAQ_ID"])
     print(entry)
-except PlaybookError as error:
+except errors.PlaybookError as error:
     try:
         problem = json.loads(error.body)
     except ValueError:
