@@ -196,39 +196,37 @@ changes before you upgrade from RDI 2.2.x. If you upgrade from RDI 2.0.x, also r
 Debezium 3.7 no longer sizes each LogMiner iteration by a range of SCNs. Instead, while the
 collector catches up, each iteration reads `log.mining.log.count.min` (default `2`) logs per redo
 thread, and up to `log.mining.log.count.growth.max` (default `4`) while a long-running transaction
-holds back the mining. RDI 2.4.0 rejects the properties that Debezium removed. This example
-shows where to remove them from your configuration:
+holds back the mining. RDI 2.4.0 ignores the properties that Debezium removed, so a source that
+sets them mines with the default log counts after the upgrade. This example shows where to remove
+them from your configuration:
 
 ```yaml
 sources:
   <source-name>:
     advanced:
       source:
-        log.mining.batch.size.min: <value> # Rejected since RDI 2.4.0
-        log.mining.batch.size.max: <value> # Rejected since RDI 2.4.0
-        log.mining.batch.size.default: <value> # Rejected since RDI 2.4.0
-        log.mining.batch.size.increment: <value> # Rejected since RDI 2.4.0
-        log.mining.sleep.time.min.ms: <value> # Rejected since RDI 2.4.0
-        log.mining.sleep.time.max.ms: <value> # Rejected since RDI 2.4.0
-        log.mining.sleep.time.default.ms: <value> # Rejected since RDI 2.4.0
-        log.mining.sleep.time.increment.ms: <value> # Rejected since RDI 2.4.0
-        log.mining.scn.gap.detection.gap.size.min: <value> # Rejected since RDI 2.4.0
-        log.mining.scn.gap.detection.time.interval.max.ms: <value> # Rejected since RDI 2.4.0
-        log.mining.continuous.mine: <value> # Rejected since RDI 2.4.0
-        log.mining.buffer.infinispan.cache.rollbacks: <value> # Rejected since RDI 2.4.0
-        log.mining.buffer.ehcache.rollbacks.config: <value> # Rejected since RDI 2.4.0
+        log.mining.batch.size.min: <value> # Ignored since RDI 2.4.0
+        log.mining.batch.size.max: <value> # Ignored since RDI 2.4.0
+        log.mining.batch.size.default: <value> # Ignored since RDI 2.4.0
+        log.mining.batch.size.increment: <value> # Ignored since RDI 2.4.0
+        log.mining.sleep.time.min.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.sleep.time.max.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.sleep.time.default.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.sleep.time.increment.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.scn.gap.detection.gap.size.min: <value> # Ignored since RDI 2.4.0
+        log.mining.scn.gap.detection.time.interval.max.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.continuous.mine: <value> # Ignored since RDI 2.4.0
+        log.mining.buffer.infinispan.cache.rollbacks: <value> # Ignored since RDI 2.4.0
+        log.mining.buffer.ehcache.rollbacks.config: <value> # Ignored since RDI 2.4.0
 ```
-
-A collector that is already running ignores these properties after the upgrade, so it mines with
-the default log counts until you redeploy.
 
 If you set custom values for the removed properties, replace them as follows:
 
 | Removed properties | What to do |
 | :-- | :-- |
-| `log.mining.batch.size.*`, raised so the collector keeps up with the volume of your redo logs | Remove them and raise `log.mining.log.count.min`. |
+| `log.mining.batch.size.*`, raised so the collector keeps up with the volume of your redo logs | Remove them and raise `log.mining.log.count.min`. Keep `log.mining.log.count.growth.max` above it. To mine all available logs in one pass, set `log.mining.log.count.min` to `0`. |
 | `log.mining.batch.size.*`, raised so mining advances past long-running transactions | Remove them and raise `log.mining.log.count.growth.max`. |
-| `log.mining.sleep.time.*` | Remove them. Debezium 3.7 has no replacement. |
+| `log.mining.sleep.time.*` | Remove them. You can no longer change the pause between mining sessions. |
 | `log.mining.scn.gap.detection.*` | Remove them. Debezium 3.7 has no replacement. |
 | `log.mining.continuous.mine`, `log.mining.buffer.infinispan.cache.rollbacks`, and `log.mining.buffer.ehcache.rollbacks.config` | Remove them. Debezium 3.7 has no replacement. |
 
@@ -240,14 +238,29 @@ The log count properties don't apply when `log.mining.strategy` is set to `redo_
 it and plans to remove it. Use the default `online_catalog` instead, or `hybrid` if `lob.enabled`
 is not set to `true`.
 
+### Change Oracle tables after the snapshot completes
+
+Oracle sources now lock the captured tables until the snapshot completes. An `ALTER TABLE` on a
+captured table fails while a snapshot runs, so change the tables after it.
+
+RDI 2.4.0 also ignores `snapshot.database.errors.max.retries`. Remove it from your configuration:
+
+```yaml
+sources:
+  <source-name>:
+    advanced:
+      source:
+        snapshot.database.errors.max.retries: <value> # Ignored since RDI 2.4.0
+```
+
 ### Check MySQL and MariaDB sources
 
 RDI 2.4.0 rejects `snapshot.mode: never` for MySQL and MariaDB sources, and a source that uses it
 fails at startup. Use `no_data`, which also skips the initial snapshot, if it suits your case.
 
-In addition, these sources parse DDL statements with a new parser. If a source fails on a DDL
-statement that it parsed before, set `ddl.parser.type: legacy` in the `advanced.source` section
-of the source.
+In addition, MySQL sources parse DDL statements with a new parser. If a MySQL source fails on a
+DDL statement that it parsed before, set `ddl.parser.type: legacy` in the `advanced.source`
+section of the source.
 
 ### Update the database.ssl.mode values of MariaDB sources
 
@@ -262,6 +275,17 @@ certificate.
 PostgreSQL user defined types are reported without their schema, for example `geometry`
 instead of `"inventory"."geometry"`. This changes the metadata that RDI reports, without any
 change to your configuration.
+
+### Review the heartbeat settings of your sources
+
+The Debezium collector now sends a heartbeat every 60 seconds. This applies to every source that
+uses the Debezium collector: MySQL, MariaDB, Oracle, PostgreSQL, SQL Server, and MongoDB. To
+change the interval, set `heartbeat.interval.ms` in the `advanced.source` section of the source.
+Set it to `0` to turn heartbeats off.
+
+If a source sets `heartbeat.action.query` without `heartbeat.interval.ms`, RDI now runs the query
+every 60 seconds. To keep the query from running, set `heartbeat.interval.ms` to `0` or remove
+the query.
 
 ## Upgrading to RDI 2.2.0
 
