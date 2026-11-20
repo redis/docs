@@ -87,6 +87,7 @@
     p.cur = 0;                 // the step on screen
     p.instant = false;         // true while fast-forwarding
     p.userPaused = reduced;    // with reduced motion, nothing moves until the reader presses play
+    p.held = [];               // what was moving in the drawing when the animation paused
     p.visible = !("IntersectionObserver" in window);
 
     root.textContent = "";
@@ -116,7 +117,7 @@
     p.setPaused(p.userPaused);
 
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) { p.visible = es[es.length - 1].isIntersecting; }, { threshold: 0.4 }).observe(root);
+      new IntersectionObserver(function (es) { p.visible = es[es.length - 1].isIntersecting; p.sync(); }, { threshold: 0.4 }).observe(root);
     }
     /* A scene is laid out in pixels, so a new width means drawing it again, at the step it had reached. */
     let width = root.clientWidth, timer;
@@ -139,6 +140,22 @@
     this.root.classList.toggle("is-paused", on);
     this.button.innerHTML = on ? ICON.play : ICON.pause;
     this.button.setAttribute("aria-label", on ? "Play animation" : "Pause animation");
+    this.sync();
+  };
+
+  /* Stop whatever is moving in the drawing when the animation pauses, and let it carry on when the
+     animation plays again. wait() and tween() count play time by themselves, but a motion that the
+     browser is running has to be told. Call this whenever paused() may have changed. */
+  Player.prototype.sync = function () {
+    const p = this;
+    if (!p.paused()) {
+      p.held.forEach(function (a) { a.play(); });
+      p.held.length = 0;
+    } else if (p.canvas.getAnimations) {
+      p.canvas.getAnimations({ subtree: true }).forEach(function (a) {
+        if (a.playState === "running") { a.pause(); p.held.push(a); }
+      });
+    }
   };
 
   /* Size the canvas for this width, and reserve room for the tallest command, reply, and note, so the
@@ -187,7 +204,9 @@
         if (p.instant || !el.animate) return Promise.resolve();
         const o = { duration: ms || 360, easing: EASE };
         for (const k in opts) o[k] = opts[k];
-        return el.animate(frames, o).finished.catch(function () {});
+        const a = el.animate(frames, o);
+        if (p.paused()) { a.pause(); p.held.push(a); }   // it starts when the animation plays again
+        return a.finished.catch(function () {});
       },
       enter: function (el, from, ms, delay) {
         return c.anim(el, [{ opacity: 0, transform: from || "scale(.6)" }, { opacity: 1, transform: "none" }], ms || 340,
@@ -214,10 +233,13 @@
         check();
         if (p.instant) { fn(to); return Promise.resolve(); }
         return new Promise(function (resolve, reject) {
-          const t0 = performance.now();
+          let done = 0, last = performance.now();   // play time: it stops while the animation is paused or off screen
           (function frame() {
             if (gen !== p.gen) return reject(CANCEL);
-            const k = Math.min(1, (performance.now() - t0) / ms);
+            const now = performance.now();
+            if (!p.paused()) done += Math.min(now - last, 50);   // a hidden tab draws no frames, so a long gap isn't play time
+            last = now;
+            const k = Math.min(1, done / ms);
             fn(from + (to - from) * (1 - Math.pow(1 - k, 3)));
             if (k < 1) requestAnimationFrame(frame); else resolve();
           })();
@@ -272,6 +294,8 @@
      the reader has paused the animation, `from` is drawn that way too, and the loop waits there. */
   Player.prototype.play = function (from) {
     const p = this, gen = ++p.gen, steps = p.scene.steps;
+    p.held.forEach(function (a) { a.cancel(); });   // the run before this one may have paused partway through a motion
+    p.held.length = 0;
     (async function () {
       for (;;) {
         p.layout();
@@ -1215,6 +1239,7 @@
   }
   function start() {
     document.querySelectorAll(".dta[data-dta]").forEach(mount);
+    document.addEventListener("visibilitychange", function () { players.forEach(function (p) { p.sync(); }); });
     /* Labels are measured as they are drawn, so draw again if the code font arrives late. */
     const font = '12px "Space Mono"';
     if (document.fonts && document.fonts.load && !document.fonts.check(font)) {
