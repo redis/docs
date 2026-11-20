@@ -1297,6 +1297,8 @@
               "name": "acme",
               "resource_claim": "resource",
               "scope": "bound_databases",
+              "token_max_lifetime_seconds": 3600,
+              "typ": "JWT",
               "uid": 1
             }
           ]
@@ -1465,6 +1467,8 @@
               "jwks_max_stale_seconds",
               "jwks_retry_attempts",
               "jwks_retry_backoff_ms",
+              "token_max_lifetime_seconds",
+              "typ",
               "algorithms",
               "identity_claim",
               "resource_claim",
@@ -1490,6 +1494,8 @@
           "name": "acme",
           "resource_claim": "resource",
           "scope": "bound_databases",
+          "token_max_lifetime_seconds": 3600,
+          "typ": "JWT",
           "uid": 1
         }
       },
@@ -1607,6 +1613,19 @@
               "bound_databases",
               "all_databases"
             ],
+            "type": "string"
+          },
+          "token_max_lifetime_seconds": {
+            "default": 3600,
+            "description": "The longest token lifetime accepted, exp minus iat, in seconds",
+            "maximum": 86400,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "typ": {
+            "default": "JWT",
+            "description": "The typ the token header must carry, for example JWT or at+jwt. Empty means it is not checked.",
+            "pattern": "^$|^[A-Za-z0-9!#$%\u0026'*+.^_|~-]{1,255}(/[A-Za-z0-9!#$%\u0026'*+.^_|~-]{1,255})?$",
             "type": "string"
           }
         },
