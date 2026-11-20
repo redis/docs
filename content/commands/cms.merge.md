@@ -48,7 +48,7 @@ title: CMS.MERGE
 > This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-Merges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. 
+Merges several sketches into one sketch. All sketches must have identical width, depth, and cell size. Weights can be used to multiply certain sketches. Default weight is 1. 
 
 ## Required arguments
 

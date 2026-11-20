@@ -67,6 +67,8 @@ is key to modify.
 
 is JSONPath to specify. For new Redis keys the `path` must be the root. For existing keys, when the entire `path` exists, the value that it contains is replaced with the `json` value. For existing keys, when the `path` exists, except for the last element, a new child is added with the `json` value.
 
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled, `JSON.MSET` also creates missing parent objects in `path`, for both new and existing keys. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
+
 </details>
 
 <details open><summary><code>value</code></summary>
@@ -90,6 +92,17 @@ redis> JSON.GET doc2 $
 "[{\"f\":{\"a\":3}}]"
 redis> JSON.GET doc3
 "{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}"
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>Create a new key from nested paths (requires <code>json-auto-create-deep-paths</code>)</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.MSET doc4 $.a.b.c 5 doc4 $.d.e.f 6
+OK
+redis> JSON.GET doc4 $
+"[{\"a\":{\"b\":{\"c\":5}},\"d\":{\"e\":{\"f\":6}}}]"
 {{< / highlight >}}
 </details>
 

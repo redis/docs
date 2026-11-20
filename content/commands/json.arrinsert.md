@@ -68,6 +68,8 @@ is position in the array where you want to insert a value. The index must be in 
 <details open><summary><code>path</code></summary> 
 
 is JSONPath to specify. Default is root `$`.
+
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled and `path` doesn't exist, `JSON.ARRINSERT` creates the missing objects, starts the new location as an empty array, and inserts into it. This works only when `index` is `0`. With any other index, nothing is created. The key must already exist. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
 </details>
 
 ## Examples

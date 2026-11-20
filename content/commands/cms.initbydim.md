@@ -10,6 +10,10 @@ arguments:
   type: integer
 - name: depth
   type: integer
+- name: cell_size
+  optional: true
+  token: CELL_SIZE
+  type: integer
 categories:
 - docs
 - develop
@@ -30,7 +34,7 @@ railroad_diagram: /images/railroad/cms.initbydim.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Initializes a Count-Min Sketch to dimensions specified by user
-syntax_fmt: CMS.INITBYDIM key width depth
+syntax_fmt: "CMS.INITBYDIM key width depth [CELL_SIZE\_cell_size]"
 title: CMS.INITBYDIM
 ---
 Initializes a Count-Min Sketch to dimensions specified by user.
@@ -55,10 +59,20 @@ Number of counter-arrays. Reduces the probability for an error of a certain size
 
 </details>
 
+## Optional arguments
+
+<details open><summary><code>CELL_SIZE cell_size</code></summary>
+
+The size, in bytes, of each counter in the sketch. Valid values are `1`, `2`, `4`, or `8`. A smaller cell size reduces memory usage but lowers the maximum count a cell can hold before overflowing. A larger cell size supports higher counts at the cost of more memory. Default is `4`.
+
+</details>
+
 ## Examples
 
 ```
 redis> CMS.INITBYDIM test 2000 5
+OK
+redis> CMS.INITBYDIM test2 2000 5 CELL_SIZE 1
 OK
 ```
 
