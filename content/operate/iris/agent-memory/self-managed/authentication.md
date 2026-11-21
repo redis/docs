@@ -148,16 +148,32 @@ Operation mapping:
 | `write` | Add/delete session events, delete session memory, set session summary, set session property, create/update/delete long-term memory. |
 {{< /table-scrollable >}}
 
+For a federated service subject that needs to read across owners, grant `read_all_owners` explicitly for the target store. This grant is read-only. Agent keys use their store grants and the store's ownership rules.
+
+### Authenticate with an Iris access token
+
+Requires self-managed Redis Iris 1.1 or later.
+
+Send the Iris access token in the `Authorization: Bearer` header. Use a token with the Data Plane audience and a principal with a grant for the target store.
+
+For tokens issued by an identity provider registered to a tenant, see [Configure a tenant identity provider](/content/operate/iris/identity-service/self-managed/authentication.md#configure-a-tenant-identity-provider). The issuer record supplies the tenant, and its `userIdClaim` supplies the ID Agent Memory uses for ownership.
+
 ## Server-side ownership enforcement
 
 Store grants authorize access to a store. Ownership enforcement adds a check within that store: ordinary callers can access their own personal records and shared records.
 
-This section applies to on-prem deployments. Ownership enforcement is off by default in the on-prem server, worker, and chart. Turn it on with `memory.memory.ownership.enabled: true` after you configure a user identity; see [Enable or change ownership enforcement](#enable-or-change-ownership-enforcement).
+In self-managed Redis Iris 1.0.1, use the deployment setting `memory.memory.ownership.enabled`. It defaults to false. Configure a user identity before enabling enforcement. See [Enable or change ownership enforcement](#enable-or-change-ownership-enforcement).
+
+### Set ownership for one store
+
+Requires self-managed Redis Iris 1.1 or later.
+
+Set `ownership.mode` in the store create or update request. Use `ENABLED` or `DISABLED` to override the default. `INHERIT` uses the tenant default if configured, then the deployment setting. Read `ownership.enabled` and `ownership.source` in the response to check the effective policy. If the server or worker caches store settings, allow up to `metadata.cache_ttl` for the change to take effect.
 
 | Setting | Personal access | Shared access |
 | --- | --- | --- |
-| `ownership.enabled: false` | Your trusted backend must authorize every read and write, including direct-ID requests. Owner fields and filters do not authenticate the user. | Your backend checks which shared namespaces the user may access. |
-| `ownership.enabled: true` | The server compares the stored owner with the authenticated user ID. Search and list restrictions apply in addition to client filters. | Callers with the required store permission can access shared records. Shared scope does not enforce team membership. |
+| Effective policy disabled | Your trusted backend must authorize every read and write, including direct-ID requests. Use verified identity for those checks. | Your backend checks which shared namespaces the user may access. |
+| Effective policy enabled | The server compares the stored owner with the authenticated user ID. Search and list restrictions apply in addition to client filters. | Callers with the required store permission can access shared records. Apply team restrictions in your backend. |
 
 Keep application-specific checks in your backend in both modes. Use separate stores and grants if teams need separate server-enforced access. Worker credentials are for background services; do not give them to applications.
 
@@ -174,7 +190,11 @@ With enforcement on:
 - A personal namespace child inherits its root's owner.
 - A caller without a user ID can access shared records within its grants, but cannot claim a named personal owner. Ownerless private records are hidden.
 
-Agent keys created by `POST /v1/api-keys` have no user binding by default, and a key never copies its creator's identity. To bind a key to one user, set `identityService.apiKeys.userBinding.enabled: true` (default `false`) and send `userId` when you mint the key. The control token and a `suite_admin` can set any user ID; other callers can set only their own. The Data Plane then uses that user ID for the key's requests. For an application that acts for many users, use delegation instead. Configuring an OpenID Connect (OIDC) claim alone does not bind a key.
+Agent keys have no user binding by default. To enable binding during key creation, set `identityService.apiKeys.userBinding.enabled: true`. A caller that can create keys for each target product can select any valid user ID in its authorized tenant. This includes a `product_admin` with permission for Agent Memory when the key grants access to Agent Memory only.
+
+On `POST /v1/api-keys`, send `userId` to select the exact owner ID. To use your application's user ID, send `applicationUserId` instead. For example, `"applicationUserId": "42"` produces `"userId": "app-42"`. When you supply an explicit `ownerId` or `actorId` in a memory request, use the effective `userId` from the key metadata.
+
+The key can read or write the selected user's private records within its store grants. Rotation keeps the binding, even when binding new keys is disabled. To change the user, create a new key and revoke the old one. For an application that acts for many users, [delegate the user on each request](#delegate-a-user-with-an-agent-key).
 
 An unbound key can pass store health checks and access allowed shared data while personal creation returns `403`. A successful health check does not establish a user identity.
 
@@ -297,7 +317,7 @@ Before upgrading an existing deployment:
 1. Compare stored personal owners with the verified user IDs your application will send. Resolve owner mismatches before enabling enforcement; the setting does not rewrite owners.
 1. Configure delegation, then set `memory.memory.ownership.enabled: true` in chart-rendered values. For a bring-your-own file, use `ownership.enabled: true` at the root.
 1. Apply the setting to both Data Plane servers and workers, then roll out those processes. `MEM_OWNERSHIP_ENABLED` overrides the file value; check both for conflicting settings.
-1. Replace existing Summary Views when changing this setting. A view retains the source-access policy from its creation.
+1. Replace each existing Summary View whose source-access policy differs from the store's new effective policy. A view retains the source-access policy from its creation.
 1. Test two users: each can access their own personal records, neither can retrieve or search for the other's records, and both can access shared records allowed by their store grants.
 1. Test an agent key without a user token: it must not retrieve personal records or create a session for a named owner.
 

@@ -106,6 +106,48 @@ kubectl -n <namespace-name> rollout status deployment/redis-agent-memory-control
 To move from a standalone `redis-agent-memory` release or a preview chart, see
 [Move from a preview or standalone install](/content/operate/iris/self-managed/_index.md#move-from-a-preview-or-standalone-install).
 
+## Collect and inspect audit records
+
+Requires self-managed Redis Iris 1.1 or later.
+
+Use the production logging profile to emit structured records to the container logs. Configure your collector to select logger `audit` or names ending in `.audit`. Collect records from Agent Memory and the Identity Service. Use `audit_product: memory` to find Memory events.
+
+Retain the JSON records in storage with access controls and monitor the collector for output failures, retries, buffer growth, and low disk space. Audit records bypass log sampling and use best-effort delivery. A service crash or collector failure can lose or repeat a record.
+
+Use `subject` and `user_id` to identify the authenticated actor. Use `store_id`, `resource_id`, and `owner_id` to identify the affected data when those fields are available. The `result` field is `allowed`, `denied`, or `failed`. An allowed mutation confirms persistence, while an allowed authorization event confirms the access check.
+
+Coverage includes authentication and authorization results, store and namespace changes, long-term memory writes, and document ingestion transitions. The following actions cover session and Summary View changes, expiry refresh, and authentication.
+
+| Actions | What they record |
+| --- | --- |
+| `session.create`, `session.event.create`, `session.delete`, `session.event.delete`, `session.events.delete`, `session.summary.update`, `session.property.update` | Committed session changes. Single-event operations can carry an `event_id`. |
+| `summary_view.create`, `summary_view.update`, `summary_view.delete.begin`, `summary_view.delete` | Definition changes and deletion progress. |
+| `summary_view.refresh.accept`, `summary_view.refresh.complete` | A newly accepted manual refresh or a committed result. |
+| `summary_view.refresh.request` | A worker failed to prepare a refresh after accepting its target. |
+| `maintenance.retry` | A confirmed change to which recovery attempt may run. Replaying a pending attempt adds no second mutation event. |
+| `memory.ttl.refresh` | The outcome of an opted-in REST or Model Context Protocol (MCP) retrieval that reached expiry refresh. The event applies to the store and omits memory IDs, owner IDs, and payloads. `allowed` can mean no expiry changed. |
+| `authenticate_delegated_user`, `authenticate_oidc`, `introspect_api_key`, `token.exchange` | Authentication and token exchange outcomes with verified identities and bounded reasons. |
+
+The token exchange endpoint emits one audit record for each well-formed request that reaches it, including requests it rate-limits.
+
+Use request logs and metrics for routine reads. For write retries, use the operation's idempotency contract. A confirmed mutation can have a follow-up failure event if later work failed.
+
+## Recover pending Summary View cleanup
+
+Requires self-managed Redis Iris 1.1 or later.
+
+If the content database is unreachable during store deletion, the control plane records pending cleanup in metadata Redis before it removes the store. Give the control plane read and write access to the `iris:memory:store-cleanup` hash. The hash uses your configured metadata namespace as its prefix. If the control plane cannot record pending cleanup, deletion fails and retains the store metadata.
+
+1. Restore access to the content database.
+1. If the store is still present, retry deletion through the control plane. A successful cleanup completes its pending record.
+1. If the store is gone and the record has no `completed_at` value, contact Redis support for cleanup of the deleted store. Provide the recorded store and database IDs. Keep database credentials in your secret store.
+
+## Investigate partial bulk writes
+
+Requires self-managed Redis Iris 1.1 or later.
+
+If bulk creation returns HTTP `201`, inspect the per-record `errors` before retrying. In the worker log, find the warning `partial failures in bulk create`. Use its `api_request_id` to find the matching Data Plane log entries. Check the failure stage to distinguish placement, admission, and persistence problems. The summary gives the created, failed, and omitted counts when the service caps individual warnings.
+
 ## Release tests
 
 `helm test iris` creates a temporary store, mints a scoped agent key, calls the Data Plane with it,

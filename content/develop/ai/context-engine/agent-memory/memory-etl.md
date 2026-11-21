@@ -100,6 +100,8 @@ Provenance connects a memory to document or session inputs used during extractio
 | Memory/source → more evidence | `list_memory_source_evidence` | `GET .../memories/{memoryId}/sources/{sourceId}/evidence` |
 | Source → memories for an owner | `list_source_memories` | `GET .../sources/{sourceId}/memories` |
 
+If a query returns `424 Database Server Busy` while Redis rebuilds the source-link index, retry with backoff before deciding whether there are any source links.
+
 The examples take the first output memory ID. They follow its source pages and each source's independent evidence pages, then list memories that the same document source produced for `quickstart-user`:
 
 {{< clients-example set="iris_agent_memory_memory_etl" step="memory-etl-provenance" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}

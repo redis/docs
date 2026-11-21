@@ -504,7 +504,7 @@ Data in those databases is kept, except from Agent Memory `0.0.x` and Agent Play
 
 ## Tenancy and identity provider limits
 
-A release has one tenant, one identity provider issuer, and one token audience. The chart takes each from `global.iris` and applies it to every service, so every key and token resolves to that tenant.
+The single-tenant setup uses one tenant, one identity provider issuer, and one token audience. The chart takes each from `global.iris` and applies it to every service.
 
 - `global.iris.tenantId` becomes the tenant of every service and the Identity Service's `singleTenantID`. An empty value fails the schema check.
 - `global.iris.auth.oidc` supplies the issuer, JWKS URL, role claims, role mappings, and audience.
@@ -519,9 +519,29 @@ A service value that sets any of these differently fails the render, and the err
 | `role_mappings`, `issuer`, or `jwks_uri` in a service OIDC block that differs from `global.iris.auth.oidc` | The suite derives them once for every service. |
 | `audience` in a service OIDC block that differs from `global.iris.auth.oidc.audience` | Every service accepts the one audience. |
 
-To serve a second tenant or issuer, install another release in its own namespace.
+In the single-tenant setup, install another release in its own namespace to serve a second tenant or issuer.
 
-Because a release has one tenant, every valid agent key and every valid token from the configured issuer acts in `global.iris.tenantId`. No request can name another tenant, so the suite never refuses a request as cross-tenant.
+In this mode, each valid agent key and user token acts in `global.iris.tenantId`.
+
+### Use a tenant claim
+
+Requires self-managed Redis Iris 1.1 or later.
+
+Set `global.iris.auth.oidc.tenantIdClaim` to the identity provider's tenant claim. Remove the fixed tenant settings, including `global.iris.tenantId` and product `tenantId` values. Configure the issuer and audience for that release.
+
+Agent keys and grants belong to a tenant. Create a key in the tenant that owns its target store. When granting access using the Identity Service control token, name the grant's tenant. Static admin tokens use the reserved `_system` tenant by default. Use your identity provider to administer stores in a user tenant. Tenant claim values that start with an underscore are reserved.
+
+Agent Memory, Agent Playbooks, Lens, Context Gateway, and Intent Router can all run in this mode. If you enable Playbook extraction, its shared worker has read access to Memory stores across tenants. Each extraction job uses the Playbook's tenant. The control plane checks whether each binding's memory source is accessible using the requesting operator's credential. Use separate releases if the worker must have access to only one tenant.
+
+#### Switch from a fixed tenant
+
+1. If you use Lens, drain the fixed instance's pending spans before upgrading. Retain or export any data you need, then revoke the keys for that instance.
+1. Upgrade with the tenant claim settings. Configure the identity provider to keep issuing the original tenant ID to users who need their existing stores and other resources. Existing keys keep their tenant.
+1. Sign in to Lens as a user of each tenant to create that tenant's instance. Issue keys for the new instances and update the telemetry exporters. The old instance and its data stay in storage.
+
+To return to a fixed tenant, roll back to the previous Helm revision. Keys from other tenants stop working. Lens resumes processing the original fixed instance. Its per-tenant instances stay separate. Issue replacement keys for the original instance if you revoked them.
+
+Self-managed Redis Iris 1.0.1 uses the single-tenant setup.
 
 ## Not supported in this release
 
@@ -530,4 +550,4 @@ Because a release has one tenant, every valid agent key and every valid token fr
 | FIPS profile (`global.security.profile: fips`) | The install fails. Planned for `1.1`. |
 | Helm 4 | Planned for `1.1`. |
 | Standalone product chart installs | Published as dependencies of `redis-iris` only. |
-| More than one tenant, issuer, or audience per release | A release has one of each. An empty `global.iris.tenantId` fails the install. See [Tenancy and identity provider limits](#tenancy-and-identity-provider-limits). |
+| More than one tenant, issuer, or audience per release | Redis Iris 1.0.1 uses one of each. See [Tenancy and identity provider limits](#tenancy-and-identity-provider-limits). |
