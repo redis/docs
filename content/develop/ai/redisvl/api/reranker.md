@@ -55,7 +55,8 @@ and API configuration.
   * **return_score** (*bool*) – Whether to return scores alongside the
     reranked results.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
-    Defaults to None.
+    Missing or empty keys fall back to the
+    `COHERE_API_KEY` environment variable. Defaults to None.
   * **\*\*kwargs** – Passed to the Cohere `Client` and `AsyncClient`, for
     example `timeout` or `base_url`. A custom `httpx_client` is
     synchronous, so it goes to the sync client only and `arank`
@@ -251,7 +252,8 @@ and API configuration.
   * **return_score** (*bool*) – Whether to return scores alongside the
     reranked results.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
-    Defaults to None.
+    Missing or empty keys fall back to the
+    `VOYAGE_API_KEY` environment variable. Defaults to None.
 * **Raises:**
   * **ImportError** – If the voyageai library is not installed.
   * **ValueError** – If the API key is not provided.
