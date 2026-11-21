@@ -2010,6 +2010,155 @@ img.img-inline, td img[src*="#no-click"] {
   border: 0;
 }
 
+/* Client picker on /develop/. Each client is a radio input, its chip (the
+   label), and its panel of guide links, in that order, as siblings in one
+   grid. The checked input shows the panel two siblings after it, so the
+   picker works without JavaScript. Panels sort after all the chips and span
+   the full width. */
+.client-picker-grid {
+  @apply relative grid gap-2 p-4;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+}
+
+.client-picker-grid label {
+  @apply grid items-center gap-x-3 px-3 py-2 rounded-md border border-redis-pen-300 bg-white cursor-pointer select-none transition-colors hover:border-redis-pen-800;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.client-picker-grid label svg {
+  grid-row: span 2;
+}
+
+.client-picker-grid label span:first-of-type {
+  @apply text-sm font-medium text-redis-ink-900 leading-tight;
+}
+
+.client-picker-grid label span:last-of-type {
+  @apply text-xs text-redis-pen-600 leading-tight truncate;
+}
+
+.client-picker-grid input:checked + label {
+  @apply border-redis-red-500 bg-red-50 ring-1 ring-inset ring-redis-red-500;
+}
+
+.client-picker-grid input:focus-visible + label {
+  @apply outline outline-[3px] outline-red-200;
+}
+
+.client-picker-grid label + div {
+  @apply hidden order-1 -mx-4 -mb-4 mt-2 bg-white border-t border-redis-pen-800 rounded-b-md;
+  grid-column: 1 / -1;
+}
+
+.client-picker-grid input:checked + label + div {
+  display: block;
+}
+
+.client-picker-grid ul {
+  @apply list-none m-0 p-0;
+}
+
+.client-picker-grid li {
+  @apply border-b border-redis-pen-200 last:border-b-0;
+}
+
+.client-picker-grid li a {
+  @apply grid items-center gap-x-4 px-4 sm:px-6 py-3 no-underline text-redis-ink-900 transition-colors hover:bg-red-50/50 hover:text-red-900 focus-visible:bg-red-50/50 focus-visible:outline-none;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.client-picker-grid li a::after {
+  @apply text-redis-pen-600 transition-transform;
+  content: "→";
+  content: "→" / "";
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.client-picker-grid li a:hover::after {
+  @apply translate-x-1 text-red-900;
+}
+
+.client-picker-grid li strong {
+  @apply font-medium;
+}
+
+.client-picker-grid li span {
+  @apply text-sm text-redis-pen-600;
+}
+
+/* The client picker's title, in the style of the tile title bars. Two
+   classes, to outrank the .prose h2 rule. */
+.prose .develop-label {
+  @apply m-0 p-0 border-0 font-mono text-xs font-normal uppercase leading-normal text-redis-ink-900;
+}
+
+/* Cards on /develop/: the tools (Redis Insight, Redis for VS Code), each with
+   a dark button for the download and a link to its docs, and the topics
+   (Quick start, Data types, Redis Search), each with a list of links. */
+.develop-tools,
+.develop-topics {
+  @apply grid gap-4 font-geist;
+}
+
+.develop-tools {
+  @apply my-10;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.develop-topics {
+  @apply mb-10;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+}
+
+.develop-tools > div,
+.develop-topics > div {
+  @apply flex flex-col gap-2 px-6 py-5 rounded-lg border border-redis-pen-300;
+  background: linear-gradient(180deg, theme('colors.white') 0%, theme('colors.redis-neutral.200') 100%);
+}
+
+.develop-tools img {
+  @apply w-10 h-10 mb-1;
+}
+
+.develop-topics img {
+  @apply w-8 h-8 mb-1;
+}
+
+.prose .develop-tools h2,
+.prose .develop-topics h2 {
+  @apply m-0 p-0 border-0 text-lg font-medium;
+}
+
+.develop-tools h2 a,
+.develop-topics h2 a {
+  @apply no-underline text-redis-ink-900 hover:underline hover:text-red-900;
+}
+
+.develop-tools p {
+  @apply m-0 flex-1 text-sm text-redis-pen-600;
+}
+
+.develop-tools .develop-actions {
+  @apply flex items-center gap-4 mt-2 text-sm;
+}
+
+.develop-tools .develop-actions a:first-child {
+  @apply px-3.5 py-1.5 rounded-md bg-redis-ink-900 text-white no-underline transition-colors hover:bg-redis-pen-700;
+}
+
+.develop-tools .develop-actions a + a {
+  @apply text-redis-ink-900 no-underline hover:underline hover:text-red-900;
+}
+
+.develop-topics ul {
+  @apply list-none m-0 mt-1 p-0 space-y-1.5 text-sm;
+}
+
+.develop-topics li a {
+  @apply no-underline text-redis-pen-700 hover:underline hover:text-red-900;
+}
+
 /* Qualified chat widget accommodations. The widget (production only,
    injected via GTM, owned by web/marketing) replaces root scrolling with a
    <body> scroller: it measures the root scrollbar width N, then applies
