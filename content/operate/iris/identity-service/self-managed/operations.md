@@ -59,7 +59,10 @@ This example gives an agent read and write access to one Agent Memory store.
 Optional fields:
 
 - `expiresAt`: when the key stops working, in Unix seconds. Without it, the key doesn't expire.
-- `userId`: the user that owns the key. It needs `identityService.apiKeys.userBinding.enabled: true`.
+- `userId`: the exact user ID to bind to the key.
+- `applicationUserId`: the application user ID to bind. For example, `42` produces the effective `userId` `app-42`.
+
+Supply at most one of `userId` and `applicationUserId`. Both fields require `identityService.apiKeys.userBinding.enabled: true`. See [Match stored owners to authenticated users](/content/operate/iris/agent-memory/self-managed/authentication.md#match-stored-owners-to-authenticated-users) for permission and rotation rules.
 
 For the other services, change the grant:
 

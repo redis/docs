@@ -84,6 +84,7 @@ Requires self-managed Redis Iris 1.1 or later.
 | --- | --- | --- |
 | Cohere | Embeddings and language model generation | Use `cohere` for the embedding protocol and the Cohere OpenAI-compatible endpoint. Set the embedding dimension to match your model in the Data Plane and Control Plane. |
 | Anthropic | Language model generation | Use `anthropic` with the Anthropic OpenAI-compatible endpoint. Configure a separate provider for embeddings. |
+| Vertex AI | Embeddings | Use `vertex-ai` with a Google Cloud service account and the model's prediction endpoint. |
 
 For example, merge this fragment under `memory.memory` to use Cohere embeddings and an Anthropic model for built-in session extraction. Store the real keys in the overlay Secret:
 
@@ -118,6 +119,29 @@ promote_session_memory:
 ```
 
 Set the Control Plane's `embedding.dimensions` to the same value when provisioning stores. Use this configuration on stores whose indexes match the chosen embedding model and dimensions. For structured generation, check the schema against the provider's supported keywords. Test extraction and structured Summary View output with your selected model before using them in production.
+
+#### Configure Vertex AI embeddings
+
+Merge this example under `memory.memory` in the suite values. Replace `<project-id>` with your Google Cloud project ID.
+
+```yaml
+embedding:
+  provider: vertex-ai
+  models:
+    default_embedding_model: gemini-embedding-001
+    dimensions: 768
+embedders_connection_details:
+  vertex-ai:
+    protocol: vertex-ai
+    base_url: https://us-central1-aiplatform.googleapis.com/v1/projects/<project-id>/locations/us-central1/publishers/google/models/gemini-embedding-001:predict
+    embeddings_input_field: content
+    credentials:
+      type: gcp-service-account
+```
+
+Supply the Google Cloud service account key in the overlay Secret as `embedders_connection_details.vertex-ai.credentials.gcp.service_account_json`. Give the service account permission to call the prediction endpoint. Set the Control Plane's `embedding.dimensions` to match the Data Plane. Use a separate model for generation.
+
+With `embeddings_input_field: content`, Vertex AI rejects text over the model's input limit. Shorten or split it before retrying. The `text` mode uses the behavior of your custom endpoint.
 
 ## Bring-your-own (BYO) configuration
 
@@ -372,6 +396,14 @@ Requires self-managed Redis Iris 1.1 or later.
 Keep the console's `memory-dp` route enabled and point it at the Agent Memory Data Plane service. Sign in with the operator credential configured for the console. In admin token mode, use the Agent Memory Control Plane admin token configured for the same release. Connect to the store to use Memory Inspector, Playground, the API explorer, and document extraction.
 
 If the console reports `Document ingestion is not enabled`, enable document ingestion on the server and worker using the settings in this section. Then verify that the store has an enabled extractor and that the worker can reach the configured model provider.
+
+## Combine queued automatic summarization requests
+
+Requires self-managed Redis Iris 1.1 or later.
+
+When built-in extraction is off, enable `background_jobs.redis.coalesce_session_summaries` to combine queued automatic summarization requests for the same session. Updates during a run can queue one follow-up. The setting defaults to `false`.
+
+Set it under `memory.memory` in the suite values or at the root of the Data Plane configuration. Upgrade the workers before enabling it on the servers that submit jobs. Before rolling back the workers, turn it off on those servers and wait for queued summarization jobs to finish.
 
 ## Configure searchable session recaps
 

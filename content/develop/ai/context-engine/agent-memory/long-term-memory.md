@@ -75,6 +75,23 @@ This example finds memories about the user's food preferences. `recall` restrict
 
 A semantic search hit can include a `score` from 0 to 1. A higher score means the memory is more similar to the query. Filter-only searches omit `score`. Python clients expose `score` in `redis-agent-memory` 1.2.0 and later.
 
+### Combine keyword and semantic search
+
+Set `hybrid: true` to search by both the words in your query and its meaning. This helps when a name or product code matters as much as the topic. Redis combines the keyword and vector rankings with reciprocal rank fusion. Each hit includes `hybridScore`. A higher score ranks the hit closer to the top for that query.
+
+```json
+{
+  "query": "Atlas Pro refund policy",
+  "hybrid": true,
+  "filter": {"ownerId": {"eq": "<user-id>"}},
+  "limit": 10
+}
+```
+
+The query must contain a searchable term. It can have up to 4,096 UTF-8 bytes and 256 searchable terms. Hybrid search cannot use `minScore` or `filter.unnamespaced`. Reuse the same query, filters, and hybrid setting when you follow a cursor. Hybrid cursors support offsets up to 1,000.
+
+Hybrid search requires the Redis [`FT.HYBRID`](/content/commands/ft.hybrid.md) command on the content database. The API returns `501` when the command is unavailable. The first search scoped to an owner can return a retryable `424` while Redis indexes existing records. Retry with backoff. For self-managed upgrades, update every data-plane replica before sending hybrid requests.
+
 ### Filter and sort without semantic search
 
 Omit `query` to retrieve records by filters without a semantic query. For example, retrieve the user's most recently updated memories:

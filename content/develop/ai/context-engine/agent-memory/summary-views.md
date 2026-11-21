@@ -90,6 +90,8 @@ A result can include `refresh` while a newer attempt is outstanding. Use `value`
 
 `lastHeartbeatAt` shows worker activity. `lastProgressAt` updates as the worker processes sources and generates output. If a terminal failure leaves newer changes pending, a continuous view picks them up during reconciliation. For a manual view, request another refresh after addressing the failure.
 
+Repeated refresh requests for the same partition share a queued job. Changes during a build can queue one follow-up after it succeeds. An immediate manual refresh can bring a delayed job forward. A job that is already retrying keeps its backoff.
+
 ## Filter and group sources
 
 Use `filter` for owners, sessions, stable namespace IDs, topics, memory types, creation times, and typed attributes. `filter.op` defaults to `ALL`; `ANY` combines optional filters with OR. Exact partition scope, time windows, and self-managed ownership checks apply independently. Use `namespaceId` to filter by namespace.
@@ -117,7 +119,7 @@ Set `"timeBasis": "eventTime"` when you create the view and include a `timeWindo
 - For a new direct memory, event time is the memory's creation time.
 - The view skips memories without a stored event time, including records written before the feature was available. Agent Memory does not backfill timestamps.
 
-Create a new view to choose a different time basis. On self-managed deployments, upgrade the Agent Memory control plane, data-plane servers, and workers before creating an event-time view.
+Create a new view to choose a different time basis. On self-managed deployments, upgrade the Agent Memory control plane, data-plane servers, and workers before creating an event-time view. Disable event-time views before rolling back to older binaries. Older workers select sources by storage time.
 
 When a source used in a cached result ages out of the window, the result reports `stale: true`. Continuous views refresh at the next reconciliation. For a manual view, request a refresh.
 

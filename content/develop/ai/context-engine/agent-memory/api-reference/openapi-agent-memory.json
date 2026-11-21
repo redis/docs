@@ -1562,6 +1562,16 @@
                                 }
                             }
                         }
+                    },
+                    "501": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "NotImplementedError 501 response"
                     }
                 },
                 "tags": [
@@ -3754,7 +3764,7 @@
         },
         "/iris/data/v1/agent-memory/stores/{storeId}/sessions": {
             "get": {
-                "description": "Returns paginated session rows with metadata and caller-selected order.",
+                "description": "Returns paginated session rows with metadata and caller-selected order. All supplied filters must match.",
                 "operationId": "ListSessions",
                 "parameters": [
                     {
@@ -3797,25 +3807,25 @@
                     {
                         "name": "ownerId",
                         "in": "query",
-                        "description": "Filter sessions by owner. The owner of a session is the actorId of its first event. Matching is exact and case-sensitive. Combined with namespaceId using AND. Mutually exclusive with includeAll.",
+                        "description": "Filter sessions by owner. The owner of a session is the actorId of its first event. Matching is exact and case-sensitive. All supplied filters must match. Mutually exclusive with includeAll.",
                         "schema": {
                             "type": "string",
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^(?:[\\w+=@-][\\w+=.@-]*|\\.[\\w+=@-][\\w+=.@-]*|\\.\\.[\\w+=.@-]+)$",
-                            "description": "Filter sessions by owner. The owner of a session is the actorId of its first event. Matching is exact and case-sensitive. Combined with namespaceId using AND. Mutually exclusive with includeAll."
+                            "description": "Filter sessions by owner. The owner of a session is the actorId of its first event. Matching is exact and case-sensitive. All supplied filters must match. Mutually exclusive with includeAll."
                         }
                     },
                     {
                         "name": "namespaceId",
                         "in": "query",
-                        "description": "Filter by stable namespace ID. Combined with ownerId using AND. Mutually exclusive with includeAll.",
+                        "description": "Filter by stable namespace ID. All supplied filters must match. Mutually exclusive with includeAll.",
                         "schema": {
                             "type": "string",
                             "maxLength": 35,
                             "minLength": 35,
                             "pattern": "^ns_[0-9a-f]{32}$",
-                            "description": "Filter by stable namespace ID. Combined with ownerId using AND. Mutually exclusive with includeAll."
+                            "description": "Filter by stable namespace ID. All supplied filters must match. Mutually exclusive with includeAll."
                         }
                     },
                     {
@@ -3841,6 +3851,86 @@
                         "description": "Sort direction. Defaults to desc for timestamps and asc for sessionId.",
                         "schema": {
                             "$ref": "#/components/schemas/SessionListSortOrder"
+                        }
+                    },
+                    {
+                        "description": "Match sessions whose createdAt is greater than this timestamp. Mutually exclusive with createdAtGte and includeAll.",
+                        "in": "query",
+                        "name": "createdAtGt",
+                        "schema": {
+                            "description": "Match sessions whose createdAt is greater than this timestamp. Mutually exclusive with createdAtGte and includeAll.",
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Match sessions whose createdAt is greater than or equal to this timestamp. Mutually exclusive with createdAtGt and includeAll.",
+                        "in": "query",
+                        "name": "createdAtGte",
+                        "schema": {
+                            "description": "Match sessions whose createdAt is greater than or equal to this timestamp. Mutually exclusive with createdAtGt and includeAll.",
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Match sessions whose createdAt is less than this timestamp. Mutually exclusive with createdAtLte and includeAll.",
+                        "in": "query",
+                        "name": "createdAtLt",
+                        "schema": {
+                            "description": "Match sessions whose createdAt is less than this timestamp. Mutually exclusive with createdAtLte and includeAll.",
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Match sessions whose createdAt is less than or equal to this timestamp. Mutually exclusive with createdAtLt and includeAll.",
+                        "in": "query",
+                        "name": "createdAtLte",
+                        "schema": {
+                            "description": "Match sessions whose createdAt is less than or equal to this timestamp. Mutually exclusive with createdAtLt and includeAll.",
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Match sessions whose updatedAt is greater than this timestamp. Mutually exclusive with updatedAtGte and includeAll.",
+                        "in": "query",
+                        "name": "updatedAtGt",
+                        "schema": {
+                            "description": "Match sessions whose updatedAt is greater than this timestamp. Mutually exclusive with updatedAtGte and includeAll.",
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Match sessions whose updatedAt is greater than or equal to this timestamp. Mutually exclusive with updatedAtGt and includeAll.",
+                        "in": "query",
+                        "name": "updatedAtGte",
+                        "schema": {
+                            "description": "Match sessions whose updatedAt is greater than or equal to this timestamp. Mutually exclusive with updatedAtGt and includeAll.",
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Match sessions whose updatedAt is less than this timestamp. Mutually exclusive with updatedAtLte and includeAll.",
+                        "in": "query",
+                        "name": "updatedAtLt",
+                        "schema": {
+                            "description": "Match sessions whose updatedAt is less than this timestamp. Mutually exclusive with updatedAtLte and includeAll.",
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Match sessions whose updatedAt is less than or equal to this timestamp. Mutually exclusive with updatedAtLt and includeAll.",
+                        "in": "query",
+                        "name": "updatedAtLte",
+                        "schema": {
+                            "description": "Match sessions whose updatedAt is less than or equal to this timestamp. Mutually exclusive with updatedAtLt and includeAll.",
+                            "format": "date-time",
+                            "type": "string"
                         }
                     }
                 ],
@@ -4644,13 +4734,13 @@
                     {
                         "name": "afterEventId",
                         "in": "query",
-                        "description": "Exclusive lower bound by position in the session. Returns 404 Event Not Found if the bound event is no longer retained. If this ID came from a summary checkpoint, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents.",
+                        "description": "Exclusive lower bound by position in the session. Returns 404 Event Not Found if the bound event is no longer retained. If this ID came from a summary checkpoint, restart without afterEventId or a cursor to read the retained events.",
                         "schema": {
                             "type": "string",
                             "maxLength": 36,
                             "minLength": 36,
                             "pattern": "^evt_[0-9a-f]{32}$",
-                            "description": "Exclusive lower bound by position in the session. Returns 404 Event Not Found if the bound event is no longer retained. If this ID came from a summary checkpoint, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents."
+                            "description": "Exclusive lower bound by position in the session. Returns 404 Event Not Found if the bound event is no longer retained. If this ID came from a summary checkpoint, restart without afterEventId or a cursor to read the retained events."
                         }
                     },
                     {
@@ -6749,7 +6839,7 @@
                         "format": "date-time"
                     },
                     "metadata": {
-                        "description": "Optional metadata as any valid JSON value."
+                        "description": "Optional metadata as any valid JSON value, with at most 120 nested objects or arrays. Excessive nesting returns HTTP 400 without writing the event."
                     }
                 },
                 "required": [
@@ -7375,7 +7465,7 @@
                         "format": "date-time"
                     },
                     "metadata": {
-                        "description": "Optional metadata as any valid JSON value."
+                        "description": "Optional metadata as any valid JSON value, with at most 120 nested objects or arrays. Excessive nesting returns HTTP 400 without writing the event."
                     },
                     "sessionId": {
                         "type": "string",
@@ -7967,7 +8057,12 @@
                     },
                     "summarizedUpToEventId": {
                         "type": "string",
-                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents. Omitted when no checkpoint was recorded."
+                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. Omitted when no checkpoint was recorded."
+                    },
+                    "hybridScore": {
+                        "description": "Reciprocal rank fusion score for a hybrid search hit. Higher values indicate a better rank within this query.",
+                        "format": "double",
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -8069,6 +8164,16 @@
                     },
                     "summary": {
                         "$ref": "#/components/schemas/SessionSummary"
+                    },
+                    "createdAt": {
+                        "description": "Timestamp when the session was created (UTC). Absent when unknown.",
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "description": "Timestamp of the latest event append, event removal, or summary write (UTC). Absent when unknown.",
+                        "format": "date-time",
+                        "type": "string"
                     }
                 },
                 "required": [
@@ -8794,7 +8899,12 @@
                     },
                     "summarizedUpToEventId": {
                         "type": "string",
-                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents. Omitted when no checkpoint was recorded."
+                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. Omitted when no checkpoint was recorded."
+                    },
+                    "hybridScore": {
+                        "description": "Reciprocal rank fusion score for a hybrid search hit. Higher values indicate a better rank within this query.",
+                        "format": "double",
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -9509,13 +9619,13 @@
                 "properties": {
                     "query": {
                         "type": "string",
-                        "description": "Text to use for semantic search."
+                        "description": "Text to use for semantic search and, when hybrid is true, keyword search."
                     },
                     "minScore": {
                         "type": "number",
                         "maximum": 1,
                         "minimum": 0,
-                        "description": "The minimum score for vector search results: (2 - cosine distance) / 2. Allowed range: 0-1.",
+                        "description": "The minimum score for vector search results: (2 - cosine distance) / 2. Allowed range: 0-1. Cannot be combined with hybrid.",
                         "format": "double"
                     },
                     "filter": {
@@ -9548,6 +9658,10 @@
                     "refreshTtl": {
                         "type": "boolean",
                         "description": "When true, extend the expiry of eligible memories returned on this page to at least the current time plus the store's long-term memory TTL. Requires store write permission. Document-managed memories keep their own retention policy. Omit or set false to search without refreshing expiry."
+                    },
+                    "hybrid": {
+                        "description": "When true, rank keyword and vector matches with reciprocal rank fusion. Requires query (up to 4096 UTF-8 bytes and 256 searchable terms) and native FT.HYBRID support on the content database. Cannot be combined with filter.unnamespaced. The hybrid cursor supports offsets up to 1000. The first owner-scoped hybrid search adds an ownership lookup to the existing search index. Hybrid requests that use the lookup return a retryable failed dependency while Redis indexes historical records. Enable hybrid only after all data-plane replicas support it. During rollout or rollback, an older REST replica can ignore hybrid and return semantic results. Start a new search after changing the hybrid setting.",
+                        "type": "boolean"
                     }
                 }
             },
@@ -9566,7 +9680,7 @@
                         "type": "string",
                         "maxLength": 1024,
                         "minLength": 1,
-                        "description": "Opaque token for fetching the next page. Omitted when no more results."
+                        "description": "Opaque token for fetching the next page. Reuse it with the same store, query, hybrid setting, filters, and other search options. Concurrent writes can shift results between pages. Omitted at the end of the results or when the next hybrid offset would exceed 1000."
                     }
                 },
                 "required": [
@@ -9739,11 +9853,13 @@
                     },
                     "createdAt": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "date-time",
+                        "description": "Timestamp when the session was created (UTC). Absent when unknown."
                     },
                     "updatedAt": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "date-time",
+                        "description": "Timestamp of the latest event append, event removal, or summary write (UTC). Absent when unknown."
                     },
                     "namespaceId": {
                         "type": "string",
@@ -10670,7 +10786,12 @@
                     },
                     "summarizedUpToEventId": {
                         "type": "string",
-                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents. Omitted when no checkpoint was recorded."
+                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. Omitted when no checkpoint was recorded."
+                    },
+                    "hybridScore": {
+                        "description": "Reciprocal rank fusion score for a hybrid search hit. Higher values indicate a better rank within this query.",
+                        "format": "double",
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -11083,7 +11204,7 @@
                     },
                     "summarizedUpToEventId": {
                         "type": "string",
-                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. To delete earlier events and keep the checkpoint, use it as filter.eventId.before in DeleteSessionEvents. Omitted when no checkpoint was recorded."
+                        "description": "For a generated long-term session summary, the last event in its input range. Use this ID as afterEventId when listing session events. If the event was deleted and listing returns 404 Event Not Found, restart without afterEventId or a cursor to read the retained events. Omitted when no checkpoint was recorded."
                     },
                     "text": {
                         "type": "string",
@@ -11104,6 +11225,11 @@
                         "type": "string",
                         "description": "Timestamp when the memory was last updated (UTC).",
                         "format": "date-time"
+                    },
+                    "hybridScore": {
+                        "description": "Reciprocal rank fusion score for a hybrid search hit. Higher values indicate a better rank within this query.",
+                        "format": "double",
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -11229,6 +11355,49 @@
                     "createdAt",
                     "eventTime"
                 ]
+            },
+            "NotImplementedErrorResponseContent": {
+                "description": "The requested capability is recognized but not implemented.",
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                },
+                "properties": {
+                    "detail": {
+                        "description": "A human-readable explanation specific to this occurrence of the problem.",
+                        "type": "string"
+                    },
+                    "instance": {
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.",
+                        "type": "string"
+                    },
+                    "status": {
+                        "default": 501,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4).",
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/NotImplementedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "type": "object"
+            },
+            "NotImplementedErrorType": {
+                "description": "Problem type URI for not-implemented errors.",
+                "enum": [
+                    "/errors/not-implemented"
+                ],
+                "type": "string"
             }
         },
         "securitySchemes": {

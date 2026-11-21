@@ -34,6 +34,8 @@ Redis Agent Memory adds the event ID and storage timestamp. The event fields are
 | `systemTimestamp` | Server-generated. | Time Redis Agent Memory stored the event. |
 | `metadata` | Optional from the client. | Application-specific information associated with the event. |
 
+Event metadata can contain up to 120 levels of nested JSON objects and arrays. A deeper value returns `400` before the service writes the event.
+
 1. Set the first event's `actorId` to the signed-in user's account ID from your application. Use the same ID each time this user returns. The server uses it as the session owner. Later events can identify other actors, such as the assistant. In Python, `conversation.user` sends the `owner` as `actorId`, and `conversation.assistant` sends the `assistant_id` passed to `AgentMemory.from_env()`.
 1. Supply a `sessionId`, or omit it to let the server create one. Save the returned `event.sessionId` for later requests. See [Identify users and conversations]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#identify-users-and-conversations" >}}) for examples.
 1. Set the message's `role`, `content`, and `createdAt` timestamp.
@@ -83,7 +85,7 @@ If the recap has no checkpoint or the request returns `404 Event Not Found` for 
 
 To let a user reopen an earlier conversation, list their sessions and retrieve the selected session by ID. Use `GET /iris/data/v1/agent-memory/stores/{storeId}/sessions`, `memory.sessions(owner)` or `memory.client.list_sessions` in Python, or `iris agent-memory sessions list`. These rows do not contain events or generated summary text. See [List and sort sessions](/content/develop/ai/context-engine/agent-memory/sessions/list-sessions.md) for SDK examples and pagination.
 
-Filter the list by owner or namespace.
+Filter the list by owner, namespace, creation time, or last update time.
 
 For a user's personal conversations, set `ownerId` to that user's authenticated ID. A namespace-only query is suitable for shared conversations only after your application checks access to that namespace. Reserve `includeAll=true` for callers your application authorizes to list the whole store. See [Authorize every memory request](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
 
@@ -101,11 +103,11 @@ Add `ownerId` to return sessions that match both the namespace and the owner:
 
 {{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-list-namespace-owner" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-To list all sessions, omit both filters and set `includeAll=true`:
+To list all sessions, omit the filters and set `includeAll=true`.
 
 {{< clients-example set="iris_agent_memory_sessions" step="agent-memory-sessions-list-all" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
-Do not combine `includeAll=true` with either filter. A request without a filter must set `includeAll=true`.
+Do not combine `includeAll=true` with any filter. A request without a filter must set `includeAll=true`.
 
 The response contains session rows in `items` and no total count. If the response includes `nextCursor`, pass it as `cursor` with the same filters to fetch the next page. See the [List Sessions API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/ListSessions) for pagination limits.
 

@@ -133,7 +133,7 @@ Before retrying a write, follow its idempotency or recovery contract.
 
 Every operation reports a `424` as `FailedDependencyErrorResponseContent`, with the problem fields under `error.data`. Its `error.data.type` tells the failures apart: an unavailable resource, database memory exhaustion, invalid model credentials, or an exceeded model quota. The generated client's exceptions are in `redis_iris.agent_memory.errors`.
 
-If a store database write returns `424`, inspect `error.data.type` before retrying. Invalid database credentials require operator action. If the service returns `400` because the embedding provider rejected the input, correct the input before retrying.
+If a store database write returns `424`, inspect `error.data.type` before retrying. Invalid database credentials require operator action. If the embedding provider rejects the input, the service can return `400`. For example, OpenAI can reject text that exceeds the embedding model's token limit. Shorten or split the text before retrying.
 
 `recall` raises `StoreUnusable` from `redis_iris.errors` instead when the `424` response sets a `*_required` flag, such as `memory_recreation_required` after the store's embedding model changed. That store needs an operator, so retrying does not help. `error.required` lists the flags.
 

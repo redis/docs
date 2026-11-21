@@ -156,6 +156,8 @@ Requires self-managed Redis Iris 1.1 or later.
 
 Send the Iris access token in the `Authorization: Bearer` header. Use a token with the Data Plane audience and a principal with a grant for the target store.
 
+For tokens issued by an identity provider registered to a tenant, see [Configure a tenant identity provider](/content/operate/iris/identity-service/self-managed/authentication.md#configure-a-tenant-identity-provider). The issuer record supplies the tenant, and its `userIdClaim` supplies the ID Agent Memory uses for ownership.
+
 ## Server-side ownership enforcement
 
 Store grants authorize access to a store. Ownership enforcement adds a check within that store: ordinary callers can access their own personal records and shared records.
@@ -188,7 +190,11 @@ With enforcement on:
 - A personal namespace child inherits its root's owner.
 - A caller without a user ID can access shared records within its grants, but cannot claim a named personal owner. Ownerless private records are hidden.
 
-Agent keys created by `POST /v1/api-keys` have no user binding by default, and a key never copies its creator's identity. To bind a key to one user, set `identityService.apiKeys.userBinding.enabled: true` (default `false`) and send `userId` when you mint the key. The control token and a `suite_admin` can set any user ID; other callers can set only their own. The Data Plane then uses that user ID for the key's requests. For an application that acts for many users, use delegation instead. Configuring an OpenID Connect (OIDC) claim alone does not bind a key.
+Agent keys have no user binding by default. To enable binding during key creation, set `identityService.apiKeys.userBinding.enabled: true`. A caller that can create keys for each target product can select any valid user ID in its authorized tenant. This includes a `product_admin` with permission for Agent Memory when the key grants access to Agent Memory only.
+
+On `POST /v1/api-keys`, send `userId` to select the exact owner ID. To use your application's user ID, send `applicationUserId` instead. For example, `"applicationUserId": "42"` produces `"userId": "app-42"`. When you supply an explicit `ownerId` or `actorId` in a memory request, use the effective `userId` from the key metadata.
+
+The key can read or write the selected user's private records within its store grants. Rotation keeps the binding, even when binding new keys is disabled. To change the user, create a new key and revoke the old one. For an application that acts for many users, [delegate the user on each request](#delegate-a-user-with-an-agent-key).
 
 An unbound key can pass store health checks and access allowed shared data while personal creation returns `403`. A successful health check does not establish a user identity.
 

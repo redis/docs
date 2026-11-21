@@ -132,6 +132,8 @@ Use each item's ID for placement and its current path for display. Access checks
 
 Prefixes accept 2–64 characters. If the prefix is shorter than the database's [`search-min-prefix`](/content/develop/ai/search-and-query/administration/configuration.md#search-min-prefix), the result can be empty. [`search-max-prefix-expansions`](/content/develop/ai/search-and-query/administration/configuration.md#search-max-prefix-expansions) defaults to 200 and can exclude matches from a broad prefix search. Paging cannot recover those matches.
 
+On self-managed Redis, set [`search-on-timeout`](/content/develop/ai/search-and-query/administration/configuration.md#search-on-timeout) to `FAIL`. A timed-out search then returns an error. Retry with the same filters and cursor to fetch that page.
+
 ## Sort namespaces
 
 This example lists shared roots by name:

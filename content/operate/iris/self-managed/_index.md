@@ -531,6 +531,16 @@ Set `global.iris.auth.oidc.tenantIdClaim` to the identity provider's tenant clai
 
 Agent keys and grants belong to a tenant. Create a key in the tenant that owns its target store. When granting access using the Identity Service control token, name the grant's tenant. Static admin tokens use the reserved `_system` tenant by default. Use your identity provider to administer stores in a user tenant. Tenant claim values that start with an underscore are reserved.
 
+Agent Memory, Agent Playbooks, Lens, Context Gateway, and Intent Router can all run in this mode. If you enable Playbook extraction, its shared worker has read access to Memory stores across tenants. Each extraction job uses the Playbook's tenant. The control plane checks whether each binding's memory source is accessible using the requesting operator's credential. Use separate releases if the worker must have access to only one tenant.
+
+#### Switch from a fixed tenant
+
+1. If you use Lens, drain the fixed instance's pending spans before upgrading. Retain or export any data you need, then revoke the keys for that instance.
+1. Upgrade with the tenant claim settings. Configure the identity provider to keep issuing the original tenant ID to users who need their existing stores and other resources. Existing keys keep their tenant.
+1. Sign in to Lens as a user of each tenant to create that tenant's instance. Issue keys for the new instances and update the telemetry exporters. The old instance and its data stay in storage.
+
+To return to a fixed tenant, roll back to the previous Helm revision. Keys from other tenants stop working. Lens resumes processing the original fixed instance. Its per-tenant instances stay separate. Issue replacement keys for the original instance if you revoked them.
+
 Self-managed Redis Iris 1.0.1 uses the single-tenant setup.
 
 ## Not supported in this release
