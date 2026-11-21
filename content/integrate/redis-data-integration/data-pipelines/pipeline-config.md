@@ -211,6 +211,16 @@ Debezium 3.7.
 
 {{< embed-md "rdi-snapshot-modes.md" >}}
 
+Use the default `initial` mode unless you have a specific reason to choose another.
+The supported modes and their behavior differ by connector. For the modes your source
+supports, see `snapshot.mode` in the Debezium 3.7 reference for
+[MariaDB](https://debezium.io/documentation/reference/3.7/connectors/mariadb.html#mariadb-property-snapshot-mode),
+[MongoDB](https://debezium.io/documentation/reference/3.7/connectors/mongodb.html#mongodb-property-snapshot-mode),
+[MySQL](https://debezium.io/documentation/reference/3.7/connectors/mysql.html#mysql-property-snapshot-mode),
+[Oracle](https://debezium.io/documentation/reference/3.7/connectors/oracle.html#oracle-property-snapshot-mode),
+[PostgreSQL](https://debezium.io/documentation/reference/3.7/connectors/postgresql.html#postgresql-property-snapshot-mode),
+and [SQL Server](https://debezium.io/documentation/reference/3.7/connectors/sqlserver.html#sqlserver-property-snapshot-mode).
+
 A reset clears saved positions without changing `snapshot.mode` or flushing the target
 Redis database. If you need to reload existing rows, select a mode that takes a data
 snapshot. A snapshot can overwrite target records, but it does not remove stale records
