@@ -1295,6 +1295,7 @@
               "jwks_retry_backoff_ms": 100,
               "jwks_uri": "https://acme.example/tenant_example/jwks.json",
               "name": "acme",
+              "required_claims": [],
               "resource_claim": "resource",
               "scope": "bound_databases",
               "token_max_lifetime_seconds": 3600,
@@ -1472,6 +1473,7 @@
               "algorithms",
               "identity_claim",
               "resource_claim",
+              "required_claims",
               "clock_skew_seconds"
             ],
             "type": "object"
@@ -1492,6 +1494,7 @@
           "jwks_retry_backoff_ms": 100,
           "jwks_uri": "https://acme.example/tenant_example/jwks.json",
           "name": "acme",
+          "required_claims": [],
           "resource_claim": "resource",
           "scope": "bound_databases",
           "token_max_lifetime_seconds": 3600,
@@ -1564,7 +1567,7 @@
           },
           "jwks_max_stale_seconds": {
             "default": 86400,
-            "description": "How long the last fetched keys stay usable when a refresh fails, in seconds. Must not be less than jwks_refresh_interval_seconds.",
+            "description": "The longest a fetched key set stays usable while refreshes fail, counted from the fetch, in seconds. Must not be less than jwks_refresh_interval_seconds.",
             "maximum": 86400,
             "minimum": 60,
             "type": "integer"
@@ -1600,6 +1603,16 @@
             "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
             "type": "string",
             "x-pattern-error-message": "may contain only letters, numbers, spaces, and the characters _ [] () @ , . ; # -"
+          },
+          "required_claims": {
+            "default": [],
+            "description": "Claims a token must carry in addition to iss, aud, exp, iat and the identity claim, which are always required. Empty means no further claims are required.",
+            "items": {
+              "pattern": "^[A-Za-z0-9_.:-]{1,255}$",
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
           },
           "resource_claim": {
             "description": "The claim compared with the database binding's resource id. Empty means no resource check. Not allowed for all_databases providers.",
