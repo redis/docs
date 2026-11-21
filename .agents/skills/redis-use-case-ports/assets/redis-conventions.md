@@ -68,14 +68,14 @@ PHP may also include a `stampede_worker.php` if the use case has a stampede test
 
 | Subdir | Language | Client library | Library docs |
 |---|---|---|---|
-| `redis-py` | Python | [`redis-py`](https://redis.readthedocs.io/) | [/develop/clients/redis-py]({{< relref "/develop/clients/redis-py" >}}) |
-| `nodejs` | Node.js | [`node-redis`](https://github.com/redis/node-redis) | [/develop/clients/nodejs]({{< relref "/develop/clients/nodejs" >}}) |
-| `go` | Go | [`go-redis`](https://github.com/redis/go-redis) | [/develop/clients/go]({{< relref "/develop/clients/go" >}}) |
-| `java-jedis` | Java | [Jedis](https://github.com/redis/jedis) | [/develop/clients/jedis]({{< relref "/develop/clients/jedis" >}}) |
-| `java-lettuce` | Java | [Lettuce](https://github.com/redis/lettuce) | [/develop/clients/lettuce]({{< relref "/develop/clients/lettuce" >}}) |
+| `redis-py` | Python | [`redis-py`](https://redis.readthedocs.io/) | [/develop/clients/redis-py](/content/develop/clients/redis-py/_index.md) |
+| `nodejs` | Node.js | [`node-redis`](https://github.com/redis/node-redis) | [/develop/clients/nodejs](/content/develop/clients/nodejs/_index.md) |
+| `go` | Go | [`go-redis`](https://github.com/redis/go-redis) | [/develop/clients/go](/content/develop/clients/go/_index.md) |
+| `java-jedis` | Java | [Jedis](https://github.com/redis/jedis) | [/develop/clients/jedis](/content/develop/clients/jedis/_index.md) |
+| `java-lettuce` | Java | [Lettuce](https://github.com/redis/lettuce) | [/develop/clients/lettuce](/content/develop/clients/lettuce/_index.md) |
 | `dotnet` | C# | [StackExchange.Redis](https://seredis.dev/) | — |
 | `php` | PHP | [Predis](https://github.com/predis/predis) | — |
-| `ruby` | Ruby | [`redis-rb`](https://github.com/redis/redis-rb) | [/develop/clients/ruby]({{< relref "/develop/clients/ruby" >}}) |
+| `ruby` | Ruby | [`redis-rb`](https://github.com/redis/redis-rb) | [/develop/clients/ruby](/content/develop/clients/ruby/_index.md) |
 | `rust` | Rust | [`redis`](https://crates.io/crates/redis) (redis-rs) | — |
 
 ## Hugo conventions
@@ -106,7 +106,7 @@ Section skeleton (titles map to the standard outline used across existing use ca
 1. ## When to use Redis `<thing>` — one-sentence definition of when the pattern applies.
 2. ## Why the problem is hard — concrete failure modes that motivate Redis.
 3. ## What you can expect from a Redis solution — bulleted capabilities.
-4. ## How Redis supports the solution — paragraph + bulleted list of Redis features with `{{< relref >}}` shortcodes linking to command docs.
+4. ## How Redis supports the solution — paragraph + bulleted list of Redis features, each linking to its command docs.
 5. ## Ecosystem — language-specific libraries and frameworks that use this pattern.
 6. ## Code examples to build your own Redis `<thing>` — list of links to per-client guides.
 
@@ -116,15 +116,15 @@ The "Code examples" section follows this format:
 The following guides show how to build a simple Redis-backed <thing>.
 Each guide includes a runnable interactive demo for each of the following client libraries:
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/<use-case>/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/<use-case>/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/<use-case>/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/<use-case>/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/<use-case>/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/<use-case>/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/<use-case>/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/<use-case>/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/<use-case>/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/<use-case>/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/<use-case>/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/<use-case>/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/<use-case>/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/<use-case>/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/<use-case>/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/<use-case>/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/<use-case>/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/<use-case>/rust/_index.md)
 ```
 
 ### Per-client guide page (`<client>/_index.md`)
@@ -175,13 +175,13 @@ Section skeleton:
 10. ## Production usage — `###` subsections covering: TTL choice, invalidate-don't-sync, missing-record handling, lock TTL tuning, namespacing, plus any client-specific concerns (connection pool, async API, ThreadPool, etc.). Always finish with a `### Inspect cached entries directly in Redis` showing `redis-cli` commands.
 11. ## Learn more — bulleted list of Redis commands used + the client docs link.
 
-### Shortcodes
+### Cross-doc links
 
-Always use Hugo `{{< relref >}}` for cross-doc links:
+Link to another docs page by its repo-root source path, ending in `.md` (`_index.md` for a section index):
 
 ```markdown
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to read the cached record
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) for the single-flight lock
+* [`HGETALL`](/content/commands/hgetall.md) to read the cached record
+* [Lua scripting](/content/develop/programmability/eval-intro.md) for the single-flight lock
 ```
 
 External links use plain Markdown `[text](https://...)`.
