@@ -43,6 +43,8 @@ of RDI:
     cd rdi_install/$RDI_VERSION
     ```
 
+1.  [Label the source and target secrets](#label-the-source-and-target-secrets).
+
 1.  Run the `upgrade.sh` script as a privileged user. Note that you must pass
     your RDI password to the script unless the password is empty.
 
@@ -203,9 +205,8 @@ is needed. Continue with the upgrade instructions for your installation.
 
 ### Label the source and target secrets
 
-When you upgrade a Kubernetes installation, or a VM installation to RDI 2.0.0, add the pipeline
-labels to its source and target secrets. When you upgrade a VM installation to RDI 2.0.1 or later,
-the `upgrade.sh` script adds them for you.
+When you upgrade a VM or Kubernetes installation to RDI 2.0.0, add the pipeline labels to its
+source and target secrets.
 
 RDI 2.0.0 finds the secrets of a pipeline by their labels. The `source-db` and `target-db`
 secrets of the installation you upgrade may not have these labels, for example if you created
