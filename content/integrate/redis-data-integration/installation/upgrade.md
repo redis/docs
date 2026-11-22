@@ -142,11 +142,27 @@ installation of RDI:
 1.  If you upgrade from RDI 1.19.x or earlier,
     [label the source and target secrets](#label-the-source-and-target-secrets).
 
+1.  If you upgrade from a version before 1.18.1 and `operator.leaderElection.enabled` is `true`,
+    delete the operator Deployment right before you run `helm upgrade`:
+
+    ```bash
+    kubectl delete deployment rdi-operator -n rdi --cascade=foreground
+    ```
+
+    Operators before 1.18.1 don't take part in the local leader election, so during the rolling
+    update the old operator can recreate components of the old version, such as the classic
+    processor next to the Flink processor. `helm upgrade` recreates the operator. Start it as soon
+    as the command returns, so that the new operator starts within the lease time-to-live (TTL)
+    of the installed version, 60 seconds by default.
+
 1.  Run the `helm upgrade` command:
     
     ```bash
     helm upgrade --install rdi rdi-<tag>.tar.gz -f rdi-values.yaml -n rdi
     ```
+
+1.  If you upgrade from RDI 1.19.x or earlier,
+    [move the certificates to their default file names](#move-the-certificates-to-their-default-file-names).
 
 Note that you don't need to
 [deploy](/content/integrate/redis-data-integration/data-pipelines/deploy.md)
@@ -233,31 +249,39 @@ following:
   for what renaming a source implies.
 - A secret provider name that contains consecutive dashes. Rename the provider, and update the
   references to it in `config.yaml`.
-- The internal key overrides described in
-  [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys).
+
+RDI 2.2.0 and 2.2.1 also reject the properties that RDI manages itself: the internal key
+overrides described in
+[Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys), and the
+`database.ssl.keystore`, `database.ssl.keystore.password`, `mongodb.ssl.keystore`, and
+`mongodb.ssl.keystore.password` properties in `sources.<name>.advanced.source`, which RDI 1.x
+needed for source mutual TLS (mTLS). RDI 2.2.2 and later ignore these properties, with no error
+and no warning, and use their own values. Setting them has no effect, so remove them from your
+configuration.
 
 ### Remove overrides of internal Redis keys
 
-RDI 2.2.0 always uses the Redis keys and consumer groups that it generates, and rejects the
-following properties. This example shows where to remove them from your configuration:
+RDI 2.2.0 and later always use the Redis keys and consumer groups that they generate. RDI 2.2.0
+and 2.2.1 reject the following properties, and RDI 2.2.2 and later ignore them. This example
+shows where to remove them from your configuration:
 
 ```yaml
 sources:
   <source-name>:
     advanced:
       source:
-        topic.delimiter: <value> # Rejected since RDI 2.2.0
-        offset.storage.redis.key: <value> # Rejected since RDI 2.2.0
-        schema.history.internal.redis.key: <value> # Rejected since RDI 2.2.0
+        topic.delimiter: <value> # Ignored since RDI 2.2.2
+        offset.storage.redis.key: <value> # Ignored since RDI 2.2.2
+        schema.history.internal.redis.key: <value> # Ignored since RDI 2.2.2
       riotx:
-        streamPrefix: <value> # Rejected since RDI 2.2.0
+        streamPrefix: <value> # Ignored since RDI 2.2.2
 processors:
   advanced:
     source:
-      stream.name.pattern: <value> # Rejected since RDI 2.2.0
-      consumer.group: <value> # Rejected since RDI 2.2.0
+      stream.name.pattern: <value> # Ignored since RDI 2.2.2
+      consumer.group: <value> # Ignored since RDI 2.2.2
     processor:
-      counters.key: <value> # Rejected since RDI 2.2.0
+      counters.key: <value> # Ignored since RDI 2.2.2
 ```
 
 The operator uses the generated keys for your existing pipelines as soon as you upgrade, even
@@ -269,7 +293,8 @@ groups. As a result:
   streams.
 - The entries left in streams with custom names or prefixes are no longer consumed.
 
-Remove these properties from your configurations before you deploy them again.
+Remove these properties from your configurations. With RDI 2.2.0 and 2.2.1, remove them before
+you deploy your configurations again.
 
 ### Check which certificate authorities RDI trusts
 
@@ -377,6 +402,62 @@ kubectl rollout restart deployment/rdi-operator -n rdi
 
 After the upgrade, `redis-di list-secrets` lists the secrets of the source as well as those of the
 target.
+
+### Move the certificates to their default file names
+
+If you upgrade a Kubernetes installation from RDI 1.19.x or earlier, move the source and target
+certificates that have their own file names to the default file names after the upgrade. When you
+upgrade a VM installation to RDI 2.2.2 or later, the `upgrade.sh` script moves them for you.
+
+RDI 1.x `redis-di set-secret` stored a certificate that you set from a file under that file's
+name, for example `myca.pem` in the `source-db-ssl` secret, with `SOURCE_DB_CACERT` set to
+`/etc/certificates/source_db/myca.pem` in the `source-db` secret. RDI 2.0.0 and later know only the
+default file names `ca.crt`, `client.crt`, and `client.key`. A pipeline with certificates under
+other file names keeps streaming, but `redis-di delete-secret` fails with a not found error for
+these certificates, and `redis-di list-secrets` lists them as simple secrets.
+
+Each certificate has an entry in `source-db` that names its file in `source-db-ssl`:
+
+| Certificate | Entry | Default file |
+| ----------- | ----- | ------------ |
+| CA certificate | `SOURCE_DB_CACERT` | `ca.crt` |
+| Client certificate | `SOURCE_DB_CERT` | `client.crt` |
+| Client key | `SOURCE_DB_KEY` | `client.key` |
+
+To see the files that the entries name, run:
+
+```bash
+for key in CACERT CERT KEY; do
+  kubectl get secret source-db -n rdi -o jsonpath="{.data.SOURCE_DB_${key}}" | base64 --decode
+  echo
+done
+```
+
+Move each certificate whose file has another name: copy the file to the default file name, point
+the entry to the new file, and then delete the old file. For example, for a CA certificate stored
+as `myca.pem`:
+
+```bash
+kubectl patch secret source-db-ssl -n rdi --type=json \
+  -p '[{"op":"copy","from":"/data/myca.pem","path":"/data/ca.crt"}]'
+kubectl patch secret source-db -n rdi --type=merge \
+  -p '{"stringData":{"SOURCE_DB_CACERT":"/etc/certificates/source_db/ca.crt"}}'
+kubectl patch secret source-db-ssl -n rdi --type=json \
+  -p '[{"op":"remove","path":"/data/myca.pem"}]'
+```
+
+Follow these rules:
+
+- Don't copy a certificate to a default file name that another file already has, for example
+  when the client certificate is stored as `ca.crt`, since the copy overwrites that file. Set that
+  certificate again with `redis-di set-secret` instead.
+- Keep the old file while another entry still names it, for example a single PEM file for the
+  client certificate and its key. Delete it after you move the last certificate that it holds.
+- For the target, use the `target-db` and `target-db-ssl` secrets, the `TARGET_DB_CACERT`,
+  `TARGET_DB_CERT`, and `TARGET_DB_KEY` entries, and the `/etc/certificates/target_db/` directory.
+
+Instead of moving the certificates, you can set them again with `redis-di set-secret`. It stores
+them under the default file names, but leaves the old files in the secret.
 
 ### Clearing a pipeline is different from deleting it
 

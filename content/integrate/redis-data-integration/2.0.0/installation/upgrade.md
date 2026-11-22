@@ -50,6 +50,8 @@ of RDI:
     sudo ./upgrade.sh --rdi-password <redis-rdi-password>
     ```
 
+1.  [Move the certificates to their default file names](#move-the-certificates-to-their-default-file-names).
+
 ### Recovering from failure during a VM upgrade
 
 If the previous version is v1.4.4 or later, go to the `rdi_install/<PREVIOUS_VERSION>`
@@ -133,11 +135,26 @@ installation of RDI:
     Before making any changes, save your existing `rdi-values.yaml` if you need to revert 
     to the old RDI version for any reason.
 
+1.  If you upgrade from a version before 1.18.1 and `operator.leaderElection.enabled` is `true`,
+    delete the operator Deployment right before you run `helm upgrade`:
+
+    ```bash
+    kubectl delete deployment rdi-operator -n rdi --cascade=foreground
+    ```
+
+    Operators before 1.18.1 don't take part in the local leader election, so during the rolling
+    update the old operator can recreate components of the old version, such as the classic
+    processor next to the Flink processor. `helm upgrade` recreates the operator. Start it as soon
+    as the command returns, so that the new operator starts within the lease time-to-live (TTL)
+    of the installed version, 60 seconds by default.
+
 1.  Run the `helm upgrade` command:
     
     ```bash
     helm upgrade --install rdi rdi-<tag>.tar.gz -f rdi-values.yaml -n rdi
     ```
+
+1.  [Move the certificates to their default file names](#move-the-certificates-to-their-default-file-names).
 
 Note that you don't need to
 [deploy](/content/integrate/redis-data-integration/2.0.0/data-pipelines/deploy.md)
@@ -198,6 +215,62 @@ For an existing pipeline that uses the classic processor, choose one of these op
 
 If your pipeline already uses `processors.type: flink`, no processor change
 is needed. Continue with the upgrade instructions for your installation.
+
+### Move the certificates to their default file names
+
+When you upgrade a VM or Kubernetes installation to RDI 2.0.0, move the source and target
+certificates that have their own file names to the default file names after the upgrade. On a VM
+installation, run these commands on each RDI VM.
+
+RDI 1.x `redis-di set-secret` stored a certificate that you set from a file under that file's
+name, for example `myca.pem` in the `source-db-ssl` secret, with `SOURCE_DB_CACERT` set to
+`/etc/certificates/source_db/myca.pem` in the `source-db` secret. RDI 2.0.0 knows only the default
+file names `ca.crt`, `client.crt`, and `client.key`, so `redis-di list-secrets` doesn't list a
+certificate under another file name, and `redis-di delete-secret` fails with a not found error for
+it.
+
+Each certificate has an entry in `source-db` that names its file in `source-db-ssl`:
+
+| Certificate | Entry | Default file |
+| ----------- | ----- | ------------ |
+| CA certificate | `SOURCE_DB_CACERT` | `ca.crt` |
+| Client certificate | `SOURCE_DB_CERT` | `client.crt` |
+| Client key | `SOURCE_DB_KEY` | `client.key` |
+
+To see the files that the entries name, run:
+
+```bash
+for key in CACERT CERT KEY; do
+  kubectl get secret source-db -n rdi -o jsonpath="{.data.SOURCE_DB_${key}}" | base64 --decode
+  echo
+done
+```
+
+Move each certificate whose file has another name: copy the file to the default file name, point
+the entry to the new file, and then delete the old file. For example, for a CA certificate stored
+as `myca.pem`:
+
+```bash
+kubectl patch secret source-db-ssl -n rdi --type=json \
+  -p '[{"op":"copy","from":"/data/myca.pem","path":"/data/ca.crt"}]'
+kubectl patch secret source-db -n rdi --type=merge \
+  -p '{"stringData":{"SOURCE_DB_CACERT":"/etc/certificates/source_db/ca.crt"}}'
+kubectl patch secret source-db-ssl -n rdi --type=json \
+  -p '[{"op":"remove","path":"/data/myca.pem"}]'
+```
+
+Follow these rules:
+
+- Don't copy a certificate to a default file name that another file already has, for example
+  when the client certificate is stored as `ca.crt`, since the copy overwrites that file. Set that
+  certificate again with `redis-di set-secret` instead.
+- Keep the old file while another entry still names it, for example a single PEM file for the
+  client certificate and its key. Delete it after you move the last certificate that it holds.
+- For the target, use the `target-db` and `target-db-ssl` secrets, the `TARGET_DB_CACERT`,
+  `TARGET_DB_CERT`, and `TARGET_DB_KEY` entries, and the `/etc/certificates/target_db/` directory.
+
+Instead of moving the certificates, you can set them again with `redis-di set-secret`. It stores
+them under the default file names, but leaves the old files in the secret.
 
 ### Clearing a pipeline replaces deleting it
 

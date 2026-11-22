@@ -258,7 +258,7 @@ source's `CERT` and `KEY` secrets, and configures the collector to use it.
 
 > [!NOTE]
 > Do not set `database.ssl.keystore` or `database.ssl.keystore.password` yourself. RDI
-> manages the keystore, so these properties are not only unnecessary, they are rejected when you
+> manages the keystore, so it ignores these properties. RDI 2.0.0 to 2.2.1 reject them when you
 > deploy the pipeline.
 
 ## 8. Configuration is complete

@@ -164,7 +164,7 @@ RDI builds the keystore that presents the client certificate to MongoDB from the
 
 > [!NOTE]
 > Do not set `mongodb.ssl.keystore` or `mongodb.ssl.keystore.password` yourself. RDI
-> manages the keystore, so these properties are not only unnecessary, they are rejected when you
+> manages the keystore, so it ignores these properties. RDI 2.0.0 to 2.2.1 reject them when you
 > deploy the pipeline.
 
 For X.509 authentication, the MongoDB connection string must also include the
