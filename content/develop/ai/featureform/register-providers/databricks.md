@@ -53,7 +53,7 @@ Provider registration and workload execution use different identities and networ
 | --- | --- |
 | Feature Form server | The bootstrap secret backend, Databricks workspace APIs, configured catalogs and clusters, and Redis for provider health checks and inference-time feature reads |
 | Unity Catalog provider principal | Catalog lookup and Feature Form dataframe reads; read and write access to a configured artifact Volume when used |
-| Databricks provider principal | Inspect existing compute or submit Jobs compute; delete Feature Form-managed output tables; in Databricks runs, read input catalogs, write the output catalog, read and write execution artifacts, read the Redis password secret, and connect to Redis during feature-view materialization |
+| Databricks provider principal | Inspect existing compute or submit Jobs compute; delete Feature Form-managed output tables; in [Databricks runs that use this principal](#understand-which-identity-accesses-data), read input catalogs, write the output catalog, read and write execution artifacts, read the Redis password secret, and connect to Redis during feature-view materialization |
 
 Allow each connection independently. A successful connection from the Feature Form server doesn't prove that Databricks compute can reach the same endpoint. See the [Unity Catalog privilege reference](https://docs.databricks.com/aws/en/data-governance/unity-catalog/access-control/privileges-reference) for catalog permissions and the [Databricks authentication documentation](https://docs.databricks.com/aws/en/dev-tools/auth) for workspace authentication.
 
@@ -81,7 +81,7 @@ databricks_workspace = DatabricksWorkspaceConfig(
 
 Databricks runs use the `databricks` provider's principal for every catalog they read or write. That principal is the PAT owner or the OAuth M2M service principal.
 
-On dedicated access mode compute assigned to a different user or service principal, runs use the assigned principal instead. This applies to an existing cluster in dedicated access mode, and to Jobs compute with `job_cluster.data_security_mode` set to `SINGLE_USER`, which runs as the user in `single_user_name`. Grant that assigned principal the privileges this page lists for the `databricks` provider principal. See [Manage identities, permissions, and privileges for Lakeflow Jobs](https://docs.databricks.com/aws/en/jobs/privileges).
+When `job_cluster.data_security_mode` is `SINGLE_USER`, Unity Catalog authorizes Jobs compute runs as the user in `single_user_name` instead. Grant that user the privileges this page lists for the `databricks` provider principal.
 
 Feature Form passes only catalog names to Databricks runs, not `unity-catalog` provider credentials. Unity Catalog checks every catalog a run uses against the grants of the identity the run uses. If a run reads tables from three catalogs, that identity needs access to all three, even when each catalog's provider uses a different principal.
 
@@ -104,7 +104,7 @@ Grant these [Unity Catalog privileges](https://docs.databricks.com/aws/en/data-g
 | Artifact-store `unity-catalog` provider principal | Artifact Volume, its schema, and its catalog | `USE CATALOG`, `USE SCHEMA`, `READ VOLUME`, and `WRITE VOLUME` |
 | Every `unity-catalog` provider principal | Its catalog | `USE CATALOG` for the registration health check |
 
-Feature Form creates the schemas and tables it writes in the output catalog, so the `databricks` provider's principal owns them. Don't transfer ownership of Feature Form-managed tables. On dedicated access mode compute assigned to a different principal, that assigned principal owns them. Grant the `databricks` provider's principal `MANAGE` on those tables so it can still delete them.
+Feature Form creates the schemas and tables it writes in the output catalog, so the `databricks` provider's principal owns them. Don't transfer ownership of Feature Form-managed tables. When `job_cluster.data_security_mode` is `SINGLE_USER`, the user in `single_user_name` owns them instead. In that case, grant the `databricks` provider's principal `MANAGE` on those tables so it can still delete them.
 
 Feature Form doesn't create the artifact schema or Volume, so no `CREATE VOLUME` privilege is needed. If one principal backs both the `databricks` provider and the artifact-store provider, grant the Volume privileges once. Registration doesn't check these grants. A missing grant first appears as a failed apply.
 
@@ -487,7 +487,7 @@ An update applies to every later run on that provider, for every resource. An ap
 
 ### Set Spark properties
 
-Set Spark configuration properties in a [compute policy](#apply-a-compute-policy-and-tags), in an init script, or on an existing cluster that you manage in Databricks.
+Set Spark configuration properties in a [compute policy](#apply-a-compute-policy-and-tags), in an init script, or on an existing cluster that you manage in Databricks. The `job_cluster` settings have no field for them.
 
 ## Understand how applies run on Databricks
 
