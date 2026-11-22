@@ -100,6 +100,16 @@ Offsets use the same numbering as [`GETBIT`](/content/commands/getbit.md):
 bit `0` is the most significant bit of the first byte. Returned offsets are
 always bit offsets, including when the range uses `BYTE` units.
 
+## Reply size
+
+> [!WARNING]
+> Without `LIMIT`, `BITRANGEINTARRAY` returns every matching offset, so the
+> reply grows with the number of results rather than with the size of the key.
+> With `ZEROS` on a sparse string, the number of offsets can approach 8 × the
+> string length, so a small key can block the server and exhaust memory.
+> Paginate with `LIMIT`. For roles exposed to low-risk clients, deny
+> `-bitrangeintarray` or set a `client-output-buffer-limit`.
+
 ## Required arguments
 
 <details open><summary><code>key</code></summary>
@@ -268,9 +278,10 @@ scan the requested range in place. `LIMIT` stops the scan once the page is
 complete; a range with few matches can still require scanning the whole range.
 No temporary bitmap or second result array is allocated.
 
-Response size and serialization cost grow with the number of returned offsets.
-There is no fixed result-count cap. Configured client output-buffer limits still
-apply; exceeding a limit disconnects the client and stops enumeration.
+Response size and serialization cost grow with the number of returned offsets,
+and there is no fixed result-count cap. See [Reply size](#reply-size) for the
+amplification when `LIMIT` is omitted. Configured client output-buffer limits
+still apply; exceeding a limit disconnects the client and stops enumeration.
 
 Returned offsets retain the bitmap's supported range, including values above
 `4294967295` for native bitmaps created with a sufficiently large
