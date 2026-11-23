@@ -170,9 +170,8 @@ To upgrade an Active-Active database manually:
     Verify that all CRDB database instances and their modules have been updated. Do you wish to proceed? [y/N]: y
     ```
 
-{{<warning>}}
-`--update-db-config-modules` updates only the default configuration (`default_db_config`). Module versions pinned in each participating cluster's configuration (`instances[].db_config`) stay unchanged, but the command still reports success. These outdated versions can cause a later request to add or remove a participating cluster to fail, or to create the new participating cluster with outdated modules. If a participating cluster's configuration still lists outdated module versions after the upgrade, [contact Redis support](https://redis.io/support/) for help updating them.
-{{</warning>}}
+> [!WARNING]
+> `--update-db-config-modules` updates only the default configuration (`default_db_config`). Module versions pinned in each participating cluster's configuration (`instances[].db_config`) stay unchanged, but the command still reports success. These outdated versions can cause a later request to add or remove a participating cluster to fail, or to create the new participating cluster with outdated modules. If a participating cluster's configuration still lists outdated module versions after the upgrade, [contact Redis support](https://redis.io/support/) for help updating them.
 
 ## Check database status
 
