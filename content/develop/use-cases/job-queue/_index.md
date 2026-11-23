@@ -57,6 +57,8 @@ atomically to a *processing* list so a crashed worker's job can be reclaimed lat
 metadata (payload, status, attempts, result) lives in a hash, and completed jobs are cleaned
 up automatically with a TTL.
 
+{{< use-case-animation name="job-queue" >}}
+
 Redis provides the following features that make it a good fit for background jobs:
 
 -   [`LPUSH`](/content/commands/lpush.md) and [`BRPOPLPUSH`](/content/commands/brpoplpush.md)
