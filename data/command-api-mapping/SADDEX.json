@@ -1,0 +1,137 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "saddex(name: KeyT, *members: FieldT, ex: ExpiryT | str | None = None, px: ExpiryT | str | None = None, exat: AbsExpiryT | None = None, pxat: AbsExpiryT | None = None, data_persist_option: SetDataPersistOptions | None = None, keepttl: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "FieldT",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "ExpiryT | str | None",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "ExpiryT | str | None",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "AbsExpiryT | None",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "AbsExpiryT | None",
+            "description": ""
+          },
+          {
+            "name": "data_persist_option",
+            "type": "SetDataPersistOptions | None",
+            "description": ""
+          },
+          {
+            "name": "keepttl",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "sAddEx(key: RedisArgument, members: RedisVariadicArgument, options?: SAddExOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "SAddExOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply<0 | 1>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "saddex(key, *members, mnx: nil, mxx: nil, ex: nil, px: nil, exat: nil, pxat: nil, keepttl: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "Array<String>",
+            "description": ""
+          },
+          {
+            "name": "mnx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "mxx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "keepttl",
+            "type": "Boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

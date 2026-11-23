@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hybrid_search(query: HybridQuery, combine_method: Optional[CombineResultsMethod] = None, post_processing: Optional[HybridPostProcessingConfig] = None, params_substitution: Optional[Dict[str, Union[str, int, float, bytes]]] = None, timeout: Optional[int] = None, cursor: Optional[HybridCursorQuery] = None)",
+        "signature": "hybrid_search(query: HybridQuery, combine_method: Optional[CombineResultsMethod] = None, post_processing: Optional[HybridPostProcessingConfig] = None, params_substitution: Optional[Dict[str, Union[str, int, float, bytes]]] = None, timeout: Optional[int] = None, cursor: Optional[HybridCursorQuery] = None, explain_score: bool = False)",
         "params": [
           {
             "name": "query",
@@ -32,6 +32,11 @@
           {
             "name": "cursor",
             "type": "Optional[HybridCursorQuery] = None",
+            "description": ""
+          },
+          {
+            "name": "explain_score",
+            "type": "bool = False",
             "description": ""
           }
         ],

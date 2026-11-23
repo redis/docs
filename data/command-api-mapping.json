@@ -14822,6 +14822,396 @@
       ]
     }
   },
+  "BITRANGEINTARRAY": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "bitrangeintarray(key: KeyT, start: int, end: int, mode: str | None = None, limit: int | None = None, zeros: bool = False)",
+          "params": [
+            {
+              "name": "key",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "mode",
+              "type": "str | None",
+              "description": ""
+            },
+            {
+              "name": "limit",
+              "type": "int | None",
+              "description": ""
+            },
+            {
+              "name": "zeros",
+              "type": "bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "bitRangeIntArray(key: RedisArgument, start: number | string, end: number | string, options?: BitRangeIntArrayOptions)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "number | string",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "number | string",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "BitRangeIntArrayOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bitrangeintarray(key, start, stop, scale: nil, limit: nil, zeros: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "scale",
+              "type": "String, Symbol",
+              "description": ""
+            },
+            {
+              "name": "limit",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "zeros",
+              "type": "Boolean",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BLESS CLEAR": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "bless_clear(name: KeyT, flag: BlessFlag)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "blessClear(key: RedisArgument, flag: BlessFlag)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "NumberReply",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bless_clear(key, flag)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BLESS GET": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "bless_get(name: KeyT)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[bytes | str]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "blessGet(key: RedisArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<BlobStringReply>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bless_get(key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BLESS SCAN": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "bless_scan(cursor: int, flag: BlessFlag, count: int | None = None, **kwargs)",
+          "params": [
+            {
+              "name": "cursor",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int | None",
+              "description": ""
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "tuple[int, list[bytes | str]]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "blessScan(cursor: RedisArgument, flag: BlessFlag, options?: BlessScanOptions)",
+          "params": [
+            {
+              "name": "cursor",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "BlessScanOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "{ cursor: BlobStringReply; keys: ArrayReply<BlobStringReply> }",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bless_scan(cursor, flag, count: nil)",
+          "params": [
+            {
+              "name": "cursor",
+              "type": "String, Integer",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array(String, Array<String>)",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BLESS SET": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "bless_set(name: KeyT, flag: BlessFlag)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "blessSet(key: RedisArgument, flag: BlessFlag)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "NumberReply",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bless_set(key, flag)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
   "BLMOVE": {
     "api_calls": {
       "redis_py": [
@@ -46813,7 +47203,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "hybrid_search(query: HybridQuery, combine_method: Optional[CombineResultsMethod] = None, post_processing: Optional[HybridPostProcessingConfig] = None, params_substitution: Optional[Dict[str, Union[str, int, float, bytes]]] = None, timeout: Optional[int] = None, cursor: Optional[HybridCursorQuery] = None)",
+          "signature": "hybrid_search(query: HybridQuery, combine_method: Optional[CombineResultsMethod] = None, post_processing: Optional[HybridPostProcessingConfig] = None, params_substitution: Optional[Dict[str, Union[str, int, float, bytes]]] = None, timeout: Optional[int] = None, cursor: Optional[HybridCursorQuery] = None, explain_score: bool = False)",
           "params": [
             {
               "name": "query",
@@ -46843,6 +47233,11 @@
             {
               "name": "cursor",
               "type": "Optional[HybridCursorQuery] = None",
+              "description": ""
+            },
+            {
+              "name": "explain_score",
+              "type": "bool = False",
               "description": ""
             }
           ],
@@ -110954,6 +111349,143 @@
       ]
     }
   },
+  "SADDEX": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "saddex(name: KeyT, *members: FieldT, ex: ExpiryT | str | None = None, px: ExpiryT | str | None = None, exat: AbsExpiryT | None = None, pxat: AbsExpiryT | None = None, data_persist_option: SetDataPersistOptions | None = None, keepttl: bool = False)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            },
+            {
+              "name": "ex",
+              "type": "ExpiryT | str | None",
+              "description": ""
+            },
+            {
+              "name": "px",
+              "type": "ExpiryT | str | None",
+              "description": ""
+            },
+            {
+              "name": "exat",
+              "type": "AbsExpiryT | None",
+              "description": ""
+            },
+            {
+              "name": "pxat",
+              "type": "AbsExpiryT | None",
+              "description": ""
+            },
+            {
+              "name": "data_persist_option",
+              "type": "SetDataPersistOptions | None",
+              "description": ""
+            },
+            {
+              "name": "keepttl",
+              "type": "bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "sAddEx(key: RedisArgument, members: RedisVariadicArgument, options?: SAddExOptions)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "SAddExOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "NumberReply<0 | 1>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "saddex(key, *members, mnx: nil, mxx: nil, ex: nil, px: nil, exat: nil, pxat: nil, keepttl: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            },
+            {
+              "name": "mnx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "mxx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "ex",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "px",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "exat",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "pxat",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "keepttl",
+              "type": "Boolean",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
   "SAVE": {
     "api_calls": {
       "redis_py": [
@@ -117057,6 +117589,327 @@
       ]
     }
   },
+  "SEXPIRE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "sexpire(name: KeyT, seconds: ExpiryT, *members: FieldT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "seconds",
+              "type": "ExpiryT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "gt",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "lt",
+              "type": "bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "sExpire(key: RedisArgument, members: RedisVariadicArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            },
+            {
+              "name": "seconds",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "mode?",
+              "type": "'NX' | 'XX' | 'GT' | 'LT'",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply<SetMemberExpiration>>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "sexpire(key, ttl, *members, nx: nil, xx: nil, gt: nil, lt: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "ttl",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "gt",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "lt",
+              "type": "Boolean",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "SEXPIREAT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "sexpireat(name: KeyT, unix_time_seconds: AbsExpiryT, *members: FieldT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "unix_time_seconds",
+              "type": "AbsExpiryT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "gt",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "lt",
+              "type": "bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "sExpireAt(key: RedisArgument, members: RedisVariadicArgument, timestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            },
+            {
+              "name": "timestamp",
+              "type": "number | Date",
+              "description": ""
+            },
+            {
+              "name": "mode?",
+              "type": "'NX' | 'XX' | 'GT' | 'LT'",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply<SetMemberExpiration>>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "sexpireat(key, unix_time_seconds, *members, nx: nil, xx: nil, gt: nil, lt: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unix_time_seconds",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "gt",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "lt",
+              "type": "Boolean",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "SEXPIRETIME": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "sexpiretime(name: KeyT, *members: FieldT)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "sExpireTime(key: RedisArgument, members: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "sexpiretime(key, *members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
   "SHUTDOWN": {
     "api_calls": {
       "redis_py": [
@@ -122552,6 +123405,394 @@
       ]
     }
   },
+  "SPERSIST": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "spersist(name: KeyT, *members: FieldT)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "sPersist(key: RedisArgument, members: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "spersist(key, *members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "SPEXPIRE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "spexpire(name: KeyT, milliseconds: ExpiryT, *members: FieldT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "milliseconds",
+              "type": "ExpiryT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "gt",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "lt",
+              "type": "bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "spExpire(key: RedisArgument, members: RedisVariadicArgument, ms: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            },
+            {
+              "name": "ms",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "mode?",
+              "type": "'NX' | 'XX' | 'GT' | 'LT'",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply<SetMemberExpiration>>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "spexpire(key, ttl, *members, nx: nil, xx: nil, gt: nil, lt: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "ttl",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "gt",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "lt",
+              "type": "Boolean",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "SPEXPIREAT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "spexpireat(name: KeyT, unix_time_milliseconds: AbsExpiryT, *members: FieldT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "unix_time_milliseconds",
+              "type": "AbsExpiryT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "gt",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "lt",
+              "type": "bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "spExpireAt(key: RedisArgument, members: RedisVariadicArgument, timestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            },
+            {
+              "name": "timestamp",
+              "type": "number | Date",
+              "description": ""
+            },
+            {
+              "name": "mode?",
+              "type": "'NX' | 'XX' | 'GT' | 'LT'",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply<SetMemberExpiration>>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "spexpireat(key, unix_time_milliseconds, *members, nx: nil, xx: nil, gt: nil, lt: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unix_time_milliseconds",
+              "type": "Integer",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "gt",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "lt",
+              "type": "Boolean",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "SPEXPIRETIME": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "spexpiretime(name: KeyT, *members: FieldT)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "spExpireTime(key: RedisArgument, members: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "spexpiretime(key, *members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
   "SPOP": {
     "api_calls": {
       "redis_py": [
@@ -122957,6 +124198,73 @@
           ],
           "returns": {
             "type": "String",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "SPTTL": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "spttl(name: KeyT, *members: FieldT)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "spTTL(key: RedisArgument, members: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "spttl(key, *members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
             "description": ""
           }
         }
@@ -125549,6 +126857,73 @@
           "returns": {
             "type": "Integer",
             "description": "the length of the value stored in the key, or 0 if the key does not exist"
+          }
+        }
+      ]
+    }
+  },
+  "STTL": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "sttl(name: KeyT, *members: FieldT)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "FieldT",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[int]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "sTTL(key: RedisArgument, members: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<NumberReply>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "sttl(key, *members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*members",
+              "type": "Array<String>",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>",
+            "description": ""
           }
         }
       ]

@@ -1,0 +1,127 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "spexpireat(name: KeyT, unix_time_milliseconds: AbsExpiryT, *members: FieldT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "unix_time_milliseconds",
+            "type": "AbsExpiryT",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "FieldT",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[int]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "spExpireAt(key: RedisArgument, members: RedisVariadicArgument, timestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "number | Date",
+            "description": ""
+          },
+          {
+            "name": "mode?",
+            "type": "'NX' | 'XX' | 'GT' | 'LT'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply<SetMemberExpiration>>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "spexpireat(key, unix_time_milliseconds, *members, nx: nil, xx: nil, gt: nil, lt: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unix_time_milliseconds",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "Array<String>",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "Boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
