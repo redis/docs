@@ -75,6 +75,8 @@ unacknowledged past a timeout can be reassigned to a healthy consumer with
 [`XCLAIM`](/content/commands/xclaim.md) or
 [`XAUTOCLAIM`](/content/commands/xautoclaim.md).
 
+{{< use-case-animation name="streaming" >}}
+
 Redis provides the following features that make it a good fit for streaming:
 
 -   [Streams](/content/develop/data-types/streams/_index.md)
