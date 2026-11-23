@@ -142,30 +142,17 @@ The unversioned root is the current release. `1.19.1/` is a frozen snapshot whos
 
 ## Document current behavior only
 
-Do not foreshadow planned support, new source databases, or roadmap items, even when a
-specification, an internal page, or a subject-matter expert mentions them. Planned work
-slips, changes shape, or gets cut, and removing a promise from a published page is
-visible to customers.
+The root `AGENTS.md` rule applies. On these pages:
 
 - Wrong: "Support for more source databases is planned for a future release."
 - Right: state what RDI supports today, with no forecast.
-
-**Carve-out: deprecation and removal notices are correct and expected.** Customers need
-lead time to migrate, as with the API v1 deprecation in `reference/api-migration.md`.
-The test: does the sentence tell the reader they will gain something, or lose something?
-Gains are out. Losses are in.
+- Deprecation notices follow the API v1 deprecation in `reference/api-migration.md`.
 
 ## Do not publish ahead of customer availability
 
-Content describing a feature does not go live until customers can use it. The gate is
-availability to customers, not a merged change or an internal build. A feature that is
-cut or deferred takes its documentation with it.
-
-Availability differs by installation type. A source or feature in a self-managed release
-is not necessarily available in Redis Cloud, so never infer Cloud support from a
-self-managed release note.
-
-Drafting ahead is normal. Draft, verify, open the pull request, and hold it.
+The root `AGENTS.md` rule applies. Availability differs by installation type. A source or
+feature in a self-managed release is not necessarily available in Redis Cloud, so never
+infer Cloud support from a self-managed release note.
 
 ## The RDI source is private, but its observable surface is not
 

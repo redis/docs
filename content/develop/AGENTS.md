@@ -5,11 +5,11 @@ their code examples, Redis Search, use cases, programmability, and the protocol 
 module references. Server installation and operations are under
 `content/operate/oss_and_stack/`, and each command is under `content/commands/`.
 
-Three subdirectories have their own conventions file: `ai/featureform/` (Redis Feature
-Form), `ai/context-engine/` (Redis Iris), and `tools/insight/` (Redis Insight). This file
-loads for their pages too. **Where a subdirectory's file says otherwise, it wins.** In
-particular, the Feature Form and Iris source is private, so the root file's carve-out that
-lets these pages link to source code does not apply there.
+Two subdirectories have their own conventions file: `ai/featureform/` (Redis Feature
+Form) and `tools/insight/` (Redis Insight). This file loads for their pages too. **Where a
+subdirectory's file says otherwise, it wins.** The Feature Form source and the Redis Iris
+source behind `ai/context-engine/` are private, so the root file's carve-out that lets
+these pages link to source code does not apply there.
 
 Read the repository-root `AGENTS.md` first for style and site mechanics. This file adds
 structure, terminology, and code-example rules for this directory, and wins where the two

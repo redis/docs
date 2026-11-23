@@ -93,36 +93,16 @@ Release notes live under `release-notes/`, grouped by minor line (`rs-8-0-releas
 
 ## Document current behavior only
 
-Do not foreshadow planned support, future feature expansions, or roadmap items — even
-when a specification, an internal document, or a subject-matter expert mentions them.
-Planned work slips, changes shape, or gets cut, and removing a promise from a published
-page is visible to customers.
+The root `AGENTS.md` rule applies. Examples from these pages:
 
 - Wrong: "Support for this is planned for a future release."
 - Wrong: "This limitation is expected to be lifted in 8.4."
 - Right: state the current limitation flatly, with no forecast.
-
-**Carve-out — deprecation and removal notices are correct and expected.** The rule bans
-promising something the reader will *gain*, not telling them what is going away.
-Customers need lead time to migrate or upgrade, and a warning is sometimes published
-ahead of the deprecation itself to give them that time. These pages carry many such
-notices deliberately.
-
 - Right: "Support for TLS 1.1 and earlier will be removed in a future release."
 - Right: "This endpoint is deprecated as of Redis Software version 7.2.4 and will be
   removed in a future release. Use `<replacement>` instead."
 
-The test: does the sentence tell the reader they will gain something, or lose
-something? Gains are out. Losses are in.
-
-## Do not publish ahead of customer availability
-
-Content describing a feature does not go live until customers can use it. The gate is
-availability to customers — not that the code merged, and not that it exists in an
-internal build. A feature that is cut or deferred takes its documentation with it:
-remove the content rather than softening it into a promise.
-
-Drafting ahead is normal. Draft, verify, open the pull request, and hold it.
+These pages carry many deprecation notices deliberately.
 
 ## The product source is private
 

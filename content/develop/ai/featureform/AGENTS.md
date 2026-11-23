@@ -96,34 +96,6 @@ it; do not resolve it in the text.
 Examples never contain a real credential, host, or account identifier. A secret reference
 in an example is a reference, such as `env:PG_PASSWORD` — not a value.
 
-## Document current behavior only
-
-Do not foreshadow planned support, future feature expansions, or roadmap items — even
-when a specification, an internal document, or a subject-matter expert mentions them.
-Planned work slips, changes shape, or gets cut, and removing a promise from a published
-page is visible to customers.
-
-- Wrong: "Support for additional providers is planned."
-- Wrong: "This provider is expected to gain streaming support."
-- Right: state which providers and roles are documented today, and stop.
-
-**Carve-out — deprecation and removal notices are correct and expected.** The rule bans
-promising something the reader will *gain*, not telling them what is going away.
-Customers need lead time to migrate, and a warning is sometimes published ahead of the
-removal itself to give them that time.
-
-The test: does the sentence tell the reader they will gain something, or lose something?
-Gains are out. Losses are in.
-
-## Do not publish ahead of customer availability
-
-Content describing a feature does not go live until customers can use it. The gate is
-availability to customers — not that the code merged, and not that the capability exists
-in an internal build. A feature that is cut or deferred takes its documentation with it:
-remove the content rather than softening it into a promise.
-
-Drafting ahead is normal. Draft, verify, open the pull request, and hold it.
-
 ## Flag rather than decide
 
 - **A provider, role, or resource field cannot be confirmed** against the documented

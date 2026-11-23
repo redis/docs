@@ -164,16 +164,6 @@ carries one older "As of version `2.54.0`" line; do not copy that pattern.
 - **Deprecations go in Details** with a bold label, what is going away, and any
   environment variable that restores the old behavior. Follow `v.3.6.0.md`.
 
-## Document current behavior only
-
-Do not foreshadow planned features or roadmap items, even when an issue, a pull request,
-or an internal document mentions them. Planned work slips or gets cut, and removing a
-promise from a published page is visible to customers.
-
-**Carve-out — deprecation and removal notices are correct and expected.** Telling the
-reader what is going away, as `v.3.6.0.md` does for custom tutorials, gives them time to
-migrate. Gains are out. Losses are in.
-
 ## Flag rather than decide
 
 - **A UI description or screenshot may predate the 3.0 interface.** Version 3.0.0

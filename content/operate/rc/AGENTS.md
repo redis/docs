@@ -2,9 +2,9 @@
 
 These pages document **Redis Cloud**, the managed service, and the Redis Cloud console
 that runs it. The self-managed product is documented under `content/operate/rs/`, the
-Kubernetes operator under `content/operate/kubernetes/`, Redis Radar under
-`content/operate/radar/`, and the Redis Iris services under `content/operate/iris/`.
-Each has its own conventions.
+Kubernetes operator under `content/operate/kubernetes/`, and Redis Radar under
+`content/operate/radar/`. Each has its own conventions. The Redis Iris services are
+documented under `content/operate/iris/`.
 
 Read the repository-root `AGENTS.md` first for style and site mechanics. This file adds
 terminology, structure, and disclosure rules for this directory, and wins where the two
@@ -153,17 +153,15 @@ one; plan variants go in tabs, not separate pages.
 
 ## Document current behavior only
 
-Do not foreshadow planned support or roadmap items, even when an internal document or a
-subject-matter expert mentions them. A few published pages still say "coming soon"; do
-not copy that, and flag rather than strip it while doing other work. **Deprecation and
-removal notices are the carve-out.** Gains are out. Losses are in.
+The root `AGENTS.md` rule applies. A few published pages still say "coming soon"; do not
+copy that, and flag rather than strip it while doing other work.
 
 ## Do not publish ahead of customer availability
 
-Content goes live when customers can use the feature, not when the code merges. Cloud
-features often roll out gradually or reach the API before the console, so say exactly
-where a feature is available: "These regions are not available in the Redis Cloud
-console." A capability behind a beta flag is documented only with how to turn it on.
+The root `AGENTS.md` rule applies. Cloud features often roll out gradually or reach the
+API before the console, so say exactly where a feature is available: "These regions are
+not available in the Redis Cloud console." A capability behind a beta flag is documented
+only with how to turn it on.
 
 ## The service source is private
 

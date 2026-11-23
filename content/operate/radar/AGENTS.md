@@ -126,34 +126,16 @@ to Clusters for either provider sends them somewhere the resource does not appea
 
 ## Document current behavior only
 
-Do not foreshadow planned support, future feature expansions, or roadmap items — even
-when a specification, an internal document, or a subject-matter expert mentions them.
-Planned work slips, changes shape, or gets cut, and removing a promise from a published
-page is visible to customers.
+The root `AGENTS.md` rule applies. Examples from these pages:
 
 - Wrong: "Entitlement management is planned for a future release."
 - Wrong: "Bulk license renewal is expected in a later version."
 - Right: state what the reader can do today, with no forecast.
 
-**Carve-out — deprecation and removal notices are correct and expected.** The rule bans
-promising something the reader will *gain*, not telling them what is going away.
-Customers need lead time to migrate, and a warning is sometimes published ahead of the
-removal itself to give them that time.
-
-The test: does the sentence tell the reader they will gain something, or lose something?
-Gains are out. Losses are in.
-
 ## Do not publish ahead of customer availability
 
-Content describing a feature does not go live until customers can use it. The gate is
-availability to customers — not that the code merged, and not that a flag exists in a
-build. A feature that is cut or deferred takes its documentation with it: remove the
-content rather than softening it into a promise.
-
-A capability that ships disabled is a special case, not an exception: document it only if
-a reader can turn it on, and say that they have to.
-
-Drafting ahead is normal. Draft, verify, open the pull request, and hold it.
+The root `AGENTS.md` rule applies. A capability that ships disabled is a special case, not
+an exception: document it only if a reader can turn it on, and say that they have to.
 
 ## The Radar source is private
 
