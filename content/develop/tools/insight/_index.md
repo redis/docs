@@ -60,28 +60,6 @@ Automatically discover databases across subscriptions and connect using Microsof
 > [!NOTE]
 > This feature requires Azure-side configuration. Please coordinate with your Azure administrator and follow [the setup guide](https://github.com/redis/RedisInsight/blob/main/docs/azure-setup.md) to configure the necessary permissions.
 
-### Redis Copilot
-
-Redis Copilot is an AI-powered developer assistant that helps you learn about Redis, explore your Redis data, and build search queries in a conversational manner. It is available in Redis Insight as well as within the Redis public documentation.
-
-Currently, Redis Copilot provides two primary features: a general chatbot and a context-aware data chatbot.
-
-**General chatbot**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface to simplify the learning process. You can ask specific questions about Redis commands, concepts, and products, and get responses on the fly. The general chatbot is also available in our public docs.
-
-**My data chatbot**: the context-aware chatbot available in Redis Insight lets you construct search queries using everyday language rather than requiring specific programming syntax. This feature lets you query and explore data easily and interactively without extensive technical knowledge.
-
-Before you can use Redis Copilot, you must first sign in and accept the terms of use. Click on the Redis Copilot icon in the top right corner of the Redis Insight window to sign in and accept the terms of use.
-
-![The Redis Copilot icon](/images/ri/ri-redis-copilot-icon.png)
-
-![The Redis Copilot sign in screen](/images/ri/ri-redis-copilot-signin.png)
-
-Here's an example of using Redis Copilot to search data using a simple, natural language prompt.
-
-![An example of using Redis Copilot to search data](/images/ri/ri-redis-copilot-query.png)
-
-See the [Redis Insight Copilot FAQ](/content/develop/tools/insight/copilot-faq.md) for more information.
-
 ### RDI in Redis Insight
 
 Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here](/content/develop/tools/insight/rdi-connector.md).
