@@ -23,10 +23,19 @@ Connect to localhost on port 6379, set a value in Redis, and retrieve it. All re
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 ```
 
+redis-py also supports [connection URLs](/content/develop/clients/connection-urls.md#redis-py-python) through `redis.from_url()`.
+A URL can set the host, port, credentials, database, and whether to use TLS,
+so you can use one instead of passing those options separately.
+
 > [!NOTE]
-> redis-py supports [connection URLs](/content/develop/clients/connection-urls.md#redis-py-python) through `redis.from_url()`.
-> A URL can set the host, port, credentials, database, and whether to use TLS,
-> so you can use one instead of passing those options separately.
+> From v8.2.0, if you don't set `protocol` and the server or a proxy rejects the
+> [`HELLO`](/content/commands/hello.md) command, the client logs a warning and falls back to
+> [RESP2](/content/develop/reference/protocol-spec.md#resp-versions) instead of raising an error.
+> Set `protocol=2` to silence the warning. The fallback doesn't happen if you set `protocol`
+> explicitly, and the client raises an error instead if you enable
+> [client-side caching](#connect-using-client-side-caching), which requires RESP3.
+> After an automatic fallback, the response parsers for module commands (such as JSON and search)
+> don't adapt to RESP2, so set `protocol=2` explicitly if you use them.
 
 Store and retrieve a simple string.
 
@@ -71,6 +80,22 @@ rc.get('foo')
 # b'bar'
 ```
 For more information, see [redis-py Clustering](https://redis.readthedocs.io/en/stable/clustering.html).
+
+### Control topology refreshes
+
+When a command fails with an error such as a connection failure, the cluster client
+refreshes its map of the cluster topology. To avoid flooding the cluster during an outage,
+the client runs at most one error-triggered refresh per interval and merges any
+requests made in between into a single refresh. From v8.2.0, use the
+`topology_refresh_min_interval` argument to set the minimum interval in seconds. The default
+is 1 second, and 0 runs every requested refresh at once. The value must be finite and not negative.
+
+```python
+rc = RedisCluster(host='localhost', port=16379, topology_refresh_min_interval=5)
+```
+
+The limit doesn't apply to the first connection or to refreshes that the server prompts,
+such as after a slot migration.
 
 ## Connect to Redis Sentinel
 
