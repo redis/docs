@@ -33,7 +33,7 @@ A user key works for the whole account, including through the [Redis Cloud API](
 ## 2. Install the CLI
 
 ```bash
-pip install 'redis-iris>=1.2.0'
+pip install 'redis-iris>=1.3.0'
 ```
 
 ## 3. Create a profile
