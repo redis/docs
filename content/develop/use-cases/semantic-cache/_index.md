@@ -57,9 +57,10 @@ Redis provides the following features that make it a good fit for a semantic cac
 The following libraries, frameworks, and managed services build on Redis for semantic caching:
 
 -   **Python**: [RedisVL](/content/develop/ai/redisvl/_index.md) provides the `SemanticCache` API with built-in embedding, distance thresholds, TTL, and metadata filters. See the [RedisVL LLM cache user guide](/content/develop/ai/redisvl/user_guide/how_to_guides/llmcache.md) and the [LangCache integration guide](/content/develop/ai/redisvl/user_guide/how_to_guides/langcache_semantic_cache.md).
--   **Frameworks**: [LangChain](/content/integrate/langchain-redis/_index.md) (Redis as an LLM cache and vector store), [LlamaIndex](https://developers.llamaindex.ai/python/examples/vector_stores/redisindexdemo/), and [LangGraph](/content/integrate/langgraph/_index.md) (semantic cache middleware for LangChain agents).
+-   **Frameworks**: [LangChain](/content/integrate/langchain-redis/_index.md) (Redis as an LLM cache and vector store), [LlamaIndex](/content/integrate/llamaindex/_index.md) (Redis ingestion cache and vector store), [LiteLLM](/content/integrate/litellm/_index.md) (exact-match and semantic response cache for any provider), and [LangGraph](/content/integrate/langgraph/_index.md) (semantic cache middleware for LangChain agents).
 -   **Java**: [Spring AI](/content/integrate/spring-ai/_index.md) provides a Redis `SemanticCache` and a `SemanticCacheAdvisor` that adds it to a `ChatClient`.
 -   **Managed**: [Redis LangCache](/content/develop/ai/langcache/_index.md) is a fully managed semantic cache with a REST API, configurable distance thresholds, automatic eviction, and built-in metrics — no index management or embedding wiring required.
+-   **API gateways**: [Kong AI Gateway](/content/integrate/kong/_index.md#kong-ai-gateway) has an AI Semantic Cache plugin that stores responses in Redis (Kong AI Gateway Enterprise only).
 
 ## Code examples to build your own Redis semantic cache
 

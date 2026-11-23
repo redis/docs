@@ -9,7 +9,7 @@
   Usage:
       {{< use-case-animation name="leaderboard" >}}
 
-  name is one of: leaderboard.
+  name is one of: job-queue, leaderboard.
 
   It runs on the data type animation player, so it loads that script and
   stylesheet too. The assets are emitted on every call rather than
@@ -17,7 +17,7 @@
   so a page that isn't edited would lose its assets after the first rebuild.
   The scripts guard against running twice.
 */ -}}
-{{- $names := slice "leaderboard" -}}
+{{- $names := slice "job-queue" "leaderboard" -}}
 {{- $name := .Get "name" -}}
 {{- if not (in $names $name) -}}
   {{- errorf "use-case-animation: unknown name %q at %s" $name .Position -}}

@@ -113,6 +113,21 @@ Enterprise:
 
 The examples on this page don't cover these Enterprise plugins.
 
+## Kong AI Gateway
+
+Kong's AI Gateway plugins can also use Redis. All three of the following plugins are part of the Kong AI Gateway Enterprise offering and need a license. The open source [`ai-proxy`](https://developer.konghq.com/plugins/ai-proxy/) plugin has no Redis integration.
+
+| Plugin | What Redis does |
+|--------|-----------------|
+| [AI Semantic Cache](https://developer.konghq.com/plugins/ai-semantic-cache/) | Stores prompt embeddings and responses, so a similar prompt gets the cached response without a model call. Set `config.vectordb.strategy` to `redis`. |
+| [AI Rate Limiting Advanced](https://developer.konghq.com/plugins/ai-rate-limiting-advanced/) | Keeps the token-cost counters in Redis when `config.strategy` is `redis`, so several Kong nodes share one limit. |
+| [AI Proxy Advanced](https://developer.konghq.com/plugins/ai-proxy-advanced/) | Stores the vectors that its semantic load balancing algorithm uses to route a prompt to a model. |
+
+The semantic features use [Redis Search](/content/develop/ai/search-and-query/_index.md) to search vectors and [JSON](/content/develop/data-types/json/_index.md) to store entries. Kong lists Redis Open Source 8.0 or later, which includes both, and Redis Cloud as supported. On a Redis version earlier than 8, you need Redis Stack or another distribution that adds both modules. Vector index creation fails without them.
+
+The examples on this page don't cover these plugins, so check the plugin pages for the full settings. See the [semantic cache use case](/content/develop/use-cases/semantic-cache/_index.md) for
+more information about when to use this pattern.
+
 ## More information
 
 - [Rate Limiting plugin](https://developer.konghq.com/plugins/rate-limiting/)

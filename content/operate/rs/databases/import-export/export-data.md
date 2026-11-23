@@ -255,3 +255,9 @@ To export to Microsoft Azure Blob Storage, sign in to the Azure portal and then:
     - In the **Account key** field, enter the storage account key.
 
 To learn more, see [Authorizing access to data in Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth).
+
+## Cloud provider encryption
+
+Data you export to AWS S3 without [SSE-C](#encrypt-an-export-with-a-customer-provided-key-sse-c), Google Cloud Storage, or Azure Blob Storage is still encrypted at rest by the provider's default server-side encryption. By default, the provider manages the encryption keys according to the storage location's configuration.
+
+For more information, see the encryption documentation for [AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html), [Google Cloud Storage](https://docs.cloud.google.com/storage/docs/encryption/default-keys), or [Azure Blob Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-service-encryption).
