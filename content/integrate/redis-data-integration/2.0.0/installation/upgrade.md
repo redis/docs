@@ -229,13 +229,14 @@ file names `ca.crt`, `client.crt`, and `client.key`, so `redis-di list-secrets` 
 certificate under another file name, and `redis-di delete-secret` fails with a not found error for
 it.
 
-Each certificate has an entry in `source-db` that names its file in `source-db-ssl`:
+Each certificate has an entry in the `source-db` or `target-db` secret that names its file in
+`source-db-ssl` or `target-db-ssl`:
 
-| Certificate | Entry | Default file |
-| ----------- | ----- | ------------ |
-| CA certificate | `SOURCE_DB_CACERT` | `ca.crt` |
-| Client certificate | `SOURCE_DB_CERT` | `client.crt` |
-| Client key | `SOURCE_DB_KEY` | `client.key` |
+| Certificate | Source entry | Target entry | Default file |
+| ----------- | ------------ | ------------ | ------------ |
+| CA certificate | `SOURCE_DB_CACERT` | `TARGET_DB_CACERT` | `ca.crt` |
+| Client certificate | `SOURCE_DB_CERT` | `TARGET_DB_CERT` | `client.crt` |
+| Client key | `SOURCE_DB_KEY` | `TARGET_DB_KEY` | `client.key` |
 
 To see the files that the entries name, run:
 
@@ -243,12 +244,14 @@ To see the files that the entries name, run:
 for key in CACERT CERT KEY; do
   kubectl get secret source-db -n rdi -o jsonpath="{.data.SOURCE_DB_${key}}" | base64 --decode
   echo
+  kubectl get secret target-db -n rdi -o jsonpath="{.data.TARGET_DB_${key}}" | base64 --decode
+  echo
 done
 ```
 
 Move each certificate whose file has another name: copy the file to the default file name, point
-the entry to the new file, and then delete the old file. For example, for a CA certificate stored
-as `myca.pem`:
+the entry to the new file, and then delete the old file. For example, for a source CA certificate
+stored as `/etc/certificates/source_db/myca.pem`:
 
 ```bash
 kubectl patch secret source-db-ssl -n rdi --type=json \
@@ -259,6 +262,20 @@ kubectl patch secret source-db-ssl -n rdi --type=json \
   -p '[{"op":"remove","path":"/data/myca.pem"}]'
 ```
 
+For a target client certificate and key stored as `/etc/certificates/target_db/redis.crt` and
+`/etc/certificates/target_db/redis.key`:
+
+```bash
+kubectl patch secret target-db-ssl -n rdi --type=json \
+  -p '[{"op":"copy","from":"/data/redis.crt","path":"/data/client.crt"},
+       {"op":"copy","from":"/data/redis.key","path":"/data/client.key"}]'
+kubectl patch secret target-db -n rdi --type=merge \
+  -p '{"stringData":{"TARGET_DB_CERT":"/etc/certificates/target_db/client.crt",
+                     "TARGET_DB_KEY":"/etc/certificates/target_db/client.key"}}'
+kubectl patch secret target-db-ssl -n rdi --type=json \
+  -p '[{"op":"remove","path":"/data/redis.crt"},{"op":"remove","path":"/data/redis.key"}]'
+```
+
 Follow these rules:
 
 - Don't copy a certificate to a default file name that another file already has, for example
@@ -266,8 +283,6 @@ Follow these rules:
   certificate again with `redis-di set-secret` instead.
 - Keep the old file while another entry still names it, for example a single PEM file for the
   client certificate and its key. Delete it after you move the last certificate that it holds.
-- For the target, use the `target-db` and `target-db-ssl` secrets, the `TARGET_DB_CACERT`,
-  `TARGET_DB_CERT`, and `TARGET_DB_KEY` entries, and the `/etc/certificates/target_db/` directory.
 
 Instead of moving the certificates, you can set them again with `redis-di set-secret`. It stores
 them under the default file names, but leaves the old files in the secret.
