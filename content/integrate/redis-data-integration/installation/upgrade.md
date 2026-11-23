@@ -16,9 +16,25 @@ type: integration
 weight: 30
 ---
 
-> [!NOTE]
-> Before you upgrade, review [Upgrading to RDI 2.2.0](#upgrading-to-rdi-220). If you upgrade
-> from RDI 1.19.x or earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
+To upgrade RDI, follow the procedure for a
+[VM installation](#upgrading-a-vm-installation) or a
+[Kubernetes installation](#upgrading-a-kubernetes-installation). The procedure tells you when to do
+the upgrade steps of each RDI version that you upgrade past:
+
+- From RDI 2.0.x, do the steps in [Upgrading to RDI 2.2.x](#upgrading-to-rdi-22x).
+- From RDI 1.8.0 to 1.19.x, do the steps in [Upgrading to RDI 2.2.x](#upgrading-to-rdi-22x) and
+  [Upgrading to RDI 2.0.x](#upgrading-to-rdi-20x), in a single upgrade.
+- From a version before 1.8.0, upgrade to RDI 2.0.x first, following the
+  [RDI 2.0.0 upgrade instructions](/content/integrate/redis-data-integration/2.0.0/installation/upgrade.md).
+  Check that the `default` pipeline runs, and then upgrade to RDI 2.2.x.
+
+Each upgrade step starts with these lines:
+
+- **When**: Before, during, or after the upgrade. The procedures tell you where to do each group
+  of steps.
+- **Applies to**: The versions that you upgrade from, and any other condition for the step.
+- **Kubernetes** and **VM**: What a Kubernetes or a VM installation needs. If an RDI version does
+  the step for you, this line says that you can skip it when you upgrade to that version or later.
 
 > [!WARNING]
 > Downgrading from RDI 2.0.0 or later to a version earlier than 2.0.0 is not supported.
@@ -31,6 +47,10 @@ For a disaster recovery deployment, also review
 Follow the steps below to upgrade an existing
 [VM installation](/content/integrate/redis-data-integration/installation/install-vm.md)
 of RDI:
+
+1.  Do the upgrade steps that apply to a VM installation and say **When**: Before the upgrade.
+    Start with [Upgrading to RDI 2.2.x](#upgrading-to-rdi-22x), which tells you whether you also
+    need the steps of an earlier version.
 
 1.  Download the RDI installer from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
     (in the *Modules, Tools & Integration* category) and extract it to your
@@ -48,12 +68,16 @@ of RDI:
     cd rdi_install/$RDI_VERSION
     ```
 
+1.  Do the upgrade steps that apply to a VM installation and say **When**: During the upgrade.
+
 1.  Run the `upgrade.sh` script as a privileged user. Note that you must pass
     your RDI password to the script unless the password is empty.
 
     ```bash
     sudo ./upgrade.sh --rdi-password <redis-rdi-password>
     ```
+
+1.  Do the upgrade steps that apply to a VM installation and say **When**: After the upgrade.
 
 ### Recovering from failure during a VM upgrade
 
@@ -135,34 +159,26 @@ installation of RDI:
     ```
 
 1.  Adapt your `rdi-values.yaml` file to any changes in the new RDI version if needed.
-    See also [Upgrading to RDI 1.8.0 or later from an earlier version](#upgrading-to-rdi-180-or-later-from-an-earlier-version). 
     Before making any changes, save your existing `rdi-values.yaml` if you need to revert 
     to the old RDI version for any reason.
 
-1.  Run the `helm upgrade` command:
+1.  Do the upgrade steps that apply to a Kubernetes installation and say **When**: Before the
+    upgrade. Start with [Upgrading to RDI 2.2.x](#upgrading-to-rdi-22x), which tells you whether
+    you also need the steps of an earlier version.
+
+1.  Do the upgrade steps that apply to a Kubernetes installation and say **When**: During the
+    upgrade, and then run the `helm upgrade` command:
     
     ```bash
     helm upgrade --install rdi rdi-<tag>.tar.gz -f rdi-values.yaml -n rdi
     ```
 
+1.  Do the upgrade steps that apply to a Kubernetes installation and say **When**: After the
+    upgrade.
+
 Note that you don't need to
 [deploy](/content/integrate/redis-data-integration/data-pipelines/deploy.md)
 the RDI configuration again after this step.
-
-### Upgrading to RDI 1.8.0 or later from an earlier version
-
-When upgrading to RDI 1.8.0 or later from an earlier version
-you must adapt your `rdi-values.yaml` file to the following changes:
-
--   All collector and processor values that were previously under `collector`,
-    `collectorSourceMetricsExporter`, and `processor` have been moved to
-    `operator.dataPlane.collector` and `operator.dataPlane.processor`.
--   `global.collectorApiEnabled` has been moved to `operator.dataPlane.collectorApi.enabled`,
-    and is now a boolean value, not `"0"` or `"1"`.
--   `api.authEnabled` is also now a boolean value, not `"0"` or `"1"`.
--   The following values have been deprecated: `rdiMetricsExporter.service.protocol`,
-    `rdiMetricsExporter.service.port`, `rdiMetricsExporter.serviceMonitor.path`,
-    `api.service.name`.
 
 ### Verifying the upgrade
 
@@ -184,19 +200,32 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 > described in [Uninstall RDI](/content/integrate/redis-data-integration/installation/install-k8s.md#uninstall-rdi),
 > and then install the old version.
 
-## Upgrading to RDI 2.2.0
+<a id="upgrading-to-rdi-220"></a>
 
-Check the following changes before you upgrade from RDI 2.0.0. If you upgrade from RDI 1.19.x or
-earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
+## Upgrading to RDI 2.2.x
 
-### Upgrade from a version before 1.8.0 in two steps
+Do these steps when you upgrade from RDI 2.0.x or earlier. If you upgrade from RDI 1.19.x or
+earlier, also do the steps in [Upgrading to RDI 2.0.x](#upgrading-to-rdi-20x). Do not downgrade
+from RDI 2.2.x after you create a pipeline other than `default`.
 
-You cannot upgrade an installation of a version before 1.8.0 directly to RDI 2.2.0. Upgrade
-to RDI 2.0.0 first, following the
-[RDI 2.0.0 upgrade instructions](/content/integrate/redis-data-integration/2.0.0/installation/upgrade.md).
-Check that the `default` pipeline runs, and then upgrade to RDI 2.2.0.
+### Check which certificate authorities RDI trusts
+
+- **When**: Before the upgrade
+- **Applies to**: Upgrades from RDI 2.0.x or earlier
+- **Kubernetes**: Required if you want to trust only the certificate authorities of your secrets
+- **VM**: Not available, since these settings are Helm values
+
+Debezium collectors and the Collector API now trust the system certificate authorities (CAs) in
+addition to the CAs of your secrets. To trust only the CAs of your secrets, as before, set
+`operator.dataPlane.collector.useSystemTruststore` and
+`operator.dataPlane.collectorApi.useSystemTruststore` to `false` in your Helm values.
 
 ### Upgrade the leader first
+
+- **When**: During the upgrade
+- **Applies to**: Two RDI instances with leader election
+- **Kubernetes**: Required
+- **VM**: Required
 
 If you run two RDI instances with leader election, upgrade the leader first. Upgrade the other
 instance only after
@@ -217,6 +246,11 @@ too, so upgrade it as soon as you've checked the leader. See
 
 ### Validate your configurations before you redeploy them
 
+- **When**: After the upgrade, before you deploy a configuration again
+- **Applies to**: Upgrades from RDI 2.0.x or earlier
+- **Kubernetes**: Required
+- **VM**: Required
+
 RDI 2.2.0 rejects some configurations that earlier versions accepted. After the upgrade, check
 each configuration with `redis-di deploy --dry-run` before you deploy it again, and fix the
 following:
@@ -230,31 +264,46 @@ following:
   for what renaming a source implies.
 - A secret provider name that contains consecutive dashes. Rename the provider, and update the
   references to it in `config.yaml`.
-- The internal key overrides described in
-  [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys).
+
+RDI 2.2.0 and 2.2.1 also reject the properties that RDI manages itself, which RDI 2.2.2 and later
+ignore. See [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys).
 
 ### Remove overrides of internal Redis keys
 
-RDI 2.2.0 always uses the Redis keys and consumer groups that it generates, and rejects the
-following properties. This example shows where to remove them from your configuration:
+- **When**: After the upgrade, before you deploy a configuration again
+- **Applies to**: Configurations that set any of the following properties
+- **Kubernetes**: Required for RDI 2.2.0 and 2.2.1, which reject these properties. RDI 2.2.2 and
+  later ignore them.
+- **VM**: Required for RDI 2.2.0 and 2.2.1, which reject these properties. RDI 2.2.2 and later
+  ignore them.
+
+RDI 2.2.0 and later always use the Redis keys and consumer groups that they generate. They build
+the keystore for source mutual TLS (mTLS) from the source's TLS secret, instead of the keystore
+properties that RDI 1.x needed. RDI 2.2.0 and 2.2.1 reject the following properties, and RDI 2.2.2
+and later ignore them, with no error and no warning. This example shows where to remove them
+from your configuration:
 
 ```yaml
 sources:
   <source-name>:
     advanced:
       source:
-        topic.delimiter: <value> # Rejected since RDI 2.2.0
-        offset.storage.redis.key: <value> # Rejected since RDI 2.2.0
-        schema.history.internal.redis.key: <value> # Rejected since RDI 2.2.0
+        topic.delimiter: <value> # Ignored since RDI 2.2.2
+        offset.storage.redis.key: <value> # Ignored since RDI 2.2.2
+        schema.history.internal.redis.key: <value> # Ignored since RDI 2.2.2
+        database.ssl.keystore: <value> # Ignored since RDI 2.2.2
+        database.ssl.keystore.password: <value> # Ignored since RDI 2.2.2
+        mongodb.ssl.keystore: <value> # Ignored since RDI 2.2.2
+        mongodb.ssl.keystore.password: <value> # Ignored since RDI 2.2.2
       riotx:
-        streamPrefix: <value> # Rejected since RDI 2.2.0
+        streamPrefix: <value> # Ignored since RDI 2.2.2
 processors:
   advanced:
     source:
-      stream.name.pattern: <value> # Rejected since RDI 2.2.0
-      consumer.group: <value> # Rejected since RDI 2.2.0
+      stream.name.pattern: <value> # Ignored since RDI 2.2.2
+      consumer.group: <value> # Ignored since RDI 2.2.2
     processor:
-      counters.key: <value> # Rejected since RDI 2.2.0
+      counters.key: <value> # Ignored since RDI 2.2.2
 ```
 
 The operator uses the generated keys for your existing pipelines as soon as you upgrade, even
@@ -266,16 +315,15 @@ groups. As a result:
   streams.
 - The entries left in streams with custom names or prefixes are no longer consumed.
 
-Remove these properties from your configurations before you deploy them again.
-
-### Check which certificate authorities RDI trusts
-
-Debezium collectors and the Collector API now trust the system certificate authorities (CAs) in
-addition to the CAs of your secrets. To trust only the CAs of your secrets, as before, set
-`operator.dataPlane.collector.useSystemTruststore` and
-`operator.dataPlane.collectorApi.useSystemTruststore` to `false` in your Helm values.
+Remove these properties from your configurations.
 
 ### Update tools that read the VM log files
+
+- **When**: After the upgrade
+- **Applies to**: Upgrades from RDI 2.0.x or earlier, with scripts or tools that read the log files
+  by path
+- **Kubernetes**: Not needed
+- **VM**: Required
 
 On a VM installation, RDI 2.2.0 stores the log files of each pipeline in
 `/opt/rdi/logs/pipelines/<pipeline>/` and those of the control plane in
@@ -288,6 +336,11 @@ file names.
 
 ### Reset MariaDB and SQL Server sources after you add tables
 
+- **When**: After the upgrade, when you add tables to a source
+- **Applies to**: Upgrades from RDI 2.0.x or earlier, with a MariaDB or SQL Server source
+- **Kubernetes**: Required
+- **VM**: Required
+
 RDI 2.2.0 limits the schema history of MariaDB and SQL Server sources to the tables that they
 capture, as it already did for MySQL and Oracle sources. If you add a table to the `tables` list
 of an existing MariaDB or SQL Server source, or add a database or schema to the ones it captures,
@@ -296,22 +349,21 @@ Otherwise, the source stops with an unknown schema error when the new table firs
 keep the previous behavior, set `schema.history.internal.store.only.captured.tables.ddl` to
 `false` in the `advanced.source` section of the source.
 
-### Check the archived log retention of Oracle sources
+<a id="upgrading-to-rdi-200"></a>
 
-If you upgrade from a version before 1.18.1 and use an Oracle source, check that your backup and
-cleanup jobs keep archived logs long enough before you upgrade. See
-[Upgrade from RDI versions before 1.18.1](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md#upgrade-from-rdi-versions-before-1181).
+## Upgrading to RDI 2.0.x
 
-### Downgrade from RDI 2.2.0
-
-Downgrading to a version earlier than 2.0.0 is not supported. Do not downgrade after you create
-a pipeline other than `default`.
-
-## Upgrading to RDI 2.0.0
-
-RDI 2.0.0 changes several behaviors that affect a pipeline upgraded from RDI 1.19.x or earlier.
+Do these steps, together with the steps in [Upgrading to RDI 2.2.x](#upgrading-to-rdi-22x), when
+you upgrade from RDI 1.8.0 to 1.19.x. RDI 2.0.0 changes several behaviors that affect a pipeline
+upgraded from RDI 1.19.x or earlier.
 
 ### The Flink processor becomes the default
+
+- **When**: Before the upgrade
+- **Applies to**: Upgrades from RDI 1.19.x or earlier, with a pipeline that uses the classic
+  processor
+- **Kubernetes**: Required
+- **VM**: Required
 
 RDI 2.0.0 changes the default processor from `classic` to `flink`. This default
 applies when the pipeline's `config.yaml` omits `processors.type`.
@@ -328,9 +380,167 @@ For an existing pipeline that uses the classic processor, choose one of these op
 If your pipeline already uses `processors.type: flink`, no processor change
 is needed. Continue with the upgrade instructions for your installation.
 
+### Check the archived log retention of Oracle sources
+
+- **When**: Before the upgrade
+- **Applies to**: Upgrades from a version before 1.18.1, with an Oracle source
+- **Kubernetes**: Required
+- **VM**: Required
+
+Check that your backup and cleanup jobs keep archived logs long enough before you upgrade. See
+[Upgrade from RDI versions before 1.18.1](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md#upgrade-from-rdi-versions-before-1181).
+
+### Label the source and target secrets
+
+- **When**: Before the upgrade
+- **Applies to**: Upgrades from RDI 1.19.x or earlier
+- **Kubernetes**: Required
+- **VM**: Skip this step if you upgrade to RDI 2.2.2 or later, whose `upgrade.sh` script adds the
+  labels for you. For an earlier version, run the commands on each RDI VM.
+
+RDI 2.0.0 and later find the secrets of a pipeline by their labels. The `source-db` and
+`target-db` secrets of an installation from RDI 1.19.x or earlier may not have these labels, for
+example if you created them with an earlier version or with `kubectl`. A pipeline upgraded with
+unlabeled secrets keeps running, but:
+
+- `redis-di deploy` fails table validation with an access denied error for the user
+  `${SOURCE_DB_USERNAME}`, also with `--dry-run`.
+- `redis-di list-secrets` doesn't list the source.
+- Changing these secrets doesn't restart the components, so they keep using the previous values.
+
+Before you upgrade, add the labels to the secrets. This doesn't change the secret values.
+
+```bash
+kubectl label secret source-db target-db -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+
+# With source TLS or mTLS
+kubectl label secret source-db-ssl -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+
+# With target TLS or mTLS
+kubectl label secret target-db-ssl -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+```
+
+If you have already upgraded, add the labels in the same way, and then restart the operator so
+that it finds the labeled secrets:
+
+```bash
+kubectl rollout restart deployment/rdi-operator -n rdi
+```
+
+After the upgrade, `redis-di list-secrets` lists the secrets of the source as well as those of the
+target.
+
+### Delete the operator Deployment
+
+- **When**: During the upgrade, right before you run `helm upgrade`
+- **Applies to**: Upgrades from a version before 1.18.1
+- **Kubernetes**: Required if `operator.leaderElection.enabled` is `true`
+- **VM**: Skip this step if you upgrade to RDI 2.2.2 or later, whose `upgrade.sh` script stops the
+  operator for you. RDI 2.2.0 and 2.2.1 have no manual fix, so upgrade to RDI 2.2.2 or later.
+
+Operators before 1.18.1 don't take part in the local leader election, so during the rolling update
+the old operator can recreate components of the old version, such as the classic processor next
+to the Flink processor. Delete the operator Deployment right before you run `helm upgrade`:
+
+```bash
+kubectl delete deployment rdi-operator -n rdi --cascade=foreground
+```
+
+`helm upgrade` recreates the operator. Start it as soon as the command returns, so that the new
+operator starts within the lease time-to-live (TTL) of the installed version, 60 seconds by
+default.
+
+### Move the certificates to their default file names
+
+- **When**: After the upgrade
+- **Applies to**: Upgrades from RDI 1.19.x or earlier, with source or target TLS or mTLS
+- **Kubernetes**: Required
+- **VM**: Skip this step if you upgrade to RDI 2.2.2 or later, whose `upgrade.sh` script moves the
+  certificates for you. For an earlier version, run the commands on each RDI VM.
+
+RDI 1.x `redis-di set-secret` stored a certificate that you set from a file under that file's
+name, for example `myca.pem` in the `source-db-ssl` secret, with `SOURCE_DB_CACERT` set to
+`/etc/certificates/source_db/myca.pem` in the `source-db` secret. RDI 2.0.0 and later know only the
+default file names `ca.crt`, `client.crt`, and `client.key`. A pipeline with certificates under
+other file names keeps streaming, but `redis-di delete-secret` fails with a not found error for
+these certificates, and `redis-di list-secrets` lists them as simple secrets.
+
+Each certificate has an entry in the `source-db` or `target-db` secret that names its file in
+`source-db-ssl` or `target-db-ssl`:
+
+| Certificate | Source entry | Target entry | Default file |
+| ----------- | ------------ | ------------ | ------------ |
+| CA certificate | `SOURCE_DB_CACERT` | `TARGET_DB_CACERT` | `ca.crt` |
+| Client certificate | `SOURCE_DB_CERT` | `TARGET_DB_CERT` | `client.crt` |
+| Client key | `SOURCE_DB_KEY` | `TARGET_DB_KEY` | `client.key` |
+
+To see the files that the entries name, run:
+
+```bash
+for key in CACERT CERT KEY; do
+  kubectl get secret source-db -n rdi -o jsonpath="{.data.SOURCE_DB_${key}}" | base64 --decode
+  echo
+  kubectl get secret target-db -n rdi -o jsonpath="{.data.TARGET_DB_${key}}" | base64 --decode
+  echo
+done
+```
+
+Move each certificate whose file has another name: copy the file to the default file name, point
+the entry to the new file, and then delete the old file. For example, for a source CA certificate
+stored as `/etc/certificates/source_db/myca.pem`:
+
+```bash
+kubectl patch secret source-db-ssl -n rdi --type=json \
+  -p '[{"op":"copy","from":"/data/myca.pem","path":"/data/ca.crt"}]'
+kubectl patch secret source-db -n rdi --type=merge \
+  -p '{"stringData":{"SOURCE_DB_CACERT":"/etc/certificates/source_db/ca.crt"}}'
+kubectl patch secret source-db-ssl -n rdi --type=json \
+  -p '[{"op":"remove","path":"/data/myca.pem"}]'
+```
+
+For a target client certificate and key stored as `/etc/certificates/target_db/redis.crt` and
+`/etc/certificates/target_db/redis.key`:
+
+```bash
+kubectl patch secret target-db-ssl -n rdi --type=json \
+  -p '[{"op":"copy","from":"/data/redis.crt","path":"/data/client.crt"},
+       {"op":"copy","from":"/data/redis.key","path":"/data/client.key"}]'
+kubectl patch secret target-db -n rdi --type=merge \
+  -p '{"stringData":{"TARGET_DB_CERT":"/etc/certificates/target_db/client.crt",
+                     "TARGET_DB_KEY":"/etc/certificates/target_db/client.key"}}'
+kubectl patch secret target-db-ssl -n rdi --type=json \
+  -p '[{"op":"remove","path":"/data/redis.crt"},{"op":"remove","path":"/data/redis.key"}]'
+```
+
+Follow these rules:
+
+- Don't copy a certificate to a default file name that another file already has, for example
+  when the client certificate is stored as `ca.crt`, since the copy overwrites that file. Set that
+  certificate again with `redis-di set-secret` instead.
+- Keep the old file while another entry still names it, for example a single PEM file for the
+  client certificate and its key. Delete it after you move the last certificate that it holds.
+
+Instead of moving the certificates, you can set them again with `redis-di set-secret`. It stores
+them under the default file names, but leaves the old files in the secret.
+
 ### Clearing a pipeline is different from deleting it
 
-`DELETE /api/v2/pipelines/{name}` deletes a pipeline rather than emptying its configuration. In RDI 2.2.0, use...
+- **When**: After the upgrade
+- **Applies to**: Upgrades from RDI 1.19.x or earlier, with scripts or procedures that clear or
+  delete pipelines
+- **Kubernetes**: Required
+- **VM**: Required
+
+`DELETE /api/v2/pipelines/{name}` deletes a pipeline rather than emptying its configuration. In RDI 2.2.0, use
 `redis-di delete` to delete the pipeline, or clear the configuration with
 `redis-di deploy --empty`, or with
 `PUT /api/v2/pipelines/{name}` and an empty configuration, instead. See
@@ -343,12 +553,23 @@ database.
 
 ### Redeploying a configuration after clearing a pipeline
 
+- **When**: After the upgrade, when you deploy a configuration again after you clear its pipeline
+- **Applies to**: Pipelines upgraded from RDI 1.19.x or earlier
+- **Kubernetes**: Required
+- **VM**: Required
+
 A configuration of an upgraded pipeline still references the names from before the upgrade, so
 deploying it again after clearing the pipeline fails. See
 [Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#redeploying-a-configuration-after-clearing-a-pipeline)
 for what you have to change, with a before and after example.
 
 ### API changes
+
+- **When**: After the upgrade
+- **Applies to**: Upgrades from RDI 1.19.x or earlier, with API clients, dashboards, or scripts
+  that read the metric collections
+- **Kubernetes**: Required
+- **VM**: Required
 
 RDI 2.0.0 changes several API v2 query parameters and response fields. Most of them affect only
 an API client, and are listed in the
@@ -358,12 +579,6 @@ The one to check for is the metric collections endpoint, which now keys `data_st
 by the source-qualified table name, such as `mysql.inventory.addresses`, instead of by the Redis
 stream name. Update any dashboard or script that reads the previous form. See
 [Observability](/content/integrate/redis-data-integration/observability.md) for the metrics RDI reports.
-
-### Check the archived log retention of Oracle sources
-
-If you upgrade from a version before 1.18.1 and use an Oracle source, check that your backup and
-cleanup jobs keep archived logs long enough before you upgrade. See
-[Upgrade from RDI versions before 1.18.1](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md#upgrade-from-rdi-versions-before-1181).
 
 ## Enabling the Flink processor
 
