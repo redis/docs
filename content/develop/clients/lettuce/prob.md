@@ -181,6 +181,23 @@ large numbers of items. Use CMS objects to keep daily counts of
 items sold, accesses to individual web pages on your site, and
 other similar statistics.
 
+Each counter in a sketch uses 4 bytes by default. From Lettuce 8.0 and Redis 8.12,
+you can choose the counter size when you create a sketch. Pass a `CmsCellSize` value
+(`ONE_BYTE`, `TWO_BYTES`, `FOUR_BYTES` or `EIGHT_BYTES`) to `cmsInitByDim()` or
+`cmsInitByProb()`, and read it back with `getCellSize()` on the `CMSInfoValue`
+object that `cmsInfo()` returns. A smaller counter uses less memory, but an increment
+that pushes a counter past its largest value fails with an overflow error.
+
+```java
+commands.cmsInitByDim("items_sold_small", 2000, 5, CmsCellSize.ONE_BYTE);
+
+CMSInfoValue info = commands.cmsInfo("items_sold_small");
+System.out.println(info.getCellSize()); // >>> 1
+```
+
+From Redis 8.12, `cmsIncrBy()` also accepts a negative increment, which lowers
+the count of an item.
+
 ### Quantiles
 
 A [quantile](https://en.wikipedia.org/wiki/Quantile) is the value
