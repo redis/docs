@@ -20,7 +20,7 @@ weight: 30
 
 | Module | Use it to |
 |--------|-----------|
-| `spring-ai-starter-vector-store-redis` | Store embeddings and run vector, range, and text searches with metadata filters, using the [Redis Query Engine](/content/develop/ai/search-and-query/_index.md). |
+| `spring-ai-starter-vector-store-redis` | Store embeddings and run vector, range, and text searches with metadata filters, using [Redis Search](/content/develop/ai/search-and-query/_index.md). |
 | `spring-ai-starter-model-chat-memory-repository-redis` | Keep chat history for each conversation, with an optional expiry. |
 | `spring-ai-redis-semantic-cache` | Cache chat responses by the meaning of the prompt, so a similar question skips the model call. |
 
@@ -29,7 +29,7 @@ See the [semantic cache](/content/develop/use-cases/semantic-cache/_index.md), [
 ## Requirements
 
 - A Spring Boot application with a Spring AI [`EmbeddingModel`](https://docs.spring.io/spring-ai/reference/api/embeddings.html) bean. For the semantic cache, you also need a `ChatModel`.
-- Redis with the [Redis Query Engine](/content/develop/ai/search-and-query/_index.md) and [JSON](/content/develop/data-types/json/_index.md) (Redis 8 and later versions include both but earlier versions need Redis Stack).
+- Redis with [Redis Search](/content/develop/ai/search-and-query/_index.md) and [JSON](/content/develop/data-types/json/_index.md) (Redis 8 and later versions include both but earlier versions need Redis Stack).
 
 The examples on this page were run with Spring AI 2.0.2, Spring Boot 4.1.2, Java 21, and Redis 8.10. They used a small test `EmbeddingModel` and `ChatModel` in place of a provider, so add the Spring AI starter for your own model provider.
 
@@ -94,7 +94,7 @@ List<Document> results = vectorStore.similaritySearch(
     SearchRequest.builder().query("data store").topK(2).build());
 ```
 
-Spring AI stores each document as a Redis JSON document under the key prefix, and indexes it with a Query Engine index. The index takes its vector size from your embedding model. The default index name is `spring-ai-index`, the default prefix is `embedding:`, and the default algorithm is
+Spring AI stores each document as a Redis JSON document under the key prefix, and indexes it with a Redis Search index. The index takes its vector size from your embedding model. The default index name is `spring-ai-index`, the default prefix is `embedding:`, and the default algorithm is
 [HNSW with cosine distance](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index). Set `spring.ai.vectorstore.redis.vector-algorithm` and `spring.ai.vectorstore.redis.distance-metric` to change them.
 
 ### Filter on metadata
@@ -161,7 +161,7 @@ List<Message> history = memory.get("conversation-1");
 
 Pass the same `ChatMemory` to a `MessageChatMemoryAdvisor` to give a `ChatClient` this history on every call.
 
-The repository keeps each message as a Redis JSON document with a key of the form `chat-memory:<conversation id>:<timestamp>`, plus a `chat-memory:counter:<conversation id>` string. `time-to-live` sets a TTL on those keys. It also creates a Query Engine index, `chat-memory-idx` by default, so `AdvancedRedisChatMemoryRepository` can search messages by content, type, time range, and metadata.
+The repository keeps each message as a Redis JSON document with a key of the form `chat-memory:<conversation id>:<timestamp>`, plus a `chat-memory:counter:<conversation id>` string. `time-to-live` sets a TTL on those keys. It also creates a Redis Search index, `chat-memory-idx` by default, so `AdvancedRedisChatMemoryRepository` can search messages by content, type, time range, and metadata.
 
 ## Cache responses by meaning
 
