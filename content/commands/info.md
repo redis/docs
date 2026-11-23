@@ -33,6 +33,12 @@ hints:
 history:
 - - 7.0.0
   - Added support for taking multiple section arguments.
+- - 8.0.0
+  - Added the keysizes section.
+- - 8.6.0
+  - Added per-type memory allocation size histograms, enabled with the `key-memory-histograms` config directive.
+- - 8.12.0
+  - Added streams to the keysizes section's histograms, and added the streams section, enabled with the `stream-stats` config directive.
 linkTitle: INFO
 railroad_diagram: /images/railroad/info.svg
 since: 1.0.0
@@ -60,6 +66,7 @@ The optional parameter(s) can be used to select a specific section of informatio
 *   `modules`: Modules section
 *   `keyspace`: Database-related statistics
 *   `keysizes`: Statistics on the distribution of key sizes for each data type
+*   `streams`: Statistics on the distribution of stream consumer groups, pending entries, and consumers
 *   `errorstats`: Redis error statistics
 *   `hotkeys`: Hotkeys tracking information
 
@@ -295,6 +302,12 @@ If AOF is activated, these additional fields will be added:
 *   `aof_pending_bio_fsync`: Number of fsync pending jobs in background I/O
      queue
 *   `aof_delayed_fsync`: Delayed fsync counter
+*   `aof_cmd_duration`: Best-effort estimate, in microseconds, of AOF replay
+     time for commands written since the last rewrite, load, or AOF reset.
+     For commands propagated without a known duration (for example via
+     `RM_Replicate` or `RM_ReplicateVerbatim`), this is approximated using
+     leftover time from the triggering top-level command, or, for a blocked
+     client, its measured background execution time.
 
 If a load operation is on-going, these additional fields will be added:
 
@@ -341,6 +354,7 @@ Here is the meaning of all fields in the **stats** section:
 *   `expired_time_cap_reached_count`: The count of times that active expiry cycles have stopped early
 *   `expire_cycle_cpu_milliseconds`: The cumulative amount of time spent on active expiry cycles
 *   `evicted_keys`: Number of evicted keys due to `maxmemory` limit
+*   `blessed_keys`: Number of keys currently protected from eviction, see [`BLESS`]({{< relref "/commands/bless" >}}). Added in Redis 8.12.
 *   `evicted_clients`: Number of evicted clients due to `maxmemory-clients` limit. Added in Redis 7.0.
 *   `evicted_scripts`: Number of evicted EVAL scripts due to LRU policy, see [`EVAL`](/content/commands/eval.md) for more details. Added in Redis 7.4.
 *   `total_eviction_exceeded_time`:  Total time `used_memory` was greater than `maxmemory` since server startup, in milliseconds
@@ -618,22 +632,62 @@ For each database, the following line is added:
 
 *   `dbXXX`: `keys=XXX,expires=XXX,avg_ttl=XXX,subexpiry=XXX`
 
-The **keysizes** section provides detailed statistics on the distribution of key sizes for each data type (strings, lists, sets, hashes, and sorted sets) within the dataset. The distribution is tracked using a base-2 logarithmic histogram.
+The **keysizes** section provides detailed statistics on the distribution of key sizes for each data type (strings, lists, sets, hashes, sorted sets, and streams) within the dataset. The distribution is tracked using a base-2 logarithmic histogram.
 
-Here's sample output from a two-database instance of Redis:
+Starting with Redis 8.12.0, the keysizes section also reports `distrib_streams_items`, the distribution of the number of entries per stream. This field appears by default, alongside the existing item-count fields for lists, sets, hashes, and sorted sets.
+
+The section can also report a memory allocation size histogram per data type, including `distrib_streams_sizes` for streams. These size histograms require the `key-memory-histograms` config directive, which is disabled by default and can only be set at startup — it can't be turned on with `CONFIG SET` while the server is running.
+
+Here's sample output from a two-database instance of Redis with `key-memory-histograms` enabled:
 
 ```
 # Keysizes
 db0_distrib_strings_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db0_distrib_lists_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db0_distrib_lists_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db0_distrib_sets_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db0_distrib_sets_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db0_distrib_zsets_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db0_distrib_zsets_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db0_distrib_hashes_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1
+db0_distrib_hashes_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
+db0_distrib_streams_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db0_distrib_streams_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_strings_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_lists_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db1_distrib_lists_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_sets_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db1_distrib_sets_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_zsets_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db1_distrib_zsets_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_hashes_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1
+db1_distrib_hashes_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
+db1_distrib_streams_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db1_distrib_streams_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
+```
+
+The **streams** section shows the health of stream consumer groups across each database, so you can spot a growing backlog without running [`XINFO`](/content/commands/xinfo.md) on every stream. It's available starting with Redis 8.12.0. Like the keysizes section, it reports base-2 logarithmic histograms, one line per database:
+
+*   `dbXXX_stream_distrib_streams_cgroups`: The number of consumer groups per stream. Every stream is counted, so bin `0` holds the streams with no groups, and the line totals the stream keys in the database.
+*   `dbXXX_stream_distrib_cgroups_pel`: The number of entries in each consumer group's pending entries list (PEL).
+*   `dbXXX_stream_distrib_cgroups_consumers`: The number of consumers in each consumer group.
+
+The section isn't part of the default set. `INFO streams`, `INFO all`, and `INFO everything` return it, but its histogram lines appear only while the `stream-stats` config directive is enabled. `stream-stats` is disabled by default, and you can change it at runtime with [`CONFIG SET`](/content/commands/config-set.md).
+
+Enabling `stream-stats` at runtime doesn't scan the existing keyspace. An existing stream and its groups are counted only once a consumer group command (`XREADGROUP`, `XACK`, `XACKDEL`, `XCLAIM`, `XAUTOCLAIM`, `XNACK`, or `XGROUP`) touches them, so the histograms can under-count until then, but they never over-count. Streams created while `stream-stats` is enabled are counted immediately. Disabling `stream-stats` hides the histograms. If you enable it again and no stream or consumer group changed in the meantime, the counts are kept; otherwise they start over.
+
+The histograms tell you that a problem exists, such as a consumer group with a large PEL, but not which stream it's in. Use [`XINFO GROUPS`](/content/commands/xinfo-groups.md) or [`XPENDING`](/content/commands/xpending.md) to find it.
+
+Here's sample output from a two-database instance of Redis with `stream-stats` enabled:
+
+```
+# Streams
+db0_stream_distrib_streams_cgroups:0=1,1=1,2=1
+db0_stream_distrib_cgroups_pel:0=1,2=1,32=1
+db0_stream_distrib_cgroups_consumers:0=1,1=1,2=1
+db1_stream_distrib_streams_cgroups:1=1
+db1_stream_distrib_cgroups_pel:1=1
+db1_stream_distrib_cgroups_consumers:1=1
 ```
 
 The **debug** section contains experimental metrics, which might change or get removed in future versions.

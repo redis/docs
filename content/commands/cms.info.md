@@ -29,7 +29,7 @@ summary: Returns information about a sketch
 syntax_fmt: CMS.INFO key
 title: CMS.INFO
 ---
-Returns width, depth and total count of the sketch.
+Returns width, depth, count, and cell size of the sketch.
 
 ## Required arguments
 
@@ -49,6 +49,8 @@ redis> CMS.INFO test
  4) (integer) 7
  5) count
  6) (integer) 0
+ 7) cell size
+ 8) (integer) 4
 ```
 
 ## Redis Software and Redis Cloud compatibility

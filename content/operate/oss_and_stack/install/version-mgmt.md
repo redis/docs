@@ -35,10 +35,11 @@ Redis uses two release types within a major version:
 
 | Version | Release type | Status | EOL Date |
 |---------|--------------|--------|----------|
+| **Redis 8.12** | Standard | GA | TBD |
 | **Redis 8.10** | Standard | GA | TBD |
-| **Redis 8.8**  | Standard | GA | TBD |
-| **Redis 8.6**  | Standard | GA | TBD |
-| **Redis 8.4**  | Standard | GA | TBD |
+| **Redis 8.8**  | Standard | GA | January 29, 2027 |
+| **Redis 8.6**  | Standard | GA | November 25, 2026 |
+| **Redis 8.4**  | Standard | GA | August 10, 2026 |
 | **Redis 8.2**  | Extended | GA | September 1, 2030 |
 | **Redis 8.0**  | Standard | GA | December 1, 2026 |
 | **Redis 7.4**  | Extended | GA | December 1, 2029 |
