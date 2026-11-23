@@ -31,7 +31,7 @@ information about when to use these patterns.
 ## Requirements
 
 - Python 3.10 to 3.15
-- Redis with the [Redis Query Engine](/content/develop/ai/search-and-query/_index.md) for the semantic cache 
+- Redis with [Redis Search](/content/develop/ai/search-and-query/_index.md) for the semantic cache 
 (Redis 8 and later versions include it but earlier versions need Redis Stack). The response cache and router 
 counters work on any Redis server.
 

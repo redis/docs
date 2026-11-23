@@ -20,7 +20,7 @@ weight: 30
 
 | Package | Use it to |
 |---------|-----------|
-| `llama-index-vector-stores-redis` | Store embeddings and run vector searches with metadata filters, using the [Redis Query Engine](/content/develop/ai/search-and-query/_index.md). |
+| `llama-index-vector-stores-redis` | Store embeddings and run vector searches with metadata filters, using [Redis Search](/content/develop/ai/search-and-query/_index.md). |
 | `llama-index-storage-chat-store-redis` | Keep chat history for each user or session. |
 | `llama-index-storage-docstore-redis` and `llama-index-storage-index-store-redis` | Persist the document and index metadata that LlamaIndex otherwise keeps in memory. |
 | `llama-index-storage-kvstore-redis` | Cache the results of ingestion pipeline steps. |
@@ -32,7 +32,7 @@ information about when to use these patterns.
 ## Requirements
 
 - Python 3.11 to 3.13
-- Redis with the [Redis Query Engine](/content/develop/ai/search-and-query/_index.md) for the vector store
+- Redis with [Redis Search](/content/develop/ai/search-and-query/_index.md) for the vector store
 (Redis 8 and later versions include it but earlier versions need Redis Stack). The chat store, document store, index store, and cache work on any Redis server.
 
 Install the packages you need:
@@ -69,7 +69,7 @@ for result in retriever.retrieve("What is Redis?"):
     print(result.score, result.text)
 ```
 
-LlamaIndex embeds each document, stores it in a Redis hash, and indexes the hashes with a Redis Query Engine index. `overwrite=True` drops and recreates the index if it already exists.
+LlamaIndex embeds each document, stores it in a Redis hash, and indexes the hashes with a Redis Search index. `overwrite=True` drops and recreates the index if it already exists.
 
 To reuse the index in a later run without embedding the documents again, connect to the same index and build from the vector store:
 
@@ -210,4 +210,4 @@ Replace `embed_model` with your embedding model. The cache is a Redis hash named
 
 - [LlamaIndex Redis vector store guide](https://developers.llamaindex.ai/python/examples/vector_stores/redisindexdemo/)
 - [RedisVL](/content/develop/ai/redisvl/_index.md), the Redis library that `RedisVectorStore` is built on
-- [Vector search with the Redis Query Engine](/content/develop/ai/search-and-query/vectors/_index.md)
+- [Vector search with Redis Search](/content/develop/ai/search-and-query/vectors/_index.md)
