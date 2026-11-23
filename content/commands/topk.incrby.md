@@ -52,7 +52,7 @@ the name of the sketch.
 
 <details open><summary><code>item increment [item increment ...]</code></summary>
 
-One or more item-increment pairs. Each `item` is incremented by its corresponding `increment`. The `increment` must be greater than or equal to 1 and less than or equal to 100,000 to avoid server freeze.
+One or more item-increment pairs. Each `item` is incremented by its corresponding `increment`. The `increment` must be greater than or equal to 0 and less than or equal to 100,000 to avoid server freeze.
 
 </details>
 
