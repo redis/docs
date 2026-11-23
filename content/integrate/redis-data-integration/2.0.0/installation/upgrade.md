@@ -19,7 +19,7 @@ url: '/integrate/redis-data-integration/2.0.0/installation/upgrade/'
 
 > [!NOTE]
 > Before upgrading to RDI 2.0.0, review the
-> [processor default change](#upgrading-to-rdi-200).
+> [processor default change](#upgrading-to-rdi-200) and the [known limitations](#known-limitations).
 
 ## Upgrading a VM installation
 
@@ -42,8 +42,6 @@ of RDI:
     ```bash
     cd rdi_install/$RDI_VERSION
     ```
-
-1.  [Label the source and target secrets](#label-the-source-and-target-secrets).
 
 1.  Run the `upgrade.sh` script as a privileged user. Note that you must pass
     your RDI password to the script unless the password is empty.
@@ -135,8 +133,6 @@ installation of RDI:
     Before making any changes, save your existing `rdi-values.yaml` if you need to revert 
     to the old RDI version for any reason.
 
-1.  [Label the source and target secrets](#label-the-source-and-target-secrets).
-
 1.  Run the `helm upgrade` command:
     
     ```bash
@@ -203,53 +199,6 @@ For an existing pipeline that uses the classic processor, choose one of these op
 If your pipeline already uses `processors.type: flink`, no processor change
 is needed. Continue with the upgrade instructions for your installation.
 
-### Label the source and target secrets
-
-When you upgrade a VM or Kubernetes installation to RDI 2.0.0, add the pipeline labels to its
-source and target secrets.
-
-RDI 2.0.0 finds the secrets of a pipeline by their labels. The `source-db` and `target-db`
-secrets of the installation you upgrade may not have these labels, for example if you created
-them with an earlier version or with `kubectl`. A pipeline upgraded with unlabeled
-secrets keeps running, but:
-
-- `redis-di deploy` fails table validation with an access denied error for the user
-  `${SOURCE_DB_USERNAME}`, also with `--dry-run`.
-- `redis-di list-secrets` doesn't list the source.
-- Changing these secrets doesn't restart the components, so they keep using the previous values.
-
-Before you upgrade, add the labels to the secrets. This doesn't change the secret values. On a VM
-installation, run these commands on each RDI VM.
-
-```bash
-kubectl label secret source-db target-db -n rdi --overwrite \
-  app.kubernetes.io/name=pipeline \
-  app.kubernetes.io/instance=default \
-  product=rdi
-
-# With source TLS or mTLS
-kubectl label secret source-db-ssl -n rdi --overwrite \
-  app.kubernetes.io/name=pipeline \
-  app.kubernetes.io/instance=default \
-  product=rdi
-
-# With target TLS or mTLS
-kubectl label secret target-db-ssl -n rdi --overwrite \
-  app.kubernetes.io/name=pipeline \
-  app.kubernetes.io/instance=default \
-  product=rdi
-```
-
-If you have already upgraded, add the labels in the same way, and then restart the operator so
-that it finds the labeled secrets:
-
-```bash
-kubectl rollout restart deployment/rdi-operator -n rdi
-```
-
-After the upgrade, `redis-di list-secrets` lists the secrets of the source as well as those of the
-target.
-
 ### Clearing a pipeline replaces deleting it
 
 `DELETE /api/v2/pipelines/{name}` no longer empties a pipeline, and `redis-di delete` no longer
@@ -287,6 +236,23 @@ cleanup jobs keep archived logs long enough before you upgrade. RDI 1.18.1 and l
 changes only from archived logs, so a job that deletes them soon after they are written stops the
 pipeline. See [Archive log retention](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md)
 in the latest documentation for the recommended retention.
+
+### Known limitations
+
+RDI 2.0.x has no fix for the following problems, which can affect an installation that you
+upgrade to RDI 2.0.0. To avoid them, upgrade to the latest RDI 2.2.x instead. Its VM upgrade fixes
+them, and its
+[upgrade instructions](/content/integrate/redis-data-integration/installation/upgrade.md)
+describe the steps for a Kubernetes installation.
+
+- **Source and target secrets without the pipeline labels**: RDI 2.0.0 finds the secrets of a
+  pipeline by the `app.kubernetes.io/name`, `app.kubernetes.io/instance`, and `product` labels.
+  The `source-db`, `target-db`, `source-db-ssl`, and `target-db-ssl` secrets of the installation
+  you upgrade may not have these labels, for example if you created them with an earlier version
+  or with `kubectl`. A pipeline upgraded with unlabeled secrets keeps running, but
+  `redis-di deploy` fails table validation with an access denied error for the user
+  `${SOURCE_DB_USERNAME}`, also with `--dry-run`. `redis-di list-secrets` doesn't list the
+  source, and changing these secrets doesn't restart the components.
 
 ## Enabling the Flink processor
 
