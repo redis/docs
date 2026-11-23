@@ -26,7 +26,7 @@ about when to use this pattern.
 ## Requirements
 
 - Python 3.10 or later
-- Redis with the [Redis Query Engine](/content/develop/ai/search-and-query/_index.md) (Redis 8 and later 
+- Redis with [Redis Search](/content/develop/ai/search-and-query/_index.md) (Redis 8 and later 
 versions includes this but Earlier versions need Redis Stack).
 - An LLM and an embedding model. By default, Mem0 uses OpenAI, so set `OPENAI_API_KEY`, or configure other providers as explained in the [Mem0 documentation](https://docs.mem0.ai/).
 
