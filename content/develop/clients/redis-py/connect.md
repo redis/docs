@@ -275,7 +275,7 @@ is disconnected.
 
 By default, the server remembers (*tracks*) the keys of every read-only command
 that the client sends, whether or not the client stores the reply.
-From `redis-py` v8.2.0, set `tracking_mode` in `CacheConfig` to
+From `redis-py` v8.2.0, you can use `tracking_mode` in `CacheConfig` to
 reduce what the server has to remember, and so reduce its memory use and the number of
 invalidation messages that the client receives:
 
@@ -304,7 +304,7 @@ applies only to new connections.
 
 ### Choose which replies to cache
 
-In `OPTIN` and `OPTOUT` mode, use `cache_predicate` to decide which replies to cache.
+In `OPTIN` and `OPTOUT` mode, you can use `cache_predicate` to decide which replies to cache.
 The predicate takes the command name (for example, `"GET"`) and the tuple of keys that
 the command used, and returns `True` to cache the reply.
 The client calls it only for commands that are already eligible for caching
@@ -367,8 +367,8 @@ the metadata doesn't describe, such as a command from a module that `redis-py`
 doesn't know about.
 
 To make the client cache such a command, pass a `metadata_resolver` that describes it.
-Resolvers chain, and the first match wins, so put your resolver in front of
-`StaticMetadataResolver` to override only the commands that you list.
+Resolvers are chained together in order, and the first match wins, so put your resolver
+in front of `StaticMetadataResolver` in the chain to override only the commands that you list.
 The example below makes the client cache [`VCARD`](/content/commands/vcard.md),
 which the shipped metadata doesn't describe.
 Pass `keys=` to `execute_command()` so that the client knows which keys the
@@ -412,8 +412,9 @@ r.execute_command("VCARD", "points", keys=["points"])  # Retrieved from the serv
 r.execute_command("VCARD", "points", keys=["points"])  # Retrieved from the cache
 ```
 
-Add records for module commands under the module's lowercase prefix. For example,
-use `"graph"` for the `GRAPH.*` commands.
+Add records for module commands under the module's lowercase command prefix, with
+the rest of the name as the key. For example, a record for `JSON.GET` goes under
+`"json"` with the key `"get"`.
 
 The `Redis` and `RedisCluster` classes accept `metadata_resolver`, and so does `ConnectionPool`
 if you supply your own pool. A cluster client also uses the resolver to route commands,
