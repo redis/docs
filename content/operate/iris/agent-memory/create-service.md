@@ -16,6 +16,9 @@ aliases:
 
 Redis Agent Memory provides a persistent, structured memory layer that AI agents can use to store, retrieve, and manage contextual data across interactions. This guide walks you through creating and configuring an Agent Memory service in Redis Cloud.
 
+> [!TIP]
+> To create the service from the command line instead, see [Set up the CLI for Redis Cloud](/content/operate/iris/cloud-cli.md).
+
 ## Prerequisites and limitations
 
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
