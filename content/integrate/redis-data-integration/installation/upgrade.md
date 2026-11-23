@@ -250,20 +250,16 @@ following:
 - A secret provider name that contains consecutive dashes. Rename the provider, and update the
   references to it in `config.yaml`.
 
-RDI 2.2.0 and 2.2.1 also reject the properties that RDI manages itself: the internal key
-overrides described in
-[Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys), and the
-`database.ssl.keystore`, `database.ssl.keystore.password`, `mongodb.ssl.keystore`, and
-`mongodb.ssl.keystore.password` properties in `sources.<name>.advanced.source`, which RDI 1.x
-needed for source mutual TLS (mTLS). RDI 2.2.2 and later ignore these properties, with no error
-and no warning, and use their own values. Setting them has no effect, so remove them from your
-configuration.
+RDI 2.2.0 and 2.2.1 also reject the properties that RDI manages itself, which RDI 2.2.2 and later
+ignore. See [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys).
 
 ### Remove overrides of internal Redis keys
 
-RDI 2.2.0 and later always use the Redis keys and consumer groups that they generate. RDI 2.2.0
-and 2.2.1 reject the following properties, and RDI 2.2.2 and later ignore them. This example
-shows where to remove them from your configuration:
+RDI 2.2.0 and later always use the Redis keys and consumer groups that they generate. They build
+the keystore for source mutual TLS (mTLS) from the source's TLS secret, instead of the keystore
+properties that RDI 1.x needed. RDI 2.2.0 and 2.2.1 reject the following properties, and RDI 2.2.2
+and later ignore them, with no error and no warning. This example shows where to remove them
+from your configuration:
 
 ```yaml
 sources:
@@ -273,6 +269,10 @@ sources:
         topic.delimiter: <value> # Ignored since RDI 2.2.2
         offset.storage.redis.key: <value> # Ignored since RDI 2.2.2
         schema.history.internal.redis.key: <value> # Ignored since RDI 2.2.2
+        database.ssl.keystore: <value> # Ignored since RDI 2.2.2
+        database.ssl.keystore.password: <value> # Ignored since RDI 2.2.2
+        mongodb.ssl.keystore: <value> # Ignored since RDI 2.2.2
+        mongodb.ssl.keystore.password: <value> # Ignored since RDI 2.2.2
       riotx:
         streamPrefix: <value> # Ignored since RDI 2.2.2
 processors:
