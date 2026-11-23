@@ -68,10 +68,10 @@ const client = createClient({
 client.on('error', error => console.error('Redis client error:', error));
 ```
 
-You can also set timeouts for individual commands using `AbortController`:
+You can also cancel individual commands using `AbortController`:
 
 ```javascript
-import { createClient, commandOptions } from 'redis';
+import { createClient } from 'redis';
 
 const client = createClient({ url: 'redis://localhost:6379' });
 await client.connect();
@@ -79,11 +79,53 @@ await client.connect();
 const ac = new AbortController();
 const t = setTimeout(() => ac.abort(), 1000);
 try {
-  const val = await client.get(commandOptions({ signal: ac.signal }), key);
+  const val = await client.withCommandOptions({ abortSignal: ac.signal }).get(key);
 } finally {
   clearTimeout(t);
 }
 ```
+
+The `timeout` command option sets a time limit for a command in the same way.
+It defaults to 5 seconds. Both `timeout` and `abortSignal` apply to
+[transactions](/content/develop/clients/nodejs/transpipe.md) and pipelines as a whole.
+
+By default, `timeout` and `abortSignal` apply only while a command waits in the client's
+queue, before it is written to the socket. A command that times out or is
+aborted at this stage rejects with `TimeoutError` or `AbortError`, and
+`node-redis` never sends it. After the client sends a command, it waits for the reply
+for as long as the server takes to answer.
+
+#### Reject commands that were already sent
+
+To make `timeout` and `abortSignal` apply until the reply arrives, set the
+experimental `rejectInFlight` command option. You can set it for every command
+of a client:
+
+```javascript
+import { createClient, TimeoutReadError } from 'redis';
+
+const client = createClient({
+  commandOptions: { timeout: 1000, rejectInFlight: true }
+});
+await client.connect();
+
+try {
+  await client.get(key);
+} catch (err) {
+  if (err instanceof TimeoutReadError) {
+    // The server received the command and might have run it.
+  }
+}
+```
+
+Or you can set it for a single call with
+`client.withCommandOptions({ timeout: 1000, rejectInFlight: true })`.
+A command that was already sent rejects with `TimeoutReadError` on a timeout, or with
+`AbortReadError` when you abort it. The connection stays open and `node-redis`
+drops the reply when it arrives. Retry these commands only if they are safe to repeat.
+
+Blocking commands such as [`BLPOP`](/content/commands/blpop.md) keep only the
+queue timeout, because the server continues to block after a client-side timeout.
 
 ### Command execution reliability
 
