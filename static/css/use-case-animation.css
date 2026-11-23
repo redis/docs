@@ -1,13 +1,14 @@
 /* =========================================================================
    Use case animations
    What a use case scene adds to the data type animation's stage: whoever
-   sends the commands, the store they go to, the wire between the two, and
-   the messages that travel along it. The colors and the console come from
-   data-type-animation.css, which must load first.
+   sends the commands, the store they go to, the wires between them, and
+   the messages that travel along the wires. The colors and the console
+   come from data-type-animation.css, which must load first.
    ========================================================================= */
 
-/* The room the animation needs, so the page below doesn't jump when the script draws it. This is the
-   height in the widest text column. In a narrower column a long command wraps and the box grows. */
+/* The room each animation needs, so the page below doesn't jump when the script draws it. These are
+   the heights in the widest text column. In a narrower column a long command wraps and the box grows. */
+.dta[data-dta="job-queue"] { min-height: 259px; }
 .dta[data-dta="leaderboard"] { min-height: 316px; }
 
 /* ---- the stage ---- */
@@ -15,12 +16,18 @@
 .dta-uc-wires { position: absolute; left: 0; top: 0; }
 .dta-uc-wire { fill: none; stroke: var(--dta-line-strong); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 1 5; }
 
-/* Whoever sends the commands, such as the application. */
+/* Whoever sends the commands, such as the application or a worker. */
 .dta-uc-app {
-  position: absolute; display: flex; align-items: center; justify-content: center;
+  position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
   border: 1px solid var(--dta-line-strong); border-radius: 10px; background: var(--dta-surface);
   font: 700 12.5px/16px var(--dta-mono); white-space: nowrap;
+  transition: background-color .3s, border-color .3s;
 }
+/* A second line under its name that says what it is doing. */
+.dta-uc-line { font: 10px/13px var(--dta-mono); color: var(--dta-muted); }
+/* It has crashed. */
+.dta-uc-app.is-down { border-style: dashed; border-color: var(--dta-no); background-color: var(--dta-no-bg); }
+.dta-uc-app.is-down .dta-uc-line { color: var(--dta-no); }
 
 /* A store is a card with a label over it that says where the key lives. */
 .dta-uc-store { position: absolute; display: flex; flex-direction: column; gap: 4px; }
@@ -44,8 +51,16 @@
 .dta-r.is-write .dta-uc-bar i { background: var(--dta-write); }
 .dta-r.is-read .dta-uc-bar i { background: var(--dta-read); }
 
+/* ---- job queue: a lane for each list ---- */
+.dta-uc-store .dta-uc-lane-h { height: 22px; border-top: 1px solid var(--dta-line-strong); }
+.dta-uc-store .dta-uc-lane-h:first-child { border-top: 0; }
+.dta-uc-lane { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 8px; }
+.dta-uc-lane .dta-cell { padding: 2px 7px; font-size: 11.5px; }
+
 @container (max-width: 460px) {
   .dta-uc-store .dta-card-h { font-size: 10.5px; padding-left: 8px; padding-right: 8px; }
+  .dta-uc-store .dta-uc-lane-h { font-size: 9.5px; }
   .dta-uc-store .dta-r { font-size: 11.5px; column-gap: 8px; padding: 0 8px; }
   .dta-uc-app { font-size: 11px; }
+  .dta-uc-line { font-size: 9.5px; }
 }

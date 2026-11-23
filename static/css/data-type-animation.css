@@ -69,6 +69,9 @@
 .dta-term { flex: 1 1 0; min-width: 0; }
 .dta-cmd { min-height: 20px; padding-left: 2ch; text-indent: -2ch; white-space: pre-wrap; overflow-wrap: anywhere; }
 .dta-prompt { color: #64748b; user-select: none; }
+/* A step with no command: something happens outside Redis, and this text says what. Nothing is typed. */
+.dta-event { color: #8493a8; font-style: italic; }
+.dta.is-event .dta-prompt, .dta.is-event .dta-caret { display: none; }
 .dta-reply { min-height: 20px; color: #cbd5e1; white-space: pre-wrap; overflow-wrap: anywhere; }
 /* The caret takes no room in the line, so it can't wrap to a line of its own after a command that fills one. */
 .dta-caret { position: relative; display: inline-block; width: 0; height: 1em; vertical-align: -.15em; }

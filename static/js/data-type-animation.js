@@ -18,7 +18,10 @@
      steps     [{ cmd, reply, note, run(c, state) }]. run() changes the
                drawing, and may return a promise that resolves when its
                animation ends. Every step is paced the same way: there is
-               no per-step timing to set.
+               no per-step timing to set. A step with `event` in place of
+               `cmd` and `reply` is something that happens outside Redis,
+               such as a worker crashing. The console shows that text, and
+               nothing is typed.
    `c` is the run's context: wait, anim, enter, leave, flip, tween, count,
    mark, and temp. Every one of them does its work without animating when
    the player is fast-forwarding, which is how a click on a step and the
@@ -66,6 +69,9 @@
   function esc(x) { return String(x).replace(/[&<>]/g, function (ch) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[ch]; }); }
   function hlCmd(x) { return window.DemoHL ? window.DemoHL.redis(x) : esc(x); }
   function hlReply(x) { return window.DemoHL ? window.DemoHL.reply(x) : esc(x); }
+  /* What a step puts in the console: its command and reply, or the text of an event, which has no reply. */
+  function cmdHtml(st) { return st.cmd ? hlCmd(st.cmd) : '<span class="dta-event">' + esc(st.event) + "</span>"; }
+  function replyHtml(st) { return st.cmd ? hlReply(st.reply) : ""; }
 
   const ICON = {
     pause: '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>',
@@ -81,6 +87,7 @@
     p.cur = 0;                 // the step on screen
     p.instant = false;         // true while fast-forwarding
     p.userPaused = reduced;    // with reduced motion, nothing moves until the reader presses play
+    p.held = [];               // what was moving in the drawing when the animation paused
     p.visible = !("IntersectionObserver" in window);
 
     root.textContent = "";
@@ -110,7 +117,7 @@
     p.setPaused(p.userPaused);
 
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) { p.visible = es[es.length - 1].isIntersecting; }, { threshold: 0.4 }).observe(root);
+      new IntersectionObserver(function (es) { p.visible = es[es.length - 1].isIntersecting; p.sync(); }, { threshold: 0.4 }).observe(root);
     }
     /* A scene is laid out in pixels, so a new width means drawing it again, at the step it had reached. */
     let width = root.clientWidth, timer;
@@ -133,6 +140,22 @@
     this.root.classList.toggle("is-paused", on);
     this.button.innerHTML = on ? ICON.play : ICON.pause;
     this.button.setAttribute("aria-label", on ? "Play animation" : "Pause animation");
+    this.sync();
+  };
+
+  /* Stop whatever is moving in the drawing when the animation pauses, and let it carry on when the
+     animation plays again. wait() and tween() count play time by themselves, but a motion that the
+     browser is running has to be told. Call this whenever paused() may have changed. */
+  Player.prototype.sync = function () {
+    const p = this;
+    if (!p.paused()) {
+      p.held.forEach(function (a) { a.play(); });
+      p.held.length = 0;
+    } else if (p.canvas.getAnimations) {
+      p.canvas.getAnimations({ subtree: true }).forEach(function (a) {
+        if (a.playState === "running") { a.pause(); p.held.push(a); }
+      });
+    }
   };
 
   /* Size the canvas for this width, and reserve room for the tallest command, reply, and note, so the
@@ -142,8 +165,8 @@
     let term = 0, note = 0;
     p.term.style.minHeight = p.note.style.minHeight = "";
     sc.steps.forEach(function (st) {
-      p.cmd.innerHTML = hlCmd(st.cmd);
-      p.reply.innerHTML = hlReply(st.reply);
+      p.cmd.innerHTML = cmdHtml(st);
+      p.reply.innerHTML = replyHtml(st);
       p.note.textContent = st.note || "";
       term = Math.max(term, p.term.offsetHeight);
       note = Math.max(note, p.note.offsetHeight);
@@ -181,7 +204,9 @@
         if (p.instant || !el.animate) return Promise.resolve();
         const o = { duration: ms || 360, easing: EASE };
         for (const k in opts) o[k] = opts[k];
-        return el.animate(frames, o).finished.catch(function () {});
+        const a = el.animate(frames, o);
+        if (p.paused()) { a.pause(); p.held.push(a); }   // it starts when the animation plays again
+        return a.finished.catch(function () {});
       },
       enter: function (el, from, ms, delay) {
         return c.anim(el, [{ opacity: 0, transform: from || "scale(.6)" }, { opacity: 1, transform: "none" }], ms || 340,
@@ -208,10 +233,13 @@
         check();
         if (p.instant) { fn(to); return Promise.resolve(); }
         return new Promise(function (resolve, reject) {
-          const t0 = performance.now();
+          let done = 0, last = performance.now();   // play time: it stops while the animation is paused or off screen
           (function frame() {
             if (gen !== p.gen) return reject(CANCEL);
-            const k = Math.min(1, (performance.now() - t0) / ms);
+            const now = performance.now();
+            if (!p.paused()) done += Math.min(now - last, 50);   // a hidden tab draws no frames, so a long gap isn't play time
+            last = now;
+            const k = Math.min(1, done / ms);
             fn(from + (to - from) * (1 - Math.pow(1 - k, 3)));
             if (k < 1) requestAnimationFrame(frame); else resolve();
           })();
@@ -238,17 +266,19 @@
     p.dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); d.classList.toggle("is-done", k < i); });
     if (p.note.textContent !== (st.note || "")) p.note.classList.remove("is-on");
     p.reply.innerHTML = "";
-    if (p.instant) p.cmd.innerHTML = hlCmd(st.cmd);
-    else {
-      p.root.classList.add("is-typing");
+    p.root.classList.toggle("is-event", !st.cmd);
+    if (p.instant || !st.cmd) p.cmd.innerHTML = cmdHtml(st);
+    if (!p.instant) {
+      /* An event isn't typed, but it waits through the same ticks, so its step starts as late as the others. */
+      p.root.classList.toggle("is-typing", !!st.cmd);
       for (let k = 1; k <= TICKS; k++) {
-        p.cmd.innerHTML = hlCmd(st.cmd.slice(0, Math.ceil(st.cmd.length * k / TICKS)));
+        if (st.cmd) p.cmd.innerHTML = hlCmd(st.cmd.slice(0, Math.ceil(st.cmd.length * k / TICKS)));
         await c.wait(TYPE / TICKS);
       }
       p.root.classList.remove("is-typing");
       await c.wait(160);
     }
-    p.reply.innerHTML = hlReply(st.reply);
+    p.reply.innerHTML = replyHtml(st);
     p.note.textContent = st.note || "";
     p.note.classList.toggle("is-on", !!st.note);
     if (!i) {   // the first command creates the key, so the whole drawing appears with it
@@ -264,6 +294,8 @@
      the reader has paused the animation, `from` is drawn that way too, and the loop waits there. */
   Player.prototype.play = function (from) {
     const p = this, gen = ++p.gen, steps = p.scene.steps;
+    p.held.forEach(function (a) { a.cancel(); });   // the run before this one may have paused partway through a motion
+    p.held.length = 0;
     (async function () {
       for (;;) {
         p.layout();
@@ -1207,6 +1239,7 @@
   }
   function start() {
     document.querySelectorAll(".dta[data-dta]").forEach(mount);
+    document.addEventListener("visibilitychange", function () { players.forEach(function (p) { p.sync(); }); });
     /* Labels are measured as they are drawn, so draw again if the code font arrives late. */
     const font = '12px "Space Mono"';
     if (document.fonts && document.fonts.load && !document.fonts.check(font)) {
@@ -1214,6 +1247,6 @@
     }
   }
   /* `kit` is what a scene in another file draws with: use-case-animation.js adds its scenes to `scenes`. */
-  window.DataTypeAnimation = { scenes: SCENES, players: players, mount: mount, kit: { h: h, s: s, add: add, row: row } };
+  window.DataTypeAnimation = { scenes: SCENES, players: players, mount: mount, kit: { h: h, s: s, add: add, row: row, cell: cell, shake: shake } };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();
