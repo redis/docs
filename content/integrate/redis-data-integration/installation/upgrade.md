@@ -31,7 +31,8 @@ the upgrade steps of each RDI version that you upgrade past:
 Each upgrade step starts with these lines:
 
 - **When**: Before, during, or after the upgrade. The procedures tell you where to do each group
-  of steps.
+  of steps. Within a group, you can do the steps in any order, unless the **When** line says
+  otherwise.
 - **Applies to**: The versions that you upgrade from, and any other condition for the step.
 - **Kubernetes** and **VM**: What a Kubernetes or a VM installation needs. If an RDI version does
   the step for you, this line says that you can skip it when you upgrade to that version or later.
