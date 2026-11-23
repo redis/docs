@@ -20,8 +20,11 @@ url: '/integrate/redis-data-integration/2.0.0/installation/upgrade/'
 To upgrade RDI, follow the procedure for a
 [VM installation](#upgrading-a-vm-installation) or a
 [Kubernetes installation](#upgrading-a-kubernetes-installation). The procedure tells you when to do
-the steps in [Upgrading to RDI 2.0.x](#upgrading-to-rdi-20x), which cover upgrades from every
-RDI 1.x version.
+the steps in [Upgrading to RDI 2.0.x](#upgrading-to-rdi-20x), which cover upgrades from RDI 1.15.0
+to 1.19.x. From a version before 1.15.0, don't upgrade to RDI 2.0.x. Follow the
+[latest upgrade instructions](/content/integrate/redis-data-integration/installation/upgrade.md)
+instead, as [The Flink processor becomes the default](#the-flink-processor-becomes-the-default)
+explains.
 
 Each upgrade step starts with these lines:
 
@@ -147,7 +150,6 @@ installation of RDI:
     ```
 
 1.  Adapt your `rdi-values.yaml` file to any changes in the new RDI version if needed.
-    See also [Adapt your Helm values from before RDI 1.8.0](#adapt-your-helm-values-from-before-rdi-180).
     Before making any changes, save your existing `rdi-values.yaml` if you need to revert 
     to the old RDI version for any reason.
 
@@ -192,31 +194,31 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 
 ## Upgrading to RDI 2.0.x
 
-Do these steps when you upgrade from any RDI 1.x version. RDI 2.0.0 changes several behaviors
+Do these steps when you upgrade from RDI 1.15.0 to 1.19.x. RDI 2.0.0 changes several behaviors
 that affect a pipeline upgraded from RDI 1.19.x or earlier.
 
 ### The Flink processor becomes the default
 
 - **When**: Before the upgrade
-- **Applies to**: Upgrades from RDI 1.19.x or earlier, with a pipeline that uses the classic
-  processor
+- **Applies to**: Upgrades from RDI 1.15.0 to 1.19.x, with a pipeline whose `config.yaml` doesn't
+  set `processors.type`
 - **Kubernetes**: Required
 - **VM**: Required
 
-RDI 2.0.0 changes the default processor from `classic` to `flink`. This default
-applies when the pipeline's `config.yaml` omits `processors.type`.
+RDI 2.0.0 changes the default processor from `classic` to `flink`, and the upgrade switches a
+pipeline that doesn't set `processors.type` to the Flink processor. Keep the classic processor
+through the upgrade, since switching processors with records still in the RDI input streams can
+leave records unprocessed. Check that the `config.yaml` of each pipeline sets
+[`processors.type`](/content/integrate/redis-data-integration/2.0.0/data-pipelines/pipeline-config.md#processors),
+normally to `classic`. If it doesn't, set `processors.type: classic` and redeploy the pipeline.
 
-For an existing pipeline that uses the classic processor, choose one of these options before upgrading:
+Versions before 1.15.0 don't accept `processors.type`. From such a version, don't upgrade to
+RDI 2.0.x. Upgrade directly to RDI 2.2.2 or later instead, following the
+[latest upgrade instructions](/content/integrate/redis-data-integration/installation/upgrade.md).
+RDI 2.2.2 and later set `processors.type` to `classic` on such a pipeline during the upgrade.
 
-- To migrate to the Flink processor, first follow
-  [Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/2.0.0/installation/migration-classic-to-flink.md)
-  on RDI 1.19.0. This stops the collector and drains the input streams before
-  switching processors. Then upgrade RDI.
-- To keep the classic processor, set `processors.type: classic` in the
-  pipeline's `config.yaml` and deploy it before upgrading.
-
-If your pipeline already uses `processors.type: flink`, no processor change
-is needed. Continue with the upgrade instructions for your installation.
+To move to the Flink processor, migrate the pipeline after the upgrade, as described in
+[Migrate to the Flink processor](#migrate-to-the-flink-processor).
 
 ### Check the archived log retention of Oracle sources
 
@@ -277,26 +279,6 @@ kubectl rollout restart deployment/rdi-operator -n rdi
 
 After the upgrade, `redis-di list-secrets` lists the secrets of the source as well as those of the
 target.
-
-### Adapt your Helm values from before RDI 1.8.0
-
-- **When**: Before the upgrade
-- **Applies to**: Upgrades from a version before 1.8.0
-- **Kubernetes**: Required
-- **VM**: Not needed
-
-When upgrading to RDI 1.8.0 or later from an earlier version
-you must adapt your `rdi-values.yaml` file to the following changes:
-
--   All collector and processor values that were previously under `collector`,
-    `collectorSourceMetricsExporter`, and `processor` have been moved to
-    `operator.dataPlane.collector` and `operator.dataPlane.processor`.
--   `global.collectorApiEnabled` has been moved to `operator.dataPlane.collectorApi.enabled`,
-    and is now a boolean value, not `"0"` or `"1"`.
--   `api.authEnabled` is also now a boolean value, not `"0"` or `"1"`.
--   The following values have been deprecated: `rdiMetricsExporter.service.protocol`,
-    `rdiMetricsExporter.service.port`, `rdiMetricsExporter.serviceMonitor.path`,
-    `api.service.name`.
 
 ### Delete the operator Deployment
 
@@ -437,6 +419,20 @@ by the source-qualified table name, such as `mysql.inventory.addresses`, instead
 stream name. Update any dashboard or script that reads the previous form. See
 [Observability](/content/integrate/redis-data-integration/2.0.0/observability.md) for the metrics RDI reports.
 
+### Migrate to the Flink processor
+
+- **When**: After the upgrade
+- **Applies to**: Pipelines that use the classic processor after an upgrade from RDI 1.19.x or
+  earlier
+- **Kubernetes**: Recommended
+- **VM**: Recommended
+
+The Flink processor is the default processor since RDI 2.0.0. After the upgrade, we recommend
+that you migrate your pipelines that use the classic processor. Follow
+[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/2.0.0/installation/migration-classic-to-flink.md),
+which drains the input streams and then redeploys the pipeline with `processors.type` set to
+`flink`.
+
 ## Enabling the Flink processor
 
 The
@@ -446,11 +442,9 @@ RDI 1.19.0. Once the upgrade completes, it is always available —
 no opt-in is required, and the defaults are sized for typical workloads.
 
 > [!WARNING]
-> The Flink processor is the default as of RDI 2.0.0.
-> Upgrading to that release or later moves a pipeline whose `config.yaml` does not set
-> [`processors.type`](/content/integrate/redis-data-integration/2.0.0/data-pipelines/pipeline-config.md#processors)
-> onto the Flink processor when you next deploy it. To keep such a pipeline on the classic
-> processor, set `processors.type` to `classic` before you upgrade.
+> The Flink processor is the default as of RDI 2.0.0. To keep a pipeline on the classic processor
+> through an upgrade from RDI 1.19.x or earlier, see
+> [The Flink processor becomes the default](#the-flink-processor-becomes-the-default).
 
 On Kubernetes, to override the Flink processor defaults, add an
 `operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as
