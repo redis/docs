@@ -1,0 +1,24 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "backup_start(**kwargs)",
+        "params": [],
+        "returns": {
+          "type": "bytes | str",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "backupStart()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
