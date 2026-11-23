@@ -29,11 +29,7 @@ to improve the availability of connections to Redis databases. This page explain
 how to configure node-redis for failover. For an overview of the concepts,
 see the main [Client-side geographic failover](/content/develop/clients/failover.md) page.
 
-Failover is available in node-redis v6.4.0-beta.0 and later. Install the beta release with:
-
-```bash
-npm install redis@beta
-```
+Failover is available in node-redis v6.4.0 and later.
 
 ## Failover configuration
 
@@ -145,6 +141,34 @@ const { client, controller } = createMultiDbClient({
   ]
 });
 ```
+
+Alternatively, use the experimental `rejectInFlight` command option, which makes the
+command `timeout` apply to commands that were already sent. Set it in the
+`commandOptions` for each endpoint. A command that times out rejects with
+`TimeoutReadError`, and the connection stays open, so you don't need a custom
+`reconnectStrategy`:
+
+```js
+const commandOptions = { timeout: 1000, rejectInFlight: true };
+
+const { client, controller } = createMultiDbClient({
+  databases: [
+    {
+      id: 'east',
+      options: { url: 'redis://redis-east.example.com:14000', commandOptions },
+      weight: 1
+    },
+    {
+      id: 'west',
+      options: { url: 'redis://redis-west.example.com:14000', commandOptions },
+      weight: 0.5
+    }
+  ]
+});
+```
+
+The server might have run a command that rejects with `TimeoutReadError`, so retry it
+only if it is safe to repeat.
 
 ### Circuit breaker configuration
 
@@ -508,8 +532,9 @@ a failover happens. This has the following effects:
   `WATCH`/`MULTI`/`EXEC` sequence on `WatchError` (see
   [Watch keys for changes](/content/develop/clients/nodejs/transpipe.md#watch-keys-for-changes)).
 - **Scan iterators**: An iterator such as `scanIterator()` reads from the database
-  that was active when you created it. After a failover, it rejects with
-  `CommandAbandonedError`. Create a new iterator to scan the new active database.
+  that was active when you created it. If a failover happens while you iterate, the
+  iterator rejects with `CommandAbandonedError`. Create a new iterator to scan the
+  new active database.
 - **`legacy()`**: The callback-based interface that `legacy()` returns always uses
   the database that was active when you created it.
 - **Database index**: The [`SELECT`](/content/commands/select.md) command isn't supported.
