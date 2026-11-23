@@ -1,0 +1,107 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zmovemember(source: KeyT, destination: KeyT, members: EncodableT | Iterable[EncodableT], nx: bool = False, xx: bool = False)",
+        "params": [
+          {
+            "name": "source",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "EncodableT | Iterable[EncodableT]",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[list[Any]] | None",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "zMoveMember(source: RedisArgument, destination: RedisArgument, members: RedisVariadicArgument, options?: ZMoveMemberOptions)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZMoveMemberOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NullReply | Array<{ value: BlobStringReply; score: number }>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zmovemember(source, destination, members, nx: nil, xx: nil)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String, Array<String>",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "nil | Array<Array<String, Float>>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

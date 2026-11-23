@@ -8669,6 +8669,150 @@
       ]
     }
   },
+  "BACKUP ABORT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "backup_abort(**kwargs)",
+          "params": [],
+          "returns": {
+            "type": "bytes | str",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "backupAbort()",
+          "params": [],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BACKUP CLEANUP": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "backup_cleanup(**kwargs)",
+          "params": [],
+          "returns": {
+            "type": "bytes | str",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "backupCleanup()",
+          "params": [],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BACKUP LIST": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "backup_list(**kwargs)",
+          "params": [],
+          "returns": {
+            "type": "list[bytes | str]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "backupList()",
+          "params": [],
+          "returns": {
+            "type": "ArrayReply<BlobStringReply>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BACKUP SEAL": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "backup_seal(**kwargs)",
+          "params": [],
+          "returns": {
+            "type": "bytes | str",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "backupSeal()",
+          "params": [],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BACKUP START": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "backup_start(**kwargs)",
+          "params": [],
+          "returns": {
+            "type": "bytes | str",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "backupStart()",
+          "params": [],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "BACKUP STATUS": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "backup_status(**kwargs)",
+          "params": [],
+          "returns": {
+            "type": "dict[str | bytes, Any]",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "backupStatus()",
+          "params": [],
+          "returns": {
+            "type": "BackupStatusReply",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
   "BF.ADD": {
     "api_calls": {
       "redis_py": [
@@ -17602,6 +17746,123 @@
           "returns": {
             "type": "Task<RedisValue?>",
             "description": "The element being popped and pushed, or null if the server timeout expires."
+          }
+        }
+      ]
+    }
+  },
+  "BZMOVE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "bzmove(source: KeyT, destination: KeyT, timeout: float, min: bool | None = False, max: bool | None = False, count: int | None = None)",
+          "params": [
+            {
+              "name": "source",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "timeout",
+              "type": "float",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "bool | None",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "bool | None",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int | None",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[list[Any]] | None",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "bzMove(source: RedisArgument, destination: RedisArgument, side: SortedSetSide, timeout: number, options?: ZMoveOptions)",
+          "params": [
+            {
+              "name": "source",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "side",
+              "type": "SortedSetSide",
+              "description": ""
+            },
+            {
+              "name": "timeout",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "ZMoveOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "NullReply | Array<{ value: BlobStringReply; score: number }>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "bzmove(source, destination, timeout: 0, modifier: \"MIN\", count: nil)",
+          "params": [
+            {
+              "name": "source",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "timeout",
+              "type": "Float, Integer",
+              "description": ""
+            },
+            {
+              "name": "modifier",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "nil | Array<Array<String, Float>>",
+            "description": ""
           }
         }
       ]
@@ -163044,6 +163305,225 @@
           "returns": {
             "type": "Integer",
             "description": "number of members within the specified lexicographical range"
+          }
+        }
+      ]
+    }
+  },
+  "ZMOVE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "zmove(source: KeyT, destination: KeyT, min: bool | None = False, max: bool | None = False, byscore: tuple[ZScoreBoundT, ZScoreBoundT] | None = None, count: int | None = None)",
+          "params": [
+            {
+              "name": "source",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "bool | None",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "bool | None",
+              "description": ""
+            },
+            {
+              "name": "byscore",
+              "type": "tuple[ZScoreBoundT, ZScoreBoundT] | None",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int | None",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[list[Any]] | None",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "zMove(source: RedisArgument, destination: RedisArgument, selection: ZMoveSelection, options?: ZMoveOptions)",
+          "params": [
+            {
+              "name": "source",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "selection",
+              "type": "ZMoveSelection",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "ZMoveOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "NullReply | Array<{ value: BlobStringReply; score: number }>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "zmove(source, destination, modifier: nil, byscore: nil, count: nil)",
+          "params": [
+            {
+              "name": "source",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "modifier",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "byscore",
+              "type": "Array<String, Numeric>",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "nil | Array<Array<String, Float>>",
+            "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "ZMOVEMEMBER": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "zmovemember(source: KeyT, destination: KeyT, members: EncodableT | Iterable[EncodableT], nx: bool = False, xx: bool = False)",
+          "params": [
+            {
+              "name": "source",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "KeyT",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "EncodableT | Iterable[EncodableT]",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "bool",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "list[list[Any]] | None",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "zMoveMember(source: RedisArgument, destination: RedisArgument, members: RedisVariadicArgument, options?: ZMoveMemberOptions)",
+          "params": [
+            {
+              "name": "source",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "RedisArgument",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "RedisVariadicArgument",
+              "description": ""
+            },
+            {
+              "name": "options?",
+              "type": "ZMoveMemberOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "NullReply | Array<{ value: BlobStringReply; score: number }>",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "zmovemember(source, destination, members, nx: nil, xx: nil)",
+          "params": [
+            {
+              "name": "source",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String, Array<String>",
+              "description": ""
+            },
+            {
+              "name": "nx",
+              "type": "Boolean",
+              "description": ""
+            },
+            {
+              "name": "xx",
+              "type": "Boolean",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "nil | Array<Array<String, Float>>",
+            "description": ""
           }
         }
       ]
