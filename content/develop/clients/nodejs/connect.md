@@ -219,9 +219,9 @@ for more information about how client-side caching works and how to use it effec
 > is supported by Redis v7.4 or later.
 >
 > The [Redis server products](/content/operate/_index.md) support
-> [opt-in/opt-out](/content/develop/reference/client-side-caching.md#opt-in-and-opt-out-caching) mode
-> and [broadcasting mode](/content/develop/reference/client-side-caching.md#broadcasting-mode)
-> for CSC, but these modes are not currently implemented by `node-redis`.
+> [broadcasting mode](/content/develop/reference/client-side-caching.md#broadcasting-mode)
+> for CSC, but `node-redis` doesn't implement it.
+> [Opt-in and opt-out mode](#tracking-modes) require `node-redis` v6.4.0 or later.
 
 To enable client-side caching, specify the
 [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
@@ -350,6 +350,62 @@ const client = createClientPool({RESP: 3}, {
   minimum: 5
 });
 ```
+
+### Tracking modes
+
+By default, the server tracks every key that the connection reads, and
+`node-redis` caches every eligible reply. Use the `trackingMode` option
+of `clientSideCache` to choose which replies are cached instead
+(see [Opt-in and opt-out caching](/content/develop/reference/client-side-caching.md#opt-in-and-opt-out-caching)
+for background):
+
+| Mode | Server tracking | Reads without a `cache` option |
+|---|---|---|
+| `'plain'` (default) | Tracks every read. | Cached. |
+| `'optin'` | Tracks only the reads that the client caches. | Not cached. |
+| `'optout'` | Tracks every read except those that the client doesn't cache. | Cached. |
+
+In `'optin'` mode, the server's tracking memory and invalidation traffic
+match what you actually cache. The mode applies only to new connections.
+The mode names are also available as `CLIENT_SIDE_CACHE_TRACKING_MODES`.
+
+Use the optional `cacheable` function to decide which reads to cache. It
+receives the command and its keys, and returns `true` to cache the reply:
+
+```js
+const client = createClient({
+  RESP: 3,
+  clientSideCache: {
+    trackingMode: 'optin',
+    cacheable: (command, keys) => keys[0].toString().startsWith('user:')
+  }
+});
+await client.connect();
+
+await client.get('user:42');      // cacheable returns true: cached
+await client.get('counter:hits'); // cacheable returns false: not cached
+```
+
+To decide for a single call, use the `cache` command option:
+
+```js
+await client.withCommandOptions({ cache: true }).get('config:flags');  // cached
+await client.withCommandOptions({ cache: false }).get('counter:hits'); // not cached
+```
+
+`node-redis` decides whether to cache a reply in this order:
+
+1. The `cache` command option, if you set it.
+2. The `cacheable` function, if you configured it.
+3. The mode default from the table above.
+
+Replies that are unsafe to cache, such as the replies to writes, scripts,
+`SORT_RO`, and `XINFO`, are never cached. Setting `cache: false` doesn't remove
+an entry that is already cached.
+
+`node-redis` manages `CLIENT TRACKING` and `CLIENT CACHING` itself. When
+client-side caching is on, sending either command rejects with
+`ClientSideCacheCommandError`.
 
 ## Reconnect after disconnection
 
