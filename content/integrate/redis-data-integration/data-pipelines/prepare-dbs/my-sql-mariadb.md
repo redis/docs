@@ -279,3 +279,7 @@ source's `CERT` and `KEY` secrets, and configures the collector to use it.
 
 After following the steps above, your MySQL/MariaDB database is ready
 for Debezium to use.
+
+If a MySQL source fails on a DDL statement, see
+[Check MySQL and MariaDB sources](/content/integrate/redis-data-integration/installation/upgrade.md#check-mysql-and-mariadb-sources)
+for the `ddl.parser.type: legacy` fallback.

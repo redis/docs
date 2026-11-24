@@ -162,6 +162,8 @@ The example configuration contains the following data:
   - `source`: Properties for reading from the source database.
     See the Debezium [Source connectors](https://debezium.io/documentation/reference/stable/connectors/)
     pages for more information about the properties available for each database type.
+    The Debezium collector sends a heartbeat every 60 seconds by default. To change the interval, see
+    [Review the heartbeat settings of your sources](/content/integrate/redis-data-integration/installation/upgrade.md#review-the-heartbeat-settings-of-your-sources).
   - `sink`: Properties for writing to Redis streams in the RDI database.
     See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
     page for the full set of available properties.
@@ -205,9 +207,8 @@ targets:
       password: ${TARGET_DB_PASSWORD}
 ```
 
-RDI 1.19.1 and RDI 2.0.0 bundle Debezium 3.5. The comparison and connector
-notes in this section apply to those releases. RDI 2.2.0 is planned to use
-Debezium 3.7.
+RDI 2.4.0 bundles Debezium 3.7.1. The connector references in this section apply
+to that release.
 
 {{< embed-md "rdi-snapshot-modes.md" >}}
 

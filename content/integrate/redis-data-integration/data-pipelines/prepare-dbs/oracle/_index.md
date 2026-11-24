@@ -388,6 +388,11 @@ REVOKE LOCK ANY TABLE FROM c##dbzuser container=all;
 Once you have followed the steps above, your Oracle database is ready
 for Debezium to use.
 
+To tune how many redo logs the collector reads in each iteration, see
+[Replace the Oracle LogMiner batch and sleep properties](/content/integrate/redis-data-integration/installation/upgrade.md#replace-the-oracle-logminer-batch-and-sleep-properties).
+To plan schema changes around the initial snapshot, see
+[Change Oracle tables after the snapshot completes](/content/integrate/redis-data-integration/installation/upgrade.md#change-oracle-tables-after-the-snapshot-completes).
+
 ## XStream
 
 [XStream](https://docs.oracle.com/en/database/oracle/oracle-database/19/xstrm/introduction-to-xstream.html#GUID-5939CB6C-8BA9-4594-8F96-B0453D246722)
@@ -1084,6 +1089,9 @@ for a full list of properties you can use in the `advanced.source` subsection.
 
 After you have followed the steps above, your Oracle database is ready
 for Debezium to use.
+
+To plan schema changes around the initial snapshot, see
+[Change Oracle tables after the snapshot completes](/content/integrate/redis-data-integration/installation/upgrade.md#change-oracle-tables-after-the-snapshot-completes).
 
 ## Support for Oracle XMLTYPE columns (optional)
 

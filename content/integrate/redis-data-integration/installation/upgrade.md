@@ -232,6 +232,17 @@ If you set custom values for the removed properties, replace them as follows:
 
 The new properties count redo logs, not SCNs, so you can't convert an old batch size to a log
 count. Start with the defaults, and raise the values in small steps if the collector falls behind.
+This example shows the new properties with their default values:
+
+```yaml
+sources:
+  <source-name>:
+    advanced:
+      source:
+        log.mining.log.count.min: 2
+        log.mining.log.count.growth.max: 4
+```
+
 The log count properties don't apply when `log.mining.strategy` is set to `redo_log_catalog`.
 
 `log.mining.strategy: redo_log_catalog` still works in Debezium 3.7, but Debezium has deprecated
@@ -240,8 +251,12 @@ is not set to `true`.
 
 ### Change Oracle tables after the snapshot completes
 
-Oracle sources now lock the captured tables until the snapshot completes. An `ALTER TABLE` on a
-captured table fails while a snapshot runs, so change the tables after it.
+With the default `snapshot.locking.mode: shared`, Oracle sources now hold a shared lock on each
+captured table until the initial snapshot finishes. Other sessions can still read and write the
+tables, but schema changes that need an exclusive table lock are blocked while the locks are held.
+Some nonblocking schema changes, such as `ALTER TABLE ... ADD COLUMN` on Oracle 23.3 and later,
+can still succeed and stop the snapshot with an `ORA-01466` error. Run schema changes on the
+captured tables after the initial snapshot finishes.
 
 RDI 2.4.0 also ignores `snapshot.database.errors.max.retries`. Remove it from your configuration:
 
@@ -270,11 +285,25 @@ Replace `disabled` and `preferred` with `disable`, `required` with `trust`, `ver
 `disable` turns off encryption. `trust` requires encryption but doesn't verify the server
 certificate.
 
-### Check changes in the captured data
+### Check PostgreSQL type metadata
 
 PostgreSQL user defined types are reported without their schema, for example `geometry`
 instead of `"inventory"."geometry"`. This changes the metadata that RDI reports, without any
 change to your configuration.
+
+### Check SQL Server jobs that read previous values
+
+When an update leaves a large column unchanged, SQL Server change data capture doesn't record
+the previous value of the column. This applies to columns such as `VARCHAR(MAX)`,
+`NVARCHAR(MAX)`, and `VARBINARY(MAX)`. The `before` field of the update now contains the value
+of `unavailable.value.placeholder` for such a column, which is `__debezium_unavailable_value`
+by default. The placeholder means that the previous value is unavailable. It isn't a database
+`NULL` or the content of the column.
+
+The `after` field still contains the value that SQL Server recorded, including `null`, so jobs
+that use the default row format aren't affected. If a job uses
+[`row_format: full`](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format.md#full)
+and reads `before`, check that it handles the placeholder.
 
 ### Review the heartbeat settings of your sources
 
