@@ -547,43 +547,12 @@ After a takeover, check that the new leader's collector reports `Connected` and 
 
 ## Upgrade or downgrade a DR setup
 
-Follow the [RDI upgrade instructions](/content/integrate/redis-data-integration/installation/upgrade.md).
-Upgrade the leader first. Check leadership, pipeline health, and data delivery before
-upgrading the follower. Finish upgrading both instances before creating a pipeline other
-than `default`.
-
-> [!WARNING]
-> With a GCS lease, the upgraded leader migrates the lease to a format that versions before
-> 2.2.0 can't read. The follower can take over only after you upgrade it, so upgrade it as
-> soon as you've checked the leader.
-
-Downgrading from RDI 2.0.0 or later to a version earlier than 2.0.0 is not supported. Do not
-downgrade after creating a pipeline other than `default`. A DR setup with a DynamoDB lease
-requires RDI 2.2.0 or later.
-
-To downgrade to RDI 2.0.0 with a GCS lease, plan for downtime:
-
-1. Put both instances in standby, and check that neither reports `Leader Election Mode: leader`:
-
-   ```bash
-   redis-di --context site-a set-setting standby_mode true
-   redis-di --context site-b set-setting standby_mode true
-   ```
-
-1. Delete the lease object:
-
-   ```bash
-   gcloud storage rm "gs://<lease-bucket>/<lease-object>"
-   ```
-
-1. Downgrade both instances with Helm. Versions before 2.2.0 use
-   `operator.leaderElection.standbyMode` instead of the `standby_mode` setting. The first
-   instance that takes part in leader election recreates the lease in its earlier format.
-1. Check that only one instance is the leader, and verify pipeline health and data delivery.
-
-The `standby_mode` settings remain in the RDI database. If you upgrade to 2.2.0 again, run
-`redis-di delete-setting standby_mode` on each instance as soon as it runs 2.2.0, or set the
-mode you want.
+To upgrade a DR setup, follow [Upgrading RDI](/content/integrate/redis-data-integration/installation/upgrade.md).
+The **DR** property of each [upgrade step](/content/integrate/redis-data-integration/installation/upgrade.md#upgrade-steps)
+says what a DR setup needs, for example to
+[upgrade the leader first](/content/integrate/redis-data-integration/installation/upgrade.md#upgrade-the-leader-first).
+To downgrade, see
+[Downgrading a DR setup](/content/integrate/redis-data-integration/installation/upgrade.md#downgrading-a-dr-setup).
 
 ## Uninstall a DR setup
 
