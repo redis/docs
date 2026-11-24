@@ -46,6 +46,55 @@ for a more detailed discussion of these errors and their causes.
 
 For the go-redis exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
 
+### Context deadline errors
+
+Set `ContextTimeoutEnabled: true` in `Options` to make `go-redis` apply the
+deadline of your command's context to the socket. In `go-redis` v9.24.0 or
+later, a socket timeout that comes from that deadline matches
+`context.DeadlineExceeded` with `errors.Is()`. It also still matches
+`net.Error` with `Timeout()` returning `true`, and the original network error
+stays in the error chain. The message starts with `context deadline exceeded:`.
+
+```go
+ctx, cancel := context.WithTimeout(ctx, 200*time.Millisecond)
+defer cancel()
+
+err := rdb.Get(ctx, key).Err()
+if errors.Is(err, context.DeadlineExceeded) {
+    // The context deadline expired, so retrying with the same context can't succeed
+}
+```
+
+`go-redis` doesn't retry such an error, because the context has already expired.
+A `ReadTimeout` or `WriteTimeout` that fires before the context deadline is still
+reported as a network timeout error.
+
+### Errors from scanning into a struct
+
+When you read a hash with `HGetAll(...).Scan()` or `HMGet(...).Scan()`, a field
+that fails to decode no longer stops the scan. In `go-redis` v9.24.0 or later,
+`Scan()` fills every field that it can decode and then returns an error. If
+more than one field fails, the error joins the individual errors in key order
+for `HGetAll` and in argument order for `HMGet`, so `errors.Is()` and
+`errors.As()` match each of them.
+
+```go
+type Item struct {
+    A int    `redis:"a"`
+    B int    `redis:"b"`
+    D string `redis:"d"`
+}
+
+var item Item
+err := rdb.HGetAll(ctx, "item:1").Scan(&item)
+// If field "a" holds "x", item.B and item.D are still set and err describes "a".
+```
+
+For the built-in types, a field that fails to decode keeps its previous value.
+A custom decoder (`ScanRedis`, `UnmarshalText`, or `UnmarshalBinary`) runs on the
+existing field and can leave a failed field changed. If you reuse a struct after
+an error, expect more of its fields to be set than before this change.
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md) overview
