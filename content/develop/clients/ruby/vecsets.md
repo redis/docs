@@ -21,8 +21,6 @@ topics:
 - vectors
 ---
 
-<!--TODO(DOC-7033): resolve once redis-rb ships a released gem containing the vector-set commands (see the park manifest on this PR).-->
-
 A Redis [vector set](/content/develop/data-types/vector-sets/_index.md) lets
 you store a set of unique keys, each with its own associated vector.
 You can then retrieve keys from the set according to the similarity between
@@ -41,7 +39,7 @@ vector embeddings and then store and retrieve them using a vector set with
 Start by installing `redis-rb` and `informers`. In your `Gemfile`:
 
 ```ruby
-gem 'redis', git: 'https://github.com/redis/redis-rb', branch: 'master'
+gem 'redis', '>= 6.1'
 gem 'informers'
 ```
 

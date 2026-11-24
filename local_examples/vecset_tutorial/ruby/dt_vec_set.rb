@@ -98,7 +98,7 @@ puts res14 # >>> true
 
 res15 = r.vgetattr('points', 'pt:A')
 puts res15
-# >>> {"name"=>"Point A", "description"=>"First point added"}
+# >>> {"name" => "Point A", "description" => "First point added"}
 
 res16 = r.vsetattr('points', 'pt:A', '')
 puts res16 # >>> true
@@ -149,7 +149,7 @@ res23 = r.vsim(
   count: 4
 )
 puts res23
-# >>> {"pt:A"=>1.0, "pt:E"=>0.8535534143447876, "pt:D"=>0.5, "pt:C"=>0.5}
+# >>> {"pt:A" => 1.0, "pt:E" => 0.8535534143447876, "pt:D" => 0.5, "pt:C" => 0.5}
 # STEP_END
 # REMOVE_START
 assert_equal(1.0, res23['pt:A'])
