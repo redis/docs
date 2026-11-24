@@ -266,15 +266,15 @@ for more information about how client-side caching works and how to use it effec
 > is supported by Redis v7.4 or later.
 >
 > Client-side caching requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
-> protocol, so you must set `Protocol: 3` explicitly when you connect. On a RESP2
-> connection, client-side caching silently does nothing. It is also limited to
+> protocol, which is the default for `go-redis`. If you set `Protocol: 2`,
+> client-side caching is disabled with a log warning. It is also limited to
 > logical database 0; on any other database it is disabled with a log warning.
 >
 > The tracking modes, the cache predicate, cluster support, and ephemeral
 > connections described below require go-redis v9.24.0 or later.
 
 To enable client-side caching, pass a `ClientSideCacheConfig` object when you
-connect on a `Protocol: 3` client. Passing an empty `ClientSideCacheConfig{}`
+connect. Passing an empty `ClientSideCacheConfig{}`
 enables caching with the default settings:
 
 ```go
@@ -288,7 +288,6 @@ func main() {
 
     client := redis.NewClient(&redis.Options{
         Addr:                  "localhost:6379",
-        Protocol:              3, // RESP3 required for client-side caching
         ClientSideCacheConfig: &redis.ClientSideCacheConfig{},
     })
 
@@ -326,7 +325,6 @@ To override the default for one call, derive a context with `WithCache()` or
 ```go
 client := redis.NewClient(&redis.Options{
     Addr:                        "localhost:6379",
-    Protocol:                    3,
     ClientSideCacheConfig:       &redis.ClientSideCacheConfig{},
     ClientSideCacheTrackingMode: redis.TrackingModeOptIn,
 })
@@ -347,7 +345,6 @@ the client.
 ```go
 client := redis.NewClient(&redis.Options{
     Addr:                        "localhost:6379",
-    Protocol:                    3,
     ClientSideCacheConfig:       &redis.ClientSideCacheConfig{},
     ClientSideCacheTrackingMode: redis.TrackingModeOptIn,
     ClientSideCacheable: func(command string, keys []string) bool {
@@ -369,13 +366,11 @@ because go-redis manages tracking itself.
 ### Use client-side caching with a cluster
 
 `ClusterOptions` accepts the same client-side caching options as `Options`,
-and so do `UniversalOptions` and `NewFailoverClusterClient`. Set
-`Protocol: 3` as for a standalone client:
+and so do `UniversalOptions` and `NewFailoverClusterClient`:
 
 ```go
 cluster := redis.NewClusterClient(&redis.ClusterOptions{
     Addrs:                 []string{"localhost:7001", "localhost:7002", "localhost:7003"},
-    Protocol:              3,
     ClientSideCacheConfig: &redis.ClientSideCacheConfig{},
 })
 ```
