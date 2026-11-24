@@ -18,7 +18,6 @@ summary: Spring Data Redis provides a template-based, fluent API for working wit
   Redis JSON documents, including path-based updates and type-specific operations.
 type: integration
 weight: 30
-bannerText: JSON support in Spring Data Redis is currently available only in the `4.2.0-M1` milestone release, and the API may still change before `4.2.0` becomes generally available. This page will be updated when `4.2.0` ships.
 relatedPages:
 - /develop/data-types/json
 - /develop/data-types/json/path
@@ -60,15 +59,14 @@ Add Spring Data Redis to your build. For Maven, edit your `pom.xml`:
 <dependency>
     <groupId>org.springframework.data</groupId>
     <artifactId>spring-data-redis</artifactId>
-    <!-- Use the first release that includes JSON support. -->
-    <version>{version}</version>
+    <version>4.2.0</version>
 </dependency>
 ```
 
 For Gradle, add the following to your `build.gradle`:
 
 ```groovy
-implementation 'org.springframework.data:spring-data-redis:{version}'
+implementation 'org.springframework.data:spring-data-redis:4.2.0'
 ```
 
 Configure a `RedisJsonTemplate` bean. The template takes its connection
@@ -140,9 +138,8 @@ jsonTemplate.value("user:1").path("$.nickname").setIfAbsent("Paulie");
 // Set a field only if it already exists.
 jsonTemplate.value("user:1").path("$.city").setIfPresent("Bristol");
 
-// Read a specific path. paths() is called on the template, not on a spec.
-JsonResult city = jsonTemplate.paths("user:1", "$.city");
-String cityName = city.asString();
+// Read a specific path.
+String city = jsonTemplate.value("user:1").path("$.city").get().as(String.class);
 ```
 
 ## Update arrays
