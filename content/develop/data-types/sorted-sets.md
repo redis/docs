@@ -186,9 +186,25 @@ highest-scoring members to become available.
 For example, a consumer can claim up to 500 bookmarks updated before a cutoff
 while writers continue updating the source:
 
-```text
-ZMOVE bookmarks:{user:42} batch:{user:42}:001 BYSCORE -inf (1700000000 COUNT 500
-```
+{{< clients-example set="ss_tutorial" step="zmove" lang_filter="PHP" description="Move a score range: Use ZMOVE with BYSCORE to atomically claim a batch of members from one sorted set into another when you need to process them without losing concurrent updates" difficulty="intermediate" buildsUpon="zadd" >}}
+> DEL bookmarks:{user:42} batch:{user:42}:001
+(integer) 0
+> ZADD bookmarks:{user:42} 1699990000 page:1 1699995000 page:2 1700000500 page:3
+(integer) 3
+> ZMOVE bookmarks:{user:42} batch:{user:42}:001 BYSCORE -inf (1700000000 COUNT 500
+1) 1) "page:1"
+   2) "1699990000"
+2) 1) "page:2"
+   2) "1699995000"
+> ZRANGE bookmarks:{user:42} 0 -1 WITHSCORES
+1) "page:3"
+2) "1700000500"
+> ZRANGE batch:{user:42}:001 0 -1 WITHSCORES
+1) "page:1"
+2) "1699990000"
+3) "page:2"
+4) "1699995000"
+{{< /clients-example >}}
 
 The `(` makes the cutoff exclusive. Members are selected in ascending score
 order, with lexicographical ordering for ties. All three move commands return
