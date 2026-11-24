@@ -392,6 +392,7 @@ legacy_src_path() {
     home_vecsets:go)             echo local_examples/client-specific/go/home_vecsets_test.go ;;
     home_vecsets:lettuce-async)    echo local_examples/client-specific/lettuce-async/HomeVecSetsExample.java ;;
     home_vecsets:lettuce-reactive) echo local_examples/client-specific/lettuce-reactive/HomeVecSetsExample.java ;;
+    home_vecsets:ruby)           echo local_examples/client-specific/ruby/home_vecsets.rb ;;
     *) echo "" ;;
   esac
 }
