@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "LASTSAVE()",
+        "signature": "lastSave()",
         "params": [],
         "returns": {
           "type": "NumberReply",
@@ -82,8 +82,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "DateTime LastSave(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "DateTime",
+          "description": "The last time a save was performed."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<DateTime> LastSaveAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<DateTime>",
+          "description": "The last time a save was performed."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "lastsave()",
@@ -95,6 +125,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "lastsave(callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "lastsave()",
+        "params": [],
+        "returns": {
+          "type": "Integer",
+          "description": ""
+        }
+      }
+    ]
   }
 }

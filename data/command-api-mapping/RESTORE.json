@@ -216,7 +216,7 @@
     ],
     "node_redis": [
       {
-        "signature": "RESTORE(key: RedisArgument, ttl: number, serializedValue: RedisArgument, options?: RestoreOptions)",
+        "signature": "restore(key: RedisArgument, ttl: number, serializedValue: RedisArgument, options?: RestoreOptions)",
         "params": [
           {
             "name": "key",
@@ -240,7 +240,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }
@@ -573,6 +573,198 @@
         "returns": {
           "type": "String",
           "description": "\"OK\""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "restore(key: RedisKey, ttl: number | string, serializedValue: string | Buffer | number, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "restore(key: RedisKey, ttl: number | string, serializedValue: string | Buffer | number, frequencyToken: \"FREQ\", frequency: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "frequencyToken",
+            "type": "\"FREQ\"",
+            "description": ""
+          },
+          {
+            "name": "frequency",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "restore(key: RedisKey, ttl: number | string, serializedValue: string | Buffer | number, secondsToken: \"IDLETIME\", seconds: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "\"IDLETIME\"",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "restore(key: RedisKey, ttl: number | string, serializedValue: string | Buffer | number, secondsToken: \"IDLETIME\", seconds: number | string, frequencyToken: \"FREQ\", frequency: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "\"IDLETIME\"",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "frequencyToken",
+            "type": "\"FREQ\"",
+            "description": ""
+          },
+          {
+            "name": "frequency",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "restore(key: RedisKey, ttl: number | string, serializedValue: string | Buffer | number, absttl: \"ABSTTL\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "absttl",
+            "type": "\"ABSTTL\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
         }
       }
     ]

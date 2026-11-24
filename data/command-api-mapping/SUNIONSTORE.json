@@ -157,7 +157,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SUNIONSTORE(destination: RedisArgument, keys: RedisVariadicArgument)",
+        "signature": "sUnionStore(destination: RedisArgument, keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "destination",
@@ -171,23 +171,33 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "sunionstore(...args: [, destination: RedisKey, keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "sunionstore(...args: [ destination: RedisKey, keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -195,13 +205,18 @@
         "signature": "sunionstore(...args: [destination: RedisKey, ...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -209,13 +224,18 @@
         "signature": "sunionstore(...args: [destination: RedisKey, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[destination",
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -325,74 +345,11 @@
           "type": "long",
           "description": "The number of elements in the resulting set."
         }
-      },
-      {
-        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key of the destination set."
-          },
-          {
-            "name": "first",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "second",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting set."
-        }
-      },
-      {
-        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key of the destination set."
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sets to operate on."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting set."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetCombineAndStoreAsync(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -421,12 +378,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the resulting set."
         }
       },
       {
-        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetCombineAndStoreAsync(SetOperation operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -450,70 +407,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting set."
-        }
-      },
-      {
-        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key of the destination set."
-          },
-          {
-            "name": "first",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "second",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting set."
-        }
-      },
-      {
-        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "destination",
-            "type": "RedisKey",
-            "description": "The key of the destination set."
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sets to operate on."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the resulting set."
         }
       }

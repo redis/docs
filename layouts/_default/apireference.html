@@ -100,9 +100,17 @@ params:
 </head>
 
 <body>
+    {{ if .Params.showPageContent }}
+    <section class="prose prose-slate mx-auto max-w-[85rem] px-4 py-8 sm:px-6 lg:px-11" id="apiReferenceIntro">
+        {{ .Content }}
+    </section>
+    {{ end }}
     <div>
         <redoc 
             spec-url='{{ .Params.sourcefile | default "./openapi.json" }}'
+            {{ with .Params.schemaDefinitionsTagName }}
+            schema-definitions-tag-name='{{ . }}'
+            {{ end }}
             scroll-y-offset='#apiReferenceHeader'
             json-sample-expand-level=all
             sort-operations-alphabetically='{{ .Params.sortOperationsAlphabetically | default "true" }}'

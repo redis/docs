@@ -77,7 +77,7 @@ To check the status of an Active-Active database instance, run [`rladmin status`
   rladmin status
 ```
 
-![](/images/rs/crdb-upgrade-node.png)
+![rladmin status shards for an Active-Active database with the status OK, OLD CRDB PROTOCOL VERSION](/images/rs/crdb-upgrade-node.png)
 
 The statuses of the Active-Active instances on the node can indicate:
 
@@ -99,7 +99,7 @@ For each Active-Active database instance:
 
 1. If the CRDB protocol version is old, read the warning message carefully and confirm that you want to update the CRDB protocol. See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
 
-    ![](/images/rs/crdb-upgrade-protocol.png)
+    ![rladmin upgrade db crdb-test prompt warning that the CRDB protocol will be updated and asking for Y/N confirmation](/images/rs/crdb-upgrade-protocol.png)
 
     After confirmation, the Active-Active instance will use the new Redis version and CRDB protocol version.
 

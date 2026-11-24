@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_keyslot(key: str)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "long clusterKeySlot(final String key)",
@@ -40,13 +55,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, key: RedisArgument)",
+        "signature": "clusterKeySlot(key: RedisArgument)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The Redis command parser"
-          },
           {
             "name": "key",
             "type": "RedisArgument",
@@ -111,7 +121,48 @@
     "nredisstack_async": [],
     "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "cluster(subcommand: \"KEYSLOT\", key: string | Buffer, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"KEYSLOT\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "cluster(:keyslot, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the subcommand"
+        }
+      }
+    ]
   }
 }
-

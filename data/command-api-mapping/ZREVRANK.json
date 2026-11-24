@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrevrank(, name: KeyT,, value: EncodableT,, withscore: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zrevrank(name: KeyT, value: EncodableT, withscore: bool = False, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "name",
@@ -162,7 +162,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZREVRANK(key: RedisArgument, member: RedisArgument)",
+        "signature": "zRevRank(key: RedisArgument, member: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -176,7 +176,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | NullReply",
           "description": ""
         }
       }
@@ -202,7 +202,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number | null, Context>",
           "description": ""
         }
       }
@@ -278,40 +278,11 @@
           "type": "long?",
           "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
         }
-      },
-      {
-        "signature": "SortedSetRank(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get the rank of."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long?",
-          "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRank(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRankAsync(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -335,36 +306,7 @@
           }
         ],
         "returns": {
-          "type": "long?",
-          "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
-        }
-      },
-      {
-        "signature": "SortedSetRank(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": "The member to get the rank of."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long?",
+          "type": "Task<long?>",
           "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
         }
       }

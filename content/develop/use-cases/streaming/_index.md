@@ -75,6 +75,8 @@ unacknowledged past a timeout can be reassigned to a healthy consumer with
 [`XCLAIM`](/content/commands/xclaim.md) or
 [`XAUTOCLAIM`](/content/commands/xautoclaim.md).
 
+{{< use-case-animation name="streaming" >}}
+
 Redis provides the following features that make it a good fit for streaming:
 
 -   [Streams](/content/develop/data-types/streams/_index.md)
@@ -106,7 +108,7 @@ Redis provides the following features that make it a good fit for streaming:
 The following libraries and frameworks use Redis Streams for event-driven workloads:
 
 -   **Java**:
-    [Spring Data Redis Streams](https://docs.spring.io/spring-data/redis/reference/redis/redis-streams.html)
+    [Spring Data Redis Streams](/content/integrate/spring-framework-cache/streams.md)
     for consumer-group processing with producer/consumer abstractions and pending-entries handling.
 -   **Node.js**: [`node-redis`](https://github.com/redis/node-redis) and
     [`ioredis`](https://github.com/redis/ioredis) for stream producers and consumers in
@@ -120,6 +122,8 @@ The following libraries and frameworks use Redis Streams for event-driven worklo
     [Azure Managed Redis](https://azure.microsoft.com/en-us/products/managed-redis) with
     [Azure Functions](https://azure.microsoft.com/en-us/products/functions) for serverless event
     backbones.
+-   **Java**: [Redisson](https://redisson.pro/docs/data-and-services/queues/#stream)
+    (`RStream`) for stream producers and consumers.
 
 ## Code examples to build your own Redis streaming pipeline
 

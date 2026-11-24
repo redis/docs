@@ -270,7 +270,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -304,7 +304,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -467,69 +467,11 @@
           "type": "long",
           "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
         }
-      },
-      {
-        "signature": "ListInsertAfter(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "pivot",
-            "type": "RedisValue",
-            "description": "The value to insert after."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to insert."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
-        }
-      },
-      {
-        "signature": "ListInsertBefore(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "pivot",
-            "type": "RedisValue",
-            "description": "The value to insert before."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to insert."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "ListInsertAfter(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListInsertAfterAsync(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -553,12 +495,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
         }
       },
       {
-        "signature": "ListInsertBefore(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "ListInsertBeforeAsync(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -582,65 +524,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
-        }
-      },
-      {
-        "signature": "ListInsertAfter(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "pivot",
-            "type": "RedisValue",
-            "description": "The value to insert after."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to insert."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
-        }
-      },
-      {
-        "signature": "ListInsertBefore(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the list."
-          },
-          {
-            "name": "pivot",
-            "type": "RedisValue",
-            "description": "The value to insert before."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to insert."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
         }
       }
@@ -656,17 +540,17 @@
           },
           {
             "name": "$whence",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$pivot",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$value",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

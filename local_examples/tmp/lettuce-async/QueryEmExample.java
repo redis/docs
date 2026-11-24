@@ -38,14 +38,14 @@ public class QueryEmExample {
                     "bicycle:7", "bicycle:8", "bicycle:9", "key:1").toCompletableFuture().join();
             // REMOVE_END
 
-            List<FieldArgs<String>> bicycleSchema = Arrays.asList(
-                    TextFieldArgs.<String> builder().name("$.brand").as("brand").build(),
-                    TextFieldArgs.<String> builder().name("$.model").as("model").build(),
-                    TextFieldArgs.<String> builder().name("$.description").as("description").build(),
-                    NumericFieldArgs.<String> builder().name("$.price").as("price").build(),
-                    TagFieldArgs.<String> builder().name("$.condition").as("condition").build());
+            List<FieldArgs> bicycleSchema = Arrays.asList(
+                    TextFieldArgs.builder().name("$.brand").as("brand").build(),
+                    TextFieldArgs.builder().name("$.model").as("model").build(),
+                    TextFieldArgs.builder().name("$.description").as("description").build(),
+                    NumericFieldArgs.builder().name("$.price").as("price").build(),
+                    TagFieldArgs.builder().name("$.condition").as("condition").build());
 
-            CreateArgs<String, String> bicycleCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs bicycleCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("bicycle:").build();
 
             asyncCommands.ftCreate("idx:bicycle", bicycleCreateArgs, bicycleSchema).toCompletableFuture().join();
@@ -163,7 +163,7 @@ public class QueryEmExample {
             CompletableFuture.allOf(bikeFutures).join();
 
             // STEP_START em1
-            CompletableFuture<SearchReply<String, String>> priceResults = asyncCommands.ftSearch("idx:bicycle", "@price:[270]")
+            CompletableFuture<SearchReply<String>> priceResults = asyncCommands.ftSearch("idx:bicycle", "@price:[270]")
 
                     .thenApply(res -> {
                         // REMOVE_START
@@ -183,7 +183,7 @@ public class QueryEmExample {
             // STEP_END
 
             // STEP_START em2
-            CompletableFuture<SearchReply<String, String>> conditionResults = asyncCommands
+            CompletableFuture<SearchReply<String>> conditionResults = asyncCommands
                     .ftSearch("idx:bicycle", "@condition:{new}").thenApply(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -196,7 +196,7 @@ public class QueryEmExample {
 
                         // REMOVE_START
                         assertThat(res.getResults().size()).isEqualTo(5);
-                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                 .toArray()).containsExactly("bicycle:0", "bicycle:5", "bicycle:6", "bicycle:7", "bicycle:8");
                         // REMOVE_END
                         return res;
@@ -204,12 +204,12 @@ public class QueryEmExample {
             // STEP_END
 
             // STEP_START em3
-            List<FieldArgs<String>> emailSchema = Arrays
-                    .asList(TagFieldArgs.<String> builder().name("$.email").as("email").build());
-            CreateArgs<String, String> emailCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            List<FieldArgs> emailSchema = Arrays
+                    .asList(TagFieldArgs.builder().name("$.email").as("email").build());
+            CreateArgs emailCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("key:").build();
 
-            CompletableFuture<SearchReply<String, String>> emailResults = asyncCommands
+            CompletableFuture<SearchReply<String>> emailResults = asyncCommands
                     .ftCreate("idx:email", emailCreateArgs, emailSchema).thenCompose(res -> {
                         System.out.println(res); // >>> OK
                         // REMOVE_START
@@ -236,7 +236,7 @@ public class QueryEmExample {
             // STEP_END
 
             // STEP_START em4
-            CompletableFuture<SearchReply<String, String>> textMatchResults = asyncCommands
+            CompletableFuture<SearchReply<String>> textMatchResults = asyncCommands
                     .ftSearch("idx:bicycle", "@description:\"rough terrain\"").thenApply(res -> {
                         res.getResults().forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());

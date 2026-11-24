@@ -52,35 +52,187 @@
         }
       }
     ],
-    "go-redis": [],
+    "go-redis": [
+      {
+        "signature": "ModuleLoadex(ctx context.Context, conf *ModuleLoadexConfig) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "conf",
+            "type": "*ModuleLoadexConfig",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
     "node_redis": [],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "module(string $subcommand, ...$args)",
+        "signature": "module(subcommand: \"LOADEX\", path: string | Buffer, callback?: Callback<unknown>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"LOADEX\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "path",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "module(...args: [ subcommand: \"LOADEX\", path: string | Buffer, argsToken: \"ARGS\", ...args: (string | Buffer | number)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOADEX\"",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "argsToken",
+            "type": "\"ARGS\"",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "module(...args: [ subcommand: \"LOADEX\", path: string | Buffer, argsToken: \"ARGS\", ...args: (string | Buffer | number)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOADEX\"",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "argsToken",
+            "type": "\"ARGS\"",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "module(...args: [ subcommand: \"LOADEX\", path: string | Buffer, configsToken: \"CONFIG\", ...configs: (string | Buffer | number)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOADEX\"",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "configsToken",
+            "type": "\"CONFIG\"",
+            "description": ""
+          },
+          {
+            "name": "...configs",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "module(...args: [ subcommand: \"LOADEX\", path: string | Buffer, configsToken: \"CONFIG\", ...configs: (string | Buffer | number)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOADEX\"",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "configsToken",
+            "type": "\"CONFIG\"",
+            "description": ""
+          },
+          {
+            "name": "...configs",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

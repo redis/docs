@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrevrangebyscore(, name: KeyT,, max: ZScoreBoundT,, min: ZScoreBoundT,, start: Optional[int] = None,, num: Optional[int] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zrevrangebyscore(name: KeyT, max: ZScoreBoundT, min: ZScoreBoundT, start: Optional[int] = None, num: Optional[int] = None, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "name",
@@ -646,7 +646,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -690,7 +690,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -724,7 +724,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -773,7 +773,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -931,7 +931,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByScoreAsync(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -975,7 +975,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified score range."
         }
       }
@@ -1000,8 +1000,8 @@
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

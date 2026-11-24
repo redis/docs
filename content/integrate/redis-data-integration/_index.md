@@ -1,6 +1,8 @@
 ---
 Title: Redis Data Integration
-aliases: /integrate/redis-data-integration/ingest
+aliases:
+- /integrate/redis-data-integration/ingest
+- /develop/ai/context-engine/data-integration/
 alwaysopen: false
 categories:
 - docs

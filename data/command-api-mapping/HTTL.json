@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HTTL(key: RedisArgument, fields: RedisVariadicArgument)",
+        "signature": "hTTL(key: RedisArgument, fields: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply> | NullReply",
           "description": ""
         }
       }
@@ -237,35 +237,11 @@
           "type": "long[]",
           "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>&gt; 0</term> <description>Time to live, in milliseconds.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
         }
-      },
-      {
-        "signature": "HashFieldGetTimeToLive(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to get expire time."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long[]",
-          "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>&gt; 0</term> <description>Time to live, in milliseconds.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashFieldGetTimeToLive(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashFieldGetTimeToLiveAsync(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -284,31 +260,7 @@
           }
         ],
         "returns": {
-          "type": "long[]",
-          "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>&gt; 0</term> <description>Time to live, in milliseconds.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
-        }
-      },
-      {
-        "signature": "HashFieldGetTimeToLive(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashFields",
-            "type": "RedisValue[]",
-            "description": "The fields in the hash to get expire time."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long[]",
+          "type": "Task<long[]>",
           "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>&gt; 0</term> <description>Time to live, in milliseconds.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
         }
       }
@@ -352,6 +304,71 @@
         "returns": {
           "type": "Array<Integer>",
           "description": "Feedback on the TTL of the fields"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "httl(...args: [key: RedisKey, fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "httl(...args: [key: RedisKey, fieldsToken: \"FIELDS\", numfields: number | string, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...fields",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
         }
       }
     ]

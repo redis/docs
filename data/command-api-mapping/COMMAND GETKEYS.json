@@ -63,7 +63,22 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "commandGetKeys(args: Array<RedisArgument>)",
+        "params": [
+          {
+            "name": "args",
+            "type": "Array<RedisArgument>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "List<String> commandGetkeys(String... args)",
@@ -112,11 +127,51 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "RedisKey[] CommandGetKeys(RedisValue[] command, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "command",
+            "type": "RedisValue[]",
+            "description": "The command to get keys from."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "RedisKey[]",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<RedisKey[]> CommandGetKeysAsync(RedisValue[] command, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "command",
+            "type": "RedisValue[]",
+            "description": "The command to get keys from."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisKey[]>",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
-        "signature": "command(string $subcommand, ...$args)",
+        "signature": "command($subcommand, $argument = null)",
         "params": [
           {
             "name": "$subcommand",
@@ -124,7 +179,7 @@
             "description": ""
           },
           {
-            "name": "$args",
+            "name": "$argument",
             "type": "mixed",
             "description": ""
           }
@@ -136,6 +191,27 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "command(subcommand: \"GETKEYS\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GETKEYS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

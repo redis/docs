@@ -57,6 +57,8 @@ atomically to a *processing* list so a crashed worker's job can be reclaimed lat
 metadata (payload, status, attempts, result) lives in a hash, and completed jobs are cleaned
 up automatically with a TTL.
 
+{{< use-case-animation name="job-queue" >}}
+
 Redis provides the following features that make it a good fit for background jobs:
 
 -   [`LPUSH`](/content/commands/lpush.md) and [`BRPOPLPUSH`](/content/commands/brpoplpush.md)
@@ -84,17 +86,16 @@ Redis provides the following features that make it a good fit for background job
 
 The following libraries implement reliable job-queue patterns on Redis:
 
--   **Python**: [Celery](https://docs.celeryq.dev/),
-    [RQ](https://python-rq.org/),
-    [Dramatiq](https://dramatiq.io/)
--   **Ruby**: [Sidekiq](https://sidekiq.org/),
-    [Resque](https://github.com/resque/resque)
+-   **Python**: [Celery](/content/integrate/celery/_index.md),
+    [RQ](/content/integrate/rq/_index.md),
+    [Dramatiq](/content/integrate/dramatiq/_index.md)
+-   **Ruby**: [Sidekiq](/content/integrate/sidekiq/_index.md),
+    [Resque](/content/integrate/resque/_index.md)
 -   **Node.js**: [Bull](https://github.com/OptimalBits/bull),
-    [BullMQ](https://docs.bullmq.io/)
--   **Go**: [Asynq](https://github.com/hibiken/asynq)
--   **Java**: [Redisson](https://redisson.org/),
-    [Spring Batch](https://spring.io/projects/spring-batch) (Redis job repository)
--   **.NET**: [Hangfire](https://www.hangfire.io/) (Redis storage)
+    [BullMQ](/content/integrate/bullmq/_index.md)
+-   **Go**: [Asynq](/content/integrate/asynq/_index.md)
+-   **Java**: [Redisson](https://redisson.org/)
+-   **.NET**: [Hangfire](/content/integrate/hangfire/_index.md) (community Redis storage package)
 
 ## Code examples to build your own Redis job queue
 

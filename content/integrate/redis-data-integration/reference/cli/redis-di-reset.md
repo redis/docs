@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-reset/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-reset/
 ---
 
 Clears a pipeline's saved source positions without changing its configured snapshot mode

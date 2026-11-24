@@ -31,7 +31,7 @@
             "description": ""
           },
           {
-            "name": "$index",
+            "name": "...$index",
             "type": "int",
             "description": ""
           }
@@ -148,6 +148,51 @@
         ],
         "returns": {
           "type": "*SliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "armget(...args: [key: RedisKey, ...indices: (number | string)[], callback: Callback<(string | null)[]>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...indices",
+            "type": "(number | string)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "armget(...args: [key: RedisKey, ...indices: (number | string)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...indices",
+            "type": "(number | string)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       }

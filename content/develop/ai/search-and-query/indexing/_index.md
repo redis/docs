@@ -14,6 +14,7 @@ categories:
 - kubernetes
 - clients
 description: How to index and search JSON documents
+hideListLinks: true
 linkTitle: Indexing
 title: Indexing
 weight: 3
@@ -588,12 +589,14 @@ This query returns the field as the alias `"stock"` instead of the JSONPath expr
 
 You can [highlight](/content/develop/ai/search-and-query/advanced-concepts/highlight.md) relevant search terms in any indexed `TEXT` attribute.
 
-For JSON documents, you must use the `RETURN` parameter to specify the attributes, followed by `HIGHLIGHT` to indicate which of those attributes to highlight.
+For JSON documents, you must use the `RETURN` parameter to specify the attributes, followed by `HIGHLIGHT` to indicate which of those attributes to highlight. A query with no `RETURN`, or with `RETURN 0`, is rejected.
 
 Use the optional `TAGS` keyword to specify the strings that will surround (or highlight) the matching search terms.
 
+JSON support for `HIGHLIGHT` and `SUMMARIZE` requires Redis Open Source 8.10.2 or later. Earlier releases reject both options on every JSON index.
+
 > [!NOTE]
-> `HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). See [Index limitations](#index-limitations) for details.
+> `HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). A single-value JSONPath that resolves to an array or object is accepted, but the value is returned unhighlighted. See [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md#json-indexes) for the full rules and error messages, and [Index limitations](#index-limitations) for other multi-value behavior.
 
 For example, highlight the word "bluetooth" with bold HTML tags in item names and descriptions:
 
@@ -692,7 +695,7 @@ During index creation, you need to map the JSON elements to `SCHEMA` fields as f
 
 When a JSONPath leads to an array or to multiple values:
 
-- No `HIGHLIGHT` and `SUMMARIZE` support.
+- No `HIGHLIGHT` and `SUMMARIZE` support. Such a query fails with `HIGHLIGHT/SUMMARIZE is not supported for JSON fields with multi-value JSONPath`. See [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md#json-indexes).
 - `SORTBY` only sorts by the first value.
 - `RETURN` of a schema attribute returns the values as a JSON string.
 - If a JSONPath is specified by the `RETURN`, instead of a schema attribute, all values are returned (as a JSON string).

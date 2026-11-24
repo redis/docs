@@ -373,7 +373,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ARRAPPEND(key: RedisArgument, path: RedisArgument, json: RedisJSON, ...jsons: Array<RedisJSON>)",
+        "signature": "client.json.arrAppend(key: RedisArgument, path: RedisArgument, json: RedisJSON, ...jsons: Array<RedisJSON>)",
         "params": [
           {
             "name": "key",
@@ -397,7 +397,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }
@@ -438,13 +438,13 @@
             "description": ""
           },
           {
-            "name": "string $path = '$'",
-            "type": "Any",
+            "name": "$path",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "$value",
-            "type": "...",
+            "name": "...$value",
+            "type": "",
             "description": ""
           }
         ],
@@ -534,6 +534,32 @@
         "returns": {
           "type": "Array<Integer>, Integer",
           "description": "the new array length(s); an Array for a JSONPath, a single Integer for a legacy path (nil for a match that is not an array)"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ArrAppendAsync(RedisKey key, string? path = null, params object[] values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "object[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long?[]>",
+          "description": ""
         }
       }
     ]

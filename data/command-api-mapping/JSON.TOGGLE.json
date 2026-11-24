@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TOGGLE(key: RedisArgument, path: RedisArgument)",
+        "signature": "client.json.toggle(key: RedisArgument, path: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply | NullReply | ArrayReply<NumberReply | NullReply>",
           "description": ""
         }
       }
@@ -273,6 +273,27 @@
         "returns": {
           "type": "Array, Object, nil",
           "description": "1/0 for the new true/false value(s): an Array for a JSONPath, a single value for a legacy path; nil for a non-boolean match"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ToggleAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool?[]>",
+          "description": ""
         }
       }
     ]

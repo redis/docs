@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GETBIT(key: RedisArgument, offset: number)",
+        "signature": "getBit(key: RedisArgument, offset: number)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply<BitValue>",
           "description": ""
         }
       }
@@ -192,7 +192,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -263,78 +263,6 @@
           "type": "bool",
           "description": "The bit value stored at offset."
         }
-      },
-      {
-        "signature": "StringGetBitAsync(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StringGetBit(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": "The offset in the string to get a bit at."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "The bit value stored at offset."
-        }
-      },
-      {
-        "signature": "StringGetBitAsync(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
@@ -344,30 +272,6 @@
           {
             "name": "key",
             "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Task<bool>",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StringGetBit(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
             "description": "The key of the string."
           },
           {
@@ -382,56 +286,8 @@
           }
         ],
         "returns": {
-          "type": "bool",
-          "description": "The bit value stored at offset."
-        }
-      },
-      {
-        "signature": "StringGetBit(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": "The offset in the string to get a bit at."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "The bit value stored at offset."
-        }
-      },
-      {
-        "signature": "StringGetBitAsync(RedisKey key, long offset, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
           "type": "Task<bool>",
-          "description": ""
+          "description": "The bit value stored at offset."
         }
       }
     ],
@@ -446,13 +302,34 @@
           },
           {
             "name": "$offset",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],
         "returns": {
           "type": "int",
           "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "getbit(key, offset)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "Integer",
+            "description": "bit offset"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "`0` or `1`"
         }
       }
     ]

@@ -184,6 +184,26 @@ console.log(res22)  // >>> bike:4 or other random value
 
 // REMOVE_START
 assert.equal(res19, 1)
-await client.close()
 // none of the other results are deterministic
+// REMOVE_END
+
+// STEP_START member_expiration
+await client.del('bikes:reserved')
+
+const res23 = await client.sAddEx('bikes:reserved', ['bike:1', 'bike:2'], { expiration: { type: 'EX', value: 900 } })
+console.log(res23)  // >>> 1
+
+const res24 = await client.sAdd('bikes:reserved', 'bike:3')
+console.log(res24)  // >>> 1
+
+const res25 = await client.sTTL('bikes:reserved', ['bike:1', 'bike:2', 'bike:3'])
+console.log(res25)  // >>> [ 900, 900, -1 ]
+// STEP_END
+
+// REMOVE_START
+assert.equal(res23, 1)
+assert.equal(res24, 1)
+assert.deepEqual(res25, [900, 900, -1])
+await client.del('bikes:reserved')
+await client.close()
 // REMOVE_END

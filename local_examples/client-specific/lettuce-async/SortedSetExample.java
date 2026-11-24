@@ -64,7 +64,7 @@ public class SortedSetExample {
                 assertThat(res3.toString()).isEqualTo("[Ford, Sam-Bodden, Norem, Royce, Castilla, Prickett]");
                 // REMOVE_END
 
-                return asyncCommands.zrevrange("racer_scores", 0, -1);
+                return asyncCommands.zrange("racer_scores", ZRange.byIndex(0, -1).rev());
             })
                     // REMOVE_START
                     .thenApply((List<String> res) -> {
@@ -96,7 +96,7 @@ public class SortedSetExample {
 
             // STEP_START zrangebyscore
             CompletableFuture<Void> zrangebyscore = asyncCommands
-                    .zrangebyscore("racer_scores", Range.create(Double.NEGATIVE_INFINITY, 10))
+                    .zrange("racer_scores", ZRange.byScore(Range.create(Double.NEGATIVE_INFINITY, 10)))
                     // REMOVE_START
                     .thenApply(res -> {
                         assertThat(res.toString()).isEqualTo("[Ford, Sam-Bodden, Norem, Royce]");
@@ -179,7 +179,7 @@ public class SortedSetExample {
                         assertThat(res8.toString()).isEqualTo("[Castilla, Ford, Norem, Prickett, Royce, Sam-Bodden]");
                         // REMOVE_END
 
-                        return asyncCommands.zrangebylex("racer_scores", Range.create("A", "L"));
+                        return asyncCommands.zrange("racer_scores", ZRange.byLex(Range.create("A", "L")));
                     })
                     // REMOVE_START
                     .thenApply(res -> {

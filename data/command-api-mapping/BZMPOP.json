@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "bzmpop(, timeout: float,, numkeys: int,, keys: List[str],, min: Optional[bool] = False,, max: Optional[bool] = False,, count: Optional[int] = 1,)",
+        "signature": "bzmpop(timeout: float, numkeys: int, keys: List[str], min: Optional[bool] = False, max: Optional[bool] = False, count: Optional[int] = 1)",
         "params": [
           {
             "name": "timeout",
@@ -458,7 +458,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BZMPOP(timeout: number, ...args: ZMPopArguments)",
+        "signature": "bzmPop(timeout: number, keys: RedisVariadicArgument, side: SortedSetSide, options?: ZMPopOptions)",
         "params": [
           {
             "name": "timeout",
@@ -466,8 +466,18 @@
             "description": ""
           },
           {
-            "name": "...args",
-            "type": "ZMPopArguments",
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "side",
+            "type": "SortedSetSide",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ZMPopOptions",
             "description": ""
           }
         ],
@@ -479,72 +489,172 @@
     ],
     "ioredis": [
       {
-        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", callback: Callback<unknown>, ])",
+        "signature": "bzmpop(...args: [ timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, timeout",
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, keys: RedisKey[], min: \"MIN\", callback: Callback<unknown>, ])",
+        "signature": "bzmpop(...args: [ timeout: number | string, numkeys: number | string, keys: RedisKey[], min: \"MIN\", callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, timeout",
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", ])",
+        "signature": "bzmpop(...args: [ timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\" ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, timeout",
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, keys: RedisKey[], min: \"MIN\", ])",
+        "signature": "bzmpop(...args: [ timeout: number | string, numkeys: number | string, keys: RedisKey[], min: \"MIN\" ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, timeout",
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", countToken: \"COUNT\", count: number | string, callback: Callback<unknown>, ])",
+        "signature": "bzmpop(...args: [ timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", countToken: \"COUNT\", count: number | string, callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, timeout",
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -707,40 +817,6 @@
           "type": "Tuple<RedisKey, List<RedisValueWithScore>>?",
           "description": ""
         }
-      },
-      {
-        "signature": "BZMPop(db, timeout, [key], minMaxModifier, count)",
-        "params": [
-          {
-            "name": "db",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "timeout",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "[key]",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "minMaxModifier",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": ""
-        }
       }
     ],
     "php": [
@@ -758,13 +834,13 @@
             "description": ""
           },
           {
-            "name": "string $modifier = 'min'",
-            "type": "Any",
+            "name": "$modifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $count = 1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           }
         ],
@@ -802,6 +878,66 @@
         "returns": {
           "type": "Array<String, Array<String, Float>>",
           "description": "list of popped elements and scores"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "BZMPopAsync(double timeout, RedisKey[] keys, MinMaxModifier minMaxModifier, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "minMaxModifier",
+            "type": "MinMaxModifier",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, List<RedisValueWithScore>>?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BZMPopAsync(double timeout, RedisKey key, MinMaxModifier minMaxModifier, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "minMaxModifier",
+            "type": "MinMaxModifier",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<RedisKey, List<RedisValueWithScore>>?>",
+          "description": ""
         }
       }
     ]

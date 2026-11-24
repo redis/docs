@@ -200,9 +200,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS123142: In an Active-Active setup with at least three participating clusters, removing and re-adding a cluster after removing older clusters without re-adding them can cause missing keys and potentially lead to data loss or data inconsistency.
 
-    To prevent this issue, avoid adding clusters until you upgrade to the upcoming maintenance release when available.
-
-    This issue was fixed in [Redis Enterprise Software version 7.4.2-169](/content/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-169.md).
+    This issue was fixed in [Redis Enterprise Software version 7.4.2-169](/content/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-169.md). If you use an earlier build, avoid adding clusters to the Active-Active database until you upgrade.
 
 - RS219531: Upgrading a cluster from Redis Software version 7.4.x to version 8.2.0 can fail. To upgrade, first upgrade to Redis Software version 8.0.x, and then upgrade to version 8.2.0. For details, see the [Redis Software 8.2.0 known issues](/content/operate/rs/release-notes/rs-8-2-releases/_index.md#known-issues).
 

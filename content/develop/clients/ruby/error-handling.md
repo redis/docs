@@ -58,6 +58,8 @@ for a more detailed discussion of these errors and their causes.
 | `Redis::CommandError` | Redis returned an error reply such as `ERR` or `WRONGTYPE` | ❌ | Fix the command, arguments, or data model |
 | `Redis::ConnectionError` | An established connection was lost | ✅ | Reconnect and retry cautiously |
 
+For the redis-rb exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md) overview

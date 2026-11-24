@@ -211,7 +211,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XACK(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument)",
+        "signature": "xAck(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -230,23 +230,33 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "xack(...args: [, key: RedisKey, group: string | Buffer, ...ids: (string | Buffer | number)[], ])",
+        "signature": "xack(...args: [ key: RedisKey, group: string | Buffer, ...ids: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -361,69 +371,11 @@
           "type": "long",
           "description": "The number of messages acknowledged."
         }
-      },
-      {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group that received the message."
-          },
-          {
-            "name": "messageId",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of messages acknowledged."
-        }
-      },
-      {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group that received the message."
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": "The IDs of the messages to acknowledge."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of messages acknowledged."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAsync(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -447,12 +399,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages acknowledged."
         }
       },
       {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamAcknowledgeAsync(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -476,65 +428,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of messages acknowledged."
-        }
-      },
-      {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group that received the message."
-          },
-          {
-            "name": "messageId",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of messages acknowledged."
-        }
-      },
-      {
-        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the stream."
-          },
-          {
-            "name": "groupName",
-            "type": "RedisValue",
-            "description": "The name of the consumer group that received the message."
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": "The IDs of the messages to acknowledge."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of messages acknowledged."
         }
       }
@@ -554,8 +448,8 @@
             "description": ""
           },
           {
-            "name": "$id",
-            "type": "string ...",
+            "name": "...$id",
+            "type": "string",
             "description": ""
           }
         ],

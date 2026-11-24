@@ -50,6 +50,8 @@ Use a Cuckoo filter populated with all discount codes/coupons. On every try, the
 
 Note> In addition to these two cases, Cuckoo filters serve very well all the Bloom filter use cases.
 
+{{< data-type-animation type="cuckoo" >}}
+
 ## Examples
 
 > You'll learn how to create an empty cuckoo filter with an initial capacity for 1,000 items, add items, check their existence, and remove them. Even though the [`CF.ADD`](/content/commands/cf.add.md) command can create a new filter if one isn't present, it might not be optimally sized for your needs. It's better to use the [`CF.RESERVE`](/content/commands/cf.reserve.md) command to set up a filter with your preferred capacity.

@@ -63,7 +63,7 @@
     ],
     "node_redis": [
       {
-        "signature": "FLUSHDB(mode?: RedisFlushMode)",
+        "signature": "flushDb(mode?: RedisFlushMode)",
         "params": [
           {
             "name": "mode",
@@ -173,8 +173,48 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void FlushDatabase(int database = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "database",
+            "type": "int",
+            "description": "The database ID."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task FlushDatabaseAsync(int database = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "database",
+            "type": "int",
+            "description": "The database ID."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "flushdb()",
@@ -185,7 +225,123 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "flushdb()",
+        "params": [],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushdb_options(options: &'a FlushDbOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "&'a FlushDbOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "flushdb()",
+        "params": [],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushdb_options(options: &'a FlushDbOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "&'a FlushDbOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "flushdb(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushdb(async: \"ASYNC\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "async",
+            "type": "\"ASYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "flushdb(sync: \"SYNC\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "sync",
+            "type": "\"SYNC\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "flushdb(options = nil)",
+        "params": [
+          {
+            "name": "options",
+            "type": "Hash",
+            "description": "- `:async => Boolean`: async flush (default: false)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
+    ]
   }
 }

@@ -68,34 +68,113 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "moduleLoad(path: RedisArgument, moduleArguments?: Array<RedisArgument>)",
+        "params": [
+          {
+            "name": "path",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "moduleArguments",
+            "type": "Array<RedisArgument>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "module(string $subcommand, ...$args)",
+        "signature": "module(subcommand: \"LOAD\", path: string | Buffer, callback?: Callback<unknown>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"LOAD\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "path",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "module(...args: [ subcommand: \"LOAD\", path: string | Buffer, ...args: (string | Buffer | number)[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOAD\"",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "module(...args: [ subcommand: \"LOAD\", path: string | Buffer, ...args: (string | Buffer | number)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOAD\"",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
-    ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    ]
   }
 }

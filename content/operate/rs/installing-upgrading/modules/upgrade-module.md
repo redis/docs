@@ -36,7 +36,7 @@ To upgrade a module enabled for a database:
 1. Run `rladmin status` to list the databases on the node.
 1. Copy the name of the database that uses the module that you want to upgrade.
 
-    ![](/images/rs/rladmin_status.png)
+    ![rladmin status output with the database name store-inventory circled, using dense placement and one shard](/images/rs/rladmin_status.png)
 
 1. Find the exact module name and version:
 
@@ -46,7 +46,7 @@ To upgrade a module enabled for a database:
 
     Here's an example of the JSON file for the RediSearch module:
 
-    ![](/images/rs/module_info.png)
+    ![Module info JSON for RediSearch 2 with the module_name value search and the version 20004.0 circled](/images/rs/module_info.png)
 
 1. To see the versions of the modules on the cluster, run either:
 

@@ -6,7 +6,7 @@ weight: 3
 
 RedisVL builds Redis queries from Python objects. This demo runs three of its query types on the restaurants of a food delivery app: a vector query that searches by meaning, a filter query, and a range query that limits the search to a distance threshold. For each query, it shows the RedisVL code, the `FT.SEARCH` command RedisVL sends, and the results.
 
-The demo runs in your browser and doesn't connect to Redis or run an embedding model. Its results are the ones Redis returned for these queries, with descriptions embedded by `sentence-transformers/all-mpnet-base-v2`, and its code and commands are what RedisVL 0.27.1 builds. The restaurants are the same sample data as the [Context Retriever interactive demo]({{< relref "/develop/ai/context-engine/context-retriever/interactive-demo" >}}).
+The demo runs in your browser and doesn't connect to Redis or run an embedding model. Its results are the ones Redis returned for these queries, with descriptions embedded by `sentence-transformers/all-mpnet-base-v2`, and its code and commands are what RedisVL 0.27.1 builds. The restaurants are the same sample data as the [Redis Iris interactive demo]({{< relref "/develop/ai/context-engine/concepts/interactive-demo" >}}).
 
 {{< redisvl-demo >}}
 

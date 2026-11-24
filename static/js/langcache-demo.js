@@ -12,7 +12,7 @@
    stale.
 
    Request bodies, response envelopes, and status codes follow the LangCache
-   OpenAPI spec (content/develop/ai/context-engine/langcache/api-reference/
+   OpenAPI spec (content/develop/ai/langcache/api-reference/
    api.yaml) and the defaults on the create-service page. Modelled rather
    than observed: the similarity scores (a hand-made table, not embeddings),
    the LLM's answers, and the timings and token counts. When several entries
@@ -532,7 +532,7 @@
       body.appendChild(response == null ? el("p", "rcr-faint", "No content.") : pre(response));
       var cd = el("details", "rcr-curl");
       cd.appendChild(el("summary", "", "Run this call yourself with curl"));
-      cd.appendChild(el("pre", "rcr-code rcr-code-sm", esc(curl(method, path, request))));
+      cd.appendChild(el("pre", "rcr-code rcr-code-sm", window.DemoHL.shell(curl(method, path, request))));
       body.appendChild(cd);
       d.appendChild(body);
       return d;
@@ -780,7 +780,7 @@
           body.appendChild(pre(r.response));
           var cd = el("details", "rcr-curl");
           cd.appendChild(el("summary", "", "Run this call yourself with curl"));
-          cd.appendChild(el("pre", "rcr-code rcr-code-sm", esc(curl("POST", "/entries/search", r.request))));
+          cd.appendChild(el("pre", "rcr-code rcr-code-sm", window.DemoHL.shell(curl("POST", "/entries/search", r.request))));
           body.appendChild(cd);
           d.appendChild(body);
           rows.appendChild(d);

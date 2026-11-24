@@ -124,7 +124,7 @@
     ],
     "ioredis": [
       {
-        "signature": "pfcount(...keys: RedisKey[], callback?: Callback<number>)",
+        "signature": "pfcount(...args: [...keys: RedisKey[], callback: Callback<number>])",
         "params": [
           {
             "name": "...keys",
@@ -299,7 +299,7 @@
     ],
     "node_redis": [
       {
-        "signature": "PFCOUNT(keys: RedisVariadicArgument)",
+        "signature": "pfCount(keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "keys",

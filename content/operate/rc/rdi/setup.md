@@ -25,7 +25,7 @@ See [Prepare source databases](/content/integrate/redis-data-integration/data-pi
 - [Supabase](#supabase)
 - Hosted on an AWS EC2 instance:
     - [MySQL and mariaDB](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb.md)
-    - [Oracle](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle.md)
+    - [Oracle](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/_index.md)
     - [SQL Server](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server.md)
     - [PostgreSQL](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md)
 - Hosted on AWS RDS or AWS Aurora:

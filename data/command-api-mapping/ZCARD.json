@@ -117,7 +117,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZCARD(key: RedisArgument)",
+        "signature": "zCard(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -126,38 +126,18 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "zcard(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Count the members in a sorted set with scores within the given values, * - _group_: sorted-set, * - _complexity_: O(log(N)) with N being the number of elements in the sorted set., * - _since_: 2.0.0, */, zcount(, key: RedisKey, min: number | string, max: number | string, callback?: Callback<number>)",
+        "signature": "zcard(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
             "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "min",
-            "type": "number | string",
-            "description": ""
-          },
-          {
-            "name": "max",
-            "type": "number | string",
             "description": ""
           },
           {
@@ -167,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -238,45 +218,11 @@
           "type": "long",
           "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
         }
-      },
-      {
-        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "min",
-            "type": "double",
-            "description": "The min score to filter by (defaults to negative infinity)."
-          },
-          {
-            "name": "max",
-            "type": "double",
-            "description": "The max score to filter by (defaults to positive infinity)."
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetLengthAsync(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -305,41 +251,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
-        }
-      },
-      {
-        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "min",
-            "type": "double",
-            "description": "The min score to filter by (defaults to negative infinity)."
-          },
-          {
-            "name": "max",
-            "type": "double",
-            "description": "The max score to filter by (defaults to positive infinity)."
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
         }
       }

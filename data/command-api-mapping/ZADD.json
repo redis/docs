@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zadd(, name: KeyT,, mapping: Mapping[AnyKeyT, EncodableT],, nx: bool = False,, xx: bool = False,, ch: bool = False,, incr: bool = False,, gt: bool = False,, lt: bool = False,)",
+        "signature": "zadd(name: KeyT, mapping: Mapping[AnyKeyT, EncodableT], nx: bool = False, xx: bool = False, ch: bool = False, incr: bool = False, gt: bool = False, lt: bool = False)",
         "params": [
           {
             "name": "name",
@@ -547,7 +547,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZADD(key: RedisArgument, members: SortedSetMember | Array<SortedSetMember>, options?: ZAddOptions)",
+        "signature": "zAdd(key: RedisArgument, members: SortedSetMember | Array<SortedSetMember>, options?: ZAddOptions)",
         "params": [
           {
             "name": "key",
@@ -573,16 +573,26 @@
     ],
     "ioredis": [
       {
-        "signature": "zadd(...args: [, key: RedisKey, ...scoreMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "zadd(...args: [ key: RedisKey, ...scoreMembers: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -590,55 +600,100 @@
         "signature": "zadd(...args: [key: RedisKey, ...scoreMembers: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zadd(...args: [, key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<string>, ])",
+        "signature": "zadd(...args: [ key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<string> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "incr",
+            "type": "\"INCR\"",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zadd(...args: [, key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[], ])",
+        "signature": "zadd(...args: [ key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "incr",
+            "type": "\"INCR\"",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zadd(...args: [, key: RedisKey, ch: \"CH\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "zadd(...args: [ key: RedisKey, ch: \"CH\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "ch",
+            "type": "\"CH\"",
+            "description": ""
+          },
+          {
+            "name": "...scoreMembers",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -993,7 +1048,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, CommandFlags flags)",
+        "signature": "SortedSetAddAsync(RedisKey key, RedisValue member, double score, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1017,12 +1072,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
         }
       },
       {
-        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, When when, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetAddAsync(RedisKey key, RedisValue member, double score, When when, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1051,12 +1106,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
         }
       },
       {
-        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, SortedSetWhen when = SortedSetWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetAddAsync(RedisKey key, RedisValue member, double score, SortedSetWhen when = SortedSetWhen.Always, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1085,12 +1140,12 @@
           }
         ],
         "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
         }
       },
       {
-        "signature": "SortedSetAdd(RedisKey key, SortedSetEntry[] values, CommandFlags flags)",
+        "signature": "SortedSetAddAsync(RedisKey key, SortedSetEntry[] values, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1109,12 +1164,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
         }
       },
       {
-        "signature": "SortedSetAdd(RedisKey key, SortedSetEntry[] values, When when, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetAddAsync(RedisKey key, SortedSetEntry[] values, When when, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1138,7 +1193,7 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
         }
       }

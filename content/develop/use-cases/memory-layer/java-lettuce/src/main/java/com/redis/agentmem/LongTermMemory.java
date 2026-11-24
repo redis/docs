@@ -5,15 +5,26 @@ import io.lettuce.core.TransactionResult;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import io.lettuce.core.codec.ByteArrayCodec;
+import io.lettuce.core.json.JsonPath;
 import io.lettuce.core.output.NestedMultiOutput;
-import io.lettuce.core.output.StatusOutput;
-import io.lettuce.core.output.ValueOutput;
 import io.lettuce.core.protocol.CommandArgs;
 import io.lettuce.core.protocol.ProtocolKeyword;
+import io.lettuce.core.search.FieldValue;
+import io.lettuce.core.search.SearchReply;
+import io.lettuce.core.search.arguments.CreateArgs;
+import io.lettuce.core.search.arguments.FieldArgs;
+import io.lettuce.core.search.arguments.NumericFieldArgs;
+import io.lettuce.core.search.arguments.QueryDialects;
+import io.lettuce.core.search.arguments.SearchArgs;
+import io.lettuce.core.search.arguments.SortByArgs;
+import io.lettuce.core.search.arguments.TagFieldArgs;
+import io.lettuce.core.search.arguments.TextFieldArgs;
+import io.lettuce.core.search.arguments.VectorFieldArgs;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,12 +60,14 @@ import java.util.UUID;
  *       TTL by default.</li>
  * </ul>
  *
- * <p>Lettuce 6.7 doesn't ship first-class {@code FT.*} or
- * {@code JSON.*} bindings, so the helper sends them through
- * {@code dispatch()} with custom {@link ProtocolKeyword}s. Everything
- * else — {@code EXPIRE}, {@code TTL}, {@code DEL},
- * {@code MULTI}/{@code EXEC} — goes through the built-in synchronous
- * API on a {@code byte[]}-codec connection.
+ * <p>{@code FT.CREATE}, {@code FT.SEARCH}, and {@code FT.DROPINDEX} go
+ * through Lettuce's typed {@code RediSearchCommands} API, and
+ * {@code JSON.SET} and {@code JSON.NUMINCRBY} through its typed
+ * {@code RedisJsonCommands} API. Lettuce has no typed {@code FT.INFO}
+ * helper, so that one command is sent with {@code dispatch()} and a
+ * custom {@link ProtocolKeyword}. Everything else — {@code EXPIRE},
+ * {@code TTL}, {@code DEL}, {@code MULTI}/{@code EXEC} — goes through
+ * the built-in synchronous API on a {@code byte[]}-codec connection.
  */
 public final class LongTermMemory {
 
@@ -78,20 +91,14 @@ public final class LongTermMemory {
     private static final String TAG_SPECIAL = "\\,.<>{}[]\"':;!@#$%^&*()-+=~| ";
 
     /**
-     * Custom {@link ProtocolKeyword}s for the Redis Search and Redis
-     * JSON subcommands the helper sends via {@code dispatch()}.
-     * Lettuce 6.7 has no native bindings; {@code dispatch()} accepts
-     * any keyword whose {@code getBytes()} returns the raw command
-     * name, so spelling each command out as its own keyword keeps
-     * the wire bytes matching what {@code redis-cli} would send.
+     * Custom {@link ProtocolKeyword} for {@code FT.INFO}, the one
+     * command the helper uses that Lettuce has no typed method for.
+     * {@code dispatch()} accepts any keyword whose {@code getBytes()}
+     * returns the raw command name, so the wire bytes match what
+     * {@code redis-cli} would send.
      */
     private enum ModuleCommand implements ProtocolKeyword {
-        FT_CREATE("FT.CREATE"),
-        FT_SEARCH("FT.SEARCH"),
-        FT_INFO("FT.INFO"),
-        FT_DROPINDEX("FT.DROPINDEX"),
-        JSON_SET("JSON.SET"),
-        JSON_NUMINCRBY("JSON.NUMINCRBY");
+        FT_INFO("FT.INFO");
 
         private final byte[] bytes;
         private final String wire;
@@ -167,31 +174,30 @@ public final class LongTermMemory {
     // ------------------------------------------------------------------
 
     public void createIndex() {
-        CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                .add(indexNameBytes)
-                .add("ON").add("JSON")
-                .add("PREFIX").add(1).add(keyPrefixBytes)
-                .add("SCHEMA")
-                .add("$.text").add("AS").add("text").add("TEXT")
-                .add("$.user").add("AS").add("user").add("TAG")
-                .add("$.namespace").add("AS").add("namespace").add("TAG")
-                .add("$.kind").add("AS").add("kind").add("TAG")
-                .add("$.source_thread").add("AS").add("source_thread").add("TAG")
-                .add("$.created_ts").add("AS").add("created_ts")
-                .add("NUMERIC").add("SORTABLE")
-                .add("$.hit_count").add("AS").add("hit_count")
-                .add("NUMERIC").add("SORTABLE")
-                .add("$.embedding").add("AS").add("embedding")
-                .add("VECTOR").add("HNSW").add(6)
-                .add("TYPE").add("FLOAT32")
-                .add("DIM").add(vectorDim)
-                .add("DISTANCE_METRIC").add("COSINE");
+        // The index reads JSON paths and exposes each under a short
+        // alias, so queries and RETURN lists use "text", "user", ...
+        List<FieldArgs> schema = Arrays.asList(
+                TextFieldArgs.builder().name("$.text").as("text").build(),
+                TagFieldArgs.builder().name("$.user").as("user").build(),
+                TagFieldArgs.builder().name("$.namespace").as("namespace").build(),
+                TagFieldArgs.builder().name("$.kind").as("kind").build(),
+                TagFieldArgs.builder().name("$.source_thread").as("source_thread").build(),
+                NumericFieldArgs.builder().name("$.created_ts").as("created_ts").sortable().build(),
+                NumericFieldArgs.builder().name("$.hit_count").as("hit_count").sortable().build(),
+                VectorFieldArgs.builder()
+                        .name("$.embedding").as("embedding")
+                        .hnsw()
+                        .type(VectorFieldArgs.VectorType.FLOAT32)
+                        .dimensions(vectorDim)
+                        .distanceMetric(VectorFieldArgs.DistanceMetric.COSINE)
+                        .build());
+        CreateArgs createArgs = CreateArgs.builder()
+                .on(CreateArgs.TargetType.JSON)
+                .withPrefix(keyPrefix)
+                .build();
         try {
             synchronized (txLock) {
-                sync.dispatch(
-                        ModuleCommand.FT_CREATE,
-                        new StatusOutput<>(ByteArrayCodec.INSTANCE),
-                        args);
+                sync.ftCreate(indexName, createArgs, schema);
             }
         } catch (RedisException ex) {
             if (!String.valueOf(ex.getMessage()).contains("Index already exists")) {
@@ -201,22 +207,26 @@ public final class LongTermMemory {
     }
 
     public void dropIndex(boolean deleteDocuments) {
-        CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                .add(indexNameBytes);
-        if (deleteDocuments) args.add("DD");
         try {
             synchronized (txLock) {
-                sync.dispatch(
-                        ModuleCommand.FT_DROPINDEX,
-                        new StatusOutput<>(ByteArrayCodec.INSTANCE),
-                        args);
+                sync.ftDropindex(indexName, deleteDocuments);
             }
         } catch (RedisException ex) {
-            String msg = String.valueOf(ex.getMessage()).toLowerCase(Locale.ROOT);
-            if (!msg.contains("no such index") && !msg.contains("unknown index name")) {
+            if (!isMissingIndex(ex)) {
                 throw ex;
             }
         }
+    }
+
+    /**
+     * Redis Search phrases the missing-index error differently across
+     * versions ("Unknown index name", "no such index", and, from Redis
+     * 8.10, "SEARCH_INDEX_NOT_FOUND Index not found").
+     */
+    private static boolean isMissingIndex(RedisException ex) {
+        String msg = String.valueOf(ex.getMessage()).toLowerCase(Locale.ROOT);
+        return msg.contains("no such index") || msg.contains("unknown index name")
+                || msg.contains("index not found");
     }
 
     // ------------------------------------------------------------------
@@ -277,7 +287,6 @@ public final class LongTermMemory {
         doc.put("embedding", embedding);
         doc.put("created_ts", now);
         doc.put("hit_count", 0);
-        byte[] docBytes = doc.toString().getBytes(StandardCharsets.UTF_8);
 
         Long ttl = ttlSeconds != null ? ttlSeconds : ttlByKind.get(kind);
 
@@ -290,13 +299,7 @@ public final class LongTermMemory {
         TransactionResult txResult;
         synchronized (txLock) {
             sync.multi();
-            sync.dispatch(
-                    ModuleCommand.JSON_SET,
-                    new StatusOutput<>(ByteArrayCodec.INSTANCE),
-                    new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                            .add(keyBytes)
-                            .add("$")
-                            .add(docBytes));
+            sync.jsonSet(keyBytes, JsonPath.ROOT_PATH, doc.toString());
             if (ttl != null && ttl > 0) {
                 sync.expire(keyBytes, ttl);
             }
@@ -364,30 +367,27 @@ public final class LongTermMemory {
         if (limit <= 0) limit = 100;
         String filterClause = buildFilterClause(user, namespace, kind);
 
-        CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                .add(indexNameBytes)
-                .add(filterClause)
-                .add("RETURN").add(7)
-                .add("user").add("namespace").add("kind").add("source_thread")
-                .add("text").add("created_ts").add("hit_count")
-                .add("SORTBY").add("created_ts").add("DESC")
-                .add("LIMIT").add(0).add(limit)
-                .add("DIALECT").add(2);
+        SearchArgs<byte[]> args = SearchArgs.<byte[]>builder()
+                .returnField("user").returnField("namespace")
+                .returnField("kind").returnField("source_thread")
+                .returnField("text").returnField("created_ts")
+                .returnField("hit_count")
+                .sortBy(SortByArgs.builder().attribute("created_ts").descending().build())
+                .limit(0, limit)
+                .dialect(QueryDialects.DIALECT2)
+                .build();
 
         // Hold `txLock` for the whole FT.SEARCH + per-row TTL fetch
         // so this batch of commands lands together on the connection
         // and can't get tangled with another helper's MULTI/EXEC.
         synchronized (txLock) {
-            List<Object> raw;
+            SearchReply<byte[]> reply;
             try {
-                raw = sync.dispatch(
-                        ModuleCommand.FT_SEARCH,
-                        new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
-                        args);
+                reply = sync.ftSearch(indexName, filterClause, args);
             } catch (RedisException ex) {
                 return new ArrayList<>();
             }
-            List<SearchHit> hits = parseAllHits(raw);
+            List<SearchHit> hits = allHits(reply);
             List<MemoryRecord> out = new ArrayList<>(hits.size());
             for (SearchHit hit : hits) {
                 String memoryId = stripPrefix(hit.id);
@@ -427,26 +427,23 @@ public final class LongTermMemory {
         String knnQuery = filterClause + "=>[KNN " + k + " @embedding $vec AS distance]";
         byte[] vecBytes = LocalEmbedder.toBytes(embedding);
 
-        CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                .add(indexNameBytes)
-                .add(knnQuery)
-                .add("RETURN").add(8)
-                .add("user").add("namespace").add("kind").add("source_thread")
-                .add("text").add("created_ts").add("hit_count").add("distance")
-                .add("SORTBY").add("distance").add("ASC")
-                .add("LIMIT").add(0).add(k)
-                .add("PARAMS").add(2).add("vec".getBytes(StandardCharsets.UTF_8)).add(vecBytes)
-                .add("DIALECT").add(2);
+        SearchArgs<byte[]> args = SearchArgs.<byte[]>builder()
+                .param("vec", vecBytes)
+                .returnField("user").returnField("namespace")
+                .returnField("kind").returnField("source_thread")
+                .returnField("text").returnField("created_ts")
+                .returnField("hit_count").returnField("distance")
+                .sortBy(SortByArgs.builder().attribute("distance").build())
+                .limit(0, k)
+                .dialect(QueryDialects.DIALECT2)
+                .build();
 
         // Same connection-discipline as `listMemories`: hold the
         // shared lock for FT.SEARCH + the per-row TTL fetches so the
         // batch can't tangle with a MULTI/EXEC on another helper.
         synchronized (txLock) {
-            List<Object> raw = sync.dispatch(
-                    ModuleCommand.FT_SEARCH,
-                    new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
-                    args);
-            List<SearchHit> hits = parseAllHits(raw);
+            SearchReply<byte[]> reply = sync.ftSearch(indexName, knnQuery, args);
+            List<SearchHit> hits = allHits(reply);
             List<MemoryRecord> out = new ArrayList<>(hits.size());
             for (SearchHit hit : hits) {
                 // `hit.id` is the full Redis key (e.g. `agent:mem:abc123`).
@@ -471,13 +468,7 @@ public final class LongTermMemory {
             // JSON.NUMINCRBY from landing inside another helper's
             // open MULTI on the connection.
             synchronized (txLock) {
-                sync.dispatch(
-                        ModuleCommand.JSON_NUMINCRBY,
-                        new ValueOutput<>(ByteArrayCodec.INSTANCE),
-                        new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                                .add(memoryKeyBytes(memoryId))
-                                .add("$.hit_count")
-                                .add(1));
+                sync.jsonNumincrby(memoryKeyBytes(memoryId), JsonPath.of("$.hit_count"), 1);
             }
         } catch (RedisException ignored) {
             // memory expired or path not found
@@ -544,25 +535,16 @@ public final class LongTermMemory {
         }
     }
 
-    /** Parse every hit from an FT.SEARCH reply, preserving order. */
-    private static List<SearchHit> parseAllHits(List<Object> raw) {
+    /** Every hit of a typed FT.SEARCH reply, preserving order. */
+    private static List<SearchHit> allHits(SearchReply<byte[]> reply) {
         List<SearchHit> out = new ArrayList<>();
-        if (raw == null || raw.size() < 3) return out;
-        // index 0 holds the total count; entries follow as
-        // (key, fields)* pairs.
-        for (int i = 1; i + 1 < raw.size(); i += 2) {
-            String id = decode(raw.get(i));
-            Map<String, String> fields = fieldsToMap(raw.get(i + 1));
-            out.add(new SearchHit(id, fields));
-        }
-        return out;
-    }
-
-    private static Map<String, String> fieldsToMap(Object array) {
-        Map<String, String> out = new HashMap<>();
-        if (!(array instanceof List<?> list)) return out;
-        for (int i = 0; i + 1 < list.size(); i += 2) {
-            out.put(decode(list.get(i)), decode(list.get(i + 1)));
+        if (reply == null) return out;
+        for (SearchReply.SearchResult<byte[]> result : reply.getResults()) {
+            Map<String, String> fields = new HashMap<>();
+            for (Map.Entry<String, FieldValue> field : result.getFields().entrySet()) {
+                fields.put(field.getKey(), field.getValue().asString());
+            }
+            out.add(new SearchHit(decode(result.getId()), fields));
         }
         return out;
     }

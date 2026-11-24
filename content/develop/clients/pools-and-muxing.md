@@ -41,19 +41,19 @@ supports both approaches.
 When you initialize a connection pool, the client opens a small number
 of connections and adds them to the pool.
 
-![](/images/dev/connect/pool-and-mux/ConnPoolInit.drawio.svg)
+![Connection pool at startup: connections 1 to n are open to Redis and idle, and no caller is connected](/images/dev/connect/pool-and-mux/ConnPoolInit.drawio.svg)
 
 Each time you "open" a connection
 from the pool, the client returns one of these existing
 connections and notes the fact that it is in use.
 
-![](/images/dev/connect/pool-and-mux/ConnPoolInUse.drawio.svg)
+![Connection pool in use: two callers are using connections 1 and 2 to reach Redis, and a third caller is not connected](/images/dev/connect/pool-and-mux/ConnPoolInUse.drawio.svg)
 
 When you later "close"
 the connection, the client puts it back into the pool of available
 connections without actually closing it.
 
-![](/images/dev/connect/pool-and-mux/ConnPoolDiscon.drawio.svg)
+![Connection pool on disconnect: one caller still uses connection 1, another is disconnecting from connection 2, a third is not connected](/images/dev/connect/pool-and-mux/ConnPoolDiscon.drawio.svg)
 
 If all connections in the pool are in use but the app needs more, then
 the client can simply open new connections as necessary. In this way, the client
@@ -67,7 +67,7 @@ single connection open and uses it for all traffic between the
 client and the server. The "connections" returned to your code are
 used to identify where to send the response data from your commands.
 
-![](/images/dev/connect/pool-and-mux/ConnMux.drawio.svg)
+![Multiplexed connection: commands from two callers share one connection to Redis, and responses are routed back to each caller](/images/dev/connect/pool-and-mux/ConnMux.drawio.svg)
 
 Note that it is not a problem if the multiplexer receives several commands close
 together in time. When this happens, the multiplexer can often combine the commands into a

@@ -55,30 +55,61 @@
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "nredisstack_sync": [
       {
-        "signature": "latency(string $subcommand, ...$args)",
+        "signature": "LatencyLatestEntry[] LatencyLatest(CommandFlags flags = CommandFlags.None)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
+            "name": "flags",
+            "type": "CommandFlags",
             "description": ""
           }
         ],
         "returns": {
-          "type": "array",
-          "description": ""
+          "type": "LatencyLatestEntry[]",
+          "description": "An array of the latest latency history entries."
         }
       }
     ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<LatencyLatestEntry[]> LatencyLatestAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<LatencyLatestEntry[]>",
+          "description": "An array of the latest latency history entries."
+        }
+      }
+    ],
+    "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "latency(subcommand: \"LATEST\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LATEST\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

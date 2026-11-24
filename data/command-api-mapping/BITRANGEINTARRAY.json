@@ -1,0 +1,117 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bitrangeintarray(key: KeyT, start: int, end: int, mode: str | None = None, limit: int | None = None, zeros: bool = False)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "zeros",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[int]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "bitRangeIntArray(key: RedisArgument, start: number | string, end: number | string, options?: BitRangeIntArrayOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "BitRangeIntArrayOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bitrangeintarray(key, start, stop, scale: nil, limit: nil, zeros: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "scale",
+            "type": "String, Symbol",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "zeros",
+            "type": "Boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

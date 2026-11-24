@@ -1,0 +1,3349 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "IntentDataPlaneService",
+        "version": "1.0.0",
+        "description": "Intent authoring and matching API for one Router. An intent is a named classification with example phrasings and an optional dispatch target; matching returns the intents closest to a query. Intents and examples are ordered lists: they are returned in the order they were created."
+    },
+    "paths": {
+        "/iris/data/v1/intent/routers/{routerId}/clear": {
+            "post": {
+                "description": "Removes everything the scope names. With INTENTS every intent and example of the Router is deleted and the Router itself stays. The scope is required: there is no default.",
+                "operationId": "ClearRouter",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClearRouterRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "ClearRouter 204 response"
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "intents"
+                ]
+            }
+        },
+        "/iris/data/v1/intent/routers/{routerId}/health": {
+            "get": {
+                "description": "Reports why a Router can or cannot serve: its state, the generation the data plane has applied and the stores it depends on.",
+                "operationId": "GetRouterHealth",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetRouterHealth 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetRouterHealthResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "health"
+                ]
+            }
+        },
+        "/iris/data/v1/intent/routers/{routerId}/intents": {
+            "get": {
+                "description": "Lists intents with their configuration and example counts, in the order they were created.",
+                "operationId": "ListIntents",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Page size of a list. Defaults to 50 where a service does not say otherwise. A list may\ndocument a smaller maximum, never a larger one.",
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 200,
+                            "minimum": 1,
+                            "description": "Page size of a list. Defaults to 50 where a service does not say otherwise. A list may\ndocument a smaller maximum, never a larger one.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "cursor",
+                        "in": "query",
+                        "description": "Opaque position in a list, returned as `nextCursor` and passed back as `cursor`.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 1024,
+                            "minLength": 1,
+                            "description": "Opaque position in a list, returned as `nextCursor` and passed back as `cursor`."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListIntents 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListIntentsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "intents"
+                ]
+            },
+            "post": {
+                "description": "Adds several intents in the order given, after the ones the Router already has. An intent whose name already exists is replaced in its place; every other intent is left alone. Nothing is written if any intent is invalid.",
+                "operationId": "AddIntents",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddIntentsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "AddIntents 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddIntentsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "intents"
+                ]
+            }
+        },
+        "/iris/data/v1/intent/routers/{routerId}/intents/{intentName}": {
+            "delete": {
+                "description": "Deletes one intent and its examples. Deleting a missing intent succeeds.",
+                "operationId": "DeleteIntent",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "intentName",
+                        "in": "path",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                            "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "DeleteIntent 204 response"
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "intents"
+                ]
+            },
+            "get": {
+                "description": "Returns one intent. Its examples are listed from the examples sub-resource.",
+                "operationId": "GetIntent",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "intentName",
+                        "in": "path",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                            "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetIntent 200 response",
+                        "headers": {
+                            "ETag": {
+                                "description": "The intent's revision, quoted. Send it back as If-Match.",
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The intent's revision, quoted. Send it back as If-Match."
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetIntentResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "intents"
+                ]
+            },
+            "patch": {
+                "description": "Changes an intent's description, target, minScore or metadata as a merge patch, without touching or re-embedding its examples. An omitted member is unchanged and a null member is cleared; a given metadata map replaces the whole map.",
+                "operationId": "UpdateIntent",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateIntentRequestContent"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "intentName",
+                        "in": "path",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                            "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "If-Match",
+                        "in": "header",
+                        "description": "The intent's ETag (its revision, quoted). Same meaning as expectedRevision; if both are sent they must agree.",
+                        "schema": {
+                            "type": "string",
+                            "description": "The intent's ETag (its revision, quoted). Same meaning as expectedRevision; if both are sent they must agree."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateIntent 200 response",
+                        "headers": {
+                            "ETag": {
+                                "description": "The intent's revision after the update, quoted.",
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The intent's revision after the update, quoted."
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateIntentResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "412": {
+                        "description": "PreconditionFailedError 412 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "intents"
+                ]
+            },
+            "put": {
+                "description": "Creates or replaces one intent. Idempotent: the same request twice yields the same state. 201 when the intent is new, 200 when it replaced one, which keeps its place in the list. Existing phrasings absent from the request are removed after the new ones are written, so a concurrent match never sees an empty intent. Send `If-None-Match: *` to create only: if the intent already exists the request is refused with 412 and nothing is written, and the check is atomic with the write, so of several concurrent creates exactly one succeeds.",
+                "operationId": "UpsertIntent",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpsertIntentRequestContent"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "intentName",
+                        "in": "path",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                            "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "If-Match",
+                        "in": "header",
+                        "description": "The intent's ETag (its revision, quoted). Same meaning as expectedRevision; if both are sent they must agree.",
+                        "schema": {
+                            "type": "string",
+                            "description": "The intent's ETag (its revision, quoted). Same meaning as expectedRevision; if both are sent they must agree."
+                        }
+                    },
+                    {
+                        "name": "If-None-Match",
+                        "in": "header",
+                        "description": "`*` makes the write create-only: it is refused with 412 if the intent already exists. Any other value is a 400, and it cannot be combined with If-Match or expectedRevision.",
+                        "schema": {
+                            "type": "string",
+                            "description": "`*` makes the write create-only: it is refused with 412 if the intent already exists. Any other value is a 400, and it cannot be combined with If-Match or expectedRevision."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpsertIntent 200 response",
+                        "headers": {
+                            "ETag": {
+                                "description": "The intent's revision after the write, quoted. Send it back as If-Match.",
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The intent's revision after the write, quoted. Send it back as If-Match."
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpsertIntentResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "412": {
+                        "description": "PreconditionFailedError 412 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "UpsertIntent 201 response: the intent is new",
+                        "headers": {
+                            "ETag": {
+                                "description": "The intent's revision after the write, quoted. Send it back as If-Match.",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpsertIntentResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "intents"
+                ]
+            }
+        },
+        "/iris/data/v1/intent/routers/{routerId}/intents/{intentName}/examples": {
+            "get": {
+                "description": "Lists an intent's examples in the order they were written.",
+                "operationId": "ListExamples",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "intentName",
+                        "in": "path",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                            "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Page size of a list. Defaults to 50 where a service does not say otherwise. A list may\ndocument a smaller maximum, never a larger one.",
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 200,
+                            "minimum": 1,
+                            "description": "Page size of a list. Defaults to 50 where a service does not say otherwise. A list may\ndocument a smaller maximum, never a larger one.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "cursor",
+                        "in": "query",
+                        "description": "Opaque position in a list, returned as `nextCursor` and passed back as `cursor`.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 1024,
+                            "minLength": 1,
+                            "description": "Opaque position in a list, returned as `nextCursor` and passed back as `cursor`."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListExamples 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListExamplesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "examples"
+                ]
+            },
+            "post": {
+                "description": "Adds example phrasings to an existing intent, after the ones it already has. Repeating a phrasing is harmless: it keeps its place and is not embedded again.",
+                "operationId": "AddExamples",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddExamplesRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "intentName",
+                        "in": "path",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                            "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "AddExamples 201 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddExamplesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "examples"
+                ]
+            }
+        },
+        "/iris/data/v1/intent/routers/{routerId}/intents/{intentName}/examples/{exampleId}": {
+            "delete": {
+                "description": "Deletes one example. Deleting a missing example succeeds.",
+                "operationId": "DeleteExample",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "intentName",
+                        "in": "path",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                            "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "exampleId",
+                        "in": "path",
+                        "description": "Identifier of one example phrasing within an intent. A type prefix and a content hash, so adding the same phrasing twice is harmless.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^exm_[0-9a-f]{32}$",
+                            "description": "Identifier of one example phrasing within an intent. A type prefix and a content hash, so adding the same phrasing twice is harmless."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "DeleteExample 204 response"
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "examples"
+                ]
+            },
+            "get": {
+                "description": "Returns one example. An identifier from another intent is not found.",
+                "operationId": "GetExample",
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "intentName",
+                        "in": "path",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                            "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "exampleId",
+                        "in": "path",
+                        "description": "Identifier of one example phrasing within an intent. A type prefix and a content hash, so adding the same phrasing twice is harmless.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^exm_[0-9a-f]{32}$",
+                            "description": "Identifier of one example phrasing within an intent. A type prefix and a content hash, so adding the same phrasing twice is harmless."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetExample 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetExampleResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "examples"
+                ]
+            }
+        },
+        "/iris/data/v1/intent/routers/{routerId}/match": {
+            "post": {
+                "description": "Returns the intents closest to the query, best first. No match is a 200 with an empty list.",
+                "operationId": "MatchIntents",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MatchIntentsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "routerId",
+                        "in": "path",
+                        "description": "Opaque Router identifier.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^rtr_[0-9a-f]{32}$",
+                            "description": "Opaque Router identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "MatchIntents 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MatchIntentsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "IntentBadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentBadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "IntentConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "RouterSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RouterSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "IntentFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "IntentServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before retrying.",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Seconds to wait before retrying.",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IntentServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "match"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AddExamplesRequestContent": {
+                "type": "object",
+                "properties": {
+                    "examples": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 2048,
+                            "minLength": 1
+                        },
+                        "maxItems": 256,
+                        "minItems": 1
+                    }
+                },
+                "required": [
+                    "examples"
+                ]
+            },
+            "AddExamplesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Example"
+                        }
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "AddIntentsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "intents": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/IntentDefinition"
+                        },
+                        "maxItems": 100,
+                        "minItems": 1
+                    }
+                },
+                "required": [
+                    "intents"
+                ]
+            },
+            "AddIntentsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Intent"
+                        }
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "AuthenticationErrorResponseContent": {
+                "type": "object",
+                "description": "Authentication credentials are missing, malformed, or invalid.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 401,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/AuthenticationErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "AuthenticationErrorType": {
+                "type": "string",
+                "description": "Problem type URI for authentication errors.",
+                "enum": [
+                    "/errors/authentication-failed"
+                ]
+            },
+            "ClearRouterRequestContent": {
+                "type": "object",
+                "properties": {
+                    "scope": {
+                        "$ref": "#/components/schemas/ClearScope"
+                    }
+                },
+                "required": [
+                    "scope"
+                ]
+            },
+            "ClearScope": {
+                "type": "string",
+                "description": "What a clear removes. INTENTS removes every intent and example of the Router and keeps the Router.",
+                "enum": [
+                    "INTENTS"
+                ]
+            },
+            "Example": {
+                "type": "object",
+                "description": "One example phrasing of an intent.",
+                "properties": {
+                    "exampleId": {
+                        "type": "string",
+                        "pattern": "^exm_[0-9a-f]{32}$",
+                        "description": "Identifier of one example phrasing within an intent. A type prefix and a content hash, so adding the same phrasing twice is harmless."
+                    },
+                    "intentName": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                    },
+                    "text": {
+                        "type": "string",
+                        "maxLength": 2048,
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "exampleId",
+                    "intentName",
+                    "text"
+                ]
+            },
+            "FieldError": {
+                "type": "object",
+                "description": "One invalid request member. A body member is named by `pointer`, a path or query parameter by `parameter`; exactly one of the two is present.",
+                "properties": {
+                    "pointer": {
+                        "type": "string",
+                        "description": "JSON Pointer (RFC 6901) to the invalid body member, such as `/vectorSpace/dimensions`."
+                    },
+                    "parameter": {
+                        "type": "string",
+                        "description": "Name of the invalid path or query parameter, such as `limit`."
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "What is wrong with the member, in fixed words about the rule it broke, never the rejected value."
+                    }
+                },
+                "required": [
+                    "detail"
+                ]
+            },
+            "ForbiddenErrorResponseContent": {
+                "type": "object",
+                "description": "The caller is authenticated but not allowed to access the requested resource.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 403,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ForbiddenErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ForbiddenErrorType": {
+                "type": "string",
+                "description": "Problem type URI for authorization errors.",
+                "enum": [
+                    "/errors/insufficient-permissions"
+                ]
+            },
+            "GetExampleResponseContent": {
+                "type": "object",
+                "description": "One example phrasing of an intent.",
+                "properties": {
+                    "exampleId": {
+                        "type": "string",
+                        "pattern": "^exm_[0-9a-f]{32}$",
+                        "description": "Identifier of one example phrasing within an intent. A type prefix and a content hash, so adding the same phrasing twice is harmless."
+                    },
+                    "intentName": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                    },
+                    "text": {
+                        "type": "string",
+                        "maxLength": 2048,
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "exampleId",
+                    "intentName",
+                    "text"
+                ]
+            },
+            "GetIntentResponseContent": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "When this intent should win, in the author's words."
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/Target"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score for this intent to match; higher is stricter. Absent defers to the Router's minScore.",
+                        "format": "double"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/IntentMetadata"
+                    },
+                    "exampleCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Changes with every write to the intent's own configuration (not when examples are added or removed). Send it back as expectedRevision to make a write conditional."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "exampleCount",
+                    "name",
+                    "revision",
+                    "updatedAt"
+                ]
+            },
+            "GetRouterHealthResponseContent": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "checks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/HealthCheck"
+                        }
+                    }
+                },
+                "required": [
+                    "checks",
+                    "ok"
+                ]
+            },
+            "HealthCheck": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "ok"
+                ]
+            },
+            "Intent": {
+                "type": "object",
+                "description": "An intent's configuration and bookkeeping.",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "When this intent should win, in the author's words."
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/Target"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score for this intent to match; higher is stricter. Absent defers to the Router's minScore.",
+                        "format": "double"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/IntentMetadata"
+                    },
+                    "exampleCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Changes with every write to the intent's own configuration (not when examples are added or removed). Send it back as expectedRevision to make a write conditional."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "exampleCount",
+                    "name",
+                    "revision",
+                    "updatedAt"
+                ]
+            },
+            "IntentBadRequestErrorResponseContent": {
+                "type": "object",
+                "description": "The request is invalid.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 400,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/IntentBadRequestErrorType"
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FieldError"
+                        },
+                        "description": "Each request member that broke a rule, and the rule. Present for validation failures."
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "IntentBadRequestErrorType": {
+                "type": "string",
+                "description": "Problem type URIs of a 400 response.",
+                "enum": [
+                    "/errors/invalid-data",
+                    "/errors/invalid-cursor"
+                ]
+            },
+            "IntentConflictErrorResponseContent": {
+                "type": "object",
+                "description": "The request conflicts with the state of the Router.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 409,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/IntentConflictErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "IntentConflictErrorType": {
+                "type": "string",
+                "description": "Problem type URIs of a 409 response.",
+                "enum": [
+                    "/errors/router-not-serving",
+                    "/errors/intent-limit-exceeded"
+                ]
+            },
+            "IntentDefinition": {
+                "type": "object",
+                "description": "A full intent definition keyed by name.",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "Free-text description of any API resource. May be empty."
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/Target"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "A relevance score in [0, 1]. Higher is closer, and every threshold in the API\n(`minScore`) points the same way: higher is stricter.",
+                        "format": "double"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/IntentMetadata"
+                    },
+                    "examples": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 2048,
+                            "minLength": 1
+                        },
+                        "maxItems": 256,
+                        "description": "Example phrasings, kept in the order given. May be empty: an intent without examples never matches."
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "IntentFailedDependencyErrorResponseContent": {
+                "type": "object",
+                "description": "A system the request depends on failed in a way that retrying the same request will not fix by itself.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 424,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/IntentFailedDependencyErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "IntentFailedDependencyErrorType": {
+                "type": "string",
+                "description": "Problem type URIs of a 424 response.",
+                "enum": [
+                    "/errors/dependency-unavailable",
+                    "/errors/database-out-of-memory"
+                ]
+            },
+            "IntentMetadata": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "string",
+                    "maxLength": 512
+                },
+                "maxProperties": 32,
+                "description": "Optional descriptive labels (owner, tags). Dispatch data belongs in the target; the keys type, ref, target and args are rejected."
+            },
+            "IntentServiceUnavailableErrorResponseContent": {
+                "type": "object",
+                "description": "The service cannot answer right now; retrying later is expected to work.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 503,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/IntentServiceUnavailableErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "IntentServiceUnavailableErrorType": {
+                "type": "string",
+                "description": "Problem type URIs of a 503 response.",
+                "enum": [
+                    "/errors/service-unavailable",
+                    "/errors/resource-unavailable"
+                ]
+            },
+            "ListExamplesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Example"
+                        }
+                    },
+                    "nextCursor": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Present when more examples follow; pass it back as cursor."
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "ListIntentsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Intent"
+                        }
+                    },
+                    "nextCursor": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Present when more intents follow; pass it back as cursor."
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "MatchIntentsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "maxLength": 2048,
+                        "minLength": 1,
+                        "description": "The text to classify."
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Most intents to return. Defaults to the deployment default; a value above the deployment cap is rejected, never clamped.",
+                        "format": "int32"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score for every returned intent, overriding each intent's own and the Router's minScore.",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            },
+            "MatchIntentsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MatchItem"
+                        }
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
+            "MatchItem": {
+                "type": "object",
+                "description": "One intent that matched a query, with its score.",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "Free-text description of any API resource. May be empty."
+                    },
+                    "score": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Score in [0, 1] from the configured scoring strategy; higher is closer.",
+                        "format": "double"
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/Target"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/IntentMetadata"
+                    }
+                },
+                "required": [
+                    "name",
+                    "score"
+                ]
+            },
+            "NotFoundErrorResponseContent": {
+                "type": "object",
+                "description": "The requested resource does not exist.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 404,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/NotFoundErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "NotFoundErrorType": {
+                "type": "string",
+                "description": "Problem type URI for not-found errors.",
+                "enum": [
+                    "/errors/resource-not-found",
+                    "/errors/gateway-not-found",
+                    "/errors/upstream-not-found"
+                ]
+            },
+            "PreconditionFailedErrorResponseContent": {
+                "type": "object",
+                "description": "The write named an expected revision (expectedRevision or If-Match) that is no longer current. Read the resource again and retry.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 412,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/PreconditionFailedErrorType"
+                    },
+                    "currentRevision": {
+                        "type": "string",
+                        "description": "The resource's current revision, when the service reports it. Read the resource again before retrying; do not send this value back without reading."
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "PreconditionFailedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for a write whose expected revision is no longer current. A write guarded by an If-Match header on an HTTP entity tag uses a different type; see the Identity Service API.",
+                "enum": [
+                    "/errors/revision-conflict"
+                ]
+            },
+            "RouterSuspendedErrorResponseContent": {
+                "type": "object",
+                "description": "The Router is suspended by an administrator and does not serve requests until it is resumed.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 423,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/RouterSuspendedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "RouterSuspendedErrorType": {
+                "type": "string",
+                "description": "Problem type URI of a 423 response.",
+                "enum": [
+                    "/errors/router-suspended"
+                ]
+            },
+            "Target": {
+                "type": "object",
+                "description": "What a matched intent dispatches to. The router knows how an intent is dispatched, never what it does.",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1,
+                        "description": "Dispatch mechanism, for example tool, pipeline, handler, prompt or agent. The set is open: any identifier without whitespace."
+                    },
+                    "ref": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "Identifier of the callee within the type's namespace."
+                    },
+                    "args": {
+                        "$ref": "#/components/schemas/TargetArgs"
+                    }
+                },
+                "required": [
+                    "ref",
+                    "type"
+                ]
+            },
+            "TargetArgs": {
+                "type": "object",
+                "additionalProperties": {},
+                "maxProperties": 32,
+                "description": "Opaque dispatch arguments, a JSON object. The router checks they are well-formed JSON and passes them through untouched."
+            },
+            "TimeoutErrorResponseContent": {
+                "type": "object",
+                "description": "The request timed out before the service could complete it.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 408,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TimeoutErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "TimeoutErrorType": {
+                "type": "string",
+                "description": "Problem type URI for timeout errors.",
+                "enum": [
+                    "/errors/timeout"
+                ]
+            },
+            "UnexpectedErrorResponseContent": {
+                "type": "object",
+                "description": "The service failed with an unexpected internal error.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 500,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/UnexpectedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "UnexpectedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for unexpected internal errors.",
+                "enum": [
+                    "/errors/unexpected-error",
+                    "/errors/content-integrity-failed"
+                ]
+            },
+            "UpdateIntentRequestContent": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "Free-text description of any API resource. May be empty.",
+                        "nullable": true
+                    },
+                    "target": {
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Target"
+                            }
+                        ]
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "A relevance score in [0, 1]. Higher is closer, and every threshold in the API\n(`minScore`) points the same way: higher is stricter.",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "metadata": {
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/IntentMetadata"
+                            }
+                        ]
+                    },
+                    "expectedRevision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Makes the write conditional: it is refused with 412 unless this is still the intent's revision. Omit it to write unconditionally."
+                    }
+                },
+                "minProperties": 1
+            },
+            "UpdateIntentResponseContent": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "When this intent should win, in the author's words."
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/Target"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score for this intent to match; higher is stricter. Absent defers to the Router's minScore.",
+                        "format": "double"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/IntentMetadata"
+                    },
+                    "exampleCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Changes with every write to the intent's own configuration (not when examples are added or removed). Send it back as expectedRevision to make a write conditional."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "exampleCount",
+                    "name",
+                    "revision",
+                    "updatedAt"
+                ]
+            },
+            "UpsertIntentRequestContent": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "Free-text description of any API resource. May be empty."
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/Target"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Absent defers to the Router's minScore.",
+                        "format": "double"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/IntentMetadata"
+                    },
+                    "examples": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 2048,
+                            "minLength": 1
+                        },
+                        "maxItems": 256,
+                        "description": "Example phrasings, kept in the order given. May be empty: an intent without examples never matches."
+                    },
+                    "expectedRevision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Makes the write conditional: it is refused with 412 unless this is still the intent's revision. Omit it to write unconditionally."
+                    }
+                }
+            },
+            "UpsertIntentResponseContent": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                        "description": "Name of an intent: letters, digits, '.', '_' and '-', starting with a letter or digit."
+                    },
+                    "description": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 0,
+                        "description": "When this intent should win, in the author's words."
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/Target"
+                    },
+                    "minScore": {
+                        "type": "number",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Minimum score for this intent to match; higher is stricter. Absent defers to the Router's minScore.",
+                        "format": "double"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/IntentMetadata"
+                    },
+                    "exampleCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "RFC 3339 timestamp in UTC, resolved to microseconds.",
+                        "format": "date-time"
+                    },
+                    "revision": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "description": "Changes with every write to the intent's own configuration (not when examples are added or removed). Send it back as expectedRevision to make a write conditional."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "exampleCount",
+                    "name",
+                    "revision",
+                    "updatedAt"
+                ]
+            }
+        },
+        "securitySchemes": {
+            "smithy.api.httpBearerAuth": {
+                "type": "http",
+                "description": "HTTP Bearer authentication",
+                "scheme": "Bearer"
+            }
+        }
+    },
+    "security": [
+        {
+            "smithy.api.httpBearerAuth": []
+        }
+    ]
+}

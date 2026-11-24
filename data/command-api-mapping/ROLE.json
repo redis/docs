@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ROLE()",
+        "signature": "role()",
         "params": [],
         "returns": {
           "type": "RoleReply",
@@ -82,8 +82,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "Role Role(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Role",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<Role> RoleAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Role>",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "role()",
@@ -95,6 +125,22 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "role(callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

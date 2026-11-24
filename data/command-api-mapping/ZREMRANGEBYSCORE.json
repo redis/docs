@@ -364,7 +364,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZREMRANGEBYSCORE(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number)",
+        "signature": "zRemRangeByScore(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number)",
         "params": [
           {
             "name": "key",
@@ -383,7 +383,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -414,7 +414,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -505,45 +505,11 @@
           "type": "long",
           "description": "The number of elements removed."
         }
-      },
-      {
-        "signature": "SortedSetRemoveRangeByScore(RedisKey key, double start, double stop, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "double",
-            "description": "The minimum score to remove."
-          },
-          {
-            "name": "stop",
-            "type": "double",
-            "description": "The maximum score to remove."
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": "Which of start and stop to exclude (defaults to both inclusive)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements removed."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRemoveRangeByScore(RedisKey key, double start, double stop, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRemoveRangeByScoreAsync(RedisKey key, double start, double stop, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -572,41 +538,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of elements removed."
-        }
-      },
-      {
-        "signature": "SortedSetRemoveRangeByScore(RedisKey key, double start, double stop, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "double",
-            "description": "The minimum score to remove."
-          },
-          {
-            "name": "stop",
-            "type": "double",
-            "description": "The maximum score to remove."
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": "Which of start and stop to exclude (defaults to both inclusive)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements removed."
         }
       }

@@ -22,7 +22,7 @@ Remember we have two member Active-Active databases that are available for conne
 concurrent reads and writes. The member Active-Active databases are using bi-directional
 replication to for the global Active-Active database.
 
-![](/images/rs/crdb-diagram.png)
+![Active-Active test setup: cluster1.local and cluster2.local in a Docker bridge network, reached with redis-cli on ports 12000 and 12002](/images/rs/crdb-diagram.png)
 
 ### Connecting using redis-cli {#connecting-using-rediscli}
 

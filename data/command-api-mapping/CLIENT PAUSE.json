@@ -63,7 +63,27 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientPause(timeout: number, mode?: 'WRITE' | 'ALL')",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "'WRITE' | 'ALL'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clientPause(long timeout)",
@@ -114,28 +134,108 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "client(subcommand: \"PAUSE\", timeout: number | string, callback?: Callback<\"OK\">)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"PAUSE\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client(subcommand: \"PAUSE\", timeout: number | string, write: \"WRITE\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"PAUSE\"",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "write",
+            "type": "\"WRITE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client(subcommand: \"PAUSE\", timeout: number | string, all: \"ALL\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"PAUSE\"",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "all",
+            "type": "\"ALL\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
           "description": ""
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rb": [
+      {
+        "signature": "client(:pause, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Hash",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }

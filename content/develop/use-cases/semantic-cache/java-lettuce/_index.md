@@ -56,20 +56,15 @@ The `RedisSemanticCache` class wraps the Redis Search index and the lookup / wri
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-lettuce/src/main/java/com/redis/semcache/RedisSemanticCache.java)):
 
 ```java
-import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.ByteArrayCodec;
-import io.lettuce.core.protocol.ProtocolVersion;
 import com.redis.semcache.RedisSemanticCache;
 import com.redis.semcache.LocalEmbedder;
 import com.redis.semcache.LookupResult;
 import com.redis.semcache.CacheHit;
 
 RedisClient client = RedisClient.create("redis://localhost:6379");
-client.setOptions(ClientOptions.builder()
-        .protocolVersion(ProtocolVersion.RESP2)
-        .build());
 StatefulRedisConnection<byte[], byte[]> connection =
         client.connect(ByteArrayCodec.INSTANCE);
 
@@ -120,7 +115,7 @@ if (result instanceof CacheHit hit) {
 }
 ```
 
-The connection uses Lettuce's `ByteArrayCodec` so the binary float-32 bytes of the embedding can share an `HSET` mapping with the UTF-8 text fields without a second connection. RESP2 is pinned explicitly: Lettuce 6.7 negotiates RESP3 by default, which returns the [`FT.SEARCH`](/content/commands/ft.search.md) reply as a map keyed by `results` / `total_results` instead of the flat alternating list the demo's parser expects, and pinning RESP2 keeps the wire format identical to what the Python, Node, and Jedis ports speak.
+The connection uses Lettuce's `ByteArrayCodec` so the binary float-32 bytes of the embedding can share an `HSET` mapping with the UTF-8 text fields without a second connection.
 
 ### Data model
 
@@ -158,29 +153,31 @@ FT.CREATE semcache:idx
 
 ### The query
 
-The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `=>[KNN 1 @embedding $vec]`. With `DIALECT 2`, Redis applies the filter first and KNN-ranks only the matching documents. Lettuce 6.7 doesn't yet ship first-class [`FT.SEARCH`](/content/commands/ft.search.md) bindings, so the helper sends the command through `RedisCommands.dispatch()` with a custom `ProtocolKeyword` — the same machinery Lettuce uses internally for any command it does support natively, just spelled out by the caller. The wire bytes are identical to typing the command in `redis-cli`:
+The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `=>[KNN 1 @embedding $vec]`. With `DIALECT 2`, Redis applies the filter first and KNN-ranks only the matching documents. Lettuce has a typed [`FT.SEARCH`](/content/commands/ft.search.md) method, `ftSearch`, so the helper builds the query with `SearchArgs` and sends it on the same `byte[]` connection. The binary `$vec` parameter goes through `SearchArgs.Builder.param(...)`:
 
 ```java
-CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-        .add(indexNameBytes)
-        .add("(@tenant:{acme} @locale:{en} @model_version:{gpt\\-4\\.5\\-2026} @safety:{ok})"
-                + "=>[KNN 1 @embedding $vec AS distance]")
-        .add("RETURN").add(7)
-        .add("prompt").add("response").add("tenant").add("locale")
-        .add("model_version").add("hit_count").add("distance")
-        .add("SORTBY").add("distance").add("ASC")
-        .add("LIMIT").add(0).add(1)
-        .add("PARAMS").add(2).add("vec".getBytes()).add(LocalEmbedder.toBytes(queryVec))
-        .add("DIALECT").add(2);
+SearchArgs<byte[]> args = SearchArgs.<byte[]>builder()
+        .param("vec", LocalEmbedder.toBytes(queryVec))
+        .returnField("prompt").returnField("response")
+        .returnField("tenant").returnField("locale")
+        .returnField("model_version").returnField("hit_count")
+        .returnField("distance")
+        .sortBy(SortByArgs.builder().attribute("distance").build())
+        .limit(0, 1)
+        .dialect(QueryDialects.DIALECT2)
+        .build();
 
-List<Object> raw = sync.dispatch(
-        FtCommand.FT_SEARCH,
-        new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
+SearchReply<byte[]> reply = sync.ftSearch(
+        "semcache:idx",
+        "(@tenant:{acme} @locale:{en} @model_version:{gpt\\-4\\.5\\-2026} @safety:{ok})"
+                + "=>[KNN 1 @embedding $vec AS distance]",
         args
 );
 ```
 
 `distance` is the cosine *distance* (0 means identical, 2 means opposite). The result is sorted ascending, so the top row is the closest candidate. The application inspects `distance` against the threshold and decides hit or miss in user code — Redis returns the row either way, and treating it as a hit or a miss is a policy decision the cache helper owns, not a server-side filter.
+
+The index itself is created with the typed `ftCreate` method and `dropIndex` uses `ftDropindex`. `FT.INFO` is the one Redis Search command Lettuce has no typed method for, so the helper's `indexInfo()` sends it with `dispatch()` and a custom `ProtocolKeyword`.
 
 ## The mock LLM
 

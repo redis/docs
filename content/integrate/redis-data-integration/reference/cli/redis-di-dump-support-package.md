@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-dump-support-package/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-dump-support-package/
 ---
 
 Dumps a comprehensive set of RDI forensics data that you can send to Redis support (see

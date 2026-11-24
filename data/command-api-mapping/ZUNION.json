@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zunion(, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "signature": "zunion(keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]], aggregate: Optional[str] = None, withscores: bool = False, score_cast_func: Union[type, Callable] = float)",
         "params": [
           {
             "name": "keys",
@@ -180,7 +180,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZUNION(keys: ZKeys, options?: ZUnionOptions)",
+        "signature": "zUnion(keys: ZKeys, options?: ZUnionOptions)",
         "params": [
           {
             "name": "keys",
@@ -194,37 +194,57 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "zunion(...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<string[]>, ])",
+        "signature": "zunion(...args: [ numkeys: number | string, ...keys: RedisKey[], callback: Callback<string[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "zunion(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<string[]>, ])",
+        "signature": "zunion(...args: [ numkeys: number | string, keys: RedisKey[], callback: Callback<string[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -232,13 +252,18 @@
         "signature": "zunion(...args: [numkeys: number | string, ...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -246,27 +271,47 @@
         "signature": "zunion(...args: [numkeys: number | string, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "zunion(...args: [, numkeys: number | string, ...keys: RedisKey[], withscores: \"WITHSCORES\", callback: Callback<string[]>, ])",
+        "signature": "zunion(...args: [ numkeys: number | string, ...keys: RedisKey[], withscores: \"WITHSCORES\", callback: Callback<string[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "\"WITHSCORES\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -305,45 +350,11 @@
           "type": "RedisValue[]",
           "description": "The resulting sorted set."
         }
-      },
-      {
-        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "weights",
-            "type": "double[]?",
-            "description": "The optional weights per set that correspond to keys."
-          },
-          {
-            "name": "aggregate",
-            "type": "Aggregate",
-            "description": "The aggregation method (defaults to Sum)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "The resulting sorted set."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetCombineAsync(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "operation",
@@ -372,41 +383,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
-          "description": "The resulting sorted set."
-        }
-      },
-      {
-        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "operation",
-            "type": "SetOperation",
-            "description": "The operation to perform."
-          },
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "weights",
-            "type": "double[]?",
-            "description": "The optional weights per set that correspond to keys."
-          },
-          {
-            "name": "aggregate",
-            "type": "Aggregate",
-            "description": "The aggregation method (defaults to Sum)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "The resulting sorted set."
         }
       }
@@ -421,18 +398,18 @@
             "description": ""
           },
           {
-            "name": "int[] $weights = []",
-            "type": "Any",
+            "name": "$weights",
+            "type": "int[]",
             "description": ""
           },
           {
-            "name": "string $aggregate = 'sum'",
-            "type": "Any",
+            "name": "$aggregate",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "bool $withScores = false",
-            "type": "Any",
+            "name": "$withScores",
+            "type": "bool",
             "description": ""
           }
         ],

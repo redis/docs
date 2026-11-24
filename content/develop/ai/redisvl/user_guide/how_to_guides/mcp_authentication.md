@@ -19,7 +19,7 @@ between what RedisVL enforces and what belongs in a gateway or policy layer.
 > Authentication is a separate concern from **transport security** (Host/Origin
 > validation), which is always on for the HTTP transports and defends against DNS
 > rebinding independently of auth. See
-> [Transport Security](mcp.md#transport-security-host-origin-validation). Both
+> [Transport Security](mcp.md#transport-security-host--origin-validation). Both
 > layers apply together: auth decides *who* may call; the Host/Origin guard
 > rejects requests whose claimed authority is not allowlisted.
 

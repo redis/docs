@@ -194,7 +194,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANDMEMBER(key: RedisArgument)",
+        "signature": "zRandMember(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -203,7 +203,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }
@@ -224,7 +224,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -248,7 +248,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -277,7 +277,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -381,30 +381,11 @@
           "type": "RedisValue",
           "description": ""
         }
-      },
-      {
-        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "does not exist.</returns> <remarks></remarks>"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": ""
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRandomMemberAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -418,26 +399,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
-          "description": ""
-        }
-      },
-      {
-        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "does not exist.</returns> <remarks></remarks>"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": ""
         }
       }
@@ -452,13 +414,13 @@
             "description": ""
           },
           {
-            "name": "int $count = 1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $withScores = false",
-            "type": "Any",
+            "name": "$withScores",
+            "type": "bool",
             "description": ""
           }
         ],

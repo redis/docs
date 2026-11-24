@@ -16,7 +16,7 @@ aliases:
 Self-managed Redis Agent Memory uses separate authentication models for the Control
 Plane and Data Plane.
 
-The Control Plane uses an admin token for management endpoints. The Data Plane checks each agent
+The Control Plane uses an admin token for management endpoints by default. It also accepts operator tokens when OpenID Connect (OIDC) authentication is configured. The Data Plane checks each agent
 key with the Identity Service, using the Data Plane service credential, and enforces store-level
 grants.
 
@@ -24,20 +24,19 @@ grants.
 
 | Credential | Who presents it to whom | Secret / key | Auto-generated? | What it unlocks |
 | --- | --- | --- | --- | --- |
-| Control Plane admin token | Operator → Control Plane (`:9100`) | `redis-agent-memory-controlplane-admin-token` / `token` | Yes (`controlplane.adminToken.autoGenerate`) | Store management: `/v1/stores`, `/v1/detectors` |
-| Control Plane internal token | Identity Service → Control Plane | `memory-internal-token` / `token` in the walkthrough | You provision it for both releases | Checking that the store in a grant exists. Set `controlplane.internalToken.existingSecret` on Memory and `productValidation.products.memory.credential.existingSecret` on Identity Service. |
-| Identity Service control token | Operator → Identity Service (`:9200`) | `ids-control-token` / `token` in the walkthrough | Supplied through `control.existingSecret` on Identity Service; that chart can also generate one | Creating, listing, updating, rotating and revoking agent keys |
-| Data Plane service credential | Data Plane → Identity Service | `memory-dp-credential` / `token` in the walkthrough | You provision it for both releases | Checking agent keys for `memory`. Set `identityService.credential.existingSecret` on Memory and register it in `runtime.serviceCredentials[]` on Identity Service. |
+| Control Plane admin token | Operator → Control Plane (`:9100`) | `iris-memory-admin-token` / `token` | Yes, by the suite | Store and extractor management through the `/iris/v1/agent-memory` admin API |
+| Control Plane internal token | Identity Service → Control Plane | `iris-memory-internal-token` / `memory` | Yes, by the suite | Checking that the store in a grant exists |
+| Identity Service control token | Operator → Identity Service (`:9200`) | `iris-identity-service-control-token` / `token` | Yes, by the suite | Creating, listing, updating, rotating and revoking agent keys |
+| Data Plane service credential | Data Plane → Identity Service | `iris-memory-dataplane-credential` / `memory-dp` | Yes, by the suite | Checking agent keys for `memory` |
 | Agent key | Application → Data Plane (`:9000`) | None; returned once when minted or rotated | No | The Data Plane operations its grants allow |
 
-Generated token Secrets are retained across upgrades and uninstalls (`helm.sh/resource-policy: keep`).
-Use existing Secrets for shared credentials and for reproducible deployment automation.
-Secret names and keys must agree between releases. See
+The suite keeps generated Secrets across upgrades, rollbacks, and uninstalls. To supply your own,
+see [Credentials](/content/operate/iris/self-managed/_index.md#credentials). To rotate them, see
 [Secret rotation](/content/operate/iris/agent-memory/self-managed/operations.md#secret-rotation).
 
 ## Control Plane admin token
 
-Control Plane management endpoints require:
+With the default configuration, Control Plane management endpoints require:
 
 ```http
 Authorization: Bearer <admin-token>
@@ -59,14 +58,14 @@ does not require a Control Plane redeploy.
 
 ## Data Plane auth modes
 
-The Data Plane defaults to agent-key authentication whenever no auth method is set.
+The Data Plane defaults to agent-key authentication only when the configuration sets no auth method. It also must enable no other auth provider, such as OIDC or worker identity. Set `auth.method: agent_key` explicitly, so that the security posture is visible in review.
 
 ### Agent-key authentication
 
 The [`deploy` walkthrough](/content/operate/iris/agent-memory/self-managed/deploy.md) uses agent-key
-authentication from the start. In the chart-rendered configuration, the chart writes the agent-key
-introspection settings from `dataplane.identityServiceBaseURL` and `identityService.credential`.
-These must point to the standalone release and its registered `memory-dp` credential.
+authentication from the start. In the chart-rendered configuration, the suite writes the agent-key
+introspection settings for its Identity Service, `iris-identity-service`, and Memory's
+`memory-dp` credential.
 
 A bring-your-own (BYO) Data Plane configuration needs the `auth.agent_keys.introspection` block,
 including a BYO configuration without `auth`. See
@@ -87,11 +86,13 @@ Use auth-disabled mode for development and testing only:
 
 ```yaml
 profile: dev
+ownership:
+  enabled: false
 auth:
   method: none
 ```
 
-These are application configuration fields; put them under `memory` in Helm values.
+These are application configuration fields; put them under `memory.memory` in `iris-values.yaml`.
 The Data Plane refuses `auth.method: none` unless `profile` is exactly `dev`.
 Chart-rendered configuration fails to render otherwise. With a supplied configuration Secret,
 the same rule is enforced at process startup.
@@ -125,11 +126,10 @@ A grant names the tenant, product, store, and actions:
 }
 ```
 
-Use the installation's tenant on every grant, for example `default`. Set Memory's `tenantId`
-and Identity Service's `runtime.apiKeyTenant.singleTenantID` to that same value. With a rendered
-Control Plane configuration, `tenantId` sets `auth.admin_tenant_id`, so admin-token stores belong
-to that tenant too. With a supplied Control Plane configuration Secret, set `auth.admin_tenant_id`
-yourself. Neither release checks the other release's tenant setting.
+Use the installation's tenant, `global.iris.tenantId` (default `default`), on every grant. The
+suite applies it to Memory, the Identity Service, and the rendered Control Plane configuration's
+`auth.admin_tenant_id`. With a supplied Control Plane configuration Secret, set
+`auth.admin_tenant_id` yourself.
 
 Grant actions:
 
@@ -148,86 +148,194 @@ Operation mapping:
 | `write` | Add/delete session events, delete session memory, set session summary, set session property, create/update/delete long-term memory. |
 {{< /table-scrollable >}}
 
+## Server-side ownership enforcement
+
+Store grants authorize access to a store. Ownership enforcement adds a check within that store: ordinary callers can access their own personal records and shared records.
+
+This section applies to on-prem deployments. Ownership enforcement is off by default in the on-prem server, worker, and chart. Turn it on with `memory.memory.ownership.enabled: true` after you configure a user identity; see [Enable or change ownership enforcement](#enable-or-change-ownership-enforcement).
+
+| Setting | Personal access | Shared access |
+| --- | --- | --- |
+| `ownership.enabled: false` | Your trusted backend must authorize every read and write, including direct-ID requests. Owner fields and filters do not authenticate the user. | Your backend checks which shared namespaces the user may access. |
+| `ownership.enabled: true` | The server compares the stored owner with the authenticated user ID. Search and list restrictions apply in addition to client filters. | Callers with the required store permission can access shared records. Shared scope does not enforce team membership. |
+
+Keep application-specific checks in your backend in both modes. Use separate stores and grants if teams need separate server-enforced access. Worker credentials are for background services; do not give them to applications.
+
+### Match stored owners to authenticated users
+
+Use the same stable user ID in stored records and the verified user token. Matching is exact, including case. IDs must meet the format in the [API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md); an email address or an identity-provider subject containing punctuation may need a separate compatible claim. Changing a claim mapping does not rewrite stored owners.
+
+The first session event's `actorId` becomes the session owner. Later events in an accessible session can use an assistant's actor ID without changing ownership. Directly created memories and personal namespace roots use the `ownerId` supplied by your application. Session extraction inherits the session owner. See [Identify users and conversations](/content/develop/ai/context-engine/agent-memory/developer-guide.md#identify-users-and-conversations) for client and server fields.
+
+With enforcement on:
+
+- A new personal owner, or an owner update, must match the authenticated user ID. A mismatch returns `403 Forbidden`, including when the record would enter a shared namespace.
+- Another user's personal record is hidden from direct-ID reads and mutations with `404 Not Found`. Search and list filters cannot expand access.
+- A personal namespace child inherits its root's owner.
+- A caller without a user ID can access shared records within its grants, but cannot claim a named personal owner. Ownerless private records are hidden.
+
+Agent keys created by `POST /v1/api-keys` have no user binding by default, and a key never copies its creator's identity. To bind a key to one user, set `identityService.apiKeys.userBinding.enabled: true` (default `false`) and send `userId` when you mint the key. The control token and a `suite_admin` can set any user ID; other callers can set only their own. The Data Plane then uses that user ID for the key's requests. For an application that acts for many users, use delegation instead. Configuring an OpenID Connect (OIDC) claim alone does not bind a key.
+
+An unbound key can pass store health checks and access allowed shared data while personal creation returns `403`. A successful health check does not establish a user identity.
+
+### Delegate a user with an agent key
+
+Delegation lets an application use its agent key for store permissions and a user's access token for personal identity. This path is supported in on-prem release 1.0.0. It does not add the user's store grants to the key.
+
+1. Configure your identity provider to issue signed access tokens with an issuer, a compatible user ID claim, and the intended audience. Obtain the user's token through your application's login process.
+1. Set that issuer and its JSON Web Key Set (JWKS) in `global.iris.auth.oidc`. The suite applies them to the Data Plane.
+1. Enable delegation and choose an audience distinct from direct OIDC sign-in.
+1. Send both credentials on each request for that user.
+
+For chart-rendered configuration, merge this fragment into `iris-values.yaml`:
+
+```yaml
+memory:
+  memory:
+    ownership:
+      enabled: true
+    auth:
+      oidc:
+        enabled: true
+        user_id_claim: sub
+        allow_azp_fallback: false
+      delegation:
+        enabled: true
+        audience:
+          - api://memory-delegation
+```
+
+The suite fills in the issuer, JWKS URL, and audience from `global.iris.auth.oidc`, and the static
+tenant from `global.iris.tenantId`. See
+[Ownership and delegation with the suite chart](/content/operate/iris/agent-memory/self-managed/deploy.md#ownership-and-delegation-with-the-suite-chart). For a bring-your-own configuration file, place `ownership` and `auth` at the root, set `auth.oidc.static_tenant_id` to that same tenant, and set `auth.oidc.audience` to the direct-sign-in audience as a list. Do not also configure `tenant_id_claim` for a single-tenant deployment.
+
+The server verifies the token's signature, issuer, audience, expiry, tenant, and user claim. JWKS verification does not decrypt a token or exchange it for another credential. An application-issued signed JSON Web Token (JWT) works only when the deployment trusts its issuer and verification keys.
+
+Delegation defaults to off and requires OIDC to be enabled. Its audience must not overlap the direct OIDC audience; keep `allow_azp_fallback` off with a separate delegation audience. Without a separate audience, the same user token can also be presented as a direct sign-in.
+
+Direct OIDC sign-in remains a preview in this release: it validates the token but does not resolve the subject's store grants. A valid token alone receives `403` for store operations. Use the agent key and delegated token together for personal access.
+
+Set `USER_TOKEN` to the access token for the current request's user, and `OWNER_ID` to that token's verified user ID. Use the connection values from the [quickstart](/content/develop/ai/context-engine/agent-memory/quickstart.md). These examples list that user's session metadata:
+
+{{< multitabs id="delegated-user" tab1="Python" tab2="TypeScript" tab3="curl" >}}
+
+```python
+import asyncio
+import os
+
+import httpx
+from redis_agent_memory import AgentMemory
+
+
+async def main():
+    async with httpx.AsyncClient(
+        headers={"X-Iris-User-Token": os.environ["USER_TOKEN"]},
+    ) as transport:
+        async with AgentMemory(
+            server_url=os.environ["AGENT_MEMORY_URL"],
+            store_id=os.environ["STORE_ID"],
+            api_key=os.environ["API_KEY"],
+            async_client=transport,
+        ) as memory:
+            page = await memory.list_sessions_async(
+                owner_id=os.environ["OWNER_ID"], limit=20,
+            )
+            print(page.model_dump_json(by_alias=True))
+
+
+asyncio.run(main())
+```
+
+-tab-sep-
+
+```typescript
+import { AgentMemory } from "@redis-iris/agent-memory";
+import { HTTPClient } from "@redis-iris/agent-memory/lib/http";
+
+async function main() {
+  const { AGENT_MEMORY_URL, STORE_ID, API_KEY, USER_TOKEN, OWNER_ID } = process.env;
+  if (!AGENT_MEMORY_URL || !STORE_ID || !API_KEY || !USER_TOKEN || !OWNER_ID) {
+    throw new Error("Set the connection values, USER_TOKEN, and OWNER_ID.");
+  }
+  const httpClient = new HTTPClient();
+  httpClient.addHook("beforeRequest", (request) => {
+    request.headers.set("X-Iris-User-Token", USER_TOKEN);
+    return request;
+  });
+  const memory = new AgentMemory({
+    serverURL: AGENT_MEMORY_URL, storeId: STORE_ID, apiKey: API_KEY, httpClient,
+  });
+  console.dir(await memory.listSessions(20, undefined, OWNER_ID), { depth: null });
+}
+
+main().catch((error) => { console.error(error instanceof Error ? error.message : "Request failed"); process.exitCode = 1; });
+```
+
+-tab-sep-
+
+```sh
+curl --fail-with-body --silent --show-error --get \
+  --header "Authorization: Bearer $API_KEY" \
+  --header "X-Iris-User-Token: $USER_TOKEN" \
+  --data-urlencode "ownerId=$OWNER_ID" \
+  "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions" | jq
+```
+
+{{< /multitabs >}}
+
+Create a separate request-scoped client or transport for each user's token. Do not change a shared client's user header while it handles concurrent requests.
+
+A missing or invalid primary credential, an invalid or expired user token, or a missing user identity returns `401`. A token from another tenant, or a delegation header used with a credential other than an agent key, returns `403`. A valid delegated user still needs the key's store grant.
+
+### Enable or change ownership enforcement
+
+For a new deployment that enables enforcement, configure the user-identity path before writing personal data. If your application does not use a trusted identity provider, leave enforcement off and apply [backend authorization](/content/develop/ai/context-engine/agent-memory/developer-guide.md#authorize-every-memory-request).
+
+Before upgrading an existing deployment:
+
+1. Keep `memory.memory.ownership.enabled: false` explicitly set while preparing the transition.
+1. Compare stored personal owners with the verified user IDs your application will send. Resolve owner mismatches before enabling enforcement; the setting does not rewrite owners.
+1. Configure delegation, then set `memory.memory.ownership.enabled: true` in chart-rendered values. For a bring-your-own file, use `ownership.enabled: true` at the root.
+1. Apply the setting to both Data Plane servers and workers, then roll out those processes. `MEM_OWNERSHIP_ENABLED` overrides the file value; check both for conflicting settings.
+1. Replace existing Summary Views when changing this setting. A view retains the source-access policy from its creation.
+1. Test two users: each can access their own personal records, neither can retrieve or search for the other's records, and both can access shared records allowed by their store grants.
+1. Test an agent key without a user token: it must not retrieve personal records or create a session for a named owner.
+
+For the two-user read check, use an ordinary agent key with store read access, without operator privileges. Set `USER_TOKEN` to the first user's valid token. Set `OWN_SESSION_ID`, `OTHER_SESSION_ID`, and `SHARED_SESSION_ID` to existing sessions owned by that user, owned by the other user, and placed in a shared namespace, respectively:
+
+```sh
+for session_id in "$OWN_SESSION_ID" "$OTHER_SESSION_ID" "$SHARED_SESSION_ID"; do
+  curl --silent --show-error --output /dev/null --write-out '%{http_code}\n' \
+    --header "Authorization: Bearer $API_KEY" \
+    --header "X-Iris-User-Token: $USER_TOKEN" \
+    "$AGENT_MEMORY_URL/iris/data/v1/agent-memory/stores/$STORE_ID/sessions/$session_id"
+done
+```
+
+Expect `200`, `404`, and `200`, in that order. Repeat with the second user's token and swap `OWN_SESSION_ID` with `OTHER_SESSION_ID`. A `401` indicates a token configuration problem; it does not prove ownership enforcement works.
+
+Disabling enforcement restores store-wide access within the credential's grants. Keep backend authorization in place before disabling it. It does not remove stored owner fields, reassign records, or remove the need for store authentication.
+
 ## Worker callbacks
 
 Redis Agent Memory workers consume background jobs and call the Data Plane to read
 session events and write extracted long-term memories.
 
-The [`deploy` values](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml)
+The [`deploy` values](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values)
 already enable worker callbacks. Each platform also needs the setup in
 [Prepare worker identity for your platform](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
 
-For deployments where Redis Agent Memory Data Plane auth is enabled, workers should
-authenticate with Kubernetes projected service-account tokens. The Helm
-`workerAuth.enabled` preset creates or uses a worker ServiceAccount and mounts a
-projected token into the worker pod. The Data Plane must also be configured to
-validate and authorize that token through `auth.worker_identity`.
+Workers authenticate with Kubernetes projected ServiceAccount tokens. The suite configures both
+sides: it mounts the worker's token (`workerAuth.enabled`, `memory.dataplane_client`) and trusts
+the worker's ServiceAccount, `system:serviceaccount:<namespace>:redis-agent-memory-worker`, in
+`memory.auth.worker_identity`, against `global.iris.workloadIdentity`. Don't set these values
+yourself: a differing value fails the render.
 
-Minimal worker-auth values:
-
-```yaml
-workerAuth:
-  enabled: true
-
-# Optional customization when the default worker ServiceAccount is not suitable.
-worker:
-  serviceAccount:
-    name: ""        # set to use an existing ServiceAccount
-    create: false   # set true to create a dedicated ServiceAccount without the preset
-    annotations: {}
-    token:
-      audience: redis-agent-memory
-      expirationSeconds: 3600
-      mountPath: /var/run/secrets/redis-agent-memory-worker
-      fileName: token
-```
-
-Matching Data Plane config:
-
-```yaml
-dataplane_client:
-  base_url: http://redis-agent-memory:9000
-  auth:
-    disabled: false
-    type: service_account_token
-    token_file: /var/run/secrets/redis-agent-memory-worker/token
-
-auth:
-  method: agent_key
-  worker_identity:
-    enabled: true
-    issuer: <service-account-issuer>
-    jwks_uri: "https://kubernetes.default.svc/openid/v1/jwks"
-    audience:
-      - redis-agent-memory
-    subjects:
-      - subject: "system:serviceaccount:<namespace>:redis-agent-memory-worker"
-        user_id: "redis-agent-memory-worker"
-        roles:
-          - operator
-        resources:
-          "mem-store:*":
-            permissions:
-              - write
-```
-
-Worker identity access is controlled by `auth.worker_identity.subjects`.
-Configure worker identity to:
-
-- Trust one or more exact Kubernetes service-account subjects.
-- Validate worker tokens by issuer, JWKS URI, audience, and signing algorithm.
-- Map each trusted subject to a Redis Agent Memory `Principal` with roles, scopes,
-  and resource grants.
-- Grant store access with resource keys such as `mem-store:<store-id>`.
-- Use `mem-store:*` for a shared worker identity, or use narrower store grants
-  and separate worker ServiceAccounts for stronger isolation.
-- Grant `read`, `write`, or `full`; `write` implies `read`, and `full` implies
-  `write`.
-
-The Helm ServiceAccount/token settings only provide the Kubernetes credential.
-Redis Agent Memory authorization still comes from the server-side
-`auth.worker_identity` subject grants. With agent-key authentication, you must configure worker
-identity.
+With a bring-your-own Data Plane configuration, add the `dataplane_client` and
+`auth.worker_identity` blocks yourself, as in the
+[Data Plane configuration file](/content/operate/iris/agent-memory/self-managed/configuration.md#data-plane-configuration-file).
+The worker identity grants store access with resource keys such as `mem-store:<store-id>`, or
+`mem-store:*` for a shared worker identity, with `read`, `write`, or `full`.
 
 ## Gateway and identity provider integration
 

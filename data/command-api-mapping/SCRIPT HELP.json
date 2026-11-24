@@ -7,13 +7,69 @@
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "script(subcommand: \"HELP\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HELP\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [
+      {
+        "signature": "script($subcommand, $argument = null)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "mixed",
+            "description": ""
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "script(:help, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Boolean, Array<Boolean>, ...",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }
 

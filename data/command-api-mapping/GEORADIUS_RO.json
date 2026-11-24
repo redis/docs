@@ -2,11 +2,31 @@
   "api_calls": {
     "node_redis": [
       {
-        "signature": "GEORADIUS_RO(...args: Parameters<typeof parseGeoRadiusArguments>)",
+        "signature": "geoRadiusRo(key: RedisArgument, from: GeoCoordinates, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof parseGeoRadiusArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "type": "GeoCoordinates",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnits",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "GeoSearchOptions",
             "description": ""
           }
         ],
@@ -18,30 +38,75 @@
     ],
     "ioredis": [
       {
-        "signature": "georadius_ro(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], callback: Callback<unknown>, ])",
+        "signature": "georadius_ro(...args: [ key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], callback: Callback<unknown> ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number | string",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "georadius_ro(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], ])",
+        "signature": "georadius_ro(...args: [ key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[] ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number | string",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }

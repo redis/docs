@@ -208,7 +208,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TYPE(key: RedisArgument, options?: JsonTypeOptions)",
+        "signature": "client.json.type(key: RedisArgument, options?: JsonTypeOptions)",
         "params": [
           {
             "name": "key",
@@ -222,7 +222,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NullReply | BlobStringReply | ArrayReply<BlobStringReply | NullReply>",
           "description": ""
         }
       }
@@ -258,8 +258,8 @@
             "description": ""
           },
           {
-            "name": "string $path = '$'",
-            "type": "Any",
+            "name": "$path",
+            "type": "string",
             "description": ""
           }
         ],
@@ -329,6 +329,27 @@
         "returns": {
           "type": "Array<String>, String, nil",
           "description": "the type name(s): an Array for a JSONPath, a single string for a legacy path"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "TypeAsync(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<JsonType[]>",
+          "description": ""
         }
       }
     ]

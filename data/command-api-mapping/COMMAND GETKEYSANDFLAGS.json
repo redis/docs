@@ -42,8 +42,43 @@
         }
       }
     ],
-    "go-redis": [],
-    "node_redis": [],
+    "go-redis": [
+      {
+        "signature": "CommandGetKeysAndFlags(ctx context.Context, commands ...interface{}) *KeyFlagsCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "commands",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*KeyFlagsCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "commandGetKeysAndFlags(args: Array<RedisArgument>)",
+        "params": [
+          {
+            "name": "args",
+            "type": "Array<RedisArgument>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<{ key: BlobStringReply, flags: SetReply<BlobStringReply> }>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
@@ -51,7 +86,7 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "command(string $subcommand, ...$args)",
+        "signature": "command($subcommand, $argument = null)",
         "params": [
           {
             "name": "$subcommand",
@@ -59,7 +94,7 @@
             "description": ""
           },
           {
-            "name": "$args",
+            "name": "$argument",
             "type": "mixed",
             "description": ""
           }
@@ -71,6 +106,27 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "command(subcommand: \"GETKEYSANDFLAGS\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GETKEYSANDFLAGS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

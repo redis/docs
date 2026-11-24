@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,, no_values: Union[bool, None] = None,)",
+        "signature": "hscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None, no_values: Union[bool, None] = None)",
         "params": [
           {
             "name": "name",
@@ -448,7 +448,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HSCAN(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
+        "signature": "hScan(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
         "params": [
           {
             "name": "key",
@@ -488,12 +488,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -522,12 +522,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -556,12 +556,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -600,12 +600,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       }
@@ -682,36 +682,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "HashScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "pattern",
-            "type": "RedisValue",
-            "description": "The pattern of keys to get entries for."
-          },
-          {
-            "name": "pageSize",
-            "type": "int",
-            "description": "The page size to iterate by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "IEnumerable<HashEntry>",
-          "description": "Yields all elements of the hash matching the pattern."
-        }
-      },
-      {
-        "signature": "HashScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashScanAsync(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -745,7 +716,7 @@
           }
         ],
         "returns": {
-          "type": "IEnumerable<HashEntry>",
+          "type": "IAsyncEnumerable<HashEntry>",
           "description": "Yields all elements of the hash matching the pattern."
         }
       }
@@ -761,12 +732,12 @@
           },
           {
             "name": "$cursor",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

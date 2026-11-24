@@ -96,6 +96,15 @@ This is a short indexing delay, not data loss. A later query sees the documents 
 
 Applications that require strict search read-after-write behavior can start Redis with `--search-workers 0`. This is a Redis server setting, not a RedisVL option: it keeps indexing in the foreground but gives up the throughput benefits of multithreaded background indexing.
 
+## Index Commands After a Cluster Failover
+
+On Redis Cluster, index commands carry no key, so RedisVL sends them to the client’s default node: a primary that redis-py picks when it connects. That covers `create()`, `delete()`, `exists()`, `info()`, `listall()` and queries. redis-py learns that a failover has happened only when a keyed command is redirected with `MOVED`, or when a connection fails. Until then, a client that has sent only index commands since the failover keeps sending them to the demoted node, which is now a replica:
+
+- `create()` and `delete()` raise `RedisSearchError`, with the redis-py `ReadOnlyError` as its `__cause__`.
+- `exists()`, `info()`, `listall()` and queries are answered by the replica. Replication is asynchronous, so its copy can lag behind the new primary: a new index can be reported missing, or a dropped one still present.
+
+This lasts until the client sends any keyed command, such as `load()` or `fetch()`, or reconnects. Most applications send keyed commands constantly. A process that only manages indexes can recover: if `create()` or `delete()` raises `RedisSearchError` caused by a `ReadOnlyError`, build a new cluster client and retry the call.
+
 ## Bulk Delete and Update
 
 Redis has no server-side "delete/update by query", so mutating many documents traditionally means scanning for keys and issuing writes yourself. RedisVL wraps that pattern behind two filter-driven methods (available on both `SearchIndex` and `AsyncSearchIndex`).
@@ -123,12 +132,12 @@ Two caveats for `update_by_filter` values:
 
 Both methods share the same safety-oriented options and return a `BulkResult`:
 
-- The return value carries `matched` (documents matching the filter), `processed` (documents actually affected), `completed` (False if a delete stopped early at its runaway backstop; always True for update), and `dry_run`. Read the fields explicitly—`result.processed`, `result.completed`, etc.
+- The return value carries `matched` (documents matching the filter), `processed` (documents actually affected), `completed` (False if a delete stopped early—at its runaway backstop, or on a batch it could not remove; always True for update), and `dry_run`. Read the fields explicitly—`result.processed`, `result.completed`, etc.
 - `dry_run=True` reports how many documents *would* be affected—via a count query—without changing anything.
 - A match-all filter (empty, `"*"`, or `None`) is refused unless you pass `allow_all=True`; use `clear()` when you intentionally want to empty the index. This guard catches the canonical match-all forms only—it is a convenience backstop, not a security control.
 - `on_progress(processed, matched)` is called after each write batch for observability on large operations (it runs synchronously—don’t pass a coroutine—and raising from it aborts the run). Note `update_by_filter` resolves all matching keys before it writes, so progress callbacks begin only once the write phase starts. `batch_size` tunes how many documents are processed per round-trip.
 
-The related `drop_documents()` and `drop_keys()` helpers delete by document ID or full Redis key and batch large inputs. On Redis Cluster, `drop_keys()` unlinks per-key so it works across hash slots, while `drop_documents()` requires the target keys to share a hash tag and raises `ValueError` otherwise.
+The related `drop_documents()` and `drop_keys()` helpers delete by document ID or full Redis key and batch large inputs. On Redis Cluster, `drop_keys()` unlinks per-key so it works across hash slots, while `drop_documents()` requires the target keys to share a hash tag and raises `ValueError` otherwise. Unlinking per-key also means a failure on one key is logged rather than raised, so one bad key does not abort the batch—but the returned count can then come back lower than the number of keys you passed with no exception to catch. The count alone cannot tell that apart from a key that simply did not exist.
 
 **Durability and partial failure.** Because Redis has no server-side delete/update-by-query, these operations run as a series of batched writes rather than a single transaction—they are **not atomic across the match set** and there is no rollback. The unit of atomicity is a single document: each key is deleted with one `UNLINK`, and each document is updated with one `HSET` or `JSON.MERGE`, so you never get a half-deleted key or a half-updated document. But batches are applied incrementally, so a crash or connection error mid-run leaves some documents changed and the rest untouched.
 

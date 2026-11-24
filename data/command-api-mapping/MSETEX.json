@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "msetex(, mapping: Mapping[AnyKeyT, EncodableT],, data_persist_option: Optional[DataPersistOptions] = None,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, keepttl: bool = False,)",
+        "signature": "msetex(mapping: Mapping[AnyKeyT, EncodableT], data_persist_option: Optional[DataPersistOptions] = None, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, keepttl: bool = False)",
         "params": [
           {
             "name": "mapping",
@@ -227,23 +227,165 @@
             "description": ""
           },
           {
-            "name": "?string $existModifier = null",
-            "type": "Any",
+            "name": "$existModifier",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "?string $expireResolution = null",
-            "type": "Any",
+            "name": "$expireResolution",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "?int $expireTTL = null",
-            "type": "Any",
+            "name": "$expireTTL",
+            "type": "?int",
             "description": ""
           }
         ],
         "returns": {
           "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[], secondsToken: 'EX', seconds: number | string, callback: Callback<number>])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "'EX'",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[], secondsToken: 'EX', seconds: number | string])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "'EX'",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "msetex(...args: [numkeys: number | string, ...data: (RedisKey | string | Buffer | number)[], millisecondsToken: 'PX', milliseconds: number | string, callback: Callback<number>])",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(RedisKey | string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "millisecondsToken",
+            "type": "'PX'",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

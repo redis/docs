@@ -30,11 +30,11 @@
 
   <dependencies>
     <!-- Redis client. Lettuce 6.4+ ships per-field TTL bindings
-         (hexpire / httl / hpersist); the demo pins 7.5.2.RELEASE. -->
+         (hexpire / httl / hpersist); the demo pins 7.9.0.RELEASE. -->
     <dependency>
       <groupId>io.lettuce</groupId>
       <artifactId>lettuce-core</artifactId>
-      <version>7.5.2.RELEASE</version>
+      <version>7.9.0.RELEASE</version>
     </dependency>
   </dependencies>
 

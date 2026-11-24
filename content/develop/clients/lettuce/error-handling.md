@@ -57,6 +57,8 @@ for a more detailed discussion of these errors and their causes.
 | `RedisCommandExecutionException` | Redis returned an error reply such as `WRONGTYPE` | ❌ | Fix the command, arguments, or data model |
 | `RedisCommandInterruptedException` | A waiting thread was interrupted while waiting for a result | ⚠️ | Restore interrupt status and abort cleanly |
 
+For the Lettuce exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md) overview

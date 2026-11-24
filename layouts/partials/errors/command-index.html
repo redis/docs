@@ -1,0 +1,30 @@
+{{- /*
+  Which common error pages each command can return, from data/errors.json.
+
+  Returns a dict: lowercase command name -> sorted slice of error page names
+  (the file name without the extension, such as "wrongtype"). Only errors that
+  data/errors.json ties to the command by name count. An error that
+  "commands that use keys" can return, with no list of commands, doesn't: the
+  data can't say that GET returns it but EXISTS doesn't.
+
+  Call it with partialCached "errors/command-index.html" site "errors".
+*/ -}}
+{{- $catalog := partialCached "errors/catalog.html" site "errors" -}}
+{{- $idx := dict -}}
+{{- range $e := $catalog.entries -}}
+  {{- with $e.fix -}}
+    {{- $page := path.Base (strings.TrimSuffix "/" .) -}}
+    {{- range $e.commands -}}
+      {{- $c := lower .name -}}
+      {{- $have := index $idx $c | default slice -}}
+      {{- if not (in $have $page) -}}
+        {{- $idx = merge $idx (dict $c ($have | append $page)) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $out := dict -}}
+{{- range $c, $pages := $idx -}}
+  {{- $out = merge $out (dict $c (sort $pages)) -}}
+{{- end -}}
+{{- return $out -}}

@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zmpop(, num_keys: int,, keys: List[str],, min: Optional[bool] = False,, max: Optional[bool] = False,, count: Optional[int] = 1,)",
+        "signature": "zmpop(num_keys: int, keys: List[str], min: Optional[bool] = False, max: Optional[bool] = False, count: Optional[int] = 1)",
         "params": [
           {
             "name": "num_keys",
@@ -249,7 +249,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZMPOP(keys: RedisVariadicArgument, side: SortedSetSide, options?: ZMPopOptions)",
+        "signature": "zmPop(keys: RedisVariadicArgument, side: SortedSetSide, options?: ZMPopOptions)",
         "params": [
           {
             "name": "keys",
@@ -275,30 +275,60 @@
     ],
     "ioredis": [
       {
-        "signature": "zmpop(...args: [, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", callback: Callback<unknown>, ])",
+        "signature": "zmpop(...args: [ numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zmpop(...args: [, numkeys: number | string, keys: RedisKey[], min: \"MIN\", callback: Callback<unknown>, ])",
+        "signature": "zmpop(...args: [ numkeys: number | string, keys: RedisKey[], min: \"MIN\", callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -306,13 +336,23 @@
         "signature": "zmpop(...args: [numkeys: number | string, ...keys: RedisKey[], min: \"MIN\"])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -320,27 +360,62 @@
         "signature": "zmpop(...args: [numkeys: number | string, keys: RedisKey[], min: \"MIN\"])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zmpop(...args: [, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", countToken: \"COUNT\", count: number | string, callback: Callback<unknown>, ])",
+        "signature": "zmpop(...args: [ numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", countToken: \"COUNT\", count: number | string, callback: Callback<unknown> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "\"MIN\"",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -435,13 +510,13 @@
             "description": ""
           },
           {
-            "name": "string $modifier = 'min'",
-            "type": "Any",
+            "name": "$modifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int $count = 1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           }
         ],

@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - iris
-description: Configure the Redis Agent Memory Data Plane, Control Plane, and Identity Service from Helm values, or bring your own configuration files.
+description: Configure the Redis Agent Memory Data Plane and Control Plane from redis-iris suite values, or bring your own configuration files.
 linkTitle: Configuration
 weight: 30
 hideListLinks: true
@@ -14,10 +14,9 @@ aliases:
 - /operate/iris/agent-memory/self-managed/data-plane-configuration/
 ---
 
-The Memory chart renders Data Plane and Control Plane configuration from Helm values
-(`config.render: true` and `controlplane.config.render: true`). Identity Service uses its own
-release and `values-ids.yaml`. Credentials stay in existing Secrets. For a complete
-example, see the values in [step 3 of Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md#3-create-ram-valuesyaml).
+The `redis-iris` chart renders Agent Memory's Data Plane and Control Plane configuration from the
+values under `memory:` in `iris-values.yaml`. Credentials stay in existing Secrets. For a complete
+example, see [Add the Agent Memory values](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values).
 
 To supply complete configuration files in your own Secrets instead, see
 [Bring-your-own (BYO) configuration](#bring-your-own-byo-configuration).
@@ -26,16 +25,15 @@ To supply complete configuration files in your own Secrets instead, see
 
 | Values | Configures |
 | --- | --- |
-| `shared` | Settings common to the Data Plane and the Control Plane, such as `databases`. The chart merges them under `memory` and `controlplane.configData`. |
-| `memory` | The Data Plane and worker configuration file. |
-| `controlplane.configData` | The Control Plane configuration file. |
-| `dataplane.identityServiceBaseURL`, `identityService.credential.*`, `identityService.allowInsecureTransport` | Memory's connection to the standalone Identity Service. These values do not configure that service. |
-| Separate `values-ids.yaml` | Identity Service's `metadata`, `control`, `runtime`, `productValidation`, and optional `subjectGrants` values. |
-| Overlay Secret (`secrets.secretName`, key `overlay.yaml`) | `metadata.urls`, `metadata.namespace`, `databases."1".urls`, `background_jobs.redis.urls`, and provider `api_key` values. The Data Plane, the workers, and the Control Plane all read it. |
+| `memory.shared` | Settings common to the Data Plane and the Control Plane, such as `databases`. The chart merges them under `memory.memory` and `memory.controlplane.configData`. |
+| `memory.memory` | The Data Plane and worker configuration file. |
+| `memory.controlplane.configData` | The Control Plane configuration file. |
+| `global.iris` | The tenant, license, Identity Service connection, and OIDC settings. The suite derives Memory's values from them. |
+| Overlay Secret (`memory.secrets.secretName`, key `overlay.yaml`) | `metadata.urls`, `metadata.namespace`, `databases."1".urls`, `background_jobs.redis.urls`, and provider `api_key` values. The Data Plane, the workers, and the Control Plane all read it. |
 
 ## Data Plane settings
 
-Data Plane settings go under `memory`, or at the top level of a BYO Data Plane configuration file.
+Data Plane settings go under `memory.memory`, or at the top level of a BYO Data Plane configuration file.
 
 | Setting | Purpose |
 | --- | --- |
@@ -43,6 +41,7 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 | `databases` | Required. Store Redis, as `databases."1".urls`. |
 | `embedding.models.default_embedding_model`, `embedding.models.dimensions` | Required. The embedding model and its vector size. The Control Plane's `embedding.dimensions` must match. |
 | `auth` | Data Plane authentication. Defaults to `agent_key`. |
+| `ownership.enabled` | Restricts personal records to their authenticated owner while allowing shared records. Defaults to `false`. When enabled, personal access requires a matching authenticated user ID, such as an agent key with a delegated user token. With it off, authorize requests in your backend. See [Server-side ownership enforcement](/content/operate/iris/agent-memory/self-managed/authentication.md#server-side-ownership-enforcement) before enabling it. |
 | `inference_providers` | Required when any `llm` block is set. Each entry holds a provider's `endpoint`. |
 | `server` | Data Plane bind address and port. |
 | `license.license_path` | Path where the license Secret is mounted. |
@@ -56,18 +55,14 @@ Data Plane settings go under `memory`, or at the top level of a BYO Data Plane c
 An `llm` block names its provider with `llm.provider`, which must match an `inference_providers`
 entry. The endpoint goes in `inference_providers.<name>.endpoint`, not in the `llm` block.
 
-In the chart-rendered configuration, the chart writes the agent-key introspection settings for you:
-it owns `auth.agent_keys.introspection.base_url`, `credential`, and `allow_insecure_transport`, and
-refuses hand-set values in either `memory.auth` or `shared.auth`. Cache tuning under
-`auth.agent_keys.introspection.cache` is still allowed. Set `dataplane.identityServiceBaseURL`
-and `identityService.credential.existingSecret`; optional `secretKey` defaults to `token`, and
-`existingSecretChecksum` triggers a rollout after credential rotation. Set `memory.auth.method: agent_key`
+In the chart-rendered configuration, the suite writes the agent-key introspection settings for you,
+pointing them at `iris-identity-service`: it owns `auth.agent_keys.introspection.base_url`,
+`credential`, and `allow_insecure_transport`, and refuses hand-set values in either
+`memory.memory.auth` or `memory.shared.auth`. Cache tuning under
+`auth.agent_keys.introspection.cache` is still allowed. Set `memory.memory.auth.method: agent_key`
 explicitly when combining agent keys with worker or other authentication methods.
 
-The runtime endpoint must use `https://`. An `http://` endpoint is accepted only when
-`identityService.allowInsecureTransport: true` is set and the FIPS profile is not enabled.
-Subjects using the `identity_service` authority also need this connection for grant lookup,
-even when another authentication method is selected.
+For ownership enforcement, use `memory.memory.ownership.enabled` in Helm values or `ownership.enabled` in a BYO Data Plane configuration file. `MEM_OWNERSHIP_ENABLED` overrides the file setting. Enabling this option does not bind agent keys to users or rewrite existing owners.
 
 ## Bring-your-own (BYO) configuration
 
@@ -76,7 +71,10 @@ chart injects nothing into it. Add the keys the chart would otherwise write:
 
 - **Data Plane**: the `auth.agent_keys.introspection` block.
 - **Control Plane**: `auth.internal_token.token_file: /etc/controlplane-onprem/internal/token`
-  and `auth.admin_tenant_id` matching the installation's tenant.
+  and `auth.admin_tenant_id` matching `global.iris.tenantId`.
+
+The suite refuses BYO configuration Secrets when `global.iris.extraction.enabled` is `true`,
+because the extraction trust settings land only in the configuration it renders.
 
 With `config.existingSecret`, the chart does not inspect the supplied file. Rendering cannot
 catch missing introspection settings or an invalid development profile in that file; startup
@@ -130,7 +128,8 @@ auth:
   method: agent_key
   agent_keys:
     introspection:
-      base_url: https://<identity-service-tls-endpoint>
+      base_url: http://iris-identity-service:9200
+      allow_insecure_transport: true
       product: memory
       credential:
         token_file: /etc/identity-service/runtime/memory-dp/token
@@ -190,8 +189,7 @@ promote_session_memory:
 ```
 
 The `auth.worker_identity` and `dataplane_client.auth` settings let workers call the Data Plane
-under agent-key authentication. They need `workerAuth.enabled: true` in the values, and the platform
-setup in [worker identity](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
+under agent-key authentication. They need the platform setup in [worker identity](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
 
 Create the Data Plane config Secret with the key `memory-dataplane.config.yaml`:
 
@@ -244,48 +242,187 @@ kubectl -n <namespace-name> create secret generic ram-controlplane-config \
 
 ### Helm values
 
-In `ram-values.yaml`, replace `config.render`, `shared`, `memory`, `controlplane.config.render`, and
-`controlplane.configData` with the two Secrets. The chart fails at install time if both
-`config.existingSecret` and `config.render` are set.
+In `iris-values.yaml`, replace `memory.shared`, `memory.memory`, and
+`memory.controlplane.configData` with the two Secrets, and turn off rendering. The chart fails at
+install time if both `config.existingSecret` and `config.render` are set.
 
 ```yaml
-tenantId: default
-config:
-  existingSecret: ram-config
-identityService:
-  credential:
-    existingSecret: memory-dp-credential
-controlplane:
-  internalToken:
-    existingSecret: memory-internal-token
+memory:
   config:
-    existingSecret: ram-controlplane-config
+    render: false
+    existingSecret: ram-config
+  controlplane:
+    config:
+      render: false
+      existingSecret: ram-controlplane-config
 ```
 
-## Connect releases across namespaces
+## Optional Agent Playbooks extraction
 
-For another namespace, resolve the standalone Service using its full address, such as
-`ids-iris-identity-service.<identity-namespace>.svc:9200`, and the Memory Control Plane as
-`redis-agent-memory-controlplane.<memory-namespace>.svc:9100`. Configure their TLS frontends
-for the two connection URLs. With a naming override, use the rendered Service name.
+Set `global.iris.extraction.enabled: true`. The suite configures Memory's Data Plane to trust the
+Agent Playbooks extraction worker for reads, and its Control Plane to trust the Agent Playbooks
+control plane as a viewer. A differing value under `memory:` fails the render. Both Memory planes
+must reach the issuer's JWKS and trust its CA; see
+[worker identity](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform).
+For the Agent Playbooks side, see [Extraction](/content/operate/iris/agent-playbook/self-managed/extraction.md).
 
-Pods can mount Secrets only from their own namespace. Provision the same runtime credential
-and internal token values in both namespaces, plus each namespace's trust bundle. Allow Memory
-to reach Identity Service and Identity Service to reach the Control Plane, including any
-TLS proxies. See [Network policy](/content/operate/iris/agent-memory/self-managed/operations.md#network-policy).
+## Configure document ingestion {#enable-document-ingestion}
 
-## Optional Playbook extraction
-
-On the Identity Service release, allow Memory subject grants for Playbook extraction:
+Document ingestion is enabled in self-managed deployments. Configure the server and worker together through chart-rendered values. This example sets explicit processing limits:
 
 ```yaml
-subjectGrants:
-  allowed:
-    - product: memory
-      resourceType: mem-store
-      actions: [read, read_all_owners]
+memory:
+  memory:
+    document_ingestion:
+      enabled: true
+      max_decoded_bytes: 1048576
+      max_input_tokens: 8000
+      max_chunks: 32
+      max_output_records: 100
+      max_queued_bytes_per_store: 10485760
+      max_retries: 3
+      max_execution_seconds: 900
+      source_retention_seconds: 86400
+      checkpoint_retention_seconds: 86400
+    background_jobs:
+      redis:
+        enabled: true
+        jobs:
+          document-ingestion:
+            concurrency: 1
+            timeout: 15m
+            max_retry: 3
+    promote_session_memory:
+      strategies:
+        custom:
+          llm:
+            provider: openai
+            models:
+              default_chat_model: <chat-model-name>
+            credentials:
+              type: static
+              api_key: <model-api-key>
 ```
 
-Also add `subject-grant-lookup` to the `memory-dp` runtime credential's `allowedOperations`
-alongside `api-key-introspect`. These are Identity Service values, not Memory's `identityService`
-values. `read_all_owners` is a subject-grant action; do not add it to agent-key grants.
+Use a model supported by your configured `inference_providers.openai` connection. Supply the credential through the existing overlay Secret. The custom extraction model is required even if built-in session extraction already has a model.
+
+For a bring-your-own configuration, place these fields at the file root instead of under `memory.memory`. Keep the worker's queue retries and timeout consistent with the ingestion limits. All numeric ingestion limits must be positive. Byte, estimated token, and chunk limits apply together.
+
+Roll out both the server and worker. Confirm store health, then [create an extractor and submit a document](/content/develop/ai/context-engine/agent-memory/memory-etl.md). Setting `enabled: false` rejects new ingestions; it does not undo memories already written.
+
+## Configure Summary Views {#enable-summary-views}
+
+Summary Views are enabled in self-managed deployments. Configure the server and worker with the same ownership setting, model provider, and explicit bounds. For chart-rendered configuration, merge these example values under `memory.memory`:
+
+```yaml
+memory:
+  memory:
+    summary_views:
+      enabled: true
+      llm:
+        provider: openai
+        models:
+          default_chat_model: <chat-model-name>
+        credentials:
+          type: static
+          api_key: <model-api-key>
+      page_size: 10
+      max_definitions: 100
+      max_partitions: 100
+      max_concurrent_refreshes: 2
+      max_concurrent_refreshes_per_store: 1
+      max_input_tokens: 8000
+      max_source_records: 100
+      max_source_tokens: 100000
+      default_debounce: 1s
+      min_debounce: 1s
+      max_debounce: 1m
+      default_reconcile_interval: 1h
+      min_reconcile_interval: 1s
+      max_reconcile_interval: 24h
+      schedule_repair_interval: 1m
+      cleanup_batch_size: 100
+      cleanup_timeout: 5s
+      generation:
+        max_output_tokens: 2000
+        timeout: 30s
+```
+
+Use the deployment's configured model-provider connection and supply its credential through the overlay Secret. The selected provider must support the required text or structured generation; the OpenAI connection uses `chat_completions` for structured output. These numbers are examples. Required bounds have no defaults when Summary Views are enabled; set them explicitly and validate them under your expected load.
+
+| Bounds | How to choose them |
+|:-------|:-------------------|
+| `max_input_tokens`, `generation.max_output_tokens` | Leave room for the prompt and output within the selected model’s context limit. |
+| `max_source_records`, `max_source_tokens`, `max_partitions`, `max_definitions` | Bound the amount of data each store can summarize and retain. Test representative source sizes and grouping values. |
+| `max_concurrent_refreshes`, `max_concurrent_refreshes_per_store` | Budget model-provider requests and Redis load. Both caps apply per worker replica; multiply by the replica count when sizing capacity. |
+| Debounce and reconciliation intervals | Balance result freshness against repeated generation cost. |
+| `generation.timeout`, `cleanup_timeout` | Allow measured generation and cleanup time while bounding stalled work. |
+| `page_size`, `cleanup_batch_size`, `schedule_repair_interval` | Test scan and cleanup throughput against Redis capacity. |
+
+With a bring-your-own file, place `summary_views` at the file root. Keep the Redis job backend, authenticated worker callbacks, and scheduling worker enabled. Roll out server and worker together, then [create and refresh a view](/content/develop/ai/context-engine/agent-memory/summary-views.md). A private view needs an authenticated user; an ordinary agent key alone does not supply one.
+
+Each view retains its source-access policy. Replace existing definitions when changing ownership enforcement rather than expecting a flag change to rewrite them.
+
+## Enable ingestion webhooks
+
+Start with the [self-managed deployment](/content/operate/iris/agent-memory/self-managed/deploy.md). These are process settings; a client cannot enable them through a request header.
+
+An operator must configure both Data Plane servers and workers:
+
+1. Enable `memory.memory.webhooks.enabled` in chart-rendered configuration, or `webhooks.enabled` at the root of a bring-your-own file.
+1. Enable the Redis job backend and [authenticated worker callbacks](/content/operate/iris/agent-memory/self-managed/authentication.md#worker-callbacks).
+1. Configure the same signing-secret backend and prefix in the Control Plane, Data Plane, and worker. Supported backends are Vault and AWS Secrets Manager. The Control Plane writes keys; Data Plane processes read them.
+1. Serve the receiver over HTTPS with a certificate trusted by the Data Plane.
+1. For a private receiver address, allow its range in `memory.memory.webhooks.private_cidrs` on both servers and workers.
+
+For example, allow one private receiver address in Helm values:
+
+```yaml
+memory:
+  memory:
+    webhooks:
+      enabled: true
+      private_cidrs:
+        - <receiver-private-ip>/32
+```
+
+Delivery checks all resolved addresses at connection time. Redirects and environment HTTP proxies are not used. An allowlist cannot permit loopback, link-local, metadata-service, multicast, or other protected addresses. A localhost URL is not a production callback endpoint.
+
+For Vault, use matching application configuration in the Data Plane and Control Plane:
+
+```yaml
+secrets:
+  provider: vault
+vault:
+  address: https://<vault-host>:8200
+  mount: secret
+  base_path: agent-memory
+```
+
+In chart-rendered values, put this under `memory.memory` and `memory.controlplane.configData`, respectively. Supply `vault.token` through a mounted configuration Secret. The Control Plane needs permission to write and delete signing-key versions; servers and workers need read permission. Keep real Vault tokens and callback keys out of source control.
+
+Before enabling output hooks on an existing deployment, upgrade workers first, then servers, and drain jobs queued by the older release. Keep hooks disabled until both sides support them. Setting the deployment flag to false stops delivery and fails selected work closed; it does not approve pending operations.
+
+For Active-Active backing databases, route every server and worker for a store through the same authoritative writer connection. Do not mix member addresses or use region-dependent aliases for that connection. Before changing writers, drain old writers, wait for replication, and restart the processes to clear old connections. A store with hook history fails closed if its persisted writer connection is missing or invalid; regional queue ownership does not make independent writers safe.
+
+Then [configure a store policy](/content/operate/iris/agent-memory/self-managed/api-examples.md#configure-a-webhook-policy) and deploy a [callback receiver](/content/develop/ai/context-engine/agent-memory/ingestion-webhooks.md#verify-callbacks-and-return-decisions).
+
+## Configure namespace routing {#enable-namespace-routing}
+
+Namespace routing is enabled in self-managed deployments. Keep these switches consistent on the server and worker. For chart-rendered configuration, use:
+
+```yaml
+memory:
+  memory:
+    namespace_features:
+      api: true
+      routing:
+        policy_api: true
+        automatic: true
+        admission: true
+        strategies: [matcher_spec]
+```
+
+For a bring-your-own file, put `namespace_features` at the file root. This example enables the `matcher_spec` strategy used by the regex policy in the routing guide.
+
+After rollout, use the read-policy request in [Configure a policy](/content/develop/ai/context-engine/agent-memory/namespaces/namespace-routing.md#configure-a-policy). A successful response confirms that the policy API is available. Read the returned `policy.enabled` value; saving a policy with `enabled: true` enables it for that store. API availability alone does not prove that automatic routing or admission is enabled, so check the process settings as well.

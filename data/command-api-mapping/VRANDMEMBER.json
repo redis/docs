@@ -54,39 +54,6 @@
           "type": "List<String>",
           "description": "list of random element names"
         }
-      },
-      {
-        "signature": "String vrandmember(String key)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          }
-        ],
-        "returns": {
-          "type": "String",
-          "description": "list of random element names"
-        }
-      },
-      {
-        "signature": "List<String> vrandmember(String key, int count)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": "the name of the key that holds the vector set"
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": "negative values allow duplicates"
-          }
-        ],
-        "returns": {
-          "type": "List<String>",
-          "description": "list of random element names"
-        }
       }
     ],
     "lettuce_sync": [
@@ -217,7 +184,7 @@
     ],
     "node_redis": [
       {
-        "signature": "VRANDMEMBER(key: RedisArgument, count?: number)",
+        "signature": "vRandMember(key: RedisArgument, count?: number)",
         "params": [
           {
             "name": "key",
@@ -231,7 +198,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | ArrayReply<BlobStringReply> | NullReply",
           "description": ""
         }
       }
@@ -344,13 +311,58 @@
             "description": ""
           },
           {
-            "name": "int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           }
         ],
         "returns": {
           "type": "string|array|null",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "vrandmember(key: RedisKey, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vrandmember(key: RedisKey, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }

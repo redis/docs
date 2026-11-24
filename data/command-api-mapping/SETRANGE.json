@@ -187,7 +187,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SETRANGE(key: RedisArgument, offset: number, value: RedisArgument)",
+        "signature": "setRange(key: RedisArgument, offset: number, value: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -206,7 +206,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -237,7 +237,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -323,40 +323,11 @@
           "type": "RedisValue",
           "description": "The length of the string after it was modified by the command."
         }
-      },
-      {
-        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": "The offset in the string to overwrite."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to overwrite with."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The length of the string after it was modified by the command."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringSetRangeAsync(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -380,36 +351,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
-          "description": "The length of the string after it was modified by the command."
-        }
-      },
-      {
-        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "offset",
-            "type": "long",
-            "description": "The offset in the string to overwrite."
-          },
-          {
-            "name": "value",
-            "type": "RedisValue",
-            "description": "The value to overwrite with."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The length of the string after it was modified by the command."
         }
       }
@@ -425,12 +367,12 @@
           },
           {
             "name": "$offset",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$value",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           }
         ],

@@ -91,6 +91,8 @@ client.on('error', error => {
 });
 ```
 
+For the node-redis and ioredis exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md)

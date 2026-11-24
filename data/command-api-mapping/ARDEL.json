@@ -31,7 +31,7 @@
             "description": ""
           },
           {
-            "name": "$index",
+            "name": "...$index",
             "type": "int",
             "description": ""
           }
@@ -205,6 +205,51 @@
         ],
         "returns": {
           "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "ardel(...args: [key: RedisKey, ...indices: (number | string)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...indices",
+            "type": "(number | string)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ardel(...args: [key: RedisKey, ...indices: (number | string)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...indices",
+            "type": "(number | string)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

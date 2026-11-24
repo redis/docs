@@ -81,6 +81,7 @@ The available options for `MetricConfig` are described in the table below:
 | `bucketsConnectionCreateTime` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`connection.create_time`](/content/develop/clients/observability.md#metric-db.client.connection.create_time) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
 | `bucketsConnectionWaitTime` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`connection.wait_time`](/content/develop/clients/observability.md#metric-db.client.connection.wait_time) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
 | `bucketsStreamProcessingDuration` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`stream.lag`](/content/develop/clients/observability.md#metric-redis.client.stream.lag) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `customAttributes` | `{}` | Attributes to add to every metric from every client in the process. See [Custom attributes](#custom-attributes) below. |
 
 ### Custom histogram buckets
 
@@ -90,6 +91,36 @@ ranges of data values counted for each bar of the histogram). Pass an increasing
 list of float values to the `bucketsXxx` options when you create the `MetricConfig`
 object. The first and last values in the list are the lower and upper bounds of the
 histogram, respectively, and the values in between define the bucket boundaries.
+
+### Custom attributes
+
+Use `customAttributes` to label your metrics with your own values, such as the
+service or environment. Set them for every client in the process when you call
+`OpenTelemetry.init()`, or for a single client in its `metrics` option:
+
+```js
+OpenTelemetry.init({
+    metrics: {
+        enabled: true,
+        customAttributes: { 'deployment.environment': 'production' },
+    },
+});
+
+const orders = createClient({
+    metrics: { customAttributes: { app: 'orders' } }
+});
+```
+
+Each client carries only its own attributes, so the metrics from `orders` never include
+the attributes of another client. If you set the same key more than once, the
+client value overrides the process value, which overrides the attributes that
+`node-redis` sets itself, such as `server.address`. Avoid reusing the names of
+built-in attributes, because doing so changes how the metrics group.
+
+> [!NOTE]
+> Every distinct combination of attribute values creates a new time series for
+> each metric. Keep the number of values low, such as a service, team, or region,
+> to limit the cost of your metrics backend.
 
 ## Use Redis
 

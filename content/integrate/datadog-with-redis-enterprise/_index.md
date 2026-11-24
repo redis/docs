@@ -34,7 +34,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-![](/images/rc/redis-cloud-datadog.png)
+![Datadog dashboard for Redis Cloud showing used memory, number of keys, operations per second and memory and keys by database](/images/rc/redis-cloud-datadog.png)
 ## Install Redis' Datadog Integration for Redis Software
 
 Installing the Datadog integration is a two-step process. Firstly, the installation must be part of your configuration. 

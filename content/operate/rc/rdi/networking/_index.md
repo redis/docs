@@ -23,56 +23,8 @@ Redis Cloud manages the workspace and its VPC endpoints. A public source uses an
 
 Sources in different pipelines can reuse the workspace's VPC endpoint for the same endpoint service. In this example, the `orders` and `inventory` pipelines share one endpoint, but use different NLB listener ports to reach different databases. The `orders` pipeline also has a public source. All resources use the same AWS region.
 
-<div style="overflow-x: auto;" role="region" aria-label="Pipelines sharing workspace connectivity" tabindex="0">
-
-```mermaid {width="100%"}
----
-config:
-  elk:
-    nodePlacementStrategy: NETWORK_SIMPLEX
-  flowchart:
-    minNodeWidth: 60
-    wrappingWidth: 140
-    padding: 6
-    diagramPadding: 4
----
-graph TB
-    subgraph subscription["Redis Cloud Pro subscription — Redis manages"]
-        subgraph workspace["Data Integration workspace"]
-            subgraph orders["Pipeline: orders"]
-                sourceA1["Source<br/>orders-db"]
-                sourceA2["Source<br/>catalog-db"]
-                processorA["Processor"]
-                sourceA1 -.-> processorA
-                sourceA2 -.-> processorA
-            end
-            subgraph inventory["Pipeline: inventory"]
-                sourceB1["Source<br/>inventory-db"]
-                processorB["Processor"]
-                sourceB1 -.-> processorB
-            end
-            endpoint["Shared VPC endpoint"]
-            sourceA1 -->|Port 5432| endpoint
-            sourceB1 -->|Port 5433| endpoint
-        end
-        targetA["Redis target<br/>orders"]
-        targetB["Redis target<br/>inventory"]
-        processorA -->|Write| targetA
-        processorB -->|Write| targetB
-    end
-    subgraph customer["Your AWS networks — you manage"]
-        shared["Endpoint service / NLB<br/>Two listeners"]
-        db1["Orders database"]
-        db2["Inventory database"]
-        shared -->|Listener 5432| db1
-        shared -->|Listener 5433| db2
-    end
-    publicDb["Catalog database<br/>Public IP or hostname"]
-    endpoint -->|PrivateLink| shared
-    sourceA2 -->|Public connection| publicDb
-```
-
-</div>
+![The orders and inventory pipelines share a workspace VPC endpoint, with separate listener ports and Redis targets. The orders pipeline also connects to a public catalog database.](/images/rc/rdi/rdi-networking-shared-connectivity.svg)
+{width="100%"}
 
 Source boxes represent configured sources. Solid arrows show initiated network connections. Dotted arrows show the logical data path from each source to its pipeline's processor through the shared RDI database, which the diagram omits. Each processor writes to its pipeline's target. The listener ports are examples. A listener can forward to a different database port.
 
@@ -80,24 +32,8 @@ Source boxes represent configured sources. Solid arrows show initiated network c
 
 To write to targets in different subscriptions, create a workspace and pipeline in each subscription. You can reuse the same customer endpoint service and NLB, but each workspace needs its own VPC endpoint connection.
 
-```mermaid {width="100%"}
-graph TB
-    subgraph subA["Redis Cloud Pro subscription A"]
-        subgraph workspaceA["Workspace A"]
-            sourceA["Pipeline: orders<br/>Source: orders-db"] --> endpointA["VPC endpoint A"]
-        end
-    end
-    subgraph subB["Redis Cloud Pro subscription B"]
-        subgraph workspaceB["Workspace B"]
-            sourceB["Pipeline: reporting<br/>Source: orders-db"] --> endpointB["VPC endpoint B"]
-        end
-    end
-    subgraph customer["Your AWS network — you manage"]
-        service["Endpoint service / NLB"] --> db["Orders database"]
-    end
-    endpointA -->|PrivateLink| service
-    endpointB -->|PrivateLink| service
-```
+![Two Redis Cloud subscriptions use separate workspace VPC endpoints to connect through PrivateLink to the same customer endpoint service and orders database.](/images/rc/rdi/rdi-networking-multiple-subscriptions.svg)
+{width="100%"}
 
 ## Choose your connectivity setup
 

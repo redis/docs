@@ -115,6 +115,24 @@ r = Redis(
 )
 ```
 
+From v8.2.0, you can also pass an `is_retryable` function to `Retry`. The client
+retries an error only if its type is in `supported_errors` *and* the function returns `True`
+for it. The `redis.retry.is_retryable_connect_error` function returns `False` when a Unix
+socket path doesn't exist, so the client fails at once instead of retrying with backoff.
+It still retries other connection errors, such as a refused connection while the server starts:
+
+```py
+from redis.backoff import ExponentialBackoff
+from redis.retry import Retry, is_retryable_connect_error
+
+retry = Retry(ExponentialBackoff(), 3, is_retryable=is_retryable_connect_error)
+
+r = Redis(
+  unix_socket_path="/var/run/redis/redis.sock",
+  retry=retry,
+)
+```
+
 For a connection to a Redis cluster, you can specify a `retry` instance,
 but the list of exceptions is not configurable and is always set
 to `TimeoutError`, `ConnectionError`, and `ClusterDownError`.

@@ -70,7 +70,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CF.DEL(key: RedisArgument, item: RedisArgument)",
+        "signature": "client.cf.del(key: RedisArgument, item: RedisArgument)",
         "params": [
           {
             "name": "key",

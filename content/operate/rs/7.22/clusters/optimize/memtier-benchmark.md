@@ -58,7 +58,7 @@ Enterprise database and generates a load doing the following:
 Run this command until it fills up your database to where you want it
 for testing. The easiest way to check is on the database metrics page.
 
-![](/images/rs/memtier_metrics_page.png)
+![Database metrics page showing used memory of 1.51 GB against a 1.5 GB limit, a memory usage of 100.98%](/images/rs/memtier_metrics_page.png)
 
 Another use for memtier_benchmark is to populate a database with data
 for failure testing.

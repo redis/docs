@@ -8,13 +8,14 @@ categories:
 - oss
 - rs
 - rc
-description: Add idiomatic Redis connection management and dependency-injection caching
-  to FastAPI apps.
+description: Add idiomatic Redis connection management, dependency-injection caching,
+  rate limiting, and sessions to FastAPI apps.
 group: framework
 hideListLinks: false
 stack: true
-summary: The fastapi-redis-sdk provides automatic connection pooling and dependency-injection
-  caching for FastAPI, with HTTP-native ETag and Cache-Control support.
+summary: The fastapi-redis-sdk provides automatic connection pooling, dependency-injection
+  caching with HTTP-native ETag and Cache-Control support, rate limiting, and server-side
+  sessions for FastAPI.
 type: integration
 weight: 9
 ---
@@ -27,15 +28,25 @@ lifespan and exposes caching as injectable dependencies, including HTTP-native
 [`ETag`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag),
 [`304 Not Modified`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304),
 and [`Cache-Control`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control)
-support.
+support. It also provides distributed [rate limiting](#rate-limiting) and
+[server-side sessions](#sessions).
 
 The SDK is built on the [redis-py](/content/develop/clients/redis-py/_index.md) client,
 so anything redis-py can do is still available to you alongside the caching helpers.
 
 ## Requirements
 
-See [Requirements](https://github.com/redis/fastapi-redis-sdk#requirements) on the
-GitHub repo for the full set of dependencies used by `fastapi-redis-sdk`.
+| Dependency | Supported versions |
+|------------|--------------------|
+| Python | 3.10 to 3.14 |
+| FastAPI | 0.115 or later |
+| redis-py | 6.0 or later |
+| Pydantic | 2.0 or later |
+| Redis server | 7.4 or later |
+
+Rate limiting uses the atomic `INCREX` command when the server supports it (Redis 8.8
+or later). On earlier servers, it uses an equivalent Lua script with the same
+guarantees, so you don't need to configure anything.
 
 You also need a running Redis server. You can run one locally with
 [Redis Open Source](/content/operate/oss_and_stack/install/archive/install-redis/_index.md),
@@ -107,6 +118,7 @@ The most commonly used variables are described in the table below:
 | `REDIS_PASSWORD` | - | Redis password (stored securely as a Pydantic `SecretStr`) |
 | `REDIS_SSL` | `false` | Enable TLS (or use a `rediss://` URL) |
 | `REDIS_CLUSTER` | `false` | Enable [OSS Cluster mode](#cluster-mode) |
+| `REDIS_SENTINEL` | `false` | Enable [Sentinel mode](#sentinel-mode) |
 | `REDIS_PREFIX` | `redis:fastapi` | Global prefix applied to all keys |
 | `REDIS_DEFAULT_TTL` | `0` | Default cache TTL in seconds (`0` = no expiry) |
 | `REDIS_MAX_CONNECTIONS` | - | Maximum pooled connections |
@@ -114,7 +126,28 @@ The most commonly used variables are described in the table below:
 Configuration is validated with [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/),
 so invalid values (for example, a port outside 1–65535) fail fast at startup. For the
 full environment-variable reference, TLS options, and programmatic configuration, see
-the [SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/guide/configuration/).
+the [SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/configuration/).
+
+## Deploy to FastAPI Cloud
+
+[FastAPI Cloud](https://fastapicloud.com/) has a built-in
+[Redis Cloud integration](https://fastapicloud.com/docs/integrations/redis-integration/).
+When you connect a Redis Cloud database to your app, FastAPI Cloud sets the connection
+string as the `REDIS_URL` environment variable. The SDK reads that variable by default,
+so you don't need any other configuration:
+
+1. In the FastAPI Cloud dashboard, open your app's **Storage** tab.
+1. Connect an existing Redis Cloud database, or create one.
+1. Redeploy the app if it doesn't pick up the new variable.
+
+To tune other settings, set them as environment variables with the
+`fastapi cloud env` command. Use `--secret` for sensitive values:
+
+```bash
+fastapi cloud env set REDIS_PREFIX myapp
+fastapi cloud env set REDIS_DEFAULT_TTL 600
+fastapi cloud env set --secret REDIS_PASSWORD <your-password>
+```
 
 ## Caching
 
@@ -162,8 +195,9 @@ async def replace_product(product_id: int, body: Product):
     return await db.update(product_id, body)
 ```
 
-Cached responses include an `X-Redis-Cache` header (`HIT` or `MISS`) along with
-`Cache-Control` and `ETag` headers.
+Cached responses include an `X-Redis-Cache` header (`HIT`, `MISS`, or `BYPASS` when the
+response was served but not stored) along with `Cache-Control` and `ETag` headers. If the
+response body depends on the user's session, pass `vary_on_session=True` to `cache()`.
 
 The example below drives a cached endpoint with FastAPI's
 [`TestClient`](https://fastapi.tiangolo.com/reference/testclient/) so you can see the
@@ -174,6 +208,19 @@ The example below drives a cached endpoint with FastAPI's
 Evicting a resource clears its cached entry, so the following read is a `MISS` again:
 
 {{< clients-example set="fastapi_tutorial" step="cache_evict" lang_filter="Python" description="Invalidate a cached entry so the next read recomputes the response" difficulty="beginner" buildsUpon="cache_hit_miss" />}}
+
+### What `cache()` stores
+
+`cache()` stores text responses only: JSON, plain text, HTML, CSV, XML, and
+JavaScript. Binary responses such as images and PDFs, responses with no `Content-Type`,
+and bodies over 10 MiB are never stored. The client still receives the full response,
+marked `X-Redis-Cache: BYPASS`, and the SDK logs the reason once per route.
+
+Don't put `cache()` on a route that returns a `StreamingResponse`. The SDK must read the
+whole body before it can store it, so the client receives nothing until the stream ends.
+
+If Redis is unreachable, `cache()` logs the error and still returns the endpoint's
+response.
 
 ### CacheBackend for full control
 
@@ -194,7 +241,7 @@ async def dashboard(user_id: int, cache: CacheBackendDep):
     return result
 ```
 
-See the [SDK caching guide](https://redis.github.io/fastapi-redis-sdk/guide/caching/)
+See the [SDK caching guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/caching/)
 for detailed patterns and best practices.
 
 ## HTTP caching
@@ -205,6 +252,82 @@ and emits a weak `ETag`; when a client returns that tag in an `If-None-Match` he
 the server responds with `304 Not Modified` and no body:
 
 {{< clients-example set="fastapi_tutorial" step="http_caching" lang_filter="Python" description="Use ETag and Cache-Control headers so a revalidation request returns 304 Not Modified" difficulty="intermediate" buildsUpon="cache_hit_miss" />}}
+
+## Rate limiting
+
+Add `.rate_limiting()` to the builder chain, then attach the `rate_limit()` dependency
+to a route. Counters for the rate limiters are stored in Redis, so the limits hold across
+every worker and pod. Stack two limits to cap both bursts and sustained traffic.
+Give each a distinct `scope` so their counters stay independent. The example below uses
+a deliberately low limit so that the third request is rejected:
+
+{{< clients-example set="fastapi_tutorial" step="rate_limit" lang_filter="Python" description="Foundational: stack a burst limit and a sustained limit on one route and see the third request rejected with 429" difficulty="beginner" />}}
+
+By default, a limit is incremented by one for each client IP. A request that exceeds either limit gets a
+`429 Too Many Requests` response with a `Retry-After` header, and every response carries
+`X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers.
+
+To apply one limit to every route, pass `global_rate` to the builder, for example
+`.rate_limiting(global_rate="1000/minute")`. Per-route limits stack on top of it, and a
+request must pass both.
+
+If Redis is unreachable, the limiter fails open: it allows the request and logs a
+warning. Set `REDIS_RATE_LIMIT_FAIL_CLOSED=true` to reject requests instead.
+
+### Run behind a proxy
+
+The default identifier is the client address that the ASGI (Asynchronous Server Gateway
+Interface) server reports. It never reads `X-Forwarded-For`, because clients can forge
+that header. Behind a load balancer, every client then shares one counter unless your
+server passes on the real client address. With Uvicorn, trust only your proxies:
+
+```bash
+uvicorn app:app --proxy-headers --forwarded-allow-ips="10.0.0.0/8"
+```
+
+Don't set `--forwarded-allow-ips="*"`. It trusts the header from any peer and lets
+clients evade their own limits. If your server has no proxy-header support, pass your
+own `identifier` function to `rate_limit()`.
+
+See the [SDK rate limiting guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/rate-limiting/)
+for custom identifiers, an app-wide limiter, custom `429` responses, and the behavior
+when Redis is unreachable.
+
+## Sessions
+
+Add `.sessions()` to the builder chain to keep session data in Redis. The cookie holds
+only an opaque session ID, and Redis enforces both an idle timeout and an absolute
+timeout. Inject `SessionDep` to read and write the session, and add `valid_session()` to
+return `401` when a request has no live session:
+
+{{< clients-example set="fastapi_tutorial" step="sessions" lang_filter="Python" description="Foundational: store a user ID in a Redis-backed session and require a live session on a route" difficulty="beginner" />}}
+
+Changing the signed-in user rotates the session ID automatically. `request.session`
+also works, so code written for Starlette's `SessionMiddleware` runs unchanged. See the
+[SDK sessions guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/sessions/) for
+timeouts, sign-out everywhere, CSRF (cross-site request forgery) protection, and
+encryption.
+
+Sessions have two constraints to plan for:
+
+- **Eviction policy:** A session store isn't a cache. Under the `allkeys-lru`,
+  `allkeys-lfu`, or `allkeys-random` [eviction policies](/content/develop/reference/eviction/index.md),
+  Redis can evict live sessions and sign users out with no log entry. Use
+  `volatile-ttl` or `noeviction`, or give sessions their own database or instance.
+- **WebSockets:** Sessions cover HTTP requests only. Don't use `SessionDep` in a
+  WebSocket handler. Authenticate during the HTTP handshake instead.
+
+If Redis is unreachable, a failed session read returns an empty session, so the user
+will appear to be signed out. A failed write raises `SessionStoreError`. Set
+`session_fail_closed=True` to fail reads with an error as well.
+
+## Test your app
+
+The SDK works with FastAPI's `dependency_overrides`, so you can replace the Redis client
+in tests without patching. This example uses
+[fakeredis](https://pypi.org/project/fakeredis/):
+
+{{< clients-example set="fastapi_tutorial" step="testing" lang_filter="Python" description="Intermediate: replace the Redis client with an in-memory fake using dependency_overrides so tests need no server" difficulty="intermediate" />}}
 
 ## Cluster mode
 
@@ -217,6 +340,24 @@ export REDIS_URL=redis://node1:6379,node2:6379,node3:6379
 ```
 
 In cluster mode, `AsyncRedisDep` yields an `AsyncRedisCluster` client.
+
+## Sentinel mode
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+set `REDIS_SENTINEL=true` and list the Sentinels instead of setting `REDIS_URL`. The SDK
+asks the Sentinels for the address of the current primary, and asks again after a
+failover:
+
+```bash
+export REDIS_SENTINEL=true
+export REDIS_SENTINEL_NODES=sentinel1:26379,sentinel2:26379,sentinel3:26379
+export REDIS_SENTINEL_MASTER_NAME=mymaster
+```
+
+Your application code doesn't change. `AsyncRedisDep` yields a standard `AsyncRedis`
+client connected to the current primary. Sentinel mode can't be combined with
+`REDIS_CLUSTER` or `REDIS_URL`. If the Sentinels require authentication, set
+`REDIS_SENTINEL_USERNAME` and `REDIS_SENTINEL_PASSWORD`.
 
 ## Observability
 
@@ -235,7 +376,7 @@ FastAPIRedis(app).lifespan().caching().otel()
 Calling `.otel()` on the builder is what activates the cache telemetry. To also emit
 redis-py's low-level command spans and connection-pool metrics, set
 `REDIS_OTEL_REDIS_ENABLED=true`. See the
-[SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/guide/configuration/#opentelemetry)
+[SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/latest/guide/configuration/#opentelemetry)
 for the full list of spans and metrics that are emitted.
 
 ## More information

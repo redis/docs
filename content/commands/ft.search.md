@@ -405,13 +405,13 @@ limits the attributes returned from the document. `num` is the number of attribu
 <details open>
 <summary><code>SUMMARIZE ...</code></summary>
 
-returns only the sections of the attribute that contain the matched text. See [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md) for more information.
+returns only the sections of the attribute that contain the matched text. On a JSON index, `SUMMARIZE` requires Redis Open Source 8.10.2 or later and `RETURN` with explicit attribute names, and does not support multi-value JSONPaths. See [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md#json-indexes) for the full rules.
 </details>
 
 <details open>
 <summary><code>HIGHLIGHT ...</code></summary>
 
-formats occurrences of matched text. See [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md) for more information.
+formats occurrences of matched text. On a JSON index, `HIGHLIGHT` requires Redis Open Source 8.10.2 or later and `RETURN` with explicit attribute names, and does not support multi-value JSONPaths. See [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md#json-indexes) for the full rules.
 </details>
 
 <details open>

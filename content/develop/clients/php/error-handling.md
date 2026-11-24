@@ -54,6 +54,8 @@ for a more detailed discussion of these errors and their causes.
 | `Predis\Response\ServerException` | Redis returned an error reply such as `WRONGTYPE` | ❌ | Fix the command, arguments, or data model |
 | `Predis\Transaction\AbortedMultiExecException` | A watched transaction was aborted | ✅ | Reload state and retry the transaction |
 
+For the Predis exception that each common server error raises, see [Redis error messages](/content/develop/reference/errors/_index.md).
+
 ## Applying error handling patterns
 
 The [Error handling](/content/develop/clients/error-handling.md) overview

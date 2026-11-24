@@ -175,12 +175,13 @@
       var m = line.match(/^  - name: (\S+)/);
       if (m) cur = m[1];
       else if (!/^ {4}/.test(line)) cur = null;
-      return used.indexOf(cur) >= 0 ? '<span class="rvd-hl">' + esc(line) + "</span>" : esc(line);
+      var html = window.DemoHL.yaml(line);
+      return used.indexOf(cur) >= 0 ? '<span class="rvd-hl">' + html + "</span>" : html;
     }).join("\n");
   }
-  /* Code with "restaurants.yaml" as a link to the schema. */
+  /* The Python, highlighted, with "restaurants.yaml" as a link to the schema. */
   function withYamlLink(text) {
-    return esc(text).replace(/&quot;restaurants\.yaml&quot;/g, '<button type="button" class="rvd-yaml" title="Show restaurants.yaml">&quot;restaurants.yaml&quot;</button>');
+    return window.DemoHL.python(text).replace(/&quot;restaurants\.yaml&quot;/g, '<button type="button" class="rvd-yaml" title="Show restaurants.yaml">&quot;restaurants.yaml&quot;</button>');
   }
 
   /* --------------------------------------------------------------- the widget */
@@ -382,7 +383,7 @@
       card.appendChild(head);
       var used = fieldsUsed(q, built);
       if (st.view !== "data") {
-        var pre = el("pre", "rcr-code rvd-pre", st.view === "python" ? withYamlLink(pythonFor(q, built)) : st.view === "redis" ? esc(commandFor(built)) : schemaHtml(used));
+        var pre = el("pre", "rcr-code rvd-pre", st.view === "python" ? withYamlLink(pythonFor(q, built)) : st.view === "redis" ? window.DemoHL.redis(commandFor(built)) : schemaHtml(used));
         pre.addEventListener("click", function (e) { if (e.target.closest(".rvd-yaml")) { st.view = "schema"; render(); } });
         card.appendChild(pre);
       }

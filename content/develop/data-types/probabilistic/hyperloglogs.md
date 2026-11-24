@@ -52,6 +52,10 @@ same:
 * Every time you see a new element, you add it to the count with [`PFADD`](/content/commands/pfadd.md).
 * When you want to retrieve the current approximation of unique elements added using the [`PFADD`](/content/commands/pfadd.md) command, you can use the [`PFCOUNT`](/content/commands/pfcount.md) command. If you need to merge two different HLLs, the [`PFMERGE`](/content/commands/pfmerge.md) command is available. Since HLLs provide approximate counts of unique elements, the result of the merge will give you an approximation of the number of unique elements across both source HLLs.
 
+{{< data-type-animation type="hyperloglog" >}}
+
+## Examples
+
 {{< clients-example set="hll_tutorial" step="pfadd" description="HyperLogLog operations: Use PFADD to add items to a HyperLogLog, PFCOUNT to estimate cardinality, and PFMERGE to combine HyperLogLogs when you need space-efficient cardinality estimation" difficulty="intermediate" >}}
 > PFADD bikes Hyperion Deimos Phoebe Quaoar
 (integer) 1

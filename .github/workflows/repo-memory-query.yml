@@ -1,0 +1,43 @@
+# Manually triggered, read-only search of the Repo Memory store from a description of planned
+# work, before any PR exists. Run it with `gh workflow run repo-memory-query.yml -f query=...`.
+# See .github/actions/repo-memory-query/README.md. Unlike repo-memory.yml it never writes to
+# Redis and never comments on a PR.
+name: Repo Memory Query
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: Describe the work you are about to do
+        required: true
+        type: string
+      files:
+        description: Files you plan to change (space-separated, optional)
+        required: false
+        type: string
+      limit:
+        description: Maximum results
+        required: false
+        default: '5'
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+jobs:
+  query:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/actions/repo-memory-query
+
+      - uses: ./.github/actions/repo-memory-query
+        with:
+          redis-url: ${{ secrets.MEMORY_REDIS_URL }}
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          query: ${{ inputs.query }}
+          query-files: ${{ inputs.files }}
+          query-limit: ${{ inputs.limit }}

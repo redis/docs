@@ -97,7 +97,7 @@
     ],
     "node_redis": [
       {
-        "signature": "EXISTS(keys: RedisVariadicArgument)",
+        "signature": "exists(keys: RedisVariadicArgument)",
         "params": [
           {
             "name": "keys",
@@ -106,7 +106,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -267,6 +267,74 @@
         ],
         "returns": {
           "type": "Integer",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "exists(...args: [...keys: RedisKey[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "exists(...args: [keys: RedisKey[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "exists(...args: [...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "exists(...args: [keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

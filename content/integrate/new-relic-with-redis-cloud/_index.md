@@ -32,7 +32,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-![](/images/rc/redis-cloud-newrelic.png)
+![New Relic Cluster Dashboard for Redis Cloud with database list, used memory and key count tables](/images/rc/redis-cloud-newrelic.png)
 ## Install Redis' New Relic Integration for Redis Cloud
 
 The New Relic Integration for Redis is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 

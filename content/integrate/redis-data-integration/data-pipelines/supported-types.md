@@ -92,7 +92,7 @@ database. Each database has its own section with full detail.
 
 [**Oracle**](#oracle)
 
-- Enable [supplemental logging](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle.md) on the tables/schemas you capture.
+- Enable [supplemental logging](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/_index.md) on the tables/schemas you capture.
 - Set `lob.enabled: true` if you need `CLOB`, `NCLOB`, `BLOB`, or `XMLTYPE`.
 - Choose `binary.handling.mode` for `RAW`/`BLOB` (default is `bytes`).
 - `decimal.handling.mode` defaults to `string` in RDI; set `double` for numeric `NUMBER`/`DECIMAL` values.
@@ -227,7 +227,7 @@ but how they are rendered into a Redis Hash or JSON document is noted per type b
 
 RDI captures Oracle changes via the
 [Debezium Oracle connector](https://debezium.io/documentation/reference/3.0/connectors/oracle.html).
-See [Prepare Oracle for RDI](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle.md)
+See [Prepare Oracle for RDI](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/_index.md)
 for the required supplemental-logging setup.
 
 ### Supported types

@@ -17,6 +17,8 @@ Redis Software secures user access in a few different ways, including automatica
 
 - Signing sessions out after a period of inactivity
 
+- Ending a user's existing session when the same user logs in again
+
 Here, you learn how to configure the relevant settings.
 
 ## User login lockout
@@ -227,3 +229,11 @@ rladmin cluster config cm_session_timeout_minutes <number_of_min>
 The `<number_of_min>` is the number of minutes after which sessions will time out.
 
 {{< /multitabs >}}
+
+## Concurrent sessions
+
+Each user can have only one active Cluster Manager UI session. When a user logs in again, the Cluster Manager UI ends that user's existing session, and the earlier session prompts the user to log in again.
+
+This limit applies to every user who logs in to the Cluster Manager UI, including [Lightweight Directory Access Protocol (LDAP)](/content/operate/rs/security/access-control/ldap/_index.md) users and [SAML single sign-on](/content/operate/rs/security/access-control/saml-sso.md) users. You can't change or turn off this limit.
+
+If several administrators need to use the Cluster Manager UI at the same time, [create a separate user](/content/operate/rs/security/access-control/create-users.md) for each one.

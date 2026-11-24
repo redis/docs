@@ -44,7 +44,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TIME()",
+        "signature": "time()",
         "params": [],
         "returns": {
           "type": "[BlobStringReply, BlobStringReply]",
@@ -82,8 +82,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "DateTime Time(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "DateTime",
+          "description": "The server's current time."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<DateTime> TimeAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<DateTime>",
+          "description": "The server's current time."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "time()",
@@ -95,6 +125,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "time(callback?: Callback<number[]>)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "time()",
+        "params": [],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": "tuple of seconds since UNIX epoch and microseconds in the current second"
+        }
+      }
+    ]
   }
 }

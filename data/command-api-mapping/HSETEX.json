@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "hsetex(, name: str,, key: Optional[str] = None,, value: Optional[str] = None,, mapping: Optional[dict] = None,, items: Optional[list] = None,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, data_persist_option: Optional[HashDataPersistOptions] = None,, keepttl: bool = False,)",
+        "signature": "hsetex(name: str, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None, items: Optional[list] = None, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, data_persist_option: Optional[HashDataPersistOptions] = None, keepttl: bool = False)",
         "params": [
           {
             "name": "name",
@@ -402,23 +402,215 @@
             "description": ""
           },
           {
-            "name": "string $setModifier = HSETEX::SET_NULL",
-            "type": "Any",
+            "name": "$setModifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "string $ttlModifier = HSETEX::TTL_NULL",
-            "type": "Any",
+            "name": "$ttlModifier",
+            "type": "string",
             "description": ""
           },
           {
-            "name": "int|bool $ttlModifierValue = false",
-            "type": "Any",
+            "name": "$ttlModifierValue",
+            "type": "int|bool",
             "description": ""
           }
         ],
         "returns": {
           "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hsetex(...args: [key: RedisKey, fieldsToken: \"FIELDS\", numfields: number | string, ...data: (string | Buffer | number)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hsetex(...args: [key: RedisKey, fieldsToken: \"FIELDS\", numfields: number | string, ...data: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hsetex(...args: [key: RedisKey, secondsToken: \"EX\", seconds: number | string, fieldsToken: \"FIELDS\", numfields: number | string, ...data: (string | Buffer | number)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "\"EX\"",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hsetex(...args: [key: RedisKey, secondsToken: \"EX\", seconds: number | string, fieldsToken: \"FIELDS\", numfields: number | string, ...data: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "\"EX\"",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hsetex(...args: [key: RedisKey, millisecondsToken: \"PX\", milliseconds: number | string, fieldsToken: \"FIELDS\", numfields: number | string, ...data: (string | Buffer | number)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "millisecondsToken",
+            "type": "\"PX\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "fieldsToken",
+            "type": "\"FIELDS\"",
+            "description": ""
+          },
+          {
+            "name": "numfields",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...data",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

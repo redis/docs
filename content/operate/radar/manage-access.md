@@ -46,6 +46,24 @@ If an account locks, admins unlock it from the same list.
 
 Radar creates no default account and ships no default password. The one-time bootstrap flow creates the first administrator while the database has no users. See [Install Radar]({{< relref "/operate/radar/install#install-on-rhel-with-the-rpm" >}}).
 
+## Change or reset a local password
+
+Local users change their own password from **Change password** in the user menu. Radar asks for the current password and the new one, then signs you out of your other sessions. Users who sign in through LDAP or SAML SSO change their password in their directory or identity provider instead.
+
+If a local user can't sign in, including the only administrator, reset the password from the Radar host or cluster. The command prompts twice for the new password, or reads it from standard input with `--password-stdin`. The new password follows the same rules as a new account's. The reset also clears any lockout and ends the user's sessions.
+
+- On an RPM host:
+
+  ```bash
+  sudo radar user reset-password --user <username-or-email>
+  ```
+
+- On Kubernetes, run it in the API deployment, which is `radar-api` for a release named `radar`:
+
+  ```bash
+  kubectl exec -it -n <namespace> deploy/<release-name>-api -- /app/radar user reset-password --user <username-or-email>
+  ```
+
 ## Connect a directory with LDAP
 
 Radar authenticates against your directory and takes each user's role from their group membership, so you grant and revoke Radar access by changing groups.
@@ -99,6 +117,8 @@ Configure how Radar's connection to the directory is encrypted:
 
 > [!WARNING]
 > Turning off certificate validation means Radar sends the bind password over a connection it has not verified. Supply the CA certificate instead.
+
+To see recent failed LDAP sign-ins, go to **Settings > Security**. The **LDAP sign-in failures** list covers sign-ins to Radar only, not Redis Software cluster events.
 
 ## Set up SAML SSO
 

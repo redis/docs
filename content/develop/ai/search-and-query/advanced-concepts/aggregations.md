@@ -39,7 +39,7 @@ The pipeline is dynamic and re-entrant, and every operation can be repeated. For
 
 Figure 1: Aggregation Pipeline Example
 
-<img src="../../img/pipeline.png">
+<img src="../../img/pipeline.png" alt="Aggregation pipeline flow: Filter, Group, Apply, Sort, Apply, with a Reduce step attached to Group">
 
 ## Aggregate request format
 

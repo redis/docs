@@ -196,7 +196,10 @@ in sequential ordering after retrieval.
 
 #### `property messages: list[str] | list[dict[str, str]]`
 
-Returns the full message history.
+Returns every message in the current session, oldest first.
+
+The result is not bounded. For a bounded read of the latest messages,
+use `get_recent(top_k=...)`.
 
 ## MessageHistory
 
@@ -235,6 +238,45 @@ responses.
     example, and [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the ACL details.
     Defaults to True.
 
+#### `async aadd_message(message, session_tag=None)`
+
+Async version of [add_message](#add_message).
+
+See [aget_recent](#aget_recent) for the connection caveats.
+
+* **Parameters:**
+  * **message** (*dict* *[* *str* *,* *str* *]*)
+  * **session_tag** (*str* *|* *None*)
+* **Return type:**
+  None
+
+#### `async aadd_messages(messages, session_tag=None)`
+
+Async version of [add_messages](#add_messages).
+
+See [aget_recent](#aget_recent) for the connection caveats.
+
+* **Parameters:**
+  * **messages** (*list* *[* *dict* *[* *str* *,* *str* *]* *]*)
+  * **session_tag** (*str* *|* *None*)
+* **Return type:**
+  None
+
+#### `async aclear()`
+
+Async version of [clear](#clear).
+
+See [aget_recent](#aget_recent) for the connection caveats.
+
+* **Return type:**
+  None
+
+#### `async acount(session_tag=None)`
+
+Async version of [count](#count).
+
+See [aget_recent](#aget_recent) for the connection caveats.
+
 #### `add_message(message, session_tag=None)`
 
 Insert a single prompt or response into the message history.
@@ -258,6 +300,57 @@ in sequential ordering after retrieval.
   * **messages** (*List* *[* *Dict* *[* *str* *,* *str* *]* *]*) – The list of user prompts and LLM responses.
   * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     conversation session. Defaults to instance ULID.
+* **Return type:**
+  None
+
+#### `async adisconnect()`
+
+Close the async Redis connection opened by the async methods.
+
+* **Return type:**
+  None
+
+#### `async adrop(id=None)`
+
+Async version of [drop](#drop).
+
+See [aget_recent](#aget_recent) for the connection caveats.
+
+* **Parameters:**
+  **id** (*str* *|* *None*)
+* **Return type:**
+  None
+
+#### `async aget_recent(top_k=5, as_text=False, raw=False, session_tag=None, role=None)`
+
+Async version of [get_recent](#get_recent): the same query on an
+[`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}}), without blocking the loop.
+
+Pass `redis_url` rather than a client to the history if you need the
+async methods over Sentinel or Redis Cluster: those clients cannot be
+converted to their async form. The async client is
+bound to the event loop that made the first call, so call
+[adisconnect](#adisconnect) before switching loops.
+
+* **Parameters:**
+  * **top_k** (*int*)
+  * **as_text** (*bool*)
+  * **raw** (*bool*)
+  * **session_tag** (*str* *|* *None*)
+  * **role** (*str* *|* *list* *[* *str* *]*  *|* *None*)
+* **Return type:**
+  list[str] | list[dict[str, str]]
+
+#### `async astore(prompt, response, session_tag=None)`
+
+Async version of [store](#store).
+
+See [aget_recent](#aget_recent) for the connection caveats.
+
+* **Parameters:**
+  * **prompt** (*str*)
+  * **response** (*str*)
+  * **session_tag** (*str* *|* *None*)
 * **Return type:**
   None
 
@@ -343,6 +436,19 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
+#### `property aindex: `[`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}})`  | None`
+
+The AsyncSearchIndex used by the async methods, once created.
+
+* **Returns:**
+  The async search index, or None before the first
+  async call.
+* **Return type:**
+  [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}})
+
 #### `property messages: list[str] | list[dict[str, str]]`
 
-Returns the full message history.
+Returns every message in the current session, oldest first.
+
+The result is not bounded. For a bounded read of the latest messages,
+use `get_recent(top_k=...)`.

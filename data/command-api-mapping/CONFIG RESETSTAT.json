@@ -82,8 +82,38 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void ConfigResetStatistics(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task ConfigResetStatisticsAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "config($subcommand, $argument = null)",
@@ -106,6 +136,43 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "config(subcommand: \"RESETSTAT\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESETSTAT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "config(:resetstat, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Hash",
+          "description": "string reply, or hash when retrieving more than one property with `CONFIG GET`"
+        }
+      }
+    ]
   }
 }

@@ -31,7 +31,7 @@
             "description": ""
           },
           {
-            "name": "$value",
+            "name": "...$value",
             "type": "string",
             "description": ""
           }
@@ -205,6 +205,51 @@
         ],
         "returns": {
           "type": "*UintCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "arinsert(...args: [key: RedisKey, ...values: (string | Buffer | number)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...values",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arinsert(...args: [key: RedisKey, ...values: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...values",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

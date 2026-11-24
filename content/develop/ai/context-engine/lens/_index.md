@@ -1,0 +1,74 @@
+---
+Title: Lens
+alwaysopen: false
+categories:
+- docs
+- develop
+- ai
+description: Debug AI agent answers by tracing the context behind each turn, from retrieval to prompt.
+linkTitle: Lens
+hideListLinks: true
+weight: 27
+bannerText: Lens is currently in beta. Features and behavior are subject to change.
+bannerChildren: true
+---
+
+## What is Lens?
+
+Lens is a Redis Iris observability tool that traces your AI agent's turns. A turn is one agent exchange, such as answering a single message. For each turn, Lens records what each source returned, such as a memory recall or a retrieval, and what entered the prompt. It also records which model and tool calls ran, how long each step took, and how the turn ended.
+
+When your agent gives a wrong answer, Lens shows where it went wrong. For example, you might see that the right memory was recalled but dropped from the prompt, or that a retrieval came back empty.
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< tile-card icon="images/icon_logo/icon-data-structures-64-midnight.png" title="Concepts" description="Learn how sessions, turns, and steps work" url="/develop/ai/context-engine/lens/concepts" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Quickstart" description="Trace your first turn and read it back" url="/develop/ai/context-engine/lens/quickstart" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-code-64-duotone.png" title="Agent integration" description="Trace agents built with LangGraph, the OpenAI Agents SDK, and more" url="/develop/ai/context-engine/lens/agent-integration" >}}
+</div>
+
+## Why use Lens?
+
+- **See why an agent answered the way it did:** Compare what each source returned with what entered the prompt, turn by turn.
+- **Iris services trace themselves:** Agent Memory, Agent Playbooks, and Context Gateway calls appear in the turn with no extra code.
+- **Model calls traced automatically:** Calls through OpenAI, Anthropic, Amazon Bedrock, and LangChain clients appear with their prompts, completions, and token counts.
+- **Built on OpenTelemetry:** Lens joins the tracer your application already uses, and Iris service steps reach your existing observability tools as well.
+- **You control content capture:** Capture prompts and retrieved text for debugging, or keep only IDs, hashes, and counts.
+- **Background export:** Lens exports in the background, so your agent never waits for it. If an export fails, the error stays out of your agent's code.
+
+## Concepts
+
+Lens groups turns into sessions by agent, and records each turn's steps. See [Lens concepts](/content/develop/ai/context-engine/lens/concepts.md).
+
+1. Your agent opens a turn for each message with the Redis Iris software development kit (SDK).
+1. The SDK records each step in the turn: retrievals, memory recalls, prompt assembly, model calls, tool calls, and Iris service calls.
+1. Lens assembles the turn and groups it into sessions by agent.
+1. You inspect the turn in the Lens user interface (UI) or query it with the read application programming interface (API).
+
+![Your agent sends its turns to Lens through the Redis Iris SDK, and the Iris services it calls record their own steps in the same turn. You inspect sessions in the Lens UI or query turns with the read API.](/images/ai/context-engine/lens-how-it-works.svg)
+{width="750"}
+
+## Quick example
+
+1. Set up a Lens instance and get its endpoints and keys:
+    - **Redis Cloud:** [Create Lens](/content/operate/iris/lens/create-lens.md).
+    - **Self-managed:** [Deploy Lens on Kubernetes](/content/operate/iris/lens/self-managed/_index.md).
+1. Install the Redis Iris Python package:
+
+    ```bash
+    pip install 'redis-iris[llm-tracing]>=1.0.0'
+    ```
+
+1. With `IRIS_LENS_ENDPOINT`, `IRIS_LENS_API_KEY`, and `IRIS_LENS_AGENT_ID` in your environment, trace a turn. The example calls OpenAI; use any supported client.
+
+{{< clients-example set="iris_lens_quickstart" step="trace_turn" description="" lang_filter="Python (Iris)" footer="hide" />}}
+
+Follow the [quickstart](/content/develop/ai/context-engine/lens/quickstart.md) to read the turn back.
+
+## Use Lens
+
+- [Instrument an agent](/content/develop/ai/context-engine/lens/instrument.md): record turns, retrievals, prompt assembly, and custom steps.
+- [Integrate with an agent framework](/content/develop/ai/context-engine/lens/agent-integration.md): trace LangGraph, OpenAI Agents SDK, Google Agent Development Kit (ADK), and your own loop.
+- [Inspect sessions](/content/develop/ai/context-engine/lens/inspect-sessions.md): find a session and read its turns in the Lens UI.
+- [Configure Lens](/content/develop/ai/context-engine/lens/configure.md): settings, keys, content capture, and OpenTelemetry.
+- [Query sessions and turns](/content/develop/ai/context-engine/lens/read-api.md): read turns from code.
+- [Limits and errors](/content/develop/ai/context-engine/lens/limits.md): request limits, export behavior, and troubleshooting.
+- [API reference](/content/develop/ai/context-engine/lens/api-reference.md): the read API operations and data models.

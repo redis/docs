@@ -1,2 +1,2 @@
-{{$file := .Get 0}}
-{{printf "./static/code/%s" $file  | readFile | safeHTML}}
+{{$file := .Get 0 -}}
+{{printf "./static/code/%s" $file  | readFile | strings.TrimRight "\r\n" | safeHTML}}

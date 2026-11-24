@@ -69,6 +69,11 @@ around a literal, rewrite the sentence.
   A UI icon inside a sentence or table cell is an inline image with `#no-click` and no
   attributes, `Select ![Delete](/images/rs/icons/delete-icon.png#no-click) **Delete**`;
   CSS sizes it to the text. Screenshots are always their own paragraph.
+- **Callouts are Markdown blockquotes**: `> [!NOTE]`, `> [!TIP]`, `> [!WARNING]`.
+  Inside a numbered step, indent the blockquote to the step's level. The
+  `{{< note >}}`, `{{< tip >}}`, and `{{< warning >}}` shortcodes are the older form.
+  Never use them in new content, and convert them when you copy content from another
+  page. Leave existing ones alone unless converting the page is the task.
 - **Preserve shortcodes, frontmatter, and code fences verbatim.** Do not reformat them.
 - **Frontmatter**: copy the shape from a sibling page in the same directory rather than
   composing one. `title` and `linkTitle` are effectively universal; `description`,

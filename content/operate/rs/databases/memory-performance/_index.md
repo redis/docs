@@ -84,7 +84,7 @@ applications. Databases in Redis Software can be resharded into more
 Redis shards to scale throughput while maintaining sub-millisecond
 latencies. Resharding is performed without downtime.
 
-![](/images/rs/sharding.png)
+![Redis cluster of three nodes: master-1 and replica-2 on node 1, master-2 on node 2, and replica-1 on node 3](/images/rs/sharding.png)
 
 Redis Software places master shards and replicas in separate
 nodes, racks, and zones, and uses in-memory replication to protect data

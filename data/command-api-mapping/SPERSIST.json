@@ -1,0 +1,67 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "spersist(name: KeyT, *members: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[int]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "sPersist(key: RedisArgument, members: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "spersist(key, *members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

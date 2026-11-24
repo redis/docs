@@ -89,7 +89,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MOVE(key: RedisArgument, db: number)",
+        "signature": "move(key: RedisArgument, db: number)",
         "params": [
           {
             "name": "key",
@@ -103,7 +103,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -262,6 +262,32 @@
         "returns": {
           "type": "Boolean",
           "description": "whether the key was moved or not"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "move(key: RedisKey, db: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
         }
       }
     ]

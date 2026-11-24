@@ -86,12 +86,12 @@ public class HomeQueryVecExample {
             // REMOVE_END
 
             // STEP_START create_index
-            List<FieldArgs<String>> schema = Arrays.asList(TextFieldArgs.<String> builder().name("content").build(),
-                    TagFieldArgs.<String> builder().name("genre").build(),
+            List<FieldArgs> schema = Arrays.asList(TextFieldArgs.builder().name("content").build(),
+                    TagFieldArgs.builder().name("genre").build(),
                     VectorFieldArgs.<String> builder().name("embedding").hnsw().type(VectorFieldArgs.VectorType.FLOAT32)
                             .dimensions(384).distanceMetric(VectorFieldArgs.DistanceMetric.L2).build());
 
-            CreateArgs<String, String> createArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.HASH)
+            CreateArgs createArgs = CreateArgs.builder().on(CreateArgs.TargetType.HASH)
                     .withPrefix("doc:").build();
 
             CompletableFuture<Void> createIndex = asyncCommands.ftCreate("vector_idx", createArgs, schema)
@@ -214,19 +214,19 @@ public class HomeQueryVecExample {
                 // ...
             }
 
-            SearchArgs<String, byte[]> searchArgs = SearchArgs.<String, byte[]> builder()
+            SearchArgs<String> searchArgs = SearchArgs.<String> builder()
                     .param("vec", floatArrayToByteArray(queryEmbedding)).returnField("content").returnField("vector_distance")
                     .sortBy(SortByArgs.<String> builder().attribute("vector_distance").build()).build();
 
-            CompletableFuture<SearchReply<String, byte[]>> hashQuery = binAsyncCommands
-                    .ftSearch("vector_idx", "*=>[KNN 3 @embedding $vec AS vector_distance]".getBytes(StandardCharsets.UTF_8),
+            CompletableFuture<SearchReply<String>> hashQuery = binAsyncCommands
+                    .ftSearch("vector_idx", "*=>[KNN 3 @embedding $vec AS vector_distance]",
                             searchArgs)
                     .thenApply(result -> {
-                        List<SearchReply.SearchResult<String, byte[]>> results = result.getResults();
+                        List<SearchReply.SearchResult<String>> results = result.getResults();
 
                         results.forEach(r -> {
-                            String content = new String(r.getFields().get("content"), StandardCharsets.UTF_8);
-                            String distance = new String(r.getFields().get("vector_distance"), StandardCharsets.UTF_8);
+                            String content = r.getFields().get("content").asString();
+                            String distance = r.getFields().get("vector_distance").asString();
 
                             System.out.println("ID: " + r.getId() + ", Content: " + content + ", Distance: " + distance);
                         });
@@ -243,14 +243,14 @@ public class HomeQueryVecExample {
             hashQuery.join();
 
             // STEP_START json_schema
-            List<FieldArgs<String>> jsonSchema = Arrays.asList(
-                    TextFieldArgs.<String> builder().name("$.content").as("content").build(),
-                    TagFieldArgs.<String> builder().name("$.genre").as("genre").build(),
+            List<FieldArgs> jsonSchema = Arrays.asList(
+                    TextFieldArgs.builder().name("$.content").as("content").build(),
+                    TagFieldArgs.builder().name("$.genre").as("genre").build(),
                     VectorFieldArgs.<String> builder().name("$.embedding").as("embedding").hnsw()
                             .type(VectorFieldArgs.VectorType.FLOAT32).dimensions(384)
                             .distanceMetric(VectorFieldArgs.DistanceMetric.L2).build());
 
-            CreateArgs<String, String> jsonCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs jsonCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("jdoc:").build();
 
             CompletableFuture<Void> jsonCreateIndex = asyncCommands.ftCreate("vector_json_idx", jsonCreateArgs, jsonSchema)
@@ -344,19 +344,19 @@ public class HomeQueryVecExample {
                 // ...
             }
 
-            SearchArgs<String, byte[]> jsonSearchArgs = SearchArgs.<String, byte[]> builder()
+            SearchArgs<String> jsonSearchArgs = SearchArgs.<String> builder()
                     .param("vec", floatArrayToByteArray(jsonQueryEmbedding)).returnField("content").returnField("vector_distance")
                     .sortBy(SortByArgs.<String> builder().attribute("vector_distance").build()).build();
 
-            CompletableFuture<SearchReply<String, byte[]>> jsonQuery = binAsyncCommands
-                    .ftSearch("vector_json_idx", "*=>[KNN 3 @embedding $vec AS vector_distance]".getBytes(StandardCharsets.UTF_8),
+            CompletableFuture<SearchReply<String>> jsonQuery = binAsyncCommands
+                    .ftSearch("vector_json_idx", "*=>[KNN 3 @embedding $vec AS vector_distance]",
                             jsonSearchArgs)
                     .thenApply(result -> {
-                        List<SearchReply.SearchResult<String, byte[]>> results = result.getResults();
+                        List<SearchReply.SearchResult<String>> results = result.getResults();
 
                         results.forEach(r -> {
-                            String content = new String(r.getFields().get("content"), StandardCharsets.UTF_8);
-                            String distance = new String(r.getFields().get("vector_distance"), StandardCharsets.UTF_8);
+                            String content = r.getFields().get("content").asString();
+                            String distance = r.getFields().get("vector_distance").asString();
 
                             System.out.println("ID: " + r.getId() + ", Content: " + content + ", Distance: " + distance);
                         });

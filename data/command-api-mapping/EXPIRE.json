@@ -253,7 +253,7 @@
     ],
     "node_redis": [
       {
-        "signature": "EXPIRE(key: RedisArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "signature": "expire(key: RedisArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
         "params": [
           {
             "name": "key",
@@ -272,7 +272,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -715,6 +715,148 @@
         "returns": {
           "type": "Boolean",
           "description": "whether the timeout was set or not"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "expire(key: RedisKey, seconds: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "expire(key: RedisKey, seconds: number | string, nx: \"NX\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "\"NX\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "expire(key: RedisKey, seconds: number | string, xx: \"XX\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "\"XX\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "expire(key: RedisKey, seconds: number | string, gt: \"GT\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "\"GT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "expire(key: RedisKey, seconds: number | string, lt: \"LT\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "\"LT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
         }
       }
     ]

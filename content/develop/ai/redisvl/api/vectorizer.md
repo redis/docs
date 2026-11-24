@@ -186,7 +186,9 @@ Initialize the OpenAI vectorizer.
   * **model** (*str*) – Model to use for embedding. Defaults to
     ‘text-embedding-ada-002’.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
-    API key and any additional OpenAI API options. Defaults to None.
+    API key and any additional OpenAI API options. The API key
+    falls back to the `OPENAI_API_KEY` environment variable when it
+    is missing or empty. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
@@ -388,7 +390,9 @@ Initialize the VertexAI vectorizer.
   * **model** (*str*) – Model to use for embedding. Defaults to
     ‘textembedding-gecko’.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
-    API config details. Defaults to None.
+    API config details. `project_id` and `location` fall back
+    to the `GCP_PROJECT_ID` and `GCP_LOCATION` environment
+    variables when missing or empty. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
@@ -564,8 +568,9 @@ environment variable. User must obtain an API key from Cohere’s website
 ([https://dashboard.cohere.com/](https://dashboard.cohere.com/)). Additionally, the cohere python
 client must be installed with pip install cohere.
 
-The vectorizer supports only synchronous operations, allows for batch
-processing of texts and flexibility in handling preprocessing tasks.
+The vectorizer supports both synchronous and asynchronous operations,
+allows for batch processing of texts and flexibility in handling
+preprocessing tasks.
 
 You can optionally enable caching to improve performance when generating
 embeddings for repeated text inputs.
@@ -617,13 +622,19 @@ Visit [https://cohere.ai/embed](https://cohere.ai/embed) to learn about embeddin
 * **Parameters:**
   * **model** (*str*) – Model to use for embedding. Defaults to ‘embed-english-v3.0’.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
-    Defaults to None.
+    Missing or empty keys fall back to the
+    `COHERE_API_KEY` environment variable. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     ‘float32’ will use Cohere’s float embeddings, ‘int8’ and ‘uint8’ will map
     to Cohere’s corresponding embedding types. Defaults to ‘float32’.
   * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
     better performance with repeated texts. Defaults to None.
+  * **\*\*kwargs** – Passed to the Cohere `Client` and `AsyncClient`, for
+    example `timeout` or `base_url`. A custom `httpx_client` is
+    synchronous, so it goes to the sync client only and the async
+    methods fall back to it; pass `async_httpx_client` (an
+    `httpx.AsyncClient`) to give the async client its own.
   * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the cohere library is not installed.
@@ -945,7 +956,8 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
 * **Parameters:**
   * **model** (*str*) – Model to use for embedding. Defaults to "voyage-3-large".
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
-    Defaults to None.
+    Missing or empty keys fall back to the
+    `VOYAGE_API_KEY` environment variable. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding content as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
@@ -1076,7 +1088,8 @@ Initialize the MistralAI vectorizer.
   * **model** (*str*) – Model to use for embedding. Defaults to
     ‘mistral-embed’.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
-    API key. Defaults to None.
+    API key. Missing or empty keys fall back to the
+    `MISTRAL_API_KEY` environment variable. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.

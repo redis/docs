@@ -58,13 +58,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser, message?: RedisArgument)",
+        "signature": "ping(message?: RedisArgument)",
         "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The command parser"
-          },
           {
             "name": "message",
             "type": "RedisArgument",
@@ -77,11 +72,68 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ping()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ping()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ping()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "TimeSpan Ping(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use when pinging."
+          }
+        ],
+        "returns": {
+          "type": "TimeSpan",
+          "description": "The observed latency."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<TimeSpan> PingAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task<TimeSpan>",
+          "description": "The observed latency."
+        }
+      }
+    ],
     "php": [
       {
         "signature": "ping(?string $message = null)",
@@ -98,8 +150,104 @@
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "ping()",
+        "params": [],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ping_message(message: K)",
+        "params": [
+          {
+            "name": "message",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "ping()",
+        "params": [],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ping_message(message: K)",
+        "params": [
+          {
+            "name": "message",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "ping(callback?: Callback<\"PONG\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"PONG\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"PONG\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ping(message: string | Buffer, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "message",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ping(message = nil)",
+        "params": [
+          {
+            "name": "message",
+            "type": "optional, String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "`PONG`"
+        }
+      }
+    ]
   }
 }
-

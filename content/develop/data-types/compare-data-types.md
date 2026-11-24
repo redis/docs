@@ -130,6 +130,7 @@ and deques.
 Sets store collections of unique strings. They provide efficient
 operations for testing membership, adding and removing elements.
 They also support set operations like intersection, union, and difference.
+You can specify expirations for individual set members.
 
 ### Sorted sets
 
@@ -160,6 +161,9 @@ The sections below explore the pros and cons of each data type for
 particular tasks. Note that you should regard
 the suggestions as "rules-of-thumb" rather than strict prescriptions, since
 there are potentially many subtle reasons to prefer one data type over another.
+Memory use is one of these reasons. To compare how much memory one of your
+records needs as a string, a hash, or a JSON document, use the calculator in
+[Compare memory use](#compare-memory-use).
 
 ### Documents
 
@@ -207,7 +211,7 @@ questions:
         text: |
             Do you need to set expiration times on individual pieces of data
             within the document?
-        whyAsk: "Only hashes support efficient field-level access and expiration"
+        whyAsk: "Of the document types, only hashes support efficient field-level access and expiration"
         answers:
             yes:
                 value: "Yes"
@@ -251,6 +255,12 @@ questions:
                     label: "Use strings"
                     id: stringOutcome
 ```
+
+#### Compare memory use
+
+How much memory each type needs depends on your data. To compare the types for one of your own records, use the calculator.
+
+{{< sizing-calculator >}}
 
 ### Collections
 

@@ -316,7 +316,7 @@ The exported file holds sanitized telemetry only. It never contains your Radar t
 
 ## Monitor and secure the agent
 
-Every agent appears in Radar under **Settings > Agents** and in the **Connected agents** list on the Connections page. Radar shows each agent's mode, platform, version, and last heartbeat, along with the combined health of the sources it collects from.
+Every agent appears in Radar under **Settings > Agents** and in the **Connected agents** list on the Connections page. Radar shows each agent's mode, platform, version, and last heartbeat, along with the combined health of the sources it collects from. Under **Settings > Agents**, each agent also lists its warnings and the collection status of each source.
 
 ![The Connections page, with the Connected agents list showing each agent's mode, platform, version, and status](/images/radar/connections-with-agents.png)
 {width="90%"}

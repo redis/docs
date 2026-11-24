@@ -65,7 +65,7 @@ An outage is not the only risk. A long transaction can hold the restart position
 ![A long-running Oracle transaction holds an older restart position while other transactions commit. Removing that older redo makes a later restart unsafe.](/images/rdi/cdc-retention/oracle-transactions.svg)
 {width="560"}
 
-Two other cases need a different diagnosis. During a snapshot, a “snapshot too old” error concerns [undo history for consistent reads](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/UNDO_RETENTION.html), not streaming redo retention. With XStream, recovery also depends on Oracle's capture checkpoints and outbound-server state; a saved client position alone is insufficient. See [Prepare Oracle](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle.md) and [XStream restartability](https://docs.oracle.com/en/database/oracle/oracle-database/19/xstrm/xstream-out-concepts.html).
+Two other cases need a different diagnosis. During a snapshot, a “snapshot too old” error concerns [undo history for consistent reads](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/UNDO_RETENTION.html), not streaming redo retention. With XStream, recovery also depends on Oracle's capture checkpoints and outbound-server state; a saved client position alone is insufficient. See [Prepare Oracle](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/_index.md) and [XStream restartability](https://docs.oracle.com/en/database/oracle/oracle-database/19/xstrm/xstream-out-concepts.html).
 
 ### MySQL and MariaDB: preserve files and source continuity
 

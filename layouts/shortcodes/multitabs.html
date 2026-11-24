@@ -7,6 +7,8 @@
       tab2="Tab Title 2"
       tab3="Tab Title 3" >}}
 
+  Optional: selector="dropdown" label="Client" sync="client-choice"
+
   Content for tab 1
 
   -tab-sep-
@@ -52,7 +54,7 @@
 
 {{/* Render tabs if we have any */}}
 {{ if gt (len $tabs) 0 }}
-  {{ partial "components/generic-tabs.html" (dict "id" $id "tabs" $tabs) }}
+  {{ partial "components/generic-tabs.html" (dict "id" $id "tabs" $tabs "selector" (.Get "selector") "label" (.Get "label") "sync" (.Get "sync")) }}
 {{ else }}
   {{/* Fallback to single content box */}}
   <div class="generic-tabs-single mb-6">

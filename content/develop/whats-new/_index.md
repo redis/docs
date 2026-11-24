@@ -12,6 +12,12 @@ hideListLinks: true
 weight: 10
 ---
 
+## Q4 2026 (October - December) Updates
+
+### Redis Version Updates
+
+- [Redis 8.12](/content/develop/whats-new/8-12.md) - Compressed (Roaring) bitmaps and the new `BITRANGEINTARRAY` command; expiration on individual set members with `SEXPIRE` and related commands; eviction protection with `BLESS`; SQ8 compression for HNSW vector fields; automatic creation of deep JSON paths; configurable TLS named groups; and performance improvements across Redis core, Search, JSON, and Probabilistic.
+
 ## Q3 2026 (July - September) Updates
 
 ### Redis Version Updates
@@ -22,8 +28,8 @@ weight: 10
 
 ### Redis Iris (Context Engine)
 
-- Added self-managed deployment documentation for all four Redis Iris services: [LangCache](/content/operate/iris/langcache/self-managed/_index.md), [Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md), [Context Retriever](/content/develop/ai/context-engine/context-retriever/install/_index.md), and [Data Integration](/content/integrate/redis-data-integration/_index.md)
-- Updated [LangCache](/content/develop/ai/context-engine/langcache/_index.md), [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md), [Context Retriever](/content/develop/ai/context-engine/context-retriever/_index.md), and [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) quickstarts with fully managed and self-managed deployment paths
+- Added self-managed deployment documentation for all four Redis Iris services: [LangCache](/content/operate/rc/langcache/self-managed/_index.md), [Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md), Context Retriever, and [Data Integration](/content/integrate/redis-data-integration/_index.md)
+- Updated [LangCache](/content/develop/ai/langcache/_index.md), [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md), Context Retriever, and [Data Integration](/content/integrate/redis-data-integration/_index.md) quickstarts with fully managed and self-managed deployment paths
 - Added [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md) explaining how agents get context from Redis Iris
 - Added new [AI agent builder](/content/develop/ai/agent-builder/_index.md) templates for knowledge assistants (RAG) and Redis Iris conversational assistants
 
@@ -149,7 +155,7 @@ weight: 10
   - Vectorizers
 - Added [AI video tutorials](/content/develop/ai/ai-videos.md) with YouTube content
 - Added [AI notebook collection](/content/develop/ai/notebook-collection.md) with notebook links
-- Added [LangCache documentation](/content/develop/ai/context-engine/langcache/_index.md) with API examples
+- Added [LangCache documentation](/content/develop/ai/langcache/_index.md) with API examples
 
 ---
 
@@ -189,7 +195,7 @@ weight: 10
 
 - Updated [vector types documentation](/content/develop/ai/search-and-query/vectors/_index.md) for INT8 and UINT8
 - Added [GEO search precision information](/content/develop/ai/search-and-query/indexing/geoindex.md)
-- Enhanced [LangCache SDK](/content/develop/ai/context-engine/langcache/_index.md) with savings calculator and improved API documentation
+- Enhanced [LangCache SDK](/content/develop/ai/langcache/_index.md) with savings calculator and improved API documentation
 
 ---
 
@@ -248,7 +254,7 @@ weight: 10
   - [Lettuce vector queries](/content/develop/clients/lettuce/vecsearch.md)
   - [Lettuce vector sets](/content/develop/clients/lettuce/vecsets.md)
 - Updated [redisvl documentation](/content/develop/ai/redisvl/_index.md) for versions 0.6.0-0.8.2
-- Added [LangCache SDK](/content/develop/ai/context-engine/langcache/_index.md) documentation with [API reference](/content/develop/ai/context-engine/langcache/api-examples.md)
+- Added [LangCache SDK](/content/develop/ai/langcache/_index.md) documentation with [API reference](/content/develop/ai/langcache/api-examples.md)
 
 ---
 

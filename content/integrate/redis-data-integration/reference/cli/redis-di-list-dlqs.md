@@ -14,7 +14,7 @@ that RDI rejected. Use
 to read the records of a single queue.
 
 There is one queue per source table, named `<source>.<qualified_table_name>`, where `<source>`
-is the source name from `config.yaml` and `<qualified_table_name>` is the qualified table name, 
+is the source name from `config.yaml` and `<qualified_table_name>` is the qualified table name,
 such as `public.users` for PostgreSQL or `inventory.dbo.users` for SQL Server. See
 [Rejected records](/content/integrate/redis-data-integration/data-pipelines/rejected-records.md#how-rdi-stores-rejected-records)
 for the form each database uses.

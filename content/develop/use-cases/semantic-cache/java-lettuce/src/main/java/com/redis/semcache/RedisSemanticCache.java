@@ -6,12 +6,23 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import io.lettuce.core.codec.ByteArrayCodec;
 import io.lettuce.core.output.NestedMultiOutput;
-import io.lettuce.core.output.StatusOutput;
 import io.lettuce.core.protocol.CommandArgs;
 import io.lettuce.core.protocol.ProtocolKeyword;
+import io.lettuce.core.search.FieldValue;
+import io.lettuce.core.search.SearchReply;
+import io.lettuce.core.search.arguments.CreateArgs;
+import io.lettuce.core.search.arguments.FieldArgs;
+import io.lettuce.core.search.arguments.NumericFieldArgs;
+import io.lettuce.core.search.arguments.QueryDialects;
+import io.lettuce.core.search.arguments.SearchArgs;
+import io.lettuce.core.search.arguments.SortByArgs;
+import io.lettuce.core.search.arguments.TagFieldArgs;
+import io.lettuce.core.search.arguments.TextFieldArgs;
+import io.lettuce.core.search.arguments.VectorFieldArgs;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,14 +59,16 @@ import java.util.UUID;
  * {@code allkeys-lfu} eviction policy on the database to cap memory
  * under pressure too.
  *
- * <p>Lettuce 6.7 doesn't yet ship first-class {@code FT.*} bindings,
- * so the cache uses {@code dispatch()} with a custom
- * {@link ProtocolKeyword} for {@code FT.CREATE}, {@code FT.SEARCH},
- * {@code FT.INFO}, and {@code FT.DROPINDEX}. Everything else —
- * {@code HSET}, {@code HINCRBY}, {@code EXPIRE}, {@code TTL},
- * {@code MULTI}/{@code EXEC} — goes through the built-in synchronous
- * API on a {@code byte[]}-codec connection so binary embedding bytes
- * and UTF-8 text can share the same hash without separate connections.
+ * <p>{@code FT.CREATE}, {@code FT.SEARCH}, and {@code FT.DROPINDEX} go
+ * through Lettuce's typed {@code RediSearchCommands} API
+ * ({@code ftCreate}, {@code ftSearch}, {@code ftDropindex}). Lettuce
+ * has no typed {@code FT.INFO} helper, so that one command is sent
+ * with {@code dispatch()} and a custom {@link ProtocolKeyword}.
+ * Everything else — {@code HSET}, {@code HINCRBY}, {@code EXPIRE},
+ * {@code TTL}, {@code MULTI}/{@code EXEC} — goes through the built-in
+ * synchronous API on a {@code byte[]}-codec connection so binary
+ * embedding bytes and UTF-8 text can share the same hash without
+ * separate connections.
  */
 public final class RedisSemanticCache {
 
@@ -69,22 +82,14 @@ public final class RedisSemanticCache {
     private static final String TAG_SPECIAL = "\\,.<>{}[]\"':;!@#$%^&*()-+=~| ";
 
     /**
-     * Custom {@link ProtocolKeyword}s for the Redis Search
-     * subcommands we send via {@code dispatch()}. Lettuce 6.7 has no
-     * native {@code FT.*} bindings, but {@code dispatch()} accepts
-     * any keyword whose {@code getBytes()} returns the raw command
-     * name. We deliberately spell out each one as its own keyword
-     * (rather than {@code add("CREATE")} on a single {@code FT}
-     * keyword) so the wire bytes match the standard Redis Search
-     * tooling — {@code MONITOR}, {@code LATENCY HISTORY}, server-side
-     * ACL rules — exactly as if the commands had been typed in
+     * Custom {@link ProtocolKeyword} for {@code FT.INFO}, the one Redis
+     * Search command Lettuce has no typed method for. {@code dispatch()}
+     * accepts any keyword whose {@code getBytes()} returns the raw
+     * command name, so the wire bytes match what you would type in
      * {@code redis-cli}.
      */
     private enum FtCommand implements ProtocolKeyword {
-        FT_CREATE("FT.CREATE"),
-        FT_SEARCH("FT.SEARCH"),
-        FT_INFO("FT.INFO"),
-        FT_DROPINDEX("FT.DROPINDEX");
+        FT_INFO("FT.INFO");
 
         private final byte[] bytes;
         private final String wire;
@@ -191,29 +196,28 @@ public final class RedisSemanticCache {
      * but the cache lookup itself is vector-only.
      */
     public void createIndex() {
-        CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                .add(indexNameBytes)
-                .add("ON").add("HASH")
-                .add("PREFIX").add(1).add(keyPrefix.getBytes(StandardCharsets.UTF_8))
-                .add("SCHEMA")
-                .add("prompt").add("TEXT")
-                .add("response").add("TEXT")
-                .add("tenant").add("TAG")
-                .add("locale").add("TAG")
-                .add("model_version").add("TAG")
-                .add("safety").add("TAG")
-                .add("created_ts").add("NUMERIC").add("SORTABLE")
-                .add("hit_count").add("NUMERIC").add("SORTABLE")
-                .add("embedding").add("VECTOR").add("HNSW").add(6)
-                .add("TYPE").add("FLOAT32")
-                .add("DIM").add(vectorDim)
-                .add("DISTANCE_METRIC").add("COSINE");
+        List<FieldArgs> schema = Arrays.asList(
+                TextFieldArgs.builder().name("prompt").build(),
+                TextFieldArgs.builder().name("response").build(),
+                TagFieldArgs.builder().name("tenant").build(),
+                TagFieldArgs.builder().name("locale").build(),
+                TagFieldArgs.builder().name("model_version").build(),
+                TagFieldArgs.builder().name("safety").build(),
+                NumericFieldArgs.builder().name("created_ts").sortable().build(),
+                NumericFieldArgs.builder().name("hit_count").sortable().build(),
+                VectorFieldArgs.builder()
+                        .name("embedding")
+                        .hnsw()
+                        .type(VectorFieldArgs.VectorType.FLOAT32)
+                        .dimensions(vectorDim)
+                        .distanceMetric(VectorFieldArgs.DistanceMetric.COSINE)
+                        .build());
+        CreateArgs createArgs = CreateArgs.builder()
+                .on(CreateArgs.TargetType.HASH)
+                .withPrefix(keyPrefix)
+                .build();
         try {
-            sync.dispatch(
-                    FtCommand.FT_CREATE,
-                    new StatusOutput<>(ByteArrayCodec.INSTANCE),
-                    args
-            );
+            sync.ftCreate(indexName, createArgs, schema);
         } catch (RedisException ex) {
             if (!String.valueOf(ex.getMessage()).contains("Index already exists")) {
                 throw ex;
@@ -223,23 +227,24 @@ public final class RedisSemanticCache {
 
     /** Drop the search index. Optionally also delete cached entries. */
     public void dropIndex(boolean deleteDocuments) {
-        CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                .add(indexNameBytes);
-        if (deleteDocuments) {
-            args.add("DD");
-        }
         try {
-            sync.dispatch(
-                    FtCommand.FT_DROPINDEX,
-                    new StatusOutput<>(ByteArrayCodec.INSTANCE),
-                    args
-            );
+            sync.ftDropindex(indexName, deleteDocuments);
         } catch (RedisException ex) {
-            String msg = String.valueOf(ex.getMessage()).toLowerCase(Locale.ROOT);
-            if (!msg.contains("no such index") && !msg.contains("unknown index name")) {
+            if (!isMissingIndex(ex)) {
                 throw ex;
             }
         }
+    }
+
+    /**
+     * Redis Search phrases the missing-index error differently across
+     * versions ("Unknown index name", "no such index", and, from Redis
+     * 8.10, "SEARCH_INDEX_NOT_FOUND Index not found").
+     */
+    private static boolean isMissingIndex(RedisException ex) {
+        String msg = String.valueOf(ex.getMessage()).toLowerCase(Locale.ROOT);
+        return msg.contains("no such index") || msg.contains("unknown index name")
+                || msg.contains("index not found");
     }
 
     // ------------------------------------------------------------------
@@ -287,24 +292,20 @@ public final class RedisSemanticCache {
         String knnQuery = filterClause + "=>[KNN 1 @embedding $vec AS distance]";
         byte[] vecBytes = LocalEmbedder.toBytes(queryVec);
 
-        CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                .add(indexNameBytes)
-                .add(knnQuery)
-                .add("RETURN").add(7)
-                .add("prompt").add("response").add("tenant").add("locale")
-                .add("model_version").add("hit_count").add("distance")
-                .add("SORTBY").add("distance").add("ASC")
-                .add("LIMIT").add(0).add(1)
-                .add("PARAMS").add(2).add("vec".getBytes(StandardCharsets.UTF_8)).add(vecBytes)
-                .add("DIALECT").add(2);
+        SearchArgs<byte[]> args = SearchArgs.<byte[]>builder()
+                .param("vec", vecBytes)
+                .returnField("prompt").returnField("response")
+                .returnField("tenant").returnField("locale")
+                .returnField("model_version").returnField("hit_count")
+                .returnField("distance")
+                .sortBy(SortByArgs.builder().attribute("distance").build())
+                .limit(0, 1)
+                .dialect(QueryDialects.DIALECT2)
+                .build();
 
-        List<Object> raw = sync.dispatch(
-                FtCommand.FT_SEARCH,
-                new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
-                args
-        );
+        SearchReply<byte[]> reply = sync.ftSearch(indexName, knnQuery, args);
 
-        SearchHit hit = parseFirstHit(raw);
+        SearchHit hit = firstHit(reply);
         if (hit == null) {
             return new CacheMiss(null, null);
         }
@@ -535,23 +536,19 @@ public final class RedisSemanticCache {
 
     /** Return every cached entry (no embedding) for the admin UI. */
     public List<Map<String, Object>> listEntries(int limit) {
-        CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                .add(indexNameBytes)
-                .add("*")
-                .add("RETURN").add(8)
-                .add("prompt").add("response").add("tenant").add("locale")
-                .add("model_version").add("safety").add("created_ts").add("hit_count")
-                .add("SORTBY").add("created_ts").add("DESC")
-                .add("LIMIT").add(0).add(limit)
-                .add("DIALECT").add(2);
+        SearchArgs<byte[]> args = SearchArgs.<byte[]>builder()
+                .returnField("prompt").returnField("response")
+                .returnField("tenant").returnField("locale")
+                .returnField("model_version").returnField("safety")
+                .returnField("created_ts").returnField("hit_count")
+                .sortBy(SortByArgs.builder().attribute("created_ts").descending().build())
+                .limit(0, limit)
+                .dialect(QueryDialects.DIALECT2)
+                .build();
 
-        List<Object> raw = sync.dispatch(
-                FtCommand.FT_SEARCH,
-                new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
-                args
-        );
+        SearchReply<byte[]> reply = sync.ftSearch(indexName, "*", args);
 
-        List<SearchHit> hits = parseAllHits(raw);
+        List<SearchHit> hits = allHits(reply);
         List<Map<String, Object>> out = new ArrayList<>(hits.size());
         for (SearchHit hit : hits) {
             String entryId = hit.id.startsWith(keyPrefix)
@@ -608,47 +605,22 @@ public final class RedisSemanticCache {
         }
     }
 
-    /**
-     * Parse the first hit from an FT.SEARCH reply. The RESP2 shape
-     * is [count, key1, [field, value, field, value, ...], key2, ...].
-     * Returns {@code null} when count is 0 or the reply is shorter
-     * than expected.
-     */
-    private static SearchHit parseFirstHit(List<Object> raw) {
-        if (raw == null || raw.isEmpty()) return null;
-        long count = parseLong(raw.get(0), 0L);
-        if (count <= 0 || raw.size() < 3) return null;
-        String id = decode(raw.get(1));
-        Map<String, String> fields = fieldsToMap(raw.get(2));
-        return new SearchHit(id, fields);
+    /** The first hit of a typed FT.SEARCH reply, or {@code null} if it had none. */
+    private static SearchHit firstHit(SearchReply<byte[]> reply) {
+        List<SearchHit> hits = allHits(reply);
+        return hits.isEmpty() ? null : hits.get(0);
     }
 
-    /** Parse every hit from an FT.SEARCH reply, preserving order. */
-    private static List<SearchHit> parseAllHits(List<Object> raw) {
+    /** Every hit of a typed FT.SEARCH reply, preserving order. */
+    private static List<SearchHit> allHits(SearchReply<byte[]> reply) {
         List<SearchHit> out = new ArrayList<>();
-        if (raw == null || raw.size() < 3) return out;
-        // index 0 holds the total count; entries follow as
-        // (key, fields)* pairs.
-        for (int i = 1; i + 1 < raw.size(); i += 2) {
-            String id = decode(raw.get(i));
-            Map<String, String> fields = fieldsToMap(raw.get(i + 1));
-            out.add(new SearchHit(id, fields));
-        }
-        return out;
-    }
-
-    /**
-     * Turn the [field, value, field, value, ...] array inside an
-     * FT.SEARCH document into a {@code Map<String, String>}, decoding
-     * every entry as UTF-8.
-     */
-    private static Map<String, String> fieldsToMap(Object array) {
-        Map<String, String> out = new HashMap<>();
-        if (!(array instanceof List<?> list)) return out;
-        for (int i = 0; i + 1 < list.size(); i += 2) {
-            String field = decode(list.get(i));
-            String value = decode(list.get(i + 1));
-            out.put(field, value);
+        if (reply == null) return out;
+        for (SearchReply.SearchResult<byte[]> result : reply.getResults()) {
+            Map<String, String> fields = new HashMap<>();
+            for (Map.Entry<String, FieldValue> field : result.getFields().entrySet()) {
+                fields.put(field.getKey(), field.getValue().asString());
+            }
+            out.add(new SearchHit(decode(result.getId()), fields));
         }
         return out;
     }

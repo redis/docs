@@ -3,12 +3,10 @@ package com.redis.agentmem;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.ByteArrayCodec;
-import io.lettuce.core.protocol.ProtocolVersion;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -62,16 +60,6 @@ public final class DemoServer {
 
         RedisClient client = RedisClient.create(
                 RedisURI.Builder.redis(args.redisHost, args.redisPort).build());
-        // Pin the connection to RESP2 so FT.SEARCH and FT.INFO come
-        // back as the flat arrays our `NestedMultiOutput` parser
-        // expects. Lettuce 6.7 negotiates RESP3 by default with
-        // Redis 7+, which wraps the same data in a map/set structure
-        // we'd have to special-case across both the recall query
-        // and the FT.INFO snapshot; RESP2 keeps the wire format
-        // identical to what `redis-cli` shows on the command line.
-        client.setOptions(ClientOptions.builder()
-                .protocolVersion(ProtocolVersion.RESP2)
-                .build());
         StatefulRedisConnection<byte[], byte[]> connection;
         try {
             connection = client.connect(ByteArrayCodec.INSTANCE);

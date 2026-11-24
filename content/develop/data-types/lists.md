@@ -29,6 +29,8 @@ Redis lists are frequently used to:
 * Implement stacks and queues.
 * Build queue management for background worker systems.
 
+{{< data-type-animation type="list" >}}
+
 ## Examples
 
 * Treat a list like a queue (first in, first out):

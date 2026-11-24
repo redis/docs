@@ -46,6 +46,10 @@ represent sorted sets). They are ordered according to the following rule:
 * If B and A are two elements with a different score, then A > B if A.score is > B.score.
 * If B and A have exactly the same score, then A > B if the A string is lexicographically greater than the B string. B and A strings can't be equal since sorted sets only have unique elements.
 
+{{< data-type-animation type="sorted-set" >}}
+
+## Examples
+
 Let's start with a simple example, we'll add all our racers and the score they got in the first race:
 
 {{< clients-example set="ss_tutorial" step="zadd" description="Foundational: Add members to a sorted set with their scores (creates new members or updates existing ones)" prereq="true" >}}
@@ -163,6 +167,46 @@ the elements sorted in a descending way.
 (integer) 2
 {{< /clients-example >}}
 
+## Move members between sorted sets
+
+Starting with Redis 8.12, use [`ZMOVE`](/content/commands/zmove.md) to atomically
+move members between sorted sets while preserving their scores:
+
+- `MIN` or `MAX` moves the lowest-scoring or highest-scoring members. Add
+  `COUNT count` to move more than one; without it, one member is moved.
+- `BYSCORE score-min score-max` moves a score range. Add `COUNT count` to cap
+  the batch size; without it, all matching members are moved.
+
+Use [`ZMOVEMEMBER`](/content/commands/zmovemember.md) with a counted
+`MEMBERS num-members member [member ...]` block to move named members. You can
+place an `NX` or `XX` destination-membership condition before or after that
+block. Use [`BZMOVE`](/content/commands/bzmove.md) to wait for lowest-scoring or
+highest-scoring members to become available.
+
+For example, a consumer can claim up to 500 bookmarks updated before a cutoff
+while writers continue updating the source:
+
+```text
+ZMOVE bookmarks:{user:42} batch:{user:42}:001 BYSCORE -inf (1700000000 COUNT 500
+```
+
+The `(` makes the cutoff exclusive. Members are selected in ascending score
+order, with lexicographical ordering for ties. All three move commands return
+an array of member/score pairs, nested even for a single member, or null if
+nothing moves. When specified, `COUNT` must be a positive integer.
+
+Give each batch a separate destination key. Process and persist its members,
+then delete the batch key after success. A later update to a source member
+remains in the source when the batch key is deleted. The move does not provide
+acknowledgments, automatic retries, or snapshots of values stored under other
+keys; your application must recover unfinished batches.
+
+A moved member's source score overwrites its score if it already exists in the
+destination, unless you use a `ZMOVEMEMBER` condition to skip it. Other
+destination members are retained. In Redis Open Source Cluster, both keys must
+share a hash slot; the shared `{user:42}` hash tag in this example provides
+that placement.
+
 ## Lexicographical scores
 
 In version Redis 2.8, a new feature was introduced that allows
@@ -219,8 +263,6 @@ The typical application is a Facebook game where you combine the ability to
 take users sorted by their high score, plus the get-rank operation, in order
 to show the top-N users, and the user rank in the leader board (e.g., "you are
 the #4932 best score here").
-
-## Examples
 
 * There are two ways we can use a sorted set to represent a leaderboard. If we know a racer's new score, we can update it directly via the [`ZADD`](/content/commands/zadd.md) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`](/content/commands/zincrby.md) command.
 {{< clients-example set="ss_tutorial" step="leaderboard" description="Practical pattern: Use ZADD to set scores and ZINCRBY to increment them when you need to update leaderboards with atomic operations" difficulty="intermediate" buildsUpon="zadd" >}}

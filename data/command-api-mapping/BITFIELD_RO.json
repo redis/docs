@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "bitfield_ro(self: Union[\"redis.client.Redis\", \"redis.asyncio.client.Redis\"],, key: KeyT,, encoding: str,, offset: BitfieldOffsetT,, items: Optional[list] = None,)",
+        "signature": "bitfield_ro(key: KeyT, encoding: str, offset: BitfieldOffsetT, items: Optional[list] = None)",
         "params": [
           {
             "name": "key",
@@ -99,7 +99,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BITFIELD_RO(key: RedisArgument, operations: BitFieldRoOperations)",
+        "signature": "bitFieldRo(key: RedisArgument, operations: BitFieldRoOperations)",
         "params": [
           {
             "name": "key",
@@ -113,37 +113,62 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NumberReply>",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "bitfield_ro(...args: [, key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[], callback: Callback<unknown[]>, ])",
+        "signature": "bitfield_ro(...args: [ key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[], callback: Callback<unknown[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "encodingOffsetToken",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "...encodingOffsets",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "bitfield_ro(...args: [, key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[], ])",
+        "signature": "bitfield_ro(...args: [ key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[] ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "encodingOffsetToken",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "...encodingOffsets",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }
@@ -158,8 +183,8 @@
             "description": ""
           },
           {
-            "name": "?array $encodingOffsetMap = null",
-            "type": "Any",
+            "name": "$encodingOffsetMap",
+            "type": "?array",
             "description": ""
           }
         ],

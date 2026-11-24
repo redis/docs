@@ -85,29 +85,44 @@ Standard routing covers any connection that doesn't use the OSS Cluster API.
 
 ### Redis Cloud
 
-SCH is fully supported and enabled by default on Redis Cloud, except when you
-are using one of the following options:
+SCH is enabled by default on Redis Cloud. The level of support depends on how
+you connect to the database and whether you use standard routing or the
+[OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md):
 
-- [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md)
-- [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+| Connection method | Standard routing | OSS Cluster API |
+| :-- | :-- | :-- |
+| [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) | Relaxed timeouts and pre-handoffs | Relaxed timeouts only |
+| [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md) | Relaxed timeouts only | Not available |
+| All other connection methods | Relaxed timeouts and pre-handoffs | Relaxed timeouts and pre-handoffs |
 
-These services don't currently allow for pre-handoffs, but you still get the
-benefit of relaxed timeouts during database version upgrades. All other
-configurations have full support for both relaxed timeouts and pre-handoffs.
+"Relaxed timeouts only" means that you still get the benefit of relaxed
+timeouts during database version upgrades, but the connection doesn't support
+pre-handoffs. Private Service Connect doesn't support the OSS Cluster API.
 
 ### Redis Software
 
 You must enable SCH explicitly on self-managed Redis Software servers by using the
 [v1/cluster](/content/operate/rs/references/rest-api/requests/cluster/_index.md)
-REST API request to set the `client_maint_notifications` option to `true`.
-The example below shows how to do this using the
+REST API request. Both options below default to `false`. Each one applies to
+databases with a different routing setup, so set the one that matches your databases
+(or both):
+
+| Option | Applies to |
+| :-- | :-- |
+| `client_maint_notifications` | Databases that use standard routing |
+| `oss_cluster_client_maint_notifications` | Databases that use the [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) |
+
+A database checks only the option that matches its routing setup. For example, a
+database with the OSS Cluster API enabled ignores `client_maint_notifications`.
+
+The example below shows how to set both options to `true` using the
 [`curl`](https://curl.se/) command line utility:
 
 ```bash
 curl -k -X PUT -H "accept: application/json" \
     -H "content-type: application/json" \
     -u "test@redis.com:test123" \
-    -d '{ "client_maint_notifications": true }' \
+    -d '{ "client_maint_notifications": true, "oss_cluster_client_maint_notifications": true }' \
     https://localhost:9443/v1/cluster
 ```
 

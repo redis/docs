@@ -19,7 +19,7 @@ This guide shows you how to build a small Redis-backed memory layer in Java with
 
 The embedder is [DJL](https://djl.ai/) (`ai.djl.huggingface.tokenizers` + `ai.djl.pytorch.pytorch-model-zoo`) running the canonical `sentence-transformers/all-MiniLM-L6-v2` PyTorch checkpoint — the same library and model the existing [Lettuce vector-search example](/content/develop/clients/lettuce/vecsearch.md) uses, and the same encoder the [Python](/content/develop/use-cases/memory-layer/redis-py/_index.md) example loads. DJL drives libtorch through the same C++ runtime as Python's PyTorch bindings, so the vectors produced here are numerically identical to the Python ones to within rounding noise, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
 
-The big shape difference from the [sister Jedis port](/content/develop/use-cases/memory-layer/java-jedis/_index.md) is that Lettuce 6.7 doesn't ship first-class `FT.*` or `JSON.*` bindings yet. The helper classes send those commands through Lettuce's generic `dispatch()` API with a custom `ProtocolKeyword`, and the FT.SEARCH/FT.INFO replies are parsed by walking the resulting `List<Object>` — see [`LongTermMemory.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/LongTermMemory.java) for the parser. The same connection is pinned to RESP2 at startup so the reply shape stays a flat array (Lettuce 6.7 negotiates RESP3 by default, which wraps the data in a map structure the parser would have to special-case).
+The big shape difference from the [sister Jedis port](/content/develop/use-cases/memory-layer/java-jedis/_index.md) is that the helpers use Lettuce's typed `RediSearchCommands` and `RedisJsonCommands` APIs (`ftCreate`, `ftSearch`, `ftDropindex`, `jsonSet`, `jsonNumincrby`) on a `byte[]`-codec connection, where the Jedis port builds the commands by hand. `FT.INFO` is the one exception: Lettuce has no typed method for it, so the helper sends it with `dispatch()` and a custom `ProtocolKeyword` — see [`LongTermMemory.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/LongTermMemory.java).
 
 ## Overview
 
@@ -44,8 +44,8 @@ Each turn through the agent loop touches all three tiers in one pass: append to 
 
 1. The application calls `embedder.encodeOne(text)` to turn the incoming turn into a 384-element `float[]`.
 2. `session.appendTurn(threadId, role, content, user, agent, null)` reads the per-thread Hash with [`HGETALL`](/content/commands/hgetall.md), appends the new turn to the rolling window in application code, trims it back to the configured maximum, and writes the Hash back with [`HSET`](/content/commands/hset.md) + [`EXPIRE`](/content/commands/expire.md) inside Lettuce's `multi()` / `exec()` transaction. The session TTL refreshes on every write so an active thread stays alive.
-3. `memory.recall(vec, user, namespace, null, 5, threshold)` issues `FT.SEARCH` via `dispatch()` with a TAG pre-filter and a `KNN 5` clause. Redis returns the closest matching memories together with their cosine distances; memories beyond the recall threshold are dropped before they reach the agent so an unrelated query doesn't surface confident-looking false positives.
-4. `memory.remember(text, vec, user, namespace, kind, threadId, null)` runs the same KNN with a tighter dedup threshold. If an existing memory is within the threshold, the new write is skipped and the existing memory's `hit_count` is incremented with `JSON.NUMINCRBY` (also via `dispatch()`) — best-effort: if the memory's TTL has elapsed between the recall and the bump, the increment quietly fails and the hit count for that recall is lost. Otherwise a fresh JSON document is written with `JSON.SET` and a per-kind [`EXPIRE`](/content/commands/expire.md) inside the same `multi()` transaction.
+3. `memory.recall(vec, user, namespace, null, 5, threshold)` issues `FT.SEARCH` through the typed `ftSearch` method with a TAG pre-filter and a `KNN 5` clause. Redis returns the closest matching memories together with their cosine distances; memories beyond the recall threshold are dropped before they reach the agent so an unrelated query doesn't surface confident-looking false positives.
+4. `memory.remember(text, vec, user, namespace, kind, threadId, null)` runs the same KNN with a tighter dedup threshold. If an existing memory is within the threshold, the new write is skipped and the existing memory's `hit_count` is incremented with `JSON.NUMINCRBY` (`jsonNumincrby`) — best-effort: if the memory's TTL has elapsed between the recall and the bump, the increment quietly fails and the hit count for that recall is lost. Otherwise a fresh JSON document is written with `JSON.SET` and a per-kind [`EXPIRE`](/content/commands/expire.md) inside the same `multi()` transaction.
 5. `events.record(threadId, action, detail)` appends one entry to the per-thread Stream with [`XADD MAXLEN ~`](/content/commands/xadd.md) (`XAddArgs.Builder.maxlen(N).approximateTrimming()`), bounding retention to roughly a thousand entries per thread without an explicit cleanup job.
 
 The embedding is computed once and reused for steps 3 and 4 — there's no point encoding the same text twice. Recall runs before the write, so the agent doesn't see its own just-written turn echoed back as a recalled memory.
@@ -57,21 +57,11 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 ```java
 import com.redis.agentmem.AgentSession;
 import com.redis.agentmem.SessionState;
-import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.ByteArrayCodec;
-import io.lettuce.core.protocol.ProtocolVersion;
 
 RedisClient client = RedisClient.create("redis://localhost:6379");
-// Pin to RESP2 so FT.SEARCH / FT.INFO reply with the flat arrays
-// the helper's parser expects (Lettuce 6.7 otherwise negotiates
-// RESP3 against Redis 7+ and wraps the same data in a map shape —
-// see the "Sending FT.* / JSON.* commands through Lettuce" section
-// below for the longer story).
-client.setOptions(ClientOptions.builder()
-        .protocolVersion(ProtocolVersion.RESP2)
-        .build());
 StatefulRedisConnection<byte[], byte[]> connection = client.connect(ByteArrayCodec.INSTANCE);
 
 // Shared lock across helpers so concurrent MULTI/EXEC spans on the
@@ -150,41 +140,38 @@ for (MemoryRecord h : memory.recall(q, "alice", "default", null, 5, null)) {
 }
 ```
 
-### Sending FT.* / JSON.* commands through Lettuce
+### Using the typed search and JSON commands
 
-Lettuce 6.7 doesn't ship first-class `FT.*` or `JSON.*` bindings, so the helper sends them through `dispatch()` with a custom `ProtocolKeyword`. Each command is its own keyword whose `getBytes()` returns the literal command name; the rest is built up with `CommandArgs<byte[], byte[]>`:
+Lettuce has typed methods for the Redis Search and Redis JSON commands the helper needs. `ftSearch` takes the query string and a `SearchArgs` builder, and the binary `$vec` parameter goes through `SearchArgs.Builder.param(...)`:
 
 ```java
-private enum ModuleCommand implements ProtocolKeyword {
-    FT_CREATE("FT.CREATE"),
-    FT_SEARCH("FT.SEARCH"),
-    FT_INFO("FT.INFO"),
-    FT_DROPINDEX("FT.DROPINDEX"),
-    JSON_SET("JSON.SET"),
-    JSON_NUMINCRBY("JSON.NUMINCRBY");
-    // ...implementation elided
-}
+SearchArgs<byte[]> args = SearchArgs.<byte[]>builder()
+        .param("vec", vecBytes)
+        .returnField("user").returnField("namespace").returnField("kind")
+        .returnField("source_thread").returnField("text")
+        .returnField("created_ts").returnField("hit_count")
+        .returnField("distance")
+        .sortBy(SortByArgs.builder().attribute("distance").build())
+        .limit(0, 5)
+        .dialect(QueryDialects.DIALECT2)
+        .build();
 
-CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-        .add(indexNameBytes)
-        .add(filterClause + "=>[KNN 5 @embedding $vec AS distance]")
-        .add("PARAMS").add(2).add("vec".getBytes(UTF_8)).add(vecBytes)
-        .add("RETURN").add(8).add("user").add("namespace").add("kind")
-        .add("source_thread").add("text").add("created_ts")
-        .add("hit_count").add("distance")
-        .add("SORTBY").add("distance").add("ASC")
-        .add("LIMIT").add(0).add(5)
-        .add("DIALECT").add(2);
-
-List<Object> raw = sync.dispatch(
-        ModuleCommand.FT_SEARCH,
-        new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
+SearchReply<byte[]> reply = sync.ftSearch(
+        indexName,
+        filterClause + "=>[KNN 5 @embedding $vec AS distance]",
         args);
 ```
 
-The `NestedMultiOutput` collects the RESP reply into a `List<Object>` — a flat `[count, key1, fields1, key2, fields2, ...]` array under RESP2, where each `fields` is itself a nested list of alternating field/value pairs. The helper walks that with `parseAllHits()` and `fieldsToMap()` (both private to `LongTermMemory`).
+Each result's `getFields()` is a `Map<String, FieldValue>`, and the helper reads the values with `asString()`. The index is created with `ftCreate`, using `CreateArgs` for the JSON target and prefix and one `FieldArgs` builder per schema field (`.name("$.text").as("text")` maps a JSON path to the short alias the queries use). The JSON writes use `jsonSet` and `jsonNumincrby`:
 
-The connection is pinned to RESP2 at startup with `ClientOptions.builder().protocolVersion(ProtocolVersion.RESP2)`. Lettuce 6.7 otherwise negotiates RESP3 against Redis 7+, which wraps `FT.SEARCH` and `FT.INFO` results in map / set shapes that the flat-array parser would have to special-case across every reply path.
+```java
+sync.jsonSet(keyBytes, JsonPath.ROOT_PATH, doc.toString());
+sync.jsonNumincrby(keyBytes, JsonPath.of("$.hit_count"), 1);
+```
+
+`FT.INFO` is the one command Lettuce has no typed method for. The helper sends it with `dispatch()` and a custom `ProtocolKeyword` whose `getBytes()` returns the literal command name, and reads the alternating key and value reply that `NestedMultiOutput` collects.
+
+The typed methods parse both RESP2 and RESP3 replies, so the demo doesn't pin a protocol version.
 
 ### Data model
 

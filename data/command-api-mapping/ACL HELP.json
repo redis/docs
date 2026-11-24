@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "acl_help(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[bytes | str]",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [],
     "go-redis": [],
     "node_redis": [],
@@ -9,28 +24,47 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
-        "params": [
-          {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
-            "description": ""
-          }
-        ],
+        "signature": "acl_help()",
+        "params": [],
         "returns": {
-          "type": "array",
+          "type": "(Vec<String>)",
           "description": ""
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [
+      {
+        "signature": "acl_help()",
+        "params": [],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"HELP\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HELP\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

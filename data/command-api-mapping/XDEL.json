@@ -171,7 +171,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XDEL(key: RedisArgument, id: RedisVariadicArgument)",
+        "signature": "xDel(key: RedisArgument, id: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -185,23 +185,33 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "xdel(...args: [, key: RedisKey, ...ids: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "signature": "xdel(...args: [ key: RedisKey, ...ids: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -209,13 +219,18 @@
         "signature": "xdel(...args: [key: RedisKey, ...ids: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...ids",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -317,30 +332,6 @@
         }
       },
       {
-        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": ""
-        }
-      },
-      {
         "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags)",
         "params": [
           {
@@ -372,7 +363,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamDeleteAsync(RedisKey key, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -391,12 +382,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": ""
         }
       },
       {
-        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamDeleteAsync(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -420,36 +411,12 @@
           }
         ],
         "returns": {
-          "type": "StreamTrimResult[]",
+          "type": "Task<StreamTrimResult[]>",
           "description": ""
         }
       },
       {
-        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "messageIds",
-            "type": "RedisValue[]",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": ""
-        }
-      },
-      {
-        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags)",
+        "signature": "StreamDeleteAsync(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -473,7 +440,7 @@
           }
         ],
         "returns": {
-          "type": "StreamTrimResult[]",
+          "type": "Task<StreamTrimResult[]>",
           "description": ""
         }
       }
@@ -488,8 +455,8 @@
             "description": ""
           },
           {
-            "name": "$id",
-            "type": "string ...",
+            "name": "...$id",
+            "type": "string",
             "description": ""
           }
         ],

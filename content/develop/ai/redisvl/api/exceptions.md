@@ -20,6 +20,7 @@ Exception
     ├── RedisSearchError
     ├── SchemaValidationError
     ├── QueryValidationError
+    ├── PartialDeletionError
     └── RedisModuleVersionError
 ```
 
@@ -33,15 +34,26 @@ Exception
 > `VectorQuery(..., ef_runtime=-1)` raises `ValueError` at construction time,
 > before any `try` block around the query run is entered.
 
+> [!NOTE]
+> Some failures are logged rather than raised. On Redis Cluster, `drop_keys()`,
+> `drop_by_filter()` and `clear()` remove keys one at a time and a per-key
+> failure is logged so one unreachable slot does not abort the batch. There is no
+> exception to catch in that case: check the returned count, or
+> `BulkResult.completed` for the bulk operations. The exception is a caller that
+> keeps its own mirror of the keyspace — `SemanticRouter` persists a route
+> config — which reconciles that mirror and then raises
+> [PartialDeletionError](#partialdeletionerror) so the partial deletion cannot go unnoticed.
+
 ## When each error is raised
 
-| Exception                                                                | Raised when                                                                                                                           | Typical entry points                                          |
-|--------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [SchemaValidationError](#schemavalidationerror)     | An object does not match the index schema. Only raised when the index was<br/>created with `validate_on_load=True`.                   | `load()`                                                      |
-| [QueryValidationError](#queryvalidationerror)       | A query is not valid for the index it targets, for example setting<br/>`ef_runtime` on a vector field that uses the `flat` algorithm. | `query()`                                                     |
-| [RedisSearchError](#redissearcherror)               | An index or search operation fails, including errors returned by Redis<br/>itself.                                                    | `create()`, `exists()`, `delete()`, `search()`, `aggregate()` |
-| [RedisModuleVersionError](#redismoduleversionerror) | The connected Redis or Redis Search version does not support a requested<br/>feature, such as an `svs-vamana` vector field.           | `create()`                                                    |
-| [RedisVLError](#redisvlerror)                       | A load operation fails for a reason not covered by a more specific error.<br/>Also the base class for everything above.               | `load()`                                                      |
+| Exception                                                                | Raised when                                                                                                                                                                                                           | Typical entry points                                                            |
+|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| [SchemaValidationError](#schemavalidationerror)     | An object does not match the index schema. Only raised when the index was<br/>created with `validate_on_load=True`.                                                                                                   | `load()`                                                                        |
+| [QueryValidationError](#queryvalidationerror)       | A query is not valid for the index it targets, for example setting<br/>`ef_runtime` on a vector field that uses the `flat` algorithm.                                                                                 | `query()`                                                                       |
+| [RedisSearchError](#redissearcherror)               | An index or search operation fails, including errors returned by Redis<br/>itself.                                                                                                                                    | `create()`, `exists()`, `delete()`, `search()`, `aggregate()`                   |
+| [PartialDeletionError](#partialdeletionerror)       | Some keys could not be removed from Redis, and the caller keeps its own<br/>record of them. RedisVL reconciles and persists that record first, so a<br/>retry targets exactly what is left. Practically cluster-only. | `SemanticRouter.remove_route()`,<br/>`SemanticRouter.delete_route_references()` |
+| [RedisModuleVersionError](#redismoduleversionerror) | The connected Redis or Redis Search version does not support a requested<br/>feature, such as an `svs-vamana` vector field.                                                                                           | `create()`                                                                      |
+| [RedisVLError](#redisvlerror)                       | A load operation fails for a reason not covered by a more specific error.<br/>Also the base class for everything above.                                                                                               | `load()`                                                                        |
 
 All of the above apply equally to [`SearchIndex`]({{< relref "searchindex/#searchindex" >}}) and
 [`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}}).
@@ -141,14 +153,23 @@ existence check entirely. See [Install RedisVL]({{< relref "../user_guide/instal
 Redis Search reports an absent index as an ordinary error reply rather than a distinct
 type, and the wording has changed between versions – older releases say `Unknown index
 name`, Redis 8.6 and earlier say `<name>: no such index`, and Redis 8.8 introduced
-`SEARCH_INDEX_NOT_FOUND Index not found: <name>`. There is no error code to branch on,
-so code that needs to distinguish "missing" from "something went wrong" has to match the
-message.
+`SEARCH_INDEX_NOT_FOUND Index not found: <name>`. Matching the message couples your code
+to one of those wordings.
 
-[`exists()`]({{< relref "searchindex/#exists" >}}) already does this for you, which is the reason
-to prefer it over catching errors from [`info()`]({{< relref "searchindex/#info" >}}): it
-returns `False` only for a recognized missing-index reply and re-raises everything
-else, so a permission or connection failure is never reported as an absent index.
+[`exists()`]({{< relref "searchindex/#exists" >}}) makes the distinction without reading the
+message, which is the reason to prefer it over catching errors from
+[`info()`]({{< relref "searchindex/#info" >}}). redis-py raises a plain `ResponseError` for an
+ordinary error reply, and a more specific exception for the replies that mean the check
+itself failed, such as `NoPermissionError`, `BusyLoadingError` or `ClusterDownError`;
+connection failures are not `ResponseError` at all. The exceptions are `BUSY`, sent
+while a script or function is running, and `ERRCLUSTER`, which Redis Search sends on a
+cluster whose topology is not yet initialized; redis-py leaves both as a plain
+`ResponseError` with the code leading the message. A server with Redis Search not loaded
+at all answers with `unknown command` instead, which is checked for separately since
+that phrase isn’t a leading code. `exists()` returns `False` only for a plain
+`ResponseError` that is none of these, and re-raises everything else, so a permission,
+connection, busy-server, cluster-startup, or missing-module failure is never reported as an
+absent index.
 
 ```python
 # Prefer this
@@ -164,10 +185,10 @@ except RedisSearchError as e:
         index.create()
 ```
 
-When you do need the distinction elsewhere, read `e.__cause__` rather than the
-[RedisSearchError](#redissearcherror) message: the wrapper interpolates the index name, so an index
-whose name happens to contain one of the wordings above would make an unrelated failure
-look like an absence.
+When you do need the distinction elsewhere, apply the same rule to `e.__cause__`, the
+original redis-py exception: a plain `ResponseError` that starts with neither `BUSY` nor
+`ERRCLUSTER`, and doesn’t contain `unknown command`, means the index is absent, and
+anything else means the check failed.
 
 ### `Catching everything`
 
@@ -221,6 +242,42 @@ Error when validating data against a schema.
 Bases: [RedisVLError](#redisvlerror)
 
 Error when validating a query.
+
+### `PartialDeletionError`
+
+### `class PartialDeletionError(message, failed_keys, deleted=0)`
+
+Bases: [RedisVLError](#redisvlerror)
+
+Raised when some keys could not be removed from Redis.
+
+On Redis Cluster, keys are removed one at a time and a per-key failure is
+logged rather than raised, so one unreachable slot does not abort the whole
+batch. That is fine for callers who only want a best-effort count, but not for
+ones that mirror the keyspace in their own state — a `SemanticRouter`, for
+instance, persists the list of references it holds. Those callers reconcile
+their state against the keys that actually went away, persist it, and *then*
+raise this, so the partial deletion cannot pass unnoticed and a retry targets
+exactly what is left.
+
+* **Parameters:**
+  * **message** (*str*)
+  * **failed_keys** (*list* *[* *str* *]*)
+  * **deleted** (*int*)
+
+#### `failed_keys`
+
+The keys still present in Redis.
+
+* **Type:**
+  List[str]
+
+#### `deleted`
+
+How many keys were removed.
+
+* **Type:**
+  int
 
 ### `RedisModuleVersionError`
 

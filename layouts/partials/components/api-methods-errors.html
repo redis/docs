@@ -1,0 +1,39 @@
+{{/*
+  Possible errors block of the API methods tab: the error pages that
+  data/errors.json ties to a command, with the exception or error type that
+  one client library raises for each (data/client-exceptions.json).
+
+  Parameters:
+  - commandName: The Redis command name (e.g., "SET")
+  - mappingId: The mappingClientId of the client (e.g., "redis_py")
+
+  Renders nothing when the command has no such errors, or the client isn't in
+  data/client-exceptions.json. A command such as GET can have none: the data
+  lists the commands of an error, and an error that all commands that use keys
+  return has no list. See layouts/partials/errors/command-index.html.
+*/}}
+{{ $data := index site.Data "client-exceptions" }}
+{{ $mappingId := .mappingId }}
+{{ $clientId := "" }}
+{{ range $id, $c := $data.clients }}
+  {{ if in $c.mapping $mappingId }}{{ $clientId = $id }}{{ end }}
+{{ end }}
+{{ $pages := index (partialCached "errors/command-index.html" site "errors") (lower .commandName) }}
+{{ if and $clientId $pages }}
+  <div style="margin-top: 1rem;">
+    <p class="text-sm text-slate-600"><strong>Possible errors</strong></p>
+    <ul class="text-sm" style="list-style: disc; padding-left: 1.25rem;">
+      {{ range $key := $pages }}
+        {{ with index $data.errors $key }}{{ with index . $clientId }}
+          {{ $ent := . }}
+          {{ with site.GetPage (printf "/develop/reference/errors/common/%s" $key) }}
+            <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>: {{ if eq $ent.class "(none)" }}no exception{{ else }}<code>{{ $ent.class }}</code>{{ with $ent.check }} (test with <code>{{ . }}</code>){{ end }}{{ end }}</li>
+          {{ end }}
+        {{ end }}{{ end }}
+      {{ end }}
+    </ul>
+    <p class="text-sm text-slate-500">
+      {{ with site.GetPage "/develop/reference/errors" }}See <a href="{{ .RelPermalink }}">Redis error messages</a> for what each error means. Other errors, such as connection errors, aren't listed.{{ end }}
+    </p>
+  </div>
+{{ end }}

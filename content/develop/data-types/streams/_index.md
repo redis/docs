@@ -39,6 +39,8 @@ Redis streams support several trimming strategies (to prevent streams from growi
 
 Beginning with Redis 8.6, Redis streams support idempotent message processing (at-most-once production) to prevent duplicate entries when using at-least-once delivery patterns. This feature enables reliable message submission with automatic deduplication. See [Idempotent Message Processing](/content/develop/data-types/streams/idempotency.md) for more information.
 
+{{< data-type-animation type="stream" >}}
+
 ## Examples
 
 * When our racers pass a checkpoint, we add a stream entry for each racer that includes the racer's name, speed, position, and location ID:
@@ -818,6 +820,8 @@ In case you do not remember the syntax of the command, just ask the command itse
 8) HELP
 9)     Prints this help.
 ```
+
+If you want a dataset-wide view instead of a per-stream view, the `keysizes` section of the [`INFO`](/content/commands/info.md) command reports histograms of the number of entries and the memory size across all streams in a database. Starting with Redis 8.12, the `streams` section of `INFO` also reports histograms of consumer groups per stream, pending entries per group, and consumers per group when the `stream-stats` config directive is enabled.
 
 ## Differences with Kafka (TM) partitions
 
