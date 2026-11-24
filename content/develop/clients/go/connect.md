@@ -214,8 +214,7 @@ as shown in the following example:
 
 ```go
 rdb := redis.NewClient(&redis.Options{
-    Addr:     "localhost:6379",
-    Protocol: 3, // RESP3 required
+    Addr: "localhost:6379",
     MaintNotificationsConfig: &maintnotifications.Config{
             Mode:                       maintnotifications.ModeEnabled,
             EndpointType:               maintnotifications.EndpointTypeExternalIP,
@@ -229,7 +228,8 @@ rdb := redis.NewClient(&redis.Options{
 
 > [!NOTE]
 > SCH requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
-> protocol, so you must set `Protocol:3` explicitly when you connect.
+> protocol, which is the default for `go-redis`. If you set `Protocol: 2`,
+> `go-redis` doesn't use SCH, even if you set `MaintNotificationsConfig`.
 
 The `maintnotifications.Config` object accepts the following parameters:
 
