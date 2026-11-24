@@ -73,18 +73,18 @@ iris agent-memory service list
 
 ## 5. Create a service
 
-This example creates an Agent Memory service. You need the ID of a Redis Cloud database that meets the [Agent Memory prerequisites](/content/operate/iris/agent-memory/create-service.md#prerequisites-and-limitations). Find it in the console's **Databases** list.
+This example creates an Agent Memory service. You need the ID of a Redis Cloud database that meets the [Agent Memory prerequisites](/content/operate/iris/agent-memory/create-service.md#prerequisites-and-limitations). List the account's databases and whether each one is eligible with `iris agent-memory databases list`.
 
 1. Do a dry run. It sends nothing:
 
     ```bash
-    iris agent-memory service create --name support-memory --database <database-id> --dry-run
+    iris agent-memory service create --name support-memory --database-id <database-id> --dry-run
     ```
 
 1. Create the service. The CLI creates the store, mints its agent key, and writes `IRIS_AGENT_MEMORY_URL`, `IRIS_AGENT_MEMORY_STORE_ID`, and `IRIS_AGENT_MEMORY_API_KEY` to `.env` without printing the key:
 
     ```bash
-    iris agent-memory service create --name support-memory --database <database-id> --write-env .env
+    iris agent-memory service create --name support-memory --database-id <database-id> --write-env .env
     ```
 
     The key appears under **Iris → Access & Identity** in the console, like a key you create there.
