@@ -169,6 +169,6 @@ logs confirm that both operators can access the bucket.
 
 In RDI 2.2.0, the lease is stored in the object's custom metadata. RDI migrates an existing
 lease object to this format during an upgrade. Review
-[Upgrade the leader first](/content/integrate/redis-data-integration/installation/upgrade.md#upgrade-the-leader-first)
+[Upgrading a DR setup](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-a-dr-setup)
 and [Downgrading a DR setup](/content/integrate/redis-data-integration/installation/upgrade.md#downgrading-a-dr-setup)
 before changing versions.

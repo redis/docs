@@ -50,7 +50,10 @@ Each upgrade step starts with these properties:
 
 Follow the steps below to upgrade an existing
 [VM installation](/content/integrate/redis-data-integration/installation/install-vm.md)
-of RDI:
+of RDI. In an HA installation, do them on the active VM first, and then on the passive VM,
+as
+[Upgrading a VM installation with high availability](#upgrading-a-vm-installation-with-high-availability)
+describes.
 
 1.  Do the [upgrade steps](#upgrade-steps) that apply to a VM installation and say **When**:
     Before the upgrade.
@@ -120,7 +123,8 @@ run the CLI binary of the previous RDI version, which still provided the `redis-
 
 Follow the steps below to upgrade an existing
 [Kubernetes](/content/integrate/redis-data-integration/installation/install-k8s.md)
-installation of RDI:
+installation of RDI. In a DR setup, do them at the leader's site first, and then at the other
+site, as [Upgrading a DR setup](#upgrading-a-dr-setup) describes.
 
 1.  If you are using a private registry, pull the new versions of all images listed in 
     [Using a private image registry](/content/integrate/redis-data-integration/installation/install-k8s.md#using-a-private-image-registry)
@@ -206,43 +210,64 @@ The `standby_mode` settings remain in the RDI database. If you upgrade to 2.2.0 
 `redis-di delete-setting standby_mode` on each instance as soon as it runs 2.2.0, or set the
 mode you want.
 
-<a id="upgrading-to-rdi-220"></a>
-<a id="upgrading-to-rdi-200"></a>
+## Upgrading an HA installation or a DR setup
 
-## Upgrade steps
-
-<a id="upgrading-a-vm-installation-with-high-availability"></a>
-
-### Upgrade the leader first
-
-- **From**: Any version
-- **When**: During the upgrade
-- **VM**: Not needed
-- **Helm**: Not needed
-- **HA**: Required. Upgrade the active VM first.
-- **DR**: Required. Upgrade the leader's site first.
-
-When two RDI instances use leader election, upgrade the leader first. Upgrade the other
-instance only after
+An HA installation and a DR setup each have two RDI instances that use leader election. Only the
+leader runs the pipelines. Upgrade the leader first, and upgrade the other instance only after
 [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
-on the upgraded instance shows `Leader Election Mode: leader`. Finish upgrading both instances
-before you create a pipeline other than `default`.
+on the upgraded instance shows `Leader Election Mode: leader`. On each instance, do the
+[upgrade steps](#upgrade-steps) as their **HA** or **DR** line says. Finish upgrading both
+instances before you create a pipeline other than `default`.
 
 The first upgraded instance that becomes the leader saves its pipelines as the backup that RDI
 restores at every later failover. This matters most when you upgrade from a version before
-2.0.0: the other instance does not keep a copy of your pipelines, so if it became the leader first, RDI
-would delete your pipelines at the next failover.
+2.0.0: the other instance does not keep a copy of your pipelines, so if it became the leader
+first, RDI would delete your pipelines at the next failover.
 
-In an HA installation with an active pipeline, upgrading the active VM causes a short pipeline
-downtime of up to two minutes. Upgrading the passive VM causes no downtime.
+### Upgrading a VM installation with high availability
 
-In a DR setup, check leadership, pipeline health, and data delivery before you upgrade the
-follower.
+In an HA installation, the active VM is the leader. To upgrade the two VMs:
+
+1.  Upgrade the active VM, following [Upgrading a VM installation](#upgrading-a-vm-installation).
+    If a pipeline is active, it stops for up to two minutes.
+
+1.  Run `redis-di info` on the upgraded VM, and wait until it shows
+    `Leader Election Mode: leader`.
+
+1.  Upgrade the passive VM in the same way. This causes no pipeline downtime.
+
+### Upgrading a DR setup
+
+In a DR setup, the leader is the site whose RDI instance holds the lease. The examples use the
+`site-a` and `site-b` contexts from
+[Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets),
+and assume that site A is the leader. To upgrade the two sites:
+
+1.  Upgrade site A, following
+    [Upgrading a Kubernetes installation](#upgrading-a-kubernetes-installation) with its values
+    file, such as `rdi-values-site-a.yaml`.
+
+1.  Check site A, as [Verify a takeover](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#verify-a-takeover)
+    describes:
+
+    1.  Run `redis-di --context site-a info`, and check that it shows
+        `Leader Election Mode: leader`.
+    1.  Run `redis-di --context site-a describe "<pipeline>"` for each pipeline, and check its
+        components and errors.
+    1.  Make a test change in the source, and confirm that the expected result reaches the
+        target.
+
+1.  Upgrade site B in the same way, with its values file, such as `rdi-values-site-b.yaml`.
 
 > [!WARNING]
 > With a GCS lease, the upgraded leader migrates the lease to a format that versions before
 > 2.2.0 can't read. The follower can take over only after you upgrade it, so upgrade it as
 > soon as you've checked the leader.
+
+<a id="upgrading-to-rdi-220"></a>
+<a id="upgrading-to-rdi-200"></a>
+
+## Upgrade steps
 
 ### Check which certificate authorities RDI trusts
 

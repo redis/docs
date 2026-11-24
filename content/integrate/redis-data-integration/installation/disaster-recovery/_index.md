@@ -547,11 +547,10 @@ After a takeover, check that the new leader's collector reports `Connected` and 
 
 ## Upgrade or downgrade a DR setup
 
-To upgrade a DR setup, follow [Upgrading RDI](/content/integrate/redis-data-integration/installation/upgrade.md).
+To upgrade a DR setup, follow
+[Upgrading a DR setup](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-a-dr-setup).
 The **DR** property of each [upgrade step](/content/integrate/redis-data-integration/installation/upgrade.md#upgrade-steps)
-says what a DR setup needs, for example to
-[upgrade the leader first](/content/integrate/redis-data-integration/installation/upgrade.md#upgrade-the-leader-first).
-To downgrade, see
+says what a DR setup needs for that step. To downgrade, see
 [Downgrading a DR setup](/content/integrate/redis-data-integration/installation/upgrade.md#downgrading-a-dr-setup).
 
 ## Uninstall a DR setup

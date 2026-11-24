@@ -44,7 +44,10 @@ Each upgrade step starts with these properties:
 
 Follow the steps below to upgrade an existing
 [VM installation](/content/integrate/redis-data-integration/2.0.0/installation/install-vm.md)
-of RDI:
+of RDI. In an HA installation, do them on the active VM first, and then on the passive VM,
+as
+[Upgrading a VM installation with high availability](#upgrading-a-vm-installation-with-high-availability)
+describes.
 
 1.  Do the [upgrade steps](#upgrade-steps) that apply to a VM installation and say **When**:
     Before the upgrade.
@@ -114,7 +117,8 @@ run the CLI binary of the previous RDI version, which still provided the `redis-
 
 Follow the steps below to upgrade an existing
 [Kubernetes](/content/integrate/redis-data-integration/2.0.0/installation/install-k8s.md)
-installation of RDI:
+installation of RDI. In a DR setup, do them at the leader's site first, and then at the other
+site, as [Upgrading a DR setup](#upgrading-a-dr-setup) describes.
 
 1.  If you are using a private registry, pull the new versions of all images listed in 
     [Using a private image registry](/content/integrate/redis-data-integration/2.0.0/installation/install-k8s.md#using-a-private-image-registry)
@@ -169,26 +173,30 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 > described in [Uninstall RDI](/content/integrate/redis-data-integration/2.0.0/installation/install-k8s.md#uninstall-rdi),
 > and then install the old version.
 
+## Upgrading an HA installation or a DR setup
+
+An HA installation and a DR setup each have two RDI instances that use leader election. Only the
+leader runs the pipelines. Upgrade the leader first, and then the other instance. On each
+instance, do the [upgrade steps](#upgrade-steps) as their **HA** or **DR** line says.
+
+### Upgrading a VM installation with high availability
+
+In an HA installation, the active VM is the leader. To upgrade the two VMs:
+
+1.  Upgrade the active VM, following [Upgrading a VM installation](#upgrading-a-vm-installation).
+    If a pipeline is active, it stops for up to two minutes.
+
+1.  Upgrade the passive VM in the same way. This causes no pipeline downtime.
+
+### Upgrading a DR setup
+
+In a DR setup, the leader is the site whose RDI instance holds the lease. Upgrade the leader's
+site first, following [Upgrading a Kubernetes installation](#upgrading-a-kubernetes-installation)
+with that site's values file, and then upgrade the other site in the same way.
+
 <a id="upgrading-to-rdi-200"></a>
 
 ## Upgrade steps
-
-<a id="upgrading-a-vm-installation-with-high-availability"></a>
-
-### Upgrade the leader first
-
-- **From**: Any version
-- **When**: During the upgrade
-- **VM**: Not needed
-- **Helm**: Not needed
-- **HA**: Required. Upgrade the active VM first.
-- **DR**: Required. Upgrade the leader's site first.
-
-When two RDI instances use leader election, upgrade the leader first, and then the other
-instance.
-
-In an HA installation with an active pipeline, upgrading the active VM causes a short pipeline
-downtime of up to two minutes. Upgrading the passive VM causes no downtime.
 
 <a id="the-flink-processor-becomes-the-default"></a>
 
