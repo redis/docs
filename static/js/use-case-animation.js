@@ -22,12 +22,14 @@
 
   /* ---- the stage ---- */
 
-  /* A scene's drawing: a box `w` pixels wide in which everything is placed in pixels. */
+  /* A scene's drawing: a box `w` pixels wide in which everything is placed in pixels. A drawing that
+     needs more room than the column has is made smaller to fit. */
   function stage(c, w) {
     const el = h("div", "dta-uc"), svg = s("svg", { class: "dta-svg dta-uc-wires", width: w, height: c.H });
     const g = {};
     el.style.width = w + "px";
     el.style.height = c.H + "px";
+    if (w > c.W) el.style.transform = "scale(" + c.W / w + ")";
     c.canvas.appendChild(add(el, svg));
 
     function place(e, x, y, w2, h2) {
@@ -37,6 +39,9 @@
       if (h2 != null) e.style.height = h2 + "px";
       return el.appendChild(e);
     }
+    /* A frame around actors that belong together, such as the workers of one group, with a label that
+       names them. Place it before the actors, so that it is drawn behind them. */
+    g.group = function (label, x, y, w2, h2) { return place(add(h("div", "dta-uc-group"), h("div", "dta-uc-label", label)), x, y, w2, h2); };
     /* Whoever sends the commands, such as the application or a worker. `l` and `r` are the middles of
        its left and right sides, where a wire attaches. say() writes a second line under its name. */
     g.actor = function (name, x, y, w2, h2) {
@@ -233,6 +238,103 @@
         await st.move(c, job, st.processing, 520);
         await g.send(c, w.at, w.l, id, "read");
         w.say("runs " + id);
+      };
+      return st;
+    },
+  };
+
+  /* ---- streaming ---- */
+
+  const PLACED = "1795430033234-0", PAID = "1795430033731-0";   // the IDs that Redis gave the two events
+  /* A worker asks for one event that no worker in its group has had yet, which is what `>` means. */
+  function readGroup(group, worker) { return "XREADGROUP GROUP " + group + " " + worker + " COUNT 1 STREAMS demo:events:orders >"; }
+  /* The reply: the stream's name, then the event's ID and its fields. */
+  function delivered(id, type) { return '1) 1) "demo:events:orders"\n   2) 1) 1) "' + id + '"\n         2) 1) "type"\n            2) "' + type + '"'; }
+  D.scenes.streaming = {
+    label: "event streaming with a Redis stream",
+    h: 160,
+    steps: [
+      { cmd: "XADD demo:events:orders * type order.placed", reply: '"' + PLACED + '"', note: "A stream is a log of events. The shop adds an event with XADD. The * lets Redis choose the ID.",
+        run: function (c, st) { return st.append(c, PLACED, "order.placed"); } },
+      { cmd: "XADD demo:events:orders * type order.paid", reply: '"' + PAID + '"', note: "The next event goes at the end. A stream keeps its events in the order they were added.",
+        run: function (c, st) { return st.append(c, PAID, "order.paid"); } },
+      { cmd: "XGROUP CREATE demo:events:orders notifications 0", reply: "OK", note: "Workers in a consumer group split a stream's events. The 0 starts the group at the first event.",
+        run: function (c, st) { return st.create(c, 0, "notifications"); } },
+      { cmd: readGroup("notifications", "worker-a"), reply: delivered(PLACED, "order.placed"), note: "worker-a asks for one event. The > at the end means an event that its group hasn't had yet.",
+        run: function (c, st) { return st.read(c, 0, "notifications"); } },
+      { cmd: readGroup("notifications", "worker-b"), reply: delivered(PAID, "order.paid"), note: "worker-b gets the next event the same way. Each event goes to only one worker in a group.",
+        run: function (c, st) { return st.read(c, 1, "notifications"); } },
+      { cmd: "XACK demo:events:orders notifications " + PLACED, reply: "(integer) 1", note: "worker-a sends XACK when its event is done. If it crashes before that, worker-b can take over.",
+        run: function (c, st) { return st.ack(c, 0); } },
+      { cmd: "XGROUP CREATE demo:events:orders analytics 0", reply: "OK", note: "The analytics group does its own work with the same events. It also starts at the first event.",
+        run: function (c, st) { return st.create(c, 2, "analytics"); } },
+      { cmd: readGroup("analytics", "worker-c"), reply: delivered(PLACED, "order.placed"), note: "worker-c gets order.placed too, because analytics is another group. Every group gets every event.",
+        run: function (c, st) { return st.read(c, 2, "analytics"); } },
+    ],
+    build: function (c) {
+      /* The shop, then the stream in Redis, then the workers of the two consumer groups. The gaps between
+         them get the room that the card doesn't need. */
+      const W = Math.max(c.W, 300), narrow = W < 430, aw = narrow ? 36 : 72, rw = narrow ? 88 : 112, pad = narrow ? 4 : 5;   // 300 is the least it fits in
+      const fw = rw + 2 * pad, gap = Math.max(narrow ? 8 : 20, Math.min(56, Math.floor((W - aw - fw - 300) / 2)));
+      const cw = Math.min(300, W - aw - fw - 2 * gap), x = aw + gap, fx = x + cw + gap, rx = fx + pad, g = stage(c, fx + fw);
+      const card = g.store("Redis stream", "demo:events:orders", x, 12, cw, "auto 1fr", 2, 36);   // room for two events and a line for each group
+      if (cw < 280) card.el.classList.add("is-tight");   // too narrow for a whole event, so it shows the end of its ID and no field name
+      const shop = g.actor("Shop", 0, Math.round(card.l[1]) - 22, aw, 44), st = { events: [] };
+      g.wire(shop.r, card.l);
+      /* The workers of each group stand in a frame under the group's name. The frame is only an outline
+         until the group is created. Each worker has a wire to the point `at` on the side of the card. */
+      st.groups = { notifications: { frame: g.group("notifications", fx, 0, fw, 96) }, analytics: { frame: g.group("analytics", fx, 101, fw, 58) } };
+      for (const k in st.groups) st.groups[k].frame.classList.add("is-off");
+      st.workers = [["worker-a", 20], ["worker-b", 58], ["worker-c", 121]].map(function (p) {
+        const w = g.actor(p[0], rx, p[1], rw, 34);
+        w.at = [x + cw, w.l[1]];
+        g.wire(w.l, w.at);
+        return w;
+      });
+
+      /* The shop adds an event at the end of the stream. */
+      st.append = async function (c, id, type) {
+        await g.send(c, shop.r, card.l, "XADD", "write");
+        const e = row(add(h("span", "dta-uc-id"), h("span", "dta-uc-id-start", id.slice(0, 10)), h("span", "", id.slice(10))),
+          add(h("span", "dta-v"), h("span", "dta-f dta-uc-field", "type "), h("span", "", type)));
+        st.events.push({ el: card.body.appendChild(e), type: type });
+        return c.enter(c.mark(e, "write"), "translateY(10px)");
+      };
+      /* Put a group's line before event `k`, and slide what the card already shows to its new place. */
+      function put(c, line, k) {
+        const shown = [].slice.call(card.body.children);
+        return c.flip(shown, function () { card.body.insertBefore(line, st.events[k] ? st.events[k].el : null); }, 440);
+      }
+      /* Redis keeps a place in the stream for each group: the next event it will give to one of the
+         group's workers. `had` counts the events the group has had so far. */
+      st.create = async function (c, i, group) {
+        const w = st.workers[i], grp = st.groups[group];
+        grp.line = add(h("div", "dta-uc-next"), h("span", "", "↓ next for "), h("b", "", group));
+        grp.had = 0;
+        await g.send(c, w.l, w.at, "XGROUP CREATE", "write");
+        grp.frame.classList.remove("is-off");
+        c.mark(grp.frame, "write");
+        c.mark(grp.line, "write");
+        await Promise.all([put(c, grp.line, 0), c.enter(grp.line, "translateY(-6px)")]);
+      };
+      /* A worker asks for one event and gets its group's next one. The event stays in the stream. */
+      st.read = async function (c, i, group) {
+        const w = st.workers[i], grp = st.groups[group], e = st.events[grp.had++];
+        await g.send(c, w.l, w.at, "XREADGROUP", "read");
+        c.mark(e.el, "read");
+        c.mark(grp.line, "read");
+        await put(c, grp.line, grp.had);
+        await g.send(c, w.at, w.l, e.type, "read");
+        w.say(w.has = e.type);
+      };
+      /* A worker tells Redis that it has handled its event. Redis keeps the list of events that each
+         worker has yet to acknowledge, and the drawing shows that as the line under the worker's name. */
+      st.ack = async function (c, i) {
+        const w = st.workers[i];
+        await g.send(c, w.l, w.at, "XACK", "write");
+        w.say(w.has + " ✓");
+        w.line.classList.add("is-ok");
+        return c.enter(w.line, "scale(.8)");
       };
       return st;
     },
