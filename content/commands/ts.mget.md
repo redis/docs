@@ -69,18 +69,16 @@ syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]]
   \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
 title: TS.MGET
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 
 Get the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.
 
-{{< note >}}
-This command will reply only if the current user has read access to all keys that match the filter.
-Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
-{{< /note >}}
+> [!NOTE]
+> This command will reply only if the current user has read access to all keys that match the filter.
+> Otherwise, it will reply with "*(error): current user doesn't have read permission to one or more keys that match the specified filter*".
 
 [Examples](#examples)
 
@@ -121,7 +119,7 @@ If `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty lis
 
 </details>
 
-<note><b>Note:</b> The [`MGET`]({{< relref "/commands/mget" >}}) command cannot be part of a transaction when running on a Redis cluster.</note>
+<note><b>Note:</b> The [`MGET`](/content/commands/mget.md) command cannot be part of a transaction when running on a Redis cluster.</note>
 
 ## Examples
 
@@ -196,31 +194,31 @@ redis> TS.MGET SELECTED_LABELS location FILTER type=temp
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
+[Array reply](/content/develop/reference/protocol-spec.md#arrays): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): The time series key name
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs ([Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings), [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings))
   - By default, an empty array is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}))
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single timestamp-value pair ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings))
 
 -tab-sep-
 
-[Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}): for each time series matching the specified filters, the following is reported:
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
-- [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) or [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs
+[Map reply](/content/develop/reference/protocol-spec.md#maps): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): The time series key name
+- [Map reply](/content/develop/reference/protocol-spec.md#maps) or [Array reply](/content/develop/reference/protocol-spec.md#arrays): label-value pairs
   - By default, an empty array is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}))
+- [Array reply](/content/develop/reference/protocol-spec.md#arrays): a single timestamp-value pair ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Double reply](/content/develop/reference/protocol-spec.md#doubles))
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}})
+[`TS.MRANGE`](/content/commands/ts.mrange.md) | [`TS.RANGE`](/content/commands/ts.range.md) | [`TS.MREVRANGE`](/content/commands/ts.mrevrange.md) | [`TS.REVRANGE`](/content/commands/ts.revrange.md)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)
 

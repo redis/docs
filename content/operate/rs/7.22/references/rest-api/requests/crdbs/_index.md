@@ -46,7 +46,7 @@ GET /v1/crdbs
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [CRDB objects]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb" >}}).
+Returns a JSON array of [CRDB objects](/content/operate/rs/7.22/references/rest-api/objects/crdb/_index.md).
 
 ##### Status codes {#get-all-status-codes}
 
@@ -92,7 +92,7 @@ Get a specific Active-Active database.
 
 ### Response {#get-response}
 
-Returns a [CRDB object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb" >}}).
+Returns a [CRDB object](/content/operate/rs/7.22/references/rest-api/objects/crdb/_index.md).
 
 #### Status codes {#get-status-codes}
 
@@ -110,7 +110,7 @@ PATCH /v1/crdbs/{crdb_guid}
 
 Update an Active-Active database's configuration.
 
-In order to add or remove instances, use [<nobr>`POST crdbs/{crdb_guid}/updates`</nobr>]({{< relref "/operate/rs/7.22/references/rest-api/requests/crdbs/updates#post-crdbs-updates" >}}) instead.
+In order to add or remove instances, use [<nobr>`POST crdbs/{crdb_guid}/updates`</nobr>](/content/operate/rs/7.22/references/rest-api/requests/crdbs/updates.md#post-crdbs-updates) instead.
 
 ### Request {#patch-request}
 
@@ -135,11 +135,11 @@ In order to add or remove instances, use [<nobr>`POST crdbs/{crdb_guid}/updates`
 
 #### Request body
 
-Include a [CRDB object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb" >}}) with updated fields in the request body.
+Include a [CRDB object](/content/operate/rs/7.22/references/rest-api/objects/crdb/_index.md) with updated fields in the request body.
 
 ### Response {#patch-response}
 
-Returns a [CRDB task object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object](/content/operate/rs/7.22/references/rest-api/objects/crdb_task.md).
 
 #### Status codes {#patch-status-codes}
 
@@ -182,7 +182,7 @@ Create a new Active-Active database.
 
 #### Request body
 
-Include a [CRDB object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb" >}}), which defines the Active-Active database, in the request body.
+Include a [CRDB object](/content/operate/rs/7.22/references/rest-api/objects/crdb/_index.md), which defines the Active-Active database, in the request body.
 
 ##### Example body
 
@@ -230,7 +230,7 @@ This JSON body creates an Active-Active database without TLS and with two partic
 
 ### Response {#post-response}
 
-Returns a [CRDB task object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object](/content/operate/rs/7.22/references/rest-api/objects/crdb_task.md).
 
 #### Status codes {#post-status-codes}
 
@@ -272,7 +272,7 @@ Delete an Active-Active database.
 
 ### Response {#delete-response}
 
-Returns a [CRDB task object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object](/content/operate/rs/7.22/references/rest-api/objects/crdb_task.md).
 
 #### Status codes {#delete-status-codes}
 

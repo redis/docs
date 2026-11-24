@@ -14,8 +14,8 @@ weight: 10
 ---
 
 The MCP server runs separately from Redis, so you will need a
-Redis server for it to connect to. See [Redis Cloud]({{< relref "/operate/rc" >}})
-or [Redis Open Source]({{< relref "/operate/oss_and_stack" >}}) to learn
+Redis server for it to connect to. See [Redis Cloud](/content/operate/rc/_index.md)
+or [Redis Open Source](/content/operate/oss_and_stack/_index.md) to learn
 how to get a test server active within minutes.
 
 When you have a Redis server available, use the instructions below to install and
@@ -163,8 +163,8 @@ uvx --from redis-mcp-server@latest redis-mcp-server \
 uvx --from redis-mcp-server@latest redis-mcp-server --help
 ```
 
-{{< note >}}The command-line options take precedence over the environment variables.
-{{< /note >}}
+> [!NOTE]
+> The command-line options take precedence over the environment variables.
 
 ### Environment variables
 
@@ -219,7 +219,7 @@ The full set of command line options is shown in the table below:
 ### EntraID authentication
 
 The Redis MCP Server supports EntraID (Azure Active Directory) authentication
-for Azure Managed Redis, enabling OAuth-based authentication with automatic token management. This uses redis-py's [redis-entra-id]({{< relref "/develop/clients/redis-py/amr" >}}) library to offer:
+for Azure Managed Redis, enabling OAuth-based authentication with automatic token management. This uses redis-py's [redis-entra-id](/content/develop/clients/redis-py/amr.md) library to offer:
 
 - **Automatic token renewal** - Refreshes tokens in the background with no manual intervention
 - **Graceful fallback** - Falls back to standard Redis authentication when EntraID is not configured
@@ -255,10 +255,14 @@ Some common configurations are:
   export REDIS_URL=redis://your-azure-redis.redis.cache.windows.net:6379
   ```
 
-## Redis Cloud MCP
+## Redis Cloud MCP (local) {#redis-cloud-mcp}
+
+> [!TIP]
+> Redis also hosts a Redis Cloud MCP server that you don't need to install. See
+> [Redis Cloud remote MCP server](/content/integrate/redis-mcp/remote-cloud-mcp.md).
 
 A separate MCP server is available for
-[Redis Cloud]({{< relref "/operate/rc" >}}). This has features
+[Redis Cloud](/content/operate/rc/_index.md). This has features
 specific to Redis Cloud, including subscription management and
 billing details. For example, you can use questions and instructions
 like the following:
@@ -267,10 +271,11 @@ like the following:
 -   "What are my current subscriptions?"
 -   "Help me choose the right Redis database for my e-commerce application"
 
-{{< note >}}By itself, the Redis Cloud MCP server only provides admin
-features and does not let you interact
-with Redis databases. You can still use the main MCP server for interaction
-with a Cloud database, but you must install it separately.{{< /note >}}
+> [!NOTE]
+> By itself, the Redis Cloud MCP server only provides admin
+> features and does not let you interact
+> with Redis databases. You can still use the main MCP server for interaction
+> with a Cloud database, but you must install it separately.
 
 You will need [Node.js](https://nodejs.org/en) installed to run Redis Cloud MCP.
 Clone the GitHub repository using the following command:
@@ -299,5 +304,5 @@ docker build -t mcp/redis-cloud .
 
 When you have installed the server, you will need a MCP client to
 connect to it and use its services. See
-[Configure client apps]({{< relref "/integrate/redis-mcp/client-conf" >}})
+[Configure client apps](/content/integrate/redis-mcp/client-conf.md)
 for more information.

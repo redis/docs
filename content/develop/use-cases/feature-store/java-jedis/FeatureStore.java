@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.Response;
 
 /**
@@ -67,7 +66,7 @@ public class FeatureStore {
     public static final long DEFAULT_STREAMING_TTL_SECONDS = 5L * 60L;
     public static final String DEFAULT_KEY_PREFIX = "fs:user:";
 
-    private final JedisPool pool;
+    private final RedisClient jedis;
     private final String keyPrefix;
     private final long batchTtlSeconds;
     private final long streamingTtlSeconds;
@@ -77,15 +76,15 @@ public class FeatureStore {
     private final AtomicLong readsTotal = new AtomicLong();
     private final AtomicLong readFieldsTotal = new AtomicLong();
 
-    public FeatureStore(JedisPool pool) {
-        this(pool, DEFAULT_KEY_PREFIX,
+    public FeatureStore(RedisClient jedis) {
+        this(jedis, DEFAULT_KEY_PREFIX,
             DEFAULT_BATCH_TTL_SECONDS,
             DEFAULT_STREAMING_TTL_SECONDS);
     }
 
-    public FeatureStore(JedisPool pool, String keyPrefix,
+    public FeatureStore(RedisClient jedis, String keyPrefix,
                         long batchTtlSeconds, long streamingTtlSeconds) {
-        this.pool = pool;
+        this.jedis = jedis;
         this.keyPrefix = keyPrefix;
         this.batchTtlSeconds = batchTtlSeconds;
         this.streamingTtlSeconds = streamingTtlSeconds;
@@ -115,8 +114,7 @@ public class FeatureStore {
      */
     public int bulkLoad(Map<String, Map<String, Object>> rows, long ttlSeconds) {
         if (rows.isEmpty()) return 0;
-        try (Jedis jedis = pool.getResource()) {
-            Pipeline pipe = jedis.pipelined();
+        try (Pipeline pipe = jedis.pipelined()) {
             for (Map.Entry<String, Map<String, Object>> e : rows.entrySet()) {
                 String key = keyFor(e.getKey());
                 Map<String, String> encoded = encode(e.getValue());
@@ -139,9 +137,7 @@ public class FeatureStore {
      * pipelines flow through {@link #bulkLoad}.
      */
     public void updateBatchFeature(String entityId, String field, Object value) {
-        try (Jedis jedis = pool.getResource()) {
-            jedis.hset(keyFor(entityId), field, encodeValue(value));
-        }
+        jedis.hset(keyFor(entityId), field, encodeValue(value));
         batchWritesTotal.incrementAndGet();
     }
 
@@ -180,13 +176,13 @@ public class FeatureStore {
         String[] names = encoded.keySet().toArray(new String[0]);
 
         List<Long> expireCodes;
-        try (Jedis jedis = pool.getResource()) {
-            Pipeline pipe = jedis.pipelined();
+        Response<List<Long>> expireResp;
+        try (Pipeline pipe = jedis.pipelined()) {
             pipe.hset(key, encoded);
-            Response<List<Long>> expireResp = pipe.hexpire(key, ttlSeconds, names);
+            expireResp = pipe.hexpire(key, ttlSeconds, names);
             pipe.sync();
-            expireCodes = expireResp.get();
         }
+        expireCodes = expireResp.get();
         for (Long code : expireCodes) {
             if (code == null || code != 1L) {
                 throw new IllegalStateException(
@@ -215,19 +211,15 @@ public class FeatureStore {
         String key = keyFor(entityId);
         Map<String, String> out = new LinkedHashMap<>();
         if (fieldNames == null) {
-            try (Jedis jedis = pool.getResource()) {
-                Map<String, String> all = jedis.hgetAll(key);
-                if (all != null) out.putAll(all);
-            }
+            Map<String, String> all = jedis.hgetAll(key);
+            if (all != null) out.putAll(all);
             readsTotal.incrementAndGet();
             readFieldsTotal.addAndGet(out.size());
             return out;
         }
         if (fieldNames.isEmpty()) return out;
         List<String> values;
-        try (Jedis jedis = pool.getResource()) {
-            values = jedis.hmget(key, fieldNames.toArray(new String[0]));
-        }
+        values = jedis.hmget(key, fieldNames.toArray(new String[0]));
         for (int i = 0; i < fieldNames.size(); i++) {
             String v = values.get(i);
             if (v != null) out.put(fieldNames.get(i), v);
@@ -253,8 +245,7 @@ public class FeatureStore {
         String[] names = fieldNames.toArray(new String[0]);
         Map<String, Map<String, String>> out = new LinkedHashMap<>();
         List<Response<List<String>>> responses = new ArrayList<>(entityIds.size());
-        try (Jedis jedis = pool.getResource()) {
-            Pipeline pipe = jedis.pipelined();
+        try (Pipeline pipe = jedis.pipelined()) {
             for (String id : entityIds) {
                 responses.add(pipe.hmget(keyFor(id), names));
             }
@@ -287,9 +278,7 @@ public class FeatureStore {
      * key-level TTL is set, {@code -2} if the key doesn't exist.
      */
     public long keyTtlSeconds(String entityId) {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.ttl(keyFor(entityId));
-        }
+        return jedis.ttl(keyFor(entityId));
     }
 
     /**
@@ -302,9 +291,7 @@ public class FeatureStore {
     public Map<String, Long> fieldTtlsSeconds(String entityId, List<String> fieldNames) {
         if (fieldNames.isEmpty()) return Collections.emptyMap();
         List<Long> codes;
-        try (Jedis jedis = pool.getResource()) {
-            codes = jedis.httl(keyFor(entityId), fieldNames.toArray(new String[0]));
-        }
+        codes = jedis.httl(keyFor(entityId), fieldNames.toArray(new String[0]));
         Map<String, Long> out = new LinkedHashMap<>();
         for (int i = 0; i < fieldNames.size(); i++) {
             // HTTL on a missing key returns a flat list of -2s; jedis
@@ -329,24 +316,22 @@ public class FeatureStore {
         List<String> ids = new ArrayList<>();
         String pattern = keyPrefix + "*";
         String cursor = "0";
-        try (Jedis jedis = pool.getResource()) {
-            do {
-                redis.clients.jedis.params.ScanParams params = new redis.clients.jedis.params.ScanParams()
-                    .match(pattern)
-                    .count(200);
-                redis.clients.jedis.resps.ScanResult<String> sr = jedis.scan(cursor, params);
-                for (String k : sr.getResult()) {
-                    if (k.length() > keyPrefix.length()) {
-                        ids.add(k.substring(keyPrefix.length()));
-                        if (ids.size() >= limit) {
-                            Collections.sort(ids);
-                            return ids;
-                        }
+        do {
+            redis.clients.jedis.params.ScanParams params = new redis.clients.jedis.params.ScanParams()
+                .match(pattern)
+                .count(200);
+            redis.clients.jedis.resps.ScanResult<String> sr = jedis.scan(cursor, params);
+            for (String k : sr.getResult()) {
+                if (k.length() > keyPrefix.length()) {
+                    ids.add(k.substring(keyPrefix.length()));
+                    if (ids.size() >= limit) {
+                        Collections.sort(ids);
+                        return ids;
                     }
                 }
-                cursor = sr.getCursor();
-            } while (!"0".equals(cursor));
-        }
+            }
+            cursor = sr.getCursor();
+        } while (!"0".equals(cursor));
         Collections.sort(ids);
         return ids;
     }
@@ -360,23 +345,19 @@ public class FeatureStore {
         long count = 0;
         String pattern = keyPrefix + "*";
         String cursor = "0";
-        try (Jedis jedis = pool.getResource()) {
-            do {
-                redis.clients.jedis.params.ScanParams params = new redis.clients.jedis.params.ScanParams()
-                    .match(pattern)
-                    .count(500);
-                redis.clients.jedis.resps.ScanResult<String> sr = jedis.scan(cursor, params);
-                count += sr.getResult().size();
-                cursor = sr.getCursor();
-            } while (!"0".equals(cursor));
-        }
+        do {
+            redis.clients.jedis.params.ScanParams params = new redis.clients.jedis.params.ScanParams()
+                .match(pattern)
+                .count(500);
+            redis.clients.jedis.resps.ScanResult<String> sr = jedis.scan(cursor, params);
+            count += sr.getResult().size();
+            cursor = sr.getCursor();
+        } while (!"0".equals(cursor));
         return count;
     }
 
     public long deleteEntity(String entityId) {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.del(keyFor(entityId));
-        }
+        return jedis.del(keyFor(entityId));
     }
 
     /**
@@ -389,19 +370,17 @@ public class FeatureStore {
         long deleted = 0;
         String pattern = keyPrefix + "*";
         String cursor = "0";
-        try (Jedis jedis = pool.getResource()) {
-            do {
-                redis.clients.jedis.params.ScanParams params = new redis.clients.jedis.params.ScanParams()
-                    .match(pattern)
-                    .count(500);
-                redis.clients.jedis.resps.ScanResult<String> sr = jedis.scan(cursor, params);
-                List<String> batch = sr.getResult();
-                if (!batch.isEmpty()) {
-                    deleted += jedis.del(batch.toArray(new String[0]));
-                }
-                cursor = sr.getCursor();
-            } while (!"0".equals(cursor));
-        }
+        do {
+            redis.clients.jedis.params.ScanParams params = new redis.clients.jedis.params.ScanParams()
+                .match(pattern)
+                .count(500);
+            redis.clients.jedis.resps.ScanResult<String> sr = jedis.scan(cursor, params);
+            List<String> batch = sr.getResult();
+            if (!batch.isEmpty()) {
+                deleted += jedis.del(batch.toArray(new String[0]));
+            }
+            cursor = sr.getCursor();
+        } while (!"0".equals(cursor));
         return deleted;
     }
 

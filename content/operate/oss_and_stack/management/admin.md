@@ -16,9 +16,9 @@ weight: 1
 
 * Deploy Redis using the Linux operating system. Redis is also tested on OS X, and from time to time on FreeBSD and OpenBSD systems. However, Linux is where most of the stress testing is performed, and where most production deployments are run.
 
-* Set the Linux kernel overcommit memory setting to 1. Add `vm.overcommit_memory = 1` to `/etc/sysctl.conf`. Then, reboot or run the command `sysctl vm.overcommit_memory=1` to activate the setting. See [FAQ: Background saving fails with a fork() error on Linux?]({{< relref "develop/get-started/faq/#background-saving-fails-with-a-fork-error-on-linux" >}}) for details. 
+* Set the Linux kernel overcommit memory setting to 1. Add `vm.overcommit_memory = 1` to `/etc/sysctl.conf`. Then, reboot or run the command `sysctl vm.overcommit_memory=1` to activate the setting. See [FAQ: Background saving fails with a fork() error on Linux?](/content/develop/get-started/faq.md#background-saving-fails-with-a-fork-error-on-linux) for details. 
 
-* To ensure the Linux kernel feature Transparent Huge Pages does not impact Redis memory usage and latency, run the command: `echo never > /sys/kernel/mm/transparent_hugepage/enabled` to disable it. See [Latency Diagnosis - Latency induced by transparent huge pages]({{< relref "operate/oss_and_stack/management/optimization/latency#latency-induced-by-transparent-huge-pages" >}}) for additional context. 
+* To ensure the Linux kernel feature Transparent Huge Pages does not impact Redis memory usage and latency, run the command: `echo never > /sys/kernel/mm/transparent_hugepage/enabled` to disable it. See [Latency Diagnosis - Latency induced by transparent huge pages](/content/operate/oss_and_stack/management/optimization/latency.md#latency-induced-by-transparent-huge-pages) for additional context. 
 
 ### Memory
 
@@ -28,7 +28,7 @@ weight: 1
 
 * If you are using Redis in a write-heavy application, while saving an RDB file on disk or rewriting the AOF log, Redis can use up to 2 times the memory normally used. The additional memory used is proportional to the number of memory pages modified by writes during the saving process, so it is often proportional to the number of keys (or aggregate types items) touched during this time. Make sure to size your memory accordingly.
 
-* See the [`LATENCY DOCTOR`](/commands/latency-doctor) and [`MEMORY DOCTOR`](/commands/memory-doctor) commands to assist in troubleshooting.
+* See the [`LATENCY DOCTOR`](/content/commands/latency-doctor.md) and [`MEMORY DOCTOR`](/content/commands/memory-doctor.md) commands to assist in troubleshooting.
 
 ### Imaging
 
@@ -44,7 +44,7 @@ weight: 1
 
 ### Security
 
-* By default, Redis does not require any authentication and listens to all the network interfaces. This is a big security issue if you leave Redis exposed on the internet or other places where attackers can reach it. See for example [this attack](http://antirez.com/news/96) to see how dangerous it can be. Please check our [security page]({{< relref "/operate/oss_and_stack/management/security/" >}}) for information about how to secure Redis.
+* By default, Redis does not require any authentication and listens to all the network interfaces. This is a big security issue if you leave Redis exposed on the internet or other places where attackers can reach it. See for example [this attack](http://antirez.com/news/96) to see how dangerous it can be. Please check our [security page](/content/operate/oss_and_stack/management/security/_index.md) for information about how to secure Redis.
 
 ## Running Redis on EC2
 
@@ -55,9 +55,9 @@ weight: 1
 
 ## Upgrading or restarting a Redis instance without downtime
 
-Redis is designed to be a long-running process in your server. You can modify many configuration options without a restart using the [`CONFIG SET`](/commands/config-set) command. You can also switch from AOF to RDB snapshots persistence, or the other way around, without restarting Redis. Check the output of the `CONFIG GET *` command for more information.
+Redis is designed to be a long-running process in your server. You can modify many configuration options without a restart using the [`CONFIG SET`](/content/commands/config-set.md) command. You can also switch from AOF to RDB snapshots persistence, or the other way around, without restarting Redis. Check the output of the `CONFIG GET *` command for more information.
 
-From time to time, a restart is required, for example, to upgrade the Redis process to a newer version, or when you need to modify a configuration parameter that is currently not supported by the [`CONFIG`](/commands/config) command.
+From time to time, a restart is required, for example, to upgrade the Redis process to a newer version, or when you need to modify a configuration parameter that is currently not supported by the [`CONFIG`](/content/commands/config.md) command.
 
 Follow these steps to avoid downtime.
 
@@ -67,15 +67,15 @@ Follow these steps to avoid downtime.
 
 * Wait for the replication initial synchronization to complete. Check the replica's log file.
 
-* Using [`INFO`](/commands/info), ensure the master and replica have the same number of keys. Use `redis-cli` to check that the replica is working as expected and is replying to your commands.
+* Using [`INFO`](/content/commands/info.md), ensure the master and replica have the same number of keys. Use `redis-cli` to check that the replica is working as expected and is replying to your commands.
 
 * Allow writes to the replica using `CONFIG SET slave-read-only no`.
 
-* Configure all your clients to use the new instance (the replica). Note that you may want to use the [`CLIENT PAUSE`](/commands/client-pause) command to ensure that no client can write to the old master during the switch.
+* Configure all your clients to use the new instance (the replica). Note that you may want to use the [`CLIENT PAUSE`](/content/commands/client-pause.md) command to ensure that no client can write to the old master during the switch.
 
-* Once you confirm that the master is no longer receiving any queries (you can check this using the [`MONITOR`](/commands/monitor) command), elect the replica to master using the `REPLICAOF NO ONE` command, and then shut down your master.
+* Once you confirm that the master is no longer receiving any queries (you can check this using the [`MONITOR`](/content/commands/monitor.md) command), elect the replica to master using the `REPLICAOF NO ONE` command, and then shut down your master.
 
-If you are using [Redis Sentinel]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) or [Redis Cluster]({{< relref "/operate/oss_and_stack/management/scaling" >}}), the simplest way to upgrade to newer versions is to upgrade one replica after the other. Then you can perform a manual failover to promote one of the upgraded replicas to master, and finally promote the last replica.
+If you are using [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md) or [Redis Cluster](/content/operate/oss_and_stack/management/scaling.md), the simplest way to upgrade to newer versions is to upgrade one replica after the other. Then you can perform a manual failover to promote one of the upgraded replicas to master, and finally promote the last replica.
 
 ---
 **NOTE** 

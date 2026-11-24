@@ -1,0 +1,30 @@
+---
+Title: Prepare source databases
+alwaysopen: false
+categories:
+- docs
+- integrate
+- rs
+- rdi
+description: Enable CDC features in your source databases
+group: di
+hideListLinks: false
+linkTitle: Prepare source databases
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
+type: integration
+weight: 1
+url: '/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/'
+---
+
+Each database uses a different mechanism to track changes to its data and
+generally, these mechanisms are not switched on by default.
+RDI's Debezium collector uses these mechanisms for change data capture (CDC),
+so you must prepare your source database before you can use it with RDI.
+
+RDI supports the following source databases:
+
+{{< embed-md "rdi-supported-source-versions.md" >}}
+
+The pages in this section give detailed instructions to get your source
+database ready for Debezium to use:

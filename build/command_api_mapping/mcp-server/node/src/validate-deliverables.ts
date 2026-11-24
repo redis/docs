@@ -104,11 +104,7 @@ async function validateDeliverables() {
   
   // Check data files
   console.log('📊 Checking Data Files...');
-  checkFile('Commands Core', 'data/commands_core.json');
-  checkFile('Commands RediSearch', 'data/commands_redisearch.json');
-  checkFile('Commands RedisJSON', 'data/commands_redisjson.json');
-  checkFile('Commands RedisBloom', 'data/commands_redisbloom.json');
-  checkFile('Commands RedisTimeSeries', 'data/commands_redistimeseries.json');
+  checkFile('Commands', 'data/commands.json');
   
   // Check configuration files
   console.log('⚙️  Checking Configuration Files...');

@@ -15,16 +15,16 @@ title: Connect to the server
 weight: 2
 ---
 
-{{< note >}}Jedis 7.2.0 introduced a new client connection API:
-
-| New API class | Replaces | Use case |
-| :-- | :-- | :-- |
-| `RedisClient` | `UnifiedJedis`, `JedisPool`, `JedisPooled` | Single connection (with connection pooling) |
-| `RedisClusterClient` | `JedisCluster` | Redis Cluster connections |
-| `RedisSentinelClient` | `JedisSentinelPool` | Redis Sentinel connections |
-
-The old client classes are now considered deprecated.
-{{< /note >}}
+> [!NOTE]
+> Jedis 7.2.0 introduced a new client connection API:
+>
+> | New API class | Replaces | Use case |
+> | :-- | :-- | :-- |
+> | `RedisClient` | `UnifiedJedis`, `JedisPool`, `JedisPooled` | Single connection (with connection pooling) |
+> | `RedisClusterClient` | `JedisCluster` | Redis Cluster connections |
+> | `RedisSentinelClient` | `JedisSentinelPool` | Redis Sentinel connections |
+>
+> The old client classes are now considered deprecated.
 
 ## Basic connection
 
@@ -44,6 +44,11 @@ public class Main {
     }
 }
 ```
+
+> [!NOTE]
+> Jedis supports [connection URLs](/content/develop/clients/connection-urls.md#jedis-java) through `RedisClient.create()`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
 
 After you have connected, you can check the connection by storing and
 retrieving a simple string value:
@@ -76,9 +81,71 @@ jedisClusterNodes.add(new HostAndPort("127.0.0.1", 7380));
 RedisClusterClient jedis = RedisClusterClient.create(jedisClusterNodes);
 ```
 
+### Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+use `RedisSentinelClient`. Pass the name of the primary that the Sentinels monitor to
+`masterName()`, and the Sentinel addresses to `sentinels()`. The client asks the Sentinels
+for the current primary and switches to the new one after a failover.
+
+```java
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.RedisSentinelClient;
+
+import java.util.HashSet;
+import java.util.Set;
+
+//...
+
+Set<HostAndPort> sentinels = new HashSet<>();
+sentinels.add(new HostAndPort("localhost", 26379));
+sentinels.add(new HostAndPort("localhost", 26380));
+sentinels.add(new HostAndPort("localhost", 26381));
+
+RedisSentinelClient jedis = RedisSentinelClient.builder()
+        .masterName("mymaster")
+        .sentinels(sentinels)
+        .build();
+
+jedis.set("foo", "bar");
+System.out.println(jedis.get("foo")); // bar
+
+jedis.close();
+```
+
+The Sentinels and the data nodes have separate credentials. Pass a client configuration for
+the primary to `clientConfig()`, and one for the Sentinels to `sentinelClientConfig()`:
+
+```java
+import redis.clients.jedis.DefaultJedisClientConfig;
+import redis.clients.jedis.JedisClientConfig;
+
+//...
+
+// Credentials for the primary and replica nodes.
+JedisClientConfig masterConfig = DefaultJedisClientConfig.builder()
+        .password("secret!") // use your Redis password
+        .build();
+
+// Credentials for the Sentinel nodes.
+JedisClientConfig sentinelConfig = DefaultJedisClientConfig.builder()
+        .password("sentinelSecret!") // use your Sentinel password
+        .build();
+
+RedisSentinelClient jedis = RedisSentinelClient.builder()
+        .masterName("mymaster")
+        .sentinels(sentinels)
+        .clientConfig(masterConfig)
+        .sentinelClientConfig(sentinelConfig)
+        .build();
+```
+
+`RedisSentinelClient` always sends commands to the primary. It doesn't support reading
+from replicas.
+
 ### Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
+When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.
 
 Before connecting your application to the TLS-enabled Redis server, ensure that your certificates and private keys are in the correct format.
 
@@ -142,11 +209,11 @@ public class Main {
 
 Client-side caching is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
-[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
+[Client-side caching introduction](/content/develop/clients/client-side-caching.md)
 for more information about how client-side caching works and how to use it effectively.
 
 To enable client-side caching, specify the
-[RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+[RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
 protocol and pass a cache configuration object during the connection.
 
 The example below shows the simplest client-side caching connection to the default host and port,
@@ -154,15 +221,15 @@ The example below shows the simplest client-side caching connection to the defau
 All of the connection variants described above accept these parameters, so you can
 use client-side caching with a connection pool or a cluster connection in exactly the same way.
 
-{{< note >}}Client-side caching requires Jedis v5.2.0 or later.
-To maximize compatibility with all Redis products, client-side caching
-is supported by Redis v7.4 or later.
-
-The [Redis server products]({{< relref "/operate" >}}) support
-[opt-in/opt-out]({{< relref "/develop/reference/client-side-caching#opt-in-and-opt-out-caching" >}}) mode
-and [broadcasting mode]({{< relref "/develop/reference/client-side-caching#broadcasting-mode" >}})
-for CSC, but these modes are not currently implemented by Jedis.
-{{< /note >}}
+> [!NOTE]
+> Client-side caching requires Jedis v5.2.0 or later.
+> To maximize compatibility with all Redis products, client-side caching
+> is supported by Redis v7.4 or later.
+>
+> The [Redis server products](/content/operate/_index.md) support
+> [opt-in/opt-out](/content/develop/reference/client-side-caching.md#opt-in-and-opt-out-caching) mode
+> and [broadcasting mode](/content/develop/reference/client-side-caching.md#broadcasting-mode)
+> for CSC, but these modes are not currently implemented by Jedis.
 
 ```java
 HostAndPort endpoint = new HostAndPort("localhost", 6379);
@@ -192,8 +259,8 @@ client.get("city");     // Retrieved from cache
 ```
 
 You can see the cache working if you connect to the same Redis database
-with [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run the
-[`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
+with [`redis-cli`](/content/develop/tools/cli.md) and run the
+[`MONITOR`](/content/commands/monitor.md) command. If you run the
 code above but without passing `cacheConfig` during the connection,
 you should see the following in the CLI among the output from `MONITOR`:
 
@@ -219,8 +286,8 @@ call was satisfied by the cache.
 You can remove individual keys from the cache with the
 `deleteByRedisKey()` method of the cache object. This removes all cached items associated
 with each specified key, so all results from multi-key commands (such as
-[`MGET`]({{< relref "/commands/mget" >}})) and composite data structures
-(such as [hashes]({{< relref "/develop/data-types/hashes" >}})) will be
+[`MGET`](/content/commands/mget.md)) and composite data structures
+(such as [hashes](/content/develop/data-types/hashes.md)) will be
 cleared at once. The example below shows the effect of removing a single
 key from the cache:
 
@@ -272,7 +339,7 @@ one of its open connections. When you subsequently close the same connection,
 it is not actually closed but simply returned to the pool for reuse.
 This avoids the overhead of repeated connecting and disconnecting.
 See
-[Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
+[Connection pools and multiplexing](/content/develop/clients/pools-and-muxing.md)
 for more information.
 
 From Jedis 7.2.0, the `RedisClient` class provides connection pooling automatically,

@@ -113,9 +113,14 @@
             data-version
             data-top
           >
-            <h1 class="font-mono font-medium text-lg mb-1.5 px-6">
+            <h1 class="font-mono {{ if lt $index 9 }}font-normal{{ else }}font-medium{{ end }} text-lg mb-1.5 px-6{{ if lt $index 9 }} pb-2 border-b border-redis-pen-800{{ end }}">
               <div class="command-title-deprecated">
-                <span class="truncate">{{ .Title }}</span>
+                {{ if lt $index 9 }}
+                  {{ $majorColors := dict "8" "bg-purple-bubble" "7" "bg-violet-700" "6" "bg-fuchsia-400" }}
+                  {{ $major := replaceRE `^Redis (\d+)\..*$` "$1" .Title }}
+                  <span class="h-3 w-3 rounded-full {{ index $majorColors $major | default "bg-redis-pen-300" }} border border-redis-pen-600 inline-block mr-2 flex-shrink-0"></span>
+                {{ end }}
+                <span class="{{ if lt $index 9 }}whitespace-normal uppercase{{ else }}truncate{{ end }}">{{ if lt $index 9 }}{{ replace (replace .Title " Reference" "") " Commands" "" }}{{ else }}{{ .Title }}{{ end }}</span>
                 {{ if (and (isset .Params "doc_flags") (in .Params.doc_flags "deprecated")) }}
                   <div class="deprecated-tooltip-trigger">
                     <span class="deprecated-badge">Deprecated</span>
@@ -139,6 +144,7 @@
           </article>
         {{ end }}
       </div>
+      <p id="commands-empty-state" class="hidden text-center text-redis-ink-900/70 py-12"></p>
     </div>
     {{ partial "commands-nav.html" . }}
     {{ partial "scripts.html" . }}

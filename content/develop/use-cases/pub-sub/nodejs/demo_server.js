@@ -666,7 +666,7 @@ async function main() {
     }
     server.close(async () => {
       try {
-        await client.quit();
+        await client.close();
       } catch (_err) {
         // ignore
       }

@@ -26,10 +26,9 @@ The v1 statistics REST API endpoints are deprecated as of Redis Software version
 
 Get statistics for all endpoint-proxy links.
 
-{{<note>}}
-This method will return both endpoints and listeners stats for backwards
-compatability.
-{{</note>}}
+> [!NOTE]
+> This method will return both endpoints and listeners stats for backwards
+> compatability.
 
 #### Required permissions
 

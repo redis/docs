@@ -11,86 +11,55 @@ weight: 20
 hideListLinks: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/prerequisites/
+- /develop/ai/context-engine/agent-memory/self-managed/plan-deployment/
+- /operate/iris/agent-memory/self-managed/plan-deployment/
 ---
 
-Redis Agent Memory is distributed as container images on Docker Hub plus a Helm
-chart in the Redis AI Helm repository. The chart deploys the Redis Agent Memory Data
-Plane, Redis Agent Memory workers, and optionally the Redis Agent Memory Control Plane.
-
-You provide the Redis databases, provider credentials, Kubernetes exposure, and
-license material used by the deployment.
-
-{{< note >}}
-This guide is for system administrators deploying Redis Agent Memory on a self-managed
-Kubernetes cluster.
-{{< /note >}}
+Agent Memory installs as the `memory` service of the `redis-iris` Helm chart `1.0.0`, from the
+Redis AI Helm repository `https://helm.redis.io/ai`. The suite deploys the Agent Memory Data Plane,
+workers, and Control Plane, with the Identity Service and the Iris console. Start with the
+[suite prerequisites](/content/operate/iris/self-managed/_index.md#prerequisites). This page adds
+what Agent Memory needs.
 
 ## What you need
 
 | Item | Where it comes from |
 | ---- | ------------------- |
-| Container images | Docker Hub: `redislabs/agent-memory` and, when the Control Plane is enabled, `redislabs/agent-memory-control-plane` |
-| Helm chart | `redis-agent-memory` chart in the Redis AI Helm repository, or a chart package provided by Redis |
-| Redis databases | You provide Store Redis, Job Redis, and Metadata Redis as needed by the deployment mode |
-| License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). |
+| Helm chart | `redis-ai/redis-iris` `1.0.0` |
+| Container images | Docker Hub: `redislabs/agent-memory:1.0.0` and `redislabs/agent-memory-control-plane:1.0.0`, plus the Identity Service and console images the suite installs |
+| Redis databases | You provide Store Redis, Job Redis, and Metadata Redis |
+| License key | One suite license. Contact your Redis representative or [contact sales](https://redis.io/contact/). |
 | Provider credentials | You provide embedding provider credentials and, when worker features are enabled, promotion or summarization LLM credentials |
-
-## Required software
-
-| Software | Minimum version | Purpose |
-| -------- | --------------- | ------- |
-| Kubernetes | 1.19+ | Orchestration |
-| kubectl | 1.19+ | Kubernetes CLI |
-| Helm | 3.x | Package manager |
 
 ## Redis databases
 
-The Helm chart does not deploy Redis databases. Provision the Redis databases
-outside the Redis Agent Memory chart and pass their URLs in
-`memory-dataplane.config.yaml` and, when the Control Plane is enabled,
-`controlplane-onprem.config.yaml`.
+The suite chart does not deploy Redis databases. Provision them yourself and pass their URLs in
+the overlay Secret that `memory.secrets.secretName` names.
+The Data Plane and the Control Plane both read the overlay, so they use the same
+Metadata Redis and Store Redis.
 
 Store Redis must support Search and JSON capabilities because Redis Agent Memory
 creates JSON and vector search indexes for memory data. Job Redis and Metadata
 Redis do not need those capabilities when they are deployed as separate Redis
 databases.
 
-### Static stores
-
-Use static stores for a first install or a private single-store deployment.
-Stores are declared directly in `memory-dataplane.config.yaml`. The Control
-Plane and Metadata Redis are not used.
+Store Redis must run Redis 7.2.0 through 8.4.x. Job Redis and Metadata Redis must run
+Redis 6.2 or later.
 
 {{< table-scrollable >}}
-| Redis database | Required when | Configure in `memory-dataplane.config.yaml` | Purpose |
+| Redis database | Required | Key in the overlay Secret | Purpose |
 | --- | --- | --- | --- |
-| Store Redis | Always | `metadata.stores.<store-id>.urls` | Session memory JSON, long-term memory hashes, RediSearch indexes, vectors, and TTL-managed data. |
-| Job Redis | Worker/background jobs enabled | `background_jobs.redis.urls` | Background work, retry state, delayed jobs, and idempotency markers. |
+| Store Redis | Always | `databases."1".urls` | Session memory JSON, long-term memory hashes, RediSearch indexes, vectors, and TTL-managed data. |
+| Metadata Redis | Always | `metadata.urls`, and optionally `metadata.namespace` (default `iris:memory`) | Store records. |
+| Job Redis | Always | `background_jobs.redis.urls` and, when execution idempotency is enabled, `background_jobs.idempotency.urls` | Background work, retry state, delayed jobs, and execution markers. The two settings can use the same Redis. |
 {{< /table-scrollable >}}
 
-### Control Plane managed stores
+The Identity Service keeps agent-key records in its own Metadata Redis, which it reads from the
+Secret in `identityService.metadata.existingSecret`. The Data Plane checks agent keys by calling the Identity Service.
 
-Use Control Plane managed stores when operators need to create stores or agent
-keys at runtime. The Data Plane and Control Plane must point to the same
-Metadata Redis namespace and Store Redis.
-
-{{< table-scrollable >}}
-| Redis database | Required when | Configure in `memory-dataplane.config.yaml` | Configure in `controlplane-onprem.config.yaml` | Purpose |
-| --- | --- | --- | --- | --- |
-| Store Redis | Always | `metadata.live.store_db.urls` | `store_db.urls` | Memory data for Control Plane managed stores. |
-| Metadata Redis | Always | `metadata.live.urls` and `metadata.live.namespace` | `metadata.urls` and `metadata.namespace` | Store records, agent-key records, and grant metadata. |
-| Job Redis | Worker/background jobs enabled | `background_jobs.redis.urls` | Not used by Control Plane | Background work, retry state, delayed jobs, and idempotency markers. |
-{{< /table-scrollable >}}
-
-Do not combine static `metadata.stores` with Control Plane managed store
-metadata for the same Data Plane. Static stores do not use Metadata Redis.
-Control Plane managed stores require Metadata Redis and are required for
-agent-key authentication.
-
-For a lab deployment, the Redis roles required by your chosen mode can point to
-the same Redis endpoint if it has the required modules and capacity. For
-production, separate Store Redis, Job Redis, and Metadata Redis when possible so
-memory data, background work, and control metadata can be scaled, backed up, and
+For a lab deployment, the Redis roles can point to the same Redis endpoint if it has the required
+modules and capacity. For production, separate Store Redis, Job Redis, and Metadata Redis when
+possible so memory data, background work, and control metadata can be scaled, backed up, and
 operated independently.
 
 For Job Redis, use a non-evicting policy such as `noeviction` or
@@ -102,159 +71,132 @@ Metadata Redis is small compared with Store Redis, but it is operationally
 critical. Use persistent storage, Redis authentication, network isolation, and
 TLS where required.
 
-In FIPS-oriented deployments, Redis URLs covered by the posture must use
-`rediss://`. Avoid eviction of metadata keys; losing metadata removes Control
-Plane store records and agent-key records.
+Avoid eviction of metadata keys. Losing Metadata Redis removes Control
+Plane store records, and losing the Identity Service Metadata Redis removes agent-key records.
 
 ## Network access
 
-- **Connected install:** the cluster must be able to pull images from
-  `docker.io` and reach the Redis AI Helm repository.
-- **Air-gapped install:** mirror the images into an internal registry and use a
-  chart package or locally downloaded chart.
+- **Connected install:** the cluster must be able to pull images from `docker.io` and reach
+  `https://helm.redis.io/ai`.
+- **Air-gapped install:** mirror the images into an internal registry, as described in
+  [Air-gapped and private registry installs](#air-gapped-and-private-registry-installs).
 - **Runtime access:** Redis Agent Memory pods must reach the Redis databases and any
   embedding or LLM provider endpoints used by the deployment.
+- **Identity Service:** the Data Plane calls `iris-identity-service:9200`, and the Identity Service
+  calls the Control Plane on port `9100` to validate grants. Allow both paths if you restrict traffic.
 - **Data Plane exposure:** use NetworkPolicy, ingress, gateway, service mesh,
   private load balancer, or equivalent controls to restrict API access.
 
 ## Credentials and Secrets
 
-The chart consumes configuration and license material from Kubernetes Secrets:
+Create these Secrets before you install. [Deploy](/content/operate/iris/agent-memory/self-managed/deploy.md#1-create-the-agent-memory-secrets)
+and [Create the shared Secrets](/content/operate/iris/self-managed/_index.md#2-create-the-shared-secrets) show each one.
 
-| Secret | Required when | Default key |
+| Secret | Values key | Holds |
 | --- | --- | --- |
-| Redis Agent Memory license Secret | Always | `license` |
-| Redis Agent Memory Data Plane config Secret | Always | `memory-dataplane.config.yaml` |
-| Control Plane config Secret | Control Plane enabled | `controlplane-onprem.config.yaml` |
-| Control Plane admin-token Secret | Control Plane enabled | `token` |
+| Suite license | `global.iris.license.existingSecret` | The suite license key. |
+| Overlay | `memory.secrets.secretName` | Redis URLs and provider credentials, in the key `overlay.yaml`. |
+| Identity Service metadata | `identityService.metadata.existingSecret` | The Identity Service's Metadata Redis URL. |
+| Cluster CA | `memory.tls.caCertSecret` | The cluster CA, so workers can verify the ServiceAccount issuer. |
 
-The config file is mounted as a Secret because it commonly contains provider API
-keys and Redis URLs may include credentials.
-
-## Release artifacts and image tags
-
-Redis Agent Memory self-managed image tags use the release SemVer value, for example:
-
-```yaml
-image:
-  repository: redislabs/agent-memory
-  tag: "<ram-version>"
-```
-
-Use the image tag listed for the release on Docker Hub or provided by Redis.
-
-Use the chart version supplied by Redis for the release. The published chart is
-`redis-ai/redis-agent-memory` from `https://helm.redis.io/ai`.
-
-Standard customer installs use the public Docker Hub images published by the
-Redis Agent Memory self-managed release: `docker.io/redislabs/agent-memory:<ram-version>`
-and, when the Control Plane is enabled,
-`docker.io/redislabs/agent-memory-control-plane:<ram-version>`.
+The suite generates Memory's runtime credential, Control Plane internal token, and admin token
+(`iris-memory-admin-token`). See [Credentials](/content/operate/iris/self-managed/_index.md#credentials).
 
 ## Air-gapped and private registry installs
 
-Mirror the published images into your internal registry:
+Mirror these Agent Memory images into your internal registry, along with the images of the
+other components the suite installs:
+
+| Image | Needed |
+| --- | --- |
+| `redislabs/agent-memory:1.0.0` | Always (Data Plane and workers) |
+| `redislabs/agent-memory-control-plane:1.0.0` | Always |
+| `redislabs/iris-identity-service:1.0.0` | Always |
+| `curlimages/curl:8.17.0` | The suite preflight (`preflight.image`) |
+| `python:3.13-alpine` | `helm test iris` (`tests.suiteVerify.image`) |
+| `hibiken/asynqmon:0.7.2` | Optional, with `memory.controlplane.queueMonitor` |
 
 ```bash
-docker pull redislabs/agent-memory:<ram-version>
-docker tag redislabs/agent-memory:<ram-version> \
-  registry.example.com/redislabs/agent-memory:<ram-version>
-docker push registry.example.com/redislabs/agent-memory:<ram-version>
-
-docker pull redislabs/agent-memory-control-plane:<ram-version>
-docker tag redislabs/agent-memory-control-plane:<ram-version> \
-  registry.example.com/redislabs/agent-memory-control-plane:<ram-version>
-docker push registry.example.com/redislabs/agent-memory-control-plane:<ram-version>
+docker pull redislabs/agent-memory:1.0.0
+docker tag redislabs/agent-memory:1.0.0 \
+  registry.example.com/redislabs/agent-memory:1.0.0
+docker push registry.example.com/redislabs/agent-memory:1.0.0
 ```
 
-If the registry requires authentication, create an image pull Secret:
+Repeat for each image. If the registry requires authentication, create an image pull Secret:
 
 ```bash
-kubectl -n <namespace-name> create secret docker-registry ram-registry \
+kubectl -n <namespace-name> create secret docker-registry iris-registry \
   --docker-server=registry.example.com \
   --docker-username=<username> \
   --docker-password=<password>
 ```
 
-Add the registry settings to `ram-values.yaml`:
+Add the registry settings to `iris-values.yaml`:
 
 ```yaml
-image:
-  repository: registry.example.com/redislabs/agent-memory
-  tag: "<ram-version>"
-
-controlplane:
+global:
+  imagePullSecrets:
+    - name: iris-registry
+identityService:
   image:
-    repository: registry.example.com/redislabs/agent-memory-control-plane
-    tag: "<ram-version>"
-
-imagePullSecrets:
-  - name: ram-registry
+    repository: registry.example.com/redislabs/iris-identity-service
+memory:
+  image:
+    repository: registry.example.com/redislabs/agent-memory
+  controlplane:
+    image:
+      repository: registry.example.com/redislabs/agent-memory-control-plane
+  airgap:
+    enabled: true
 ```
 
-Omit `imagePullSecrets` if the internal registry does not require
-authentication.
-
-For air-gapped deployments, also set:
-
-```yaml
-airgap:
-  enabled: true
-```
+`memory.airgap.enabled: true` checks Memory's own image repositories only. Confirm that every
+configured repository is reachable from the cluster. Omit the pull Secret if the registry
+doesn't require authentication.
 
 ## System requirements
 
-Default chart values:
+The suite's replica defaults are in [Availability](/content/operate/iris/self-managed/_index.md#availability).
+During a rolling update, Kubernetes runs old and new pods at the same time, so a small two-node
+test cluster can run out of CPU during install or upgrade. Use at least three nodes, or enough CPU
+headroom for the rolling-update overlap.
 
-| Component | Default | Purpose |
-| --------- | ------- | ------- |
-| Redis Agent Memory server | 2 replicas with autoscaling enabled and a minimum of 2 | Data Plane API traffic |
-| Redis Agent Memory worker | 2 replicas with autoscaling enabled and a minimum of 2 | Background promotion, summarization, and forgetting jobs |
-| Redis Agent Memory Control Plane | 1 replica when `controlplane.enabled=true` | Admin API for stores and agent keys |
-
-During a rolling update, Kubernetes may temporarily run old and new pods at the
-same time. A small two-node test cluster can run out of CPU during install or
-upgrade.
-
-For realistic validation, use at least three nodes or enough CPU headroom for
-the maximum rolling-update overlap.
-
-For a constrained lab cluster, reduce replicas and autoscaling explicitly:
+For a constrained lab cluster, reduce Memory's replicas explicitly:
 
 ```yaml
-server:
-  replicaCount: 1
-  autoscaling:
-    enabled: false
-
-worker:
-  replicaCount: 1
-  autoscaling:
-    enabled: false
+memory:
+  server:
+    replicaCount: 1
+    autoscaling:
+      enabled: false
+  worker:
+    replicaCount: 1
+    autoscaling:
+      enabled: false
 ```
 
 Do not use reduced replica counts as the production HA recommendation.
 
 ## Helm values to review
 
-The walkthroughs use `redis-agent-memory` as the Helm release name. The
-generated service and deployment names in the verification steps assume that
-release name.
+These keys go under `memory:` in `iris-values.yaml`. The values the suite sets itself are listed in
+[Add the Agent Memory values](/content/operate/iris/agent-memory/self-managed/deploy.md#2-add-the-agent-memory-values).
 
 {{< table-scrollable >}}
 | Area | Values | Use when |
 | --- | --- | --- |
-| Image | `image.repository`, `image.tag`, `imagePullSecrets` | Selecting a release, private registry, or mirrored image. |
+| Image | `image.repository`, `image.tag` | Selecting a private registry or mirrored image. |
 | Air-gapped installs | `airgap.enabled` | Validating a disconnected or private-registry install. |
+| Chart-rendered configuration | `shared`, `memory`, `controlplane.configData` | Setting the Data Plane and Control Plane configuration from Helm values. |
+| Credentials overlay | `secrets.*` | Naming the overlay Secret and its key, or layering more overlay Secrets. |
 | API server capacity | `server.resources`, `server.autoscaling.*` | Tuning request capacity or memory footprint. |
 | Worker capacity | `worker.resources`, `worker.autoscaling.*` | Tuning background job throughput. |
 | Scheduling | `server.nodeSelector`, `worker.nodeSelector`, `server.affinity`, `worker.affinity`, `server.tolerations`, `worker.tolerations` | Controlling pod placement. |
-| Networking | `service.type`, `ingress.*` | Exposing Redis Agent Memory outside the cluster. |
-| Naming | `fullnameOverride` | Running more than one Redis Agent Memory release in a namespace. |
+| Networking | `service.type`, `ingress.*` | Exposing Redis Agent Memory outside the cluster. The Ingress sets no controller annotations by default and routes paths without rewriting, so it works on any controller, such as ingress-nginx or Traefik. Set `ingress.className` (default `nginx`) to your controller's class. |
 | Service account | `serviceAccount.*` | Matching customer namespace security policy. |
-| Worker authentication | `workerAuth.enabled`, `worker.serviceAccount.*`, `worker.serviceAccount.token.*` | Giving Redis Agent Memory workers a Kubernetes projected service-account token for authenticated Data Plane callbacks. |
-| Secret rollouts | `license.existingSecretChecksum`, `config.existingSecretChecksum`, `controlplane.config.existingSecretChecksum` | Rolling pods after externally managed Secret changes. |
-| Control Plane | `controlplane.enabled`, `controlplane.image.*`, `controlplane.config.existingSecret`, `controlplane.adminToken.*` | Enabling the optional admin API for stores and agent keys. |
+| Private certificate authority (CA) | `tls.caCertSecret` | Trusting a private CA for outbound connections, such as the cluster CA for [worker identity](/content/operate/iris/agent-memory/self-managed/deploy.md#prepare-worker-identity-for-your-platform). |
+| Control Plane | `controlplane.image.*`, `controlplane.configData`, `controlplane.adminToken.*` | Mirroring the Control Plane image, setting its configuration, or bringing your own admin token. |
 {{< /table-scrollable >}}
 
 Do not use floating image tags in production.

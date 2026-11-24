@@ -34,7 +34,7 @@ title: CF.ADD
 Adds an item to the cuckoo filter.
 
 Cuckoo filters can contain the same item multiple times, and consider each addition as separate.
-Use [`CF.ADDNX`]({{< relref "commands/cf.addnx/" >}}) to add an item only if it does not exist.
+Use [`CF.ADDNX`](/content/commands/cf.addnx.md) to add an item only if it does not exist.
 
 ## Required arguments
 
@@ -79,13 +79,13 @@ redis> CF.ADD cf item1
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` for successfully adding an item to the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers): `1` for successfully adding an item to the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
 
 -tab-sep-
 
 One of the following:
-* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}): `true` for successfully adding an item to the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+* [Boolean reply](/content/develop/reference/protocol-spec.md#booleans): `true` for successfully adding an item to the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
 
 {{< /multitabs >}}

@@ -14,9 +14,8 @@ weight: 40
 
 Redis Enterprise for Kubernetes can only use storage classes supported by block storage. Block storage is mounted at the Kubernetes node level and utilizes EXT4 or XFS file systems. It can be sourced from enterprise-grade SANs or cloud environments such as EBS, Azure Managed Disks, or GCP persistent disks.
 
-{{<warning>}}
-NFS, NFS-like, and multi-read-write/shared storage options are not supported. These types of storage are often slow and can cause locking behaviors that are incompatible with the requirements of database storage.
-{{</warning>}}
+> [!WARNING]
+> NFS, NFS-like, and multi-read-write/shared storage options are not supported. These types of storage are often slow and can cause locking behaviors that are incompatible with the requirements of database storage.
 
 ## REC `persistentSpec` field 
 To deploy a Redis Enterprise cluster with Redis Enterprise operator the
@@ -32,11 +31,10 @@ spec should include a *persistentSpec* section, in the
 
 Persistence storage is a requirement for production deployments.
 
-{{< note >}}
-For **production deployments** of Redis Enterprise Cluster on Kubernetes,
-the Redis Enterprise Cluster (REC) must be deployed with persistence enabled.
-The REC deployment files in the [Kubernetes documentation](https://github.com/RedisLabs/redis-enterprise-k8s-docs) contain this declaration by default.
-{{< /note >}}
+> [!NOTE]
+> For **production deployments** of Redis Enterprise Cluster on Kubernetes,
+> the Redis Enterprise Cluster (REC) must be deployed with persistence enabled.
+> The REC deployment files in the [Kubernetes documentation](https://github.com/RedisLabs/redis-enterprise-k8s-docs) contain this declaration by default.
 
 ## Volume size
 
@@ -44,17 +42,16 @@ The REC deployment files in the [Kubernetes documentation](https://github.com/Re
 omitted, operator allocates five times (5x) the amount of memory (RAM)
 defined for nodes (see example below), which is the recommended
 persistent storage size as described in the [Hardware
-requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) article.
+requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md) article.
 
 To explicitly specify the persistent storage size, use the *volumeSize*
 property as described in the example above.
 
-Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)]({{<relref "/operate/kubernetes/re-clusters/expand-pvc">}}) for details.
+Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)](/content/operate/kubernetes/re-clusters/expand-pvc.md) for details.
 
-{{< note >}}
-We recommend that you omit the volumeSize definition from the REC declaration
-so that the Redis Enterprise Cluster deployment on Kubernetes use the default volume size.
-{{< /note >}}
+> [!NOTE]
+> We recommend that you omit the volumeSize definition from the REC declaration
+> so that the Redis Enterprise Cluster deployment on Kubernetes use the default volume size.
 
 ## Storage class name
 
@@ -88,13 +85,11 @@ Below is an example of a response to the command.
 | *VolumeBindingMode:*    | *Immediate*                                             |
 | *Events:*               | *\<none\>*                                              |
 
-{{< note >}}
-storageClassName must be specified for this deployment type.
-{{< /note >}}
+> [!NOTE]
+> storageClassName must be specified for this deployment type.
 
-{{< warning >}}
-The storage class cannot be changed after deployment. Trying to change this value after deployment could result in unexpected and potentially damaging behavior.
-{{< /warning >}}
+> [!WARNING]
+> The storage class cannot be changed after deployment. Trying to change this value after deployment could result in unexpected and potentially damaging behavior.
 
 Example of the redisEnterpriseNodeResources definition:
 

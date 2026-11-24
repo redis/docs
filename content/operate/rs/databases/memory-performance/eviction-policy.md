@@ -35,7 +35,7 @@ In clustered databases, each shard tracks its own memory usage and triggers evic
 
 `volatile-lru` is the default eviction policy for most databases.
 
-The default policy for [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}) is _noeviction_ policy.
+The default policy for [Active-Active databases](/content/operate/rs/databases/active-active/_index.md) is _noeviction_ policy.
 
 ## Active-Active database eviction
 
@@ -51,15 +51,14 @@ The eviction policy mechanism for Active-Active databases starts earlier than fo
 
 In case of network issues between Active-Active instances, memory can be freed only when all instances are in sync. If there is no communication between participating clusters, it can result in eviction of all keys and the instance reaching an out-of-memory state.
 
-{{< note >}}
-Data eviction policies are not supported for Active-Active databases with Auto Tiering.
-{{< /note >}}
+> [!NOTE]
+> Data eviction policies are not supported for Active-Active databases with Auto Tiering.
 
 ## Avoid data eviction
 
 To avoid data eviction, make sure your database is large enough to hold required values.  
 
-For larger databases, consider using [Redis Flex or Auto Tiering ]({{< relref "/operate/rs/databases/flash/" >}}).
+For larger databases, consider using [Redis Flex or Auto Tiering ](/content/operate/rs/databases/flash/_index.md).
 
 Auto Tiering stores actively-used data (also known as _hot data_) in RAM and the remaining data in flash memory (SSD).
 This lets you retain more data while ensuring the fastest access to the most critical data.

@@ -69,7 +69,7 @@ Last but not least, some adding and multiplying:
 
 ### Baseline
 
-To establish a baseline, we'll use the Redis [`PING`]({{< relref "/commands/ping" >}}) command.
+To establish a baseline, we'll use the Redis [`PING`](/content/commands/ping.md) command.
 First, lets see what `redis-benchmark` reports:
 
 ```

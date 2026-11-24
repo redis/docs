@@ -11,7 +11,7 @@ toc: 'true'
 weight: 80
 ---
 
-Redis Software and Redis Cloud support [client-side caching]({{<relref "/develop/clients/client-side-caching">}}) for databases with Redis versions 7.4 or later.
+Redis Software and Redis Cloud support [client-side caching](/content/develop/clients/client-side-caching.md) for databases with Redis versions 7.4 or later.
 
 ## Required database versions
 
@@ -27,7 +27,7 @@ The following table shows the differences in client-side caching support by prod
 
 ## Supported RESP versions
 
-Client-side caching in Redis Software and Redis Cloud requires [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}}).
+Client-side caching in Redis Software and Redis Cloud requires [RESP3](/content/develop/reference/protocol-spec.md#resp-versions).
 
 The following table shows the differences in client-side caching support for RESP by product:
 
@@ -39,7 +39,7 @@ The following table shows the differences in client-side caching support for RES
 
 ## Two connections mode with REDIRECT not supported
 
-Unlike Redis Open Source, Redis Software and Redis Cloud do not support [two connections mode]({{<relref "/develop/reference/client-side-caching#two-connections-mode">}}) or the `REDIRECT` option for [`CLIENT TRACKING`]({{<relref "/commands/client-tracking">}}).
+Unlike Redis Open Source, Redis Software and Redis Cloud do not support [two connections mode](/content/develop/reference/client-side-caching.md#two-connections-mode) or the `REDIRECT` option for [`CLIENT TRACKING`](/content/commands/client-tracking.md).
 
 ## Change tracking_table_max_keys for a database
 
@@ -49,7 +49,7 @@ The configuration setting `tracking-table-max-keys` determines the maximum numbe
 
 To change `tracking_table_max_keys` for a database in a Redis Software cluster:
 
-- [`rladmin tune db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db">}}):
+- [`rladmin tune db`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-db):
 
     ```sh
     rladmin tune db db:<ID> tracking_table_max_keys 2000000
@@ -57,7 +57,7 @@ To change `tracking_table_max_keys` for a database in a Redis Software cluster:
 
     You can use the database name in place of `db:<ID>` in the preceding command.
 
-- [Update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+- [Update database configuration](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#put-bdbs) REST API request:
 
     ```sh
     PUT /v1/bdbs/<uid> 
@@ -70,13 +70,13 @@ The cluster-wide option `default_tracking_table_max_keys_policy` determines the 
 
 To change `default_tracking_table_max_keys_policy`, use one of the following methods:
 
-- [`rladmin tune cluster`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster">}})
+- [`rladmin tune cluster`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-cluster)
 
     ```sh
     rladmin tune cluster default_tracking_table_max_keys_policy 2000000
     ```
 
-- [Update cluster policy]({{<relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) REST API request:
+- [Update cluster policy](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 

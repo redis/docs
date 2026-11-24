@@ -27,7 +27,7 @@ summary: Returns information about the state of a node.
 syntax_fmt: CLUSTER INFO
 title: CLUSTER INFO
 ---
-`CLUSTER INFO` provides [`INFO`]({{< relref "/commands/info" >}}) style information about Redis Cluster vital parameters.
+`CLUSTER INFO` provides [`INFO`](/content/commands/info.md) style information about Redis Cluster vital parameters.
 The following fields are always present in the reply:
 
 ```
@@ -72,25 +72,25 @@ The following message-related fields may be included in the reply if the value i
 Each message type includes statistics on the number of messages sent and received.
 Here are the explanation of these fields:
 
-* `cluster_stats_messages_ping_sent` and `cluster_stats_messages_ping_received`: Cluster bus PING (not to be confused with the client command [`PING`]({{< relref "/commands/ping" >}})).
+* `cluster_stats_messages_ping_sent` and `cluster_stats_messages_ping_received`: Cluster bus PING (not to be confused with the client command [`PING`](/content/commands/ping.md)).
 * `cluster_stats_messages_pong_sent` and `cluster_stats_messages_pong_received`: PONG (reply to PING).
-* `cluster_stats_messages_meet_sent` and `cluster_stats_messages_meet_received`: Handshake message sent to a new node, either through gossip or [`CLUSTER MEET`]({{< relref "/commands/cluster-meet" >}}).
+* `cluster_stats_messages_meet_sent` and `cluster_stats_messages_meet_received`: Handshake message sent to a new node, either through gossip or [`CLUSTER MEET`](/content/commands/cluster-meet.md).
 * `cluster_stats_messages_fail_sent` and `cluster_stats_messages_fail_received`: Mark node xxx as failing.
-* `cluster_stats_messages_publish_sent` and `cluster_stats_messages_publish_received`: Pub/Sub Publish propagation, see [Pubsub]({{< relref "/develop/pubsub#pubsub" >}}).
+* `cluster_stats_messages_publish_sent` and `cluster_stats_messages_publish_received`: Pub/Sub Publish propagation, see [Pubsub](/content/develop/pubsub/_index.md#pubsub).
 * `cluster_stats_messages_auth-req_sent` and `cluster_stats_messages_auth-req_received`: Replica initiated leader election to replace its master.
 * `cluster_stats_messages_auth-ack_sent` and `cluster_stats_messages_auth-ack_received`: Message indicating a vote during leader election.
 * `cluster_stats_messages_update_sent` and `cluster_stats_messages_update_received`: Another node slots configuration.
 * `cluster_stats_messages_mfstart_sent` and `cluster_stats_messages_mfstart_received`: Pause clients for manual failover.
 * `cluster_stats_messages_module_sent` and `cluster_stats_messages_module_received`: Module cluster API message.
-* `cluster_stats_messages_publishshard_sent` and `cluster_stats_messages_publishshard_received`: Pub/Sub Publish shard propagation, see [Sharded Pubsub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
+* `cluster_stats_messages_publishshard_sent` and `cluster_stats_messages_publishshard_received`: Pub/Sub Publish shard propagation, see [Sharded Pubsub](/content/develop/pubsub/_index.md#sharded-pubsub).
 
-More information about the Current Epoch and Config Epoch variables are available in the [Redis Cluster specification document]({{< relref "/operate/oss_and_stack/reference/cluster-spec#cluster-current-epoch" >}}).
+More information about the Current Epoch and Config Epoch variables are available in the [Redis Cluster specification document](/content/operate/oss_and_stack/reference/cluster-spec.md#cluster-current-epoch).
 
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md). |
 
 ## Return information
 

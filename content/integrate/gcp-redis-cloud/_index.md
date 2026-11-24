@@ -29,4 +29,4 @@ Redis Cloud on Google Cloud provides a fully managed Redis service that integrat
 
 ## Getting Started
 
-Get started with [Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) on Google Cloud to create and manage your Redis databases.
+Get started with [Redis Cloud](/content/operate/rc/rc-quickstart.md) on Google Cloud to create and manage your Redis databases.

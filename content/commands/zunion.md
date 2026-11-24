@@ -78,15 +78,14 @@ syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGG
   <SUM | MIN | MAX | COUNT>] [WITHSCORES]"
 title: ZUNION
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}), but instead of storing the resulting
+This command is similar to [`ZUNIONSTORE`](/content/commands/zunionstore.md), but instead of storing the resulting
 sorted set, it is returned to the client.
 
-For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
+For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`](/content/commands/zunionstore.md).
 
 ## Required arguments
 
@@ -147,6 +146,10 @@ redis> ZUNION 2 zset1 zset2 WITHSCORES
 5) "two"
 6) "4"
 {{% /redis-cli %}}
+
+## Details
+
+This command also accepts plain sets as input, treating each member as having a score of 1. If a plain-set input has member expirations, the command returns the error `ERR operation not supported on a set with member expirations`, because a sorted set can't hold member expirations. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
 
 ## Redis Software and Redis Cloud compatibility
 

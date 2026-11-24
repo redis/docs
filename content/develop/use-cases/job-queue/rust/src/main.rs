@@ -17,7 +17,7 @@ use axum::{
     routing::{get, post},
     Form, Json, Router,
 };
-use redis::aio::ConnectionManager;
+use redis::aio::{ConnectionManager, ConnectionManagerConfig};
 use redis::Client;
 use serde::Deserialize;
 use serde_json::{json, Value};
@@ -51,7 +51,10 @@ async fn main() {
         }
     };
 
-    let conn = match ConnectionManager::new(client).await {
+    // Workers block in BLMOVE for longer than the 500 ms default response timeout
+    // in redis-rs 1.x, so turn the response timeout off for this connection.
+    let config = ConnectionManagerConfig::new().set_response_timeout(None);
+    let conn = match ConnectionManager::new_with_config(client, config).await {
         Ok(c) => c,
         Err(e) => {
             eprintln!("Failed to connect to Redis at {}: {}", redis_url, e);

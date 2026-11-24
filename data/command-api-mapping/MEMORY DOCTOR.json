@@ -1,21 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "memory_doctor(**kwargs)",
-        "params": [
-          {
-            "name": "**kwargs",
-            "type": "Any",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "str",
-          "description": ""
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "String memoryDoctor()",
@@ -27,34 +12,74 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "memoryDoctor()",
+        "params": [],
+        "returns": {
+          "type": "BlobStringReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "nredisstack_sync": [
       {
-        "signature": "memory(string $subcommand, ...$args)",
+        "signature": "string MemoryDoctor(CommandFlags flags = CommandFlags.None)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
+            "name": "flags",
+            "type": "CommandFlags",
             "description": ""
           }
         ],
         "returns": {
           "type": "string",
-          "description": ""
+          "description": "The full text result of memory doctor."
         }
       }
     ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<string> MemoryDoctorAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<string>",
+          "description": "The full text result of memory doctor."
+        }
+      }
+    ],
+    "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "memory(subcommand: \"DOCTOR\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"DOCTOR\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

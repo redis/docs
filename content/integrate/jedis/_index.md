@@ -35,4 +35,4 @@ Jedis is a popular Java client for Redis that provides a simple, synchronous int
 
 ## Getting Started
 
-Refer to the complete [Jedis guide]({{< relref "/develop/clients/jedis" >}}) to install, connect, and use Jedis.
+Refer to the complete [Jedis guide](/content/develop/clients/jedis/_index.md) to install, connect, and use Jedis.

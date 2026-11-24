@@ -68,6 +68,12 @@ Returns a [job_scheduler object]({{<relref "/operate/rs/references/rest-api/obje
     "enabled": true,
     "expiry_days_before_rotation": 60
   },
+  "granular_metrics_job_settings": {
+    "cron_expression": "* * * * *",
+    "enabled": true,
+    "granular_cleanup_delay": 86400,
+    "granular_max_duration": 3600
+  },
   "log_rotation_job_settings": {
     "cron_expression": "*/5 * * * *",
     "enabled": true

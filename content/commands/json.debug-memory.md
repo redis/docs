@@ -35,9 +35,8 @@ title: JSON.DEBUG MEMORY
 ---
 Report a value's memory usage in bytes 
 
-{{< warning >}}
-The actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]({{< relref "/develop/data-types/json/ram#json-string-reuse-mechanism" >}}).
-{{< /warning >}}
+> [!WARNING]
+> The actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page](/content/develop/data-types/json/ram.md#json-string-reuse-mechanism).
 
 [Examples](#examples)
 
@@ -87,19 +86,19 @@ redis> JSON.DEBUG MEMORY item:2
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the value size in bytes.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the value size in bytes.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the value size in bytes.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the value size in bytes.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.ARRLEN`]({{< relref "commands/json.arrlen/" >}}) 
+[`JSON.SET`](/content/commands/json.set.md) | [`JSON.ARRLEN`](/content/commands/json.arrlen.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

@@ -21,9 +21,9 @@ The services that you can turn off are:
 
 - RS Admin Console - `cm_server`
 - Logs in CSV format - `stats_archiver`
-- [LDAP authentication]({{< relref "/operate/rs/security/access-control/ldap" >}}) - `saslauthd`
-- [Discovery service]({{< relref "/operate/rs/networking/cluster-dns.md" >}})- `mdns_server`, `pdns_server`
-- [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}) - `crdb_coordinator`, `crdb_worker`
+- [LDAP authentication](/content/operate/rs/security/access-control/ldap/_index.md) - `saslauthd`
+- [Discovery service](/content/operate/rs/networking/cluster-dns.md)- `mdns_server`, `pdns_server`
+- [Active-Active databases](/content/operate/rs/databases/active-active/_index.md) - `crdb_coordinator`, `crdb_worker`
 - Alert Manager - `alert_mgr` (For best results, disable only if you have an alternate alert system.)
 
 To turn off a service with the `rladmin cluster config` command, use the `services` parameter and the name of the service, followed by `disabled`.
@@ -32,7 +32,7 @@ To turn off a service with the `rladmin cluster config` command, use the `servic
         [ services <service_name> <enabled | disabled> ]
 ```
 
-To turn off a service with the API, use the [`PUT /v1/services_configuration`]({{< relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#put-cluster-services_config" >}}) endpoint
+To turn off a service with the API, use the [`PUT /v1/services_configuration`](/content/operate/rs/references/rest-api/requests/cluster/services_configuration.md#put-cluster-services_config) endpoint
 with the name of the service and the operating mode (enabled/disabled) in JSON format.
 
 For example:

@@ -10,7 +10,7 @@ linkTitle: Manage REDB passwords
 weight: 15
 ---
 
-Each [`RedisEnterpriseDatabase`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}) resource has a password stored under the `password` key of the secret named by `spec.databaseSecretName`. If you don't set `databaseSecretName`, the operator creates a secret named `redb-<database-name>` with a random password and updates the REDB spec to reference it.
+Each [`RedisEnterpriseDatabase`](/content/operate/kubernetes/reference/api/redis_enterprise_database_api.md) resource has a password stored under the `password` key of the secret named by `spec.databaseSecretName`. If you don't set `databaseSecretName`, the operator creates a secret named `redb-<database-name>` with a random password and updates the REDB spec to reference it.
 
 The operator reads the `password` key on every reconciliation and applies it to the database, so you rotate the password by updating the secret.
 
@@ -30,9 +30,8 @@ The operator reads the `password` key on every reconciliation and applies it to 
 
 ## Change the REDB password
 
-{{<note>}}
-If the REDB spec sets `defaultUser: false`, the operator does not create or update the database secret. Rotating the secret has no effect in that mode — manage credentials through [access control]({{< relref "/operate/kubernetes/security/access-control" >}}) instead, using [`RedisEnterpriseUser`]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}) resources.
-{{</note>}}
+> [!NOTE]
+> If the REDB spec sets `defaultUser: false`, the operator does not create or update the database secret. Rotating the secret has no effect in that mode — manage credentials through [access control](/content/operate/kubernetes/security/access-control/_index.md) instead, using [`RedisEnterpriseUser`](/content/operate/kubernetes/security/access-control/manage-users.md) resources.
 
 1. Base64-encode the new password. Use `echo -n` to avoid encoding a trailing newline:
 
@@ -66,6 +65,5 @@ To disable authentication for the default user, set the `password` value to an e
 
 Existing client connections authenticated with the old password remain open — Redis Enterprise does not drop sessions when the password changes. New connections, and any `AUTH` commands issued on existing connections, must use the new password. Coordinate the secret update with your client configuration to avoid authentication errors.
 
-{{<note>}}
-For Active-Active databases, the database secret is not created automatically. See [Create a global database secret]({{< relref "/operate/kubernetes/active-active/global-db-secret" >}}).
-{{</note>}}
+> [!NOTE]
+> For Active-Active databases, the database secret is not created automatically. See [Create a global database secret](/content/operate/kubernetes/active-active/global-db-secret.md).

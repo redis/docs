@@ -104,24 +104,24 @@ redis> JSON.GET doc $
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the new value (`0` if `false` or `1` if `true`), or `null` if the matching value is not Boolean.
+With `$`-based path argument: [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the new value (`0` if `false` or `1` if `true`), or `null` if the matching value is not Boolean.
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the new value (`0` if `false` or `1` if `true`), or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not Boolean.
+With `.`-based path argument: [Integer reply](/content/develop/reference/protocol-spec.md#integers) representing the new value (`0` if `false` or `1` if `true`), or [null reply](/content/develop/reference/protocol-spec.md#nulls) if the matching value is not Boolean.
 
 -tab-sep-
 
-With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the new value (`0` if `false` or `1` if `true`), or `null` if the matching value is not Boolean.
+With `$`-based path argument (default): [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the new value (`0` if `false` or `1` if `true`), or `null` if the matching value is not Boolean.
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the new value (`0` if `false` or `1` if `true`), or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not Boolean.
+With `.`-based path argument: [Integer reply](/content/develop/reference/protocol-spec.md#integers) representing the new value (`0` if `false` or `1` if `true`), or [null reply](/content/develop/reference/protocol-spec.md#nulls) if the matching value is not Boolean.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.GET`]({{< relref "commands/json.get/" >}}) 
+[`JSON.SET`](/content/commands/json.set.md) | [`JSON.GET`](/content/commands/json.get.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)
 

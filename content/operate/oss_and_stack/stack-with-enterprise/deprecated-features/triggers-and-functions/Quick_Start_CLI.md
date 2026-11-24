@@ -17,7 +17,7 @@ aliases:
   - /develop/interact/programmability/triggers-and-functions/quick_start_ri/
 ---
 
-Make sure that you have [Redis Stack installed]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) and running. Alternatively, you can create a [free Redis Cloud account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). The triggers and functions preview is available in the fixed subscription plan for the Google Cloud Asia Pacific (Tokyo) and AWS Asia Pacific (Singapore) regions.
+Make sure that you have [Redis Stack installed](/content/operate/oss_and_stack/install/install-stack/_index.md) and running. Alternatively, you can create a [free Redis Cloud account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). The triggers and functions preview is available in the fixed subscription plan for the Google Cloud Asia Pacific (Tokyo) and AWS Asia Pacific (Singapore) regions.
 
 ## Connect to Redis Stack
 
@@ -98,7 +98,7 @@ redis-cli -x TFUNCTION LOAD REPLACE < ./main.js
 
 Functions within Redis can respond to events using keyspace triggers. While the majority of these events are initiated by command invocations, they also include events that occur when a key expires or is removed from the database.
 
-For the full list of supported events, please refer to the [Redis keyspace notifications page]({{< relref "develop/pubsub/keyspace-notifications#events-generated-by-different-commands/?utm_source=redis\&utm_medium=app\&utm_campaign=redisinsight_triggers_and_functions_guide" >}}).
+For the full list of supported events, please refer to the [Redis keyspace notifications page](/content/develop/pubsub/keyspace-notifications.md#events-generated-by-different-commands/?utm_source=redis\&utm_medium=app\&utm_campaign=redisinsight_triggers_and_functions_guide).
 
 The following code creates a new keyspace trigger that adds a new field to a new or updated hash with the latest update time. 
 

@@ -21,7 +21,7 @@ RedisGears is an engine for data processing in Redis. RedisGears supports batch 
 
 ## Supported languages
 
-As of RedisGears v1.2, you can enable a plugin to select which programming language to use. It currently supports code written in either [Python]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python" >}}) or [Java]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm" >}}).
+As of RedisGears v1.2, you can enable a plugin to select which programming language to use. It currently supports code written in either [Python](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/_index.md) or [Java](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/_index.md).
 
 Prior to v1.2, RedisGears only supported Python. However, an internal C API exists and can be used by other Redis modules. Support for other languages is being planned.
 
@@ -29,15 +29,15 @@ Prior to v1.2, RedisGears only supported Python. However, an internal C API exis
 
 RedisGears is implemented by a Redis module. To use RedisGears, you'll need to make sure that your Redis deployment has the module installed. [Redis Software](https://redis.io/docs/latest/operate/rs/) supports the module natively.
 
-If you're running Redis Open Source, you'll also need to [install the RedisGears module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears" >}}) before using it.
+If you're running Redis Open Source, you'll also need to [install the RedisGears module](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears.md) before using it.
 
-To get started with RedisGears, see the quick start tutorial for [Python]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/quickstart" >}}) or [Java]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/quickstart" >}}).
+To get started with RedisGears, see the quick start tutorial for [Python](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/quickstart.md) or [Java](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/quickstart.md).
 
 ## Write-behind caching patterns
 
 Redis users typically implement caching by using the look-aside pattern. However, with RedisGears, you can implement write-behind caching strategies as well.
 
-Redis publishes RedisGears recipes to support write-behind. You can learn how to use these recipes in our write-behind caching guides for [Python]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/recipes/write-behind" >}}) and [Java]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/recipes/write-behind" >}}).
+Redis publishes RedisGears recipes to support write-behind. You can learn how to use these recipes in our write-behind caching guides for [Python](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/recipes/write-behind.md) and [Java](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/recipes/write-behind.md).
 
 ## More info
 

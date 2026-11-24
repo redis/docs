@@ -8,7 +8,7 @@ aliases:
 
 RedisVL sits between your application and Redis, providing a structured way to define, populate, and query vector search indexes.
 
-{{< image filename="/images/redisvl/redisvl-architecture.svg" alt="RedisVL Architecture" >}}
+![RedisVL Architecture](/images/redisvl/redisvl-architecture.svg)
 
 ## The Core Pattern
 

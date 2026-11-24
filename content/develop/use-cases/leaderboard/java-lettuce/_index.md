@@ -14,7 +14,7 @@ title: Redis leaderboard with Java (Lettuce)
 weight: 5
 ---
 
-This guide shows you how to implement Redis-backed leaderboards in Java with the [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) client library. It focuses on asynchronous and reactive APIs, which are the recommended Lettuce usage patterns in these docs.
+This guide shows you how to implement Redis-backed leaderboards in Java with the [`Lettuce`](/content/develop/clients/lettuce/_index.md) client library. It focuses on asynchronous and reactive APIs, which are the recommended Lettuce usage patterns in these docs.
 
 ## Overview
 
@@ -52,19 +52,19 @@ Add the Lettuce dependency to your project:
   <dependency>
       <groupId>io.lettuce</groupId>
       <artifactId>lettuce-core</artifactId>
-      <version>6.7.1.RELEASE</version>
+      <version>7.9.0.RELEASE</version>
   </dependency>
   ```
 
 * If you use **Gradle**:
 
   ```groovy
-  implementation 'io.lettuce:lettuce-core:6.7.1.RELEASE'
+  implementation 'io.lettuce:lettuce-core:7.9.0.RELEASE'
   ```
 
 ### Lettuce vs Jedis
 
-In these docs, [`Jedis`]({{< relref "/develop/clients/jedis" >}}) is the recommended client when you want straightforward synchronous Java examples. The Lettuce examples here focus on async and reactive APIs, where Lettuce is especially strong.
+In these docs, [`Jedis`](/content/develop/clients/jedis/_index.md) is the recommended client when you want straightforward synchronous Java examples. The Lettuce examples here focus on async and reactive APIs, where Lettuce is especially strong.
 
 ## The Java leaderboard
 
@@ -114,6 +114,7 @@ import java.util.Map;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.reactive.RedisReactiveCommands;
 
 public class Main {
     public static void main(String[] args) {
@@ -121,7 +122,7 @@ public class Main {
         StatefulRedisConnection<String, String> connection = redisClient.connect();
 
         ReactiveRedisLeaderboard board = new ReactiveRedisLeaderboard(
-                connection.reactive(),
+                connection.commands(RedisReactiveCommands.factory()),
                 "leaderboard:demo",
                 100
         );
@@ -162,12 +163,12 @@ The score data lives in the sorted set, while the user details live in hashes ke
 
 The implementation uses:
 
-* [`ZADD`]({{< relref "/commands/zadd" >}}) to add or update leaderboard scores
-* [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` option to fetch the highest-ranked members
-* [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) to find a user's rank from the top
-* [`ZREMRANGEBYRANK`]({{< relref "/commands/zremrangebyrank" >}}) to trim the lowest-ranked overflow entries
-* [`HSET`]({{< relref "/commands/hset" >}}) and [`HGETALL`]({{< relref "/commands/hgetall" >}}) to store and load user metadata
-* [`DEL`]({{< relref "/commands/del" >}}) to remove metadata for trimmed or deleted users
+* [`ZADD`](/content/commands/zadd.md) to add or update leaderboard scores
+* [`ZRANGE`](/content/commands/zrange.md) with the `REV` option to fetch the highest-ranked members
+* [`ZREVRANK`](/content/commands/zrevrank.md) to find a user's rank from the top
+* [`ZREMRANGEBYRANK`](/content/commands/zremrangebyrank.md) to trim the lowest-ranked overflow entries
+* [`HSET`](/content/commands/hset.md) and [`HGETALL`](/content/commands/hgetall.md) to store and load user metadata
+* [`DEL`](/content/commands/del.md) to remove metadata for trimmed or deleted users
 
 ## Leaderboard implementation
 
@@ -253,16 +254,39 @@ curl -O $BASE/ReactiveRedisLeaderboard.java
 curl -O $BASE/DemoServer.java
 ```
 
+### Get Lettuce and its dependencies
+
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
+
+```bash
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
+```
+
 ### Start the demo server
 
 A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/java-lettuce/DemoServer.java)) is included to show the leaderboard in action:
 
 ```bash
 # Compile
-javac -cp lettuce-core-6.7.1.RELEASE.jar AsyncRedisLeaderboard.java ReactiveRedisLeaderboard.java DemoServer.java
+javac -cp 'lib/*' AsyncRedisLeaderboard.java ReactiveRedisLeaderboard.java DemoServer.java
 
 # Run the demo server
-java -cp .:lettuce-core-6.7.1.RELEASE.jar DemoServer
+java -cp '.:lib/*' DemoServer
 ```
 
 The demo uses the async implementation for the HTTP handlers and provides an interactive web interface where you can:

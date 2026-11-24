@@ -78,9 +78,8 @@ expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-{{< note >}}
-Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
-{{< /note >}}
+> [!NOTE]
+> Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
 
 #### `dialect(dialect)`
 
@@ -324,11 +323,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -401,7 +399,7 @@ Return the parameters for the query.
 * **Return type:**
   Dict[str, Any]
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -432,47 +430,46 @@ Return the USE_SEARCH_HISTORY parameter for the query.
 * **Return type:**
   Optional[str]
 
-{{< note >}}
-**Runtime Parameters for Performance Tuning**
-
-VectorQuery supports runtime parameters for HNSW and SVS-VAMANA indexes that can be adjusted at query time without rebuilding the index:
-
-**HNSW Parameters:**
-
-- `ef_runtime`: Controls search accuracy (higher = better recall, slower search)
-
-**SVS-VAMANA Parameters:**
-
-- `search_window_size`: Size of search window for KNN searches
-- `use_search_history`: Whether to use search buffer (OFF/ON/AUTO)
-- `search_buffer_capacity`: Tuning parameter for 2-level compression
-
-Example with HNSW runtime parameters:
-
-```python
-from redisvl.query import VectorQuery
-
-query = VectorQuery(
-    vector=[0.1, 0.2, 0.3],
-    vector_field_name="embedding",
-    num_results=10,
-    ef_runtime=150  # Higher for better recall
-)
-```
-
-Example with SVS-VAMANA runtime parameters:
-
-```python
-query = VectorQuery(
-    vector=[0.1, 0.2, 0.3],
-    vector_field_name="embedding",
-    num_results=10,
-    search_window_size=20,
-    use_search_history='ON',
-    search_buffer_capacity=30
-)
-```
-{{< /note >}}
+> [!NOTE]
+> **Runtime Parameters for Performance Tuning**
+>
+> VectorQuery supports runtime parameters for HNSW and SVS-VAMANA indexes that can be adjusted at query time without rebuilding the index:
+>
+> **HNSW Parameters:**
+>
+> - `ef_runtime`: Controls search accuracy (higher = better recall, slower search)
+>
+> **SVS-VAMANA Parameters:**
+>
+> - `search_window_size`: Size of search window for KNN searches
+> - `use_search_history`: Whether to use search buffer (OFF/ON/AUTO)
+> - `search_buffer_capacity`: Tuning parameter for 2-level compression
+>
+> Example with HNSW runtime parameters:
+>
+> ```python
+> from redisvl.query import VectorQuery
+>
+> query = VectorQuery(
+>     vector=[0.1, 0.2, 0.3],
+>     vector_field_name="embedding",
+>     num_results=10,
+>     ef_runtime=150  # Higher for better recall
+> )
+> ```
+>
+> Example with SVS-VAMANA runtime parameters:
+>
+> ```python
+> query = VectorQuery(
+>     vector=[0.1, 0.2, 0.3],
+>     vector_field_name="embedding",
+>     num_results=10,
+>     search_window_size=20,
+>     use_search_history='ON',
+>     search_buffer_capacity=30
+> )
+> ```
 
 ## VectorRangeQuery
 
@@ -547,9 +544,8 @@ distance threshold.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-{{< note >}}
-Learn more about vector range queries: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#range-query](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#range-query)
-{{< /note >}}
+> [!NOTE]
+> Learn more about vector range queries: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#range-query](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#range-query)
 
 #### `dialect(dialect)`
 
@@ -801,11 +797,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -887,7 +882,7 @@ Return the parameters for the query.
 * **Return type:**
   Dict[str, Any]
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -918,36 +913,35 @@ Return the USE_SEARCH_HISTORY parameter for the query.
 * **Return type:**
   Optional[str]
 
-{{< note >}}
-**Runtime Parameters for Range Queries**
-
-VectorRangeQuery supports runtime parameters for controlling range search behavior:
-
-**HNSW & SVS-VAMANA Parameters:**
-
-- `epsilon`: Range search approximation factor (default: 0.01)
-
-**SVS-VAMANA Parameters:**
-
-- `search_window_size`: Size of search window
-- `use_search_history`: Whether to use search buffer (OFF/ON/AUTO)
-- `search_buffer_capacity`: Tuning parameter for 2-level compression
-
-Example:
-
-```python
-from redisvl.query import VectorRangeQuery
-
-query = VectorRangeQuery(
-    vector=[0.1, 0.2, 0.3],
-    vector_field_name="embedding",
-    distance_threshold=0.3,
-    epsilon=0.05,              # Approximation factor
-    search_window_size=20,     # SVS-VAMANA only
-    use_search_history='AUTO'  # SVS-VAMANA only
-)
-```
-{{< /note >}}
+> [!NOTE]
+> **Runtime Parameters for Range Queries**
+>
+> VectorRangeQuery supports runtime parameters for controlling range search behavior:
+>
+> **HNSW & SVS-VAMANA Parameters:**
+>
+> - `epsilon`: Range search approximation factor (default: 0.01)
+>
+> **SVS-VAMANA Parameters:**
+>
+> - `search_window_size`: Size of search window
+> - `use_search_history`: Whether to use search buffer (OFF/ON/AUTO)
+> - `search_buffer_capacity`: Tuning parameter for 2-level compression
+>
+> Example:
+>
+> ```python
+> from redisvl.query import VectorRangeQuery
+>
+> query = VectorRangeQuery(
+>     vector=[0.1, 0.2, 0.3],
+>     vector_field_name="embedding",
+>     distance_threshold=0.3,
+>     epsilon=0.05,              # Approximation factor
+>     search_window_size=20,     # SVS-VAMANA only
+>     use_search_history='AUTO'  # SVS-VAMANA only
+> )
+> ```
 
 ## AggregateHybridQuery
 
@@ -1016,11 +1010,10 @@ Instantiates a AggregateHybridQuery object.
     within the query text. Defaults to None, as no modifications will be made to the
     text_scorer score.
 
-{{< note >}}
-AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime
-parameters. For runtime parameter support (ef_runtime, search_window_size, etc.),
-use VectorQuery or VectorRangeQuery which use FT.SEARCH commands.
-{{< /note >}}
+> [!NOTE]
+> AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime
+> parameters. For runtime parameter support (ef_runtime, search_window_size, etc.),
+> use VectorQuery or VectorRangeQuery which use FT.SEARCH commands.
 
 * **Raises:**
   * **ValueError** – If the text string is empty, or if the text string becomes empty after
@@ -1242,46 +1235,43 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
-{{< note >}}
-The `stopwords` parameter in [AggregateHybridQuery](#aggregatehybridquery) (and `HybridQuery`) controls query-time stopword filtering (client-side).
-For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
-Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
-{{< /note >}}
+> [!NOTE]
+> The `stopwords` parameter in [AggregateHybridQuery](#aggregatehybridquery) (and `HybridQuery`) controls query-time stopword filtering (client-side).
+> For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+> Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
 
-{{< note >}}
-`HybridQuery` and [AggregateHybridQuery](#aggregatehybridquery) apply linear combination inconsistently. `HybridQuery` uses `linear_alpha` to weight the text score, while [AggregateHybridQuery](#aggregatehybridquery) uses `alpha` to weight the vector score. When switching between the two classes, take care to revise your `alpha` setting.
-{{< /note >}}
+> [!NOTE]
+> `HybridQuery` and [AggregateHybridQuery](#aggregatehybridquery) apply linear combination inconsistently. `HybridQuery` uses `linear_alpha` to weight the text score, while [AggregateHybridQuery](#aggregatehybridquery) uses `alpha` to weight the vector score. When switching between the two classes, take care to revise your `alpha` setting.
 
-{{< note >}}
-**Runtime Parameters for Hybrid Queries**
-
-**Important:** AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime parameters.
-Runtime parameters (`ef_runtime`, `search_window_size`, `use_search_history`, `search_buffer_capacity`)
-are only supported with FT.SEARCH commands.
-
-For runtime parameter support, use `HybridQuery`, [VectorQuery](#vectorquery), or [VectorRangeQuery](#vectorrangequery) instead of AggregateHybridQuery.
-
-Example with HybridQuery (supports runtime parameters):
-
-```python
-from redisvl.query import HybridQuery
-
-query = HybridQuery(
-    text="query string",
-    text_field_name="description",
-    vector=[0.1, 0.2, 0.3],
-    vector_field_name="embedding",
-    vector_search_method="KNN",
-    knn_ef_runtime=150,  # Runtime parameters work with HybridQuery
-    return_fields=["description"],
-    num_results=10,
-)
-```
-{{< /note >}}
+> [!NOTE]
+> **Runtime Parameters for Hybrid Queries**
+>
+> **Important:** AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime parameters.
+> Runtime parameters (`ef_runtime`, `search_window_size`, `use_search_history`, `search_buffer_capacity`)
+> are only supported with FT.SEARCH commands.
+>
+> For runtime parameter support, use `HybridQuery`, [VectorQuery](#vectorquery), or [VectorRangeQuery](#vectorrangequery) instead of AggregateHybridQuery.
+>
+> Example with HybridQuery (supports runtime parameters):
+>
+> ```python
+> from redisvl.query import HybridQuery
+>
+> query = HybridQuery(
+>     text="query string",
+>     text_field_name="description",
+>     vector=[0.1, 0.2, 0.3],
+>     vector_field_name="embedding",
+>     vector_search_method="KNN",
+>     knn_ef_runtime=150,  # Runtime parameters work with HybridQuery
+>     return_fields=["description"],
+>     num_results=10,
+> )
+> ```
 
 ## HybridQuery
 
-### `class HybridQuery(text, text_field_name, vector, vector_field_name, vector_param_name='vector', text_scorer='BM25STD', yield_text_score_as=None, vector_search_method=None, knn_ef_runtime=10, range_radius=None, range_epsilon=0.01, yield_vsim_score_as=None, filter_expression=None, combination_method=None, rrf_window=20, rrf_constant=60, linear_alpha=0.3, yield_combined_score_as=None, dtype='float32', num_results=10, return_fields=None, stopwords='english', text_weights=None)`
+### `class HybridQuery(text, text_field_name, vector, vector_field_name, vector_param_name='vector', text_scorer='BM25STD', yield_text_score_as=None, vector_search_method=None, knn_ef_runtime=None, range_radius=None, range_epsilon=None, yield_vsim_score_as=None, filter_expression=None, combination_method=None, rrf_window=20, rrf_constant=60, linear_alpha=0.3, yield_combined_score_as=None, dtype='float32', num_results=10, return_fields=None, stopwords='english', text_weights=None)`
 
 Bases: `object`
 
@@ -1312,9 +1302,8 @@ query = HybridQuery(
 results = index.query(query)
 ```
 
-{{< note >}}
-- [FT.HYBRID command documentation](https://redis.io/docs/latest/commands/ft.hybrid)
-{{< /note >}}
+> [!NOTE]
+> - [FT.HYBRID command documentation](https://redis.io/docs/latest/commands/ft.hybrid)
 - [redis-py hybrid_search documentation](https://redis.readthedocs.io/en/stable/redismodules.html#redis.commands.search.commands.SearchCommands.hybrid_search)
 
 Instantiates a HybridQuery object.
@@ -1331,21 +1320,24 @@ Instantiates a HybridQuery object.
     see [https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/)
   * **yield_text_score_as** (*str* *|* *None*) – The name of the field to yield the text score as.
   * **vector_search_method** (*Literal* *[* *'KNN'* *,*  *'RANGE'* *]*  *|* *None*) – The vector search method to use. Options are {KNN, RANGE}. Defaults to None.
-  * **knn_ef_runtime** (*int*) – The exploration factor parameter for HNSW, optional if vector_search_method is "KNN".
-  * **range_radius** (*float* *|* *None*) – The search radius to use, required if vector_search_method is "RANGE".
-  * **range_epsilon** (*float*) – The epsilon value to use, optional if vector_search_method is "RANGE"; defines the
-    accuracy of the search.
+  * **knn_ef_runtime** (*int* *|* *None*) – The exploration factor for HNSW when vector_search_method is "KNN".
+    Defaults to None, which omits EF_RUNTIME and uses the index’s configured value.
+  * **range_radius** (*float* *|* *None*) – The search radius, required if vector_search_method is "RANGE". Zero is valid.
+  * **range_epsilon** (*float* *|* *None*) – The search accuracy parameter for HNSW and SVS-VAMANA when
+    vector_search_method is "RANGE". Defaults to None, which omits EPSILON and uses the index’s configured value.
   * **yield_vsim_score_as** (*str* *|* *None*) – The name of the field to yield the vector similarity score as.
   * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *|* *None*) – The filter expression to use for both the text and vector searches. Defaults to None.
   * **combination_method** (*Literal* *[* *'RRF'* *,*  *'LINEAR'* *]*  *|* *None*) – The combination method to use. Options are {RRF, LINEAR}. If not specified, the server
-    defaults to RRF. If "RRF" is specified, then at least one of rrf_window or rrf_constant must be
+    defaults to RRF. If only yield_combined_score_as is set, RRF is sent explicitly so the alias
+    reaches the server. If "RRF" is specified, then at least one of rrf_window or rrf_constant must be
     provided. If "LINEAR" is specified, then at least one of linear_alpha or linear_beta must be
     provided.
   * **rrf_window** (*int*) – The window size to use for the reciprocal rank fusion (RRF) combination method. Limits
     fusion scope.
   * **rrf_constant** (*int*) – The constant to use for the reciprocal rank fusion (RRF) combination method. Controls decay
     of rank influence.
-  * **linear_alpha** (*float*) – The weight of the text query for the linear combination method (LINEAR).
+  * **linear_alpha** (*float*) – The weight of the text query for the linear combination method (LINEAR). Both the text and
+    vector searches still run at 0 and 1, so use VectorQuery or TextQuery when only one is needed.
   * **yield_combined_score_as** (*str* *|* *None*) – The name of the field to yield the combined score as.
   * **dtype** (*str*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *|* *None*) – The number of results to return.
@@ -1373,15 +1365,13 @@ Instantiates a HybridQuery object.
   * **ValueError** – If vector_search_method is "KNN" and knn_k is not provided.
   * **ValueError** – If vector_search_method is "RANGE" and range_radius is not provided.
 
-{{< note >}}
-The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
-For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
-Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
-{{< /note >}}
+> [!NOTE]
+> The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
+> For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+> Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
 
-{{< note >}}
-[HybridQuery](#hybridquery) and `AggregateHybridQuery` apply linear combination inconsistently. [HybridQuery](#hybridquery) uses `linear_alpha` to weight the text score, while `AggregateHybridQuery` uses `alpha` to weight the vector score. When switching between the two classes, take care to revise your `alpha` setting.
-{{< /note >}}
+> [!NOTE]
+> [HybridQuery](#hybridquery) and `AggregateHybridQuery` apply linear combination inconsistently. [HybridQuery](#hybridquery) uses `linear_alpha` to weight the text score, while `AggregateHybridQuery` uses `alpha` to weight the vector score. When switching between the two classes, take care to revise your `alpha` setting.
 
 ## TextQuery
 
@@ -1456,7 +1446,8 @@ A query for running a full text search, along with an optional filter expression
     within the query text. Defaults to None, as no modifications will be made to the
     text_scorer score.
 * **Raises:**
-  * **ValueError** – if stopwords language string cannot be loaded.
+  * **ValueError** – If the text is empty after stopword filtering, or the
+        stopwords language string cannot be loaded.
   * **TypeError** – If stopwords is not a valid iterable set of strings.
 
 #### `dialect(dialect)`
@@ -1651,11 +1642,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1703,7 +1693,7 @@ The filter expression for the query.
 
 Return the query parameters.
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -1724,11 +1714,10 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
-{{< note >}}
-The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
-For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
-Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
-{{< /note >}}
+> [!NOTE]
+> The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
+> For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+> Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
 
 ## FilterQuery
 
@@ -1933,11 +1922,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1978,7 +1966,7 @@ The filter expression for the query.
 
 Return the query parameters.
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -2185,11 +2173,10 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-{{< note >}}
-When multiple fields are specified, only the first field is used for sorting
-in Redis. Future versions may support multi-field sorting through post-query
-sorting in Python.
-{{< /note >}}
+> [!NOTE]
+> When multiple fields are specified, only the first field is used for sorting
+> in Redis. Future versions may support multi-field sorting through post-query
+> sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -2230,7 +2217,7 @@ The filter expression for the query.
 
 Return the query parameters.
 
-#### `property query: BaseQuery`
+#### `property query: Self`
 
 Return self as the query object.
 
@@ -2514,10 +2501,9 @@ sql_query = SQLQuery('''
 results = index.query(sql_query)
 ```
 
-{{< note >}}
-Requires the optional sql-redis package. Install with:
-`pip install redisvl[sql-redis]`
-{{< /note >}}
+> [!NOTE]
+> Requires the optional sql-redis package. Install with:
+> `pip install redisvl[sql-redis]`
 
 Initialize a SQLQuery.
 
@@ -2534,12 +2520,11 @@ Initialize a SQLQuery.
     all schemas up front. These options exist to balance startup
     cost vs repeated-query performance across many indexes.
 
-{{< note >}}
-`sql-redis >= 0.4.0` uses explicit TEXT search operators.
-Use `=` for exact phrase matching, `LIKE` for wildcard
-matching, `fuzzy()` for typo-tolerant matching, and
-`fulltext()` for tokenized search.
-{{< /note >}}
+> [!NOTE]
+> `sql-redis >= 0.4.0` uses explicit TEXT search operators.
+> Use `=` for exact phrase matching, `LIKE` for wildcard
+> matching, `fuzzy()` for typo-tolerant matching, and
+> `fulltext()` for tokenized search.
 
 #### `redis_query_string(redis_client=None, redis_url='redis://localhost:6379')`
 
@@ -2579,31 +2564,27 @@ print(redis_cmd)
 # Output: FT.SEARCH products "@category:{electronics}"
 ```
 
-{{< note >}}
-SQLQuery requires the optional `sql-redis` package. Install with:
-`pip install redisvl[sql-redis]`
-{{< /note >}}
+> [!NOTE]
+> SQLQuery requires the optional `sql-redis` package. Install with:
+> `pip install redisvl[sql-redis]`
 
-{{< note >}}
-SQLQuery translates SQL SELECT statements into Redis FT.SEARCH or FT.AGGREGATE commands.
-The SQL syntax supports WHERE clauses, field selection, ordering, and parameterized queries
-for vector similarity searches.
-{{< /note >}}
+> [!NOTE]
+> SQLQuery translates SQL SELECT statements into Redis FT.SEARCH or FT.AGGREGATE commands.
+> The SQL syntax supports WHERE clauses, field selection, ordering, and parameterized queries
+> for vector similarity searches.
 
-{{< note >}}
-SQLQuery accepts a `sql_redis_options` dictionary that is passed through to
-`sql-redis` executor creation. The most common option is
-`schema_cache_strategy`:
+> [!NOTE]
+> SQLQuery accepts a `sql_redis_options` dictionary that is passed through to
+> `sql-redis` executor creation. The most common option is
+> `schema_cache_strategy`:
+>
+> - `"lazy"` (default) loads schemas on demand, which keeps one-off or
+>   narrow queries cheaper.
+> - `"load_all"` eagerly loads all schemas up front, which can help when
+>   running many SQL queries across many indexes.
 
-- `"lazy"` (default) loads schemas on demand, which keeps one-off or
-  narrow queries cheaper.
-- `"load_all"` eagerly loads all schemas up front, which can help when
-  running many SQL queries across many indexes.
-{{< /note >}}
-
-{{< note >}}
-SQLQuery supports hybrid search via `hybrid_vector_search(cosine_distance(...), fulltext(...), rrf())`, which translates to a native Redis `FT.HYBRID` command
-fusing a text and a vector query server-side. This is the SQL front-end to
-`HybridQuery` and requires `sql-redis >= 0.7.0`, Redis 8.4+, and
-redis-py >= 7.1.0.
-{{< /note >}}
+> [!NOTE]
+> SQLQuery supports hybrid search via `hybrid_vector_search(cosine_distance(...), fulltext(...), rrf())`, which translates to a native Redis `FT.HYBRID` command
+> fusing a text and a vector query server-side. This is the SQL front-end to
+> `HybridQuery` and requires `sql-redis >= 0.7.0`, Redis 8.4+, and
+> redis-py >= 7.1.0.

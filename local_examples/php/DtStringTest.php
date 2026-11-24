@@ -42,8 +42,8 @@ extends PredisTestCase
         $r->set('bike:1', 'Deimos');
 
         $res3 = $r->set('bike:1', 'bike', 'nx');
-        echo "$res3" . PHP_EOL;
-        // >>> (null)
+        echo var_export($res3, true) . PHP_EOL;
+        // >>> NULL
         
         echo $r->get('bike:1') . PHP_EOL;
         // >>> Deimos
@@ -56,6 +56,35 @@ extends PredisTestCase
         $this->assertEquals(null, $res3);
         $this->assertEquals('OK', $res4);
         $this->assertEquals('bike', $r->get('bike:1'));
+        // REMOVE_END
+
+        // STEP_START cas_cad
+        $r->set('bike:1', 'Deimos');
+
+        $res9 = $r->set('bike:1', 'Ares', null, null, 'IFEQ', 'Deimos');
+        echo "$res9" . PHP_EOL;
+        // >>> OK
+
+        $res10 = $r->set('bike:1', 'Zeus', null, null, 'IFEQ', 'Deimos');
+        echo var_export($res10, true) . PHP_EOL;
+        // >>> NULL
+
+        echo $r->get('bike:1') . PHP_EOL;
+        // >>> Ares
+
+        $res11 = $r->delex('bike:1', 'IFEQ', 'Deimos');
+        echo "$res11" . PHP_EOL;
+        // >>> 0
+
+        $res12 = $r->delex('bike:1', 'IFEQ', 'Ares');
+        echo "$res12" . PHP_EOL;
+        // >>> 1
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals('OK', $res9);
+        $this->assertNull($res10);
+        $this->assertEquals(0, $res11);
+        $this->assertEquals(1, $res12);
         // REMOVE_END
 
         // STEP_START mset

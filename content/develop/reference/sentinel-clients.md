@@ -27,7 +27,7 @@ This document is targeted at Redis clients developers that want to support Senti
 * Automatic configuration of clients via Sentinel.
 * Improved safety of Redis Sentinel automatic failover.
 
-For details about how Redis Sentinel works, please check the [Redis Documentation]({{< relref "/operate/oss_and_stack/management/sentinel" >}}), as this document only contains information needed for Redis client developers, and it is expected that readers are familiar with the way Redis Sentinel works.
+For details about how Redis Sentinel works, please check the [Redis Documentation](/content/operate/oss_and_stack/management/sentinel.md), as this document only contains information needed for Redis client developers, and it is expected that readers are familiar with the way Redis Sentinel works.
 
 ## Redis service discovery via Sentinel
 
@@ -72,10 +72,10 @@ If an ip:port pair is received, this address should be used to connect to the Re
 ### Step 3: call the ROLE command in the target instance
 
 Once the client discovered the address of the master instance, it should
-attempt a connection with the master, and call the [`ROLE`]({{< relref "/commands/role" >}}) command in order
+attempt a connection with the master, and call the [`ROLE`](/content/commands/role.md) command in order
 to verify the role of the instance is actually a master.
 
-If the [`ROLE`]({{< relref "/commands/role" >}}) commands is not available (it was introduced in Redis 2.8.12), a client may resort to the `INFO replication` command parsing the `role:` field of the output.
+If the [`ROLE`](/content/commands/role.md) commands is not available (it was introduced in Redis 2.8.12), a client may resort to the `INFO replication` command parsing the `role:` field of the output.
 
 If the instance is not a master as expected, the client should wait a short amount of time (a few hundreds of milliseconds) and should try again starting from Step 1.
 
@@ -98,7 +98,7 @@ command to the instance in order to make sure all the clients are disconnected
 from the reconfigured instance. This will force clients to resolve the master
 address again.
 
-If the client will contact a Sentinel with yet not updated information, the verification of the Redis instance role via the [`ROLE`]({{< relref "/commands/role" >}}) command will fail, allowing the client to detect that the contacted Sentinel provided stale information, and will try again.
+If the client will contact a Sentinel with yet not updated information, the verification of the Redis instance role via the [`ROLE`](/content/commands/role.md) command will fail, allowing the client to detect that the contacted Sentinel provided stale information, and will try again.
 
 Note: it is possible that a stale master returns online at the same time a client contacts a stale Sentinel instance, so the client may connect with a stale master, and yet the ROLE output will match. However when the master is back again Sentinel will try to demote it to replica, triggering a new disconnection. The same reasoning applies to connecting to stale replicas that will get reconfigured to replicate with a different master.
 
@@ -114,7 +114,7 @@ The clients should call instead:
 
 In order to retrieve a list of replica instances.
 
-Symmetrically the client should verify with the [`ROLE`]({{< relref "/commands/role" >}}) command that the
+Symmetrically the client should verify with the [`ROLE`](/content/commands/role.md) command that the
 instance is actually a replica, in order to avoid scaling read queries with
 the master.
 
@@ -140,7 +140,7 @@ It is not needed for a client to be able to make the list persistent updating it
 
 ## Subscribe to Sentinel events to improve responsiveness
 
-The [Sentinel documentation]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) shows how clients can connect to
+The [Sentinel documentation](/content/operate/oss_and_stack/management/sentinel.md) shows how clients can connect to
 Sentinel instances using Pub/Sub in order to subscribe to changes in the
 Redis instances configurations.
 

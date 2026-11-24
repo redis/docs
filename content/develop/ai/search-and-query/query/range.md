@@ -39,13 +39,13 @@ The values `-inf`, `inf`, and `+inf` are valid values that allow you to define o
 
 An open-range query can lead to a large result set. 
 
-By default, [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) returns only the first ten results. The `LIMIT` argument helps you to scroll through the result set. The `SORTBY` argument ensures that the documents in the result set are returned in the specified order.
+By default, [`FT.SEARCH`](/content/commands/ft.search.md) returns only the first ten results. The `LIMIT` argument helps you to scroll through the result set. The `SORTBY` argument ensures that the documents in the result set are returned in the specified order.
 
 ```
 FT.SEARCH index "@field:[start end]" SORTBY field LIMIT page_start page_end
 ```
 
-You can find further details about using the `LIMIT` and `SORTBY` in the [[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command reference](/commands/ft.search/).
+You can find further details about using the `LIMIT` and `SORTBY` in the [[`FT.SEARCH`](/content/commands/ft.search.md) command reference](/content/commands/ft.search.md).
 
 ## Examples
 
@@ -143,4 +143,4 @@ The example below returns bicycles with a price lower than or equal to 2000 USD 
 
 ## Non-numeric range queries
 
-You can learn more about non-numeric range queries, such as [geospatial]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}}) or [vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}}) queries, in their dedicated articles.
+You can learn more about non-numeric range queries, such as [geospatial](/content/develop/ai/search-and-query/query/geo-spatial.md) or [vector search](/content/develop/ai/search-and-query/query/vector-search.md) queries, in their dedicated articles.

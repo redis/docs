@@ -21,32 +21,32 @@ When Vault integration is enabled, all secrets referenced in Redis Enterprise cu
 | **Category** | **Secret Type** | **API Field** | **Description** |
 |---|---|---|---|
 | **Cluster secrets** |  |  |  |
-|  | [Cluster credentials]({{< relref "/operate/kubernetes/8.0/deployment/quick-start" >}}) | [`clusterCredentialSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | Authentication credentials for cluster access |
-|  | [License]({{< relref "/operate/kubernetes/8.0/deployment/quick-start#install-the-license" >}}) | [`licenseSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | Redis Enterprise license key |
-|  | [API certificate]({{< relref "/operate/kubernetes/8.0/security/manage-rec-certificates" >}}) | [`apiCertificateSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for API server |
-|  | [Cluster manager certificate]({{< relref "/operate/kubernetes/8.0/security/manage-rec-certificates" >}}) | [`cmCertificateSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for cluster manager |
-|  | [Metrics exporter certificate]({{< relref "/operate/kubernetes/8.0/re-clusters/connect-prometheus-operator" >}}) | [`metricsExporterCertificateSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for metrics exporter |
-|  | [Proxy certificate]({{< relref "/operate/kubernetes/8.0/security/manage-rec-certificates" >}}) | [`proxyCertificateSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for proxy |
-|  | [Syncer certificate]({{< relref "/operate/kubernetes/8.0/active-active" >}}) | [`syncerCertificateSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for Active-Active syncer |
-|  | [LDAP client certificate]({{< relref "/operate/kubernetes/8.0/security/ldap" >}}) | [`ldapClientCertificateSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for LDAP client authentication |
-|  | [User-defined module credentials]({{< relref "/operate/kubernetes/8.0/re-databases/modules" >}}) | [`credentialsSecret`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#specuserdefinedmodulessourcehttps" >}}) | Credentials for downloading user-defined modules from authenticated repositories |
+|  | [Cluster credentials](/content/operate/kubernetes/8.0/deployment/quick-start.md) | [`clusterCredentialSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#redisenterprisespec) | Authentication credentials for cluster access |
+|  | [License](/content/operate/kubernetes/8.0/deployment/quick-start.md#install-the-license) | [`licenseSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#redisenterprisespec) | Redis Enterprise license key |
+|  | [API certificate](/content/operate/kubernetes/8.0/security/manage-rec-certificates.md) | [`apiCertificateSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#redisenterprisespec) | TLS certificate for API server |
+|  | [Cluster manager certificate](/content/operate/kubernetes/8.0/security/manage-rec-certificates.md) | [`cmCertificateSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#redisenterprisespec) | TLS certificate for cluster manager |
+|  | [Metrics exporter certificate](/content/operate/kubernetes/8.0/re-clusters/connect-prometheus-operator.md) | [`metricsExporterCertificateSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#redisenterprisespec) | TLS certificate for metrics exporter |
+|  | [Proxy certificate](/content/operate/kubernetes/8.0/security/manage-rec-certificates.md) | [`proxyCertificateSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#redisenterprisespec) | TLS certificate for proxy |
+|  | [Syncer certificate](/content/operate/kubernetes/8.0/active-active/_index.md) | [`syncerCertificateSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#redisenterprisespec) | TLS certificate for Active-Active syncer |
+|  | [LDAP client certificate](/content/operate/kubernetes/8.0/security/ldap.md) | [`ldapClientCertificateSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#redisenterprisespec) | TLS certificate for LDAP client authentication |
+|  | [User-defined module credentials](/content/operate/kubernetes/8.0/re-databases/modules.md) | [`credentialsSecret`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#specuserdefinedmodulessourcehttps) | Credentials for downloading user-defined modules from authenticated repositories |
 | **Database secrets** |  |  |  |
-|  | [Database passwords]({{< relref "/operate/kubernetes/8.0/networking/database-connectivity/#credentials-and-secrets-management" >}}) | Various | Passwords for Redis databases |
-|  | [Replica source client TLS key]({{< relref "/operate/kubernetes/8.0/re-databases/replica-redb" >}}) | [`clientKeySecret`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api#redisenterprisedbspec" >}}) | Client TLS key for cross-cluster replication |
-|  | [Replica source server certificate]({{< relref "/operate/kubernetes/8.0/re-databases/replica-redb" >}}) | [`serverCertSecret`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api#redisenterprisedbspec" >}}) | Server certificate for cross-cluster replication |
-|  | [S3 backup credentials]({{< relref "/operate/kubernetes/8.0/re-databases" >}}) | [`awsSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api#redisenterprisedbspec" >}}) | AWS S3 storage credentials for database backups |
-|  | [SFTP backup credentials]({{< relref "/operate/kubernetes/8.0/re-databases" >}}) | [`sftpSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api#redisenterprisedbspec" >}}) | SFTP storage credentials for database backups |
-|  | [Swift backup credentials]({{< relref "/operate/kubernetes/8.0/re-databases" >}}) | [`swiftSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api#redisenterprisedbspec" >}}) | Swift storage credentials for database backups |
-|  | [Azure Blob backup credentials]({{< relref "/operate/kubernetes/8.0/re-databases" >}}) | [`absSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api#redisenterprisedbspec" >}}) | Azure Blob storage credentials for database backups |
-|  | [Google Cloud backup credentials]({{< relref "/operate/kubernetes/8.0/re-databases" >}}) | [`gcsSecretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api#redisenterprisedbspec" >}}) | Google Cloud storage credentials for database backups |
-|  | [Client authentication certificates]({{< relref "/operate/kubernetes/8.0/security/add-client-certificates" >}}) | Various | TLS client certificates for authentication |
+|  | [Database passwords](/content/operate/kubernetes/8.0/networking/database-connectivity.md#credentials-and-secrets-management) | Various | Passwords for Redis databases |
+|  | [Replica source client TLS key](/content/operate/kubernetes/8.0/re-databases/replica-redb.md) | [`clientKeySecret`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md#redisenterprisedbspec) | Client TLS key for cross-cluster replication |
+|  | [Replica source server certificate](/content/operate/kubernetes/8.0/re-databases/replica-redb.md) | [`serverCertSecret`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md#redisenterprisedbspec) | Server certificate for cross-cluster replication |
+|  | [S3 backup credentials](/content/operate/kubernetes/8.0/re-databases/_index.md) | [`awsSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md#redisenterprisedbspec) | AWS S3 storage credentials for database backups |
+|  | [SFTP backup credentials](/content/operate/kubernetes/8.0/re-databases/_index.md) | [`sftpSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md#redisenterprisedbspec) | SFTP storage credentials for database backups |
+|  | [Swift backup credentials](/content/operate/kubernetes/8.0/re-databases/_index.md) | [`swiftSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md#redisenterprisedbspec) | Swift storage credentials for database backups |
+|  | [Azure Blob backup credentials](/content/operate/kubernetes/8.0/re-databases/_index.md) | [`absSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md#redisenterprisedbspec) | Azure Blob storage credentials for database backups |
+|  | [Google Cloud backup credentials](/content/operate/kubernetes/8.0/re-databases/_index.md) | [`gcsSecretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md#redisenterprisedbspec) | Google Cloud storage credentials for database backups |
+|  | [Client authentication certificates](/content/operate/kubernetes/8.0/security/add-client-certificates.md) | Various | TLS client certificates for authentication |
 | **Other secrets** |  |  |  |
-|  | [Remote cluster secrets]({{< relref "/operate/kubernetes/8.0/active-active" >}}) | [`secretName`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_remote_cluster_api#redisenterpriseremoteclusterspec" >}}) | Credentials for Redis Enterprise Remote Cluster (RERC) configurations |
-|  | [Active-Active database secrets]({{< relref "/operate/kubernetes/8.0/active-active" >}}) | [`globalConfigurations`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_active_active_database_api#redisenterpriseactiveactivedatabasespec" >}}) | All secret names specified in REAADB global configurations |
+|  | [Remote cluster secrets](/content/operate/kubernetes/8.0/active-active/_index.md) | [`secretName`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_remote_cluster_api.md#redisenterpriseremoteclusterspec) | Credentials for Redis Enterprise Remote Cluster (RERC) configurations |
+|  | [Active-Active database secrets](/content/operate/kubernetes/8.0/active-active/_index.md) | [`globalConfigurations`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_active_active_database_api.md#redisenterpriseactiveactivedatabasespec) | All secret names specified in REAADB global configurations |
 {{</table-scrollable>}}
 
 
-For complete details on supported secrets, see the [`RedisEnterpriseCluster` API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api" >}}) and [`RedisEnterpriseDatabase` API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api" >}}).
+For complete details on supported secrets, see the [`RedisEnterpriseCluster` API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md) and [`RedisEnterpriseDatabase` API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md).
 
 ### Secret path structure
 
@@ -62,9 +62,8 @@ secret/data/redisenterprise-redis-ns/my-database-password
 secret/data/redisenterprise-redis-ns/tls-certificates
 ```
 
-{{<note>}}
-When using OpenShift, replace `kubectl` commands with `oc` throughout this guide.
-{{</note>}}
+> [!NOTE]
+> When using OpenShift, replace `kubectl` commands with `oc` throughout this guide.
 
 ## Prerequisites
 
@@ -112,9 +111,8 @@ This guide covers the most common deployment scenario with the following assumpt
 - Namespace isolation using Kubernetes namespace suffixes for Vault configurations
 - Production security with proper RBAC and network policies
 
-{{<note>}}
-Multi-cluster considerations: When deploying across multiple Kubernetes clusters with identical namespace names, additional prefixing may be required to avoid Vault path conflicts.
-{{</note>}}
+> [!NOTE]
+> Multi-cluster considerations: When deploying across multiple Kubernetes clusters with identical namespace names, additional prefixing may be required to avoid Vault path conflicts.
 
 ## Configure the operator
 
@@ -201,11 +199,10 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
 
 3. Deploy the operator
 
-   Deploy the Redis Enterprise operator following the [standard installation guide]({{< relref "/operate/kubernetes/8.0/deployment" >}}).
+   Deploy the Redis Enterprise operator following the [standard installation guide](/content/operate/kubernetes/8.0/deployment/_index.md).
 
-   {{<warning>}}
-   The operator pod will not be ready until the admission controller secret is stored in Vault (covered in the next step).
-   {{</warning>}}
+   > [!WARNING]
+   > The operator pod will not be ready until the admission controller secret is stored in Vault (covered in the next step).
 
    <br>
 
@@ -230,9 +227,8 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
    vault kv put -namespace=<VAULT_NAMESPACE> <VAULT_SECRET_ROOT>/redisenterprise-<K8S_NAMESPACE>/admission-tls @output.json
    ```
 
-   {{<note>}}
-   Once the operator is running with Vault integration, proceed to create Redis Enterprise clusters. Do not create clusters before completing this setup.
-   {{</note>}}
+   > [!NOTE]
+   > Once the operator is running with Vault integration, proceed to create Redis Enterprise clusters. Do not create clusters before completing this setup.
 
    <br>
 
@@ -246,9 +242,8 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
            --from-file=vault.ca=<vault-ca-cert-file-path>
    ```
 
-   {{<warning>}}
-   The Vault server certificate must be signed by the Certificate Authority provided in this secret.
-   {{</warning>}}
+   > [!WARNING]
+   > The Vault server certificate must be signed by the Certificate Authority provided in this secret.
 
 ## Create Redis Enterprise clusters
 
@@ -270,11 +265,10 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
      password=<YOUR_PASSWORD>
    ```
 
-   {{< alert title="Important notes" >}}
-   - The username field in the REC spec is ignored when using Vault
-   - The username from the Vault secret takes precedence
-   - Use strong, unique passwords for each cluster
-   {{</alert>}}
+   > [!NOTE] Important notes
+   > - The username field in the REC spec is ignored when using Vault
+   > - The username from the Vault secret takes precedence
+   > - Use strong, unique passwords for each cluster
 
    <br>
 
@@ -347,18 +341,17 @@ To create a Redis Enterprise database (REDB) with Vault integration:
    <br>
 
 2. Create the REDB custom resource:
-   Follow the standard [database creation process]({{< relref "/operate/kubernetes/8.0/re-databases" >}}). The REC configuration automatically enables Vault integration for all databases.
+   Follow the standard [database creation process](/content/operate/kubernetes/8.0/re-databases/_index.md). The REC configuration automatically enables Vault integration for all databases.
 
    <br>
 
 3. Configure additional secrets (optional):
-   Store additional REDB secrets in the path `redisenterprise-<K8S_NAMESPACE>/`. Secrets must comply with the [REDB secrets schema]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api" >}}).
+   Store additional REDB secrets in the path `redisenterprise-<K8S_NAMESPACE>/`. Secrets must comply with the [REDB secrets schema](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md).
 
-{{<note>}}
-When using the Redis Enterprise Vault plugin, set `defaultUser: false` and associate users through ACL bindings to the REDB.
-{{</note>}}
+> [!NOTE]
+> When using the Redis Enterprise Vault plugin, set `defaultUser: false` and associate users through ACL bindings to the REDB.
 
-For complete field documentation, see the [Redis Enterprise database API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api" >}}).
+For complete field documentation, see the [Redis Enterprise database API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md).
 
 ### Redis Enterprise Remote Cluster secrets
 
@@ -370,9 +363,8 @@ REAADB resources include REDB specifications in the `globalConfigurations` field
 
 ## Manage secrets
 
-{{<note>}}
-Complete field documentation is available in the [`RedisEnterpriseCluster` API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api" >}}) and [`RedisEnterpriseDatabase` API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api" >}}).
-{{</note>}}
+> [!NOTE]
+> Complete field documentation is available in the [`RedisEnterpriseCluster` API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md) and [`RedisEnterpriseDatabase` API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md).
 
 ### Redis Enterprise cluster secrets
 
@@ -453,7 +445,7 @@ vault kv put -namespace=<VAULT_NAMESPACE> \
   password=<repository_password>
 ```
 
-Reference this secret in your REC specification's `userDefinedModules` section. See [Configure modules]({{< relref "/operate/kubernetes/8.0/re-databases/modules" >}}) for details.
+Reference this secret in your REC specification's `userDefinedModules` section. See [Configure modules](/content/operate/kubernetes/8.0/re-databases/modules.md) for details.
 
 ## Troubleshooting
 

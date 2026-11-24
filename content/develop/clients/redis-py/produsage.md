@@ -41,12 +41,12 @@ of them may not apply to your particular use case.
 
 ### Client-side caching
 
-[Client-side caching]({{< relref "/develop/clients/client-side-caching" >}})
+[Client-side caching](/content/develop/clients/client-side-caching.md)
 involves storing the results from read-only commands in a local cache. If the
 same command is executed again later, the results can be obtained from the cache,
 without contacting the server. This improves command execution time on the client,
 while also reducing network traffic and server load. See
-[Connect using client-side caching]({{< relref "/develop/clients/redis-py/connect#connect-using-client-side-caching" >}})
+[Connect using client-side caching](/content/develop/clients/redis-py/connect.md#connect-using-client-side-caching)
 for more information and example code.
 
 ### Retries
@@ -115,6 +115,24 @@ r = Redis(
 )
 ```
 
+From v8.2.0, you can also pass an `is_retryable` function to `Retry`. The client
+retries an error only if its type is in `supported_errors` *and* the function returns `True`
+for it. The `redis.retry.is_retryable_connect_error` function returns `False` when a Unix
+socket path doesn't exist, so the client fails at once instead of retrying with backoff.
+It still retries other connection errors, such as a refused connection while the server starts:
+
+```py
+from redis.backoff import ExponentialBackoff
+from redis.retry import Retry, is_retryable_connect_error
+
+retry = Retry(ExponentialBackoff(), 3, is_retryable=is_retryable_connect_error)
+
+r = Redis(
+  unix_socket_path="/var/run/redis/redis.sock",
+  retry=retry,
+)
+```
+
 For a connection to a Redis cluster, you can specify a `retry` instance,
 but the list of exceptions is not configurable and is always set
 to `TimeoutError`, `ConnectionError`, and `ClusterDownError`.
@@ -128,7 +146,7 @@ Set the `health_check_interval` parameter during
 a connection (with either `Redis` or `ConnectionPool`) to specify
 an integer number of seconds. If the connection remains idle for
 longer than this interval, it will automatically issue a
-[`PING`]({{< relref "/commands/ping" >}}) command and check the
+[`PING`](/content/commands/ping.md) command and check the
 response before continuing with any client commands.
 
 ```py
@@ -163,15 +181,15 @@ module. The list below describes some of the most common exceptions.
 - `ResponseError`: Thrown when you attempt an operation that has no valid
   response. Examples include executing a command on the wrong type of key
   (as when you try an
-  ['LPUSH']({{< relref "/develop/data-types/lists#automatic-creation-and-removal-of-keys" >}})
+  ['LPUSH'](/content/develop/data-types/lists.md#automatic-creation-and-removal-of-keys)
   command on a string key), creating an
-  [index]({{< relref "/develop/ai/search-and-query/indexing" >}})
+  [index](/content/develop/ai/search-and-query/indexing/_index.md)
   with a name that already exists, and using an invalid ID for a
-  [stream entry]({{< relref "/develop/data-types/streams/#entry-ids" >}}).
+  [stream entry](/content/develop/data-types/streams/_index.md#entry-ids).
 - `TimeoutError`: Thrown when a timeout persistently happens for a command,
   despite any [retries](#retries).
 - `WatchError`: Thrown when a
-  [watched key]({{< relref "/develop/clients/redis-py/transpipe#watch-keys-for-changes" >}}) is
+  [watched key](/content/develop/clients/redis-py/transpipe.md#watch-keys-for-changes) is
   modified during a transaction.
 
 ### Timeouts
@@ -207,9 +225,9 @@ Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH and
-[Connect using Smart client handoffs]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
+[Connect using Smart client handoffs](/content/develop/clients/redis-py/connect.md#connect-using-smart-client-handoffs-sch)
 for example code.
 
 ### Monitor performance and errors
@@ -217,5 +235,8 @@ for example code.
 `redis-py` supports [OpenTelemetry](https://opentelemetry.io/). This lets
 you trace command execution and monitor your server's performance.
 You can use this information to detect problems before they are reported
-by users. See [Observability]({{< relref "/develop/clients/redis-py/observability" >}})
+by users. See [Observability](/content/develop/clients/redis-py/observability.md)
 for more information.
+
+To find the keys that use the most CPU time and network bandwidth on the
+server, use the [`HOTKEYS`](/content/commands/hotkeys.md) command.

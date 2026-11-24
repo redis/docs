@@ -16,7 +16,7 @@ bannerText: Redis Gears is a deprecated feature that is not recommended or suppo
 For this tutorial, you need:
 
 - Either:
-    - A Redis Software cluster with the [RedisGears module and Python plugin installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears#install-redisgears" >}}) and [enabled on a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/install" >}})
+    - A Redis Software cluster with the [RedisGears module and Python plugin installed](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears.md#install-redisgears) and [enabled on a database](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/install.md)
     - A Redis Open Source database with the RedisGears module
 - `redis-cli` with connectivity to a Redis database
 
@@ -143,4 +143,4 @@ redis.cloud:6379> GET age:maximum
 
 ## Next steps
 
-You should now have a basic idea of how to run RedisGears functions for batch and event processing. If you're interested in write-behind caching, see our [write-behind caching]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/recipes/write-behind" >}}) overview.
+You should now have a basic idea of how to run RedisGears functions for batch and event processing. If you're interested in write-behind caching, see our [write-behind caching](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/python/recipes/write-behind.md) overview.

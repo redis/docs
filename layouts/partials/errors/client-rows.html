@@ -1,0 +1,28 @@
+{{- /*
+  The client library exceptions of one error page, shared by the HTML shortcode
+  and its Markdown expansion.
+
+  Input: the page's file name without the extension, such as "readonly".
+
+  Returns a slice of dicts, one per client, in the order of "order" in data/client-exceptions.json:
+  client, clientNote, package, class, check, message, note. Empty when the page has no entry.
+*/ -}}
+{{- $data := index site.Data "client-exceptions" -}}
+{{- $rows := slice -}}
+{{- with index $data.errors . -}}
+  {{- $entry := . -}}
+  {{- range $id := $data.order -}}
+    {{- $client := index $data.clients $id -}}
+    {{- with index $entry $id -}}
+      {{- $rows = $rows | append (dict
+            "client" $client.name
+            "clientNote" ($client.note | default "")
+            "package" $client.package
+            "class" .class
+            "check" (.check | default "")
+            "message" .message
+            "note" (.note | default "")) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $rows -}}

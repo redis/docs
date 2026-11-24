@@ -94,24 +94,24 @@ is key name for the time series.
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary>
 
-is maximum retention period, compared to the maximum existing timestamp, in milliseconds. See `RETENTION` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+is maximum retention period, compared to the maximum existing timestamp, in milliseconds. See `RETENTION` in [`TS.CREATE`](/content/commands/ts.create.md).
 </details>
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> 
 
-is the initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. See `CHUNK_SIZE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). Changing this value does not affect existing chunks.
+is the initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. See `CHUNK_SIZE` in [`TS.CREATE`](/content/commands/ts.create.md). Changing this value does not affect existing chunks.
 </details>
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary> 
 
-is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`](/content/commands/ts.create.md).
 </details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
 
-If `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+If `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`](/content/commands/ts.create.md).
 </details>
 
 ## Examples
@@ -146,21 +146,21 @@ OK
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is altered successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when the time series is altered successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, key does not exist, etc.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is altered successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when the time series is altered successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, key does not exist, etc.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.CREATE`]({{< relref "commands/ts.create/" >}}) 
+[`TS.CREATE`](/content/commands/ts.create.md) 
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

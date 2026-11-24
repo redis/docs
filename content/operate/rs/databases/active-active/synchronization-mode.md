@@ -10,7 +10,7 @@ description: How to configure distributed synchronization so that any available 
 linktitle: Distributed synchronization
 weight: 80
 ---
-Replicated databases, such as [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) and [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) databases,
+Replicated databases, such as [Replica Of](/content/operate/rs/databases/import-export/replica-of/_index.md) and [Active-Active](/content/operate/rs/databases/active-active/_index.md) databases,
 use proxy endpoints to synchronize database changes with the databases on other participating clusters.
 
 To improve the throughput and lower the latency for synchronization traffic,
@@ -20,16 +20,15 @@ Every database by default has one proxy endpoint that manages client and synchro
 and that proxy endpoint is used for database synchronization.
 This is called centralized synchronization.
 
-To prepare a database to use distributed synchronization you must first make sure that the database [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy.md" >}})
+To prepare a database to use distributed synchronization you must first make sure that the database [proxy policy](/content/operate/rs/databases/configure/proxy-policy.md)
 is defined so that either each node has a proxy endpoint or each primary (master) shard has a proxy endpoint.
 After you have multiple proxies for the database,
 you can configure the database synchronization to use distributed synchronization.
 
 ## Configure distributed synchronization
 
-{{< note >}}
-You may use the database name in place of `db:<ID>` in the following `rladmin` commands.
-{{< /note >}}
+> [!NOTE]
+> You may use the database name in place of `db:<ID>` in the following `rladmin` commands.
 
 To configure distributed synchronization:
 

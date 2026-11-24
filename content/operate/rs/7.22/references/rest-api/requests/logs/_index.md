@@ -27,7 +27,7 @@ Get cluster events log.
 
 | Permission name |
 |-----------------|
-| [view_logged_events]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_logged_events" >}}) |
+| [view_logged_events](/content/operate/rs/7.22/references/rest-api/permissions.md#view_logged_events) |
 
 ### Request {#get-request} 
 

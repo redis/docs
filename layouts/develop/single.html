@@ -1,6 +1,6 @@
 {{ define "head" }}
   <script src='{{ relURL "js/codetabs.js" }}' defer></script>
-  <script src='{{ relURL "js/cli.js" }}' defer></script>
+  {{ partial "cli-assets.html" . }}
 {{ end }}
 
 {{ define "main" }}

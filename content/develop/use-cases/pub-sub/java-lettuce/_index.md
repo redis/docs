@@ -14,7 +14,7 @@ title: Redis pub/sub with Lettuce
 weight: 5
 ---
 
-This guide shows you how to implement a Redis-backed pub/sub broadcaster in Java with the [Lettuce]({{< relref "/develop/clients/lettuce" >}}) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can publish messages to named channels, add and remove subscribers live, and watch Redis fan out each message to every interested listener.
+This guide shows you how to implement a Redis-backed pub/sub broadcaster in Java with the [Lettuce](/content/develop/clients/lettuce/_index.md) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can publish messages to named channels, add and remove subscribers live, and watch Redis fan out each message to every interested listener.
 
 ## Overview
 
@@ -110,12 +110,12 @@ Subscription                                      (in-process, one per subscribe
 
 The implementation uses:
 
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) to fan a JSON-encoded message out to every subscriber of a channel
-* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) for exact-match subscribers
-* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) for glob-style pattern subscribers
-* [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}) to list the channels with at least one active exact-match subscriber
-* [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per channel
-* [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide
+* [`PUBLISH`](/content/commands/publish.md) to fan a JSON-encoded message out to every subscriber of a channel
+* [`SUBSCRIBE`](/content/commands/subscribe.md) for exact-match subscribers
+* [`PSUBSCRIBE`](/content/commands/psubscribe.md) for glob-style pattern subscribers
+* [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list the channels with at least one active exact-match subscriber
+* [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per channel
+* [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide
 * Lettuce's `RedisPubSubListener` interface to dispatch messages without writing a thread loop by hand — messages are delivered on a Netty event-loop thread
 
 ## Publishing messages
@@ -254,13 +254,26 @@ curl -O $BASE/RedisPubSubHub.java
 curl -O $BASE/DemoServer.java
 ```
 
-You also need a `lib/` directory containing the Lettuce client and its runtime dependencies — at minimum:
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
 
-* `lettuce-core-6.x.jar`
-* `netty-buffer-4.1.x.jar`, `netty-codec-4.1.x.jar`, `netty-common-4.1.x.jar`, `netty-handler-4.1.x.jar`, `netty-resolver-4.1.x.jar`, `netty-transport-4.1.x.jar`, `netty-transport-native-unix-common-4.1.x.jar`
-* `reactor-core-3.x.jar`, `reactive-streams-1.0.x.jar`
-
-The simplest way to collect them is with Maven. Create a minimal `pom.xml` declaring `io.lettuce:lettuce-core` as the only dependency, then run `mvn dependency:copy-dependencies -DoutputDirectory=lib`.
+```bash
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
+```
 
 ### Start the demo server
 
@@ -293,7 +306,7 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ### Pub/sub is at-most-once — pair it with durable state if you need replay
 
-A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams]({{< relref "/develop/data-types/streams" >}}) with consumer groups.
+A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams](/content/develop/data-types/streams/_index.md) with consumer groups.
 
 ### Use a separate `StatefulRedisPubSubConnection` per subscriber
 
@@ -301,7 +314,7 @@ Lettuce switches a pub/sub connection into subscribe-only mode after `SUBSCRIBE`
 
 ### Don't do heavy work inside the listener callback
 
-`RedisPubSubListener.message()` runs on a Netty event-loop thread. If your listener blocks (synchronous HTTP call, big computation, slow JDBC write), it parks an I/O thread that should be handling other connections, and the next message on the same socket waits behind it. For heavier work, the listener should hand the message off to an `ExecutorService` worker pool, a `BlockingQueue`, or — for true durable handoff — a [Redis Streams]({{< relref "/develop/data-types/streams" >}}) consumer group.
+`RedisPubSubListener.message()` runs on a Netty event-loop thread. If your listener blocks (synchronous HTTP call, big computation, slow JDBC write), it parks an I/O thread that should be handling other connections, and the next message on the same socket waits behind it. For heavier work, the listener should hand the message off to an `ExecutorService` worker pool, a `BlockingQueue`, or — for true durable handoff — a [Redis Streams](/content/develop/data-types/streams/_index.md) consumer group.
 
 ### Choose a topic naming convention up front
 
@@ -313,7 +326,7 @@ The demo caps each subscriber's in-memory message buffer at 50 entries. That's r
 
 ### Sharded pub/sub on a Redis Cluster
 
-On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. Lettuce exposes these as `spublish()` and `ssubscribe()` on the cluster connection. If you're scaling pub/sub on a cluster, prefer the sharded commands and pick channel names whose hash distribution matches your traffic.
+On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub](/content/develop/pubsub/_index.md#sharded-pubsub): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. Lettuce exposes these as `spublish()` and `ssubscribe()` on the cluster connection. If you're scaling pub/sub on a cluster, prefer the sharded commands and pick channel names whose hash distribution matches your traffic.
 
 ### Inspect pub/sub state directly in Redis
 
@@ -339,11 +352,11 @@ redis-cli psubscribe 'orders:*'
 
 This example uses the following Redis commands:
 
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) to fan a message out to every subscriber of a channel.
-* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) for exact-match topic subscriptions.
-* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) and [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}) for glob-style pattern subscriptions.
-* [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}) to list channels with at least one active exact-match subscriber.
-* [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per named channel.
-* [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide.
+* [`PUBLISH`](/content/commands/publish.md) to fan a message out to every subscriber of a channel.
+* [`SUBSCRIBE`](/content/commands/subscribe.md) and [`UNSUBSCRIBE`](/content/commands/unsubscribe.md) for exact-match topic subscriptions.
+* [`PSUBSCRIBE`](/content/commands/psubscribe.md) and [`PUNSUBSCRIBE`](/content/commands/punsubscribe.md) for glob-style pattern subscriptions.
+* [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list channels with at least one active exact-match subscriber.
+* [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per named channel.
+* [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide.
 
-See the [Lettuce guide]({{< relref "/develop/clients/lettuce" >}}) for full client reference, including the `StatefulRedisPubSubConnection` and `RedisPubSubListener` types used in this example.
+See the [Lettuce guide](/content/develop/clients/lettuce/_index.md) for full client reference, including the `StatefulRedisPubSubConnection` and `RedisPubSubListener` types used in this example.

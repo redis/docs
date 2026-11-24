@@ -1,6 +1,8 @@
 ---
 Title: Compatibility with Redis Open Source commands
 alwaysopen: false
+bannerText: Redis Software command compatibility is now documented on each command page. These pages will be removed in a future documentation update.
+bannerChildren: true
 categories:
 - docs
 - operate
@@ -12,7 +14,7 @@ linkTitle: Commands
 weight: 30
 ---
 
-Learn which Redis Open Source commands are compatible with Redis Software and [Redis Cloud]({{< relref "/operate/rc" >}}).
+Learn which Redis Open Source commands are compatible with Redis Software and [Redis Cloud](/content/operate/rc/_index.md).
 
 Select a command group for more details about compatibility with standard and Active-Active Redis Software.
 

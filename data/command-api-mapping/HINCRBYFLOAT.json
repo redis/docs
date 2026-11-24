@@ -187,7 +187,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HINCRBYFLOAT(key: RedisArgument, field: RedisArgument, increment: number)",
+        "signature": "hIncrByFloat(key: RedisArgument, field: RedisArgument, increment: number)",
         "params": [
           {
             "name": "key",
@@ -206,7 +206,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply",
           "description": ""
         }
       }
@@ -237,7 +237,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string, Context>",
           "description": ""
         }
       }
@@ -300,98 +300,11 @@
           "type": "double",
           "description": "The value at field after the increment operation."
         }
-      },
-      {
-        "signature": "HashIncrement(key, hashField, -value, flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "Any",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "Any",
-            "description": "The field in the hash to increment."
-          },
-          {
-            "name": "-value",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "Any",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": "The value at field after the increment operation."
-        }
-      },
-      {
-        "signature": "HashIncrement(key, hashField, -value, flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "Any",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "Any",
-            "description": "The field in the hash to increment."
-          },
-          {
-            "name": "-value",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "Any",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": "The value at field after the increment operation."
-        }
-      },
-      {
-        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field in the hash to increment."
-          },
-          {
-            "name": "value",
-            "type": "long",
-            "description": "The amount to increment by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The value at field after the increment operation."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashIncrementAsync(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -415,12 +328,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The value at field after the increment operation."
         }
       },
       {
-        "signature": "HashIncrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashIncrementAsync(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -444,94 +357,7 @@
           }
         ],
         "returns": {
-          "type": "double",
-          "description": "The value at field after the increment operation."
-        }
-      },
-      {
-        "signature": "HashIncrement(key, hashField, -value, flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "Any",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "Any",
-            "description": "The field in the hash to increment."
-          },
-          {
-            "name": "-value",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "Any",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": "The value at field after the increment operation."
-        }
-      },
-      {
-        "signature": "HashIncrement(key, hashField, -value, flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "Any",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "Any",
-            "description": "The field in the hash to increment."
-          },
-          {
-            "name": "-value",
-            "type": "Any",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "Any",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "return",
-          "description": "The value at field after the increment operation."
-        }
-      },
-      {
-        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field in the hash to increment."
-          },
-          {
-            "name": "value",
-            "type": "long",
-            "description": "The amount to increment by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<double>",
           "description": "The value at field after the increment operation."
         }
       }

@@ -15,7 +15,7 @@ title: Redis leaderboard with Java and Jedis
 weight: 4
 ---
 
-This guide shows you how to implement a Redis-backed leaderboard in Java with the [`Jedis`]({{< relref "/develop/clients/jedis" >}}) client library. It uses a sorted set to store rank order, Redis hashes to store per-user metadata, and a small local web server so you can explore the leaderboard interactively in your browser.
+This guide shows you how to implement a Redis-backed leaderboard in Java with the [`Jedis`](/content/develop/clients/jedis/_index.md) client library. It uses a sorted set to store rank order, Redis hashes to store per-user metadata, and a small local web server so you can explore the leaderboard interactively in your browser.
 
 ## Overview
 
@@ -53,14 +53,14 @@ Add the Jedis dependency to your project:
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>5.2.0</version>
+      <version>8.0.2</version>
   </dependency>
   ```
 
 * If you use **Gradle**:
 
   ```groovy
-  implementation 'redis.clients:jedis:5.2.0'
+  implementation 'redis.clients:jedis:8.0.2'
   ```
 
 ## The Java leaderboard
@@ -71,14 +71,14 @@ The `RedisLeaderboard` class wraps common leaderboard operations
 ```java
 import java.util.Map;
 
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.RedisClient;
 
 public class Main {
     public static void main(String[] args) {
-        JedisPool jedisPool = new JedisPool("localhost", 6379);
+        RedisClient jedis = RedisClient.create("localhost", 6379);
 
         RedisLeaderboard board = new RedisLeaderboard(
-                jedisPool,
+                jedis,
                 "leaderboard:demo",
                 100
         );
@@ -117,12 +117,12 @@ The score data lives in the sorted set, while the user details live in hashes ke
 
 The implementation uses:
 
-* [`ZADD`]({{< relref "/commands/zadd" >}}) to add or update leaderboard scores
-* [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` option to fetch the highest-ranked members
-* [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) to find a user's rank from the top
-* [`ZREMRANGEBYRANK`]({{< relref "/commands/zremrangebyrank" >}}) to trim the lowest-ranked overflow entries
-* [`HSET`]({{< relref "/commands/hset" >}}) and [`HGETALL`]({{< relref "/commands/hgetall" >}}) to store and load user metadata
-* [`DEL`]({{< relref "/commands/del" >}}) to remove metadata for trimmed or deleted users
+* [`ZADD`](/content/commands/zadd.md) to add or update leaderboard scores
+* [`ZRANGE`](/content/commands/zrange.md) with the `REV` option to fetch the highest-ranked members
+* [`ZREVRANK`](/content/commands/zrevrank.md) to find a user's rank from the top
+* [`ZREMRANGEBYRANK`](/content/commands/zremrangebyrank.md) to trim the lowest-ranked overflow entries
+* [`HSET`](/content/commands/hset.md) and [`HGETALL`](/content/commands/hgetall.md) to store and load user metadata
+* [`DEL`](/content/commands/del.md) to remove metadata for trimmed or deleted users
 
 ## Leaderboard implementation
 
@@ -136,8 +136,7 @@ public LeaderboardEntry upsertUser(
 ) {
     Map<String, String> payload = coerceMetadata(metadata);
 
-    try (Jedis jedis = jedisPool.getResource()) {
-        Transaction tx = jedis.multi();
+    try (AbstractTransaction tx = jedis.multi()) {
         tx.zadd(key, score, userId);
         if (!payload.isEmpty()) {
             tx.hset(metadataKey(userId), payload);
@@ -174,17 +173,15 @@ public List<LeaderboardEntry> getAroundRank(int rank, int count) {
     }
     int end = start + normalizedCount - 1;
 
-    try (Jedis jedis = jedisPool.getResource()) {
-        Set<Tuple> entries = jedis.zrangeWithScores(
-                key,
-                ZRangeParams.zrangeParams(start, end).rev()
-        );
-        return hydrateEntries(entries, start + 1);
-    }
+    Set<Tuple> entries = jedis.zrangeWithScores(
+            key,
+            ZRangeParams.zrangeParams(start, end).rev()
+    );
+    return hydrateEntries(entries, start + 1);
 }
 ```
 
-Jedis operations are synchronous and thread-safe when you use `JedisPool`, which manages a pool of connections internally.
+Jedis operations are synchronous and thread-safe when you use `RedisClient`, which manages a pool of connections internally.
 
 ## Metadata design
 
@@ -217,10 +214,12 @@ A local demo server ([source](https://github.com/redis/docs/blob/main/content/de
 
 ```bash
 # Compile
-javac -cp jedis-5.2.0.jar RedisLeaderboard.java DemoServer.java
+javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
+    RedisLeaderboard.java DemoServer.java
 
 # Run the demo server
-java -cp .:jedis-5.2.0.jar DemoServer
+java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
+    DemoServer
 ```
 
 The demo provides an interactive web interface where you can:

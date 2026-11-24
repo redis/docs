@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "create(, key: KeyT,, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+        "signature": "create(key: KeyT, retention_msecs: Optional[int] = None, uncompressed: Optional[bool] = False, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None)",
         "params": [
           {
             "name": "key",
@@ -133,7 +133,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CREATE(key: RedisArgument, options?: TsCreateOptions)",
+        "signature": "client.ts.create(key: RedisArgument, options?: TsCreateOptions)",
         "params": [
           {
             "name": "key",
@@ -147,7 +147,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "SimpleStringReply<'OK'>",
           "description": ""
         }
       }
@@ -282,8 +282,8 @@
             "description": ""
           },
           {
-            "name": "?TSCreateArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?TSCreateArguments",
             "description": ""
           }
         ],

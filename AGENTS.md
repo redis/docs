@@ -54,9 +54,26 @@ around a literal, rewrite the sentence.
 
 ## Site mechanics
 
-- **Cross-references use the relref shortcode**, not markdown paths:
-  `{{< relref "/operate/rs/clusters/new-cluster-setup" >}}`. A broken relref fails the
-  build. Link text is descriptive — never "click here" or a bare URL.
+- **Cross-references are Markdown links to the source file's repo-root path**:
+  `[Set up a new cluster](/content/operate/rs/clusters/new-cluster-setup.md)`. A
+  section index is `/content/<path>/_index.md`, and an anchor follows the `.md`. The
+  link render hook resolves these to the published URL, and the same path works in
+  GitHub and VS Code. An unresolved link warns at build time and must still be fixed —
+  it resolves to the wrong page or a 404. Link text is descriptive — never "click here"
+  or a bare URL. Some pages still use the older `relref` shortcode; leave them as they
+  are unless converting the page is the task.
+- **Images are Markdown**: `![Alt text](/images/...)`, with an optional
+  `{width="..." class="..."}` line directly after an image that is its own paragraph.
+  Paths are site-root (files live in `static/images/`). Never use a raw `<img>` with a
+  relative `../` path: it breaks when the page is copied into a version snapshot.
+  A UI icon inside a sentence or table cell is an inline image with `#no-click` and no
+  attributes, `Select ![Delete](/images/rs/icons/delete-icon.png#no-click) **Delete**`;
+  CSS sizes it to the text. Screenshots are always their own paragraph.
+- **Callouts are Markdown blockquotes**: `> [!NOTE]`, `> [!TIP]`, `> [!WARNING]`.
+  Inside a numbered step, indent the blockquote to the step's level. The
+  `{{< note >}}`, `{{< tip >}}`, and `{{< warning >}}` shortcodes are the older form.
+  Never use them in new content, and convert them when you copy content from another
+  page. Leave existing ones alone unless converting the page is the task.
 - **Preserve shortcodes, frontmatter, and code fences verbatim.** Do not reformat them.
 - **Frontmatter**: copy the shape from a sibling page in the same directory rather than
   composing one. `title` and `linkTitle` are effectively universal; `description`,

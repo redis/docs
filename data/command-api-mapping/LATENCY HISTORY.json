@@ -77,30 +77,76 @@
     "lettuce_sync": [],
     "lettuce_async": [],
     "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "nredisstack_sync": [
       {
-        "signature": "latency(string $subcommand, ...$args)",
+        "signature": "LatencyHistoryEntry[] LatencyHistory(string eventName, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "eventName",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "flags",
+            "type": "CommandFlags",
             "description": ""
           }
         ],
         "returns": {
-          "type": "array",
-          "description": ""
+          "type": "LatencyHistoryEntry[]",
+          "description": "An array of latency history entries."
         }
       }
     ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<LatencyHistoryEntry[]> LatencyHistoryAsync(string eventName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "eventName",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<LatencyHistoryEntry[]>",
+          "description": "An array of latency history entries."
+        }
+      }
+    ],
+    "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "latency(subcommand: \"HISTORY\", event: string | Buffer, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HISTORY\"",
+            "description": ""
+          },
+          {
+            "name": "event",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

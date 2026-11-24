@@ -70,7 +70,7 @@ POST /v1/crdbs/1/upgrade
 
 ### Response {#post-response}
 
-Returns a [CRDB task object]({{< relref "/operate/rs/8.0/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object](/content/operate/rs/8.0/references/rest-api/objects/crdb_task.md).
 
 #### Status codes {#post-status-codes}
 

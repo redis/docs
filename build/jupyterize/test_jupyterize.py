@@ -655,10 +655,10 @@ func main() {
 
 
 def test_go_real_file():
-    """Test with real Go file (landing_examples.go)."""
-    print("\nTesting with real Go file (landing_examples.go)...")
+    """Test with real Go file (landing_examples_test.go)."""
+    print("\nTesting with real Go file (landing_examples_test.go)...")
 
-    input_file = 'local_examples/client-specific/go/landing_examples.go'
+    input_file = 'local_examples/client-specific/go/landing_examples_test.go'
     output_file = None
 
     try:

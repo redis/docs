@@ -21,7 +21,7 @@ weight: $weight
 GET /v1/actions/bdb/{bdb_uid}
 ```
 
-Get the status of all currently executing, pending, or completed state-machine-related actions for a specific database. This API tracks short-lived API requests that return `action_uid`.
+Get the status of all currently executing or pending state-machine-related actions for a specific database. Completed actions are not returned, so an empty array means no actions are running for the database. This API tracks short-lived API requests that return `action_uid`.
 
 #### Required permissions
 
@@ -45,7 +45,7 @@ GET /v1/actions/bdb/1
 
 ### Response {#get-response}
 
-Returns an array of JSON objects with attributes from [actions]({{< relref "/operate/rs/references/rest-api/objects/action" >}}) and [state machines]({{< relref "/operate/rs/references/rest-api/objects/state-machine" >}}).
+Returns an array of JSON objects with attributes from [actions]({{< relref "/operate/rs/references/rest-api/objects/action" >}}) and [state machines]({{< relref "/operate/rs/references/rest-api/objects/state-machine" >}}). Completed actions and state machines are not included.
 
 Each action contains the following attributes: `name`, `action_uid`, `status`, and `progress`.
 

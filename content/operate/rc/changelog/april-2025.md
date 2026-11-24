@@ -20,11 +20,12 @@ weight: 76
 
 The Redis Cloud console has a refreshed user interface! You can now choose between light mode and dark mode when using the Redis Cloud console.
 
-{{<image filename="images/rc/mode-select-light.png#no-click" alt="Mode selection toggle with light mode selected." class="inline" >}}&nbsp;
-{{<image filename="images/rc/mode-select-dark.png#no-click" alt="Mode selection toggle with dark mode selected." class="inline" >}}
+![Mode selection toggle with light mode selected.](/images/rc/mode-select-light.png#no-click)
+
+![Mode selection toggle with dark mode selected.](/images/rc/mode-select-dark.png#no-click)
 
 The new user interface and dark mode are currently available for selected accounts and will be gradually rolled out to new accounts over time.
 
 ### Map multiple Redis Cloud accounts to marketplace account
 
-You can now map multiple Redis Cloud accounts to a single [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account. 
+You can now map multiple Redis Cloud accounts to a single [Google Cloud Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md) or [AWS Marketplace](/content/operate/rc/cloud-integrations/aws-marketplace/_index.md) account. 

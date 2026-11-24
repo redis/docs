@@ -14,8 +14,8 @@ weight: 48
 tocEmbedHeaders: true
 ---
 
-You can integrate Redis Software with Prometheus and tools such as [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}}), [Datadog]({{<relref "/integrate/datadog-with-redis-enterprise">}}), [Dynatrace]({{<relref "/integrate/dynatrace-with-redis-enterprise">}}), or [New Relic]({{<relref "/integrate/new-relic-with-redis-enterprise">}}) to create dashboards for important metrics.
+You can integrate Redis Software with Prometheus and tools such as [Grafana](/content/integrate/prometheus-with-redis-enterprise/_index.md), [Datadog](/content/integrate/datadog-with-redis-enterprise/_index.md), [Dynatrace](/content/integrate/dynatrace-with-redis-enterprise/_index.md), or [New Relic](/content/integrate/new-relic-with-redis-enterprise/_index.md) to create dashboards for important metrics.
 
-As of Redis Software version 7.8.2, v1 metrics are deprecated but still available. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}).
+As of Redis Software version 7.8.2, v1 metrics are deprecated but still available. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL](/content/operate/rs/references/metrics/prometheus-metrics-v1-to-v2.md).
 
 {{<embed-md "rs-prometheus-metrics-v1.md">}}

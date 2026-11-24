@@ -19,16 +19,16 @@ r.del('bikes:racing:france', 'bikes:racing:usa', 'bikes:racing:italy')
 
 # STEP_START sadd
 res1 = r.sadd('bikes:racing:france', ['bike:1'])
-puts res1 # 1
+puts res1 # >>> 1
 
 res2 = r.sadd('bikes:racing:france', ['bike:1'])
-puts res2 # 0
+puts res2 # >>> 0
 
 res3 = r.sadd('bikes:racing:france', ['bike:2', 'bike:3'])
-puts res3 # 2
+puts res3 # >>> 2
 
 res4 = r.sadd('bikes:racing:usa', ['bike:1', 'bike:4'])
-puts res4 # 2
+puts res4 # >>> 2
 # STEP_END
 
 # REMOVE_START
@@ -45,10 +45,10 @@ r.sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
 r.sadd('bikes:racing:usa', ['bike:1', 'bike:4'])
 # HIDE_END
 res5 = r.sismember('bikes:racing:usa', 'bike:1')
-puts res5 # true
+puts res5 # >>> true
 
 res6 = r.sismember('bikes:racing:usa', 'bike:2')
-puts res6 # false
+puts res6 # >>> false
 # STEP_END
 
 # REMOVE_START
@@ -63,7 +63,7 @@ r.sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
 r.sadd('bikes:racing:usa', ['bike:1', 'bike:4'])
 # HIDE_END
 res7 = r.sinter('bikes:racing:france', 'bikes:racing:usa')
-puts res7.inspect # ["bike:1"]
+puts res7.inspect # >>> ["bike:1"]
 # STEP_END
 
 # REMOVE_START
@@ -76,7 +76,7 @@ r.del('bikes:racing:france')
 r.sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
 # HIDE_END
 res8 = r.scard('bikes:racing:france')
-puts res8 # 3
+puts res8 # >>> 3
 # STEP_END
 
 # REMOVE_START
@@ -87,10 +87,10 @@ assert_equal(3, res8)
 r.del('bikes:racing:france')
 
 res9 = r.sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
-puts res9 # 3
+puts res9 # >>> 3
 
 res10 = r.smembers('bikes:racing:france')
-puts res10.sort.inspect # ["bike:1", "bike:2", "bike:3"]
+puts res10.sort.inspect # >>> ["bike:1", "bike:2", "bike:3"]
 # STEP_END
 
 # REMOVE_START
@@ -104,10 +104,10 @@ r.del('bikes:racing:france')
 r.sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
 
 res11 = r.sismember('bikes:racing:france', 'bike:1')
-puts res11 # true
+puts res11 # >>> true
 
 res12 = r.smismember('bikes:racing:france', 'bike:2', 'bike:3', 'bike:4')
-puts res12.inspect # [true, true, false]
+puts res12.inspect # >>> [true, true, false]
 # STEP_END
 
 # REMOVE_START
@@ -120,7 +120,7 @@ r.sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
 r.sadd('bikes:racing:usa', ['bike:1', 'bike:4'])
 
 res13 = r.sdiff('bikes:racing:france', 'bikes:racing:usa')
-puts res13.sort.inspect # ["bike:2", "bike:3"]
+puts res13.sort.inspect # >>> ["bike:2", "bike:3"]
 # STEP_END
 
 # REMOVE_START
@@ -135,19 +135,19 @@ r.sadd('bikes:racing:usa', ['bike:1', 'bike:4'])
 r.sadd('bikes:racing:italy', ['bike:1', 'bike:2', 'bike:3', 'bike:4'])
 
 res14 = r.sinter('bikes:racing:france', 'bikes:racing:usa', 'bikes:racing:italy')
-puts res14.inspect # ["bike:1"]
+puts res14.inspect # >>> ["bike:1"]
 
 res15 = r.sunion('bikes:racing:france', 'bikes:racing:usa', 'bikes:racing:italy')
-puts res15.sort.inspect # ["bike:1", "bike:2", "bike:3", "bike:4"]
+puts res15.sort.inspect # >>> ["bike:1", "bike:2", "bike:3", "bike:4"]
 
 res16 = r.sdiff('bikes:racing:france', 'bikes:racing:usa', 'bikes:racing:italy')
-puts res16.inspect # []
+puts res16.inspect # >>> []
 
 res17 = r.sdiff('bikes:racing:france', 'bikes:racing:usa')
-puts res17.sort.inspect # ["bike:2", "bike:3"]
+puts res17.sort.inspect # >>> ["bike:2", "bike:3"]
 
 res18 = r.sdiff('bikes:racing:usa', 'bikes:racing:france')
-puts res18.inspect # ["bike:4"]
+puts res18.inspect # >>> ["bike:4"]
 # STEP_END
 
 # REMOVE_START
@@ -164,16 +164,16 @@ r.del('bikes:racing:france')
 r.sadd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3', 'bike:4', 'bike:5'])
 
 res19 = r.srem('bikes:racing:france', ['bike:1'])
-puts res19 # 1
+puts res19 # >>> 1
 
 res20 = r.spop('bikes:racing:france')
-puts res20 # bike:3, for example
+puts res20 # >>> bike:3, for example
 
 res21 = r.smembers('bikes:racing:france')
-puts res21.sort.inspect # Remaining members, in no particular order
+puts res21.sort.inspect # >>> Remaining members, in no particular order
 
 res22 = r.srandmember('bikes:racing:france')
-puts res22 # bike:4, for example
+puts res22 # >>> bike:4, for example
 # STEP_END
 
 # REMOVE_START

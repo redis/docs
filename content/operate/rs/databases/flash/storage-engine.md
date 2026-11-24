@@ -12,7 +12,7 @@ aliases: /operate/rs/databases/auto-tiering/storage-engine/
 ---
 
 {{<banner-article>}}
-This article includes information about the storage engines used by Flex and its predecessor Auto Tiering. For more detailed information about Flex, see the dedicated [Flex databases]({{<relref "/operate/rs/flex">}}) section instead.
+This article includes information about the storage engines used by Flex and its predecessor Auto Tiering. For more detailed information about Flex, see the dedicated [Flex databases](/content/operate/rs/flex/_index.md) section instead.
 {{</banner-article>}}
 
 ## Manage the storage engine
@@ -25,7 +25,8 @@ Auto Tiering supports two storage engines:
 
 Flex supports Speedb only.
 
-{{<warning>}}Switching between storage engines requires guidance by Redis Support or your Account Manager.{{</warning>}}
+> [!WARNING]
+> Switching between storage engines requires guidance by Redis Support or your Account Manager.
 
 ### Change the storage engine
 
@@ -49,7 +50,8 @@ Flex supports Speedb only.
      rladmin restart db { db:<id> | <name> }
      ```
 
-{{<note>}} We recommend restarting your database at times with low usage and avoiding peak hours. For databases without persistence enabled, we also recommend using export to backup your database first.{{</note>}}
+> [!NOTE]
+>  We recommend restarting your database at times with low usage and avoiding peak hours. For databases without persistence enabled, we also recommend using export to backup your database first.
 
 ## Monitor the storage engine
 
@@ -71,4 +73,4 @@ Versions of Redis Software 7.2 and later provide a metric called `bdb_bigstore_s
   bdb_bigstore_shard_count{bdb="1",cluster="mycluster.local",driver="speedb"} 2.0
   ```
 
-For more about metrics for Redis Software’s integration with Prometheus, see [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}).
+For more about metrics for Redis Software’s integration with Prometheus, see [Prometheus integration](/content/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions.md).

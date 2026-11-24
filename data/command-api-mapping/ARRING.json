@@ -41,7 +41,7 @@
             "description": ""
           },
           {
-            "name": "$value",
+            "name": "...$value",
             "type": "string",
             "description": ""
           }
@@ -255,6 +255,61 @@
         ],
         "returns": {
           "type": "*UintCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "arring(...args: [key: RedisKey, size: number | string, ...values: (string | Buffer | number)[], callback: Callback<number>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "size",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...values",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arring(...args: [key: RedisKey, size: number | string, ...values: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "size",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...values",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
           "description": ""
         }
       }

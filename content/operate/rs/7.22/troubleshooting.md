@@ -15,27 +15,27 @@ url: '/operate/rs/7.22/troubleshooting/'
 
 For general troubleshooting, see:
 
-- [Create a support package]({{<relref "/operate/rs/7.22/installing-upgrading/creating-support-package">}}) to gather information about the cluster, nodes, and databases to help debug issues
+- [Create a support package](/content/operate/rs/7.22/installing-upgrading/creating-support-package.md) to gather information about the cluster, nodes, and databases to help debug issues
 
-- [Logging]({{<relref "/operate/rs/7.22/clusters/logging">}})
+- [Logging](/content/operate/rs/7.22/clusters/logging/_index.md)
 
-- [`rladmin status`]({{<relref "/operate/rs/7.22/references/cli-utilities/rladmin/status">}}) command, which displays the current status of nodes, databases, database endpoints, and shards on the cluster
+- [`rladmin status`](/content/operate/rs/7.22/references/cli-utilities/rladmin/status.md) command, which displays the current status of nodes, databases, database endpoints, and shards on the cluster
 
-- [`rlcheck`]({{<relref "/operate/rs/7.22/references/cli-utilities/rlcheck">}})  utility, which runs various tests to check node health and reports any discovered issues
+- [`rlcheck`](/content/operate/rs/7.22/references/cli-utilities/rlcheck/_index.md)  utility, which runs various tests to check node health and reports any discovered issues
 
-- [Troubleshooting pocket guide]({{<relref "/operate/rs/7.22/databases/connect/troubleshooting-guide">}})
+- [Troubleshooting pocket guide](/content/operate/rs/7.22/databases/connect/troubleshooting-guide.md)
 
 ## Troubleshooting by topic
 
 For troubleshooting specific issues, see:
 
-- [Database connectivity troubleshooting]({{<relref "/operate/rs/7.22/databases/connect/troubleshooting-guide#troubleshoot-connectivity">}})
+- [Database connectivity troubleshooting](/content/operate/rs/7.22/databases/connect/troubleshooting-guide.md#troubleshoot-connectivity)
 
-- [Latency troubleshooting]({{<relref "/operate/rs/7.22/databases/connect/troubleshooting-guide#troubleshoot-latency">}})
+- [Latency troubleshooting](/content/operate/rs/7.22/databases/connect/troubleshooting-guide.md#troubleshoot-latency)
 
-- [Replica Of repeatedly fails]({{<relref "/operate/rs/7.22/databases/import-export/replica-of/replicaof-repeatedly-fails">}})
+- [Replica Of repeatedly fails](/content/operate/rs/7.22/databases/import-export/replica-of/replicaof-repeatedly-fails.md)
 
-- CRDT [INFO]({{<relref "/operate/rs/7.22/databases/active-active/develop/develop-for-aa#info">}}) for troubleshooting Active-Active databases
+- CRDT [INFO](/content/operate/rs/7.22/databases/active-active/develop/develop-for-aa.md#info) for troubleshooting Active-Active databases
 
 ## Knowledge base
 

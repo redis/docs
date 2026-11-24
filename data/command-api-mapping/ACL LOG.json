@@ -82,33 +82,197 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "lettuce_sync": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
+        "signature": "List<Map<String, Object>> aclLog()",
+        "params": [],
+        "returns": {
+          "type": "List<Map<String, Object>>",
+          "description": "List<Map<K,Object>> list of security events."
+        }
+      },
+      {
+        "signature": "List<Map<String, Object>> aclLog(int count)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
+            "name": "count",
+            "type": "int",
+            "description": "max count of events"
+          }
+        ],
+        "returns": {
+          "type": "List<Map<String, Object>>",
+          "description": "List<Map<K, Object>> list of security events."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Map<String, Object>>> aclLog()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<Map<String, Object>>>",
+          "description": "List<Map<K,Object>> list of security events."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Map<String, Object>>> aclLog(int count)",
+        "params": [
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "count",
+            "type": "int",
+            "description": "max count of events"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Map<String, Object>>>",
+          "description": "List<Map<K, Object>> list of security events."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Map<String, Object>> aclLog()",
+        "params": [],
+        "returns": {
+          "type": "Flux<Map<String, Object>>",
+          "description": "Map<K,Object> list of security events."
+        }
+      },
+      {
+        "signature": "Flux<Map<String, Object>> aclLog(int count)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": "max count of events"
+          }
+        ],
+        "returns": {
+          "type": "Flux<Map<String, Object>>",
+          "description": "Map<K, Object> list of security events."
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [
+      {
+        "signature": "acl_log(count: isize)",
+        "params": [
+          {
+            "name": "count",
+            "type": "isize",
             "description": ""
           }
         ],
         "returns": {
-          "type": "array",
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_log_reset()",
+        "params": [],
+        "returns": {
+          "type": "()",
           "description": ""
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [
+      {
+        "signature": "acl_log(count: isize)",
+        "params": [
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_log_reset()",
+        "params": [],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"LOG\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOG\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(subcommand: \"LOG\", count: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOG\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(subcommand: \"LOG\", reset: \"RESET\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"LOG\"",
+            "description": ""
+          },
+          {
+            "name": "reset",
+            "type": "\"RESET\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

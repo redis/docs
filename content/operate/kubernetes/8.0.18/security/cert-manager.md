@@ -25,7 +25,8 @@ Benefits of using cert-manager include:
 - **Multiple certificate authorities**: Support for Let's Encrypt, private CAs, Vault, and more.
 - **Automatic propagation**: For Active-Active databases, certificate changes automatically sync across all participating clusters.
 
-{{<warning>}}The cert-manager integration uses Kubernetes secrets. It is not compatible with Vault-based secret management (when `clusterCredentialSecretType: vault`). See [HashiCorp Vault integration]({{< relref "/operate/kubernetes/8.0.18/security/vault" >}}) for details.{{</warning>}}
+> [!WARNING]
+> The cert-manager integration uses Kubernetes secrets. It is not compatible with Vault-based secret management (when `clusterCredentialSecretType: vault`). See [HashiCorp Vault integration](/content/operate/kubernetes/8.0.18/security/vault.md) for details.
 
 ## Prerequisites
 
@@ -44,7 +45,8 @@ cert-manager creates standard Kubernetes TLS secrets with the following fields:
 
 The Redis Enterprise operator automatically recognizes these secrets and can use them interchangeably with manually created secrets.
 
-{{<note>}}If you currently use opaque secrets for your certificates, you can switch to cert-manager's TLS secrets without any additional configuration changes to your Redis resources.{{</note>}}
+> [!NOTE]
+> If you currently use opaque secrets for your certificates, you can switch to cert-manager's TLS secrets without any additional configuration changes to your Redis resources.
 
 ### Supported secret formats
 
@@ -56,7 +58,8 @@ The operator supports multiple field names for backward compatibility:
 | Private key | `tls.key`, `key` |
 | CA certificate | `ca.crt` |
 
-{{<note>}}The `ca.crt` field is automatically appended to the certificate chain when present. cert-manager typically populates this field when it has access to the root certificate.{{</note>}}
+> [!NOTE]
+> The `ca.crt` field is automatically appended to the certificate chain when present. cert-manager typically populates this field when it has access to the root certificate.
 
 ## Quick start
 
@@ -112,7 +115,7 @@ spec:
     metricsExporterCertificateSecretName: metrics-tls
 ```
 
-Each secret name corresponds to a `Certificate` resource managed by cert-manager. For details on these fields, see the [RedisEnterpriseCluster API reference]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api" >}}).
+Each secret name corresponds to a `Certificate` resource managed by cert-manager. For details on these fields, see the [RedisEnterpriseCluster API reference](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md).
 
 ## Database replication with TLS
 
@@ -174,7 +177,7 @@ spec:
         port: 636
 ```
 
-For more details on LDAP configuration, see [Enable LDAP authentication]({{< relref "/operate/kubernetes/8.0.18/security/ldap" >}}).
+For more details on LDAP configuration, see [Enable LDAP authentication](/content/operate/kubernetes/8.0.18/security/ldap.md).
 
 ## Active-Active databases with automatic certificate sync
 
@@ -213,7 +216,8 @@ Redis Software needs the full chain, including the root CA, to trust the certifi
 1. Create a Kubernetes secret that contains the full chain.
 1. Reference that secret in your Redis custom resource instead of the secret that cert-manager generates.
 
-{{<note>}}This applies to any issuer that doesn't populate `ca.crt` with the root certificate, not only Let's Encrypt.{{</note>}}
+> [!NOTE]
+> This applies to any issuer that doesn't populate `ca.crt` with the root certificate, not only Let's Encrypt.
 
 For production environments where the issuer supplies the full chain automatically, such as a private CA or HashiCorp Vault, no extra steps are required.
 
@@ -349,7 +353,7 @@ If you encounter certificate chain validation errors:
 ## See also
 
 - [cert-manager documentation](https://cert-manager.io/docs/)
-- [Manage REC certificates]({{< relref "/operate/kubernetes/8.0.18/security/manage-rec-certificates" >}})
-- [RedisEnterpriseCluster API reference]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api" >}})
-- [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_database_api" >}})
-- [HashiCorp Vault integration]({{< relref "/operate/kubernetes/8.0.18/security/vault" >}})
+- [Manage REC certificates](/content/operate/kubernetes/8.0.18/security/manage-rec-certificates.md)
+- [RedisEnterpriseCluster API reference](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md)
+- [RedisEnterpriseDatabase API reference](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_database_api.md)
+- [HashiCorp Vault integration](/content/operate/kubernetes/8.0.18/security/vault.md)

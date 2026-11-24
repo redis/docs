@@ -22,15 +22,15 @@ The Redis Enterprise for Kubernetes automates these recovery steps:
 1. Recovers the cluster configuration on the first node in the new cluster
 1. Joins the remaining nodes to the new cluster.
 
-{{<warning>}}Redis Enterprise for Kubernetes 7.2.4-2 introduces a new limitation. You cannot recover or upgrade your cluster if there are databases with old module versions or manually uploaded modules. See the [Redis Enterprise Software 7.2.4 known limitations]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#cluster-recovery-with-manually-uploaded-modules" >}}) for more details.{{</warning>}}
+> [!WARNING]
+> Redis Enterprise for Kubernetes 7.2.4-2 introduces a new limitation. You cannot recover or upgrade your cluster if there are databases with old module versions or manually uploaded modules. See the [Redis Enterprise Software 7.2.4 known limitations](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#cluster-recovery-with-manually-uploaded-modules) for more details.
 
-{{< note >}}
-If your cluster uses user-defined modules, the recovery process doesn't block on module validation errors (such as URL or credential issues). The cluster can recover successfully, and you can resolve any module configuration issues after recovery is complete. See [User-defined modules]({{< relref "/operate/kubernetes/re-databases/modules#user-defined-modules" >}}) for more information.
-{{< /note >}}
+> [!NOTE]
+> If your cluster uses user-defined modules, the recovery process doesn't block on module validation errors (such as URL or credential issues). The cluster can recover successfully, and you can resolve any module configuration issues after recovery is complete. See [User-defined modules](/content/operate/kubernetes/re-databases/modules.md#user-defined-modules) for more information.
 
 ## Prerequisites
 
-- For cluster recovery, the cluster must be [deployed with persistence]({{< relref "/operate/kubernetes/recommendations/persistent-volumes" >}}).
+- For cluster recovery, the cluster must be [deployed with persistence](/content/operate/kubernetes/recommendations/persistent-volumes.md).
 
 ## Recover a cluster
 
@@ -49,4 +49,4 @@ If your cluster uses user-defined modules, the recovery process doesn't block on
     watch "kubectl describe rec | grep State"
     ```
 
-1. To recover the database, see [Recover a failed database]({{< relref "/operate/rs/databases/recover" >}}).
+1. To recover the database, see [Recover a failed database](/content/operate/rs/databases/recover.md).

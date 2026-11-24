@@ -62,7 +62,7 @@ The name of the key that holds the array.
 
 <details open><summary><code>index</code></summary>
 
-The zero-based integer index to set as the new insert cursor position for subsequent [`ARINSERT`]({{< relref "/commands/arinsert" >}}) calls.
+The zero-based integer index to set as the new insert cursor position for subsequent [`ARINSERT`](/content/commands/arinsert.md) calls.
 
 </details>
 
@@ -87,7 +87,7 @@ redis> ARNEXT myarray
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

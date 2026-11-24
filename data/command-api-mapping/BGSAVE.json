@@ -57,7 +57,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BGSAVE(options?: BgSaveOptions)",
+        "signature": "bgSave(options?: BgSaveOptions)",
         "params": [
           {
             "name": "options",
@@ -101,8 +101,48 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Save(SaveType type, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "type",
+            "type": "SaveType",
+            "description": "The method of the save (e.g. background or foreground)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task SaveAsync(SaveType type, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "type",
+            "type": "SaveType",
+            "description": "The method of the save (e.g. background or foreground)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "bgsave()",
@@ -114,6 +154,51 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "bgsave(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bgsave(schedule: \"SCHEDULE\", callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "schedule",
+            "type": "\"SCHEDULE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bgsave()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "`OK`"
+        }
+      }
+    ]
   }
 }

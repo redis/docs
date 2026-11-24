@@ -55,6 +55,8 @@ is the key to merge into.
 
 specifies the JSONPath. For non-existing keys the `path` must be `$`. For existing keys, for each matched `path`, the value that matches the `path` is merged with the JSON `value`. For existing keys, when the path exists, except for the last element, a new child is added with the JSON `value`.
 
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled, `JSON.MERGE` also creates missing parent objects in `path`, for both new and existing keys. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
+
 </details>
 
 <details open><summary><code>value</code></summary>
@@ -80,6 +82,20 @@ redis> JSON.MERGE doc $.b '8'
 OK
 redis> JSON.GET doc $
 "[{\"a\":2,\"b\":8}]"
+{{< / highlight >}}
+
+</details>
+
+<details open>
+<summary><b>Create a non-existent nested path (requires <code>json-auto-create-deep-paths</code>)</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET doc $ '{"a":2}'
+OK
+redis> JSON.MERGE doc $.b.c.d '{"e":8}'
+OK
+redis> JSON.GET doc $
+"[{\"a\":2,\"b\":{\"c\":{\"d\":{\"e\":8}}}}]"
 {{< / highlight >}}
 
 </details>
@@ -155,23 +171,23 @@ redis> JSON.GET doc
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): if the operation fails to set the new values.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors): if the operation fails to set the new values.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.GET`]({{< relref "commands/json.get/" >}}) | [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) | [`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.MSET`]({{< relref "commands/json.mset/" >}})
+[`JSON.GET`](/content/commands/json.get.md) | [`JSON.MGET`](/content/commands/json.mget.md) | [`JSON.SET`](/content/commands/json.set.md) | [`JSON.MSET`](/content/commands/json.mset.md)
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)
 

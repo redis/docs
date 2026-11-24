@@ -27,7 +27,7 @@ Flex moves data between RAM and flash based on access patterns:
 - Less active data moves to cost-efficient flash storage.
 - Data accessed from flash promotes back to RAM automatically.
 
-Redis uses an [LRU (least recently used)]({{< relref "/develop/reference/eviction#apx-lru" >}}) eviction policy to manage data placement. When memory pressure increases, Flex identifies cold objects, transfers them to flash, and frees RAM for new or frequently accessed keys.
+Redis uses an [LRU (least recently used)](/content/develop/reference/eviction/index.md#apx-lru) eviction policy to manage data placement. When memory pressure increases, Flex identifies cold objects, transfers them to flash, and frees RAM for new or frequently accessed keys.
 
 This process requires no application changes. Your existing Redis commands work across both storage tiers.
 
@@ -74,11 +74,12 @@ Use Flex when you need to:
 - Operate large distributed caches with elastic scaling and consistent performance under heavy load
 - Reduce infrastructure costs by combining high-speed RAM with cost-efficient flash storage
 
-{{<warning>}}Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)]({{< relref "/operate/oss_and_stack/management/persistence#append-only-file" >}}), [RDB snapshots]({{< relref "/operate/oss_and_stack/management/persistence#snapshotting" >}}), or both. For more information, see [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}).{{</warning>}}
+> [!WARNING]
+> Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)](/content/operate/oss_and_stack/management/persistence.md#append-only-file), [RDB snapshots](/content/operate/oss_and_stack/management/persistence.md#snapshotting), or both. For more information, see [Database persistence](/content/operate/rs/databases/configure/database-persistence.md).
 
 ## Flex and Auto Tiering
 
-Flex replaces [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}) (formerly known as Redis on Flash). Redis Enterprise selects the implementation based on your database version:
+Flex replaces [Auto Tiering](/content/operate/kubernetes/7.22/re-clusters/auto-tiering.md) (formerly known as Redis on Flash). Redis Enterprise selects the implementation based on your database version:
 
 | Redis database version | Operator version | Redis Flex | Auto Tiering |
 |------------------------|------------------|------------|--------------|
@@ -86,7 +87,7 @@ Flex replaces [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/au
 | 7.4 | 7.8.2-6 and later | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | 7.2 and earlier | 7.22.2-22 and earlier | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
-For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}).
+For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tiering](/content/operate/kubernetes/7.22/re-clusters/auto-tiering.md).
 
 ### Differences between Flex and Auto Tiering
 
@@ -111,6 +112,6 @@ For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tier
 
 ## Next steps
 
-- [Plan your deployment]({{< relref "/operate/kubernetes/8.0/flex/plan" >}}): Review hardware requirements, sizing guidelines, and limitations.
-- [Get started]({{< relref "/operate/kubernetes/8.0/flex/get-started" >}}): Configure Flex on your cluster.
-- [Scale your deployment]({{< relref "/operate/kubernetes/8.0/flex/scale" >}}): Learn scaling strategies and best practices.
+- [Plan your deployment](/content/operate/kubernetes/8.0/flex/plan.md): Review hardware requirements, sizing guidelines, and limitations.
+- [Get started](/content/operate/kubernetes/8.0/flex/get-started.md): Configure Flex on your cluster.
+- [Scale your deployment](/content/operate/kubernetes/8.0/flex/scale.md): Learn scaling strategies and best practices.

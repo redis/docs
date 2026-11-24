@@ -84,6 +84,44 @@ int main(int argc, char **argv) {
 
 ## Key Patterns
 
+### 0. CHECK_REPLY — mandatory, and the reason C examples are testable at all
+
+**A C example has no assertion framework, so the harness can only see the process exit
+code.** hiredis returns an *error reply* (a valid `redisReply` with
+`type == REDIS_REPLY_ERROR`) for a malformed command rather than failing the call, and it
+does not abort. Without a guard, an example can send a broken command, print a wrong value
+and still exit 0 — a green run that proves nothing. That happened for real in DOC-6968:
+`redisCommand(c, "SET mykey \"Hello World\"")` split on whitespace (hiredis does **not**
+honour CLI-style quoting — bind a value containing spaces with `%s`), the server answered
+`ERR syntax error`, and the sweep still reported PASS.
+
+So every C example defines this macro in a `REMOVE` block after the includes, and calls it
+after **every** `redisCommand`, also inside a `REMOVE` block, so the published snippet stays
+plain `redisCommand`:
+
+```c
+// REMOVE_START
+#define CHECK_REPLY(r) do { \
+    if ((r) == NULL || (r)->type == REDIS_REPLY_ERROR) { \
+        printf("REDIS ERROR: %s\n", (r) ? (r)->str : "no reply from server"); \
+        return 1; \
+    } \
+} while (0)
+// REMOVE_END
+
+reply = redisCommand(c, "SET mykey %s", "Hello World");
+// REMOVE_START
+CHECK_REPLY(reply);
+// REMOVE_END
+```
+
+Note why a cheaper check is not enough: scanning the program's output for `ERR` misses the
+common case, because `printf("%lld", reply->integer)` on an error reply prints **`0`**, not
+the error text. The guard has to sit at the call site.
+
+Value assertions in these files must also `return 1`, not merely `printf("ASSERTION
+FAILED")` — otherwise they cannot fail the harness either.
+
 ### 1. Includes
 ```c
 // STEP_START includes

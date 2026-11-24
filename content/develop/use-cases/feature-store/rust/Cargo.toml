@@ -20,7 +20,7 @@ path = "build_features_bin.rs"
 # demo uses. HEXPIRE/HTTL are issued via `redis::cmd("HEXPIRE")`
 # because the typed bindings don't ship on this client line yet —
 # the wire protocol is the same.
-redis = { version = "0.27", features = ["tokio-comp", "aio", "connection-manager"] }
+redis = { version = "1.8", features = ["tokio-comp", "aio", "connection-manager"] }
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
 # axum-extra ships an alternative Form extractor that uses

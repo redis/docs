@@ -11,7 +11,7 @@ weight: 40
 url: '/operate/rs/8.0/installing-upgrading/install/prepare-install/port-availability/'
 ---
 
-Before [installing Redis Software]({{< relref "/operate/rs/8.0/installing-upgrading/install" >}}), make sure all required ports are available.
+Before [installing Redis Software](/content/operate/rs/8.0/installing-upgrading/install/_index.md), make sure all required ports are available.
 
 {{<embed-md "port-availability-embed.md">}}
 

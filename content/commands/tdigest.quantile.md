@@ -83,20 +83,20 @@ redis> TDIGEST.QUANTILE t 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-point estimates, populated with value_1, value_2, ..., value_N.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) as floating-point estimates, populated with value_1, value_2, ..., value_N.
     * an accurate result when `quantile` is `0`, the value of the smallest observation.
     * an accurate result when `quantile` is `1`, the value of the largest observation.
     * `nan` for all quantiles when the given sketch is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
 
 -tab-sep-
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [double replies]({{< relref "/develop/reference/protocol-spec#doubles" >}}) as estimates, populated with value_1, value_2, ..., value_N.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [double replies](/content/develop/reference/protocol-spec.md#doubles) as estimates, populated with value_1, value_2, ..., value_N.
     * an accurate result when `quantile` is `0`, the value of the smallest observation.
     * an accurate result when `quantile` is `1`, the value of the largest observation.
     * `nan` for all quantiles when the given sketch is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.
 
 {{< /multitabs >}}

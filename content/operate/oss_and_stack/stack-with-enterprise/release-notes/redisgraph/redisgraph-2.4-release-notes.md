@@ -35,9 +35,8 @@ Details:
 
     - [#2102](https://github.com/RedisGraph/RedisGraph/pull/2102) New load-time configuration option `NODE_CREATION_BUFFER` - see [documentation](https://github.com/RedisGraph/RedisGraph/blob/master/docs/docs/configuration.md#node_creation_buffer) (MOD-2348)
 
-{{<note>}}
-For Redis Enterprise users who want to upgrade to this patch, this version requires being on version 6.2.8 or later.
-{{</note>}}
+> [!NOTE]
+> For Redis Enterprise users who want to upgrade to this patch, this version requires being on version 6.2.8 or later.
 
 ## v2.4.13 (December 2021)
 
@@ -72,7 +71,7 @@ Update urgency: `MODERATE` : Program an upgrade of the server, but it's not urge
 
 Details:
 - Bug fixes:
-    - #[1931](https://github.com/RedisGraph/RedisGraph/issues/1931) Fix race condition on calling [`BGSAVE`]({{< relref "/commands/bgsave" >}}) while flushing matrices
+    - #[1931](https://github.com/RedisGraph/RedisGraph/issues/1931) Fix race condition on calling [`BGSAVE`](/content/commands/bgsave.md) while flushing matrices
     - #[1898](https://github.com/RedisGraph/RedisGraph/issues/1898) Error when setting a property to an array containing an invalid type
     - #[1897](https://github.com/RedisGraph/RedisGraph/issues/1897) Aliases in `WITH...ORDER BY` must be valid references%
 
@@ -200,6 +199,5 @@ Details:
 - Bugfixes (compared to RC1)
   - #[1618](https://github.com/redisgraph/redisgraph/issues/1618) Fix relationship types being omitted in traversals of 3 or more types.
 
-{{< note >}}
-This is the first GA version of 2.4. The version inside Redis will be 2.4.2 in semantic versioning. Since the version of a module in Redis is numeric, we could not add an GA flag.
-{{< /note >}}
+> [!NOTE]
+> This is the first GA version of 2.4. The version inside Redis will be 2.4.2 in semantic versioning. Since the version of a module in Redis is numeric, we could not add an GA flag.

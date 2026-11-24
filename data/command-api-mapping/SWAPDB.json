@@ -73,7 +73,27 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "swapDb(index1: number, index2: number)",
+        "params": [
+          {
+            "name": "index1",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "index2",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String swapdb(int db1, int db2)",
@@ -137,8 +157,58 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void SwapDatabases(int first, int second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "first",
+            "type": "int",
+            "description": "The ID of the first database."
+          },
+          {
+            "name": "second",
+            "type": "int",
+            "description": "The ID of the second database."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task SwapDatabasesAsync(int first, int second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "first",
+            "type": "int",
+            "description": "The ID of the first database."
+          },
+          {
+            "name": "second",
+            "type": "int",
+            "description": "The ID of the second database."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "swapdb(int $db1, int $db2)",
@@ -161,6 +231,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "swapdb(index1: number | string, index2: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "index1",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "index2",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

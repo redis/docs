@@ -1,0 +1,67 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bless_clear(name: KeyT, flag: BlessFlag)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "blessClear(key: RedisArgument, flag: BlessFlag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bless_clear(key, flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

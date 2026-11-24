@@ -34,19 +34,16 @@ summary: Returns the values at a path from one or more keys
 syntax_fmt: JSON.MGET key [key ...] path
 title: JSON.MGET
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Return the values at `path` from multiple `key` arguments
 
-{{% warning %}}
-When cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
-
-When the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.
-
-{{% /warning %}}
+> [!WARNING]
+> When cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
+>
+> When the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.
 
 [Examples](#examples)
 
@@ -100,19 +97,19 @@ redis> JSON.MGET doc1 doc2 $..a
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.
+[Array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.
 
 -tab-sep-
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.
+[Array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.GET`]({{< relref "commands/json.get/" >}}) 
+[`JSON.SET`](/content/commands/json.set.md) | [`JSON.GET`](/content/commands/json.get.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

@@ -14,13 +14,13 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 
 ## Prerequisites
 
-- A [supported distribution]({{< relref "/operate/kubernetes/7.22/reference/supported_k8s_distributions" >}}) of Kubernetes.
+- A [supported distribution](/content/operate/kubernetes/7.22/reference/supported_k8s_distributions.md) of Kubernetes.
 - At least three worker nodes.
 - [Kubernetes client (kubectl)](https://kubernetes.io/docs/tasks/tools/).
 - [Helm 3.10 or later](https://helm.sh/docs/intro/install/)
     or 3.18 for migrating from a non-Helm installation.
 
-If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/7.22/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
+If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment](/content/operate/kubernetes/7.22/security/allow-resource-adjustment.md). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
 ### Example values
 
@@ -129,7 +129,7 @@ helm install <operator-name> redis/redis-enterprise-operator \
 
 To migrate an existing non-Helm installation of the Redis Enterprise operator to a Helm-based installation:
 
-1. [Upgrade]({{<relref "operate/kubernetes/upgrade">}}) your existing Redis Enterprise operator to match the version of the Helm chart you want to install. Use the same non-Helm method you used for the original installation.
+1. [Upgrade](/content/operate/kubernetes/upgrade/_index.md) your existing Redis Enterprise operator to match the version of the Helm chart you want to install. Use the same non-Helm method you used for the original installation.
 
 2. [Install](#install) the Helm chart adding the `--take-ownership` flag:
 
@@ -179,7 +179,7 @@ For more information and options when upgrading charts, see [helm upgrade](https
 
 ## Uninstall
 
-1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "operate/kubernetes/re-clusters/delete-custom-resources">}}) for detailed steps. You must delete custom resources in the correct order to avoid errors.
+1. Delete any custom resources managed by the operator. See [Delete custom resources](/content/operate/kubernetes/re-clusters/delete-custom-resources.md) for detailed steps. You must delete custom resources in the correct order to avoid errors.
 
 2. Uninstall the Helm chart.
 
@@ -189,10 +189,11 @@ helm uninstall <release-name>
 
 This removes all Kubernetes resources associated with the chart and deletes the release.
 
-{{<note>}}Custom Resource Definitions (CRDs) installed by the chart are not removed during chart uninstallation. To remove them manually after uninstalling the chart, run `kubectl delete crds -l app=redis-enterprise`.{{</note>}}
+> [!NOTE]
+> Custom Resource Definitions (CRDs) installed by the chart are not removed during chart uninstallation. To remove them manually after uninstalling the chart, run `kubectl delete crds -l app=redis-enterprise`.
 
 ## Known limitations
 
-- The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.
+- The steps for [creating the RedisEnterpriseCluster (REC)](/content/operate/kubernetes/deployment/quick-start.md#create-a-redis-enterprise-cluster-rec) and other custom resources remain the same.
 - The chart doesn't include configuration options for multiple namespaces, rack-awareness, and Vault integration. The steps for configuring these options remain the same.
 - The chart has had limited testing in advanced setups, including Active-Active configurations, air-gapped deployments, and IPv6/dual-stack environments.

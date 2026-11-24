@@ -25,7 +25,7 @@ Example external listeners include:
 
 - [`ncat`](https://nmap.org/ncat/): useful for debugging but not suitable for production environments.
 
-- Imperva Sonar: a third-party service available for purchase separately from Redis Enterprise Software. See [Redis Onboarding Steps](https://docs.imperva.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Onboarding-Steps_48368215.html) for more information.
+- Imperva Sonar: a third-party service available for purchase separately from Redis Enterprise Software. See [Redis Onboarding Steps](https://docs-cybersec.thalesgroup.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Enterprise-Software-Onboarding-Steps_48368215.html) for more information.
 
 For development and testing environments, notifications can be saved to a local file; however, this is neither supported nor intended for production environments.
 
@@ -71,7 +71,7 @@ To enable auditing for your cluster, use:
 
     The socket file and path must be accessible by the user and group running Redis Enterprise Software.
 
-- the [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}})
+- the [REST API](/content/operate/rs/7.8/references/rest-api/requests/cluster/auditing-db-conns.md#put-cluster-audit-db-conns)
 
     ```
     PUT /v1/cluster/auditing/db_conns
@@ -107,7 +107,7 @@ Once auditing is enabled for your cluster, you can audit individual databases.  
     rladmin info cluster
     ```
 
-- the [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs" >}})
+- the [REST API](/content/operate/rs/7.8/references/rest-api/requests/bdbs/_index.md#put-bdbs)
 
     ```
     PUT /v1/bdbs/1
@@ -135,7 +135,7 @@ To audit connections for new databases by default, use:
 
     To deactivate this policy, set `db_conns_auditing` to `disabled`.
 
-- the [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}})
+- the [REST API](/content/operate/rs/7.8/references/rest-api/requests/cluster/policy.md#put-cluster-policy)
 
     ```
     PUT /v1/cluster/policy

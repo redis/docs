@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "xread(, streams: Dict[KeyT, StreamIdT],, count: Optional[int] = None,, block: Optional[int] = None,)",
+        "signature": "xread(streams: Dict[KeyT, StreamIdT], count: Optional[int] = None, block: Optional[int] = None, max_count: Optional[int] = None, max_size: Optional[int] = None)",
         "params": [
           {
             "name": "streams",
@@ -18,6 +18,16 @@
             "name": "block",
             "type": "Optional[int] = None",
             "description": ""
+          },
+          {
+            "name": "max_count",
+            "type": "Optional[int] = None",
+            "description": "Cap on the total number of entries returned across all streams, where count is per stream. Requires Redis 8.10.0 or later"
+          },
+          {
+            "name": "max_size",
+            "type": "Optional[int] = None",
+            "description": "Soft cap, in bytes, on the total reply size across all streams. Requires Redis 8.10.0 or later"
           }
         ],
         "returns": {
@@ -255,7 +265,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XREAD(streams: XReadStreams, options?: XReadOptions)",
+        "signature": "xRead(streams: XReadStreams, options?: XReadOptions)",
         "params": [
           {
             "name": "streams",
@@ -276,16 +286,26 @@
     ],
     "ioredis": [
       {
-        "signature": "xread(...args: [, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "signature": "xread(...args: [ streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null> ])",
         "params": [
           {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, streamsToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       },
@@ -293,55 +313,115 @@
         "signature": "xread(...args: [streamsToken: \"STREAMS\", ...args: RedisValue[]])",
         "params": [
           {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[streamsToken",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xread(...args: [, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "signature": "xread(...args: [ millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null> ])",
         "params": [
           {
+            "name": "millisecondsToken",
+            "type": "\"BLOCK\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, millisecondsToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xread(...args: [, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], ])",
+        "signature": "xread(...args: [ millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[] ])",
         "params": [
           {
+            "name": "millisecondsToken",
+            "type": "\"BLOCK\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, millisecondsToken",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       },
       {
-        "signature": "xread(...args: [, countToken: \"COUNT\", count: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "signature": "xread(...args: [ countToken: \"COUNT\", count: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null> ])",
         "params": [
           {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "streamsToken",
+            "type": "\"STREAMS\"",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, countToken",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[ key: string, items: [id: string, fields: string[]][] ][] | null>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[ key: string, items: [id: string, fields: string[]][] ][] | null, Context>",
           "description": ""
         }
       }
@@ -489,64 +569,11 @@
           "type": "RedisStream[]",
           "description": "A value of RedisStream for each stream."
         }
-      },
-      {
-        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "position",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "int?",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamEntry[]",
-          "description": "A value of RedisStream for each stream."
-        }
-      },
-      {
-        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "streamPositions",
-            "type": "StreamPosition[]",
-            "description": "Array of streams and the positions from which to begin reading for each stream."
-          },
-          {
-            "name": "countPerStream",
-            "type": "int?",
-            "description": "The maximum number of messages to return from each stream."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisStream[]",
-          "description": "A value of RedisStream for each stream."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamReadAsync(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -570,12 +597,12 @@
           }
         ],
         "returns": {
-          "type": "StreamEntry[]",
+          "type": "Task<StreamEntry[]>",
           "description": "A value of RedisStream for each stream."
         }
       },
       {
-        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
+        "signature": "StreamReadAsync(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "streamPositions",
@@ -594,60 +621,7 @@
           }
         ],
         "returns": {
-          "type": "RedisStream[]",
-          "description": "A value of RedisStream for each stream."
-        }
-      },
-      {
-        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "position",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "count",
-            "type": "int?",
-            "description": ""
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "StreamEntry[]",
-          "description": "A value of RedisStream for each stream."
-        }
-      },
-      {
-        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "streamPositions",
-            "type": "StreamPosition[]",
-            "description": "Array of streams and the positions from which to begin reading for each stream."
-          },
-          {
-            "name": "countPerStream",
-            "type": "int?",
-            "description": "The maximum number of messages to return from each stream."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisStream[]",
+          "type": "Task<RedisStream[]>",
           "description": "A value of RedisStream for each stream."
         }
       }
@@ -657,23 +631,23 @@
         "signature": "xread(int $count = null, int $block = null, array $streams = null, string ...$id)",
         "params": [
           {
-            "name": "int $count = null",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "int $block = null",
-            "type": "Any",
+            "name": "$block",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "array $streams = null",
-            "type": "Any",
+            "name": "$streams",
+            "type": "array",
             "description": ""
           },
           {
-            "name": "$id",
-            "type": "string ...",
+            "name": "...$id",
+            "type": "string",
             "description": ""
           }
         ],

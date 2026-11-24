@@ -99,7 +99,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<ReplyUnion>",
+          "type": "ReplyUnion",
           "description": "Script execution result"
         }
       }
@@ -284,7 +284,61 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "eval_ro(...args: [ script: string | Buffer, numkeys: number | string, ...args: RedisValue[], callback: Callback<unknown> ])",
+        "params": [
+          {
+            "name": "script",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "eval_ro(...args: [ script: string | Buffer, numkeys: number | string, ...args: RedisValue[] ])",
+        "params": [
+          {
+            "name": "script",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
@@ -365,8 +419,8 @@
             "description": "Keys for the script"
           },
           {
-            "name": "$argument",
-            "type": "...",
+            "name": "...$argument",
+            "type": "",
             "description": "Arguments for the script"
           }
         ],

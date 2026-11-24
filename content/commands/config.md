@@ -25,4 +25,4 @@ title: CONFIG
 ---
 This is a container command for runtime configuration commands.
 
-To see the list of available commands you can call [`CONFIG HELP`]({{< relref "/commands/config-help" >}}).
+To see the list of available commands you can call [`CONFIG HELP`](/content/commands/config-help.md).

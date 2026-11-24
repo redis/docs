@@ -221,26 +221,173 @@
     "nredisstack_async": [],
     "php": [
       {
-        "signature": "acl(string $subcommand, ...$args)",
+        "signature": "setUser(string $username, string ...$rules)",
         "params": [
           {
-            "name": "$subcommand",
+            "name": "$username",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "...$rules",
+            "type": "string",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "Status",
           "description": ""
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_sync": [
+      {
+        "signature": "acl_setuser(username: K)",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_setuser_rules(username: K, rules: &'a [acl::Rule])",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "rules",
+            "type": "&'a [acl::Rule]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "acl_setuser(username: K)",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl_setuser_rules(username: K, rules: &'a [acl::Rule])",
+        "params": [
+          {
+            "name": "username",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "rules",
+            "type": "&'a [acl::Rule]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "acl(subcommand: \"SETUSER\", username: string | Buffer, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETUSER\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(...args: [ subcommand: \"SETUSER\", username: string | Buffer, ...rules: (string | Buffer)[], callback: Callback<\"OK\"> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETUSER\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...rules",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "acl(...args: [ subcommand: \"SETUSER\", username: string | Buffer, ...rules: (string | Buffer)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"SETUSER\"",
+            "description": ""
+          },
+          {
+            "name": "username",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "...rules",
+            "type": "(string | Buffer)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

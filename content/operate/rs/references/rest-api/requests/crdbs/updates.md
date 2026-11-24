@@ -21,9 +21,8 @@ weight: $weight
 
 Modify Active-Active configuration.
 
-{{<warning>}}
-This is a very powerful API request and can cause damage if used incorrectly.
-{{</warning>}}
+> [!WARNING]
+> This is a very powerful API request and can cause damage if used incorrectly.
 
 To add or remove instances, you must use this API. For simple configuration updates, use [`PATCH /crdbs/{crdb_guid}`]({{<relref "/operate/rs/references/rest-api/requests/crdbs#patch-crdbs">}}) instead.
 

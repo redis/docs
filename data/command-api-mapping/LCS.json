@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "stralgo(, algo: Literal[\"LCS\"],, value1: KeyT,, value2: KeyT,, specific_argument: Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\",, len: bool = False,, idx: bool = False,, minmatchlen: Optional[int] = None,, withmatchlen: bool = False,, **kwargs,)",
+        "signature": "stralgo(algo: Literal[\"LCS\"], value1: KeyT, value2: KeyT, specific_argument: Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\", len: bool = False, idx: bool = False, minmatchlen: Optional[int] = None, withmatchlen: bool = False, **kwargs)",
         "params": [
           {
             "name": "algo",
@@ -56,7 +56,7 @@
         }
       },
       {
-        "signature": "lcs(, key1: str,, key2: str,, len: Optional[bool] = False,, idx: Optional[bool] = False,, minmatchlen: Optional[int] = 0,, withmatchlen: Optional[bool] = False,)",
+        "signature": "lcs(key1: str, key2: str, len: Optional[bool] = False, idx: Optional[bool] = False, minmatchlen: Optional[int] = 0, withmatchlen: Optional[bool] = False)",
         "params": [
           {
             "name": "key1",
@@ -216,7 +216,7 @@
     ],
     "node_redis": [
       {
-        "signature": "LCS(key1: RedisArgument, key2: RedisArgument)",
+        "signature": "lcs(key1: RedisArgument, key2: RedisArgument)",
         "params": [
           {
             "name": "key1",
@@ -230,7 +230,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply",
           "description": ""
         }
       }
@@ -256,7 +256,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -285,7 +285,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -319,7 +319,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -358,7 +358,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       },
@@ -387,7 +387,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -407,23 +407,23 @@
             "description": ""
           },
           {
-            "name": "bool $len = false",
-            "type": "Any",
+            "name": "$len",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $idx = false",
-            "type": "Any",
+            "name": "$idx",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "int $minMatchLen = 0",
-            "type": "Any",
+            "name": "$minMatchLen",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $withMatchLen = false",
-            "type": "Any",
+            "name": "$withMatchLen",
+            "type": "bool",
             "description": ""
           }
         ],

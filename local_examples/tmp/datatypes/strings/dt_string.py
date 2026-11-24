@@ -39,6 +39,28 @@ assert res3 is None
 assert res4
 # REMOVE_END
 
+# STEP_START cas_cad
+r.set("bike:1", "Deimos")
+
+res9 = r.set("bike:1", "Ares", ifeq="Deimos")
+print(res9)  # True
+res10 = r.set("bike:1", "Zeus", ifeq="Deimos")
+print(res10)  # None
+print(r.get("bike:1"))  # Ares
+
+res11 = r.delex("bike:1", ifeq="Deimos")
+print(res11)  # 0
+res12 = r.delex("bike:1", ifeq="Ares")
+print(res12)  # 1
+# STEP_END
+
+# REMOVE_START
+assert res9
+assert res10 is None
+assert res11 == 0
+assert res12 == 1
+# REMOVE_END
+
 # STEP_START mset
 res5 = r.mset({"bike:1": "Deimos", "bike:2": "Ares", "bike:3": "Vanth"})
 print(res5)  # True

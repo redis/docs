@@ -292,7 +292,7 @@
     ],
     "node_redis": [
       {
-        "signature": "BF.RESERVE(key: RedisArgument, errorRate: number, capacity: number, options?: BfReserveOptions)",
+        "signature": "client.bf.reserve(key: RedisArgument, errorRate: number, capacity: number, options?: BfReserveOptions)",
         "params": [
           {
             "name": "key",

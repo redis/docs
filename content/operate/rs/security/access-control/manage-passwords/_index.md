@@ -14,16 +14,15 @@ weight: 30
 
 Redis Software provides several ways to manage the passwords of local accounts, including:
 
-- [Password complexity rules]({{< relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules" >}})
+- [Password complexity rules](/content/operate/rs/security/access-control/manage-passwords/password-complexity-rules.md)
 
-- [Password expiration]({{< relref "/operate/rs/security/access-control/manage-passwords/password-expiration" >}})
+- [Password expiration](/content/operate/rs/security/access-control/manage-passwords/password-expiration.md)
 
-- [Password rotation]({{< relref "/operate/rs/security/access-control/manage-passwords/rotate-passwords" >}})
+- [Password rotation](/content/operate/rs/security/access-control/manage-passwords/rotate-passwords.md)
 
-You can also manage a user's ability to [sign in]({{< relref "/operate/rs/security/access-control/manage-users/login-lockout#user-login-lockout" >}}) and control [session timeout]({{< relref "/operate/rs/security/access-control/manage-users/login-lockout#session-timeout" >}}).
+You can also manage a user's ability to [sign in](/content/operate/rs/security/access-control/manage-users/login-lockout.md#user-login-lockout) and control [session timeout](/content/operate/rs/security/access-control/manage-users/login-lockout.md#session-timeout).
 
-To enforce more advanced password policies, we recommend using [LDAP integration]({{< relref "/operate/rs/security/access-control/ldap" >}}) with an external identity provider, such as Active Directory.
+To enforce more advanced password policies, we recommend using [LDAP integration](/content/operate/rs/security/access-control/ldap/_index.md) with an external identity provider, such as Active Directory.
 
-{{<note>}}
-Redis Software securely stores all user passwords using a cryptographic hash function. The default password hashing algorithm is `SHA-256`, but you can [change the password hashing algorithm]({{<relref "/operate/rs/security/access-control/manage-passwords/password-hashing-algorithm">}}) to `PBKDF2` as of Redis Software version 7.8.6-13.
-{{</note>}}
+> [!NOTE]
+> Redis Software securely stores all user passwords using a cryptographic hash function. The default password hashing algorithm is `SHA-256`, but you can [change the password hashing algorithm](/content/operate/rs/security/access-control/manage-passwords/password-hashing-algorithm.md) to `PBKDF2` as of Redis Software version 7.8.6-13.

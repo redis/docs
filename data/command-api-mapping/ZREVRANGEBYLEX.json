@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrevrangebylex(, name: KeyT,, max: EncodableT,, min: EncodableT,, start: Optional[int] = None,, num: Optional[int] = None,)",
+        "signature": "zrevrangebylex(name: KeyT, max: EncodableT, min: EncodableT, start: Optional[int] = None, num: Optional[int] = None)",
         "params": [
           {
             "name": "name",
@@ -307,7 +307,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -351,7 +351,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -524,7 +524,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRangeByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude, long skip, long take, CommandFlags flags)",
+        "signature": "SortedSetRangeByValueAsync(RedisKey key, RedisValue min, RedisValue max, Exclude exclude, long skip, long take, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -563,7 +563,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified score range."
         }
       }
@@ -588,8 +588,8 @@
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

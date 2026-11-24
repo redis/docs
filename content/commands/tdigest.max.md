@@ -65,14 +65,14 @@ redis>TDIGEST.MAX t
 
 One of the following:
 
-* [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-point representing the maximum observation value from the given sketch. The result is always accurate. `nan` is returned if the sketch is empty.
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) in these cases: incorrect number of arguments or incorrect key type.
+* [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) as floating-point representing the maximum observation value from the given sketch. The result is always accurate. `nan` is returned if the sketch is empty.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) in these cases: incorrect number of arguments or incorrect key type.
 
 -tab-sep-
 
 One of the following:
 
-* [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) representing the maximum observation value from the given sketch. The result is always accurate. `nan` is returned if the sketch is empty.
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) in these cases: incorrect number of arguments or incorrect key type.
+* [Double reply](/content/develop/reference/protocol-spec.md#doubles) representing the maximum observation value from the given sketch. The result is always accurate. `nan` is returned if the sketch is empty.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) in these cases: incorrect number of arguments or incorrect key type.
 
 {{< /multitabs >}}

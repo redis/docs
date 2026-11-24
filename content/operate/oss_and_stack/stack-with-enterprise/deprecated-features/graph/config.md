@@ -11,24 +11,24 @@ toc: 'false'
 weight: 30
 ---
 
-You cannot use `GRAPH.CONFIG SET` to configure RedisGraph in [Redis Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}). Instead, use one of the following methods.
+You cannot use `GRAPH.CONFIG SET` to configure RedisGraph in [Redis Software](/content/operate/rs/_index.md) or [Redis Cloud](/content/operate/rc/_index.md). Instead, use one of the following methods.
 
 For Redis Cloud:
 
-- _Flexible or Annual [subscriptions]({{< relref "/operate/rc/subscriptions" >}})_: contact [support](https://redis.com/company/support/) to request a configuration change.
+- _Flexible or Annual [subscriptions](/content/operate/rc/subscriptions/_index.md)_: contact [support](https://redis.com/company/support/) to request a configuration change.
     
 - _Free or Fixed subscriptions_: you cannot change RedisGraph configuration.
 
 For Redis Software, use either:
 
-- [`rladmin tune db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}):
+- [`rladmin tune db`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-db):
 
     ```sh
     $ rladmin tune db db:<ID|name> module_name graph \
         module_config_params "setting-name setting-value"
     ```
 
-- [Configure module]({{< relref "/operate/rs/references/rest-api/requests/modules/config" >}}) REST API request:
+- [Configure module](/content/operate/rs/references/rest-api/requests/modules/config.md) REST API request:
 
     ```sh
     POST /v1/modules/config/bdb/<ID>

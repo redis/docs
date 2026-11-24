@@ -82,30 +82,61 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "nredisstack_sync": [
       {
-        "signature": "memory(string $subcommand, ...$args)",
+        "signature": "RedisResult MemoryStats(CommandFlags flags = CommandFlags.None)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
+            "name": "flags",
+            "type": "CommandFlags",
             "description": ""
           }
         ],
         "returns": {
-          "type": "array",
-          "description": ""
+          "type": "RedisResult",
+          "description": "An array reply of memory stat metrics and values."
         }
       }
     ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<RedisResult> MemoryStatsAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult>",
+          "description": "An array reply of memory stat metrics and values."
+        }
+      }
+    ],
+    "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "memory(subcommand: \"STATS\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"STATS\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown[], Context>",
+          "description": ""
+        }
+      }
+    ]
   }
 }

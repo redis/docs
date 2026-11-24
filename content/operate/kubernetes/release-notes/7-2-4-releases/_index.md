@@ -14,16 +14,17 @@ weight: 97
 
 ## Highlights
 
-The primary purpose this release is supporting [Redis Enterprise 7.2.4]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52" >}}), which is a major Redis Enterprise Software update. As such, we reduced the scope of changes to support the underlying change of RS 7.2 and a few significant fixes.
+The primary purpose this release is supporting [Redis Enterprise 7.2.4](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md), which is a major Redis Enterprise Software update. As such, we reduced the scope of changes to support the underlying change of RS 7.2 and a few significant fixes.
 
 The following are the notable changes:
 
-- Support for [Redis Enterprise 7.2.4]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52" >}})
+- Support for [Redis Enterprise 7.2.4](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md)
 
     - New major version of Redis, 7.2
-    - [Changes to modules and cluster recovery]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#cluster-recovery-with-manually-uploaded-modules" >}})
+    - [Changes to modules and cluster recovery](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#cluster-recovery-with-manually-uploaded-modules)
 
-{{<warning>}}Redis Enterprise Software 7.2.4-52 includes several issues that also effect Redis Enterprise for Kubernetes and are not listed below. Review the Redis Enterprise Software 7.2.4 [breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#breaking-changes" >}}) and [known limitations.]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#known-limitations" >}}) {{</warning>}}
+> [!WARNING]
+> Redis Enterprise Software 7.2.4-52 includes several issues that also effect Redis Enterprise for Kubernetes and are not listed below. Review the Redis Enterprise Software 7.2.4 [breaking changes](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#breaking-changes) and [known limitations.](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#known-limitations) 
 
 ## Detailed release notes
 
@@ -31,7 +32,7 @@ The following are the notable changes:
 
 ## Version changes
 
-For a list of fixes related to CVEs, see the [Redis Enterprise 7.2.4 release notes]({{<relref "operate/rs/release-notes/rs-7-2-4-releases/">}}).
+For a list of fixes related to CVEs, see the [Redis Enterprise 7.2.4 release notes](/content/operate/rs/release-notes/rs-7-2-4-releases/_index.md).
 
 ### Breaking changes
 
@@ -39,11 +40,11 @@ The following changes included in this release affect the upgrade process. Pleas
 
 #### ValidatingWebhookConfiguration
 
-Versions 6.4.2-4 and later include a new `ValidatingWebhookConfiguration` resource to replace the `redb-admission` webhook resource. To use releases 6.4.2-4 or later, delete the old webhook resource and apply the new file. See [upgrade Redis cluster]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#reapply-webhook" >}}) for instructions.
+Versions 6.4.2-4 and later include a new `ValidatingWebhookConfiguration` resource to replace the `redb-admission` webhook resource. To use releases 6.4.2-4 or later, delete the old webhook resource and apply the new file. See [upgrade Redis cluster](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md#reapply-webhook) for instructions.
 
 #### OpenShift SCC
 
-Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that you need to bind to your service account before upgrading. OpenShift clusters running version 6.2.12 or earlier upgrading to version 6.2.18 or later might get stuck if you skip this step. See [upgrade a Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#before-upgrading" >}}) for instructions.
+Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that you need to bind to your service account before upgrading. OpenShift clusters running version 6.2.12 or earlier upgrading to version 6.2.18 or later might get stuck if you skip this step. See [upgrade a Redis Enterprise cluster (REC)](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md#before-upgrading) for instructions.
 
 ### Deprecations
 
@@ -52,7 +53,7 @@ Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that yo
 
 ### Supported distributions
 
-The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
+The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions](/content/operate/kubernetes/reference/supported_k8s_distributions.md).
 
 <span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Software for Kubernetes.
 
@@ -78,9 +79,10 @@ Any distribution not listed below is not supported for production workloads.
 
 ## Known limitations
 
-The limitations below are specific to the Redis Enterprise for Kubernetes product. To view limitations for the supported Redis Enterprise Software version, see the [7.2.4 release notes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases#known-limitations" >}}).
+The limitations below are specific to the Redis Enterprise for Kubernetes product. To view limitations for the supported Redis Enterprise Software version, see the [7.2.4 release notes](/content/operate/rs/release-notes/rs-7-2-4-releases/_index.md#known-limitations).
 
-{{<warning>}}Pay particular attention to the [cluster recovery limitation]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#cluster-recovery-with-manually-uploaded-modules" >}}) if you use manually uploaded modules.{{</warning>}}
+> [!WARNING]
+> Pay particular attention to the [cluster recovery limitation](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#cluster-recovery-with-manually-uploaded-modules) if you use manually uploaded modules.
 
 - **Cannot upgrade or recover clusters if there are databases with manually uploaded modules (RED-107711 RED-106872)** Contact support.
 

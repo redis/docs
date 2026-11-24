@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "decrby(, key: KeyT,, value: Number,, timestamp: Optional[Union[int, str]] = None,, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+        "signature": "decrby(key: KeyT, value: Number, timestamp: Optional[Union[int, str]] = None, retention_msecs: Optional[int] = None, uncompressed: Optional[bool] = False, labels: Optional[Dict[str, str]] = None, chunk_size: Optional[int] = None, duplicate_policy: Optional[str] = None, ignore_max_time_diff: Optional[int] = None, ignore_max_val_diff: Optional[Number] = None)",
         "params": [
           {
             "name": "key",
@@ -158,11 +158,21 @@
     ],
     "node_redis": [
       {
-        "signature": "DECRBY(...args: Parameters<typeof parseIncrByArguments>)",
+        "signature": "client.ts.decrBy(key: RedisArgument, value: number, options?: TsIncrByOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof parseIncrByArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "TsIncrByOptions",
             "description": ""
           }
         ],
@@ -317,8 +327,8 @@
             "description": ""
           },
           {
-            "name": "?DecrByArguments $arguments = null",
-            "type": "Any",
+            "name": "$arguments",
+            "type": "?DecrByArguments",
             "description": ""
           }
         ],

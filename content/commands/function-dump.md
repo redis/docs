@@ -27,14 +27,14 @@ syntax_fmt: FUNCTION DUMP
 title: FUNCTION DUMP
 ---
 Return the serialized payload of loaded libraries.
-You can restore the serialized payload later with the [`FUNCTION RESTORE`]({{< relref "/commands/function-restore" >}}) command.
+You can restore the serialized payload later with the [`FUNCTION RESTORE`](/content/commands/function-restore.md) command.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md).
 
 ## Examples
 
-The following example shows how to dump loaded libraries using `FUNCTION DUMP` and then it calls [`FUNCTION FLUSH`]({{< relref "/commands/function-flush" >}}) deletes all the libraries.
-Then, it restores the original libraries from the serialized payload with [`FUNCTION RESTORE`]({{< relref "/commands/function-restore" >}}).
+The following example shows how to dump loaded libraries using `FUNCTION DUMP` and then it calls [`FUNCTION FLUSH`](/content/commands/function-flush.md) deletes all the libraries.
+Then, it restores the original libraries from the serialized payload with [`FUNCTION RESTORE`](/content/commands/function-restore.md).
 
 ```
 redis> FUNCTION LOAD "#!lua name=mylib \n redis.register_function('myfunc', function(keys, args) return args[1] end)"

@@ -226,7 +226,7 @@ impl RedisTimeSeriesStore {
         };
 
         match value {
-            Value::Bulk(values) if values.len() >= 2 => Ok(Some(LatestValue {
+            Value::Array(values) if values.len() >= 2 => Ok(Some(LatestValue {
                 timestamp: as_i64(&values[0])?,
                 value: as_f64(&values[1])?,
             })),
@@ -239,19 +239,19 @@ impl RedisTimeSeriesStore {
 fn now_millis() -> RedisResult<i64> {
     let duration = SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .map_err(|_| RedisError::from((ErrorKind::TypeError, "system clock went backwards")))?;
+        .map_err(|_| RedisError::from((ErrorKind::UnexpectedReturnType, "system clock went backwards")))?;
 
     i64::try_from(duration.as_millis())
-        .map_err(|_| RedisError::from((ErrorKind::TypeError, "timestamp overflow")))
+        .map_err(|_| RedisError::from((ErrorKind::UnexpectedReturnType, "timestamp overflow")))
 }
 
 fn parse_points(value: Value) -> RedisResult<Vec<Point>> {
     let rows = match value {
-        Value::Bulk(rows) => rows,
+        Value::Array(rows) => rows,
         Value::Nil => return Ok(Vec::new()),
         other => {
             return Err(RedisError::from((
-                ErrorKind::TypeError,
+                ErrorKind::UnexpectedReturnType,
                 "unexpected TS.RANGE response",
                 format!("{other:?}"),
             )))
@@ -260,7 +260,7 @@ fn parse_points(value: Value) -> RedisResult<Vec<Point>> {
 
     let mut points = Vec::with_capacity(rows.len());
     for row in rows {
-        let Value::Bulk(pair) = row else {
+        let Value::Array(pair) = row else {
             continue;
         };
         if pair.len() < 2 {
@@ -279,11 +279,11 @@ fn parse_points(value: Value) -> RedisResult<Vec<Point>> {
 fn as_i64(value: &Value) -> RedisResult<i64> {
     match value {
         Value::Int(number) => Ok(*number),
-        Value::Data(bytes) => String::from_utf8_lossy(bytes)
+        Value::BulkString(bytes) => String::from_utf8_lossy(bytes)
             .parse::<i64>()
-            .map_err(|_| RedisError::from((ErrorKind::TypeError, "expected integer value"))),
+            .map_err(|_| RedisError::from((ErrorKind::UnexpectedReturnType, "expected integer value"))),
         other => Err(RedisError::from((
-            ErrorKind::TypeError,
+            ErrorKind::UnexpectedReturnType,
             "expected integer value",
             format!("{other:?}"),
         ))),
@@ -293,11 +293,16 @@ fn as_i64(value: &Value) -> RedisResult<i64> {
 fn as_f64(value: &Value) -> RedisResult<f64> {
     match value {
         Value::Int(number) => Ok(*number as f64),
-        Value::Data(bytes) => String::from_utf8_lossy(bytes)
+        Value::Double(number) => Ok(*number),
+        // Newer RedisTimeSeries replies send RESP2 doubles as simple strings.
+        Value::SimpleString(text) => text
             .parse::<f64>()
-            .map_err(|_| RedisError::from((ErrorKind::TypeError, "expected floating-point value"))),
+            .map_err(|_| RedisError::from((ErrorKind::UnexpectedReturnType, "expected floating-point value"))),
+        Value::BulkString(bytes) => String::from_utf8_lossy(bytes)
+            .parse::<f64>()
+            .map_err(|_| RedisError::from((ErrorKind::UnexpectedReturnType, "expected floating-point value"))),
         other => Err(RedisError::from((
-            ErrorKind::TypeError,
+            ErrorKind::UnexpectedReturnType,
             "expected floating-point value",
             format!("{other:?}"),
         ))),

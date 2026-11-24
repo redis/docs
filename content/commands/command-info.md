@@ -38,7 +38,7 @@ summary: Returns information about one, multiple or all commands.
 syntax_fmt: COMMAND INFO [command-name [command-name ...]]
 title: COMMAND INFO
 ---
-Returns details about multiple Redis commands using the same format as [`COMMAND`]({{< relref "/commands/command" >}}), except you can specify which commands are inspected.
+Returns details about multiple Redis commands using the same format as [`COMMAND`](/content/commands/command.md), except you can specify which commands are inspected.
 
 If you request details about non-existing commands, nil is returned.
 

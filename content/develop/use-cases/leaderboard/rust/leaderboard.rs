@@ -317,7 +317,7 @@ impl AsyncRedisLeaderboard {
                 .arg(self.metadata_key(user_id))
                 .arg(flatten_metadata(&payload));
         }
-        pipe.query_async::<_, ()>(con).await?;
+        pipe.query_async::<()>(con).await?;
 
         let trimmed_user_ids = self.trim_to_max_entries(con).await?;
         Ok(self
@@ -553,8 +553,8 @@ fn flatten_metadata(metadata: &Metadata) -> Vec<String> {
 fn parse_score_value(value: Option<&redis::Value>) -> Option<f64> {
     match value {
         Some(redis::Value::Int(v)) => Some(*v as f64),
-        Some(redis::Value::Data(v)) => String::from_utf8_lossy(v).parse::<f64>().ok(),
-        Some(redis::Value::Bulk(items)) => items.first().and_then(|value| parse_score_value(Some(value))),
+        Some(redis::Value::BulkString(v)) => String::from_utf8_lossy(v).parse::<f64>().ok(),
+        Some(redis::Value::Array(items)) => items.first().and_then(|value| parse_score_value(Some(value))),
         _ => None,
     }
 }

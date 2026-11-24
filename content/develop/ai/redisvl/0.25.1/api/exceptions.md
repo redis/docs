@@ -22,16 +22,15 @@ Exception
     └── RedisModuleVersionError
 ```
 
-{{< note >}}
-Exceptions raised by the underlying `redis-py` client, such as
-`redis.exceptions.ConnectionError`, are not part of this hierarchy. Where
-RedisVL performs an index or search operation on your behalf it wraps those
-errors in a [RedisSearchError](#redissearcherror) and chains the original exception, so the
-underlying cause is still available on `__cause__`. Constructor and argument
-validation raises standard Python exceptions instead: for example,
-`VectorQuery(..., ef_runtime=-1)` raises `ValueError` at construction time,
-before any `try` block around the query run is entered.
-{{< /note >}}
+> [!NOTE]
+> Exceptions raised by the underlying `redis-py` client, such as
+> `redis.exceptions.ConnectionError`, are not part of this hierarchy. Where
+> RedisVL performs an index or search operation on your behalf it wraps those
+> errors in a [RedisSearchError](#redissearcherror) and chains the original exception, so the
+> underlying cause is still available on `__cause__`. Constructor and argument
+> validation raises standard Python exceptions instead: for example,
+> `VectorQuery(..., ef_runtime=-1)` raises `ValueError` at construction time,
+> before any `try` block around the query run is entered.
 
 ## When each error is raised
 

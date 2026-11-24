@@ -16,8 +16,7 @@ Here’s an example:
 - Cache hit rate: 50%
 - Estimated savings: $120 × 50% = $60/month
 
-{{<note>}}
-The formula and numbers above provide a rough estimate of your monthly savings. Actual savings will vary depending on your usage.
-{{</note>}}
+> [!NOTE]
+> The formula and numbers above provide a rough estimate of your monthly savings. Actual savings will vary depending on your usage.
 
 You can also use the [LangCache savings calculator](https://redis.io/calculator/langcache/) to estimate your annual savings with LangCache.

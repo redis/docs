@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "georadius(, name: KeyT,, longitude: float,, latitude: float,, radius: float,, unit: Optional[str] = None,, withdist: bool = False,, withcoord: bool = False,, withhash: bool = False,, count: Optional[int] = None,, sort: Optional[str] = None,, store: Optional[KeyT] = None,, store_dist: Optional[KeyT] = None,, any: bool = False,)",
+        "signature": "georadius(name: KeyT, longitude: float, latitude: float, radius: float, unit: Optional[str] = None, withdist: bool = False, withcoord: bool = False, withhash: bool = False, count: Optional[int] = None, sort: Optional[str] = None, store: Optional[KeyT] = None, store_dist: Optional[KeyT] = None, any: bool = False)",
         "params": [
           {
             "name": "name",
@@ -593,46 +593,111 @@
     ],
     "node_redis": [
       {
-        "signature": "GEORADIUS(...args: Parameters<typeof parseGeoRadiusArguments>)",
+        "signature": "geoRadius(key: RedisArgument, from: GeoCoordinates, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof parseGeoRadiusArguments>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "type": "GeoCoordinates",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnits",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "GeoSearchOptions",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "georadius(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "signature": "georadius(...args: [ key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], callback: Callback<unknown[]> ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number | string",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "georadius(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], ])",
+        "signature": "georadius(...args: [ key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[] ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number | string",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }
@@ -929,7 +994,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "GeoRadius(RedisKey key, RedisValue member, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoRadiusAsync(RedisKey key, RedisValue member, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -973,12 +1038,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the radius, if any."
         }
       },
       {
-        "signature": "GeoRadius(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoRadiusAsync(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1027,12 +1092,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the radius, if any."
         }
       },
       {
-        "signature": "GeoRadius(RedisKey key, RedisValue member, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
+        "signature": "GeoRadiusAsync(RedisKey key, RedisValue member, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1076,12 +1141,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the radius, if any."
         }
       },
       {
-        "signature": "GeoRadius(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
+        "signature": "GeoRadiusAsync(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
         "params": [
           {
             "name": "key",
@@ -1130,7 +1195,7 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the radius, if any."
         }
       }
@@ -1146,27 +1211,27 @@
           },
           {
             "name": "$longitude",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$latitude",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$radius",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
             "name": "$unit",
-            "type": "Any",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

@@ -66,14 +66,14 @@ kubectl edit redb my-database
 
 Find complete YAML examples for common deployment scenarios:
 
-- [YAML examples]({{< relref "/operate/kubernetes/7.22/reference/yaml" >}}) - Ready-to-use YAML configurations for different deployment types
+- [YAML examples](/content/operate/kubernetes/7.22/reference/yaml/_index.md) - Ready-to-use YAML configurations for different deployment types
 
 ### Example categories
 
-- [Basic deployment]({{< relref "/operate/kubernetes/7.22/reference/yaml/basic-deployment" >}}) - Essential YAML files for simple Redis Enterprise deployment
-- [Rack awareness]({{< relref "/operate/kubernetes/7.22/reference/yaml/rack-awareness" >}}) - YAML examples for rack-aware deployments across availability zones
-- [Active-Active]({{< relref "/operate/kubernetes/7.22/reference/yaml/active-active" >}}) - YAML examples for Active-Active databases across multiple clusters
-- [Multi-namespace]({{< relref "/operate/kubernetes/7.22/reference/yaml/multi-namespace" >}}) - YAML examples for deploying across multiple namespaces
+- [Basic deployment](/content/operate/kubernetes/7.22/reference/yaml/basic-deployment.md) - Essential YAML files for simple Redis Enterprise deployment
+- [Rack awareness](/content/operate/kubernetes/7.22/reference/yaml/rack-awareness.md) - YAML examples for rack-aware deployments across availability zones
+- [Active-Active](/content/operate/kubernetes/7.22/reference/yaml/active-active.md) - YAML examples for Active-Active databases across multiple clusters
+- [Multi-namespace](/content/operate/kubernetes/7.22/reference/yaml/multi-namespace.md) - YAML examples for deploying across multiple namespaces
 
 ## API reference
 
@@ -81,19 +81,19 @@ Review complete API specifications for all Redis Enterprise custom resources:
 
 ### Core resources
 
-- [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api" >}}) - Manage Redis Enterprise clusters
-- [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api" >}}) - Manage Redis databases
+- [Redis Enterprise cluster API (REC)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api.md) - Manage Redis Enterprise clusters
+- [Redis Enterprise database API (REDB)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_database_api.md) - Manage Redis databases
 
 ### Active-Active resources
 
-- [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_active_active_database_api" >}}) - Manage Active-Active databases
-- [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_remote_cluster_api" >}}) - Configure remote cluster connections
+- [Active-Active database API (REAADB)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_active_active_database_api.md) - Manage Active-Active databases
+- [Remote cluster API (RERC)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_remote_cluster_api.md) - Configure remote cluster connections
 
 ## Compatibility
 
 Check supported Kubernetes distributions and versions:
 
-- [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/7.22/reference/supported_k8s_distributions" >}}) - Compatible Kubernetes platforms and versions
+- [Supported Kubernetes distributions](/content/operate/kubernetes/7.22/reference/supported_k8s_distributions.md) - Compatible Kubernetes platforms and versions
 
 ## Best practices
 

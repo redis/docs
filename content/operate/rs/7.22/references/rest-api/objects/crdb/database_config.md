@@ -13,9 +13,9 @@ url: '/operate/rs/7.22/references/rest-api/objects/crdb/database_config/'
 
 An object that represents the database configuration. This configuration object is used in two contexts within CRDB objects:
 
-- As `default_db_config` in the main [CRDB object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb" >}}) for settings that apply to all instances. In most cases, instances should use the same configuration.
+- As `default_db_config` in the main [CRDB object](/content/operate/rs/7.22/references/rest-api/objects/crdb/_index.md) for settings that apply to all instances. In most cases, instances should use the same configuration.
 
-- As `db_config` in individual [instance objects]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb/instance_info" >}}) to override `default_db_config` or add configuration values for specific instances. Use `db_config` only when an instance needs different settings than the default configuration.
+- As `db_config` in individual [instance objects](/content/operate/rs/7.22/references/rest-api/objects/crdb/instance_info.md) to override `default_db_config` or add configuration values for specific instances. Use `db_config` only when an instance needs different settings than the default configuration.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
@@ -24,7 +24,7 @@ An object that represents the database configuration. This configuration object 
 | <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | bigstore | boolean (default: false) | Database driver is Auto Tiering |
 | bigstore_ram_size | integer (default: 0) | Memory size of RAM size |
-| data_persistence | 'disabled'<br />'snapshot'<br />**'aof'** | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/7.22/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided |
+| data_persistence | 'disabled'<br />'snapshot'<br />**'aof'** | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy](/content/operate/rs/7.22/references/rest-api/objects/bdb/snapshot_policy.md) must be provided |
 | <span class="break-all">enforce_client_authentication</span> | **'enabled'** <br />'disabled' | Require authentication of client certificates for SSL connections to the database. If enabled, a certificate should be provided in either <span class="break-all">`authentication_ssl_client_certs`</span> or <span class="break-all">`authentication_ssl_crdt_certs`</span> |
 | max_aof_file_size | integer | Maximum AOF file size in bytes |
 | max_aof_load_time | integer (default: 3600) | Maximum AOF reload time in seconds |
@@ -42,5 +42,5 @@ An object that represents the database configuration. This configuration object 
 | shard_key_regex | `[{ "regex": string }, ...]` | Custom keyname-based sharding rules (required if sharding is enabled)<br /><br />To use the default rules you should set the value to:<br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
 | shards_count | integer (range: 1-512) (default: 1) | Number of database shards |
 | shards_placement | 'dense'<br />'sparse' | Control the density of shards<br />Values:<br />**'dense'**: Shards reside on as few nodes as possible <br /> **'sparse'**: Shards reside on as many nodes as possible |
-| snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/7.22/references/rest-api/objects/bdb/snapshot_policy" >}}) objects | Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset. |
+| snapshot_policy | array of [snapshot_policy](/content/operate/rs/7.22/references/rest-api/objects/bdb/snapshot_policy.md) objects | Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset. |
 | tls_mode | 'enabled'<br /> **'disabled'** <br />'replica_ssl' | Encrypt communication |

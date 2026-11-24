@@ -15,56 +15,75 @@ type: integration
 weight: 61
 ---
 
-RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for backward compatibility, but Redis recommends moving all integrations to API v2. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the current request and response schemas.
+RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for backward compatibility, but Redis recommends moving all integrations to API v2. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API reference](/content/integrate/redis-data-integration/reference/api-reference.md) for the current request and response schemas.
 
 ## What changes in API v2
 
 API v2 uses the pipeline resource to represent the current state of a pipeline. Operations update that resource and return its current state, so applications no longer need to poll a separate action ID. API v2 scopes related operations under a pipeline name in the request path.
 
-{{< note >}}
-RDI 1.19.0 supports only one pipeline, which must be named `default`. Support for other pipeline names will be added in a future version.
-{{< /note >}}
+> [!NOTE]
+> RDI 2.2.0 supports multiple pipelines. A pipeline name must be 3 to 20 characters long, start
+> with a lowercase letter, end with a letter or a digit, contain only lowercase letters, digits,
+> and dashes, and not contain consecutive dashes. The name `rdi` is reserved. Requests for a
+> non-default pipeline include its name in the path, and its ingress and metrics paths also start
+> with that name. API v1 manages only the `default` pipeline. See
+> [Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md).
 
 The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` where a corresponding v2 endpoint is available. You should also review the request and response models, because they can differ between versions.
 
+## API v1 and multiple sources
+
+API v1 handles single-source pipelines only, so
+you must use API v2 to manage [a pipeline with several sources](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md). In particular:
+
+- `POST /api/v1/pipelines`, `PATCH /api/v1/pipelines`, and `POST /api/v1/pipelines/sources/dry-run` reject a configuration with more than one source with `422 Unprocessable Content` and `Only a single source per pipeline is supported`.
+- `PUT /api/v1/secrets`, `PUT /api/v1/secrets/{secret_name}`, and the v1 source management endpoints only handle a pipeline whose single source still uses the legacy `source` names, which covers a pipeline created before RDI supported multiple sources and one that you create through v1. They reject any other pipeline with `Use API v2 to manage sources and secrets of this pipeline.`
+- `GET /api/v1/status` and `GET /api/v1/monitoring/statistics` report the first source of the pipeline only.
+
 ## Endpoint mapping
 
-| API v1 | API v2 |
-| --- | --- |
-| `GET /api/v1/pipelines` | `GET /api/v2/pipelines` |
-| `POST /api/v1/pipelines` | `POST /api/v2/pipelines` |
-| `PATCH /api/v1/pipelines` | `PATCH /api/v2/pipelines/{name}` |
-| `GET /api/v1/status` | `GET /api/v2/pipelines/{name}/status` |
-| `POST /api/v1/pipelines/start` | `POST /api/v2/pipelines/{name}/start` |
-| `POST /api/v1/pipelines/stop` | `POST /api/v2/pipelines/{name}/stop` |
-| `POST /api/v1/pipelines/reset` | `POST /api/v2/pipelines/{name}/reset` |
-| `GET /api/v1/monitoring/statistics` | `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` |
-| `GET /api/v1/pipelines/config/schemas` | `GET /api/v2/schemas/config` |
-| `GET /api/v1/pipelines/jobs/functions` | `GET /api/v2/functions` |
-| `GET /api/v1/pipelines/jobs/schemas` | `GET /api/v2/schemas/jobs` |
-| `PUT /api/v1/pipelines/sources` and source subresources | `PATCH /api/v2/pipelines/{name}` with `sources` in the payload |
-| `PUT /api/v1/pipelines/targets` and target subresources | `PATCH /api/v2/pipelines/{name}` with `targets` in the payload |
-| `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | `PATCH /api/v2/pipelines/{name}` with `processors` in the payload |
-| Secret provider endpoints | `POST`, `PUT`, or `DELETE /api/v2/pipelines/{name}/secrets[/{key}]` |
-| Source metadata, schemas, databases, tables, and columns endpoints | `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` with the appropriate filters |
-| `POST /api/v1/pipelines/sources/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
-| `POST /api/v1/pipelines/targets/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
-| `POST /api/v1/pipelines/undeploy` | `DELETE /api/v2/pipelines/{name}` |
-| `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
+| API v1                                                                           | API v2                                                                                            |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `GET /api/v1/pipelines`                                                          | `GET /api/v2/pipelines`                                                                           |
+| `POST /api/v1/pipelines`                                                         | `POST /api/v2/pipelines`                                                                          |
+| `PATCH /api/v1/pipelines`                                                        | `PATCH /api/v2/pipelines/{name}`                                                                  |
+| `GET /api/v1/status`                                                             | `GET /api/v2/pipelines/{name}/status`                                                             |
+| `POST /api/v1/pipelines/start`                                                   | `POST /api/v2/pipelines/{name}/start`                                                             |
+| `POST /api/v1/pipelines/stop`                                                    | `POST /api/v2/pipelines/{name}/stop`                                                              |
+| `POST /api/v1/pipelines/reset`                                                   | `POST /api/v2/pipelines/{name}/reset`                                                             |
+| `GET /api/v1/monitoring/statistics`                                              | `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}`                               |
+| `GET /api/v1/pipelines/config/schemas`                                           | `GET /api/v2/schemas/config`                                                                      |
+| `GET /api/v1/pipelines/jobs/functions`                                           | `GET /api/v2/functions`                                                                           |
+| `GET /api/v1/pipelines/jobs/schemas`                                             | `GET /api/v2/schemas/jobs`                                                                        |
+| `PUT /api/v1/pipelines/sources` and source subresources                          | `PATCH /api/v2/pipelines/{name}` with `sources` in the payload                                    |
+| `PUT /api/v1/pipelines/targets` and target subresources                          | `PATCH /api/v2/pipelines/{name}` with `targets` in the payload                                    |
+| `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | `PATCH /api/v2/pipelines/{name}` with `processors` in the payload                                 |
+| `PUT /api/v1/secrets` and `PUT /api/v1/secrets/{secret_name}`                    | `POST`, `PUT`, or `DELETE /api/v2/pipelines/{name}/secrets[/{key}]` with the `db` query parameter |
+| `POST`, `PUT`, or `DELETE /api/v1/pipelines/secret-providers/{name}`             | `PATCH /api/v2/pipelines/{name}` with `secret-providers` in the payload                           |
+| Source metadata, schemas, databases, tables, and columns endpoints               | `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` with the appropriate filters          |
+| `POST /api/v1/pipelines/sources/dry-run`                                         | `POST /api/v2/pipelines?dry_run=true`                                                             |
+| `POST /api/v1/pipelines/targets/dry-run`                                         | `POST /api/v2/pipelines?dry_run=true`                                                             |
+| `POST /api/v1/pipelines/undeploy`                                                | `PUT /api/v2/pipelines/{name}` with an empty configuration                                        |
+| `POST /api/v1/trace/start`                                                       | `POST /api/v2/pipelines/{name}/traces`                                                            |
 
-API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
+API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference](/content/integrate/redis-data-integration/reference/api-reference.md) for the complete list.
+
+To delete a pipeline in RDI 2.2.0, use `DELETE /api/v2/pipelines/{name}`. The operation removes
+the pipeline components and RDI database keys, but keeps its secrets and target records. To keep
+an empty pipeline for a later deployment, use `PUT /api/v2/pipelines/{name}` with an empty
+configuration instead.
 
 ## v1 endpoints without a v2 equivalent
 
 Most v1 endpoints have a v2 replacement. However, the following endpoints remain available under v1 because the current API v2 design does not define a corresponding endpoint:
 
-| v1 endpoint | Notes |
-| --- | --- |
-| `GET /api/v1/me` | Returns the authenticated user. |
-| `GET /api/v1/pipelines/strategies` | Returns pipeline strategies. |
-| `POST /api/v1/login` | API v2 continues to use this endpoint for authentication. |
+| v1 endpoint                                               | Notes                                                                         |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `GET /api/v1/me`                                          | Returns the authenticated user.                                               |
+| `GET /api/v1/pipelines/strategies`                        | Returns pipeline strategies.                                                  |
+| `POST /api/v1/login`                                      | API v2 continues to use this endpoint for authentication.                     |
 | `GET /api/v1/pipelines/config/templates/ingest/{db_type}` | Used by the CLI to scaffold pipeline configuration and will remain available. |
-| `GET /api/v1/pipelines/jobs/templates/ingest` | Used to scaffold jobs and will remain available. |
+| `GET /api/v1/pipelines/jobs/templates/ingest`             | Used to scaffold jobs and will remain available.                              |
 
 ## Replace action polling with pipeline-status polling
 
@@ -115,10 +134,14 @@ Note:
 ## Migration steps
 
 1. Find the applications, scripts, and SDKs in your environment that use `/api/v1`.
-2. Add the pipeline name to each v2 request. The only pipeline in 1.19.0 is always named `default`.
+2. Add the pipeline name to each v2 request. Use `default` for the default pipeline, or use the
+   name of another pipeline that follows the naming rules above.
 3. Check the pipeline response, or call `GET /api/v2/pipelines/{name}/status`, instead of polling an action ID.
 4. Use `POST /api/v2/pipelines`, `PUT /api/v2/pipelines/{name}`, or `PATCH /api/v2/pipelines/{name}` to update source, target, processor, and secret-provider settings as needed. When using `PATCH`, omit the configuration sections that you do not want to change.
-5. Use `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` for monitoring and `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` for source metadata.
-6. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications.
+5. Change secret requests to address a secret by a database-independent key and a `db` parameter. Where a v1 request set `SOURCE_DB_PASSWORD`, a v2 request sets the `PASSWORD` key with `db` naming the source, and `TARGET_DB_PASSWORD` becomes the `PASSWORD` key with `db=target`. See [Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets). The environment variable that `config.yaml` references is unchanged for a source that existed before RDI supported multiple sources; see [Existing names are kept after an upgrade](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#existing-names-are-kept-after-an-upgrade).
+6. Use `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` for monitoring and `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` for source metadata.
+7. Test creating, updating, validating, starting, stopping, and resetting a pipeline on a
+   non-production RDI 1.19.0 or later installation before updating production applications.
+   Use RDI 2.2.0 or later to test pipeline deletion and named pipelines.
 
 Authentication and the API base URL do not change. The migration requires updates to the endpoint paths, pipeline scoping, request models, and operation status handling.

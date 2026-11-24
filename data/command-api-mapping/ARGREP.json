@@ -361,6 +361,130 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "argrep(key: RedisKey, start: number | string, end: number | string, predicate: 'EXACT' | 'MATCH' | 'GLOB' | 'RE', value: RedisValue, callback: Callback<number[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "predicate",
+            "type": "'EXACT' | 'MATCH' | 'GLOB' | 'RE'",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "argrep(...args: [key: RedisKey, start: number | string, end: number | string, predicate: 'EXACT' | 'MATCH' | 'GLOB' | 'RE', value: RedisValue, ...args: RedisValue[], callback: Callback<number[] | Array<[index: number, value: string]>>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "predicate",
+            "type": "'EXACT' | 'MATCH' | 'GLOB' | 'RE'",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number[] | Array<[index: number, value: string]>>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[] | Array<[index: number, value: string]>, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "argrep(...args: [key: RedisKey, start: number | string, end: number | string, predicate: 'EXACT' | 'MATCH' | 'GLOB' | 'RE', value: RedisValue, ...args: T])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "predicate",
+            "type": "'EXACT' | 'MATCH' | 'GLOB' | 'RE'",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "T",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<'WITHVALUES' extends T[number] ? Array<[index: number, value: string]> : number[], Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -25,7 +25,7 @@ public java.lang.String register​(
     gears.operations.OnUnregisteredOperation onUnregistered)
 ```
 
-Registers the pipeline of functions to run when certain [events]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/register-events" >}}) occur. The registered functions will run each time the event occurs.
+Registers the pipeline of functions to run when certain [events](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/register-events.md) occur. The registered functions will run each time the event occurs.
 
 Execution modes:
 
@@ -35,9 +35,8 @@ Execution modes:
 | ASYNC_LOCAL | Runs asynchronously but only on the current shard that generated the event. |
 | SYNC | Runs synchronously only on the same shard that generated the event. |
 
-{{<note>}}
-If you call `register()` without specifying an execution mode, it will default to `ASYNC`. 
-{{</note>}}
+> [!NOTE]
+> If you call `register()` without specifying an execution mode, it will default to `ASYNC`. 
 
 ## Parameters
 

@@ -24,7 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisClientConfig;
 import redis.clients.jedis.DefaultJedisClientConfig;
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.ConnectionPoolConfig;
 
 /**
@@ -49,7 +49,7 @@ public class DemoServer {
 
     private static final String DEMO_USER_ID = "demo";
 
-    private static JedisPooled jedisClient;
+    private static RedisClient jedisClient;
     private static Recommender recommender;
     private static LocalEmbedder embedder;
     private static DemoState state;
@@ -94,8 +94,11 @@ public class DemoServer {
             poolConfig.setMaxTotal(32);
             poolConfig.setMaxIdle(16);
             JedisClientConfig clientConfig = DefaultJedisClientConfig.builder().build();
-            jedisClient = new JedisPooled(
-                    new HostAndPort(redisHost, redisPort), clientConfig, poolConfig);
+            jedisClient = RedisClient.builder()
+                    .hostAndPort(new HostAndPort(redisHost, redisPort))
+                    .clientConfig(clientConfig)
+                    .poolConfig(poolConfig)
+                    .build();
             jedisClient.ping();
         } catch (Exception exc) {
             System.err.printf("Failed to connect to Redis at %s:%d: %s%n",

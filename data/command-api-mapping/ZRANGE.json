@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "zrange(, name: KeyT,, start: EncodableT,, end: EncodableT,, desc: bool = False,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,, byscore: bool = False,, bylex: bool = False,, offset: Optional[int] = None,, num: Optional[int] = None,)",
+        "signature": "zrange(name: KeyT, start: EncodableT, end: EncodableT, desc: bool = False, withscores: bool = False, score_cast_func: Union[type, Callable] = float, byscore: bool = False, bylex: bool = False, offset: Optional[int] = None, num: Optional[int] = None)",
         "params": [
           {
             "name": "name",
@@ -559,7 +559,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZRANGE(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeOptions)",
+        "signature": "zRange(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeOptions)",
         "params": [
           {
             "name": "key",
@@ -583,16 +583,31 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       },
       {
-        "signature": "ZRANGE_WITHSCORES(...args: Parameters<typeof ZRANGE.parseCommand>)",
+        "signature": "zRangeWithScores(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeOptions)",
         "params": [
           {
-            "name": "...args",
-            "type": "Parameters<typeof ZRANGE.parseCommand>",
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZRangeOptions",
             "description": ""
           }
         ],
@@ -628,7 +643,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -662,7 +677,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -706,7 +721,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -755,7 +770,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       },
@@ -789,7 +804,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string[], Context>",
           "description": ""
         }
       }
@@ -964,74 +979,6 @@
         }
       },
       {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index to get."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index to get."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of elements in the specified range."
-        }
-      },
-      {
-        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index to get."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index to get."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "SortedSetEntry[]",
-          "description": "List of elements in the specified range."
-        }
-      },
-      {
         "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
@@ -1083,7 +1030,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByRankAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1112,12 +1059,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified range."
         }
       },
       {
-        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByRankWithScoresAsync(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1146,80 +1093,12 @@
           }
         ],
         "returns": {
-          "type": "SortedSetEntry[]",
+          "type": "Task<SortedSetEntry[]>",
           "description": "List of elements in the specified range."
         }
       },
       {
-        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index to get."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index to get."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue[]",
-          "description": "List of elements in the specified range."
-        }
-      },
-      {
-        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "start",
-            "type": "long",
-            "description": "The start index to get."
-          },
-          {
-            "name": "stop",
-            "type": "long",
-            "description": "The stop index to get."
-          },
-          {
-            "name": "order",
-            "type": "Order",
-            "description": "The order to sort by (defaults to ascending)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "SortedSetEntry[]",
-          "description": "List of elements in the specified range."
-        }
-      },
-      {
-        "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRangeByScoreAsync(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -1263,7 +1142,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue[]",
+          "type": "Task<RedisValue[]>",
           "description": "List of elements in the specified score range."
         }
       }
@@ -1288,8 +1167,8 @@
             "description": ""
           },
           {
-            "name": "?array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "?array",
             "description": ""
           }
         ],

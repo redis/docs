@@ -26,7 +26,7 @@ summary: Removes all session-local fieldsets for the connection.
 syntax_fmt: HIMPORT DISCARDALL
 title: HIMPORT DISCARDALL
 ---
-Removes every fieldset held by the current connection, discarding all definitions previously created with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}).
+Removes every fieldset held by the current connection, discarding all definitions previously created with [`HIMPORT PREPARE`](/content/commands/himport-prepare.md).
 
 ## Examples
 
@@ -61,4 +61,4 @@ redis> HIMPORT DISCARDALL
 
 ## See also
 
-[`HIMPORT PREPARE`]({{< relref "commands/himport-prepare/" >}}) | [`HIMPORT DISCARD`]({{< relref "commands/himport-discard/" >}})
+[`HIMPORT PREPARE`](/content/commands/himport-prepare.md) | [`HIMPORT DISCARD`](/content/commands/himport-discard.md)

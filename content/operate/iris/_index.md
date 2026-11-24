@@ -1,7 +1,7 @@
 ---
-title: Redis Iris context engine
-description: Deploy and operate Redis Iris context engine services.
-linkTitle: Redis Iris context engine
+title: Redis Iris
+description: Create, deploy, and operate Redis Iris context engine services on Redis Cloud or your own infrastructure.
+linkTitle: Redis Iris
 alwaysopen: false
 categories:
 - docs
@@ -11,24 +11,44 @@ hideListLinks: true
 weight: 45
 ---
 
-Redis Iris context engine provides managed and self-managed services for building AI applications with persistent memory, semantic caching, and governed access to business data.
+Redis Iris context engine provides managed and self-managed services that give AI agents persistent memory, answers and procedures your business approved, governed access to business data, and turn-by-turn tracing.
 
 Use this section to deploy, configure, and operate Redis Iris services. Developer guides and API integration documentation remain under [Develop with Redis]({{< relref "/develop/ai/context-engine" >}}).
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/ai-brain.svg" alt="Redis Agent Memory icon" title="Redis Agent Memory" url="/operate/iris/agent-memory" description="Create and manage a service on Redis Cloud or deploy it on your own infrastructure." >}}
-  {{< image-card image="images/ai-cube.svg" alt="Redis Context Retriever icon" title="Redis Context Retriever" url="/operate/iris/context-retriever" description="Create and manage governed retrieval tools for AI agents." >}}
-  {{< image-card image="images/ai-LLM-memory.svg" alt="LangCache icon" title="LangCache" url="/operate/iris/langcache" description="Create, configure, and monitor semantic caches for AI applications." >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-agent-memory-64-duotone.png" title="Redis Agent Memory" description="Create and manage a service on Redis Cloud or deploy it on your own infrastructure" url="/operate/iris/agent-memory" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Agent Playbooks" description="Create a playbook of published answers and procedures on Redis Cloud or your own infrastructure" url="/operate/iris/agent-playbook" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Context Gateway" description="Create one MCP endpoint for your agents' tools on Redis Cloud or your own infrastructure" url="/operate/iris/context-gateway" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Redis Intent Router" description="Classify requests into intents on Redis Cloud or your own infrastructure" url="/operate/iris/intent-router" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Lens (beta)" description="Trace your agents' turns on Redis Cloud or your own infrastructure" url="/operate/iris/lens" >}}
+  {{< tile-card icon="images/dev/icons/icon-redis-iris-64-duotone.png" title="Identity Service" description="Issue and check agent keys for every self-managed Redis Iris service" url="/operate/iris/identity-service" >}}
 </div>
 
 ## Deployment options
 
-Redis Iris services are available as managed services on Redis Cloud. Redis Agent Memory and Redis Context Retriever are also available for self-managed deployment.
+Redis Iris services are available as managed services on Redis Cloud. Every service is also available for self-managed deployment.
 
 ### Redis Cloud
 
 Create and manage Redis Iris services through the Redis Cloud console without deploying the supporting infrastructure yourself.
 
+- [Create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}})
+- [Create a Redis Agent Playbooks playbook]({{< relref "/operate/iris/agent-playbook/create-playbook" >}})
+- [Create a Redis Context Gateway]({{< relref "/operate/iris/context-gateway/create-gateway" >}})
+- [Create a Redis Intent Router]({{< relref "/operate/iris/intent-router/create-router" >}})
+- [Create Lens]({{< relref "/operate/iris/lens/create-lens" >}})
+
 ### Self-managed
 
-Deploy supported Redis Iris services on Kubernetes when you need to operate them on your own infrastructure.
+Deploy Redis Iris services on Kubernetes when you need to operate them on your own infrastructure. [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md) with one Helm release, then configure each service from its guide:
+
+- [Self-managed Redis Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}})
+- [Self-managed Redis Agent Playbooks](/content/operate/iris/agent-playbook/self-managed/_index.md)
+- [Self-managed Redis Context Gateway]({{< relref "/operate/iris/context-gateway/self-managed" >}})
+- [Self-managed Redis Intent Router]({{< relref "/operate/iris/intent-router/self-managed" >}})
+- [Self-managed Lens](/content/operate/iris/lens/self-managed/_index.md) (beta)
+- [Identity Service](/content/operate/iris/identity-service/_index.md), which issues and checks agent keys for every self-managed service
+
+## Agent Mesh SDK beta
+
+Agent Mesh provides Python SDK integrations for shared agent-to-agent task storage and resumable event delivery. Run it in your application with your own Redis connections. See the [Agent Mesh overview](/content/develop/ai/context-engine/agent-mesh/_index.md) and [quickstart](/content/develop/ai/context-engine/agent-mesh/quickstart.md).

@@ -41,7 +41,7 @@
         "signature": "scriptKill()",
         "params": [],
         "returns": {
-          "type": "Promise<SimpleStringReply<'OK'>>",
+          "type": "SimpleStringReply<'OK'>",
           "description": "Status response"
         }
       }
@@ -76,7 +76,27 @@
         }
       }
     ],
-    "ioredis": [],
+    "ioredis": [
+      {
+        "signature": "script(subcommand: \"KILL\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"KILL\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": [],
     "redisvl": [],
@@ -100,6 +120,22 @@
         "returns": {
           "type": "mixed",
           "description": "Command result"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "script(:kill, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Boolean, Array<Boolean>, ...",
+          "description": "depends on subcommand"
         }
       }
     ]

@@ -23,6 +23,20 @@ Connect to localhost on port 6379, set a value in Redis, and retrieve it. All re
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 ```
 
+redis-py also supports [connection URLs](/content/develop/clients/connection-urls.md#redis-py-python) through `redis.from_url()`.
+A URL can set the host, port, credentials, database, and whether to use TLS,
+so you can use one instead of passing those options separately.
+
+> [!NOTE]
+> From v8.2.0, if you don't set `protocol` and the server or a proxy rejects the
+> [`HELLO`](/content/commands/hello.md) command, the client logs a warning and falls back to
+> [RESP2](/content/develop/reference/protocol-spec.md#resp-versions) instead of raising an error.
+> Set `protocol=2` to silence the warning. The fallback doesn't happen if you set `protocol`
+> explicitly, and the client raises an error instead if you enable
+> [client-side caching](#connect-using-client-side-caching), which requires RESP3.
+> After an automatic fallback, the response parsers for module commands (such as JSON and search)
+> don't adapt to RESP2, so set `protocol=2` explicitly if you use them.
+
 Store and retrieve a simple string.
 
 ```python
@@ -67,9 +81,80 @@ rc.get('foo')
 ```
 For more information, see [redis-py Clustering](https://redis.readthedocs.io/en/stable/clustering.html).
 
+### Control topology refreshes
+
+When a command fails with an error such as a connection failure, the cluster client
+refreshes its map of the cluster topology. To avoid flooding the cluster during an outage,
+the client runs at most one error-triggered refresh per interval and merges any
+requests made in between into a single refresh. From v8.2.0, use the
+`topology_refresh_min_interval` argument to set the minimum interval in seconds. The default
+is 1 second, and 0 runs every requested refresh at once. The value must be finite and not negative.
+
+```python
+rc = RedisCluster(host='localhost', port=16379, topology_refresh_min_interval=5)
+```
+
+The limit doesn't apply to the first connection or to refreshes that the server prompts,
+such as after a slot migration.
+
+## Connect to Redis Sentinel
+
+To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),
+create a `Sentinel` object with a list of Sentinel addresses. Then call `master_for()` with
+the name of the primary that the Sentinels monitor. The client asks the Sentinels for the
+current address of the primary.
+
+```python
+from redis.sentinel import Sentinel
+
+sentinel = Sentinel([('localhost', 26379), ('localhost', 26380), ('localhost', 26381)])
+r = sentinel.master_for('mymaster', decode_responses=True)
+
+r.set('foo', 'bar')
+# True
+
+r.get('foo')
+# bar
+```
+
+The Sentinels and the data nodes have separate credentials. Pass the Sentinel credentials
+in `sentinel_kwargs`, and the credentials for the primary and replicas to `master_for()`:
+
+```python
+from redis.sentinel import Sentinel
+
+sentinel = Sentinel(
+    [('localhost', 26379), ('localhost', 26380), ('localhost', 26381)],
+    sentinel_kwargs={'password': 'sentinel-secret'},  # use your Sentinel password
+)
+r = sentinel.master_for(
+    'mymaster',
+    username='default',  # use your Redis user
+    password='secret',  # use your Redis password
+    decode_responses=True,
+)
+```
+
+If you set `sentinel_kwargs`, the Sentinel connections don't inherit `socket_timeout` or the
+other `socket_*` options, so add any that you need to `sentinel_kwargs`.
+
+To send read-only commands to a replica, use `slave_for()`. Replication is asynchronous, so
+a replica can return stale data.
+
+```python
+replica = sentinel.slave_for('mymaster', decode_responses=True)
+
+replica.get('foo')
+# bar
+```
+
+redis-py doesn't listen for failover announcements from the Sentinels. After a failover,
+the client keeps using the old primary until Sentinel reconfigures it as a replica and it
+starts rejecting writes. Any writes that the old primary accepts during that time are lost.
+
 ## Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
+When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.
 
 ```python
 import redis
@@ -95,14 +180,14 @@ For more information, see [redis-py TLS examples](https://redis.readthedocs.io/e
 
 Client-side caching is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
-[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
+[Client-side caching introduction](/content/develop/clients/client-side-caching.md)
 for more information about how client-side caching works and how to use it effectively.
 
 To enable client-side caching, add some extra parameters when you connect
 to the server:
 
 -   `protocol`: (Required) You must pass a value of `3` here because
-    client-side caching requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+    client-side caching requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
     protocol.
 -   `cache_config`: (Required) Pass `cache_config=CacheConfig()` here to enable client-side caching.
 
@@ -111,15 +196,17 @@ The example below shows the simplest client-side caching connection to the defau
 All of the connection variants described above accept these parameters, so you can
 use client-side caching with a connection pool or a cluster connection in exactly the same way.
 
-{{< note >}}Client-side caching requires redis-py v5.1.0 or later.
-To maximize compatibility with all Redis products, client-side caching
-is supported by Redis v7.4 or later.
-
-The [Redis server products]({{< relref "/operate" >}}) support
-[opt-in/opt-out]({{< relref "/develop/reference/client-side-caching#opt-in-and-opt-out-caching" >}}) mode
-and [broadcasting mode]({{< relref "/develop/reference/client-side-caching#broadcasting-mode" >}})
-for CSC, but these modes are not currently implemented by `redis-py`.
-{{< /note >}}
+> [!NOTE]
+> Client-side caching requires redis-py v5.1.0 or later.
+> To maximize compatibility with all Redis products, client-side caching
+> is supported by Redis v7.4 or later.
+>
+> The [Redis server products](/content/operate/_index.md) support
+> [opt-in/opt-out](/content/develop/reference/client-side-caching.md#opt-in-and-opt-out-caching) mode
+> and [broadcasting mode](/content/develop/reference/client-side-caching.md#broadcasting-mode)
+> for CSC. From v8.2.0, `redis-py` supports opt-in and opt-out mode (see
+> [Choose a tracking mode](#choose-a-tracking-mode)), but it does not
+> currently implement broadcasting mode.
 
 ```python
 import redis
@@ -137,8 +224,8 @@ cityNameAttempt2 = r.get("city")    # Retrieved from cache
 ```
 
 You can see the cache working if you connect to the same Redis database
-with [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run the
-[`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
+with [`redis-cli`](/content/develop/tools/cli.md) and run the
+[`MONITOR`](/content/commands/monitor.md) command. If you run the
 code above with the `cache_config` line commented out, you should see
 the following in the CLI among the output from `MONITOR`:
 
@@ -164,8 +251,8 @@ call was satisfied by the cache.
 You can remove individual keys from the cache with the
 `delete_by_redis_keys()` method. This removes all cached items associated
 with the keys, so all results from multi-key commands (such as
-[`MGET`]({{< relref "/commands/mget" >}})) and composite data structures
-(such as [hashes]({{< relref "/develop/data-types/hashes" >}})) will be
+[`MGET`](/content/commands/mget.md)) and composite data structures
+(such as [hashes](/content/develop/data-types/hashes.md)) will be
 cleared at once. The example below shows the effect of removing a single
 key from the cache:
 
@@ -209,6 +296,161 @@ The client will also flush the cache automatically
 if any connection (including one from a connection pool)
 is disconnected.
 
+### Choose a tracking mode
+
+By default, the server remembers (*tracks*) the keys of every read-only command
+that the client sends, whether or not the client stores the reply.
+From `redis-py` v8.2.0, you can use `tracking_mode` in `CacheConfig` to
+reduce what the server has to remember, and so reduce its memory use and the number of
+invalidation messages that the client receives:
+
+| Mode | The server tracks | Use when |
+| --- | --- | --- |
+| `TrackingMode.PLAIN` (default) | The keys of every read-only command | You cache most of what you read. |
+| `TrackingMode.OPTIN` | Only the keys of the reads that the client caches | You cache a small, chosen subset. |
+| `TrackingMode.OPTOUT` | The keys of every read-only command, except the reads that the client doesn't cache | You cache nearly everything. |
+
+In `OPTIN` and `OPTOUT` mode, the client sends a
+[`CLIENT CACHING`](/content/commands/client-caching.md) `YES` or `NO` command
+together with each read that it needs to mark. See
+[Opt-in and Opt-out caching](/content/develop/reference/client-side-caching.md#opt-in-and-opt-out-caching)
+for details of how the server handles them.
+
+Pass a `TrackingMode` value to `tracking_mode`. The client raises a `TypeError`
+if you pass a string. The mode is set when a connection opens, so a change
+applies only to new connections.
+
+> [!NOTE]
+> A client that has a cache refuses to send
+> [`CLIENT CACHING`](/content/commands/client-caching.md),
+> [`CLIENT TRACKING`](/content/commands/client-tracking.md),
+> and [`RESET`](/content/commands/reset.md), because they change the tracking state
+> that the cache depends on. The client raises a `RedisError` if you try.
+
+### Choose which replies to cache
+
+In `OPTIN` and `OPTOUT` mode, you can use `cache_predicate` to decide which replies to cache.
+The predicate takes the command name (for example, `"GET"`) and the tuple of keys that
+the command used, and returns `True` to cache the reply.
+The client calls it only for commands that are already eligible for caching
+and that have keys.
+
+-   In `OPTOUT` mode, the client caches every eligible reply unless the predicate
+    returns `False`.
+-   In `OPTIN` mode, the client caches only the replies for which the predicate returns
+    `True`. With no predicate, `OPTIN` mode caches nothing, and the client
+    warns when you create the `CacheConfig`.
+-   In `PLAIN` mode, the client ignores the predicate and warns.
+
+The keys arrive in the form you passed them to the command (`str` or `bytes`),
+so use `str_if_bytes()` if you need to inspect them.
+The example below caches only the keys with a `user:` prefix:
+
+```python
+import redis
+from redis.cache import CacheConfig, TrackingMode
+from redis.utils import str_if_bytes
+
+r = redis.Redis(
+    protocol=3,
+    decode_responses=True,
+    cache_config=CacheConfig(
+        tracking_mode=TrackingMode.OPTIN,
+        cache_predicate=lambda command, keys: str_if_bytes(keys[0]).startswith("user:"),
+    ),
+)
+
+r.set("user:1", "Ada")
+r.set("session:1", "abc123")
+
+r.get("user:1")       # Retrieved from the server and cached
+r.get("user:1")       # Retrieved from the cache
+
+r.get("session:1")    # Retrieved from the server, not cached
+r.get("session:1")    # Retrieved from the server again
+```
+
+If you run the code with [`MONITOR`](/content/commands/monitor.md), you see that
+the client marks only the first `user:1` read for tracking:
+
+```
+1795428967.269387 [...] "SET" "user:1" "Ada"
+1795428967.295521 [...] "SET" "session:1" "abc123"
+1795428967.303353 [...] "CLIENT" "CACHING" "YES"
+1795428967.303371 [...] "GET" "user:1"
+1795428967.311822 [...] "GET" "session:1"
+1795428967.312387 [...] "GET" "session:1"
+```
+
+### Choose which commands are eligible
+
+The client caches a reply only if the command's metadata allows it. The command must be
+read-only, must not block, and must take at least one key. It must also not be
+marked as non-deterministic, a script runner, or `dont_cache`. The client uses the
+command metadata that ships with `redis-py`, and it never caches a command that
+the metadata doesn't describe, such as a command from a module that `redis-py`
+doesn't know about.
+
+To make the client cache such a command, pass a `metadata_resolver` that describes it.
+Resolvers are chained together in order, and the first match wins, so put your resolver
+in front of `StaticMetadataResolver` in the chain to override only the commands that you list.
+The example below makes the client cache [`VCARD`](/content/commands/vcard.md),
+which the shipped metadata doesn't describe.
+Pass `keys=` to `execute_command()` so that the client knows which keys the
+reply depends on:
+
+```python
+import redis
+from redis.cache import CacheConfig
+from redis.commands.metadata import (
+    CommandMetadata,
+    DynamicMetadataResolver,
+    RequestPolicy,
+    ResponsePolicy,
+    StaticMetadataResolver,
+)
+
+records = {
+    "core": {
+        "vcard": CommandMetadata(
+            request_policy=RequestPolicy.DEFAULT_KEYED,
+            response_policy=ResponsePolicy.DEFAULT_KEYED,
+            is_readonly=True,
+            has_key_argument=True,
+            has_complete_metadata=True,
+        )
+    }
+}
+
+resolver = DynamicMetadataResolver(records, fallback=StaticMetadataResolver())
+
+r = redis.Redis(
+    protocol=3,
+    decode_responses=True,
+    cache_config=CacheConfig(),
+    metadata_resolver=resolver,
+)
+
+r.execute_command("VADD", "points", "VALUES", 2, 0.1, 0.2, "a")
+
+r.execute_command("VCARD", "points", keys=["points"])  # Retrieved from the server and cached
+r.execute_command("VCARD", "points", keys=["points"])  # Retrieved from the cache
+```
+
+Add records for module commands under the module's lowercase command prefix, with
+the rest of the name as the key. For example, a record for `JSON.GET` goes under
+`"json"` with the key `"get"`.
+
+The `Redis` and `RedisCluster` classes accept `metadata_resolver`, and so does `ConnectionPool`
+if you supply your own pool. A cluster client also uses the resolver to route commands,
+including reads that can go to replicas.
+The async client `redis.asyncio.RedisCluster` accepts the argument for routing only, because the
+async clients don't support client-side caching.
+
+Earlier versions used `CacheConfig.DEFAULT_ALLOW_LIST` to decide eligibility.
+That list is deprecated and the client no longer reads it, so use `metadata_resolver`
+instead.
+
 ## Connect with a connection pool
 
 For production usage, you should use a connection pool to manage
@@ -219,7 +461,7 @@ one of its open connections. When you subsequently close the same connection,
 it is not actually closed but simply returned to the pool for reuse.
 This avoids the overhead of repeated connecting and disconnecting.
 See
-[Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
+[Connection pools and multiplexing](/content/develop/clients/pools-and-muxing.md)
 for more information.
 
 Use the following code to connect with a connection pool:
@@ -250,7 +492,7 @@ network outage or a server that is temporarily unavailable. In these cases,
 retrying the connection after a short delay will usually succeed. `redis-py` uses
 a simple retry strategy by default, but there are various ways you can customize
 this behavior to suit your use case. See
-[Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})
+[Retries](/content/develop/clients/redis-py/produsage.md#retries)
 for more information about custom retry strategies, with example code.
 
 ## Connect using Smart client handoffs (SCH)
@@ -259,13 +501,13 @@ for more information about custom retry strategies, with example code.
 Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH.
 
-{{< note >}}Using SCH with redis-py requires v7.0.0 or later for
-basic connections, and v7.2.0 or later for
-[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
-{{< /note >}}
+> [!NOTE]
+> Using SCH with redis-py requires v7.0.0 or later for
+> standard routing, and v7.2.0 or later for
+> [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
 
 By default, `redis-py` always attempts to connect via SCH but falls back to
 a non-SCH connection if the server doesn't support it. However, you can configure SCH
@@ -299,9 +541,9 @@ r = redis.Redis(
 )
 ```
 
-{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
-protocol, so you must set `protocol=3` explicitly when you connect.
-{{< /note >}}
+> [!NOTE]
+> SCH requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
+> protocol, so you must set `protocol=3` explicitly when you connect.
 
 The `MaintNotificationsConfig` constructor accepts the following parameters:
 
@@ -312,10 +554,10 @@ The `MaintNotificationsConfig` constructor accepts the following parameters:
 | `endpoint_type` | `EndpointType` | Auto-detect | The type of endpoint to use for the connection. The options are `EndpointType.EXTERNAL_IP`, `EndpointType.INTERNAL_IP`, `EndpointType.EXTERNAL_FQDN`, `EndpointType.INTERNAL_FQDN`, and `EndpointType.NONE`. |
 | `relaxed_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |
 
-{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
-either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
-[Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
-(see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
-To use relaxed timeouts with these services, you should set `endpoint_type=EndpointType.NONE`
-when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
-{{< /note >}}
+> [!NOTE]
+> Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+> [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+> or the OSS Cluster API with [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md)
+> (see [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) for more information).
+> To use relaxed timeouts with these connections, you should set `endpoint_type=EndpointType.NONE`
+> when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.

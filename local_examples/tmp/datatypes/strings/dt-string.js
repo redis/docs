@@ -39,6 +39,36 @@ assert.equal(res3, null);
 assert.equal(res4, 'OK');
 // REMOVE_END
 
+// STEP_START cas_cad
+await client.set("bike:1", "Deimos");
+
+const res9 = await client.set("bike:1", "Ares", {
+  condition: 'IFEQ', matchValue: "Deimos"
+});
+console.log(res9);  // OK
+const res10 = await client.set("bike:1", "Zeus", {
+  condition: 'IFEQ', matchValue: "Deimos"
+});
+console.log(res10);  // null
+console.log(await client.get("bike:1"));  // Ares
+
+const res11 = await client.delEx("bike:1", {
+  condition: 'IFEQ', matchValue: "Deimos"
+});
+console.log(res11);  // 0
+const res12 = await client.delEx("bike:1", {
+  condition: 'IFEQ', matchValue: "Ares"
+});
+console.log(res12);  // 1
+// STEP_END
+
+// REMOVE_START
+assert.equal(res9, 'OK');
+assert.equal(res10, null);
+assert.equal(res11, 0);
+assert.equal(res12, 1);
+// REMOVE_END
+
 // STEP_START mset
 const res5 = await client.mSet([
   ["bike:1", "Deimos"],

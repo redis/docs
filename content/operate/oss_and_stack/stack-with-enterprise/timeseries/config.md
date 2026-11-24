@@ -13,7 +13,7 @@ weight: 30
 
 ## Configure time series in Redis Software
 
-[Redis Software]({{< relref "/operate/rs" >}}) lets you manually change any [RedisTimeSeries configuration setting]({{< relref "/develop/data-types/timeseries/" >}}configuration/#redistimeseries-configuration-parameters).
+[Redis Software](/content/operate/rs/_index.md) lets you manually change any [RedisTimeSeries configuration setting](/content/develop/data-types/timeseries/configuration.md#redistimeseries-configuration-parameters).
 
 To change RedisTimeSeries configuration using the Redis Software Cluster Manager UI:
 
@@ -29,8 +29,8 @@ To change RedisTimeSeries configuration using the Redis Software Cluster Manager
 
 ## Configure time series in Redis Cloud
 
-[Redis Cloud]({{< relref "/operate/rc" >}}) does not let you configure RedisTimeSeries manually. However, if you have a Flexible or Annual [subscription]({{< relref "/operate/rc/subscriptions" >}}), you can contact [support](https://redis.com/company/support/) to request a configuration change. You cannot change RedisTimeSeries configuration for Free or Fixed subscriptions.
+[Redis Cloud](/content/operate/rc/_index.md) does not let you configure RedisTimeSeries manually. However, if you have a Flexible or Annual [subscription](/content/operate/rc/subscriptions/_index.md), you can contact [support](https://redis.com/company/support/) to request a configuration change. You cannot change RedisTimeSeries configuration for Free or Fixed subscriptions.
 
 ## Configuration settings
 
-See [configuration parameters]({{< relref "/develop/data-types/timeseries/configuration" >}}) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.
+See [configuration parameters](/content/develop/data-types/timeseries/configuration.md) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.

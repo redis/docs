@@ -82,7 +82,7 @@ Starts hotkeys tracking with specified metrics.
 This command initiates a hotkey tracking session. You must specify which metrics to track using the required `METRICS` parameter.
 An error is returned if a tracking session is already in progress.
 
-The tracking session continues until manually stopped with [`HOTKEYS STOP`]({{< relref "/commands/hotkeys-stop" >}}) or automatically stopped after the specified duration.
+The tracking session continues until manually stopped with [`HOTKEYS STOP`](/content/commands/hotkeys-stop.md) or automatically stopped after the specified duration.
 
 ## Required arguments
 
@@ -138,14 +138,14 @@ Specifies which hash slots to track in a cluster environment. Takes a count foll
 
 One of the following:
 
-- [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply: `OK` when tracking is successfully started.
-- [Error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): when invalid parameters are provided.
+- [Simple string](/content/develop/reference/protocol-spec.md#simple-strings) reply: `OK` when tracking is successfully started.
+- [Error reply](/content/develop/reference/protocol-spec.md#simple-errors): when invalid parameters are provided.
 
 -tab-sep-
 
 One of the following:
 
-- [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) reply: `OK` when tracking is successfully started.
-- [Error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): when invalid parameters are provided.
+- [Simple string](/content/develop/reference/protocol-spec.md#simple-strings) reply: `OK` when tracking is successfully started.
+- [Error reply](/content/develop/reference/protocol-spec.md#simple-errors): when invalid parameters are provided.
 
 {{< /multitabs >}}

@@ -6,9 +6,8 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.Transaction;
+import redis.clients.jedis.AbstractTransaction;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.exceptions.JedisException;
 
 /**
@@ -31,7 +30,7 @@ public class RedisCache {
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
-    private final JedisPool pool;
+    private final RedisClient jedis;
     private final String prefix;
     private final int ttl;
     private final int lockTtlMs;
@@ -41,18 +40,18 @@ public class RedisCache {
     private final AtomicLong misses = new AtomicLong();
     private final AtomicLong stampedesSuppressed = new AtomicLong();
 
-    public RedisCache(JedisPool pool) {
-        this(pool, "cache:product:", 30, 2000, 25);
+    public RedisCache(RedisClient jedis) {
+        this(jedis, "cache:product:", 30, 2000, 25);
     }
 
-    public RedisCache(JedisPool pool, String prefix, int ttl, int lockTtlMs, int waitPollMs) {
-        if (pool == null) {
-            throw new IllegalArgumentException("pool is required");
+    public RedisCache(RedisClient jedis, String prefix, int ttl, int lockTtlMs, int waitPollMs) {
+        if (jedis == null) {
+            throw new IllegalArgumentException("jedis is required");
         }
         if (ttl < 1) {
             throw new IllegalArgumentException("ttl must be at least 1 second");
         }
-        this.pool = pool;
+        this.jedis = jedis;
         this.prefix = (prefix == null || prefix.isEmpty()) ? "cache:product:" : prefix;
         this.ttl = ttl;
         this.lockTtlMs = lockTtlMs;
@@ -82,9 +81,7 @@ public class RedisCache {
         Map<String, String> cached;
         long startedNs = System.nanoTime();
 
-        try (Jedis jedis = pool.getResource()) {
-            cached = jedis.hgetAll(cacheKey);
-        }
+        cached = jedis.hgetAll(cacheKey);
         double redisLatencyMs = (System.nanoTime() - startedNs) / 1_000_000.0;
 
         if (cached != null && !cached.isEmpty()) {
@@ -99,9 +96,7 @@ public class RedisCache {
 
     /** Delete the cached entry for entityId. */
     public boolean invalidate(String entityId) {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.del(cacheKey(entityId)) == 1L;
-        }
+        return jedis.del(cacheKey(entityId)) == 1L;
     }
 
     /**
@@ -113,13 +108,17 @@ public class RedisCache {
     public boolean updateField(String entityId, String field, String value) {
         String cacheKey = cacheKey(entityId);
         while (true) {
-            try (Jedis jedis = pool.getResource()) {
-                jedis.watch(cacheKey);
-                if (!jedis.exists(cacheKey)) {
-                    jedis.unwatch();
+            // WATCH is tied to one connection, so open a transaction that
+            // holds it until EXEC instead of calling watch() on the client.
+            // Read through the same transaction: borrowing a second pooled
+            // connection while holding this one can deadlock a small pool.
+            try (AbstractTransaction tx = jedis.transaction(false)) {
+                tx.watch(cacheKey);
+                if (!tx.exists(cacheKey).get()) {
+                    tx.unwatch();
                     return false;
                 }
-                Transaction tx = jedis.multi();
+                tx.multi();
                 tx.hset(cacheKey, field, value);
                 tx.expire(cacheKey, ttl);
                 List<Object> result = tx.exec();
@@ -133,9 +132,7 @@ public class RedisCache {
 
     /** Remaining TTL in seconds, or -2/-1 per Redis semantics. */
     public long ttlRemaining(String entityId) {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.ttl(cacheKey(entityId));
-        }
+        return jedis.ttl(cacheKey(entityId));
     }
 
     /** Hit/miss/stampede counters with the derived hit rate. */
@@ -166,29 +163,28 @@ public class RedisCache {
         String lockKey = lockKey(entityId);
         String token = randomToken();
 
-        try (Jedis jedis = pool.getResource()) {
-            Object acquired = jedis.eval(
-                    ACQUIRE_LOCK_SCRIPT,
-                    List.of(lockKey),
-                    List.of(token, Integer.toString(lockTtlMs)));
-            if (asInt(acquired) == 1) {
-                try {
-                    Map<String, String> record = loader.apply(entityId);
-                    if (record == null) {
-                        return null;
-                    }
-                    Transaction tx = jedis.multi();
+        Object acquired = jedis.eval(
+                ACQUIRE_LOCK_SCRIPT,
+                List.of(lockKey),
+                List.of(token, Integer.toString(lockTtlMs)));
+        if (asInt(acquired) == 1) {
+            try {
+                Map<String, String> record = loader.apply(entityId);
+                if (record == null) {
+                    return null;
+                }
+                try (AbstractTransaction tx = jedis.multi()) {
                     tx.del(cacheKey);
                     tx.hset(cacheKey, record);
                     tx.expire(cacheKey, ttl);
                     tx.exec();
-                    return record;
-                } finally {
-                    try {
-                        jedis.eval(RELEASE_LOCK_SCRIPT, List.of(lockKey), List.of(token));
-                    } catch (JedisException ignored) {
-                        // Lock will expire on its own.
-                    }
+                }
+                return record;
+            } finally {
+                try {
+                    jedis.eval(RELEASE_LOCK_SCRIPT, List.of(lockKey), List.of(token));
+                } catch (JedisException ignored) {
+                    // Lock will expire on its own.
                 }
             }
         }
@@ -202,11 +198,9 @@ public class RedisCache {
                 Thread.currentThread().interrupt();
                 return null;
             }
-            try (Jedis jedis = pool.getResource()) {
-                Map<String, String> cached = jedis.hgetAll(cacheKey);
-                if (cached != null && !cached.isEmpty()) {
-                    return cached;
-                }
+            Map<String, String> cached = jedis.hgetAll(cacheKey);
+            if (cached != null && !cached.isEmpty()) {
+                return cached;
             }
         }
         return loader.apply(entityId);

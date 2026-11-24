@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HEXISTS(key: RedisArgument, field: RedisArgument)",
+        "signature": "hExists(key: RedisArgument, field: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -166,7 +166,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply<0 | 1>",
           "description": ""
         }
       }
@@ -192,7 +192,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -263,35 +263,11 @@
           "type": "bool",
           "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
         }
-      },
-      {
-        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field in the hash to check."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
-          "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashExistsAsync(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -310,31 +286,7 @@
           }
         ],
         "returns": {
-          "type": "bool",
-          "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
-        }
-      },
-      {
-        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "hashField",
-            "type": "RedisValue",
-            "description": "The field in the hash to check."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "bool",
+          "type": "Task<bool>",
           "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
         }
       }

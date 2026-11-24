@@ -28,15 +28,14 @@ To use the keys to authenticate and authorize your request, include the keys wit
 
 ## Enable the API
 
-The API is disabled on all accounts by default. You must [enable the API]({{< relref "/operate/rc/api/get-started/enable-the-api" >}}) before you can use it.
+The API is disabled on all accounts by default. You must [enable the API](/content/operate/rc/api/get-started/enable-the-api.md) before you can use it.
 
 ## Account key
 
 The account key identifies your specific account when you perform an API request.  This is the account responsible for your subscription.
 
-{{< note >}}
-An account key is an account-level secret. Do not share this key with anyone not authorized to use the account.
-{{< /note >}}
+> [!NOTE]
+> An account key is an account-level secret. Do not share this key with anyone not authorized to use the account.
 
 You create the account key once when enabling API access.
 
@@ -46,24 +45,23 @@ If you need to change or delete your account key, please [contact support](https
 
 The user key is a personal key that belongs to a specific user having the **Owner**, **Viewer**, **Billing admin**, or **Logs viewer** role.  User keys are assigned to users when they're created.  Keys can belong to only one user; however, a user may have multiple keys.
 
-You can view keys or copy their values _only_ during the [creation process]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}}).
+You can view keys or copy their values _only_ during the [creation process](/content/operate/rc/api/get-started/manage-api-keys.md).
 
-{{< note >}}
-User keys are personal secrets. Do not share them.
-{{< /note >}}
+> [!NOTE]
+> User keys are personal secrets. Do not share them.
 
-Individual owners can [generate multiple user keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}})
+Individual owners can [generate multiple user keys](/content/operate/rc/api/get-started/manage-api-keys.md)
 for themselves, for separate apps, or for other owners, viewers, or log viewers within the same account.
 
 Use key names to uniquely associate specific API requests to individual users or apps.
 
-Doing so lets you [audit API requests]({{< relref "/operate/rc/api/examples/audit-system-logs" >}}) using the system log, which tracks the key used to authenticate each request.
+Doing so lets you [audit API requests](/content/operate/rc/api/examples/audit-system-logs.md) using the system log, which tracks the key used to authenticate each request.
 
 ## Authentication using API keys
 
 Every API request must use the **account key** and a **user key** to authenticate.
 
-The keys are provided as [HTTP request headers]({{< relref "/operate/rc/api/get-started/use-rest-api#use-the-curl-http-client" >}}), shown earlier.
+The keys are provided as [HTTP request headers](/content/operate/rc/api/get-started/use-rest-api.md#use-the-curl-http-client), shown earlier.
 
 ## Authenticate a request
 
@@ -73,12 +71,12 @@ An API request successfully authenticates when:
 1. The user key is associated with the same account as the account key.
 1. The request originates from a valid source IP address, as defined in a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) allow list associated with the user key.
 
-    This requirement applies when you've [defined a CIDR allow list]({{< relref "/operate/rc/api/get-started/manage-api-keys#manage-cidr-allow-list" >}}) for the secret key.
+    This requirement applies when you've [defined a CIDR allow list](/content/operate/rc/api/get-started/manage-api-keys.md#manage-cidr-allow-list) for the secret key.
 
 ## More info
 
 To learn more, see:
 
-- [Manage API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}})
-- [Use the API]({{< relref "/operate/rc/api/get-started/use-rest-api" >}})
-- [Full API reference]({{< relref "/operate/rc/api/api-reference" >}})
+- [Manage API keys](/content/operate/rc/api/get-started/manage-api-keys.md)
+- [Use the API](/content/operate/rc/api/get-started/use-rest-api.md)
+- [Full API reference](/content/operate/rc/api/api-reference.md)

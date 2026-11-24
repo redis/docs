@@ -72,7 +72,7 @@ title: ZREVRANGEBYLEX
 ---
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.
 
-Apart from the reversed ordering, `ZREVRANGEBYLEX` is similar to [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}).
+Apart from the reversed ordering, `ZREVRANGEBYLEX` is similar to [`ZRANGEBYLEX`](/content/commands/zrangebylex.md).
 
 ## Required arguments
 

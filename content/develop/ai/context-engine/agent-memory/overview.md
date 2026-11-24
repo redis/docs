@@ -1,0 +1,81 @@
+---
+alwaysopen: false
+categories:
+- docs
+- develop
+- ai
+description: How Redis Agent Memory's session and long-term memory tiers work, and what runs automatically in the background.
+hideListLinks: true
+linktitle: Overview
+title: Redis Agent Memory overview
+weight: 3
+aliases:
+- /develop/ai/context-engine/agent-memory/concepts/
+---
+
+## Background summarization and extraction
+
+Your application writes session events as they happen. In the background, Redis Agent Memory reads those events and:
+
+- **Summarizes** older events into a compact summary once the session passes a configured threshold, so a long conversation doesn't overflow the model's context window.
+- **Extracts** long-term memories, facts and preferences worth keeping, and writes them as separate, searchable records with vector embeddings.
+
+![An application writes session events synchronously to session memory. Background extraction moves durable information into long-term memory, which the application can search directly.](/images/ai/context-engine/agent-memory-writers.svg)
+{width="700"}
+
+Both run asynchronously to keep session writes fast. Extraction also compares each new memory with existing ones and uses the model to decide whether it duplicates existing information or adds something new.
+
+## Memory types
+
+You can think of Redis Agent Memory's tiers as analogous to human memory:
+
+| Human memory | What it holds | Redis Agent Memory tier |
+|:---|:---|:---|
+| Working memory | What's being discussed right now | Session memory: the ordered events of the current conversation |
+| Episodic memory | What happened in a specific past experience | Long-term memory, `episodic` type: a snapshot from one session |
+| Semantic memory | Facts and preferences you've generalized over time | Long-term memory, `semantic` type: durable, cross-session facts |
+
+Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends, durable enough to recall in a conversation the agent hasn't seen before.
+
+Redis Agent Memory also maintains an automatically updated summary of each session, as derived session state. It returns this summary separately from long-term memories. You can also define custom long-term memory types for domain-specific information. See [Memory types & extraction]({{< relref "/operate/iris/agent-memory/create-service#memory-types-and-extraction" >}}) for the complete set of built-in and custom types.
+
+## Adding to session memory
+
+Your application appends events to session memory. Both your application and background extraction read this conversation transcript.
+
+### Key terms
+
+- **Session event**: One message in a conversation, added with `sessionId`, `actorId`, `role`, `content`, and `createdAt`.
+- **actorId**: Identifies who or what sent the event, a user, the agent, or a tool.
+- **ownerId**: Identifies who a long-term memory belongs to, for search and filtering later. Independent of who wrote the session event it came from.
+- **memoryType**: The category of a long-term memory, such as `semantic`, `episodic`, or a custom type you define.
+
+### How it works
+
+1. **Add the event.** Your application sends the new turn to session memory as it happens. This write is synchronous and fast.
+2. **Extraction reads the session.** In the background, extraction reads the session's accumulated events, not just the latest one, so it can resolve context across turns.
+3. **Long-term memory is written.** Facts worth keeping are stored as separate, searchable records, scoped by owner and memory type.
+
+Send each new turn once. Extraction reads earlier events from the session, so you don't need to resend them.
+
+## Namespaces
+
+Namespaces group related conversations and long-term memories. For example, a travel application can keep a user's trip plans in a personal `travel` namespace. A shared namespace can hold information that several users need, such as a team's travel policy.
+
+Each namespace has a stable ID. Your application uses that ID when it stores or retrieves memories, even if the namespace's name changes. Namespaces are optional; you can use session and long-term memory without creating one.
+
+See [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}) for examples. To store conversation events or recall information across conversations, see [Sessions]({{< relref "/develop/ai/context-engine/agent-memory/sessions" >}}) and [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}).
+
+## FAQ
+
+**Do I still need a separate store for conversation state?**
+No. Session memory stores the ordered events of a conversation, with automatic expiration based on a time-to-live (TTL) you set, and no schema to design. It doesn't replace a general-purpose cache or your application's other session data unrelated to the conversation.
+
+**What happens if I write directly to long-term memory instead of letting extraction do it?**
+Both paths are supported. Use direct writes for bulk imports or external knowledge sources: anything that didn't originate in a conversation. Automatic extraction is for facts that emerge from session events themselves.
+
+## Next steps
+
+- Try the [Agent Memory interactive demo]({{< relref "/develop/ai/context-engine/agent-memory/interactive-demo" >}}) to watch session memory and long-term memory change during a conversation.
+- [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to connect an application and start writing session events.
+- [Quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) to store a conversation and search extracted memories with Python, the Iris CLI, or cURL. Then [try automatic summarization]({{< relref "/develop/ai/context-engine/agent-memory/sessions#try-automatic-summarization" >}}) to see how older messages become a summary.

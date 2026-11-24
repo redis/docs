@@ -1,0 +1,117 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bzmove(source: KeyT, destination: KeyT, timeout: float, min: bool | None = False, max: bool | None = False, count: int | None = None)",
+        "params": [
+          {
+            "name": "source",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "bool | None",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "bool | None",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int | None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[list[Any]] | None",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "bzMove(source: RedisArgument, destination: RedisArgument, side: SortedSetSide, timeout: number, options?: ZMoveOptions)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "side",
+            "type": "SortedSetSide",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZMoveOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NullReply | Array<{ value: BlobStringReply; score: number }>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bzmove(source, destination, timeout: 0, modifier: \"MIN\", count: nil)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "Float, Integer",
+            "description": ""
+          },
+          {
+            "name": "modifier",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "nil | Array<Array<String, Float>>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

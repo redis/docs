@@ -79,7 +79,7 @@ end
 # moves any job past the visibility timeout back to the pending list.
 # A job is past the timeout if either:
 #   - claimed_at_ms is set and (now - claimed_at_ms) > visibility_ms, OR
-#   - claimed_at_ms is missing (worker crashed between BRPOPLPUSH and the
+#   - claimed_at_ms is missing (worker crashed between BLMOVE and the
 #     metadata write) and (now - enqueued_at_ms) > 2 * visibility_ms.
 # Runs in one round trip so a concurrent worker can't claim a
 # half-reclaimed job.
@@ -201,13 +201,13 @@ class RedisJobQueue:
     def claim(self, timeout_ms: int = 1000) -> Optional[ClaimedJob]:
         """Block until a job is available, then atomically claim it.
 
-        Uses ``BRPOPLPUSH`` to wait for a pending job and move it to the
+        Uses ``BLMOVE`` to wait for a pending job and move it to the
         processing list in a single Redis call; falls back to the same
         operation via a Lua script if a job arrives during the blocking
         window. Returns ``None`` if nothing arrives before ``timeout_ms``.
         """
         timeout_s = max(timeout_ms / 1000.0, 0.1)
-        job_id = self.redis.brpoplpush(self.pending_key, self.processing_key, timeout=timeout_s)
+        job_id = self.redis.blmove(self.pending_key, self.processing_key, timeout_s, src="RIGHT", dest="LEFT")
         if job_id is None:
             return None
 

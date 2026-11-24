@@ -152,7 +152,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZMSCORE(key: RedisArgument, member: RedisVariadicArgument)",
+        "signature": "zmScore(key: RedisArgument, member: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",
@@ -166,37 +166,57 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<NullReply | DoubleReply>",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "zmscore(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<(string | null)[]>, ])",
+        "signature": "zmscore(...args: [ key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<(string | null)[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...members",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
       {
-        "signature": "zmscore(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<(string | null)[]>, ])",
+        "signature": "zmscore(...args: [ key: RedisKey, members: (string | Buffer | number)[], callback: Callback<(string | null)[]> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "(string | Buffer | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<(string | null)[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
@@ -204,13 +224,18 @@
         "signature": "zmscore(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...members",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       },
@@ -218,13 +243,18 @@
         "signature": "zmscore(...args: [key: RedisKey, members: (string | Buffer | number)[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[key",
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "(string | Buffer | number)[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<(string | null)[], Context>",
           "description": ""
         }
       }
@@ -295,35 +325,11 @@
           "type": "double?[]",
           "description": "array. If a member does not exist in the set, null is returned."
         }
-      },
-      {
-        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "members",
-            "type": "RedisValue[]",
-            "description": "<remarks></remarks>"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "double?[]",
-          "description": "array. If a member does not exist in the set, null is returned."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetScoresAsync(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -342,31 +348,7 @@
           }
         ],
         "returns": {
-          "type": "double?[]",
-          "description": "array. If a member does not exist in the set, null is returned."
-        }
-      },
-      {
-        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "members",
-            "type": "RedisValue[]",
-            "description": "<remarks></remarks>"
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "double?[]",
+          "type": "Task<double?[]>",
           "description": "array. If a member does not exist in the set, null is returned."
         }
       }
@@ -381,8 +363,8 @@
             "description": ""
           },
           {
-            "name": "$member",
-            "type": "string ...",
+            "name": "...$member",
+            "type": "string",
             "description": ""
           }
         ],

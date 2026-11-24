@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "geosearch(, name: KeyT,, member: Union[FieldT, None] = None,, longitude: Union[float, None] = None,, latitude: Union[float, None] = None,, unit: str = \"m\",, radius: Union[float, None] = None,, width: Union[float, None] = None,, height: Union[float, None] = None,, sort: Optional[str] = None,, count: Optional[int] = None,, any: bool = False,, withcoord: bool = False,, withdist: bool = False,, withhash: bool = False,)",
+        "signature": "geosearch(name: KeyT, member: Union[FieldT, None] = None, longitude: Union[float, None] = None, latitude: Union[float, None] = None, unit: str = \"m\", radius: Union[float, None] = None, width: Union[float, None] = None, height: Union[float, None] = None, sort: Optional[str] = None, count: Optional[int] = None, any: bool = False, withcoord: bool = False, withdist: bool = False, withhash: bool = False)",
         "params": [
           {
             "name": "name",
@@ -416,7 +416,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GEOSEARCH(key: RedisArgument, from: GeoSearchFrom, by: GeoSearchBy, options?: GeoSearchOptions)",
+        "signature": "geoSearch(key: RedisArgument, from: GeoSearchFrom, by: GeoSearchBy, options?: GeoSearchOptions)",
         "params": [
           {
             "name": "key",
@@ -440,23 +440,33 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "geosearch(...args: [, key: RedisKey, ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "signature": "geosearch(...args: [ key: RedisKey, ...args: RedisValue[], callback: Callback<unknown[]> ])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[, key",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown[]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       },
@@ -464,13 +474,18 @@
         "signature": "geosearch(...args: [key: RedisKey, ...args: RedisValue[]])",
         "params": [
           {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
             "name": "...args",
-            "type": "[key",
+            "type": "RedisValue[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<unknown[], Context>",
           "description": ""
         }
       }
@@ -578,114 +593,11 @@
           "type": "GeoRadiusResult[]",
           "description": "The results found within the shape, if any."
         }
-      },
-      {
-        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": "The shape to use to bound the geo search."
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": "The maximum number of results to pull back."
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": "Whether to terminate the search after finding count results. Must be true of count is -1."
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": "The order to sort by (defaults to unordered)."
-          },
-          {
-            "name": "options",
-            "type": "GeoRadiusOptions",
-            "description": "The search options to use."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags for this operation."
-          }
-        ],
-        "returns": {
-          "type": "GeoRadiusResult[]",
-          "description": "The results found within the shape, if any."
-        }
-      },
-      {
-        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "longitude",
-            "type": "double",
-            "description": "The longitude of the center point."
-          },
-          {
-            "name": "latitude",
-            "type": "double",
-            "description": "The latitude of the center point."
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": "The shape to use to bound the geo search."
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": "The maximum number of results to pull back."
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": "Whether to terminate the search after finding count results. Must be true of count is -1."
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": "The order to sort by (defaults to unordered)."
-          },
-          {
-            "name": "options",
-            "type": "GeoRadiusOptions",
-            "description": "The search options to use."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags for this operation."
-          }
-        ],
-        "returns": {
-          "type": "GeoRadiusResult[]",
-          "description": "The results found within the shape, if any."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoSearchAsync(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -729,12 +641,12 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the shape, if any."
         }
       },
       {
-        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "signature": "GeoSearchAsync(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -783,110 +695,7 @@
           }
         ],
         "returns": {
-          "type": "GeoRadiusResult[]",
-          "description": "The results found within the shape, if any."
-        }
-      },
-      {
-        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "member",
-            "type": "RedisValue",
-            "description": ""
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": "The shape to use to bound the geo search."
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": "The maximum number of results to pull back."
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": "Whether to terminate the search after finding count results. Must be true of count is -1."
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": "The order to sort by (defaults to unordered)."
-          },
-          {
-            "name": "options",
-            "type": "GeoRadiusOptions",
-            "description": "The search options to use."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags for this operation."
-          }
-        ],
-        "returns": {
-          "type": "GeoRadiusResult[]",
-          "description": "The results found within the shape, if any."
-        }
-      },
-      {
-        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "longitude",
-            "type": "double",
-            "description": "The longitude of the center point."
-          },
-          {
-            "name": "latitude",
-            "type": "double",
-            "description": "The latitude of the center point."
-          },
-          {
-            "name": "shape",
-            "type": "GeoSearchShape",
-            "description": "The shape to use to bound the geo search."
-          },
-          {
-            "name": "count",
-            "type": "int",
-            "description": "The maximum number of results to pull back."
-          },
-          {
-            "name": "demandClosest",
-            "type": "bool",
-            "description": "Whether to terminate the search after finding count results. Must be true of count is -1."
-          },
-          {
-            "name": "order",
-            "type": "Order?",
-            "description": "The order to sort by (defaults to unordered)."
-          },
-          {
-            "name": "options",
-            "type": "GeoRadiusOptions",
-            "description": "The search options to use."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags for this operation."
-          }
-        ],
-        "returns": {
-          "type": "GeoRadiusResult[]",
+          "type": "Task<GeoRadiusResult[]>",
           "description": "The results found within the shape, if any."
         }
       }
@@ -911,39 +720,105 @@
             "description": ""
           },
           {
-            "name": "?string $sorting = null",
-            "type": "Any",
+            "name": "$sorting",
+            "type": "?string",
             "description": ""
           },
           {
-            "name": "int $count = -1",
-            "type": "Any",
+            "name": "$count",
+            "type": "int",
             "description": ""
           },
           {
-            "name": "bool $any = false",
-            "type": "Any",
+            "name": "$any",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $withCoord = false",
-            "type": "Any",
+            "name": "$withCoord",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $withDist = false",
-            "type": "Any",
+            "name": "$withDist",
+            "type": "bool",
             "description": ""
           },
           {
-            "name": "bool $withHash = false",
-            "type": "Any",
+            "name": "$withHash",
+            "type": "bool",
             "description": ""
           }
         ],
         "returns": {
           "type": "array",
           "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geosearch(key, frommember: nil, fromlonlat: nil, byradius: nil, bybox: nil, sort: nil, count: nil, count_any: false, withcoord: false, withdist: false, withhash: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "frommember",
+            "type": "String",
+            "description": "use the position of the given existing member as the center"
+          },
+          {
+            "name": "fromlonlat",
+            "type": "Array<Numeric>",
+            "description": "a [longitude, latitude] pair used as the center"
+          },
+          {
+            "name": "byradius",
+            "type": "Array",
+            "description": "a [radius, unit] pair where unit is one of 'm', 'km', 'ft', 'mi'"
+          },
+          {
+            "name": "bybox",
+            "type": "Array",
+            "description": "a [width, height, unit] triple where unit is one of 'm', 'km', 'ft', 'mi'"
+          },
+          {
+            "name": "sort",
+            "type": "'asc', 'desc'",
+            "description": "sort returned items from the nearest to the farthest, or vice versa"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "limit the results to the first N matching items"
+          },
+          {
+            "name": "count_any",
+            "type": "Boolean",
+            "description": "return as soon as enough matches are found (only with count)"
+          },
+          {
+            "name": "withcoord",
+            "type": "Boolean",
+            "description": "also return the longitude and latitude of matching items"
+          },
+          {
+            "name": "withdist",
+            "type": "Boolean",
+            "description": "also return the distance from the center point"
+          },
+          {
+            "name": "withhash",
+            "type": "Boolean",
+            "description": "also return the raw geohash-encoded sorted set score of the item"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "may be changed with WITH* flags"
         }
       }
     ]

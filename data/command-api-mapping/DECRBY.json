@@ -241,21 +241,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DECR(key: RedisArgument)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisArgument",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "DECRBY(key: RedisArgument, decrement: number)",
+        "signature": "decrBy(key: RedisArgument, decrement: number)",
         "params": [
           {
             "name": "key",
@@ -269,25 +255,15 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "decr(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Decrement the integer value of a key by the given number, * - _group_: string, * - _complexity_: O(1), * - _since_: 1.0.0, */, decrby(, key: RedisKey, decrement: number | string, callback?: Callback<number>)",
+        "signature": "decrby(key: RedisKey, decrement: number | string, callback?: Callback<number>)",
         "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
           {
             "name": "key",
             "type": "RedisKey",
@@ -305,7 +281,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -400,59 +376,11 @@
           "type": "double",
           "description": "The value of key after the decrement."
         }
-      },
-      {
-        "signature": "StringDecrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "value",
-            "type": "long",
-            "description": "The amount to decrement by (defaults to 1)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The value of key after the decrement."
-        }
-      },
-      {
-        "signature": "StringDecrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "value",
-            "type": "double",
-            "description": "The amount to decrement by (defaults to 1)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "double",
-          "description": "The value of key after the decrement."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StringDecrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringDecrementAsync(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -471,12 +399,12 @@
           }
         ],
         "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The value of key after the decrement."
         }
       },
       {
-        "signature": "StringDecrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringDecrementAsync(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -495,55 +423,7 @@
           }
         ],
         "returns": {
-          "type": "double",
-          "description": "The value of key after the decrement."
-        }
-      },
-      {
-        "signature": "StringDecrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "value",
-            "type": "long",
-            "description": "The amount to decrement by (defaults to 1)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The value of key after the decrement."
-        }
-      },
-      {
-        "signature": "StringDecrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "value",
-            "type": "double",
-            "description": "The amount to decrement by (defaults to 1)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "double",
+          "type": "Task<double>",
           "description": "The value of key after the decrement."
         }
       }

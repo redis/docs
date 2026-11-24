@@ -51,12 +51,12 @@ Use this shebang format:
 
 Currently, `<engine name>` must be `lua`.
 
-For the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()`]({{< relref "develop/programmability/lua-api#redis.register_function" >}}) API.
-Once loaded, you can call the functions in the library with the [`FCALL`]({{< relref "/commands/fcall" >}}) or [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) commands, as appropriate.
+For the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()`](/content/develop/programmability/lua-api.md#redis.register_function) API.
+Once loaded, you can call the functions in the library with the [`FCALL`](/content/commands/fcall.md) or [`FCALL_RO`](/content/commands/fcall_ro.md) commands, as appropriate.
 
 
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md).
 
 ## Required arguments
 
@@ -99,8 +99,8 @@ redis> FCALL myfunc 0 hello
 
 One of the following:
 
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): the library name that was loaded.
-- [Simple error string]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in the following circumstances: an invalid engine-name was provided, 
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): the library name that was loaded.
+- [Simple error string](/content/develop/reference/protocol-spec.md#simple-errors) in the following circumstances: an invalid engine-name was provided, 
 the library's name already exists without the `REPLACE` modifier, 
 a function in the library is created with a name that already exists in another library (even when `REPLACE` is specified), 
 the engine failed in creating the library's functions (for example, because of a compilation error), or 
@@ -110,8 +110,8 @@ no functions were declared by the library.
 
 One of the following:
 
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): the library name that was loaded.
-- [Simple error string]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in the following circumstances: an invalid engine-name was provided, 
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): the library name that was loaded.
+- [Simple error string](/content/develop/reference/protocol-spec.md#simple-errors) in the following circumstances: an invalid engine-name was provided, 
 the library's name already exists without the `REPLACE` modifier, 
 a function in the library is created with a name that already exists in another library (even when `REPLACE` is specified), 
 the engine failed in creating the library's functions (for example, because of a compilation error), or 

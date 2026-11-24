@@ -166,7 +166,7 @@ This is the General Availability release of RedisGears 1.2.
 
 RedisGears 1.2 comes with a new plugin mechanism that allows you to decide which languages you want to load into RedisGears. Currently, we support two languages: Python and Java (JVM languages). You can decide which language you want to use using the new `Plugin` configuration.
 
-Full documentation for JVM support can be found on the [Redis documentation website]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm" >}}).
+Full documentation for JVM support can be found on the [Redis documentation website](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/_index.md).
 
 #### Python async await support
 
@@ -227,8 +227,7 @@ Bug fixes (since 1.0.9):
 - [#697](https://github.com/RedisGears/RedisGears/pull/697) `hashtag()` function for Redis Enterprise
 - [#688](https://github.com/RedisGears/RedisGears/pull/688), [#545](https://github.com/RedisGears/RedisGears/issues/545) Check `REDISMODULE_CTX_FLAGS_DENY_BLOCKING` flag before blocking the client
 
-{{<note>}}
-- This is the first GA version of 1.2. The version inside Redis is 1.2.2 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
-
-- Minimum Redis version: 6.0.0
-{{</note>}}
+> [!NOTE]
+> - This is the first GA version of 1.2. The version inside Redis is 1.2.2 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
+>
+> - Minimum Redis version: 6.0.0

@@ -216,7 +216,8 @@ Here is an example of the pricing response section for the above create subscrip
 }
 ```
 
-{{<note>}}Some of the response content was omitted for brevity.{{</note>}}
+> [!NOTE]
+> Some of the response content was omitted for brevity.
 
 1. The `pricing` array contains an element for each database, containing the database name and cost evaluation related to that database
 2. The database cost is measured in type and number of shards required for the specific database, as defined by the database template in the request. See [Cloud Pricing](https://redislabs.com/redis-enterprise-cloud/pricing)

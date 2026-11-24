@@ -3,6 +3,7 @@ linkTitle: Query and filter data
 title: Query and Filter Data
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/02_complex_filtering
+- /develop/ai/redisvl/user_guide/complex_filtering/
 weight: 02
 ---
 
@@ -131,7 +132,7 @@ str(v)
 
 
 
-    '@credit_score:{high}=>[KNN 10 @user_embedding $vector AS vector_distance] RETURN 7 user credit_score age job office_location last_updated vector_distance SORTBY vector_distance ASC DIALECT 2 LIMIT 0 10'
+    '(@credit_score:{high})=>[KNN 10 @user_embedding $vector AS vector_distance] RETURN 7 user credit_score age job office_location last_updated vector_distance SORTBY vector_distance ASC DIALECT 2 LIMIT 0 10'
 
 
 
@@ -143,7 +144,7 @@ v.query_string()
 
 
 
-    '@credit_score:{high}=>[KNN 10 @user_embedding $vector AS vector_distance]'
+    '(@credit_score:{high})=>[KNN 10 @user_embedding $vector AS vector_distance]'
 
 
 
@@ -338,6 +339,11 @@ result_print(index.query(v))
 ### Text Filters
 
 Text filters are filters that are applied to text fields. These filters are applied to the entire text field. For example, if you have a text field that contains the text "The quick brown fox jumps over the lazy dog", a text filter of "quick" will match this text field.
+
+A value passed to `==` or `!=` is matched as a literal phrase, so a `"` or a
+`\` inside it is insignificant rather than interpreted. The `%` operator is the
+opposite: its value is a raw pattern, so pass it only patterns your own code
+composes.
 
 
 ```python
@@ -795,7 +801,7 @@ str(v)
 
 
 
-    '@job:("engineer")=>[KNN 5 @user_embedding $vector AS vector_distance] RETURN 6 user credit_score age job office_location vector_distance SORTBY age DESC DIALECT 3 LIMIT 0 5'
+    '(@job:("engineer"))=>[KNN 5 @user_embedding $vector AS vector_distance] RETURN 6 user credit_score age job office_location vector_distance SORTBY age DESC DIALECT 3 LIMIT 0 5'
 
 
 

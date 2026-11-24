@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "getex(, name: KeyT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, persist: bool = False,)",
+        "signature": "getex(name: KeyT, ex: Optional[ExpiryT] = None, px: Optional[ExpiryT] = None, exat: Optional[AbsExpiryT] = None, pxat: Optional[AbsExpiryT] = None, persist: bool = False)",
         "params": [
           {
             "name": "name",
@@ -153,7 +153,7 @@
     ],
     "node_redis": [
       {
-        "signature": "GETEX(key: RedisArgument, options: GetExOptions)",
+        "signature": "getEx(key: RedisArgument, options: GetExOptions)",
         "params": [
           {
             "name": "key",
@@ -167,7 +167,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "BlobStringReply | NullReply",
           "description": ""
         }
       }
@@ -188,7 +188,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -217,7 +217,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -246,7 +246,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -275,7 +275,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       },
@@ -304,7 +304,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<string | null, Context>",
           "description": ""
         }
       }
@@ -399,59 +399,11 @@
           "type": "RedisValue",
           "description": "The value of key, or Null when key does not exist."
         }
-      },
-      {
-        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "expiry",
-            "type": "TimeSpan?",
-            "description": "The exact date and time to expire at. MaxValue will remove expiry."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The value of key, or Null when key does not exist."
-        }
-      },
-      {
-        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "expiry",
-            "type": "DateTime",
-            "description": "The exact date and time to expire at. MaxValue will remove expiry."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The value of key, or Null when key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetSetExpiryAsync(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -470,12 +422,12 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The value of key, or Null when key does not exist."
         }
       },
       {
-        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "signature": "StringGetSetExpiryAsync(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -494,55 +446,7 @@
           }
         ],
         "returns": {
-          "type": "RedisValue",
-          "description": "The value of key, or Null when key does not exist."
-        }
-      },
-      {
-        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "expiry",
-            "type": "TimeSpan?",
-            "description": "The exact date and time to expire at. MaxValue will remove expiry."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
-          "description": "The value of key, or Null when key does not exist."
-        }
-      },
-      {
-        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the string."
-          },
-          {
-            "name": "expiry",
-            "type": "DateTime",
-            "description": "The exact date and time to expire at. MaxValue will remove expiry."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "RedisValue",
+          "type": "Task<RedisValue>",
           "description": "The value of key, or Null when key does not exist."
         }
       }
@@ -557,13 +461,13 @@
             "description": ""
           },
           {
-            "name": "$modifier = ''",
-            "type": "Any",
+            "name": "$modifier",
+            "type": "mixed",
             "description": ""
           },
           {
-            "name": "$value = false",
-            "type": "Any",
+            "name": "$value",
+            "type": "mixed",
             "description": ""
           }
         ],

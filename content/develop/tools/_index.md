@@ -27,20 +27,20 @@ manage it and interact with the data:
 
 ## Redis command line interface (CLI)
 
-The [Redis command line interface]({{< relref "/develop/tools/cli" >}}) (also known as `redis-cli`) is a terminal program that sends commands to and reads replies from the Redis server. It has the following two main modes:
+The [Redis command line interface](/content/develop/tools/cli.md) (also known as `redis-cli`) is a terminal program that sends commands to and reads replies from the Redis server. It has the following two main modes:
 
 1. An interactive Read Eval Print Loop (REPL) mode where the user types Redis commands and receives replies.
 2. A command mode where `redis-cli` is executed with additional arguments, and the reply is printed to the standard output.
 
 ## Redis Insight
 
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) combines a graphical user interface with Redis CLI to let you work with any Redis deployment. You can visually browse and interact with data, take advantage of diagnostic tools, learn by example, and much more. Best of all, Redis Insight is free.
+[Redis Insight](/content/develop/tools/insight/_index.md) combines a graphical user interface with Redis CLI to let you work with any Redis deployment. You can visually browse and interact with data, take advantage of diagnostic tools, learn by example, and much more. Best of all, Redis Insight is free.
 
 [Download Redis Insight](https://redis.io/downloads/#insight).
 
 ## Redis VSCode extension
 
-[Redis for VS Code]({{< relref "/develop/tools/redis-for-vscode" >}})
+[Redis for VS Code](/content/develop/tools/redis-for-vscode/_index.md)
 is an extension that allows you to connect to your Redis databases from within Microsoft Visual Studio Code. After connecting to a database, you can view, add, modify, and delete keys, and interact with your Redis databases using a Redis Insight like UI and also a built-in CLI interface.
 
 ## redisctl
@@ -53,6 +53,20 @@ Install via Homebrew, Cargo, or download a binary release from the [GitHub repos
 
 The tools above are maintained by Redis. The tools below are maintained by their authors, who are responsible for supporting them.
 
+### VisuaLeaf
+
+[VisuaLeaf](https://visualeaf.com/database/redis/) is a desktop database GUI for macOS, Windows, and Linux. Redis connections need a paid license or the 14-day trial: the free Community Edition doesn't include them. It presents Redis in the same interface, and the same connection list, as the MongoDB and SQL databases a team already runs, so a cache and the application database behind it can be inspected in one place. The Redis support is built on [Lettuce](https://github.com/redis/lettuce) and provides:
+
+* A command console and script editor that sends any command through a generic dispatch path — including module commands such as `JSON.GET` and `FT.SEARCH` — with command help, saved scripts, batch runs where each command's reply is shown separately, and command history.
+* A key browser that discovers keys with `SCAN` (never `KEYS`), groups them by prefix on a delimiter you choose, and filters by type or value. Large values are paged rather than fetched whole: lists and sorted sets by index window, hashes and sets by `HSCAN` / `SSCAN` cursor. TTLs are shown and editable, including per-field hash TTLs on servers that support `HTTL`.
+* Server, slow command, and cluster views built from `INFO`, `SLOWLOG GET`, and `CLUSTER INFO` / `CLUSTER NODES`, plus keyspace statistics tallied from a bounded `SCAN` sample with an explicit cap.
+* Security management: ACL users and permissions over the data-plane `ACL` commands, `requirepass` changes, and user management on Redis Enterprise and Redis Cloud through their REST APIs.
+* Per-key JSON export and restore for string, hash, list, set, and sorted set keys, preserving TTL. RDB parsing is out of scope.
+
+It connects to standalone servers, Cluster deployments via seed nodes, and Sentinel via a master name and sentinel nodes, over plain TCP or TLS (`rediss://`, with optional client certificates). Reads can be routed to replicas. Redis-compatible servers — Valkey, KeyDB, ElastiCache, Azure Cache — connect the same way. Commands carry the privileges of the user you connect as, so read-only access has to come from a Redis ACL rather than from the tool.
+
+[Download from their website](https://visualeaf.com/database/redis/)
+
 ### LibreDB Studio
 
 [LibreDB Studio](https://github.com/libredb/libredb-studio) is an MIT-licensed, self-hosted database GUI that runs in the browser and is deployed next to the databases it connects to, as a container, a Helm chart, or an npm package. It presents Redis in the same interface as the other engines a team runs, so a cache and the application database behind it can be inspected in one place. The Redis support is built on [`ioredis`](https://github.com/redis/ioredis) and provides:
@@ -62,3 +76,29 @@ The tools above are maintained by Redis. The tools below are maintained by their
 * Server, client, and slow command views built from `INFO`, `CLIENT LIST`, and `SLOWLOG GET`.
 
 It connects to a single standalone node over an unencrypted connection: Cluster, Sentinel, and TLS are not supported. Commands carry the privileges of the user you connect as, so read-only access has to come from a Redis ACL rather than from the tool.
+
+### Beekeeper Studio
+
+[Beekeeper Studio](https://www.beekeeperstudio.io/db/redis-client/) is an open-source desktop database manager for Linux, macOS, and Windows that supports a range of databases like Redis, MongoDB, PostgreSQL, MySQL and more. Redis is included in the free Community Edition, and the app labels its Redis support as beta.
+
+Redis support includes
+
+* A command console with autocomplete, history, saved commands, and multi-tab editing, plus, in the paid editions, an AI assistant that can turn natural-language questions into Redis commands.
+* A spreadsheet-style key browser for browsing, filtering, and editing values, including JSON documents via the ReJSON module.
+* One-click export of query results to CSV, Excel, or JSON.
+
+It connects to a Redis server with TLS/SSL supported, and authenticates with either a password or a username and password against Redis 6+ ACLs. Only standalone servers are supported: Cluster, Sentinel, and SSH tunnels are not. The key browser runs `SCAN` across the whole keyspace on every page and loads each value whole, so large databases are slow to browse. Read-only mode blocks the write commands the tool recognizes and passes unrecognized commands through.
+
+[Download for free on their website](https://www.beekeeperstudio.io/db/redis-client/)
+
+### Tabularis
+
+[Tabularis](https://github.com/TabularisDB/tabularis) is an open-source desktop SQL workspace for Windows, macOS, and Linux, licensed under Apache 2.0. PostgreSQL, MySQL/MariaDB, and SQLite ship built in; Redis is added as a plugin installed from inside the app (Settings > Available Plugins), so Redis keys appear in the same explorer, data grid, and editor as the relational databases a team already opens there. The Redis plugin, written in Rust, provides:
+
+* A key browser that lists every key with its type, a value preview, and TTL, plus virtual tables that group keys by prefix.
+* Type-specific tables for hashes, lists, sets, sorted sets, and streams, with inline insert, update, and delete from the data grid.
+* Server statistics parsed from `INFO` (version, memory, clients, keyspace) and a list of active Pub/Sub channels with subscriber counts.
+
+It connects to a single node over TCP or TLS, authenticating with a password or a username and password against Redis 6+ ACLs, and lets you pick logical databases 0 to 15 from the connection form. Cluster and Sentinel discovery are not implemented. A second, read-only Redis plugin written in Go is also available from the same plugin registry.
+
+[Download Tabularis](https://github.com/TabularisDB/tabularis/releases) · [Redis plugin (Rust)](https://github.com/nicholas-papachriston/tabularis-redis-plugin) · [Redis plugin (Go)](https://github.com/gzamboni/tabularis-redis-plugin-go)

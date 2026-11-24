@@ -41,11 +41,11 @@ Get information about all shards in the cluster.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| extra_info_keys | list of strings | An optional list of extra keys to be fetched from the Redis [`INFO`]({{< relref "/commands/info" >}}) command. See [extra_info_keys](#extra_info_keys) for common keys to include. |
+| extra_info_keys | list of strings | An optional list of extra keys to be fetched from the Redis [`INFO`](/content/commands/info.md) command. See [extra_info_keys](#extra_info_keys) for common keys to include. |
 
 ### Response {#get-all-response} 
 
-Returns a JSON array of [shard objects]({{<relref "/operate/rs/8.0/references/rest-api/objects/shard">}}).
+Returns a JSON array of [shard objects](/content/operate/rs/8.0/references/rest-api/objects/shard/_index.md).
 
 #### Example JSON body
 
@@ -111,11 +111,11 @@ Gets information about a single shard.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| extra_info_keys | list of strings | An optional list of extra keys to be fetched from the Redis [`INFO`]({{< relref "/commands/info" >}}) command. See [extra_info_keys](#extra_info_keys) for common keys to include. |
+| extra_info_keys | list of strings | An optional list of extra keys to be fetched from the Redis [`INFO`](/content/commands/info.md) command. See [extra_info_keys](#extra_info_keys) for common keys to include. |
 
 ### Response {#get-response} 
 
-Returns a [shard object]({{<relref "/operate/rs/8.0/references/rest-api/objects/shard">}}).
+Returns a [shard object](/content/operate/rs/8.0/references/rest-api/objects/shard/_index.md).
 
 #### Example JSON body
 
@@ -148,7 +148,7 @@ Returns a [shard object]({{<relref "/operate/rs/8.0/references/rest-api/objects/
 
 ## extra_info_keys
 
-You can include any Redis [`INFO`]({{< relref "/commands/info" >}}) command key for shard requests using the `extra_info_keys` query parameter. The requested keys are returned in the `redis_info` object of the response.
+You can include any Redis [`INFO`](/content/commands/info.md) command key for shard requests using the `extra_info_keys` query parameter. The requested keys are returned in the `redis_info` object of the response.
 
 See the following tables for common keys to include.
 

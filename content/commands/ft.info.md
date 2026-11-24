@@ -36,7 +36,7 @@ Returns information and statistics about a given index.
 
 `index`
 <br />
-is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). You can also use an alias of `index` created using [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) or [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}).
+is the name of the given index. You must first create the index using [`FT.CREATE`](/content/commands/ft.create.md). You can also use an alias of `index` created using [`FT.ALIASADD`](/content/commands/ft.aliasadd.md) or [`FT.ALIASUPDATE`](/content/commands/ft.aliasupdate.md).
 
 ## Returned values
 
@@ -354,9 +354,9 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Limited">&#x26A0;&#xFE0F; Limited</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> | Limited support on [Flex databases](/content/operate/rs/flex/_index.md). |
 
 ## Return information
 
@@ -365,21 +365,21 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of key-value pairs containing index information and statistics.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of key-value pairs containing index information and statistics.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index.
 
 -tab-sep-
 
 One of the following:
-* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing index information and statistics as key-value pairs.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+* [Map](/content/develop/reference/protocol-spec.md#maps) containing index information and statistics as key-value pairs.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}})
+[`FT.CREATE`](/content/commands/ft.create.md) | [`FT.SEARCH`](/content/commands/ft.search.md) | [`FT.ALIASADD`](/content/commands/ft.aliasadd.md) | [`FT.ALIASUPDATE`](/content/commands/ft.aliasupdate.md)
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

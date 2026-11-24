@@ -12,7 +12,7 @@ url: '/operate/kubernetes/8.0/re-databases/replica-redb/'
 ---
 
 You can configure a replica of a database by creating an item in
-the [`replicaSources`]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api#specreplicasources" >}}) section of the RedisEnterpriseDatabase (REDB) custom resource.
+the [`replicaSources`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md#specreplicasources) section of the RedisEnterpriseDatabase (REDB) custom resource.
 
 A secret must be created with the `stringData` section containing the replica source URI as follows:
 

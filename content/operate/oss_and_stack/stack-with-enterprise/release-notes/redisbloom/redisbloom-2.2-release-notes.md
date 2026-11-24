@@ -31,7 +31,7 @@ Details:
 - Bug fixes:
 
     - [#481](https://github.com/RedisBloom/RedisBloom/issues/481) CF crashes on expansion 0
-    - [#478](https://github.com/RedisBloom/RedisBloom/pull/478) [`BF.INFO`]({{< relref "commands/bf.info" >}}) reports an inaccurate result about the memory footprint
+    - [#478](https://github.com/RedisBloom/RedisBloom/pull/478) [`BF.INFO`](/content/commands/bf.info.md) reports an inaccurate result about the memory footprint
 
 ## v2.2.17 (June 2022)
 
@@ -43,10 +43,10 @@ Details:
 
 - Bug fixes:
 
-    - [#451](https://github.com/RedisBloom/RedisBloom/pull/451) [`TOPK.INCRBY`]({{< relref "commands/topk.incrby" >}}): fix calculation when old fingerprint count is reduced to 0
-    - [#462](https://github.com/RedisBloom/RedisBloom/pull/462) [`CF.RESERVE`]({{< relref "commands/cf.reserve" >}}): fix potential crash on incorrect number of parameters
-    - [#434](https://github.com/RedisBloom/RedisBloom/pull/434) [`CF.INSERT`]({{< relref "commands/cf.insert" >}}): fix crash when capacity is negative
-    - [#450](https://github.com/RedisBloom/RedisBloom/pull/450) [`TOPK.INCRBY`]({{< relref "commands/topk.incrby" >}}): limit increment to 100,000 to prevent potential long freezes
+    - [#451](https://github.com/RedisBloom/RedisBloom/pull/451) [`TOPK.INCRBY`](/content/commands/topk.incrby.md): fix calculation when old fingerprint count is reduced to 0
+    - [#462](https://github.com/RedisBloom/RedisBloom/pull/462) [`CF.RESERVE`](/content/commands/cf.reserve.md): fix potential crash on incorrect number of parameters
+    - [#434](https://github.com/RedisBloom/RedisBloom/pull/434) [`CF.INSERT`](/content/commands/cf.insert.md): fix crash when capacity is negative
+    - [#450](https://github.com/RedisBloom/RedisBloom/pull/450) [`TOPK.INCRBY`](/content/commands/topk.incrby.md): limit increment to 100,000 to prevent potential long freezes
 
 ## v2.2.15 (May 2022)
 
@@ -83,7 +83,7 @@ Details:
 
 - Bug fixes:
 
-    - [#392](https://github.com/RedisBloom/RedisBloom/pull/392) Fixed a potential crash on Bloom filter expansion when loading from [AOF]({{< relref "/operate/oss_and_stack/management/persistence" >}})
+    - [#392](https://github.com/RedisBloom/RedisBloom/pull/392) Fixed a potential crash on Bloom filter expansion when loading from [AOF](/content/operate/oss_and_stack/management/persistence.md)
     - [#404](https://github.com/RedisBloom/RedisBloom/pull/404) Fixed a potential crash on Cuckoo filter when calling `CF.LOADCHUNK` on a filter with `EXPANSION` greater than 1
 
 ## v2.2.9 (November 2021)

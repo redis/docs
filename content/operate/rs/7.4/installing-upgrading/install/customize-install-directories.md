@@ -15,12 +15,11 @@ When you install Redis Enterprise Software on Red Hat Enterprise Linux, you can 
 
 The files are installed in the `redislabs` directory located in the path that you specify.
 
-{{< note >}}
-- When you install with custom directories, the installation does not run as an RPM file.
-- If a `redislabs` directory already exists in the path that you specify, the installation fails.
-- All nodes in a cluster must be installed with the same file locations.
-- Custom installation directories are not supported for databases using Auto Tiering.
-{{< /note >}}
+> [!NOTE]
+> - When you install with custom directories, the installation does not run as an RPM file.
+> - If a `redislabs` directory already exists in the path that you specify, the installation fails.
+> - All nodes in a cluster must be installed with the same file locations.
+> - Custom installation directories are not supported for databases using Auto Tiering.
 
 You can specify these file locations:
 
@@ -48,7 +47,7 @@ These files are not in the custom directories:
     - /etc/opt/redislabs/redislabs_custom_install_version
     - /etc/opt/redislabs/redislabs_env_config.sh
 
-To specify directories during [installation]({{< relref "/operate/rs/7.4/installing-upgrading/install/install-on-linux" >}}), include installer flags as [command-line options]({{< relref "/operate/rs/7.4/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script. For example:
+To specify directories during [installation](/content/operate/rs/7.4/installing-upgrading/install/install-on-linux.md), include installer flags as [command-line options](/content/operate/rs/7.4/installing-upgrading/install/install-script.md) when you run the `install.sh` script. For example:
 
 ```sh
 sudo ./install.sh --install-dir <path> --config-dir <path> --var-dir <path>

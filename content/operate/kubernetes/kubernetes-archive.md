@@ -13,6 +13,7 @@ weight: 99999999999
 
 The Redis Enterprise for Kubernetes documentation is versioned. You are looking at the documentation for the latest release.
 
+- View the [8.2.0 docs](https://redis.io/docs/latest/operate/kubernetes/8.2.0/) for Redis Software for Kubernetes versions 8.2.0-12 through 8.2.0-18.
 - View the [8.0.18 docs](https://redis.io/docs/latest/operate/kubernetes/8.0.18/) for Redis Enterprise for Kubernetes versions 8.0.18-11 and 8.0.20-21.
 - View the [8.0 docs](https://redis.io/docs/latest/operate/kubernetes/8.0/) for Redis Enterprise for Kubernetes versions 8.0.2-2 through 8.0.10-23.
 - View the [7.22 docs](https://redis.io/docs/latest/operate/kubernetes/7.22/) for Redis Enterprise for Kubernetes versions 7.22.0-7 through 7.22.2-40.

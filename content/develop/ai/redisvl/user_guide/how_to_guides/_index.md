@@ -16,6 +16,8 @@ How-to guides are **task-oriented** recipes that help you accomplish specific go
 <li><a href="langcache_semantic_cache/">Use LangCache as the LLM cache</a>: managed cache service with LangCache</li>
 <li><a href="message_history/">Manage LLM Message History</a>: persistent chat history with relevancy retrieval</li>
 <li><a href="semantic_router/">Route Queries with SemanticRouter</a>: classify intents and route queries</li>
+<li><a href="observability/">Observe the Semantic Cache with OpenTelemetry</a>: traces, hit rate and match distances for threshold tuning</li>
+<li><a href="semantic_cache_observability/">Tune the Semantic Cache with Telemetry</a>: hands-on notebook that reads a cache's traces and metrics, with a local Grafana stack</li>
 </ul></div>
 <div class="p-5 border border-redis-pen-300 rounded-lg"><h3 class="mt-0 mb-2">🔍 Querying</h3><ul>
 <li><a href="complex_filtering/">Query and Filter Data</a>: combine tag, numeric, geo, and text filters</li>
@@ -50,6 +52,8 @@ How-to guides are **task-oriented** recipes that help you accomplish specific go
 | Use LangCache (managed) for LLM caching | [Use LangCache as the LLM cache](langcache_semantic_cache/) |
 | Store chat history | [Manage LLM Message History](message_history/) |
 | Route queries by intent | [Route Queries with SemanticRouter](semantic_router/) |
+| Monitor cache hit rate and tune the threshold | [Observe the Semantic Cache with OpenTelemetry](observability/) |
+| Try cache telemetry and a starter dashboard locally | [Tune the Semantic Cache with Telemetry](semantic_cache_observability/) |
 | Filter results by multiple criteria | [Query and Filter Data](complex_filtering/) |
 | Use hybrid or multi-vector queries | [Use Advanced Query Types](advanced_queries/) |
 | Translate SQL to Redis | [Write SQL Queries for Redis](sql_to_redis_queries/) |

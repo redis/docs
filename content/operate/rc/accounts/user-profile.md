@@ -14,7 +14,8 @@ When you sign in to the [Redis Cloud console](https://cloud.redis.io/), you use 
 
 This account has a profile with settings that you can manage using the Profile control located near the top, right corner of the Redis Cloud console:
 
-{{<image filename="images/rc/account-selector-single-account.png" alt="Use the Profile control to manage your user account profile and to switch between Redis Cloud accounts." width="300px">}}
+![Use the Profile control to manage your user account profile and to switch between Redis Cloud accounts.](/images/rc/account-selector-single-account.png)
+{width="300px"}
 
 When you open the Profile control, you can:
 
@@ -28,7 +29,8 @@ When you open the Profile control, you can:
 
 To review your user profile settings, select **User profile** from the Profile control.  This displays the **User Profile** screen:
 
-{{<image filename="images/rc/user-profile-settings.png" alt="The User Profile screen lets you manage selected settings associated with your user account." width="75%">}}
+![The User Profile screen lets you manage selected settings associated with your user account.](/images/rc/user-profile-settings.png)
+{width="75%"}
 
 This screen contains up to three sections, including:
 
@@ -38,7 +40,7 @@ This screen contains up to three sections, including:
 
     If you're using single sign-on authentication, you cannot change the password using the *User Profile* screen.  Such accounts are managed by an identity provider (IdP).  For help changing (or recovering) the passwords for these accounts, consult your identity provider docs.
 
-- The **Multi-factor authentication (MFA)** section lets you [manage MFA settings]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) for the current user account.  
+- The **Multi-factor authentication (MFA)** section lets you [manage MFA settings](/content/operate/rc/security/access-control/multi-factor-authentication.md) for the current user account.  
 
     When you activate a mobile device, you can use SMS MFA as a second authentication factor.
 
@@ -52,13 +54,13 @@ To sign out from the Redis Cloud console, select **Logout** from the profile con
 
 When your user account is authorized to manage multiple Redis Cloud accounts, each account is displayed in the Profile control.
 
-{{<image filename="images/rc/account-selector-switch-account.png" alt="To switch between Redis Cloud accounts, select the desired account from the list shown on the Profile control." width="300px">}}
+![To switch between Redis Cloud accounts, select the desired account from the list shown on the Profile control.](/images/rc/account-selector-switch-account.png)
+{width="300px"}
 
 To switch accounts, select the desired account from the list shown in the Profile control.
 
-{{< note >}}
-To create another Redis Cloud account associated with the same email address, you need to [sign up for Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) again with a plus address of the email address. For many email providers, you can do this by adding `+` and any string to the end of your username. For example, if your address is `example@example.com`, enter `example+account2@example.com`.
-{{< /note >}}
+> [!NOTE]
+> To create another Redis Cloud account associated with the same email address, you need to [sign up for Redis Cloud](/content/operate/rc/rc-quickstart.md) again with a plus address of the email address. For many email providers, you can do this by adding `+` and any string to the end of your username. For example, if your address is `example@example.com`, enter `example+account2@example.com`.
 
 ## Save or discard changes
 

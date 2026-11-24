@@ -382,7 +382,7 @@ redis-server --loadmodule ./redisearch.so GC_POLICY FORK
 
 ### Runtime configuration
 
-RediSearch's [configuration]({{<relref "/develop/ai/search-and-query/administration/configuration">}}) is applied via arguments passed to the module at load time. This release introduces the new `FT.CONFIG` command that allows to retrieve the current configuration as well as change it during runtime.
+RediSearch's [configuration](/content/develop/ai/search-and-query/administration/configuration.md) is applied via arguments passed to the module at load time. This release introduces the new `FT.CONFIG` command that allows to retrieve the current configuration as well as change it during runtime.
 
 ### Unlimited autocomplete results
 
@@ -418,11 +418,11 @@ The `FT.ALTER` command has been introduced, and provides the ability to add new 
 
 ### Query spelling correction
 
-Query spelling correction, a.k.a "did you mean", is now provided via the `FT.SPELLCHECK` command. It enables generating suggestions for search terms that could be misspelled. For more details see [Query Spelling Correction]({{<relref "/develop/ai/search-and-query/advanced-concepts/spellcheck">}}).
+Query spelling correction, a.k.a "did you mean", is now provided via the `FT.SPELLCHECK` command. It enables generating suggestions for search terms that could be misspelled. For more details see [Query Spelling Correction](/content/develop/ai/search-and-query/advanced-concepts/spellcheck.md).
 
 ### Phonetic matching
 
-Phonetic matching, a.k.a "Jon or John?", is now supported via the `PHONETIC` text field attribute. The terms in such fields are also indexed by their phonetic equivalents, and search results include these by default. For more details see [Phonetic Matching]({{<relref "/develop/ai/search-and-query/advanced-concepts/phonetic_matching">}}).
+Phonetic matching, a.k.a "Jon or John?", is now supported via the `PHONETIC` text field attribute. The terms in such fields are also indexed by their phonetic equivalents, and search results include these by default. For more details see [Phonetic Matching](/content/develop/ai/search-and-query/advanced-concepts/phonetic_matching.md).
 
 ### More fuzziness in search
 

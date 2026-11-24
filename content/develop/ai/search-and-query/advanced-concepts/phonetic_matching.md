@@ -23,7 +23,7 @@ Phonetic matching is based on the use of a phonetic algorithm. A phonetic algori
 
 As of v1.4, Redis Search, which is included in Redis Open Source, provides phonetic matching of text fields specified with the `PHONETIC` attribute. This causes the terms in such fields to be indexed both by their textual value as well as their phonetic approximation.
 
-Performing a search on `PHONETIC` fields will, by default, also return results for phonetically similar terms. This behavior can be controlled with the [`$phonetic` query attribute]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_attributes" >}}).
+Performing a search on `PHONETIC` fields will, by default, also return results for phonetically similar terms. This behavior can be controlled with the [`$phonetic` query attribute](/content/develop/ai/search-and-query/advanced-concepts/query_attributes.md).
 
 ## Phonetic algorithms support
 

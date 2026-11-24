@@ -27,7 +27,7 @@ the two master shards are hosted on one node and the two replica shards are host
 
 For Redis on RAM databases without the OSS cluster API enabled, use the dense policy to optimize performance.
 
-{{< image filename="/images/rs/dense_placement.png" >}}
+![Dense shard placement: both master shards on node 1, their replicas on node 2, and node 3 holding no shards](/images/rs/dense_placement.png)
 
 *Figure: Three nodes with two master shards (red) and two replica shards (white) with a dense placement policy*
 
@@ -45,10 +45,10 @@ For example, for a database with two master and two replica shards on a cluster 
 
 For Redis on RAM databases with OSS cluster API enabled and for databases with Auto Tiering enabled, use the sparse policy to optimize performance.
 
-{{< image filename="/images/rs/sparse_placement.png" >}}
+![Sparse shard placement: the master on node 1 replicates to node 2, the master on node 3 replicates to node 1, and each node has a proxy](/images/rs/sparse_placement.png)
 
 *Figure: Three nodes with two master shards (red) and two replica shards (white) with a sparse placement policy*
 
 ## Related articles
 
-You can [configure the shard placement policy]({{< relref "/operate/rs/databases/configure/shard-placement.md" >}}) for each database.
+You can [configure the shard placement policy](/content/operate/rs/databases/configure/shard-placement.md) for each database.

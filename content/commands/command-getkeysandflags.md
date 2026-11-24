@@ -39,9 +39,9 @@ title: COMMAND GETKEYSANDFLAGS
 
 `COMMAND GETKEYSANDFLAGS` is a helper command to let you find the keys from a full Redis `command`, together with flags that indicate what each key is used for.
 
-[COMMAND]({{< relref "/commands/command" >}}) describes how Redis identifies key names for each command, including `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use [COMMAND GETKEYS]({{< relref "/commands/command-getkeys" >}}) or COMMAND GETKEYSANDFLAGS to get key names directly from the Redis command parser.
+[COMMAND](/content/commands/command.md) describes how Redis identifies key names for each command, including `firstkey`, [key specifications](/content/develop/reference/key-specs.md#logical-operation-flags), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use [COMMAND GETKEYS](/content/commands/command-getkeys.md) or COMMAND GETKEYSANDFLAGS to get key names directly from the Redis command parser.
 
-Refer to [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}) for information about the meaning of the key flags.
+Refer to [key specifications](/content/develop/reference/key-specs.md#logical-operation-flags) for information about the meaning of the key flags.
 
 ## Required arguments
 

@@ -148,8 +148,7 @@ Improvements:
 
 - [#664](https://github.com/RedisBloom/RedisBloom/pull/664) `TOPK.ADD`, `TOPK.INCRBY`, and `TOPK.LIST` reply with blob string instead of simple string.
 
-{{<note>}}
-- The version inside Redis will be 2.6.3 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
-
-- Minimal Redis version: 7.2
-{{</note>}}
+> [!NOTE]
+> - The version inside Redis will be 2.6.3 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
+>
+> - Minimal Redis version: 7.2

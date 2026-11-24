@@ -23,7 +23,7 @@ You can import data to a database from the following location types:
 -   Microsoft Azure Storage
 -   NAS/Local Storage
 
-The source file to import should be in the [RDB]({{< relref "/operate/rs/7.22/databases/configure/database-persistence.md" >}}) format. It can also be in a compressed (gz) RDB file.
+The source file to import should be in the [RDB](/content/operate/rs/7.22/databases/configure/database-persistence.md) format. It can also be in a compressed (gz) RDB file.
 
 Supply an array of dataset import source objects to import data from multiple files.
 
@@ -72,7 +72,7 @@ You can also connect to a storage service that uses the S3 protocol but is not h
 
 To connect to an S3-compatible storage location:
 
-1. Configure the S3 URL with [`rladmin cluster config`]({{<relref "/operate/rs/7.22/references/cli-utilities/rladmin/cluster/config">}}):
+1. Configure the S3 URL with [`rladmin cluster config`](/content/operate/rs/7.22/references/cli-utilities/rladmin/cluster/config.md):
 
     ```sh
     rladmin cluster config s3_url <URL>
@@ -111,9 +111,8 @@ To connect to an S3-compatible storage location:
 | sas_token | string | Token to authenticate with shared access signature |
 | subdir | string | Path to the backup directory in the Blob Storage container (optional) |
 
-{{<note>}}
-`account_key` and `sas_token` are mutually exclusive
-{{</note>}}
+> [!NOTE]
+> `account_key` and `sas_token` are mutually exclusive
 
 ### NAS/Local Storage
 

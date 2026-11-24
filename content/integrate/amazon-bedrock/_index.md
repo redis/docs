@@ -29,13 +29,14 @@ For more information about the Redis integration with Amazon Bedrock, see the [A
 
 To fully set up Bedrock with Redis Cloud, you will need to do the following:
 
-1. [Set up a Redis Cloud subscription and vector database]({{< relref "/integrate/amazon-bedrock/set-up-redis" >}}) for Bedrock.
+1. [Set up a Redis Cloud subscription and vector database](/content/integrate/amazon-bedrock/set-up-redis.md) for Bedrock.
 
-1. [Create a knowledge base]({{< relref "/integrate/amazon-bedrock/create-knowledge-base" >}}) connected to your vector database.
+1. [Create a knowledge base](/content/integrate/amazon-bedrock/create-knowledge-base.md) connected to your vector database.
 
-1. [Create an agent]({{< relref "/integrate/amazon-bedrock/create-agent" >}}) connected to your knowledge base.
+1. [Create an agent](/content/integrate/amazon-bedrock/create-agent.md) connected to your knowledge base.
 
 ## More info
 
 - [Amazon Bedrock integration blog post](https://redis.io/blog/amazon-bedrock-integration-with-redis-enterprise/)
 - [Detailed steps](https://github.com/redis-applied-ai/aws-redis-bedrock-stack/blob/main/README.md)
+- [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md), for managed session and long-term memory for agents

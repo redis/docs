@@ -20,9 +20,8 @@ RG.JDUMPSESSIONS [VERBOSE] [SESSIONS s1 s2 ...]
 
 Outputs information about existing Java sessions.
 
-{{<note>}}
-When you run the `RG.JEXECUTE` command, it creates a Java session.
-{{</note>}}
+> [!NOTE]
+> When you run the `RG.JEXECUTE` command, it creates a Java session.
 
 ## Arguments
 

@@ -250,7 +250,7 @@ impl RedisRecommender {
         for p in products {
             let key = self.product_key(&p.id);
             let vec_bytes = decode_embedding(p).map_err(|e| {
-                RedisError::from((redis::ErrorKind::TypeError, "encode product", e))
+                RedisError::from((redis::ErrorKind::UnexpectedReturnType, "encode product", e))
             })?;
             // Build the field list explicitly so we can mix string and
             // byte values in the same HSET. Strings go through as
@@ -412,20 +412,20 @@ impl RedisRecommender {
         // `HMGET` returns `[Option<bytes>, Option<bytes>]` here because the
         // embedding is binary.
         let fields: Vec<Option<Vec<u8>>> = conn
-            .hget(&product_key, &["embedding", "category"])
+            .hmget(&product_key, &["embedding", "category"])
             .await?;
         let clicked_bytes = match fields.get(0).and_then(|v| v.as_ref()) {
             Some(b) => b.clone(),
             None => {
                 return Err(RedisError::from((
-                    redis::ErrorKind::TypeError,
+                    redis::ErrorKind::UnexpectedReturnType,
                     "unknown product",
                     format!("no hash at {}", product_key),
                 )))
             }
         };
         let clicked_vec = bytes_to_floats(&clicked_bytes).map_err(|e| {
-            RedisError::from((redis::ErrorKind::TypeError, "decode embedding", e))
+            RedisError::from((redis::ErrorKind::UnexpectedReturnType, "decode embedding", e))
         })?;
         let category = fields
             .get(1)
@@ -439,7 +439,7 @@ impl RedisRecommender {
         let new_session = match previous {
             Some(prev_bytes) if !prev_bytes.is_empty() => {
                 let prev_vec = bytes_to_floats(&prev_bytes).map_err(|e| {
-                    RedisError::from((redis::ErrorKind::TypeError, "decode session_vec", e))
+                    RedisError::from((redis::ErrorKind::UnexpectedReturnType, "decode session_vec", e))
                 })?;
                 ewma_blend(&prev_vec, &clicked_vec, ewma_alpha)
             }
@@ -494,7 +494,7 @@ impl RedisRecommender {
                 "session_vec" => {
                     let vec = bytes_to_floats(&v).map_err(|e| {
                         RedisError::from((
-                            redis::ErrorKind::TypeError,
+                            redis::ErrorKind::UnexpectedReturnType,
                             "decode session_vec",
                             e,
                         ))
@@ -541,7 +541,7 @@ impl RedisRecommender {
     /// The HNSW index reflects the change as soon as the `HSET`
     /// commits, so subsequent `FT.SEARCH` calls see the new vector
     /// without any index rebuild or serving downtime. Returns
-    /// `ErrorKind::TypeError` (with detail "unknown product") if the
+    /// `ErrorKind::UnexpectedReturnType` (with detail "unknown product") if the
     /// product hash does not exist (HSET would otherwise happily
     /// create a partial document that the index then picks up). Also
     /// rejects vectors with the wrong dimensionality so a model swap
@@ -553,7 +553,7 @@ impl RedisRecommender {
     ) -> RedisResult<()> {
         if new_vector.len() != self.vector_dim {
             return Err(RedisError::from((
-                redis::ErrorKind::TypeError,
+                redis::ErrorKind::UnexpectedReturnType,
                 "bad vector dim",
                 format!(
                     "new_vector has length {}; index expects {}",
@@ -567,7 +567,7 @@ impl RedisRecommender {
         let exists: i64 = conn.exists(&key).await?;
         if exists == 0 {
             return Err(RedisError::from((
-                redis::ErrorKind::TypeError,
+                redis::ErrorKind::UnexpectedReturnType,
                 "unknown product",
                 format!("no hash at {}", key),
             )));
@@ -815,20 +815,20 @@ fn parse_search_reply(raw: Value, key_prefix: &str) -> RedisResult<Vec<Candidate
         Value::Array(items) => items,
         _ => {
             return Err(RedisError::from((
-                redis::ErrorKind::TypeError,
+                redis::ErrorKind::UnexpectedReturnType,
                 "FT.SEARCH: expected array reply",
             )));
         }
     };
     let mut iter = items.into_iter();
     let _total: i64 = match iter.next() {
-        Some(v) => redis::FromRedisValue::from_redis_value(&v).unwrap_or(0),
+        Some(v) => redis::FromRedisValue::from_redis_value_ref(&v).unwrap_or(0),
         None => 0,
     };
     let mut out: Vec<Candidate> = Vec::new();
     while let Some(key_v) = iter.next() {
         let key: String =
-            redis::FromRedisValue::from_redis_value(&key_v).unwrap_or_default();
+            redis::FromRedisValue::from_redis_value_ref(&key_v).unwrap_or_default();
         let Some(fields_v) = iter.next() else { break };
         let fields = match fields_v {
             Value::Array(items) => items,
@@ -838,9 +838,9 @@ fn parse_search_reply(raw: Value, key_prefix: &str) -> RedisResult<Vec<Candidate
         let mut field_iter = fields.into_iter();
         while let (Some(k), Some(v)) = (field_iter.next(), field_iter.next()) {
             let kk: String =
-                redis::FromRedisValue::from_redis_value(&k).unwrap_or_default();
+                redis::FromRedisValue::from_redis_value_ref(&k).unwrap_or_default();
             let vv: String =
-                redis::FromRedisValue::from_redis_value(&v).unwrap_or_default();
+                redis::FromRedisValue::from_redis_value_ref(&v).unwrap_or_default();
             map.insert(kk, vv);
         }
         let bare_id = key.strip_prefix(key_prefix).unwrap_or(&key).to_string();
@@ -884,7 +884,7 @@ fn flat_array_to_map(v: &Value) -> Option<HashMap<String, Value>> {
     let mut out: HashMap<String, Value> = HashMap::new();
     let mut iter = items.iter();
     while let (Some(k), Some(value)) = (iter.next(), iter.next()) {
-        let kk: String = match redis::FromRedisValue::from_redis_value(k) {
+        let kk: String = match redis::FromRedisValue::from_redis_value_ref(k) {
             Ok(s) => s,
             Err(_) => continue,
         };
@@ -894,18 +894,16 @@ fn flat_array_to_map(v: &Value) -> Option<HashMap<String, Value>> {
 }
 
 fn value_as_i64(v: &Value) -> Option<i64> {
-    redis::FromRedisValue::from_redis_value(v).ok()
+    redis::FromRedisValue::from_redis_value_ref(v).ok()
 }
 
 fn value_as_f64(v: &Value) -> Option<f64> {
     // FT.INFO returns size-in-mb as a string in many versions; tolerate
     // both forms.
-    let as_f: RedisResult<f64> = redis::FromRedisValue::from_redis_value(v);
-    if let Ok(n) = as_f {
+    if let Ok(n) = <f64 as redis::FromRedisValue>::from_redis_value_ref(v) {
         return Some(n);
     }
-    let as_s: RedisResult<String> = redis::FromRedisValue::from_redis_value(v);
-    if let Ok(s) = as_s {
+    if let Ok(s) = <String as redis::FromRedisValue>::from_redis_value_ref(v) {
         if let Ok(n) = s.parse::<f64>() {
             return Some(n);
         }

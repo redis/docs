@@ -23,7 +23,7 @@ Time series workloads invert the typical read-heavy ratio: ingestion can reach h
 
 Without a purpose-built structure, teams approximate time series with sorted sets or custom Lua scripts, which works at small scale but lacks native aggregation, automatic downsampling, and per-sample retention — leading to fragile cleanup jobs and growing memory costs.
 
-Dedicated time series databases like InfluxDB or TimescaleDB handle petabyte-scale cold archival and batch analytics, but add a separate system to provision, scale, and monitor when the requirement is real-time latency on an instance already in the stack. ([Redis Streams]({{< relref "/develop/data-types/streams" >}}) solve a different problem — ordered event logs with consumer-group delivery, not numeric aggregation over time windows.)
+Dedicated time series databases like InfluxDB or TimescaleDB handle petabyte-scale cold archival and batch analytics, but add a separate system to provision, scale, and monitor when the requirement is real-time latency on an instance already in the stack. ([Redis Streams](/content/develop/data-types/streams/_index.md) solve a different problem — ordered event logs with consumer-group delivery, not numeric aggregation over time windows.)
 
 ## What you can expect from a Redis solution
 
@@ -38,26 +38,26 @@ You can:
 
 ## How Redis supports the solution
 
-In practice, each metric is stored as a Redis [time series]({{< relref "/develop/data-types/timeseries" >}}) key with optional labels for the dimensions you want to query by (region, host, sensor type), and compaction rules to write downsampled summaries into companion keys as new samples arrive.
+In practice, each metric is stored as a Redis [time series](/content/develop/data-types/timeseries/_index.md) key with optional labels for the dimensions you want to query by (region, host, sensor type), and compaction rules to write downsampled summaries into companion keys as new samples arrive.
 
 Redis provides the following features that make it a good fit for time series workloads:
 
--   The [time series]({{< relref "/develop/data-types/timeseries" >}}) data structure
+-   The [time series](/content/develop/data-types/timeseries/_index.md) data structure
     (`TS.*` commands) is designed for sustained high-velocity ingestion with sub-millisecond
     write latency.
--   [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) and
-    [`TS.MRANGE`]({{< relref "/commands/ts.mrange" >}}) return aggregated results
+-   [`TS.RANGE`](/content/commands/ts.range.md) and
+    [`TS.MRANGE`](/content/commands/ts.mrange.md) return aggregated results
     (`avg`, `sum`, `min`, `max`, `count`, `std.p`, `std.s`, `twa`, and others) over
     arbitrary time windows in single-digit milliseconds, eliminating application-side
     aggregation logic.
--   [`TS.CREATERULE`]({{< relref "/commands/ts.createrule" >}}) defines source-to-destination
+-   [`TS.CREATERULE`](/content/commands/ts.createrule.md) defines source-to-destination
     compaction with an aggregation function and bucket duration, so downsampling runs inside
     Redis without an external pipeline.
--   The `RETENTION` parameter on [`TS.CREATE`]({{< relref "/commands/ts.create" >}}) enforces
+-   The `RETENTION` parameter on [`TS.CREATE`](/content/commands/ts.create.md) enforces
     per-sample trimming relative to the newest sample, keeping memory bounded without
-    manual cleanup or key-level [`EXPIRE`]({{< relref "/commands/expire" >}}).
+    manual cleanup or key-level [`EXPIRE`](/content/commands/expire.md).
 -   Label-based secondary indexing enables cross-series queries
-    ([`TS.MRANGE`]({{< relref "/commands/ts.mrange" >}}) … `FILTER`) across thousands of keys
+    ([`TS.MRANGE`](/content/commands/ts.mrange.md) … `FILTER`) across thousands of keys
     by any dimension — region, host, sensor type — in a single call.
 
 ## Ecosystem
@@ -74,7 +74,7 @@ The following tools and libraries integrate with Redis time series:
     [Jedis](https://github.com/redis/jedis),
     [ioredis](https://github.com/redis/ioredis), and
     [go-redis](https://github.com/redis/go-redis)
--   **Infrastructure**: [Redis Cloud]({{< relref "/operate/rc" >}}) for managed deployments
+-   **Infrastructure**: [Redis Cloud](/content/operate/rc/_index.md) for managed deployments
     with built-in time series support
 
 ## Code examples to build your own Redis time series dashboard
@@ -84,12 +84,12 @@ Each guide includes a runnable example with three simulated sensors, a rolling g
 readings, bucketed min/max/average summaries on the same time axis, and a short retention
 window where old samples visibly expire:
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/time-series-dashboard/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/time-series-dashboard/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/time-series-dashboard/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/time-series-dashboard/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/time-series-dashboard/java-lettuce" >}})
-* [NRedisStack (C#)]({{< relref "/develop/use-cases/time-series-dashboard/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/time-series-dashboard/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/time-series-dashboard/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/time-series-dashboard/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/time-series-dashboard/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/time-series-dashboard/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/time-series-dashboard/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/time-series-dashboard/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/time-series-dashboard/java-lettuce/_index.md)
+* [NRedisStack (C#)](/content/develop/use-cases/time-series-dashboard/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/time-series-dashboard/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/time-series-dashboard/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/time-series-dashboard/rust/_index.md)

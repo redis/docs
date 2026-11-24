@@ -15,7 +15,7 @@ bannerText: Redis Gears is a deprecated feature that is not recommended or suppo
   for new users.
 ---
 
-Write-behind is a caching strategy in which the cache layer itself connects to the backing database. This means that your applications need only ever connect to your cache layer, and the cache then reads from or updates the backing database as needed. Redis currently supports write-behind caching in [Redis Software]({{< relref "/operate/rs" >}}).
+Write-behind is a caching strategy in which the cache layer itself connects to the backing database. This means that your applications need only ever connect to your cache layer, and the cache then reads from or updates the backing database as needed. Redis currently supports write-behind caching in [Redis Software](/content/operate/rs/_index.md).
 
 Here's how these caching patterns work:
 
@@ -61,18 +61,18 @@ If you want to do write-behind with an Oracle database:
         --requirements-path rgsync-99.99.99.linux-bionic-x64.zip
     ```
 
-    {{< note >}}
-You can be more efficient and import only the requirements you need, but rgsync is always required and can be combined with one or more of these packages according to your backend database:
-
-- redisgears-requirement-v1-snowflake-sqlalchemy-linux-\<os>-x64.zip
-- redisgears-requirement-v1-PyMySQL-linux-\<os>-x64.zip
-- redisgears-requirement-v1-cx-Oracle-linux-\<os>-x64.zip
-- redisgears-requirement-v1-cassandra-driver-linux-\<os>-x64.zip
-
-This list can be different or more extensive in newer versions.
-The `module.json` file in the module package lists the dependencies for the module.
-
-    {{< /note >}}
+    > [!NOTE]
+    > You can be more efficient and import only the requirements you need, but rgsync is always required and can be combined with one or more of these packages according to your backend database:
+    >
+    > - redisgears-requirement-v1-snowflake-sqlalchemy-linux-\<os>-x64.zip
+    > - redisgears-requirement-v1-PyMySQL-linux-\<os>-x64.zip
+    > - redisgears-requirement-v1-cx-Oracle-linux-\<os>-x64.zip
+    > - redisgears-requirement-v1-cassandra-driver-linux-\<os>-x64.zip
+    >
+    > This list can be different or more extensive in newer versions.
+    > The `module.json` file in the module package lists the dependencies for the module.
+    >
+    >     
 
 1. From the CLI of a node or of a client that is connected to the database, check that the requirements were imported successfully with: 
 

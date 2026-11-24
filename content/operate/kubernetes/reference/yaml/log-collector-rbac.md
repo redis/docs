@@ -12,11 +12,11 @@ weight: 50
 
 This page provides YAML examples for configuring RBAC permissions for the Redis Enterprise log collector tool. The log collector requires different permission levels depending on the collection mode you choose.
 
-For complete log collection instructions, see [Collect logs]({{< relref "/operate/kubernetes/logs/collect-logs" >}}).
+For complete log collection instructions, see [Collect logs](/content/operate/kubernetes/logs/collect-logs.md).
 
 ## Prerequisites
 
-- Install the [Redis Enterprise operator]({{< relref "/operate/kubernetes/deployment" >}})
+- Install the [Redis Enterprise operator](/content/operate/kubernetes/deployment/_index.md)
 - Appropriate permissions to create RBAC resources in target namespaces
 - Understanding of your deployment model (single namespace, multi-namespace, etc.)
 
@@ -143,12 +143,12 @@ If your security policies prohibit secrets access, you can remove the secrets pe
 
 ## Next steps
 
-- [Collect logs guide]({{< relref "/operate/kubernetes/logs/collect-logs" >}})
-- [Basic deployment examples]({{< relref "/operate/kubernetes/reference/yaml/basic-deployment" >}})
-- [Multi-namespace deployment]({{< relref "/operate/kubernetes/reference/yaml/multi-namespace" >}})
+- [Collect logs guide](/content/operate/kubernetes/logs/collect-logs.md)
+- [Basic deployment examples](/content/operate/kubernetes/reference/yaml/basic-deployment.md)
+- [Multi-namespace deployment](/content/operate/kubernetes/reference/yaml/multi-namespace.md)
 
 ## Related documentation
 
 - [Kubernetes RBAC documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
-- [Redis Enterprise troubleshooting]({{< relref "/operate/kubernetes/logs" >}})
-- [Operator deployment guide]({{< relref "/operate/kubernetes/deployment" >}})
+- [Redis Enterprise troubleshooting](/content/operate/kubernetes/logs/_index.md)
+- [Operator deployment guide](/content/operate/kubernetes/deployment/_index.md)

@@ -3,7 +3,8 @@
 //HIDE_START
 package io.redis.examples;
 
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
+import redis.clients.jedis.params.ZRangeParams;
 import redis.clients.jedis.resps.Tuple;
 //HIDE_END
 
@@ -20,7 +21,7 @@ public class SortedSetsExample {
   @Test
   public void run() {
     //HIDE_START
-    UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+    RedisClient jedis = RedisClient.create("redis://localhost:6379");
     //HIDE_END
 
     //REMOVE_START
@@ -48,7 +49,7 @@ public class SortedSetsExample {
     List<String> res4 = jedis.zrange("racer_scores", 0, -1);
     System.out.println(res4); // >>> [Ford, Sam-Bodden, Norem, Royce, Castil, Castilla, Prickett]
 
-    List<String> res5 = jedis.zrevrange("racer_scores", 0, -1);
+    List<String> res5 = jedis.zrange("racer_scores", ZRangeParams.zrangeParams(0, -1).rev());
     System.out.println(res5); // >>> [Prickett, Castilla, Castil, Royce, Norem, Sam-Bodden, Ford]
     //STEP_END
 
@@ -58,7 +59,7 @@ public class SortedSetsExample {
     //STEP_END
 
     //STEP_START zrangebyscore
-    List<String> res7 = jedis.zrangeByScore("racer_scores", Double.NEGATIVE_INFINITY, 10d);
+    List<String> res7 = jedis.zrange("racer_scores", ZRangeParams.zrangeByScoreParams(Double.NEGATIVE_INFINITY, 10d));
     System.out.println(res7); // >>> [Ford, Sam-Bodden, Norem, Royce]
     //STEP_END
 
@@ -107,7 +108,7 @@ public class SortedSetsExample {
     List<String> res14 = jedis.zrange("racer_scores", 0, -1);
     System.out.println(res14); // >>> [Castilla, Ford, Norem, Prickett, Royce, Sam-Bodden]
 
-    List<String> res15 = jedis.zrangeByLex("racer_scores", "[A", "[L");
+    List<String> res15 = jedis.zrange("racer_scores", ZRangeParams.zrangeByLexParams("[A", "[L"));
     System.out.println(res15); // >>> [Castilla, Ford]
     //STEP_END
 

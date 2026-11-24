@@ -34,8 +34,8 @@ public class HomeJsonExample {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
-            RediSearchReactiveCommands<String, String> searchCommands = connection.reactive();
+            RedisReactiveCommands<String, String> reactiveCommands = connection.commands(RedisReactiveCommands.factory());
+            RediSearchReactiveCommands<String> searchCommands = connection.commands(RedisReactiveCommands.factory());
             // ...
             // STEP_END
             // REMOVE_START
@@ -60,11 +60,11 @@ public class HomeJsonExample {
             // STEP_END
 
             // STEP_START make_index
-            List<FieldArgs<String>> schema = Arrays.asList(TextFieldArgs.<String> builder().name("$.name").as("name").build(),
-                    NumericFieldArgs.<String> builder().name("$.age").as("age").build(),
-                    TagFieldArgs.<String> builder().name("$.city").as("city").build());
+            List<FieldArgs> schema = Arrays.asList(TextFieldArgs.builder().name("$.name").as("name").build(),
+                    NumericFieldArgs.builder().name("$.age").as("age").build(),
+                    TagFieldArgs.builder().name("$.city").as("city").build());
 
-            CreateArgs<String, String> createArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs createArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("user:").build();
 
             Mono<Void> make_index = searchCommands.ftCreate("idx:users", createArgs, schema).doOnNext(res -> {
@@ -101,9 +101,9 @@ public class HomeJsonExample {
             Mono.when(addUser1, addUser2, addUser3).block();
 
             // STEP_START query1
-            Mono<SearchReply<String, String>> query1 = searchCommands.ftSearch("idx:users", "Paul @age:[30 40]")
+            Mono<SearchReply<String>> query1 = searchCommands.ftSearch("idx:users", "Paul @age:[30 40]")
                     .doOnNext(res -> {
-                        List<SearchReply.SearchResult<String, String>> results = res.getResults();
+                        List<SearchReply.SearchResult<String>> results = res.getResults();
 
                         results.forEach(result -> {
                             System.out.println(result.getId());
@@ -117,37 +117,38 @@ public class HomeJsonExample {
             // STEP_END
 
             // STEP_START query2
-            SearchArgs<String, String> query2Args = SearchArgs.<String, String> builder().returnField("city").build();
+            SearchArgs<String> query2Args = SearchArgs.<String> builder().returnField("city").build();
 
-            Mono<SearchReply<String, String>> query2 = searchCommands.ftSearch("idx:users", "Paul", query2Args)
+            Mono<SearchReply<String>> query2 = searchCommands.ftSearch("idx:users", "Paul", query2Args)
                     .doOnNext(res -> {
-                        List<SearchReply.SearchResult<String, String>> results = res.getResults();
+                        List<SearchReply.SearchResult<String>> results = res.getResults();
 
                         results.forEach(result -> {
-                            System.out.printf("ID: %s, City: %s\n", result.getId(), result.getFields().get("city"));
+                            System.out.printf("ID: %s, City: %s\n", result.getId(), result.getFields().get("city").asString());
                         });
                         // >>> ID: user:1, City: London
                         // >>> ID: user:3, City: Tel Aviv
                         // REMOVE_START
                         assertThat(res.getCount()).isEqualTo(2);
                         assertThat(results.stream().map(result -> {
-                            return String.format("ID: %s, City: %s", result.getId(), result.getFields().get("city"));
+                            return String.format("ID: %s, City: %s", result.getId(), result.getFields().get("city").asString());
                         }).sorted().toArray()).containsExactly("ID: user:1, City: London", "ID: user:3, City: Tel Aviv");
                         // REMOVE_END
                     });
             // STEP_END
 
             // STEP_START query3
-            AggregateArgs<String, String> aggArgs = AggregateArgs.<String, String> builder()
-                    .groupBy(GroupBy.<String, String> of("@city").reduce(Reducer.<String, String> count().as("count"))).build();
+            AggregateArgs aggArgs = AggregateArgs.builder()
+                    .groupBy(GroupBy.<String, String> of("@city").reduce(Reducer.<String, String> count().as("count")))
+                    .sortBy("@city", SortDirection.ASC).build();
 
-            Mono<AggregationReply<String, String>> query3 = searchCommands.ftAggregate("idx:users", "*", aggArgs)
+            Mono<AggregationReply<String>> query3 = searchCommands.ftAggregate("idx:users", "*", aggArgs)
                     .doOnNext(res -> {
-                        List<SearchReply<String, String>> replies = res.getReplies();
+                        List<SearchReply<String>> replies = res.getReplies();
                         replies.forEach(reply -> {
                             reply.getResults().forEach(result -> {
-                                System.out.printf("City: %s, Count: %s\n", result.getFields().get("city"),
-                                        result.getFields().get("count"));
+                                System.out.printf("City: %s, Count: %s\n", result.getFields().get("city").asString(),
+                                        result.getFields().get("count").asString());
                             });
                             // >>> City: London, Count: 1
                             // >>> City: Tel Aviv, Count: 2
@@ -156,9 +157,9 @@ public class HomeJsonExample {
                         assertThat(replies.size()).isEqualTo(1);
                         assertThat(replies.get(0).getResults().size()).isEqualTo(2);
                         assertThat(replies.get(0).getResults().stream().map(result -> {
-                            return String.format("City: %s, Count: %s", result.getFields().get("city"),
-                                    result.getFields().get("count"));
-                        }).sorted().toArray()).containsExactly("City: London, Count: 1", "City: Tel Aviv, Count: 2");
+                            return String.format("City: %s, Count: %s", result.getFields().get("city").asString(),
+                                    result.getFields().get("count").asString());
+                        }).toArray()).containsExactly("City: London, Count: 1", "City: Tel Aviv, Count: 2");
                         // REMOVE_END
                     });
             // STEP_END
@@ -166,11 +167,11 @@ public class HomeJsonExample {
             Mono.when(query1, query2, query3).block();
 
             // STEP_START make_hash_index
-            List<FieldArgs<String>> hashSchema = Arrays.asList(TextFieldArgs.<String> builder().name("name").build(),
-                    NumericFieldArgs.<String> builder().name("age").build(),
-                    TagFieldArgs.<String> builder().name("city").build());
+            List<FieldArgs> hashSchema = Arrays.asList(TextFieldArgs.builder().name("name").build(),
+                    NumericFieldArgs.builder().name("age").build(),
+                    TagFieldArgs.builder().name("city").build());
 
-            CreateArgs<String, String> hashCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.HASH)
+            CreateArgs hashCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.HASH)
                     .withPrefix("huser:").build();
 
             Mono<String> makeHashIndex = searchCommands.ftCreate("hash-idx:users", hashCreateArgs, hashSchema).doOnNext(res -> {
@@ -202,21 +203,21 @@ public class HomeJsonExample {
             huser3.put("city", "Tel Aviv");
 
             Mono<Long> addHashUser1 = reactiveCommands.hset("huser:1", huser1).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
             });
 
             Mono<Long> addHashUser2 = reactiveCommands.hset("huser:2", huser2).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
             });
 
             Mono<Long> addHashUser3 = reactiveCommands.hset("huser:3", huser3).doOnNext(r -> {
-                System.out.println(r); // >>> OK
+                System.out.println(r); // >>> 4
                 // REMOVE_START
                 assertThat(r).isEqualTo(4L);
                 // REMOVE_END
@@ -225,9 +226,9 @@ public class HomeJsonExample {
             Mono.when(addHashUser1, addHashUser2, addHashUser3).block();
 
             // STEP_START query1_hash
-            Mono<SearchReply<String, String>> query1Hash = searchCommands.ftSearch("hash-idx:users", "Paul @age:[30 40]")
+            Mono<SearchReply<String>> query1Hash = searchCommands.ftSearch("hash-idx:users", "Paul @age:[30 40]")
                     .doOnNext(res -> {
-                        List<SearchReply.SearchResult<String, String>> results = res.getResults();
+                        List<SearchReply.SearchResult<String>> results = res.getResults();
 
                         results.forEach(result -> {
                             System.out.println(result.getId());
@@ -240,6 +241,31 @@ public class HomeJsonExample {
                     });
             // STEP_END
             query1Hash.block();
+
+            // STEP_START add_hash_himport
+            try (HashImport<String> fieldset = HashImport.of("name", "email", "age", "city")) {
+                Mono<String> import1 = reactiveCommands.himportSet("huser:1", fieldset,
+                        "Paul John", "paul.john@example.com", "42", "London");
+                Mono<String> import2 = reactiveCommands.himportSet("huser:2", fieldset,
+                        "Eden Zamir", "eden.zamir@example.com", "29", "Tel Aviv");
+                Mono<String> import3 = reactiveCommands.himportSet("huser:3", fieldset,
+                        "Paul Zamir", "paul.zamir@example.com", "35", "Tel Aviv");
+
+                // Subscribe before the fieldset closes.
+                Mono.when(import1, import2, import3).block();
+            }
+            // STEP_END
+            // REMOVE_START
+            assertThat(reactiveCommands.objectEncoding("huser:3").block()).startsWith("template");
+            SearchReply<String> himportQueryRes = searchCommands.ftSearch("hash-idx:users", "Paul @age:[30 40]")
+                    .block();
+            assertThat(himportQueryRes.getCount()).isEqualTo(1);
+            assertThat(himportQueryRes.getResults().get(0).getId()).isEqualTo("huser:3");
+            assertThat(himportQueryRes.getResults().get(0).getFields().entrySet().stream().collect(
+                    java.util.stream.Collectors.toMap(Map.Entry::getKey, e -> e.getValue().asString()))).containsOnly(
+                    Map.entry("name", "Paul Zamir"), Map.entry("email", "paul.zamir@example.com"),
+                    Map.entry("age", "35"), Map.entry("city", "Tel Aviv"));
+            // REMOVE_END
         } finally {
             redisClient.shutdown();
         }

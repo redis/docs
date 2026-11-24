@@ -137,21 +137,51 @@ to capture changes.
     GRANT USAGE ON SCHEMA <schema> TO <username>;
     ```
 
-    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.">
+    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
 
 1. <a id="grant-privileges-for-the-future"></a>
-    Connect to your database as the `postgres` user and grant the new user the necessary privileges for the future:
+    For example, your database setup might use three roles:
+
+    - `postgres`: the administrator setting up RDI.
+    - `app_migrations`: the role that creates application tables.
+    - `debezium`: the user RDI uses to read those tables.
+
+    These names are examples. Use your existing roles.
+
+    The administrator can grant Debezium access to existing tables, so the initial snapshot works. Later, `app_migrations` creates a new table. Defaults set for `postgres` do not give Debezium access to that table, so reading it can fail.
+
+    Set the defaults for the role that creates the tables. In this example, use `app_migrations` as `<table_creator>` and `debezium` as the Debezium user.
+
+    Connect as the table creator and grant the Debezium user access to future tables:
 
     ```sql
-    ALTER DEFAULT PRIVILEGES IN SCHEMA <schema>
+    ALTER DEFAULT PRIVILEGES FOR ROLE <table_creator> IN SCHEMA <schema>
         GRANT SELECT ON TABLES TO <username>;
     ```
 
-    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
+    Replace `<table_creator>` with the role that runs `CREATE TABLE`, often your migration role. Replace `<schema>` with the schema name and `<username>` with the Debezium user. An administrator with permission to change that role's defaults can also run this command.
+
+    Repeat for each table creator and schema. This command covers future tables only. Keep the grants for existing tables.
 
 1. <a id="create-publication"></a>
-    Connect to your database as the `postgres` user and create a publication for the database:
+    Connect to your database as the `postgres` user and create a publication containing
+    only the tables RDI should capture. First [check their replica identities](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#check-replica-identity-and-choose-a-publication-mode).
+    Replace the example table names with your selected tables:
 
     ```sql
-    CREATE PUBLICATION dbz_publication FOR ALL TABLES;
+    CREATE PUBLICATION rdi_publication
+    FOR TABLE public.customers, public.orders;
     ```
+
+    Set `publication.name` to `rdi_publication` and `publication.autocreate.mode` to
+    `disabled` under the source's advanced source settings. On Redis Cloud, enter these
+    values under [**Collector properties**](/content/operate/rc/rdi/setup.md#postgresql-publications).
+    Update the publication's table list when you change the tables RDI captures.
+
+    Alternatively, let RDI manage the publication with `publication.autocreate.mode: filtered`
+    after granting the [required ownership and creation permissions](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#set-privileges-for-debezium-to-create-postgresql-publications-with-pgoutput).
+
+    Use `FOR ALL TABLES` only when you intend to publish every current and future table.
+    An application `UPDATE` or `DELETE` on any published table without replica identity can
+    fail, even if RDI does not capture that table. If you already created an all-tables
+    publication, follow [Replace an existing all-tables publication](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md#replace-an-existing-all-tables-publication).

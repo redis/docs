@@ -3,7 +3,7 @@
 from sentence_transformers import SentenceTransformer
 from redis.commands.search.query import Query
 from redis.commands.search.field import TextField, TagField, VectorField
-from redis.commands.search.indexDefinition import IndexDefinition, IndexType
+from redis.commands.search.index_definition import IndexDefinition, IndexType
 from redis.commands.json.path import Path
 
 import numpy as np
@@ -66,6 +66,25 @@ r.hset("doc:2", mapping={
     "genre": "weather",
     "embedding": model.encode(content).astype(np.float32).tobytes(),
 })
+# STEP_END
+
+# STEP_START himport_data
+r.himport_prepare("doc", ["content", "genre", "embedding"])
+
+docs = [
+    ("doc:0", "That is a very happy person", "persons"),
+    ("doc:1", "That is a happy dog", "pets"),
+    ("doc:2", "Today is a sunny day", "weather"),
+]
+
+with r.pipeline(transaction=False) as pipe:
+    for key, content, genre in docs:
+        pipe.himport_set(key, "doc", [
+            content,
+            genre,
+            model.encode(content).astype(np.float32).tobytes(),
+        ])
+    pipe.execute()
 # STEP_END
 
 # STEP_START query

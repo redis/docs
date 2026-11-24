@@ -9,11 +9,10 @@ This guide explains how the RedisVL MCP server authenticates clients on its HTTP
 transports and how it gates read vs write access. It also draws the boundary
 between what RedisVL enforces and what belongs in a gateway or policy layer.
 
-{{< note >}}
-Authentication applies only to the HTTP transports (`streamable-http`, `sse`).
-The `stdio` transport is a local subprocess with no network surface and is never
-authenticated.
-{{< /note >}}
+> [!NOTE]
+> Authentication applies only to the HTTP transports (`streamable-http`, `sse`).
+> The `stdio` transport is a local subprocess with no network surface and is never
+> authenticated.
 
 ## What RedisVL Enforces
 
@@ -32,11 +31,10 @@ On each request it checks:
 - **Required scopes** to connect, and (optionally) a **read scope** to call
   `search-records` and a **write scope** to call `upsert-records`.
 
-{{< note >}}
-This is **coarse** authorization: it decides whether a caller may connect and
-whether it may read or write. It does **not** map token claims to a Redis ACL
-user, a per-tenant index, or query filters. See [The Authorization Boundary]().
-{{< /note >}}
+> [!NOTE]
+> This is **coarse** authorization: it decides whether a caller may connect and
+> whether it may read or write. It does **not** map token claims to a Redis ACL
+> user, a per-tenant index, or query filters. See [The Authorization Boundary]().
 
 ## OAuth: Which Part RedisVL Handles
 

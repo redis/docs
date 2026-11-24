@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 960 496" style="max-width: 960px; background-color: transparent;" role="img" aria-labelledby="iris-mm-title">
+  <title id="iris-mm-title">The Redis Iris stack on the left, and what an agent needs on the right. Every message is matched to an intent by Intent Router first. An answer the business already approved comes from Agent Playbooks. Something from an earlier conversation comes from Agent Memory. Live business data or another system's tools come through Context Gateway. Lens and Agent Mesh work alongside every request.</title>
+  <defs>
+    <marker id="iris-mm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#ff4438"/>
+    </marker>
+  </defs>
+  <style>
+    .t { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    .lbl { font-size: 12px; font-weight: 600; letter-spacing: .6px; fill: #8a99a0; }
+    .name { font-size: 16px; font-weight: 600; fill: #091a23; }
+    .role { font-size: 13.5px; fill: #5c707a; }
+    .note { font-size: 13px; font-style: italic; fill: #8a99a0; }
+    .ask { font-size: 15px; fill: #ffffff; }
+    .card { fill: #ffffff; stroke: #e8ebec; stroke-width: 1; }
+    .side { stroke-dasharray: 5 4; stroke: #c9d0d3; }
+    .bubble { fill: #163341; }
+    .link { fill: none; stroke: #ff4438; stroke-width: 1.6; stroke-dasharray: 4 4; }
+  </style>
+
+  <text class="t lbl" x="40" y="34">THE REDIS IRIS STACK</text>
+  <text class="t lbl" x="560" y="34">WHAT THE AGENT NEEDS</text>
+
+  <!-- The stack: a white card with a stripe in each service's colour, as in the request flow. -->
+  <rect class="card" x="40" y="50" width="400" height="58" rx="8"/>
+  <rect x="40" y="50" width="5" height="58" rx="2" fill="#b0306a"/>
+  <text class="t name" x="60" y="75">Intent Router</text>
+  <text class="t role" x="60" y="96">Matches the message to an intent you defined</text>
+
+  <rect class="card" x="40" y="118" width="400" height="58" rx="8"/>
+  <rect x="40" y="118" width="5" height="58" rx="2" fill="#b35900"/>
+  <text class="t name" x="60" y="143">Agent Playbooks</text>
+  <text class="t role" x="60" y="164">Published answers and procedures</text>
+
+  <rect class="card" x="40" y="186" width="400" height="58" rx="8"/>
+  <rect x="40" y="186" width="5" height="58" rx="2" fill="#1a7f4b"/>
+  <text class="t name" x="60" y="211">Agent Memory</text>
+  <text class="t role" x="60" y="232">Session and long-term recall</text>
+
+  <rect class="card" x="40" y="254" width="400" height="58" rx="8"/>
+  <rect x="40" y="254" width="5" height="58" rx="2" fill="#6a4cff"/>
+  <text class="t name" x="60" y="279">Context Gateway</text>
+  <text class="t role" x="60" y="300">Governed tools over your data and MCP servers</text>
+
+  <text class="t note" x="40" y="342">Alongside every request</text>
+
+  <rect class="card side" x="40" y="354" width="400" height="58" rx="8"/>
+  <rect x="40" y="354" width="5" height="58" rx="2" fill="#5c707a"/>
+  <text class="t name" x="60" y="379">Lens</text>
+  <text class="t role" x="60" y="400">Traces each turn</text>
+
+  <rect class="card side" x="40" y="422" width="400" height="58" rx="8"/>
+  <rect x="40" y="422" width="5" height="58" rx="2" fill="#5c707a"/>
+  <text class="t name" x="60" y="447">Agent Mesh</text>
+  <text class="t role" x="60" y="468">Keeps the reply stream resumable</text>
+
+  <!-- What the agent needs, each linked to the part of the stack that supplies it. -->
+  <path class="bubble" d="M 574 50 H 906 Q 920 50 920 64 V 104 Q 920 108 916 108 H 574 Q 560 108 560 94 V 64 Q 560 50 574 50 Z"/>
+  <text class="t ask" x="578" y="84">Every message is matched to an intent first</text>
+  <line class="link" x1="556" y1="79" x2="446" y2="79" marker-end="url(#iris-mm-arrow)"/>
+  <circle cx="500" cy="79" r="4" fill="#ff4438"/>
+
+  <path class="bubble" d="M 574 118 H 906 Q 920 118 920 132 V 172 Q 920 176 916 176 H 574 Q 560 176 560 162 V 132 Q 560 118 574 118 Z"/>
+  <text class="t ask" x="578" y="152">An answer your business already approved</text>
+  <line class="link" x1="556" y1="147" x2="446" y2="147" marker-end="url(#iris-mm-arrow)"/>
+  <circle cx="500" cy="147" r="4" fill="#ff4438"/>
+
+  <path class="bubble" d="M 574 186 H 906 Q 920 186 920 200 V 240 Q 920 244 916 244 H 574 Q 560 244 560 230 V 200 Q 560 186 574 186 Z"/>
+  <text class="t ask" x="578" y="220">Something from an earlier conversation</text>
+  <line class="link" x1="556" y1="215" x2="446" y2="215" marker-end="url(#iris-mm-arrow)"/>
+  <circle cx="500" cy="215" r="4" fill="#ff4438"/>
+
+  <path class="bubble" d="M 574 254 H 906 Q 920 254 920 268 V 308 Q 920 312 916 312 H 574 Q 560 312 560 298 V 268 Q 560 254 574 254 Z"/>
+  <text class="t ask" x="578" y="288">Live business data or another system's tools</text>
+  <line class="link" x1="556" y1="283" x2="446" y2="283" marker-end="url(#iris-mm-arrow)"/>
+  <circle cx="500" cy="283" r="4" fill="#ff4438"/>
+</svg>

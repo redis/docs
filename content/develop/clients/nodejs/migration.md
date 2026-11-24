@@ -15,10 +15,10 @@ title: Migrate from ioredis
 weight: 10
 ---
 
-Redis previously recommended the [`ioredis`]({{< relref "/develop/clients/ioredis" >}})
+Redis previously recommended the [`ioredis`](/content/develop/clients/ioredis/_index.md)
 client library for development with [Node.js](https://nodejs.org/en),
 but this library is now deprecated in favor of
-[`node-redis`]({{< relref "/develop/clients/nodejs" >}}). This guide
+[`node-redis`](/content/develop/clients/nodejs/_index.md). This guide
 outlines the main similarities and differences between the two libraries.
 You may find this information useful if you are an `ioredis` user and you want to
 start a new Node.js project or migrate an existing `ioredis` project to `node-redis`.
@@ -94,7 +94,7 @@ await client.connect(); // Requires explicit connection.
 Both `ioredis` and `node-redis` automatically attempt to reconnect if the connection
 was lost due to an error. `node-redis` also lets you add a custom reconnection strategy
 when you create the client object. See
-[Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
+[Reconnect after disconnection](/content/develop/clients/nodejs/connect.md#reconnect-after-disconnection)
 for more information.
 
 ### Connection events
@@ -102,7 +102,7 @@ for more information.
 The `connect`, `ready`, `error`, and `close` events that `ioredis` emits
 are equivalent to the `connect`, `ready`, `error`, and `end` events
 in `node-redis`, but `node-redis` also emits a `reconnecting` event.
-See [Connection events]({{< relref "/develop/clients/nodejs/connect#connection-events" >}})
+See [Connection events](/content/develop/clients/nodejs/connect.md#connection-events)
 for more information.
 
 ### Command case
@@ -124,7 +124,7 @@ client.hSet('key', 'field', 'value');
 ### Command argument handling
 
 `ioredis` parses command arguments to strings and then passes them to
-the server, in a similar way to [`redis-cli`]({{< relref "/develop/tools/cli" >}}).
+the server, in a similar way to [`redis-cli`](/content/develop/tools/cli.md).
 
 ```js
 // Equivalent to the command line `SET key 100 EX 10`.
@@ -208,7 +208,7 @@ legacyClient.set("mykey", "myvalue", (err, result) => {
 ### Arbitrary command execution
 
 `ioredis` lets you issue arbitrary commands in a similar format to
-[`redis-cli`]({{< relref "/develop/tools/cli" >}}) using the `call()`
+[`redis-cli`](/content/develop/tools/cli.md) using the `call()`
 command:
 
 ```js
@@ -238,7 +238,7 @@ Both `ioredis` and `node-redis` will pipeline commands automatically if
 they are executed in the same "tick" of the
 [event loop](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#what-is-the-event-loop)
 (see
-[Execute a pipeline]({{< relref "/develop/clients/nodejs/transpipe#execute-a-pipeline" >}})
+[Execute a pipeline](/content/develop/clients/nodejs/transpipe.md#execute-a-pipeline)
 for more information).
 
 You can also create a pipeline with explicit commands in both clients.
@@ -278,7 +278,7 @@ client.multi()
 ### Scan iteration
 
 `ioredis` supports the `scanStream()` method to create a readable stream
-from the set of keys returned by the [`SCAN`]({{< relref "/commands/scan" >}})
+from the set of keys returned by the [`SCAN`](/content/commands/scan.md)
 command:
 
 ```js
@@ -306,7 +306,7 @@ respectively.
 (and the corresponding `hscanIterator()`, `sscanIterator()`, and
 `zscanIterator()` methods). These return a collection object for
 each page scanned by the cursor (this can be helpful to improve
-efficiency using [`MGET`]({{< relref "/commands/mget" >}}) and
+efficiency using [`MGET`](/content/commands/mget.md) and
 other multi-key commands):
 
 ```js
@@ -320,7 +320,7 @@ for await (const keys of client.scanIterator()) {
 
 `ioredis` reports incoming pub/sub messages with a `message`
 event on the client object (see
-[Publish/subscribe]({{< relref "/develop/pubsub" >}}) for more
+[Publish/subscribe](/content/develop/pubsub/_index.md) for more
 information about messages):
 
 ```js
@@ -346,14 +346,14 @@ await subscriber.subscribe('channel', (message) => {
 
 ### `SETNX` command
 
-`ioredis` implements the  [`SETNX`]({{< relref "/commands/setnx" >}})
+`ioredis` implements the  [`SETNX`](/content/commands/setnx.md)
 command with an explicit method:
 
 ```js
 client.setnx('bike:1', 'bike');
 ```
 
-`node-redis` provides a `SETNX` method but this command is deprecated. Use the `NX` option to the [`SET`]({{< relref "/commands/set" >}})
+`node-redis` provides a `SETNX` method but this command is deprecated. Use the `NX` option to the [`SET`](/content/commands/set.md)
 command to get the same functionality as `SETNX`:
 
 ```js
@@ -362,10 +362,10 @@ await client.set('bike:1', 'bike', {'NX': true});
 
 ### `HMSET` command
 
-The [`HMSET`]({{< relref "/commands/hmset" >}}) command has been deprecated
+The [`HMSET`](/content/commands/hmset.md) command has been deprecated
 since Redis v4.0.0, but it is still supported by `ioredis`. With `node-redis`
-you should use the [`HSET`]({{< relref "/commands/hset" >}}) command with
-multiple key-value pairs. See the [`HSET`]({{< relref "/commands/hset" >}})
+you should use the [`HSET`](/content/commands/hset.md) command with
+multiple key-value pairs. See the [`HSET`](/content/commands/hset.md)
 command page for more information.
 
 ### `CONFIG` command
@@ -378,10 +378,10 @@ client.config('SET', 'notify-keyspace-events', 'KEA');
 ```
 
 `node-redis` doesn't have a `config()` method, but instead supports the
-standard commands [`configSet()`]({{< relref "/commands/config-set" >}}),
-[`configGet()`]({{< relref "/commands/config-get" >}}),
-[`configResetStat()`]({{< relref "/commands/config-resetstat" >}}), and
-[`configRewrite`]({{< relref "/commands/config-rewrite" >}}):
+standard commands [`configSet()`](/content/commands/config-set.md),
+[`configGet()`](/content/commands/config-get.md),
+[`configResetStat()`](/content/commands/config-resetstat.md), and
+[`configRewrite`](/content/commands/config-rewrite.md):
 
 ```js
 await client.configSet('maxclients', '2000');

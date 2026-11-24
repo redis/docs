@@ -121,7 +121,7 @@ redis> GET key2
 
 ### Patterns
 
-Thanks to `SETRANGE` and the analogous [`GETRANGE`]({{< relref "/commands/getrange" >}}) commands, you can use Redis
+Thanks to `SETRANGE` and the analogous [`GETRANGE`](/content/commands/getrange.md) commands, you can use Redis
 strings as a linear array with O(1) random access.
 This is a very fast and efficient storage in many real world use cases.
 

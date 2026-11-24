@@ -42,23 +42,22 @@ summary: Sets the debug mode of server-side Lua scripts.
 syntax_fmt: SCRIPT DEBUG <YES | SYNC | NO>
 title: SCRIPT DEBUG
 ---
-Set the debug mode for subsequent scripts executed with [`EVAL`]({{< relref "/commands/eval" >}}). Redis includes a
+Set the debug mode for subsequent scripts executed with [`EVAL`](/content/commands/eval.md). Redis includes a
 complete Lua debugger (LDB) that can be used to make the task of
 writing complex scripts much simpler. In debug mode Redis acts as a remote
-debugging server and a client, such as [`redis-cli`]({{< relref "/develop/tools/cli" >}}), can execute scripts step by
+debugging server and a client, such as [`redis-cli`](/content/develop/tools/cli.md), can execute scripts step by
 step, set breakpoints, inspect variables, and more. For additional information
-about LDB see the [Redis Lua debugger]({{< relref "/develop/programmability/lua-debugging" >}}) page.
+about LDB see the [Redis Lua debugger](/content/develop/programmability/lua-debugging.md) page.
 
-{{< warning >}}
-Avoid debugging Lua scripts using your production Redis
-server. Use a development server instead.
-{{< /warning >}}
+> [!WARNING]
+> Avoid debugging Lua scripts using your production Redis
+> server. Use a development server instead.
 
 You can enable LDB in one of two modes: asynchronous or synchronous. In asynchronous mode, Redis creates a forked debugging session that does not block the server. Redis rolls back all data changes after the session ends, so you can restart debugging from the same initial state. In synchronous mode, Redis blocks the server while the debugging session is active and retains all data changes after the session ends.
 
 
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please see [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`](/content/commands/eval.md) scripts please see [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md).
 
 ## Required arguments
 

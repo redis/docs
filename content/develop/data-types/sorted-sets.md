@@ -46,6 +46,10 @@ represent sorted sets). They are ordered according to the following rule:
 * If B and A are two elements with a different score, then A > B if A.score is > B.score.
 * If B and A have exactly the same score, then A > B if the A string is lexicographically greater than the B string. B and A strings can't be equal since sorted sets only have unique elements.
 
+{{< data-type-animation type="sorted-set" >}}
+
+## Examples
+
 Let's start with a simple example, we'll add all our racers and the score they got in the first race:
 
 {{< clients-example set="ss_tutorial" step="zadd" description="Foundational: Add members to a sorted set with their scores (creates new members or updates existing ones)" prereq="true" >}}
@@ -58,9 +62,9 @@ Let's start with a simple example, we'll add all our racers and the score they g
 {{< /clients-example >}}
 
 
-As you can see [`ZADD`]({{< relref "/commands/zadd" >}}) is similar to [`SADD`]({{< relref "/commands/sadd" >}}), but takes one additional argument
+As you can see [`ZADD`](/content/commands/zadd.md) is similar to [`SADD`](/content/commands/sadd.md), but takes one additional argument
 (placed before the element to be added) which is the score.
-[`ZADD`]({{< relref "/commands/zadd" >}}) is also variadic, so you are free to specify multiple score-value
+[`ZADD`](/content/commands/zadd.md) is also variadic, so you are free to specify multiple score-value
 pairs, as shown in the example above.
 
 With sorted sets it is trivial to return a list of racers sorted by their
@@ -70,9 +74,9 @@ Implementation note: Sorted sets are implemented via a
 dual-ported data structure containing both a skip list and a hash table, so
 every time we add an element Redis performs an O(log(N)) operation. That's
 good, so when we ask for sorted elements, Redis does not have to do any work at
-all, it's already sorted. Note that the [`ZRANGE`]({{< relref "/commands/zrange" >}}) order is low to high, while the [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}) order is high to low:
+all, it's already sorted. Note that the [`ZRANGE`](/content/commands/zrange.md) order is low to high, while adding the `REV` argument makes the order high to low:
 
-{{< clients-example set="ss_tutorial" step="zrange" description="Retrieve members in ascending or descending order using ZRANGE and ZREVRANGE (no sorting needed, already ordered)" buildsUpon="zadd" needs_prereq="true" >}}
+{{< clients-example set="ss_tutorial" step="zrange" description="Retrieve members in ascending or descending order using ZRANGE and ZRANGE with REV (no sorting needed, already ordered)" buildsUpon="zadd" needs_prereq="true" >}}
 > ZRANGE racer_scores 0 -1
 1) "Ford"
 2) "Sam-Bodden"
@@ -80,7 +84,7 @@ all, it's already sorted. Note that the [`ZRANGE`]({{< relref "/commands/zrange"
 4) "Royce"
 5) "Castilla"
 6) "Prickett"
-> ZREVRANGE racer_scores 0 -1
+> ZRANGE racer_scores 0 -1 REV
 1) "Prickett"
 2) "Castilla"
 3) "Royce"
@@ -90,7 +94,7 @@ all, it's already sorted. Note that the [`ZRANGE`]({{< relref "/commands/zrange"
 {{< /clients-example >}}
 
 Note: 0 and -1 means from element index 0 to the last element (-1 works
-here just as it does in the case of the [`LRANGE`]({{< relref "/commands/lrange" >}}) command).
+here just as it does in the case of the [`LRANGE`](/content/commands/lrange.md) command).
 
 It is possible to return scores as well, using the `WITHSCORES` argument:
 
@@ -114,10 +118,10 @@ It is possible to return scores as well, using the `WITHSCORES` argument:
 
 Sorted sets are more powerful than this. They can operate on ranges.
 Let's get all the racers with 10 or fewer points. We
-use the [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}) command to do it:
+use the [`ZRANGE`](/content/commands/zrange.md) command with the `BYSCORE` argument to do it:
 
-{{< clients-example set="ss_tutorial" step="zrangebyscore" description="Query by score range: Retrieve members within a score range using ZRANGEBYSCORE when you need to filter by numeric values" difficulty="intermediate" buildsUpon="zadd" needs_prereq="true" >}}
-> ZRANGEBYSCORE racer_scores -inf 10
+{{< clients-example set="ss_tutorial" step="zrangebyscore" description="Query by score range: Retrieve members within a score range using ZRANGE with BYSCORE when you need to filter by numeric values" difficulty="intermediate" buildsUpon="zadd" needs_prereq="true" >}}
+> ZRANGE racer_scores -inf 10 BYSCORE
 1) "Ford"
 2) "Sam-Bodden"
 3) "Norem"
@@ -127,7 +131,7 @@ use the [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}) command to d
 We asked Redis to return all the elements with a score between negative
 infinity and 10 (both extremes are included).
 
-To remove an element we'd simply call [`ZREM`]({{< relref "/commands/zrem" >}}) with the racer's name.
+To remove an element we'd simply call [`ZREM`](/content/commands/zrem.md) with the racer's name.
 It's also possible to remove ranges of elements. Let's remove racer Castilla along with all
 the racers with strictly fewer than 10 points:
 
@@ -142,13 +146,13 @@ the racers with strictly fewer than 10 points:
 3) "Prickett"
 {{< /clients-example >}}
 
-[`ZREMRANGEBYSCORE`]({{< relref "/commands/zremrangebyscore" >}}) is perhaps not the best command name,
+[`ZREMRANGEBYSCORE`](/content/commands/zremrangebyscore.md) is perhaps not the best command name,
 but it can be very useful, and returns the number of removed elements.
 
 Another extremely useful operation defined for sorted set elements
 is the get-rank operation. It is possible to ask what is the
 position of an element in the set of ordered elements.
-The [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) command is also available in order to get the rank, considering
+The [`ZREVRANK`](/content/commands/zrevrank.md) command is also available in order to get the rank, considering
 the elements sorted in a descending way.
 
 {{< clients-example set="ss_tutorial" step="zrank" description="Get member position: Use ZRANK and ZREVRANK to find a member's position in the sorted set (useful for leaderboards)" difficulty="intermediate" buildsUpon="zadd" >}}
@@ -163,6 +167,46 @@ the elements sorted in a descending way.
 (integer) 2
 {{< /clients-example >}}
 
+## Move members between sorted sets
+
+Starting with Redis 8.12, use [`ZMOVE`](/content/commands/zmove.md) to atomically
+move members between sorted sets while preserving their scores:
+
+- `MIN` or `MAX` moves the lowest-scoring or highest-scoring members. Add
+  `COUNT count` to move more than one; without it, one member is moved.
+- `BYSCORE score-min score-max` moves a score range. Add `COUNT count` to cap
+  the batch size; without it, all matching members are moved.
+
+Use [`ZMOVEMEMBER`](/content/commands/zmovemember.md) with a counted
+`MEMBERS num-members member [member ...]` block to move named members. You can
+place an `NX` or `XX` destination-membership condition before or after that
+block. Use [`BZMOVE`](/content/commands/bzmove.md) to wait for lowest-scoring or
+highest-scoring members to become available.
+
+For example, a consumer can claim up to 500 bookmarks updated before a cutoff
+while writers continue updating the source:
+
+```text
+ZMOVE bookmarks:{user:42} batch:{user:42}:001 BYSCORE -inf (1700000000 COUNT 500
+```
+
+The `(` makes the cutoff exclusive. Members are selected in ascending score
+order, with lexicographical ordering for ties. All three move commands return
+an array of member/score pairs, nested even for a single member, or null if
+nothing moves. When specified, `COUNT` must be a positive integer.
+
+Give each batch a separate destination key. Process and persist its members,
+then delete the batch key after success. A later update to a source member
+remains in the source when the batch key is deleted. The move does not provide
+acknowledgments, automatic retries, or snapshots of values stored under other
+keys; your application must recover unfinished batches.
+
+A moved member's source score overwrites its score if it already exists in the
+destination, unless you use a `ZMOVEMEMBER` condition to skip it. Other
+destination members are retained. In Redis Open Source Cluster, both keys must
+share a hash slot; the shared `{user:42}` hash tag in this example provides
+that placement.
+
 ## Lexicographical scores
 
 In version Redis 2.8, a new feature was introduced that allows
@@ -171,13 +215,13 @@ inserted with the same identical score (elements are compared with the C
 `memcmp` function, so it is guaranteed that there is no collation, and every
 Redis instance will reply with the same output).
 
-The main commands to operate with lexicographical ranges are [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}),
-[`ZREVRANGEBYLEX`]({{< relref "/commands/zrevrangebylex" >}}), [`ZREMRANGEBYLEX`]({{< relref "/commands/zremrangebylex" >}}) and [`ZLEXCOUNT`]({{< relref "/commands/zlexcount" >}}).
+The main commands to operate with lexicographical ranges are [`ZRANGE`](/content/commands/zrange.md) with the `BYLEX` argument (add `REV` for reverse order),
+[`ZREMRANGEBYLEX`](/content/commands/zremrangebylex.md) and [`ZLEXCOUNT`](/content/commands/zlexcount.md).
 
 For example, let's add again our list of famous racers, but this time
-using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) we can ask for lexicographical ranges:
+using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGE`](/content/commands/zrange.md) with `BYLEX` we can ask for lexicographical ranges:
 
-{{< clients-example set="ss_tutorial" step="zadd_lex" description="Lexicographical queries: Add members with identical scores and use ZRANGEBYLEX to query by string range (enables generic indexing)" difficulty="intermediate" buildsUpon="zadd" >}}
+{{< clients-example set="ss_tutorial" step="zadd_lex" description="Lexicographical queries: Add members with identical scores and use ZRANGE with BYLEX to query by string range (enables generic indexing)" difficulty="intermediate" buildsUpon="zadd" >}}
 > ZADD racer_scores 0 "Norem" 0 "Sam-Bodden" 0 "Royce" 0 "Castilla" 0 "Prickett" 0 "Ford"
 (integer) 3
 > ZRANGE racer_scores 0 -1
@@ -187,7 +231,7 @@ using a score of zero for all the elements. We'll see that because of the sorted
 4) "Prickett"
 5) "Royce"
 6) "Sam-Bodden"
-> ZRANGEBYLEX racer_scores [A [L
+> ZRANGE racer_scores [A [L BYLEX
 1) "Castilla"
 2) "Ford"
 {{< /clients-example >}}
@@ -209,7 +253,7 @@ Updating the score: leaderboards
 ---
 
 Just a final note about sorted sets before switching to the next topic.
-Sorted sets' scores can be updated at any time. Just calling [`ZADD`]({{< relref "/commands/zadd" >}}) against
+Sorted sets' scores can be updated at any time. Just calling [`ZADD`](/content/commands/zadd.md) against
 an element already included in the sorted set will update its score
 (and position) with O(log(N)) time complexity.  As such, sorted sets are suitable
 when there are tons of updates.
@@ -220,9 +264,7 @@ take users sorted by their high score, plus the get-rank operation, in order
 to show the top-N users, and the user rank in the leader board (e.g., "you are
 the #4932 best score here").
 
-## Examples
-
-* There are two ways we can use a sorted set to represent a leaderboard. If we know a racer's new score, we can update it directly via the [`ZADD`]({{< relref "/commands/zadd" >}}) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) command.
+* There are two ways we can use a sorted set to represent a leaderboard. If we know a racer's new score, we can update it directly via the [`ZADD`](/content/commands/zadd.md) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`](/content/commands/zincrby.md) command.
 {{< clients-example set="ss_tutorial" step="leaderboard" description="Practical pattern: Use ZADD to set scores and ZINCRBY to increment them when you need to update leaderboards with atomic operations" difficulty="intermediate" buildsUpon="zadd" >}}
 > ZADD racer_scores 100 "Wood"
 (integer) 1
@@ -236,19 +278,19 @@ the #4932 best score here").
 "200"
 {{< /clients-example >}}
 
-You'll see that [`ZADD`]({{< relref "/commands/zadd" >}}) returns 0 when the member already exists (the score is updated), while [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) returns the new score. The score for racer Henshaw went from 100, was changed to 150 with no regard for what score was there before, and then was incremented by 50 to 200.
+You'll see that [`ZADD`](/content/commands/zadd.md) returns 0 when the member already exists (the score is updated), while [`ZINCRBY`](/content/commands/zincrby.md) returns the new score. The score for racer Henshaw went from 100, was changed to 150 with no regard for what score was there before, and then was incremented by 50 to 200.
 
 ## Performance
 
 Most sorted set operations are O(log(n)), where _n_ is the number of members.
 
-Exercise some caution when running the [`ZRANGE`]({{< relref "/commands/zrange" >}}) command with large returns values (e.g., in the tens of thousands or more).
+Exercise some caution when running the [`ZRANGE`](/content/commands/zrange.md) command with large returns values (e.g., in the tens of thousands or more).
 This command's time complexity is O(log(n) + m), where _m_ is the number of results returned. 
 
 ## Alternatives
 
 Redis sorted sets are sometimes used for indexing other Redis data structures.
-If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) features.
+If you need to index and query your data, consider the [JSON](/content/develop/data-types/json/_index.md) data type and the [Redis Search](/content/develop/ai/search-and-query/_index.md) features.
 
 ## Learn more
 

@@ -25,4 +25,4 @@ title: MEMORY
 ---
 This is a container command for memory introspection and management commands.
 
-To see the list of available commands you can call [`MEMORY HELP`]({{< relref "/commands/memory-help" >}}).
+To see the list of available commands you can call [`MEMORY HELP`](/content/commands/memory-help.md).

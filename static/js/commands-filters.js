@@ -126,6 +126,16 @@ function filter() {
     }
   }
 
+  const emptyState = document.querySelector('#commands-empty-state');
+  if (emptyState) {
+    if (visibleElements.length === 0) {
+      emptyState.textContent = nameFilterValue
+        ? `No commands found for "${FILTERS.name.element.value}"`
+        : 'No commands match the selected filters.';
+    }
+    emptyState.classList.toggle('hidden', visibleElements.length !== 0);
+  }
+
   // Sort visible elements: commands starting with search term first, then others
   if (nameFilterValue) {
     const grid = document.querySelector('#commands-grid');

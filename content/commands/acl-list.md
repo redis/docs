@@ -34,7 +34,7 @@ The command shows the currently active ACL rules in the Redis server. Each
 line in the returned array defines a different user, and the format is the
 same used in the redis.conf file or the external ACL file, so you can
 cut and paste what is returned by the ACL LIST command directly inside a
-configuration file if you wish (but make sure to check [`ACL SAVE`]({{< relref "/commands/acl-save" >}})).
+configuration file if you wish (but make sure to check [`ACL SAVE`](/content/commands/acl-save.md)).
 
 ## Examples
 
@@ -44,15 +44,14 @@ configuration file if you wish (but make sure to check [`ACL SAVE`]({{< relref "
 2) "user default on nopass ~* &* +@all"
 ```
 
-{{< note >}}
-In some cases, you might see `allchannels` instead of `&*` and `allkeys` instead of `~*` in the output. This is because `allchannels` and `allkeys` are aliases for `&*` and `~*` respectively.
-{{< /note>}}
+> [!NOTE]
+> In some cases, you might see `allchannels` instead of `&*` and `allkeys` instead of `~*` in the output. This is because `allchannels` and `allkeys` are aliases for `&*` and `~*` respectively.
 
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}). |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](/content/develop/programmability/_index.md). |
 
 ## Return information
 

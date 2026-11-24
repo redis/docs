@@ -17,7 +17,7 @@ Currently, when AI agents (like myself) encounter code examples in the Redis doc
 
 ### High-Level Approach
 
-Extract Redis CLI commands from `{{< clients-example >}}` blocks and enrich them with metadata from `data/commands_core.json`, storing the result in `data/examples.json` for use by templates and AI systems.
+Extract Redis CLI commands from `{{< clients-example >}}` blocks and enrich them with metadata from `data/commands.json`, storing the result in `data/examples.json` for use by templates and AI systems.
 
 ### Key Components
 
@@ -27,7 +27,7 @@ Extract Redis CLI commands from `{{< clients-example >}}` blocks and enrich them
    - Deduplicates commands within each example
 
 2. **Command Enricher** (`build/components/command_enricher.py`)
-   - Loads `data/commands_core.json`
+   - Loads `data/commands.json`
    - Looks up metadata for each extracted command
    - Generates command reference links
    - Handles missing/deprecated commands gracefully
@@ -72,7 +72,7 @@ Parse CLI content (extract commands)
     ↓
 Normalize command names
     ↓
-Look up in commands_core.json
+Look up in commands.json
     ↓
 Generate metadata objects
     ↓
@@ -92,7 +92,7 @@ Available to Hugo templates and AI systems
 ## Implementation Phases
 
 1. **Phase 1**: CLI Parser - Extract command names from CLI content
-2. **Phase 2**: Command Enricher - Enrich with metadata from commands_core.json
+2. **Phase 2**: Command Enricher - Enrich with metadata from commands.json
 3. **Phase 3**: Integration - Modify build scripts to call extraction
 4. **Phase 4**: Validation - Verify metadata accuracy
 5. **Phase 5**: Documentation - Update specs and provide usage examples

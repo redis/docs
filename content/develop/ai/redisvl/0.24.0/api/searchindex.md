@@ -209,19 +209,17 @@ this re-queries from offset 0 each round (the same strategy as
 * **Return type:**
   BulkResult
 
-{{< note >}}
-[update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
-/ [drop_keys](#drop_keys) (delete by id/key), [clear](#clear) (delete all).
-{{< /note >}}
+> [!NOTE]
+> [update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
+> / [drop_keys](#drop_keys) (delete by id/key), [clear](#clear) (delete all).
 
-{{< note >}}
-This operation is **not atomic** across the match set. Each key is
-unlinked atomically, but batches are applied incrementally with no
-rollback, so a crash or connection error mid-run leaves the already
--deleted documents gone and the rest in place. Deletes are
-idempotent: re-running the same call after a failure removes only
-whatever still matches, converging on the intended state.
-{{< /note >}}
+> [!NOTE]
+> This operation is **not atomic** across the match set. Each key is
+> unlinked atomically, but batches are applied incrementally with no
+> rollback, so a crash or connection error mid-run leaves the already
+> -deleted documents gone and the rest in place. Deletes are
+> idempotent: re-running the same call after a failure removes only
+> whatever still matches, converging on the intended state.
 
 #### `drop_documents(ids, batch_size=500)`
 
@@ -463,15 +461,13 @@ for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause.
 
 #### `query(query)`
 
@@ -572,20 +568,18 @@ narrow the filter and run in partitions (see the user guide).
 * **Return type:**
   BulkResult
 
-{{< note >}}
-[drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
-upsert by key).
-{{< /note >}}
+> [!NOTE]
+> [drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
+> upsert by key).
 
-{{< note >}}
-This operation is **not atomic** across the match set. Each
-document is updated atomically (one `HSET`/`JSON.MERGE`), but
-batches use a non-transactional pipeline and are applied
-incrementally with no rollback, so a crash or connection error
-mid-run can leave some documents updated and others not. Because
-the update is a fixed field set, it is idempotent: re-running the
-same call after a failure converges on the intended state.
-{{< /note >}}
+> [!NOTE]
+> This operation is **not atomic** across the match set. Each
+> document is updated atomically (one `HSET`/`JSON.MERGE`), but
+> batches use a non-transactional pipeline and are applied
+> incrementally with no rollback, so a crash or connection error
+> mid-run can leave some documents updated and others not. Because
+> the update is a fixed field set, it is idempotent: re-running the
+> same call after a failure converges on the intended state.
 
 Keys are resolved before writing, so a document may be deleted by
 another client in between. Each write is conditional on the key
@@ -1054,15 +1048,13 @@ async for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause.
 
 #### `async query(query)`
 

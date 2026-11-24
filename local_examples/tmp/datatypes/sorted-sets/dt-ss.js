@@ -65,7 +65,7 @@ assert.deepEqual(res6, [ { value: 'Ford', score: 6 }, { value: 'Sam-Bodden', sco
 // REMOVE_END
 
 // STEP_START zrangebyscore
-const res7 = await client.zRangeByScore('racer_scores', '-inf', 10);
+const res7 = await client.zRange('racer_scores', '-inf', 10, { BY: 'SCORE' });
 console.log(res7);  // >>> ['Ford', 'Sam-Bodden', 'Norem', 'Royce']
 // STEP_END
 
@@ -135,7 +135,7 @@ assert.equal(res13, 3)
 const res14 = await client.zRange('racer_scores', 0, -1);
 console.log(res14);  // >>> ['Castilla', 'Ford', 'Norem', 'Prickett', 'Royce', 'Sam-Bodden']
 
-const res15 = await client.zRangeByLex('racer_scores', '[A', '[L');
+const res15 = await client.zRange('racer_scores', '[A', '[L', { BY: 'LEX' });
 console.log(res15);  // >>> ['Castilla', 'Ford']
 // STEP_END
 

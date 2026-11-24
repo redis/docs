@@ -14,7 +14,7 @@ title: Redis leaderboard with Ruby
 weight: 8
 ---
 
-This guide shows you how to implement a Redis-backed leaderboard in Ruby with the [`redis-rb`]({{< relref "/develop/clients/ruby" >}}) client library. It uses a sorted set to store rank order, Redis hashes to store per-user metadata, and a small local web server so you can explore the leaderboard interactively in your browser.
+This guide shows you how to implement a Redis-backed leaderboard in Ruby with the [`redis-rb`](/content/develop/clients/ruby/_index.md) client library. It uses a sorted set to store rank order, Redis hashes to store per-user metadata, and a small local web server so you can explore the leaderboard interactively in your browser.
 
 ## Overview
 
@@ -110,12 +110,12 @@ The score data lives in the sorted set, while the user details live in hashes ke
 
 The implementation uses:
 
-* [`ZADD`]({{< relref "/commands/zadd" >}}) to add or update leaderboard scores
-* [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` option to fetch the highest-ranked members
-* [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) to find a user's rank from the top
-* [`ZREMRANGEBYRANK`]({{< relref "/commands/zremrangebyrank" >}}) to trim the lowest-ranked overflow entries
-* [`HSET`]({{< relref "/commands/hset" >}}) and [`HGETALL`]({{< relref "/commands/hgetall" >}}) to store and load user metadata
-* [`DEL`]({{< relref "/commands/del" >}}) to remove metadata for trimmed or deleted users
+* [`ZADD`](/content/commands/zadd.md) to add or update leaderboard scores
+* [`ZRANGE`](/content/commands/zrange.md) with the `REV` option to fetch the highest-ranked members
+* [`ZREVRANK`](/content/commands/zrevrank.md) to find a user's rank from the top
+* [`ZREMRANGEBYRANK`](/content/commands/zremrangebyrank.md) to trim the lowest-ranked overflow entries
+* [`HSET`](/content/commands/hset.md) and [`HGETALL`](/content/commands/hgetall.md) to store and load user metadata
+* [`DEL`](/content/commands/del.md) to remove metadata for trimmed or deleted users
 
 ## Leaderboard implementation
 

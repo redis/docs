@@ -18,6 +18,8 @@ weight: 7
 ---
 
 
+Redis Cloud Pro accounts can also connect Datadog with the [native integration]({{< relref "/integrate/datadog-with-redis-cloud/native" >}}), which pushes metrics directly from the Redis Cloud console with no agent to deploy or maintain.
+
 [Datadog](https://www.datadoghq.com/) is used by organizations of all sizes and across a wide range of industries to 
 enable digital transformation and cloud migration, drive collaboration among development, operations, security and 
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
@@ -34,7 +36,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rc/redis-cloud-datadog.png" alt="screenshot of datadog dashboard">}}
+![Datadog dashboard for Redis Cloud showing used memory, number of keys, operations per second and memory and keys by database](/images/rc/redis-cloud-datadog.png)
 ## Install Redis' Datadog Integration for Redis Cloud
 
 Installing the Datadog integration is a two-step process. Firstly, the installation must be part of your configuration. 
@@ -88,4 +90,4 @@ A number of additional dashboards will be included in the next release (v1.1.0).
 
 ## Monitor metrics
 
-See [Observability and monitoring guidance]({{< relref "/integrate/prometheus-with-redis-enterprise/observability" >}}) for monitoring details.
+See [Observability and monitoring guidance](/content/integrate/prometheus-with-redis-enterprise/observability.md) for monitoring details.

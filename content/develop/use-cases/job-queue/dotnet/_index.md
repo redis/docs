@@ -14,7 +14,7 @@ title: "Redis job queue with StackExchange.Redis"
 weight: 6
 ---
 
-This guide shows you how to implement a Redis-backed job queue in C# with [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/). It includes a small ASP.NET Core minimal-API web server so you can enqueue jobs, watch a pool of workers drain them, and see the reclaimer recover jobs from a simulated worker crash.
+This guide shows you how to implement a Redis-backed job queue in C# with [StackExchange.Redis](https://seredis.dev/). It includes a small ASP.NET Core minimal-API web server so you can enqueue jobs, watch a pool of workers drain them, and see the reclaimer recover jobs from a simulated worker crash.
 
 ## Overview
 
@@ -116,14 +116,14 @@ queue:jobs:job:9a4f...
 
 The implementation uses:
 
-* [`LPUSH`]({{< relref "/commands/lpush" >}}) to add new job IDs to the pending list
-* [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) (via `IDatabase.ListRightPopLeftPush`) to atomically claim a job into the processing list. StackExchange.Redis does not expose the blocking [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) variant, so the helper polls.
-* [`LREM`]({{< relref "/commands/lrem" >}}) to remove a claimed job from the processing list on complete or fail
-* [`LTRIM`]({{< relref "/commands/ltrim" >}}) to cap the completed and failed history lists
-* [`HSET`]({{< relref "/commands/hset" >}}) / [`HGETALL`]({{< relref "/commands/hgetall" >}}) for job metadata
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) on completed and failed hashes for automatic cleanup
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) on `queue:jobs:events` for completion signalling
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) ([`EVALSHA`]({{< relref "/commands/evalsha" >}})) for the complete, fail, and reclaim flows so each runs atomically against the processing list and metadata hash
+* [`LPUSH`](/content/commands/lpush.md) to add new job IDs to the pending list
+* [`RPOPLPUSH`](/content/commands/rpoplpush.md) (via `IDatabase.ListRightPopLeftPush`) to atomically claim a job into the processing list. StackExchange.Redis does not expose the blocking [`BRPOPLPUSH`](/content/commands/brpoplpush.md) variant, so the helper polls.
+* [`LREM`](/content/commands/lrem.md) to remove a claimed job from the processing list on complete or fail
+* [`LTRIM`](/content/commands/ltrim.md) to cap the completed and failed history lists
+* [`HSET`](/content/commands/hset.md) / [`HGETALL`](/content/commands/hgetall.md) for job metadata
+* [`EXPIRE`](/content/commands/expire.md) on completed and failed hashes for automatic cleanup
+* [`PUBLISH`](/content/commands/publish.md) on `queue:jobs:events` for completion signalling
+* [Lua scripting](/content/develop/programmability/eval-intro.md) ([`EVALSHA`](/content/commands/evalsha.md)) for the complete, fail, and reclaim flows so each runs atomically against the processing list and metadata hash
 
 ## Enqueueing jobs
 
@@ -408,7 +408,7 @@ A blanket `maxAttempts = 3` is a reasonable default for transient failures (netw
 
 ### Poll instead of blocking — and watch out for the multiplexer
 
-StackExchange.Redis [intentionally does not expose blocking commands](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers#fundamentally-blocking-operations) such as `BLPOP`, `BRPOPLPUSH`, or `BLMOVE`. The multiplexer interleaves all commands from all callers onto one TCP connection, so a long blocking call would stall every other request on the same connection. The helper therefore calls the non-blocking `ListRightPopLeftPush` and polls — at 50 ms it remains responsive without flooding Redis. If you really want a single connection dedicated to a blocking pop (a less common pattern in C#), spin up a second `ConnectionMultiplexer` configured with `AllowAdmin = true` and a separate database, and run the blocking call through its dedicated socket; this demo intentionally does not.
+StackExchange.Redis [intentionally does not expose blocking commands](https://seredis.dev/PipelinesMultiplexers.html#multiplexing) such as `BLPOP`, `BRPOPLPUSH`, or `BLMOVE`. The multiplexer interleaves all commands from all callers onto one TCP connection, so a long blocking call would stall every other request on the same connection. The helper therefore calls the non-blocking `ListRightPopLeftPush` and polls — at 50 ms it remains responsive without flooding Redis. If you really want a single connection dedicated to a blocking pop (a less common pattern in C#), spin up a second `ConnectionMultiplexer` configured with `AllowAdmin = true` and a separate database, and run the blocking call through its dedicated socket; this demo intentionally does not.
 
 ### Bump the minimum thread-pool size in long-running services
 
@@ -443,15 +443,15 @@ redis-cli --scan --pattern 'queue:jobs:*' | xargs redis-cli DEL
 
 This example uses the following Redis commands:
 
-* [`LPUSH`]({{< relref "/commands/lpush" >}}) to enqueue a job ID.
-* [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) to atomically claim a job into the processing list (the non-blocking variant of [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}), used because StackExchange.Redis doesn't expose blocking pops).
-* [`LREM`]({{< relref "/commands/lrem" >}}) to remove a job from the processing list on complete or fail.
-* [`LRANGE`]({{< relref "/commands/lrange" >}}) and [`LLEN`]({{< relref "/commands/llen" >}}) to read queue depth and list contents.
-* [`LTRIM`]({{< relref "/commands/ltrim" >}}) to cap the completed and failed history.
-* [`HSET`]({{< relref "/commands/hset" >}}) and [`HGETALL`]({{< relref "/commands/hgetall" >}}) for job metadata.
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) for the attempt counter.
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) for automatic cleanup of completed and failed jobs.
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) for job-completion notifications.
-* [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for atomic complete, fail, and reclaim flows.
+* [`LPUSH`](/content/commands/lpush.md) to enqueue a job ID.
+* [`RPOPLPUSH`](/content/commands/rpoplpush.md) to atomically claim a job into the processing list (the non-blocking variant of [`BRPOPLPUSH`](/content/commands/brpoplpush.md), used because StackExchange.Redis doesn't expose blocking pops).
+* [`LREM`](/content/commands/lrem.md) to remove a job from the processing list on complete or fail.
+* [`LRANGE`](/content/commands/lrange.md) and [`LLEN`](/content/commands/llen.md) to read queue depth and list contents.
+* [`LTRIM`](/content/commands/ltrim.md) to cap the completed and failed history.
+* [`HSET`](/content/commands/hset.md) and [`HGETALL`](/content/commands/hgetall.md) for job metadata.
+* [`HINCRBY`](/content/commands/hincrby.md) for the attempt counter.
+* [`EXPIRE`](/content/commands/expire.md) for automatic cleanup of completed and failed jobs.
+* [`PUBLISH`](/content/commands/publish.md) for job-completion notifications.
+* [`EVALSHA`](/content/commands/evalsha.md) for atomic complete, fail, and reclaim flows.
 
-See the [StackExchange.Redis documentation](https://stackexchange.github.io/StackExchange.Redis/) for the full client reference.
+See the [StackExchange.Redis documentation](https://seredis.dev/) for the full client reference.

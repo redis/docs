@@ -1,0 +1,1391 @@
+{
+ "about": "The exception that each client library raises for the error pages in content/develop/reference/errors/common/, and what its message looks like. Keyed by page file name. Each client was run against a live server, with the same scenarios as build/errors/live_checks.py: redis-py as recorded in build/errors/live_baseline.json, and the others with build/errors/live_clients.py on redis:8.10 (server 8.10.2), in build/errors/client_baselines/. The notes on MOVED and ASK about cluster clients that follow the redirect come from source.",
+ "versions": {
+  "redis-py": "7.4.1",
+  "jedis": "8.0.2",
+  "node-redis": "6.3.1",
+  "lettuce": "7.9.0.RELEASE",
+  "go-redis": "9.22.0",
+  "ioredis": "5.11.1",
+  "stackexchange-redis": "3.0.0",
+  "predis": "3.5.1",
+  "redis-rb": "6.0.0",
+  "redis-rs": "1.6.0"
+ },
+ "order": [
+  "redis-py",
+  "jedis",
+  "node-redis",
+  "lettuce",
+  "go-redis",
+  "ioredis",
+  "stackexchange-redis",
+  "predis",
+  "redis-rb",
+  "redis-rs"
+ ],
+ "clients": {
+  "redis-py": {
+   "name": "redis-py",
+   "package": "redis.exceptions",
+   "generic": "ResponseError",
+   "basis": "live",
+   "mapping": [
+    "redis_py"
+   ]
+  },
+  "jedis": {
+   "name": "Jedis",
+   "package": "redis.clients.jedis.exceptions",
+   "generic": "JedisDataException",
+   "basis": "live",
+   "mapping": [
+    "jedis"
+   ]
+  },
+  "node-redis": {
+   "name": "node-redis",
+   "package": "redis",
+   "generic": "SimpleError",
+   "basis": "live",
+   "mapping": [
+    "node_redis"
+   ]
+  },
+  "lettuce": {
+   "name": "Lettuce",
+   "package": "io.lettuce.core",
+   "generic": "RedisCommandExecutionException",
+   "basis": "live",
+   "note": "The async API wraps the exception in an `ExecutionException` (`get()`) or a `CompletionException` (`join()`).",
+   "mapping": [
+    "lettuce_sync",
+    "lettuce_async",
+    "lettuce_reactive"
+   ]
+  },
+  "go-redis": {
+   "name": "go-redis",
+   "package": "github.com/redis/go-redis/v9",
+   "generic": "redis.Error",
+   "basis": "live",
+   "mapping": [
+    "go-redis"
+   ]
+  },
+  "ioredis": {
+   "name": "ioredis",
+   "package": "ioredis",
+   "generic": "ReplyError",
+   "basis": "live",
+   "mapping": [
+    "ioredis"
+   ]
+  },
+  "stackexchange-redis": {
+   "name": "StackExchange.Redis",
+   "package": "StackExchange.Redis",
+   "generic": "RedisServerException",
+   "basis": "live",
+   "note": "NRedisStack uses StackExchange.Redis, so it raises the same exceptions. The sync and async APIs raise the same exceptions.",
+   "mapping": [
+    "nredisstack_sync",
+    "nredisstack_async"
+   ]
+  },
+  "predis": {
+   "name": "Predis",
+   "package": "Predis",
+   "generic": "Predis\\Response\\ServerException",
+   "basis": "live",
+   "mapping": [
+    "php"
+   ]
+  },
+  "redis-rb": {
+   "name": "redis-rb",
+   "package": "Redis",
+   "generic": "Redis::CommandError",
+   "basis": "live",
+   "mapping": [
+    "redis_rb"
+   ]
+  },
+  "redis-rs": {
+   "name": "redis-rs",
+   "package": "redis",
+   "generic": "ErrorKind::Extension",
+   "basis": "live",
+   "note": "The sync and async APIs raise the same errors.",
+   "mapping": [
+    "redis_rs_sync",
+    "redis_rs_async"
+   ]
+  }
+ },
+ "errors": {
+  "ask": {
+   "redis-py": {
+    "class": "AskError",
+    "message": "<slot> <endpoint>:<port>",
+    "note": "`RedisCluster` follows the redirect itself and raises this error only if it can't."
+   },
+   "jedis": {
+    "class": "JedisAskDataException",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "note": "`JedisCluster` follows the redirect itself and raises this error only if it can't."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "note": "`createCluster` follows the redirect itself, and throws `MaxCommandRedirectionsError` after 16 attempts by default.",
+    "check": "err.message.startsWith('ASK')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "note": "`RedisClusterClient` follows the redirect itself, and raises this error after 5 redirects by default."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "check": "redis.IsAskError(err)",
+    "note": "`ClusterClient` follows the redirect itself, and returns this error after `MaxRedirects` attempts (3 by default)."
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "check": "err.message.startsWith('ASK')"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "ASK <slot> <endpoint>:<port>",
+    "check": "$e->getErrorType() === 'ASK'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "ASK <slot> <endpoint>:<port> (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::Ask)",
+    "message": "Ask: <slot> <endpoint>:<port>"
+   }
+  },
+  "busy": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
+   },
+   "jedis": {
+    "class": "JedisBusyException",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+    "check": "err.message.startsWith('BUSY')"
+   },
+   "lettuce": {
+    "class": "RedisBusyException",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+    "check": "redis.HasErrorPrefix(err, \"BUSY\")"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+    "check": "err.message.startsWith('BUSY')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisConnectionException",
+    "message": "It was not possible to connect to the redis server(s). Error connecting right now. To allow this multiplexer to continue retrying until it's able to connect, use abortConnect=false in your connection string or AbortOnConnectFail=false; in your code.",
+    "note": "StackExchange.Redis sends commands when it connects, and the server refused them while a script ran, so a new connection fails."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+    "check": "$e->getErrorType() === 'BUSY'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "BUSY Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE. (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"BUSY\": Redis is busy running a script. You can only call SCRIPT KILL or SHUTDOWN NOSAVE.",
+    "check": "err.code() == Some(\"BUSY\")"
+   }
+  },
+  "busygroup": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "BUSYGROUP Consumer Group name already exists"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "BUSYGROUP Consumer Group name already exists"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "BUSYGROUP Consumer Group name already exists",
+    "check": "err.message.startsWith('BUSYGROUP')"
+   },
+   "lettuce": {
+    "class": "RedisBusyException",
+    "message": "BUSYGROUP Consumer Group name already exists"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "BUSYGROUP Consumer Group name already exists",
+    "check": "redis.HasErrorPrefix(err, \"BUSYGROUP\")"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "BUSYGROUP Consumer Group name already exists",
+    "check": "err.message.startsWith('BUSYGROUP')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "BUSYGROUP Consumer Group name already exists"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "BUSYGROUP Consumer Group name already exists",
+    "check": "$e->getErrorType() === 'BUSYGROUP'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "BUSYGROUP Consumer Group name already exists (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"BUSYGROUP\": Consumer Group name already exists",
+    "check": "err.code() == Some(\"BUSYGROUP\")"
+   }
+  },
+  "busykey": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "BUSYKEY Target key name already exists."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "BUSYKEY Target key name already exists."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "BUSYKEY Target key name already exists.",
+    "check": "err.message.startsWith('BUSYKEY')"
+   },
+   "lettuce": {
+    "class": "RedisBusyException",
+    "message": "BUSYKEY Target key name already exists."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "BUSYKEY Target key name already exists.",
+    "check": "redis.HasErrorPrefix(err, \"BUSYKEY\")"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "BUSYKEY Target key name already exists.",
+    "check": "err.message.startsWith('BUSYKEY')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "BUSYKEY Target key name already exists."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "BUSYKEY Target key name already exists.",
+    "check": "$e->getErrorType() === 'BUSYKEY'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "BUSYKEY Target key name already exists. (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"BUSYKEY\": Target key name already exists.",
+    "check": "err.code() == Some(\"BUSYKEY\")"
+   }
+  },
+  "clusterdown": {
+   "redis-py": {
+    "class": "ClusterDownError",
+    "message": "The cluster is down"
+   },
+   "jedis": {
+    "class": "JedisClusterException",
+    "message": "CLUSTERDOWN The cluster is down"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "CLUSTERDOWN The cluster is down",
+    "check": "err.message.startsWith('CLUSTERDOWN')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "CLUSTERDOWN The cluster is down"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "CLUSTERDOWN The cluster is down",
+    "check": "redis.IsClusterDownError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "CLUSTERDOWN The cluster is down",
+    "check": "err.message.startsWith('CLUSTERDOWN')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "CLUSTERDOWN The cluster is down"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "CLUSTERDOWN The cluster is down",
+    "check": "$e->getErrorType() === 'CLUSTERDOWN'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "CLUSTERDOWN The cluster is down (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::ClusterDown)",
+    "message": "ClusterDown: The cluster is down"
+   }
+  },
+  "crossslot": {
+   "redis-py": {
+    "class": "ClusterCrossSlotError",
+    "message": "Keys in request don't hash to the same slot"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot",
+    "check": "err.message.startsWith('CROSSSLOT')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot",
+    "check": "errors.Is(err, redis.ErrCrossSlot)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot",
+    "check": "err.message.startsWith('CROSSSLOT')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot",
+    "check": "$e->getErrorType() === 'CROSSSLOT'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "CROSSSLOT Keys in request don't hash to the same slot (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::CrossSlot)",
+    "message": "CrossSlot: Keys in request don't hash to the same slot"
+   }
+  },
+  "denied": {
+   "redis-py": {
+    "class": "ConnectionError",
+    "message": "Connection closed by server."
+   },
+   "jedis": {
+    "class": "JedisConnectionException",
+    "message": "Unexpected end of stream."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. ...",
+    "check": "err.message.startsWith('DENIED')"
+   },
+   "lettuce": {
+    "class": "RedisConnectionException",
+    "message": "Unable to connect to <host>/<unresolved>:<port>",
+    "note": "The cause is a `RedisConnectionException` with the `DENIED` message."
+   },
+   "go-redis": {
+    "class": "io.EOF",
+    "message": "EOF",
+    "note": "The server closes the connection after it sends the error, and go-redis reported `EOF` in our run, not the error text."
+   },
+   "ioredis": {
+    "class": "Error",
+    "message": "Connection is closed.",
+    "note": "The server closes the connection after it sends the error."
+   },
+   "stackexchange-redis": {
+    "class": "RedisConnectionException",
+    "message": "It was not possible to connect to the redis server(s). Error connecting right now. To allow this multiplexer to continue retrying until it's able to connect, use abortConnect=false in your connection string or AbortOnConnectFail=false; in your code.",
+    "note": "`Connect` raises this error when the server refuses the connection."
+   },
+   "predis": {
+    "class": "Predis\\Connection\\ConnectionException",
+    "message": "Stream is already at the end [tcp://<host>:<port>]"
+   },
+   "redis-rb": {
+    "class": "Redis::CannotConnectError",
+    "message": "EOFError (redis://<host>:<port>) (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Io",
+    "message": "unexpected end of file",
+    "note": "The server closes the connection after it sends the error. The async API reports `broken pipe`."
+   }
+  },
+  "err-max-clients": {
+   "redis-py": {
+    "class": "ConnectionError",
+    "message": "max number of clients reached"
+   },
+   "jedis": {
+    "class": "JedisConnectionException",
+    "message": "Unexpected end of stream."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR max number of clients reached"
+   },
+   "lettuce": {
+    "class": "RedisConnectionException",
+    "message": "Unable to connect to <host>/<unresolved>:<port>",
+    "note": "The cause is a `RedisCommandExecutionException` with the message `ERR max number of clients reached`."
+   },
+   "go-redis": {
+    "class": "io.EOF",
+    "message": "EOF",
+    "note": "The server closes the connection after it sends the error, and go-redis reported `EOF` in our run, not the error text."
+   },
+   "ioredis": {
+    "class": "Error",
+    "message": "Connection is closed.",
+    "note": "The server closes the connection after it sends the error."
+   },
+   "stackexchange-redis": {
+    "class": "RedisConnectionException",
+    "message": "It was not possible to connect to the redis server(s). Error connecting right now. To allow this multiplexer to continue retrying until it's able to connect, use abortConnect=false in your connection string or AbortOnConnectFail=false; in your code.",
+    "note": "`Connect` raises this error when the server refuses the connection."
+   },
+   "predis": {
+    "class": "Predis\\Connection\\ConnectionException",
+    "message": "Stream is already at the end [tcp://<host>:<port>]"
+   },
+   "redis-rb": {
+    "class": "Redis::CannotConnectError",
+    "message": "EOFError (redis://<host>:<port>) (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Io",
+    "message": "unexpected end of file",
+    "note": "The server closes the connection after it sends the error. The async API reports `broken pipe`."
+   }
+  },
+  "err-not-an-integer": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "value is not an integer or out of range"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "ERR value is not an integer or out of range"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "ERR value is not an integer or out of range (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::ResponseError)",
+    "message": "ResponseError: value is not an integer or out of range"
+   }
+  },
+  "err-syntax-error": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "syntax error"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "ERR syntax error"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR syntax error"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ERR syntax error"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "ERR syntax error"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "ERR syntax error"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "ERR syntax error"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "ERR syntax error"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "ERR syntax error (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::ResponseError)",
+    "message": "ResponseError: syntax error"
+   }
+  },
+  "err-unknown-command": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "unknown command '<command>', with args beginning with: <args>"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "ERR unknown command '<command>', with args beginning with: <args>"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "ERR unknown command '<command>', with args beginning with: <args> (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::ResponseError)",
+    "message": "ResponseError: unknown command '<command>', with args beginning with: <args>"
+   }
+  },
+  "err-wrong-number-of-arguments": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "wrong number of arguments for '<command>' command"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "ERR wrong number of arguments for '<command>' command"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "ERR wrong number of arguments for '<command>' command (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::ResponseError)",
+    "message": "ResponseError: wrong number of arguments for '<command>' command"
+   }
+  },
+  "execabort": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "Command # <n> (<command>) of pipeline caused error: <error>",
+    "note": "redis-py raises the error of the command that failed to queue, not `EXECABORT`."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "EXECABORT Transaction discarded because of previous errors.",
+    "note": "The errors of the commands that failed to queue are attached to the exception as suppressed exceptions."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "ERR unknown command '<command>'",
+    "note": "`exec()` rejects with the error of the command that failed to queue, not `EXECABORT`."
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "EXECABORT Transaction discarded because of previous errors."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "EXECABORT Transaction discarded because of previous errors.",
+    "check": "redis.IsExecAbortError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "EXECABORT Transaction discarded because of previous errors.",
+    "check": "err.message.startsWith('EXECABORT')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "EXECABORT Transaction discarded because of previous errors."
+   },
+   "predis": {
+    "class": "Predis\\Transaction\\AbortedMultiExecException",
+    "message": "ERR unknown command '<command>'",
+    "note": "`transaction()` throws with the error of the command that failed to queue, not `EXECABORT`."
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "ERR unknown command '<command>' (redis://<host>:<port>)",
+    "note": "`multi` raises the error of the command that failed to queue, not `EXECABORT`."
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::ExecAbort)",
+    "message": "Transaction aborted: [(Index <n>, error: <error>)]"
+   }
+  },
+  "loading": {
+   "redis-py": {
+    "class": "BusyLoadingError",
+    "message": "Redis is loading the dataset in memory"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "LOADING Redis is loading the dataset in memory"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "LOADING Redis is loading the dataset in memory",
+    "check": "err.message.startsWith('LOADING')"
+   },
+   "lettuce": {
+    "class": "RedisLoadingException",
+    "message": "LOADING Redis is loading the dataset in memory"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "LOADING Redis is loading the dataset in memory",
+    "check": "redis.IsLoadingError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "LOADING Redis is loading the dataset in memory",
+    "check": "err.message.startsWith('LOADING')",
+    "note": "By default ioredis waits while the server loads its data, so the command doesn't fail. Set `enableReadyCheck: false` to get this error."
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "LOADING Redis is loading the dataset in memory"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "LOADING Redis is loading the dataset in memory",
+    "check": "$e->getErrorType() === 'LOADING'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "LOADING Redis is loading the dataset in memory (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::BusyLoading)",
+    "message": "BusyLoading: Redis is loading the dataset in memory"
+   }
+  },
+  "masterdown": {
+   "redis-py": {
+    "class": "MasterDownError",
+    "message": "Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'.",
+    "check": "err.message.startsWith('MASTERDOWN')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'.",
+    "check": "redis.IsMasterDownError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'.",
+    "check": "err.message.startsWith('MASTERDOWN')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'.",
+    "check": "$e->getErrorType() === 'MASTERDOWN'"
+   },
+   "redis-rb": {
+    "class": "Redis::ConnectionError",
+    "message": "MASTERDOWN Link with MASTER is down and replica-serve-stale-data is set to 'no'. (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::MasterDown)",
+    "message": "MasterDown: Link with MASTER is down and replica-serve-stale-data is set to 'no'."
+   }
+  },
+  "misconf": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.",
+    "check": "err.message.startsWith('MISCONF')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.",
+    "check": "redis.HasErrorPrefix(err, \"MISCONF\")"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.",
+    "check": "err.message.startsWith('MISCONF')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.",
+    "check": "$e->getErrorType() === 'MISCONF'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error. (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"MISCONF\": Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.",
+    "check": "err.code() == Some(\"MISCONF\")"
+   }
+  },
+  "moved": {
+   "redis-py": {
+    "class": "MovedError",
+    "message": "<slot> <endpoint>:<port>",
+    "note": "`RedisCluster` follows the redirect itself and raises this error only if it can't."
+   },
+   "jedis": {
+    "class": "JedisMovedDataException",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "note": "`JedisCluster` follows the redirect itself and raises this error only if it can't."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "note": "`createCluster` follows the redirect itself, and throws `MaxCommandRedirectionsError` after 16 attempts by default.",
+    "check": "err.message.startsWith('MOVED')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "note": "`RedisClusterClient` follows the redirect itself, and raises this error after 5 redirects by default."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "check": "redis.IsMovedError(err)",
+    "note": "`ClusterClient` follows the redirect itself, and returns this error after `MaxRedirects` attempts (3 by default)."
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "check": "err.message.startsWith('MOVED')"
+   },
+   "stackexchange-redis": {
+    "class": "(none)",
+    "message": "",
+    "note": "When it connects to a cluster, StackExchange.Redis learns which node holds each slot and sends the command there, so no `MOVED` error reaches your code."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "MOVED <slot> <endpoint>:<port>",
+    "check": "$e->getErrorType() === 'MOVED'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "MOVED <slot> <endpoint>:<port> (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::Moved)",
+    "message": "Moved: <slot> <endpoint>:<port>"
+   }
+  },
+  "noauth": {
+   "redis-py": {
+    "class": "AuthenticationError",
+    "message": "Authentication required."
+   },
+   "jedis": {
+    "class": "JedisAccessControlException",
+    "message": "NOAUTH Authentication required."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "NOAUTH HELLO must be called with the client already authenticated, otherwise the HELLO <proto> AUTH <user> <pass> option can be used to authenticate the client and select the RESP protocol version at the same time",
+    "note": "node-redis sends `HELLO` when it connects, so `connect()` raises this error, and the message names `HELLO`.",
+    "check": "err.message.startsWith('NOAUTH')"
+   },
+   "lettuce": {
+    "class": "RedisConnectionException",
+    "message": "Unable to connect to <host>/<unresolved>:<port>",
+    "note": "The cause is a `RedisCommandExecutionException` with the message `NOAUTH HELLO must be called with the client already authenticated…`. Lettuce authenticates and sends `HELLO` when it connects, so `connect()` raises this error."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOAUTH Authentication required.",
+    "check": "redis.IsAuthError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "NOAUTH Authentication required.",
+    "check": "err.message.startsWith('NOAUTH')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisConnectionException",
+    "message": "It was not possible to connect to the redis server(s). There was an authentication failure; check that passwords (or client certificates) are configured correctly: (RedisServerException) NOAUTH Returned - connection has not yet authenticated",
+    "note": "StackExchange.Redis authenticates when it connects, so `Connect` raises this error."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "NOAUTH Authentication required.",
+    "check": "$e->getErrorType() === 'NOAUTH'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "NOAUTH HELLO must be called with the client already authenticated, otherwise the HELLO <proto> AUTH <user> <pass> option can be used to authenticate the client and select the RESP protocol version at the same time (redis://<host>:<port>)",
+    "note": "redis-rb sends `HELLO` when it connects, so the message names `HELLO`."
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"NOAUTH\": Authentication required.",
+    "check": "err.code() == Some(\"NOAUTH\")"
+   }
+  },
+  "nogroup": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option",
+    "check": "err.message.startsWith('NOGROUP')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option",
+    "check": "redis.HasErrorPrefix(err, \"NOGROUP\")"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option",
+    "check": "err.message.startsWith('NOGROUP')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option",
+    "check": "$e->getErrorType() === 'NOGROUP'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "NOGROUP No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"NOGROUP\": No such key '<key>' or consumer group '<group>' in XREADGROUP with GROUP option",
+    "check": "err.code() == Some(\"NOGROUP\")"
+   }
+  },
+  "noperm": {
+   "redis-py": {
+    "class": "NoPermissionError",
+    "message": "User <username> has no permissions to run the '<command>' command"
+   },
+   "jedis": {
+    "class": "JedisAccessControlException",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command",
+    "check": "err.message.startsWith('NOPERM')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command",
+    "check": "redis.IsPermissionError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command",
+    "check": "err.message.startsWith('NOPERM')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisConnectionException",
+    "message": "It was not possible to connect to the redis server(s). Error connecting right now. To allow this multiplexer to continue retrying until it's able to connect, use abortConnect=false in your connection string or AbortOnConnectFail=false; in your code.",
+    "note": "StackExchange.Redis sends commands when it connects, and the ACL rules of the user in this example refused them."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command",
+    "check": "$e->getErrorType() === 'NOPERM'"
+   },
+   "redis-rb": {
+    "class": "Redis::PermissionError",
+    "message": "NOPERM User <username> has no permissions to run the '<command>' command (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::NoPerm)",
+    "message": "NoPerm: User <username> has no permissions to run the '<command>' command"
+   }
+  },
+  "noreplicas": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "NOREPLICAS Not enough good replicas to write."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "NOREPLICAS Not enough good replicas to write."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "NOREPLICAS Not enough good replicas to write.",
+    "check": "err.message.startsWith('NOREPLICAS')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "NOREPLICAS Not enough good replicas to write."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOREPLICAS Not enough good replicas to write.",
+    "check": "redis.IsNoReplicasError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "NOREPLICAS Not enough good replicas to write.",
+    "check": "err.message.startsWith('NOREPLICAS')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "NOREPLICAS Not enough good replicas to write."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "NOREPLICAS Not enough good replicas to write.",
+    "check": "$e->getErrorType() === 'NOREPLICAS'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "NOREPLICAS Not enough good replicas to write. (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"NOREPLICAS\": Not enough good replicas to write.",
+    "check": "err.code() == Some(\"NOREPLICAS\")"
+   }
+  },
+  "noscript": {
+   "redis-py": {
+    "class": "NoScriptError",
+    "message": "No matching script. Please use EVAL."
+   },
+   "jedis": {
+    "class": "JedisNoScriptException",
+    "message": "NOSCRIPT No matching script. Please use EVAL."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "NOSCRIPT No matching script. Please use EVAL.",
+    "check": "err.message.startsWith('NOSCRIPT')"
+   },
+   "lettuce": {
+    "class": "RedisNoScriptException",
+    "message": "NOSCRIPT No matching script. Please use EVAL."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "NOSCRIPT No matching script. Please use EVAL.",
+    "check": "errors.Is(err, redis.ErrNoScript)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "NOSCRIPT No matching script. Please use EVAL.",
+    "check": "err.message.startsWith('NOSCRIPT')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "NOSCRIPT No matching script. Please use EVAL."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "NOSCRIPT No matching script. Please use EVAL.",
+    "check": "$e->getErrorType() === 'NOSCRIPT'"
+   },
+   "redis-rb": {
+    "class": "Redis::NoScriptError",
+    "message": "NOSCRIPT No matching script. Please use EVAL. (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::NoScript)",
+    "message": "NoScript: No matching script. Please use EVAL."
+   }
+  },
+  "oom": {
+   "redis-py": {
+    "class": "OutOfMemoryError",
+    "message": "command not allowed when used memory > 'maxmemory'."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "OOM command not allowed when used memory > 'maxmemory'."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "OOM command not allowed when used memory > 'maxmemory'.",
+    "check": "err.message.startsWith('OOM')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "OOM command not allowed when used memory > 'maxmemory'."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "OOM command not allowed when used memory > 'maxmemory'.",
+    "check": "redis.IsOOMError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "OOM command not allowed when used memory > 'maxmemory'.",
+    "check": "err.message.startsWith('OOM')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "OOM command not allowed when used memory > 'maxmemory'."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "OOM command not allowed when used memory > 'maxmemory'.",
+    "check": "$e->getErrorType() === 'OOM'"
+   },
+   "redis-rb": {
+    "class": "Redis::OutOfMemoryError",
+    "message": "OOM command not allowed when used memory > 'maxmemory'. (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"OOM\": command not allowed when used memory > 'maxmemory'.",
+    "check": "err.code() == Some(\"OOM\")"
+   }
+  },
+  "readonly": {
+   "redis-py": {
+    "class": "ReadOnlyError",
+    "message": "You can't write against a read only replica."
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "READONLY You can't write against a read only replica."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "READONLY You can't write against a read only replica.",
+    "check": "err.message.startsWith('READONLY')"
+   },
+   "lettuce": {
+    "class": "RedisReadOnlyException",
+    "message": "READONLY You can't write against a read only replica."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "READONLY You can't write against a read only replica.",
+    "check": "redis.IsReadOnlyError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "READONLY You can't write against a read only replica.",
+    "check": "err.message.startsWith('READONLY')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisConnectionException",
+    "message": "No connection (requires writable - not eligible for replica) is active/available to service this operation: SET, …",
+    "note": "StackExchange.Redis refuses a write to a replica itself, so the server's `READONLY` error never arrives."
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "READONLY You can't write against a read only replica.",
+    "check": "$e->getErrorType() === 'READONLY'"
+   },
+   "redis-rb": {
+    "class": "Redis::ReadOnlyError",
+    "message": "READONLY You can't write against a read only replica. (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::ReadOnly)",
+    "message": "ReadOnly: You can't write against a read only replica."
+   }
+  },
+  "tryagain": {
+   "redis-py": {
+    "class": "TryAgainError",
+    "message": "Multiple keys request during rehashing of slot"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot",
+    "check": "err.message.startsWith('TRYAGAIN')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot",
+    "check": "redis.IsTryAgainError(err)"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot",
+    "check": "err.message.startsWith('TRYAGAIN')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot",
+    "check": "$e->getErrorType() === 'TRYAGAIN'"
+   },
+   "redis-rb": {
+    "class": "Redis::CommandError",
+    "message": "TRYAGAIN Multiple keys request during rehashing of slot (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Server(ServerErrorKind::TryAgain)",
+    "message": "TryAgain: Multiple keys request during rehashing of slot"
+   }
+  },
+  "wrongpass": {
+   "redis-py": {
+    "class": "AuthenticationError",
+    "message": "invalid username-password pair or user is disabled."
+   },
+   "jedis": {
+    "class": "JedisAccessControlException",
+    "message": "WRONGPASS invalid username-password pair or user is disabled.",
+    "note": "`AUTH` with a password for a user that has none returns `ERR AUTH <password> called without any password configured for the default user…`, which is a `JedisDataException`."
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "WRONGPASS invalid username-password pair or user is disabled.",
+    "check": "err.message.startsWith('WRONGPASS')"
+   },
+   "lettuce": {
+    "class": "RedisConnectionException",
+    "message": "Unable to connect to <host>/<unresolved>:<port>",
+    "note": "The cause is a `RedisCommandExecutionException` with the server's `WRONGPASS` message. `AUTH` with a password for a user that has none raises `RedisCommandExecutionException` with the `ERR AUTH <password> called without any password configured…` message, and no `RedisConnectionException`."
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "WRONGPASS invalid username-password pair or user is disabled.",
+    "check": "redis.IsAuthError(err)",
+    "note": "`AUTH` with a password for a user that has none returns `ERR AUTH <password> called without any password configured…`, which has no check of its own."
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "WRONGPASS invalid username-password pair or user is disabled.",
+    "check": "err.message.startsWith('WRONGPASS')",
+    "note": "`AUTH` with a password for a user that has none returns `ERR AUTH <password> called without any password configured…`."
+   },
+   "stackexchange-redis": {
+    "class": "RedisConnectionException",
+    "message": "It was not possible to connect to the redis server(s). There was an authentication failure; check that passwords (or client certificates) are configured correctly: (RedisServerException) SimpleError: WRONGPASS invalid username-password pair or user is disabled.",
+    "note": "`AUTH` with a password for a user that has none raises `RedisServerException` with the message `ERR AUTH <password> called without any password configured…`."
+   },
+   "predis": {
+    "class": "Predis\\Connection\\ConnectionException",
+    "message": "Failed: WRONGPASS invalid username-password pair or user is disabled. [tcp://<host>:<port>]",
+    "note": "`AUTH` with a password for a user that has none raises `Predis\\Response\\ServerException` with the message `ERR AUTH <password> called without any password configured…`."
+   },
+   "redis-rb": {
+    "class": "Redis::CannotConnectError",
+    "message": "WRONGPASS invalid username-password pair or user is disabled. (redis://<host>:<port>)",
+    "note": "`AUTH` with a password for a user that has none raises `Redis::CommandError` with the message `ERR AUTH <password> called without any password configured…`."
+   },
+   "redis-rs": {
+    "class": "ErrorKind::AuthenticationFailed",
+    "message": "Password authentication failed - AuthenticationFailed",
+    "note": "`AUTH` with a password for a user that has none returns `ErrorKind::Server(ServerErrorKind::ResponseError)` with the message `ResponseError: AUTH <password> called without any password configured…`."
+   }
+  },
+  "wrongtype": {
+   "redis-py": {
+    "class": "ResponseError",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
+   },
+   "jedis": {
+    "class": "JedisDataException",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
+   },
+   "node-redis": {
+    "class": "SimpleError",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value",
+    "check": "err.message.startsWith('WRONGTYPE')"
+   },
+   "lettuce": {
+    "class": "RedisCommandExecutionException",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
+   },
+   "go-redis": {
+    "class": "redis.Error",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value",
+    "check": "redis.HasErrorPrefix(err, \"WRONGTYPE\")"
+   },
+   "ioredis": {
+    "class": "ReplyError",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value",
+    "check": "err.message.startsWith('WRONGTYPE')"
+   },
+   "stackexchange-redis": {
+    "class": "RedisServerException",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value"
+   },
+   "predis": {
+    "class": "Predis\\Response\\ServerException",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value",
+    "check": "$e->getErrorType() === 'WRONGTYPE'"
+   },
+   "redis-rb": {
+    "class": "Redis::WrongTypeError",
+    "message": "WRONGTYPE Operation against a key holding the wrong kind of value (redis://<host>:<port>)"
+   },
+   "redis-rs": {
+    "class": "ErrorKind::Extension",
+    "message": "\"WRONGTYPE\": Operation against a key holding the wrong kind of value",
+    "check": "err.code() == Some(\"WRONGTYPE\")"
+   }
+  }
+ }
+}

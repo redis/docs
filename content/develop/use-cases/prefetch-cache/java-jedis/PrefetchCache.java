@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.AbstractTransaction;
 import redis.clients.jedis.Pipeline;
-import redis.clients.jedis.Transaction;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 
@@ -33,7 +32,7 @@ public class PrefetchCache {
     public static final String DEFAULT_PREFIX = "cache:category:";
     public static final int DEFAULT_TTL_SECONDS = 3600;
 
-    private final JedisPool pool;
+    private final RedisClient jedis;
     private final String prefix;
     private final int ttlSeconds;
 
@@ -45,18 +44,18 @@ public class PrefetchCache {
     private double syncLagMsTotal;
     private long syncLagSamples;
 
-    public PrefetchCache(JedisPool pool) {
-        this(pool, DEFAULT_PREFIX, DEFAULT_TTL_SECONDS);
+    public PrefetchCache(RedisClient jedis) {
+        this(jedis, DEFAULT_PREFIX, DEFAULT_TTL_SECONDS);
     }
 
-    public PrefetchCache(JedisPool pool, String prefix, int ttlSeconds) {
-        if (pool == null) {
-            throw new IllegalArgumentException("pool is required");
+    public PrefetchCache(RedisClient jedis, String prefix, int ttlSeconds) {
+        if (jedis == null) {
+            throw new IllegalArgumentException("jedis is required");
         }
         if (ttlSeconds < 1) {
             throw new IllegalArgumentException("ttlSeconds must be at least 1 second");
         }
-        this.pool = pool;
+        this.jedis = jedis;
         this.prefix = (prefix == null || prefix.isEmpty()) ? DEFAULT_PREFIX : prefix;
         this.ttlSeconds = ttlSeconds;
     }
@@ -96,8 +95,7 @@ public class PrefetchCache {
      */
     public int bulkLoad(Iterable<Map<String, String>> records) {
         int loaded = 0;
-        try (Jedis jedis = pool.getResource()) {
-            Pipeline pipe = jedis.pipelined();
+        try (Pipeline pipe = jedis.pipelined()) {
             for (Map<String, String> record : records) {
                 if (record == null) {
                     continue;
@@ -114,7 +112,7 @@ public class PrefetchCache {
             }
             if (loaded > 0) {
                 pipe.sync();
-            }
+        }
         }
         synchronized (statsLock) {
             prefetched += loaded;
@@ -133,9 +131,7 @@ public class PrefetchCache {
         String cacheKey = cacheKey(entityId);
         long startedNs = System.nanoTime();
         Map<String, String> cached;
-        try (Jedis jedis = pool.getResource()) {
-            cached = jedis.hgetAll(cacheKey);
-        }
+        cached = jedis.hgetAll(cacheKey);
         double redisLatencyMs = (System.nanoTime() - startedNs) / 1_000_000.0;
 
         if (cached != null && !cached.isEmpty()) {
@@ -185,17 +181,14 @@ public class PrefetchCache {
                 // just drops it.
                 return;
             }
-            try (Jedis jedis = pool.getResource()) {
-                Transaction tx = jedis.multi();
+            try (AbstractTransaction tx = jedis.multi()) {
                 tx.del(cacheKey);
                 tx.hset(cacheKey, fields);
                 tx.expire(cacheKey, ttlSeconds);
                 tx.exec();
             }
         } else if ("delete".equals(op)) {
-            try (Jedis jedis = pool.getResource()) {
-                jedis.del(cacheKey);
-            }
+            jedis.del(cacheKey);
         } else {
             return;
         }
@@ -214,9 +207,7 @@ public class PrefetchCache {
 
     /** Delete one cache key. Demo-only: simulates a broken sync pipeline. */
     public boolean invalidate(String entityId) {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.del(cacheKey(entityId)) == 1L;
-        }
+        return jedis.del(cacheKey(entityId)) == 1L;
     }
 
     /** Delete every key under this cache's prefix and return the count. */
@@ -224,18 +215,16 @@ public class PrefetchCache {
         int deleted = 0;
         String match = prefix + "*";
         ScanParams params = new ScanParams().match(match).count(500);
-        try (Jedis jedis = pool.getResource()) {
-            String cursor = ScanParams.SCAN_POINTER_START;
-            do {
-                ScanResult<String> scan = jedis.scan(cursor, params);
-                cursor = scan.getCursor();
-                List<String> keys = scan.getResult();
-                if (keys != null && !keys.isEmpty()) {
-                    // DEL accepts multiple keys; one round trip per batch.
-                    deleted += (int) jedis.del(keys.toArray(new String[0]));
-                }
-            } while (!ScanParams.SCAN_POINTER_START.equals(cursor));
-        }
+        String cursor = ScanParams.SCAN_POINTER_START;
+        do {
+            ScanResult<String> scan = jedis.scan(cursor, params);
+            cursor = scan.getCursor();
+            List<String> keys = scan.getResult();
+            if (keys != null && !keys.isEmpty()) {
+                // DEL accepts multiple keys; one round trip per batch.
+                deleted += (int) jedis.del(keys.toArray(new String[0]));
+            }
+        } while (!ScanParams.SCAN_POINTER_START.equals(cursor));
         return deleted;
     }
 
@@ -243,16 +232,14 @@ public class PrefetchCache {
     public List<String> ids() {
         List<String> result = new ArrayList<>();
         ScanParams params = new ScanParams().match(prefix + "*").count(500);
-        try (Jedis jedis = pool.getResource()) {
-            String cursor = ScanParams.SCAN_POINTER_START;
-            do {
-                ScanResult<String> scan = jedis.scan(cursor, params);
-                cursor = scan.getCursor();
-                for (String key : scan.getResult()) {
-                    result.add(stripPrefix(key));
-                }
-            } while (!ScanParams.SCAN_POINTER_START.equals(cursor));
-        }
+        String cursor = ScanParams.SCAN_POINTER_START;
+        do {
+            ScanResult<String> scan = jedis.scan(cursor, params);
+            cursor = scan.getCursor();
+            for (String key : scan.getResult()) {
+                result.add(stripPrefix(key));
+            }
+        } while (!ScanParams.SCAN_POINTER_START.equals(cursor));
         Collections.sort(result);
         return result;
     }
@@ -260,21 +247,17 @@ public class PrefetchCache {
     public int count() {
         int n = 0;
         ScanParams params = new ScanParams().match(prefix + "*").count(500);
-        try (Jedis jedis = pool.getResource()) {
-            String cursor = ScanParams.SCAN_POINTER_START;
-            do {
-                ScanResult<String> scan = jedis.scan(cursor, params);
-                cursor = scan.getCursor();
-                n += scan.getResult().size();
-            } while (!ScanParams.SCAN_POINTER_START.equals(cursor));
-        }
+        String cursor = ScanParams.SCAN_POINTER_START;
+        do {
+            ScanResult<String> scan = jedis.scan(cursor, params);
+            cursor = scan.getCursor();
+            n += scan.getResult().size();
+        } while (!ScanParams.SCAN_POINTER_START.equals(cursor));
         return n;
     }
 
     public long ttlRemaining(String entityId) {
-        try (Jedis jedis = pool.getResource()) {
-            return jedis.ttl(cacheKey(entityId));
-        }
+        return jedis.ttl(cacheKey(entityId));
     }
 
     /** Hit/miss + sync counters with derived hit-rate and average sync lag. */

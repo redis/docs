@@ -15,11 +15,10 @@ aliases:
 ---
 You can use [HashiCorp Terraform](https://www.terraform.io/intro/index.html) to create identity and access management (IAM) resources to support AWS cloud account access to Redis Cloud subscriptions.
 
-{{< warning >}}
-We use the provided credentials to configure your AWS environment and provision required resources.
-
-You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
-{{< /warning >}}
+> [!WARNING]
+> We use the provided credentials to configure your AWS environment and provision required resources.
+>
+> You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md#avoid-service-disruption) for more details.
 
 The following example uses the `terraform-aws-Redislabs-Cloud-Account-IAM-Resources` module, located in Amazon&nbsp;S3:
 
@@ -52,7 +51,7 @@ The following example uses the `terraform-aws-Redislabs-Cloud-Account-IAM-Resour
     terraform apply
     ```
 
-    You need the following information to [create a Cloud Account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) in the Redis Cloud console:
+    You need the following information to [create a Cloud Account](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md) in the Redis Cloud console:
 
     - **Access Key ID**: The `accessKeyId` output.
     - **Secret Access Key**: Run the following command to extract the secret key from the `accessSecretKey` output:

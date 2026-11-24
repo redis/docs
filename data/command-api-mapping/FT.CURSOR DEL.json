@@ -1,21 +1,6 @@
 {
   "api_calls": {
-    "redis_py": [
-      {
-        "signature": "cursor_del(cursor_id: int)",
-        "params": [
-          {
-            "name": "cursor_id",
-            "type": "int",
-            "description": "The cursor ID to delete"
-          }
-        ],
-        "returns": {
-          "type": "str",
-          "description": "OK on success"
-        }
-      }
-    ],
+    "redis_py": [],
     "jedis": [
       {
         "signature": "String ftCursorDel(String indexName, long cursorId)",
@@ -37,9 +22,69 @@
         }
       }
     ],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
+    "lettuce_sync": [
+      {
+        "signature": "String ftCursordel(String index, Cursor cursor)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the cursor was successfully deleted"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ftCursordel(String index, Cursor cursor)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the cursor was successfully deleted"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ftCursordel(String index, Cursor cursor)",
+        "params": [
+          {
+            "name": "index",
+            "type": "String",
+            "description": "the index name, as a key"
+          },
+          {
+            "name": "cursor",
+            "type": "Cursor",
+            "description": "the cursor obtained from a previous FT.AGGREGATE or FT.CURSOR READ command"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the cursor was successfully deleted"
+        }
+      }
+    ],
     "go-redis": [
       {
         "signature": "FTCursorDel(ctx context.Context, index string, cursorId int)",
@@ -68,7 +113,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CURSOR_DEL(index: RedisArgument, cursorId: number)",
+        "signature": "client.ft.cursorDel(index: RedisArgument, cursorId: number)",
         "params": [
           {
             "name": "index",
@@ -82,7 +127,7 @@
           }
         ],
         "returns": {
-          "type": "Promise<string>",
+          "type": "string",
           "description": "OK on success"
         }
       }

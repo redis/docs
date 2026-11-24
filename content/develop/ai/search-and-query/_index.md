@@ -31,7 +31,7 @@ Redis Search offers an enhanced Redis experience via the following search and qu
 - Geospatial queries
 - Aggregations
 
-You can find a complete list of features in the [reference documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/" >}}).
+You can find a complete list of features in the [reference documentation](/content/develop/ai/search-and-query/advanced-concepts/_index.md).
 
 Redis Search features allow you to use Redis as a:
 
@@ -42,27 +42,25 @@ Redis Search features allow you to use Redis as a:
 
 Here are the next steps to get you started:
 
-1. Follow our [quick start guide]({{< relref "/develop/get-started/search-tutorial" >}}) to get some initial hands-on experience.
-1. Learn how to [create an index]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
-1. Learn how to [query your data]({{< relref "/develop/ai/search-and-query/query/" >}}).
-1. [Install Redis Insight]({{< relref "/operate/redisinsight" >}}), connect it to your Redis database, and then use [Redis Copilot]({{< relref "/develop/tools/insight" >}}#redis-copilot) to help you learn how to execute complex queries against your own data using simple, plain language prompts.
-1. Open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template to generate a working RAG agent built on Redis vector search.
+1. Follow our [quick start guide](/content/develop/get-started/search-tutorial/_index.md) to get some initial hands-on experience.
+1. Learn how to [create an index](/content/develop/ai/search-and-query/indexing/_index.md).
+1. Learn how to [query your data](/content/develop/ai/search-and-query/query/_index.md).
+1. [Install Redis Insight](/content/operate/redisinsight/_index.md), connect it to your Redis database, and then use [Redis Copilot](/content/develop/tools/insight/_index.md#redis-copilot) to help you learn how to execute complex queries against your own data using simple, plain language prompts.
+1. Open the [AI agent builder](/content/develop/ai/agent-builder/_index.md) and choose the **Knowledge Assistant** template to generate a working RAG agent built on Redis vector search.
 
-{{< tip >}}
-See Redis vector search in a real workflow: [Redis Repo Memory](https://github.com/marketplace/actions/redis-repo-memory) is a GitHub Action that surfaces related past PRs, issues, and commits on every pull request. Add it to any repository in a few minutes.
-{{< /tip >}}
+> [!TIP]
+> See Redis vector search in a real workflow: [Redis Repo Memory](https://github.com/marketplace/actions/redis-repo-memory) is a GitHub Action that surfaces related past PRs, issues, and commits on every pull request. Add it to any repository in a few minutes.
 
 ## Enable Redis Search
 
 Redis Search is available in Redis Open Source, Redis Software, and Redis Cloud.
 See
-[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-[Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
+[Install Redis Open Source](/content/operate/oss_and_stack/install/install-stack/_index.md) or
+[Install Redis Software](/content/operate/rs/installing-upgrading/install/_index.md)
 for full installation instructions.
 
-{{< alert title="Try it out" >}}
-Experiment with Redis Search interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.
-{{< /alert >}}
+> [!NOTE] Try it out
+> Experiment with Redis Search interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.
 
 ## License and source code
 

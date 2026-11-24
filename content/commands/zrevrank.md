@@ -64,7 +64,7 @@ score has rank `0`.
 
 The optional `WITHSCORE` argument supplements the command's reply with the score of the element returned.
 
-Use [`ZRANK`]({{< relref "/commands/zrank" >}}) to get the rank of an element with the scores ordered from low to
+Use [`ZRANK`](/content/commands/zrank.md) to get the rank of an element with the scores ordered from low to
 high.
 
 ## Required arguments

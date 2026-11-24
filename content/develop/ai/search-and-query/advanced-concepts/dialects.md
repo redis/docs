@@ -17,11 +17,11 @@ title: Query dialects
 weight: 16
 ---
 
-Redis Open Source currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), and other Redis Search commands.
+Redis Open Source currently supports four query dialects for use with the [`FT.SEARCH`](/content/commands/ft.search.md), [`FT.AGGREGATE`](/content/commands/ft.aggregate.md), and other Redis Search commands.
 Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
-{{< note >}}Dialects 1, 3, and 4 are deprecated in Redis 8 in Redis Open Source. However, DIALECT 1 remains the default.
-{{< /note >}}
+> [!NOTE]
+> Dialects 1, 3, and 4 are deprecated in Redis 8 in Redis Open Source. However, DIALECT 1 remains the default.
 
 ## `DIALECT 1` (Deprecated)
 
@@ -31,7 +31,7 @@ This dialect is also the default dialect. See below for information about changi
 ## `DIALECT 2`
 
 Dialect version 2 was introduced in the [2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) release to address query parser inconsistencies found in previous versions of Redis. Dialect version 1 remains the default dialect. To use dialect version 2, append `DIALECT 2` to your query command.
-Support for vector search also was introduced in the 2.4 release and requires `DIALECT 2`. See [here]({{< relref "/develop/ai/search-and-query/query/vector-search" >}}) for more details.
+Support for vector search also was introduced in the 2.4 release and requires `DIALECT 2`. See [here](/content/develop/ai/search-and-query/query/vector-search.md) for more details.
 `FT.SEARCH ... DIALECT 2`
 
 It was determined that under certain conditions some query parsing rules did not behave as originally intended.
@@ -77,9 +77,8 @@ Existing queries that used dialect 1 may behave differently using dialect 2 if t
 
 With `DIALECT 2` you can use un-escaped spaces in tag queries, even with stopwords.
 
-{{% alert title=Note %}}
-`DIALECT 2` is required with vector searches.
-{{% /alert %}}
+> [!NOTE]
+> `DIALECT 2` is required with vector searches.
 
 `DIALECT 2` functionality was enhanced in the 2.10 release.
 It introduces support for new comparison operators for `NUMERIC` fields:
@@ -131,9 +130,9 @@ The Dialect version 2 enhancements also introduce simplified syntax for logical 
 
 ## `DIALECT 3` (Deprecated)
 
-Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-text" >}}), [TAG]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-tag" >}}), [NUMERIC]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-numeric" >}}), [GEO]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-geo" >}}) and [VECTOR]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-vector" >}})) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}}) queries was also introduced in this version.
+Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT](/content/develop/ai/search-and-query/indexing/_index.md#index-json-arrays-as-text), [TAG](/content/develop/ai/search-and-query/indexing/_index.md#index-json-arrays-as-tag), [NUMERIC](/content/develop/ai/search-and-query/indexing/_index.md#index-json-arrays-as-numeric), [GEO](/content/develop/ai/search-and-query/indexing/_index.md#index-json-arrays-as-geo) and [VECTOR](/content/develop/ai/search-and-query/indexing/_index.md#index-json-arrays-as-vector)) defined by a [JSONPath](/content/develop/data-types/json/path.md) leading to an array or multiple scalar values. Support for [GEOSHAPE](/content/develop/ai/search-and-query/query/geo-spatial.md) queries was also introduced in this version.
 
-The primary difference between dialects version 2 and version 3 is that JSON is returned rather than scalars for multi-value attributes. Apart from specifying `DIALECT 3` at the end of a [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 3, append `DIALECT 3` to your query command.
+The primary difference between dialects version 2 and version 3 is that JSON is returned rather than scalars for multi-value attributes. Apart from specifying `DIALECT 3` at the end of a [`FT.SEARCH`](/content/commands/ft.search.md) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 3, append `DIALECT 3` to your query command.
 
 `FT.SEARCH ... DIALECT 3`
 
@@ -193,7 +192,7 @@ Now search, with and without `DIALECT 3`.
 
 ## `DIALECT 4` (Deprecated)
 
-Dialect version 4 was introduced in the [2.8](https://github.com/RediSearch/RediSearch/releases/tag/v2.8.4) release. It introduces performance optimizations for sorting operations on [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) and [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}). Apart from specifying `DIALECT 4` at the end of a [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 4, append `DIALECT 4` to your query command.
+Dialect version 4 was introduced in the [2.8](https://github.com/RediSearch/RediSearch/releases/tag/v2.8.4) release. It introduces performance optimizations for sorting operations on [`FT.SEARCH`](/content/commands/ft.search.md) and [`FT.AGGREGATE`](/content/commands/ft.aggregate.md). Apart from specifying `DIALECT 4` at the end of a [`FT.SEARCH`](/content/commands/ft.search.md) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 4, append `DIALECT 4` to your query command.
 
 `FT.SEARCH ... DIALECT 4`
 
@@ -208,15 +207,15 @@ You can also use `WITHOUTCOUNT` in place of `DIALECT 4` when used with either FT
 
 ## Use `FT.EXPLAINCLI` to compare dialects
 	
-The [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}) command is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
+The [`FT.EXPLAINCLI`](/content/commands/ft.explaincli.md) command is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
 
-When you run [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}), it returns an array representing the execution plan of a complex query. This plan is a step-by-step guide of how Redis interprets your query and how it plans to fetch results. It's a behind-the-scenes look at the process, giving you insights into how the search engine works.
+When you run [`FT.EXPLAINCLI`](/content/commands/ft.explaincli.md), it returns an array representing the execution plan of a complex query. This plan is a step-by-step guide of how Redis interprets your query and how it plans to fetch results. It's a behind-the-scenes look at the process, giving you insights into how the search engine works.
 
-The [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}) accepts a `DIALECT` argument, allowing you to execute the query using different dialect versions, allowing you to compare the resulting query plans.
+The [`FT.EXPLAINCLI`](/content/commands/ft.explaincli.md) accepts a `DIALECT` argument, allowing you to execute the query using different dialect versions, allowing you to compare the resulting query plans.
 
-To use [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}), you need to provide an index and a query predicate. The index is the name of the index you created using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}), and the query predicate is the same as if you were sending it to [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
+To use [`FT.EXPLAINCLI`](/content/commands/ft.explaincli.md), you need to provide an index and a query predicate. The index is the name of the index you created using [`FT.CREATE`](/content/commands/ft.create.md), and the query predicate is the same as if you were sending it to [`FT.SEARCH`](/content/commands/ft.search.md) or [`FT.AGGREGATE`](/content/commands/ft.aggregate.md).
 
-Here's an example of how to use [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}) to understand differences in dialect versions 1 and 2.
+Here's an example of how to use [`FT.EXPLAINCLI`](/content/commands/ft.explaincli.md) to understand differences in dialect versions 1 and 2.
 
 Negation of the intersection between tokens `hello` and `world`:
 
@@ -259,9 +258,8 @@ FT.EXPLAINCLI idx:dialects "-(hello world)" DIALECT 2
 7) 
 ```
 
-{{% alert title=Note %}}
-[`FT.EXPLAIN`]({{< relref "commands/ft.explain/" >}}) doesn't execute the query. It only explains the plan. It's a way to understand how your query is interpreted by Redis Search, which can be invaluable when you're trying to optimize your searches.
-{{% /alert %}}
+> [!NOTE]
+> [`FT.EXPLAIN`](/content/commands/ft.explain.md) doesn't execute the query. It only explains the plan. It's a way to understand how your query is interpreted by Redis Search, which can be invaluable when you're trying to optimize your searches.
 
 ## Change the default dialect
 

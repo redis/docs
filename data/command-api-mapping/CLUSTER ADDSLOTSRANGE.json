@@ -1,6 +1,26 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_addslotsrange(target_node: TargetNodesT, *slots: EncodableT)",
+        "params": [
+          {
+            "name": "target_node",
+            "type": "TargetNodesT",
+            "description": ""
+          },
+          {
+            "name": "*slots",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterAddSlotsRange(int... ranges)",
@@ -43,7 +63,22 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clusterAddSlotsRange(ranges: SlotRange | Array<SlotRange>)",
+        "params": [
+          {
+            "name": "ranges",
+            "type": "SlotRange | Array<SlotRange>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clusterAddSlotsRange(Range<Integer>... ranges)",
@@ -94,9 +129,84 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "addSlotsRange(int ...$startEndSlots)",
+        "params": [
+          {
+            "name": "...$startEndSlots",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "cluster(...args: [ subcommand: \"ADDSLOTSRANGE\", ...startSlotEndSlots: (string | number)[], callback: Callback<[ startSlotRange: number, endSlotRange: number, ...nodes: [ host: string, port: number, nodeId: string, info: unknown[] ][] ][]> ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"ADDSLOTSRANGE\"",
+            "description": ""
+          },
+          {
+            "name": "...startSlotEndSlots",
+            "type": "(string | number)[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<[ startSlotRange: number, endSlotRange: number, ...nodes: [ host: string, port: number, nodeId: string, info: unknown[] ][] ][]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[ startSlotRange: number, endSlotRange: number, ...nodes: [host: string, port: number, nodeId: string, info: unknown[]][] ][], Context>",
+          "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
+        }
+      },
+      {
+        "signature": "cluster(...args: [ subcommand: \"ADDSLOTSRANGE\", ...startSlotEndSlots: (string | number)[] ])",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"ADDSLOTSRANGE\"",
+            "description": ""
+          },
+          {
+            "name": "...startSlotEndSlots",
+            "type": "(string | number)[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<[ startSlotRange: number, endSlotRange: number, ...nodes: [host: string, port: number, nodeId: string, info: unknown[]][] ][], Context>",
+          "description": "The type ioredis declares, which is the CLUSTER SLOTS reply. Redis replies OK"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "cluster(:addslotsrange, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the subcommand"
+        }
+      }
+    ]
   }
 }
-

@@ -72,4 +72,4 @@ is the name of the element to remove from the vector set.
 
 ## Related topics
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Vector sets](/content/develop/data-types/vector-sets/_index.md)

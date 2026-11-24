@@ -19,13 +19,13 @@ No matter which method you use to send API requests, there are a few common conc
 
 | Type | Description |
 |------|-------------|
-| [Authentication]({{< relref "/operate/rs/8.0/references/rest-api#authentication" >}}) | Use [Basic Auth](https://en.wikipedia.org/wiki/Basic_access_authentication) with your cluster username (email) and password |
-| [Ports]({{< relref "/operate/rs/8.0/references/rest-api#ports" >}}) | All calls are made to port 9443 by default |
-| [Versions]({{< relref "/operate/rs/8.0/references/rest-api#versions" >}}) | Specify the version in the request [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) |
-| [Headers]({{< relref "/operate/rs/8.0/references/rest-api#headers" >}}) | `Accept` and `Content-Type` should be `application/json` |
-| [Response types and error codes]({{< relref "/operate/rs/8.0/references/rest-api#response-types-and-error-codes" >}}) | A response of `200 OK` means success; otherwise, the request failed due to an error |  
+| [Authentication](/content/operate/rs/8.0/references/rest-api/_index.md#authentication) | Use [Basic Auth](https://en.wikipedia.org/wiki/Basic_access_authentication) with your cluster username (email) and password |
+| [Ports](/content/operate/rs/8.0/references/rest-api/_index.md#ports) | All calls are made to port 9443 by default |
+| [Versions](/content/operate/rs/8.0/references/rest-api/_index.md#versions) | Specify the version in the request [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) |
+| [Headers](/content/operate/rs/8.0/references/rest-api/_index.md#headers) | `Accept` and `Content-Type` should be `application/json` |
+| [Response types and error codes](/content/operate/rs/8.0/references/rest-api/_index.md#response-types-and-error-codes) | A response of `200 OK` means success; otherwise, the request failed due to an error |  
 
-For more information, see [Redis Software REST API]({{< relref "/operate/rs/8.0/references/rest-api/" >}}).
+For more information, see [Redis Software REST API](/content/operate/rs/8.0/references/rest-api/_index.md).
 
 ## cURL example requests
 
@@ -39,7 +39,7 @@ You can use the following options to build a cURL request:
 | -H     | Request header, can be specified multiple times |
 | -u     | Username and password information |
 | -d     | JSON data for PUT or POST requests |
-| -F     | Form data for PUT or POST requests, such as for the [`POST /v1/modules`]({{< relref "/operate/rs/8.0/references/rest-api/requests/modules/#post-module" >}}) or [`POST /v2/modules`]({{< relref "/operate/rs/8.0/references/rest-api/requests/modules/#post-module-v2" >}}) endpoint |
+| -F     | Form data for PUT or POST requests, such as for the [`POST /v1/modules`](/content/operate/rs/8.0/references/rest-api/requests/modules/_index.md#post-module) or [`POST /v2/modules`](/content/operate/rs/8.0/references/rest-api/requests/modules/_index.md#post-module-v2) endpoint |
 | -k     | Turn off SSL  verification |
 | -i     | Show headers and status code as well as the response body |
 
@@ -47,7 +47,7 @@ See the [cURL documentation](https://curl.se/docs/) for more information.
 
 ### GET request
 
-Use the following cURL command to get a list of databases with the [GET `/v1/bdbs/`]({{< relref "/operate/rs/8.0/references/rest-api/requests/bdbs/#get-all-bdbs" >}}) endpoint.
+Use the following cURL command to get a list of databases with the [GET `/v1/bdbs/`](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#get-all-bdbs) endpoint.
 
 ```sh
 $ curl -X GET -H "accept: application/json" \
@@ -76,11 +76,11 @@ x-envoy-upstream-service-time: 25
 
 In the response body, the `uid` is the database ID. You can use the database ID to view or update the database using the API.
 
-For more information about the fields returned by [GET `/v1/bdbs/`]({{< relref "/operate/rs/8.0/references/rest-api/requests/bdbs/#get-all-bdbs" >}}), see the [`bdbs` object]({{< relref "/operate/rs/8.0/references/rest-api/objects/bdb/" >}}).
+For more information about the fields returned by [GET `/v1/bdbs/`](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#get-all-bdbs), see the [`bdbs` object](/content/operate/rs/8.0/references/rest-api/objects/bdb/_index.md).
 
 ### PUT request
 
-Once you have the database ID, you can use [PUT `/v1/bdbs/`]({{< relref "/operate/rs/8.0/references/rest-api/requests/bdbs/#put-bdbs" >}}) to update the configuration of the database.
+Once you have the database ID, you can use [PUT `/v1/bdbs/`](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#put-bdbs) to update the configuration of the database.
 
 For example, you can pass the database `uid` 1 as a URL parameter and use the `-d` option to specify the new `name` when you send the request. This changes the database's `name` from `tr01` to `database1`:
 
@@ -108,7 +108,7 @@ x-envoy-upstream-service-time: 159
 }
 ```
 
-For more information about the fields you can update with [PUT `/v1/bdbs/`]({{< relref "/operate/rs/8.0/references/rest-api/requests/bdbs/#put-bdbs" >}}), see the [`bdbs` object]({{< relref "/operate/rs/8.0/references/rest-api/objects/bdb/" >}}).
+For more information about the fields you can update with [PUT `/v1/bdbs/`](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#put-bdbs), see the [`bdbs` object](/content/operate/rs/8.0/references/rest-api/objects/bdb/_index.md).
 
 ## Client examples
 
@@ -116,7 +116,7 @@ You can also use client libraries to make API requests in your preferred languag
 
 To follow these examples, you need:
 
-- A [Redis Software]({{< relref "/operate/rs/8.0/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) node
+- A [Redis Software](/content/operate/rs/8.0/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md) node
 - Python 3 and the [requests](https://pypi.org/project/requests/) Python library
 - [node.js](https://nodejs.dev/) and [node-fetch](https://www.npmjs.com/package/node-fetch)
 
@@ -319,5 +319,5 @@ PUT https://[host]:[port]/v1/bdbs/1
 
 ## More info
 
-- [Redis Software REST API]({{< relref "/operate/rs/8.0/references/rest-api/" >}})
-- [Redis Software REST API requests]({{< relref "/operate/rs/8.0/references/rest-api/requests/" >}})
+- [Redis Software REST API](/content/operate/rs/8.0/references/rest-api/_index.md)
+- [Redis Software REST API requests](/content/operate/rs/8.0/references/rest-api/requests/_index.md)

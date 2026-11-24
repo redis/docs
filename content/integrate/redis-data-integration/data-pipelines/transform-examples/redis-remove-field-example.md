@@ -16,11 +16,11 @@ weight: 40
 ---
 
 By default, RDI adds fields to
-[hash]({{< relref "/develop/data-types/hashes" >}}) or
-[JSON]({{< relref "/develop/data-types/json" >}}) objects in the target
+[hash](/content/develop/data-types/hashes.md) or
+[JSON](/content/develop/data-types/json/_index.md) objects in the target
 database for each of the columns of the source table.
 The examples below show how to omit some of those fields from the target data with the
-[`remove_field`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/remove_field" >}}) transformation.
+[`remove_field`](/content/integrate/redis-data-integration/reference/data-transformation/remove_field.md) transformation.
 
 ## Remove a single field
 
@@ -29,7 +29,7 @@ The `source` section selects the `employee` table of the
 [`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres)
 database (the optional `db` field here corresponds to the
 `sources.<source-name>.connection.database` field defined in
-[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}})).
+[`config.yaml`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md)).
 
 In the `transform` section, the `remove_field` transformation removes the
 `hiredate` field.
@@ -62,7 +62,7 @@ output:
 ```
 
 If you queried the generated target data from the default transformation
-using [`redis-cli`]({{< relref "/develop/tools/cli" >}}), you would
+using [`redis-cli`](/content/develop/tools/cli.md), you would
 see something like the following:
 
 ```bash
@@ -160,9 +160,9 @@ If you query the data, you can see that it also omits the
 ## Using `remove_field` with `add_field`
 
 The `remove_field` transformation is very useful in combination with
-[`add_field`]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-add-field-example" >}}).
+[`add_field`](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-add-field-example.md).
 For example, if you use `add_field` to concatenate a person's first
 and last names, you may not need separate `firstname` and `lastname`
 fields, so you can use `remove_field` to omit them.
-See [Using `add_field` with `remove_field`]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-add-field-example#using-add_field-with-remove_field" >}})
+See [Using `add_field` with `remove_field`](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-add-field-example.md#using-add_field-with-remove_field)
 for an example of how to do this.

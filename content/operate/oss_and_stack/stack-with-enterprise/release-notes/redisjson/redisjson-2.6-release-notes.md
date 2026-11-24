@@ -133,9 +133,8 @@ Update urgency: `LOW`: No need to upgrade unless there are new features you want
 
 Details:
 
-{{<note>}}
-RHEL 7 is no longer supported as of v2.6.8.
-{{</note>}}
+> [!NOTE]
+> RHEL 7 is no longer supported as of v2.6.8.
 
 This is a version number alignment with RedisJSON for Redis Enterprise (with Active-Active support).
 
@@ -172,7 +171,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
 ### What's new in 2.6
 
-- Introduce [`JSON.MERGE`]({{< relref "commands/json.merge" >}}) in compliance with [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396), supporting:
+- Introduce [`JSON.MERGE`](/content/commands/json.merge.md) in compliance with [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396), supporting:
 
   - Creating new attributes on an existing JSON document
 
@@ -182,7 +181,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
   - Array update - replacing an entire array with the new value
 
-- Introduce [`JSON.MSET`]({{< relref "commands/json.mset" >}}), supporting atomic multiple sets for keys in the same hash slot
+- Introduce [`JSON.MSET`](/content/commands/json.mset.md), supporting atomic multiple sets for keys in the same hash slot
 
 - New `FORMAT` argument in `JSON.ARRPOP` and `JSON.GET` to retrieve the results as JSON strings or RESP3 hierarchical structures (RESP3 only)
 
@@ -190,8 +189,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
 - Legacy paths (paths that don't start with either `$.` or `$[` or equal to `$`), except those starting with `.`, are now deprecated
 
-{{<note>}}
-- The version inside Redis will be 2.6.4 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
-
-- Minimal Redis version: 7.2
-{{</note>}}
+> [!NOTE]
+> - The version inside Redis will be 2.6.4 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
+>
+> - Minimal Redis version: 7.2

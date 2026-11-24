@@ -64,9 +64,8 @@ syntax_fmt: "TS.QUERYLABELS <LABELS | VALUES label> [FILTER filterExpr\n  [filte
   \ ...]]"
 title: TS.QUERYLABELS
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 Get all label names, or all values of a given label, for the time series matching a filter list (or all series when no filter is given).
 
@@ -134,7 +133,7 @@ redis> TS.QUERYLABELS VALUES type
 
 ### Access control
 
-Unlike [`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex/" >}}), which lists every matching key whether or not the user has read access to it, `TS.QUERYLABELS` silently omits the time series that the user is not allowed to read. Label names and values that belong only to unreadable series do not appear in the result.
+Unlike [`TS.QUERYINDEX`](/content/commands/ts.queryindex.md), which lists every matching key whether or not the user has read access to it, `TS.QUERYLABELS` silently omits the time series that the user is not allowed to read. Label names and values that belong only to unreadable series do not appear in the result.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -149,21 +148,21 @@ Unlike [`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex/" >}}), which lists 
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a label name (with `LABELS`) or a label value (with `VALUES`). The array is empty if no time series matches the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid subtype, missing label after `VALUES`, or invalid filter expression.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) where each element is a [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): a label name (with `LABELS`) or a label value (with `VALUES`). The array is empty if no time series matches the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid subtype, missing label after `VALUES`, or invalid filter expression.
 
 -tab-sep-
 
 One of the following:
-* [Set reply]({{< relref "/develop/reference/protocol-spec#sets" >}}) where each element is a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a label name (with `LABELS`) or a label value (with `VALUES`). The set is empty if no time series matches the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid subtype, missing label after `VALUES`, or invalid filter expression.
+* [Set reply](/content/develop/reference/protocol-spec.md#sets) where each element is a [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings): a label name (with `LABELS`) or a label value (with `VALUES`). The set is empty if no time series matches the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid subtype, missing label after `VALUES`, or invalid filter expression.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex/" >}}) | [`TS.CREATE`]({{< relref "commands/ts.create/" >}}) | [`TS.MGET`]({{< relref "commands/ts.mget/" >}}) | [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}})
+[`TS.QUERYINDEX`](/content/commands/ts.queryindex.md) | [`TS.CREATE`](/content/commands/ts.create.md) | [`TS.MGET`](/content/commands/ts.mget.md) | [`TS.MRANGE`](/content/commands/ts.mrange.md)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

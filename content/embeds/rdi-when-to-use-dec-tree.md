@@ -34,21 +34,6 @@ questions:
                     sentiment: "indeterminate"
             yes:
                 value: "Yes"
-                nextQuestion: singleSource
-    singleSource:
-        text: |
-            Are you transferring data from a single source database?
-        whyAsk: |
-            RDI is designed to work with a single source database. Multiple sources create conflicting change events.
-        answers:
-            no:
-                value: "No"
-                outcome:
-                    label: "❌ RDI won't work with multiple source databases"
-                    id: multipleSourcesOrActiveActive
-                    sentiment: "negative"
-            yes:
-                value: "Yes"
                 nextQuestion: consistency
     consistency:
         text: |
@@ -97,7 +82,7 @@ questions:
                 nextQuestion: changeRate
     changeRate:
         text: |
-            Are there fewer than 10K changes per second in the source database?
+            Are there fewer than 20K changes per second in the source database?
         whyAsk: |
             RDI has throughput limits. Exceeding these limits will cause processing failures and data loss.
         answers:
@@ -112,7 +97,7 @@ questions:
                 nextQuestion: dataSize
     dataSize:
         text: |
-            Is your total data size smaller than 100GB?
+            Is your total data size smaller than 200GB?
         whyAsk: |
             RDI has practical limits on the total data size it can manage, based
             on the throughput requirements for full sync.

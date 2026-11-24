@@ -112,6 +112,232 @@ public class CmdsGenericExample {
             // REMOVE_START
             asyncCommands.del("firstname", "lastname", "age").toCompletableFuture().join();
             // REMOVE_END
+
+            // STEP_START scan1
+            CompletableFuture<Void> scan1Example = asyncCommands
+                    .sadd("myset", "1", "2", "3", "foo", "foobar", "feelsgood")
+                    .thenCompose(scan1Res1 -> {
+                        System.out.println(scan1Res1);      // >>> 6
+                        // REMOVE_START
+                        assertThat(scan1Res1).isEqualTo(6L);
+                        // REMOVE_END
+                        return asyncCommands.sscan("myset", ScanArgs.Builder.matches("f*"));
+                    })
+                    .thenAccept(scan1Res2 -> {
+                        List<String> members = new java.util.ArrayList<>(scan1Res2.getValues());
+                        Collections.sort(members);
+                        System.out.println(members);        // >>> [feelsgood, foo, foobar]
+                        // REMOVE_START
+                        assertThat(members).hasSize(3);
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            scan1Example.join();
+            // REMOVE_START
+            asyncCommands.del("myset").toCompletableFuture().join();
+            // REMOVE_END
+
+            // STEP_START scan2
+            // REMOVE_START
+            for (int i = 1; i <= 1000; i++) {
+                asyncCommands.set("key:" + i, String.valueOf(i)).toCompletableFuture().join();
+            }
+            // REMOVE_END
+
+            // MATCH is applied after elements are fetched, so with the default COUNT most
+            // iterations return few keys or none at all. Each iteration is awaited because
+            // the next one needs the cursor this one returns.
+            KeyScanCursor<String> scan2Cursor = asyncCommands
+                    .scan(ScanArgs.Builder.matches("*11*")).toCompletableFuture().join();
+            int scan2Total = scan2Cursor.getKeys().size();
+            System.out.println(scan2Cursor.getKeys().size());
+
+            for (int i = 0; i < 3; i++) {
+                scan2Cursor = asyncCommands
+                        .scan(scan2Cursor, ScanArgs.Builder.matches("*11*"))
+                        .toCompletableFuture().join();
+                scan2Total += scan2Cursor.getKeys().size();
+                System.out.println(scan2Cursor.getKeys().size());
+            }
+
+            // A larger COUNT forces more scanning in a single iteration, so the remaining
+            // matches arrive together. This continues from the cursor reached above.
+            scan2Cursor = asyncCommands
+                    .scan(scan2Cursor, ScanArgs.Builder.matches("*11*").limit(1000))
+                    .toCompletableFuture().join();
+            scan2Total += scan2Cursor.getKeys().size();
+            System.out.println(scan2Cursor.getKeys().size());
+
+            // The per-call split isn't guaranteed, but the cumulative total is.
+            System.out.println(scan2Total);   // >>> 19
+            // STEP_END
+
+            // REMOVE_START
+            assertThat(scan2Total).isEqualTo(19);
+            asyncCommands.flushdb().toCompletableFuture().join();
+            // REMOVE_END
+
+            // STEP_START scan3
+            long scan3Result1 = asyncCommands.geoadd("geokey", 0, 0, "value")
+                    .toCompletableFuture().join();
+            System.out.println(scan3Result1);      // >>> 1
+
+            long scan3Result2 = asyncCommands.zadd("zkey", 1000, "value")
+                    .toCompletableFuture().join();
+            System.out.println(scan3Result2);      // >>> 1
+
+            String scan3Result3 = asyncCommands.type("geokey").toCompletableFuture().join();
+            System.out.println(scan3Result3);      // >>> zset
+
+            String scan3Result4 = asyncCommands.type("zkey").toCompletableFuture().join();
+            System.out.println(scan3Result4);      // >>> zset
+
+            // A single call isn't guaranteed to find every match, so loop until
+            // the cursor is finished, accumulating matches from every call.
+            List<String> scan3Keys = new java.util.ArrayList<>();
+            KeyScanCursor<String> scan3Cursor = asyncCommands
+                    .scan(KeyScanArgs.Builder.type("zset")).toCompletableFuture().join();
+            scan3Keys.addAll(scan3Cursor.getKeys());
+            while (!scan3Cursor.isFinished()) {
+                scan3Cursor = asyncCommands
+                        .scan(scan3Cursor, KeyScanArgs.Builder.type("zset"))
+                        .toCompletableFuture().join();
+                scan3Keys.addAll(scan3Cursor.getKeys());
+            }
+            Collections.sort(scan3Keys);
+            System.out.println(scan3Keys);         // >>> [geokey, zkey]
+            // STEP_END
+
+            // REMOVE_START
+            assertThat(scan3Keys).hasSize(2);
+            asyncCommands.del("geokey", "zkey").toCompletableFuture().join();
+            // REMOVE_END
+
+            // STEP_START scan4
+            CompletableFuture<Void> scan4Example = asyncCommands
+                    .hset("myhash", Map.of("a", "1", "b", "2"))
+                    .thenCompose(scan4Res1 -> {
+                        System.out.println(scan4Res1);      // >>> 2
+                        return asyncCommands.hscan("myhash");
+                    })
+                    .thenCompose(scan4Res2 -> {
+                        System.out.println(new java.util.TreeMap<>(scan4Res2.getMap()));
+                        // >>> {a=1, b=2}
+                        return asyncCommands.hscanNovalues("myhash");
+                    })
+                    .thenAccept(scan4Res3 -> {
+                        List<String> fields = new java.util.ArrayList<>(scan4Res3.getKeys());
+                        Collections.sort(fields);
+                        System.out.println(fields);         // >>> [a, b]
+                        // REMOVE_START
+                        assertThat(fields).containsExactly("a", "b");
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            scan4Example.join();
+            // REMOVE_START
+            asyncCommands.del("myhash").toCompletableFuture().join();
+            // REMOVE_END
+            // STEP_START del
+            CompletableFuture<Void> delExample = asyncCommands.set("key1", "Hello")
+                    .thenCompose(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return asyncCommands.set("key2", "World");
+                    })
+                    .thenCompose(r2 -> {
+                        System.out.println(r2);              // >>> OK
+                        return asyncCommands.del("key1", "key2", "key3");
+                    })
+                    .thenAccept(r3 -> {
+                        System.out.println(r3);              // >>> 2
+                        // REMOVE_START
+                        assertThat(r3).isEqualTo(2L);
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            delExample.join();
+
+            // STEP_START expire
+            CompletableFuture<Void> expireExample = asyncCommands.set("mykey", "Hello")
+                    .thenCompose(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return asyncCommands.expire("mykey", 10);
+                    })
+                    .thenCompose(r2 -> {
+                        System.out.println(r2);              // >>> true
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenCompose(r3 -> {
+                        System.out.println(r3);              // >>> 10
+                        // Overwriting a key with SET clears its expiry.
+                        return asyncCommands.set("mykey", "Hello World");
+                    })
+                    .thenCompose(r4 -> {
+                        System.out.println(r4);              // >>> OK
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenCompose(r5 -> {
+                        System.out.println(r5);              // >>> -1
+                        // XX only sets the expiry when one already exists, so this is a no-op.
+                        return asyncCommands.expire("mykey", 10, ExpireArgs.Builder.xx());
+                    })
+                    .thenCompose(r6 -> {
+                        System.out.println(r6);              // >>> false
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenCompose(r7 -> {
+                        System.out.println(r7);              // >>> -1
+                        // NX only sets the expiry when there is none, so this one applies.
+                        return asyncCommands.expire("mykey", 10, ExpireArgs.Builder.nx());
+                    })
+                    .thenCompose(r8 -> {
+                        System.out.println(r8);              // >>> true
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenAccept(r9 -> {
+                        System.out.println(r9);              // >>> 10
+                        // REMOVE_START
+                        assertThat(r9).isEqualTo(10L);
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            expireExample.join();
+            // REMOVE_START
+            asyncCommands.del("mykey").toCompletableFuture().join();
+            // REMOVE_END
+
+            // STEP_START ttl
+            CompletableFuture<Void> ttlExample = asyncCommands.set("mykey", "Hello")
+                    .thenCompose(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return asyncCommands.expire("mykey", 10);
+                    })
+                    .thenCompose(r2 -> {
+                        System.out.println(r2);              // >>> true
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenAccept(r3 -> {
+                        System.out.println(r3);              // >>> 10
+                        // REMOVE_START
+                        assertThat(r3).isEqualTo(10L);
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            ttlExample.join();
+            // REMOVE_START
+            asyncCommands.del("mykey").toCompletableFuture().join();
+            // REMOVE_END
+
         } finally {
             redisClient.shutdown();
         }

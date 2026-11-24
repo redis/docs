@@ -63,12 +63,11 @@ summary: Stores the union of multiple sets in a key.
 syntax_fmt: SUNIONSTORE destination key [key ...]
 title: SUNIONSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is equal to [`SUNION`]({{< relref "/commands/sunion" >}}), but instead of returning the resulting set,
+This command is equal to [`SUNION`](/content/commands/sunion.md), but instead of returning the resulting set,
 it is stored in `destination`.
 
 If `destination` already exists, it is overwritten.
@@ -112,6 +111,10 @@ redis> SMEMBERS key
 5) "e"
 {{% /redis-cli %}}
 
+## Details
+
+Members keep their expirations in `destination`. When a member has an expiration in more than one source set, `destination` gets the one farthest in the future. Source sets in which the member has no expiration are ignored, so the member keeps an expiration if any source set gives it one. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -134,4 +137,4 @@ redis> SMEMBERS key
 
 ## See also
 
-[`SUNION`]({{< relref "commands/sunion/" >}}) | [`SUNIONCARD`]({{< relref "commands/sunioncard/" >}})
+[`SUNION`](/content/commands/sunion.md) | [`SUNIONCARD`](/content/commands/sunioncard.md)

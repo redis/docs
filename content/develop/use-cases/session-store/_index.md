@@ -53,18 +53,18 @@ In practice, each session is stored as a Redis hash — one hash per session ID 
 
 Redis provides the following features that make it a good fit for session storage:
 
--   [Hashes]({{< relref "/develop/data-types/hashes" >}}) for field-level session access without 
+-   [Hashes](/content/develop/data-types/hashes.md) for field-level session access without 
     deserializing an entire session blob.
--   [`EXPIRE`]({{< relref "/commands/expire" >}}) with sliding TTL resets on each request so active 
+-   [`EXPIRE`](/content/commands/expire.md) with sliding TTL resets on each request so active 
     sessions stay alive while inactive ones are cleaned up automatically.
--   [Sets]({{< relref "/develop/data-types/sets" >}}) ([`SADD`]({{< relref "/commands/sadd" >}}), 
-    [`SMEMBERS`]({{< relref "/commands/smembers" >}})) to track all sessions per user for multi-device 
-    management ([`DEL`]({{< relref "/commands/del" >}}) plus [`SREM`]({{< relref "/commands/srem" >}}) 
+-   [Sets](/content/develop/data-types/sets.md) ([`SADD`](/content/commands/sadd.md), 
+    [`SMEMBERS`](/content/commands/smembers.md)) to track all sessions per user for multi-device 
+    management ([`DEL`](/content/commands/del.md) plus [`SREM`](/content/commands/srem.md) 
     handle explicit logout or logout-all).
--   AOF and RDB [persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}) to let 
+-   AOF and RDB [persistence](/content/operate/oss_and_stack/management/persistence.md) to let 
     sessions survive process and node restarts within their expiration window. 
 -   Secondary indexing (querying by field values rather than by key) via
-    [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) to support
+    [Redis Search](/content/develop/ai/search-and-query/_index.md) to support
     cross-session queries at runtime (finding affected carts, counting sessions by tenant)
     without key scanning.
 -   Sub-millisecond latency on the request path, which is already on the same Redis instance
@@ -75,14 +75,13 @@ Redis provides the following features that make it a good fit for session storag
 The following libraries and frameworks provide Redis session store integrations:
 
 -   **Java**:
-    [Spring Session Data Redis](https://docs.spring.io/spring-session/reference/configuration/redis.html)
+    [Spring Session Data Redis](/content/integrate/spring-framework-cache/session.md)
 -   **Node.js**: [`connect-redis`](https://www.npmjs.com/package/connect-redis)
     ([express-session](https://www.npmjs.com/package/express-session) store)
--   **Python**: [Flask-Session](https://flask-session.readthedocs.io/en/latest/),
-    [django-redis](https://pypi.org/project/django-redis/)
--   **API gateways**: [Kong](https://docs.konghq.com/hub/kong-inc/session/),
-    [Envoy](https://www.envoyproxy.io/docs/envoy/latest/start/quick-start/configuration-dynamic-control-plane)
-    (Redis-backed session and token storage)
+-   **Python**: [Flask-Session](/content/integrate/flask/_index.md#store-sessions),
+    [django-redis](/content/integrate/django/_index.md#store-sessions)
+-   **API gateways**: [Apache APISIX](/content/integrate/apisix/_index.md#other-plugins)
+    (the `openid-connect` plugin can store sessions in Redis)
 
 ## Code examples to build your own Redis session store
 
@@ -90,12 +89,12 @@ The following guides show how to build a simple Redis-backed session store.
 Each guide includes a runnable example to illustrate using the session store with a basic local
 web server for each of the following client libraries:
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/session-store/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/session-store/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/session-store/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/session-store/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/session-store/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/session-store/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/session-store/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/session-store/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/session-store/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/session-store/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/session-store/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/session-store/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/session-store/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/session-store/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/session-store/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/session-store/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/session-store/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/session-store/rust/_index.md)

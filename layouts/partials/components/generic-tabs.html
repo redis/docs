@@ -13,7 +13,18 @@
 {{ $id := .id | default (printf "tabs-%s" (substr (.tabs | jsonify | md5) 0 8)) }}
 {{ $tabs := .tabs | default (slice (dict "title" "Error" "content" "No tabs provided")) }}
 
-<div class="generic-tabs" id="{{ $id }}">
+{{ $dropdown := eq .selector "dropdown" }}
+<div class="generic-tabs" id="{{ $id }}"{{ with .sync }} data-selector-sync="{{ . }}"{{ end }}>
+  {{ if $dropdown }}
+  <div class="flex items-center gap-2 px-4 py-2 bg-slate-900 rounded-t-lg">
+    <label for="{{ $id }}-select" class="text-xs text-slate-400 mr-3">{{ .label | default "Option" }}:</label>
+    <select id="{{ $id }}-select" class="content-selector max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md cursor-pointer hover:bg-slate-600 focus:ring-2 focus:ring-slate-400">
+      {{ range $index, $tab := $tabs }}
+      <option value="{{ $tab.title }}"{{ if eq $index 0 }} selected{{ end }}>{{ $tab.title }}</option>
+      {{ end }}
+    </select>
+  </div>
+  {{ else }}
   <!-- Tab Navigation -->
   <div class="tab-nav" role="tablist" aria-label="Tab navigation">
     {{ range $index, $tab := $tabs }}
@@ -42,6 +53,8 @@
     {{ end }}
   </div>
 
+  {{ end }}
+
   <!-- Tab Content -->
   <div class="tab-content-container">
     {{ range $index, $tab := $tabs }}
@@ -51,8 +64,8 @@
       <div 
         id="{{ $panelId }}" 
         class="tab-content {{ if eq $index 0 }}active{{ end }}"
-        role="tabpanel"
-        aria-labelledby="{{ $tabId }}"
+        role="{{ if $dropdown }}region{{ else }}tabpanel{{ end }}"
+        aria-labelledby="{{ if $dropdown }}{{ $id }}-select{{ else }}{{ $tabId }}{{ end }}"
         tabindex="0"
         data-tab-index="{{ $index }}"
         {{ if ne $index 0 }}aria-hidden="true"{{ end }}

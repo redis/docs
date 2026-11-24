@@ -26,7 +26,7 @@ Upgrade a database.
 
 | Permission name |
 |-----------------|
-| [update_bdb_with_action]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_bdb_with_action" >}}) |
+| [update_bdb_with_action](/content/operate/rs/7.8/references/rest-api/permissions.md#update_bdb_with_action) |
 
 ### Request {#post-request} 
 
@@ -67,7 +67,7 @@ Upgrade a database.
 
 ### Response {#post-response} 
 
-Returns the upgraded [BDB object]({{< relref "/operate/rs/7.8/references/rest-api/objects/bdb" >}}).
+Returns the upgraded [BDB object](/content/operate/rs/7.8/references/rest-api/objects/bdb/_index.md).
 
 #### Example JSON body
 

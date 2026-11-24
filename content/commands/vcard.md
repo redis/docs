@@ -58,4 +58,4 @@ is the name of the key that holds the vector set.
 
 ## Related topics
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Vector sets](/content/develop/data-types/vector-sets/_index.md)

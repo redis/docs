@@ -25,15 +25,14 @@ GET /v1/bdbs/{int: uid}/syncer_state
 
 Get a CRDB's syncer state as JSON.
 
-{{<warning>}}
-This endpoint is deprecated as of Redis Enterprise Software version 7.2.4 and will be removed in a future release. Use [`/v1/bdbs/<uid>/syncer_state/crdt`]({{< relref "/operate/rs/7.4/references/rest-api/requests/bdbs/syncer_state/crdt" >}}) instead.
-{{</warning>}}
+> [!WARNING]
+> This endpoint is deprecated as of Redis Enterprise Software version 7.2.4 and will be removed in a future release. Use [`/v1/bdbs/<uid>/syncer_state/crdt`](/content/operate/rs/7.4/references/rest-api/requests/bdbs/syncer_state/crdt.md) instead.
 
 ### Permissions
 
 | Permission name | Roles   |
 |-----------------|---------|
-| [view_bdb_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_bdb_info" >}}) |  admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_bdb_info](/content/operate/rs/7.4/references/rest-api/permissions.md#view_bdb_info) |  admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 

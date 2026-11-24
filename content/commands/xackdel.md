@@ -81,7 +81,7 @@ title: XACKDEL
 
 Acknowledges and conditionally deletes one or multiple entries (messages) for a stream consumer group at the specified `key`.
 
-`XACKDEL` combines the functionality of [`XACK`]({{< relref "/commands/xack" >}}) and [`XDEL`]({{< relref "/commands/xdel" >}}) in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.
+`XACKDEL` combines the functionality of [`XACK`](/content/commands/xack.md) and [`XDEL`](/content/commands/xdel.md) in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.
 
 ## Required arguments
 
@@ -119,9 +119,8 @@ Specifies how to handle consumer group references when acknowledging and deletin
 
 This command is particularly useful when you want to both acknowledge entry processing and clean up the stream in a single atomic operation, providing fine-grained control over how entry references are handled.
 
-{{< note >}}
-When using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic.
-{{< /note >}}
+> [!NOTE]
+> When using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic.
 
 ## Examples
 
@@ -172,20 +171,20 @@ OK
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): For each ID:
-    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the entry was acknowledged and deleted from the stream.
-    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): -1 if no such ID exists in the provided stream key.
-    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): -1 for each requested ID when the given key does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): For each ID:
+    * [Integer reply](/content/develop/reference/protocol-spec.md#integers): 1 if the entry was acknowledged and deleted from the stream.
+    * [Integer reply](/content/develop/reference/protocol-spec.md#integers): -1 if no such ID exists in the provided stream key.
+    * [Integer reply](/content/develop/reference/protocol-spec.md#integers): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).
 
 -tab-sep-
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): -1 for each requested ID when the given key does not exist.
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): For each ID:
-    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the entry was acknowledged and deleted from the stream.
-    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): -1 if no such ID exists in the provided stream key.
-    * [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): -1 for each requested ID when the given key does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays): For each ID:
+    * [Integer reply](/content/develop/reference/protocol-spec.md#integers): 1 if the entry was acknowledged and deleted from the stream.
+    * [Integer reply](/content/develop/reference/protocol-spec.md#integers): -1 if no such ID exists in the provided stream key.
+    * [Integer reply](/content/develop/reference/protocol-spec.md#integers): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).
 
 {{< /multitabs >}}

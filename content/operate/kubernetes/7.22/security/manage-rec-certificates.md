@@ -12,7 +12,7 @@ weight: 94
 url: '/operate/kubernetes/7.22/security/manage-rec-certificates/'
 ---
 
-By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes added to the cluster. For the list of of certificates used by Redis Enterprise Software and the traffic they encrypt, see the [certificates table]({{< relref "/operate/rs/security/certificates" >}}).
+By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes added to the cluster. For the list of of certificates used by Redis Enterprise Software and the traffic they encrypt, see the [certificates table](/content/operate/rs/security/certificates/_index.md).
 
 To install and use your own certificates with Kubernetes on your Redis Enterprise cluster, they need to be stored in [secrets](https://kubernetes.io/docs/concepts/configuration/secret/). The REC custom resource also needs to be configured with those secret names to read and use the certificates.
 
@@ -27,7 +27,8 @@ Create the [secret](https://kubernetes.io/docs/tasks/configmap-secret/managing-s
     --from-literal=name=<proxy | api | cm | syncer | metrics_exporter | cp_internode_encryption | dp_internode_encryption>
   ```
 
-{{<note>}}For internode encryption certificates, see [Internode encryption]({{< relref "/operate/kubernetes/7.22/security/internode-encryption" >}}) for detailed configuration instructions.{{</note>}}
+> [!NOTE]
+> For internode encryption certificates, see [Internode encryption](/content/operate/kubernetes/7.22/security/internode-encryption.md) for detailed configuration instructions.
 
 ## Update certificates in the REC custom resource
 
@@ -68,6 +69,6 @@ Check the operator logs and use the API to verify the certificate has been updat
 
 ## More info
 
-- [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates" >}})
-- [Install your own certificates]({{< relref "/operate/rs/security/certificates/create-certificates" >}})
-- [Glossary/Transport Layer Security (TLS)]({{< relref "/glossary#letter-t" >}})
+- [Update certificates](/content/operate/rs/security/certificates/updating-certificates.md)
+- [Install your own certificates](/content/operate/rs/security/certificates/create-certificates.md)
+- [Glossary/Transport Layer Security (TLS)](/content/glossary/_index.md#letter-t)

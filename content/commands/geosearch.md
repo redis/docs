@@ -167,9 +167,9 @@ syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude>
   \ MI>> [ASC | DESC] [COUNT\_count [ANY]] [WITHCOORD] [WITHDIST]\n  [WITHHASH]"
 title: GEOSEARCH
 ---
-Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command, so in addition to searching within circular areas, it supports searching within rectangular areas.
+Return the members of a sorted set populated with geospatial information using [`GEOADD`](/content/commands/geoadd.md), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`](/content/commands/georadius.md) command, so in addition to searching within circular areas, it supports searching within rectangular areas.
 
-This command should be used in place of the deprecated [`GEORADIUS`]({{< relref "/commands/georadius" >}}) and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) commands.
+This command should be used in place of the deprecated [`GEORADIUS`](/content/commands/georadius.md) and [`GEORADIUSBYMEMBER`](/content/commands/georadiusbymember.md) commands.
 
 ## Required arguments
 

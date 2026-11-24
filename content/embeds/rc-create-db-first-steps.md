@@ -6,6 +6,7 @@ To create a database in your Redis Cloud account:
 
 2. Select the **New database** button.
 
-    {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database." width="120px">}}
+    ![The New Database button creates a new database.](/images/rc/button-database-new.png)
+    {width="120px"}
 
     This displays the **Create database** screen.

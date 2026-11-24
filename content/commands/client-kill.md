@@ -133,7 +133,7 @@ The `CLIENT KILL` command closes a given client connection. This command support
 
     CLIENT KILL addr:port
 
-The `ip:port` should match a line returned by the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) command (`addr` field).
+The `ip:port` should match a line returned by the [`CLIENT LIST`](/content/commands/client-list.md) command (`addr` field).
 
 The new format:
 

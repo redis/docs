@@ -73,4 +73,4 @@ One of the following:
 
 ## Related topics
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Vector sets](/content/develop/data-types/vector-sets/_index.md)

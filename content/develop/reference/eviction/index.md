@@ -50,8 +50,8 @@ you can use the following directive inside `redis.conf`:
 maxmemory 100mb
 ```
 
-You can also use [`CONFIG SET`]({{< relref "/commands/config-set" >}}) to
-set `maxmemory` at runtime using [`redis-cli`]({{< relref "/develop/tools/cli" >}}):
+You can also use [`CONFIG SET`](/content/commands/config-set.md) to
+set `maxmemory` at runtime using [`redis-cli`](/content/develop/tools/cli.md):
 
 ```bash
 > CONFIG SET maxmemory 100mb
@@ -68,8 +68,8 @@ further growth of the cache.
 ### Setting `maxmemory` for a replicated or persisted instance
 
 If you are using
-[replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}})
-or [persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+[replication](/content/operate/rs/databases/durability-ha/replication.md)
+or [persistence](/content/operate/rs/databases/configure/database-persistence.md)
 for a server, Redis will use some RAM as a buffer to store the set of updates waiting
 to be written to the replicas or AOF files.
 The memory used by this buffer is not included in the total that
@@ -87,7 +87,7 @@ If you are using replication or persistence, we recommend that you set
 necessary for the `noeviction` policy (see [the section below](#eviction-policies)
 for more information about eviction policies).
 
-The [`INFO`]({{< relref "/commands/info" >}}) command returns a
+The [`INFO`](/content/commands/info.md) command returns a
 `mem_not_counted_for_evict` value in the `memory` section (you can use
 the `INFO memory` option to see just this section). This is the amount of
 memory currently used by the buffers. Although the exact amount will vary,
@@ -150,7 +150,7 @@ policy like `allkeys-lru` is more memory efficient since it doesn't need an
 
 ### Using the `INFO` command
 
-The [`INFO`]({{< relref "/commands/info" >}}) command provides several pieces
+The [`INFO`](/content/commands/info.md) command provides several pieces
 of data that are useful for checking the performance of your cache. In particular,
 the `INFO stats` section includes two important entries, `keyspace_hits` (the number of
 times keys were successfully found in the cache) and `keyspace_misses` (the number
@@ -164,9 +164,9 @@ keyspace_hits / (keyspace_hits + keyspace_misses) * 100
 Check that this is roughly equal to what you would expect for your app
 (naturally, a higher percentage indicates better cache performance).
 
-{{< note >}} When the [`EXISTS`]({{< relref "/commands/exists" >}})
-command reports that a key is absent then this is counted as a keyspace miss.
-{{< /note >}}
+> [!NOTE]
+>  When the [`EXISTS`](/content/commands/exists.md)
+> command reports that a key is absent then this is counted as a keyspace miss.
 
 If the percentage of hits is lower than expected, then this might
 mean you are not using the best eviction policy. For example, if
@@ -190,6 +190,8 @@ Other useful pieces of information returned by `INFO` include:
     is the amount by which `maxmemory` has been exceeded.
 -   `current_eviction_exceeded_time`: (`stats` section) The time since
     the cache last started to exceed `maxmemory`.
+-   `blessed_keys`: (`stats` section) The number of keys currently
+    [protected from eviction](#bless).
 -   `commandstats` section: Among other things, this reports the number of
     times each command issued to the server has been rejected. If you are
     using `noeviction` or one of the `volatile_xxx` policies, you can use
@@ -213,7 +215,7 @@ before every eviction with the `maxmemory-samples` configuration directive:
 maxmemory-samples 5
 ```
 
-See these pages for information on eviction policies in: (1) [Redis Software]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) and (2) [Redis Cloud]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}).
+See these pages for information on eviction policies in: (1) [Redis Software](/content/operate/rs/databases/memory-performance/eviction-policy.md) and (2) [Redis Cloud](/content/operate/rc/databases/configuration/data-eviction-policies.md).
 
 The reason Redis does not use a true LRU implementation is because it
 costs more memory. However, the approximation is virtually equivalent for an
@@ -316,7 +318,41 @@ This distinction makes LRM particularly useful in scenarios where:
 
 To configure LRM eviction, the following policies are available:
 
-* `volatile-lrm` Evict using LRM among the keys with an an associated expiration (TTL).
+* `volatile-lrm` Evict using LRM among the keys with an associated expiration (TTL).
 * `allkeys-lrm` Evict any key using LRM.
 
 Like LRU, LRM uses an approximation algorithm that samples a small number of keys at random and evicts the ones with the longest time since last modification. The same `maxmemory-samples` configuration directive that affects LRU performance also applies to LRM.
+
+## Protecting keys from eviction {#bless}
+
+Starting with Redis 8.12, you can protect individual keys from eviction with the
+[`BLESS SET`]({{< relref "/commands/bless-set" >}}) and
+[`BLESS CLEAR`]({{< relref "/commands/bless-clear" >}}) commands, regardless of the
+configured `maxmemory-policy`. Use [`BLESS GET`]({{< relref "/commands/bless-get" >}})
+to check a key's protection status, and [`BLESS SCAN`]({{< relref "/commands/bless-scan" >}})
+to iterate the protected keys in the current database.
+
+```
+> SET session:42 "some value"
+OK
+> BLESS SET session:42 NO-EVICT
+(integer) 1
+```
+
+A protected key is never chosen as an eviction candidate, whichever eviction policy
+is active (`allkeys-lru`, `allkeys-lfu`, `allkeys-random`, or any `volatile-xxx`
+variant). This means it's possible to protect enough keys that Redis can't free
+enough memory to satisfy `maxmemory` through eviction alone. When that happens, Redis
+tolerates some overshoot: writes keep succeeding until `used_memory` would exceed
+1.25 times `maxmemory`, and only then start failing with the usual out-of-memory
+error. This overshoot tolerance applies uniformly across every `maxmemory-policy`
+value.
+
+The [`INFO`]({{< relref "/commands/info" >}}) command reports the total number of
+protected keys as `blessed_keys` in the `stats` section, and
+[`MEMORY STATS`]({{< relref "/commands/memory-stats" >}}) reports the per-database
+dictionary overhead of tracking them as `overhead.hashtable.blessed`.
+
+See [`BLESS SET`]({{< relref "/commands/bless-set" >}}) for how protection persists
+across restarts and interacts with [`DUMP`]({{< relref "/commands/dump" >}}) and
+[`RESTORE`]({{< relref "/commands/restore" >}}).

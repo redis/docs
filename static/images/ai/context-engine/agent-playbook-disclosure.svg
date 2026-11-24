@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="260" viewBox="0 0 640 260" role="img" aria-labelledby="title desc">
+  <title id="title">Progressive disclosure: discover, load, fetch; context used grows only as the agent asks</title>
+  <desc id="desc">Three steps left to right. Discover: discover_entries returns FAQ answers and skill previews. Load skill: load_skill returns instructions for the selected id and version. Fetch file: fetch_resource returns one file by URI. A bar under each step shows context used growing from previews only, to plus instructions, to plus files needed.</desc>
+  <defs>
+    <linearGradient id="border" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ee0000"/>
+      <stop offset="100%" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#b9b9b9"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#0b0b0b"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; fill: #333333; }
+    .node { fill: #ffffff; stroke: url(#border); stroke-width: 1; filter: url(#shadow); }
+    .detail { font-size: 14px; fill: #56616b; }
+    .code { font-family: "Courier New", monospace; font-size: 13px; }
+    .edge { fill: none; stroke: #0b0b0b; stroke-width: 1; marker-end: url(#arrow); }
+    .published { fill: #ee0000; }
+  </style>
+  <g text-anchor="middle">
+    <rect class="node" x="12" y="20" width="176" height="124"/>
+    <text x="100" y="48">1 · Discover</text>
+    <text class="code" x="100" y="76">discover_entries</text>
+    <text class="detail" x="100" y="106">FAQ answers and</text>
+    <text class="detail" x="100" y="126">skill previews</text>
+
+    <rect class="node" x="232" y="20" width="176" height="124"/>
+    <text x="320" y="48">2 · Load skill</text>
+    <text class="code" x="320" y="76">load_skill</text>
+    <text class="detail" x="320" y="106">Instructions for the</text>
+    <text class="detail" x="320" y="126">selected version</text>
+
+    <rect class="node" x="452" y="20" width="176" height="124"/>
+    <text x="540" y="48">3 · Fetch file</text>
+    <text class="code" x="540" y="76">fetch_resource</text>
+    <text class="detail" x="540" y="106">One file by URI</text>
+  </g>
+
+  <path class="edge" d="M188 82 H230"/>
+  <path class="edge" d="M408 82 H450"/>
+
+  <text class="detail" x="12" y="182">Context used</text>
+  <rect class="published" x="12" y="196" width="44" height="10"/>
+  <rect class="published" x="232" y="196" width="112" height="10"/>
+  <rect class="published" x="452" y="196" width="176" height="10"/>
+  <text class="detail" x="12" y="234">Previews only</text>
+  <text class="detail" x="232" y="234">+ instructions</text>
+  <text class="detail" x="452" y="234">+ files needed</text>
+</svg>

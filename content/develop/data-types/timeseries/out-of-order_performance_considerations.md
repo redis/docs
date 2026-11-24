@@ -51,11 +51,11 @@ The graphs and tables below make these key points:
 
 - We've observed a maximum 95% drop in the achievable ops/sec even at 99% out-of-order ingestion. (Again, reducing the chunk size can cut the impact in half.)
 
-{{< image filename="/images/timeseries/compressed-overall-ops-sec-vs-out-of-order-percentage.webp" alt="compressed-overall-ops-sec-vs-out-of-order-percentage" >}}
+![compressed-overall-ops-sec-vs-out-of-order-percentage](/images/timeseries/compressed-overall-ops-sec-vs-out-of-order-percentage.webp)
 
-{{< image filename="/images/timeseries/compressed-overall-p50-lat-vs-out-of-order-percentage.webp" alt="compressed-overall-p50-lat-vs-out-of-order-percentage" >}}
+![compressed-overall-p50-lat-vs-out-of-order-percentage](/images/timeseries/compressed-overall-p50-lat-vs-out-of-order-percentage.webp)
 
-{{< image filename="/images/timeseries/compressed-out-of-order-overhead-table.webp" alt="compressed-out-of-order-overhead-table" >}}
+![compressed-out-of-order-overhead-table](/images/timeseries/compressed-out-of-order-overhead-table.webp)
 
 ## Uncompressed chunks out-of-order/backfilled impact analysis
 
@@ -68,8 +68,8 @@ Apart from that, we can observe the following key take-aways:
 
 - We've observed a maximum 45% drop in the achievable ops/sec, even at 99% out-of-order ingestion.
 
-{{< image filename="/images/timeseries/uncompressed-overall-ops-sec-vs-out-of-order-percentage.webp" alt="uncompressed-overall-ops-sec-vs-out-of-order-percentage" >}}
+![uncompressed-overall-ops-sec-vs-out-of-order-percentage](/images/timeseries/uncompressed-overall-ops-sec-vs-out-of-order-percentage.webp)
 
-{{< image filename="/images/timeseries/uncompressed-overall-p50-lat-vs-out-of-order-percentage.webp" alt="uncompressed-overall-p50-lat-vs-out-of-order-percentage" >}}
+![uncompressed-overall-p50-lat-vs-out-of-order-percentage](/images/timeseries/uncompressed-overall-p50-lat-vs-out-of-order-percentage.webp)
 
-{{< image filename="/images/timeseries/uncompressed-out-of-order-overhead-table.webp" alt="uncompressed-out-of-order-overhead-table" >}}
+![uncompressed-out-of-order-overhead-table](/images/timeseries/uncompressed-out-of-order-overhead-table.webp)

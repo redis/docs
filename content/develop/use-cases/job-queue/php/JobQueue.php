@@ -116,7 +116,7 @@ LUA;
     // and moves any job past the visibility timeout back to the pending
     // list. A job is past the timeout if either:
     //   - claimed_at_ms is set and (now - claimed_at_ms) > visibility_ms, OR
-    //   - claimed_at_ms is missing (worker crashed between BRPOPLPUSH and
+    //   - claimed_at_ms is missing (worker crashed between BLMOVE and
     //     the metadata write) and (now - enqueued_at_ms) > 2 * visibility_ms.
     // Runs in one round trip so a concurrent worker can't claim a
     // half-reclaimed job.
@@ -266,17 +266,16 @@ LUA;
     /**
      * Block until a job is available, then atomically claim it.
      *
-     * Uses BRPOPLPUSH to wait for a pending job and move it to the
+     * Uses BLMOVE to wait for a pending job and move it to the
      * processing list in a single Redis call. Returns null if nothing
      * arrives before $timeoutMs.
      */
     public function claim(int $timeoutMs = 1000): ?ClaimedJob
     {
-        // Predis brpoplpush takes whole seconds (server-side blocking
-        // semantics). Round up so a sub-second timeout still blocks at
-        // least once.
-        $timeoutSec = max(1, (int) ceil($timeoutMs / 1000));
-        $jobId = $this->redis->brpoplpush($this->pendingKey, $this->processingKey, $timeoutSec);
+        // BLMOVE takes a fractional timeout in seconds. Keep a 0.1s minimum so
+        // a tiny timeoutMs does not turn into 0, which would block forever.
+        $timeoutSec = max($timeoutMs / 1000.0, 0.1);
+        $jobId = $this->redis->blmove($this->pendingKey, $this->processingKey, 'RIGHT', 'LEFT', $timeoutSec);
         if ($jobId === null || $jobId === false || $jobId === '') {
             return null;
         }

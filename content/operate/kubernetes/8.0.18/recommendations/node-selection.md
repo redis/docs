@@ -20,7 +20,7 @@ Use these options to control pod placement:
 
 ## Use node selectors
 
-The [`nodeSelector`]({{<relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#spec">}}) field matches the Kubernetes [`nodeSelector`](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) syntax.
+The [`nodeSelector`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#spec) field matches the Kubernetes [`nodeSelector`](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) syntax.
 Label the nodes you want to target. For example, if nodes 'n1' and 'n2' are labeled with `memory=high`:
 
 ```sh
@@ -41,13 +41,13 @@ spec:
      memory: high
 ```
 
-The operator copies [`nodeSelector`]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#spec" >}}) into the pod spec. The scheduler places pods only on nodes that match the selector.
+The operator copies [`nodeSelector`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#spec) into the pod spec. The scheduler places pods only on nodes that match the selector.
 
 ## Use node pools
 
 Node pools group similar nodes. Providers label nodes by pool.
 
-Use [`nodeSelector`]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#spec" >}}) to target a pool by label. For example, on GKE:
+Use [`nodeSelector`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#spec) to target a pool by label. For example, on GKE:
 
 ```yaml
 apiVersion: app.redislabs.com/v1
@@ -77,7 +77,7 @@ Cloud providers label nodes by pool. See links below for specific documentation.
 
 ## Use node taints
 
-Use node taints and pod tolerations to control REC pod scheduling. Set tolerations with [`spec.podTolerations`]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#specpodtolerations" >}}) (standard [Kubernetes tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts)).
+Use node taints and pod tolerations to control REC pod scheduling. Set tolerations with [`spec.podTolerations`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#specpodtolerations) (standard [Kubernetes tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts)).
 
 Example: on a single node pool, reserve nodes n1–n3 for REC by adding taints:
 
@@ -171,9 +171,10 @@ Kubernetes will not schedule two pods with label `local/role: database` on the s
 
 Enable rack-zone awareness to improve availability during rack or zone failures.
 
-{{%note%}}When creating your rack-zone ID, there are some constraints to consider; see [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness#rack-zone-id-rules" >}}) for more info. {{%/note%}}
+> [!NOTE]
+> When creating your rack-zone ID, there are some constraints to consider; see [rack-zone awareness](/content/operate/rs/clusters/configure/rack-zone-awareness.md#rack-zone-id-rules) for more info. 
 
-Configure it with [`spec.rackAwarenessNodeLabel`]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#spec" >}}) in the REC.
+Configure it with [`spec.rackAwarenessNodeLabel`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#spec) in the REC.
 
 ### Choose a node label
 
@@ -183,11 +184,10 @@ If your platform doesn’t set this label automatically, you can use any custom 
 
 ### Label all eligible nodes
 
-{{< warning >}}
-All eligible nodes **must** have the label for rack awareness to work. The operator requires every node that might run Redis Enterprise pods to be labeled. If any nodes are missing the label, reconciliation fails.
-{{< /warning >}}
+> [!WARNING]
+> All eligible nodes **must** have the label for rack awareness to work. The operator requires every node that might run Redis Enterprise pods to be labeled. If any nodes are missing the label, reconciliation fails.
 
-Eligible nodes are nodes where REC pods can run. By default, this means all worker nodes. You can limit eligibility with [`spec.nodeSelector`]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#spec" >}}).
+Eligible nodes are nodes where REC pods can run. By default, this means all worker nodes. You can limit eligibility with [`spec.nodeSelector`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#spec).
 
 Give each eligible node a label value that reflects its rack, zone, or region.
 
@@ -226,21 +226,19 @@ After you apply the role and binding, you can configure rack awareness.
 
 ### Configure rack awareness
 
-Set [`spec.rackAwarenessNodeLabel`]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#spec" >}}) to the node label to use:
+Set [`spec.rackAwarenessNodeLabel`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#spec) to the node label to use:
 
 {{<embed-yaml "k8s/rack_aware_rec.md" "rack-aware-cluster.yaml">}}
 
-{{< note >}}
-When you set [`spec.rackAwarenessNodeLabel`]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#spec" >}}), the operator sets the anti-affinity `topologyKey` to that label unless you define [`spec.podAntiAffinity`]({{< relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api#specpodantiaffinity" >}}). If you define both, make sure `topologyKey` matches your node label.
-{{< /note >}}
+> [!NOTE]
+> When you set [`spec.rackAwarenessNodeLabel`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#spec), the operator sets the anti-affinity `topologyKey` to that label unless you define [`spec.podAntiAffinity`](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md#specpodantiaffinity). If you define both, make sure `topologyKey` matches your node label.
 
 ### Rack awareness limitations
 
-{{< warning >}}
-**Pod restart distribution maintenance**: When rack awareness is enabled, node pods and shards are initially deployed based on rack constraints to ensure proper distribution across zones. However, Redis Enterprise does not automatically maintain this distribution when node pods are restarted.
-
-After pod restarts, the rack awareness policy may be violated, requiring manual intervention to restore proper shard distribution. While Redis Enterprise provides tools to identify shards that need to be moved to restore correct rack distribution, it does not provide automated orchestration to perform these moves.
-{{< /warning >}}
+> [!WARNING]
+> **Pod restart distribution maintenance**: When rack awareness is enabled, node pods and shards are initially deployed based on rack constraints to ensure proper distribution across zones. However, Redis Enterprise does not automatically maintain this distribution when node pods are restarted.
+>
+> After pod restarts, the rack awareness policy may be violated, requiring manual intervention to restore proper shard distribution. While Redis Enterprise provides tools to identify shards that need to be moved to restore correct rack distribution, it does not provide automated orchestration to perform these moves.
 
 **Important considerations for production deployments:**
 

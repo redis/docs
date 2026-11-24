@@ -42,16 +42,7 @@
         }
       }
     ],
-    "node_redis": [
-      {
-        "signature": "SAVE()",
-        "params": [],
-        "returns": {
-          "type": "SimpleStringReply",
-          "description": ""
-        }
-      }
-    ],
+    "node_redis": [],
     "lettuce_sync": [
       {
         "signature": "String save()",
@@ -82,8 +73,48 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "void Save(SaveType type, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "type",
+            "type": "SaveType",
+            "description": "The method of the save (e.g. background or foreground)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task SaveAsync(SaveType type, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "type",
+            "type": "SaveType",
+            "description": "The method of the save (e.g. background or foreground)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
     "php": [
       {
         "signature": "save()",
@@ -95,6 +126,32 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "save(callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<\"OK\", Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "save()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ]
   }
 }

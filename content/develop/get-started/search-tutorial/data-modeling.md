@@ -18,13 +18,13 @@ aliases:
 weight: 1
 ---
 
-This is step 1 of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}).
+This is step 1 of the [Redis Search tutorial](/content/develop/get-started/search-tutorial/_index.md).
 
 Before you can search anything, you need to decide how to store it. Redis gives you two natural ways to represent a structured record like a product: as a **hash** or as a **JSON document**. Both can be indexed and searched. This page explains the difference, helps you choose, and then loads the tutorial dataset.
 
 ## A record as a hash
 
-A [hash]({{< relref "/develop/data-types/hashes" >}}) stores a flat set of field-value pairs under a single key. It is the simplest way to represent a record and maps neatly onto a row of fields:
+A [hash](/content/develop/data-types/hashes.md) stores a flat set of field-value pairs under a single key. It is the simplest way to represent a record and maps neatly onto a row of fields:
 
 {{< clients-example set="search_tutorial" step="hash_example" description="Foundational: Store a record as a hash with HSET when your data is a flat set of fields" difficulty="beginner" >}}
 > HSET hproduct:1 name "Aurora AcousticPro Headphones" brand "Aurora" category "Audio" price 199.99 rating 4.6
@@ -35,9 +35,9 @@ Hashes are compact and fast, but they are **flat**: every value is a string or n
 
 ## A record as a JSON document
 
-The [JSON]({{< relref "/develop/data-types/json" >}}) data type stores a full JSON document under a key. It can represent nested objects and arrays directly, which matches how application data usually looks:
+The [JSON](/content/develop/data-types/json/_index.md) data type stores a full JSON document under a key. It can represent nested objects and arrays directly, which matches how application data usually looks:
 
-{{< clients-example set="search_tutorial" step="json_example" description="Foundational: Store a record as a JSON document with JSON.SET when your data has nested objects or arrays" difficulty="beginner" max_lines="6" >}}
+{{< clients-example set="search_tutorial" step="json_example" description="Foundational: Store a record as a JSON document with JSON.SET when your data has nested objects or arrays" difficulty="beginner" max_lines="6" prereq="true" >}}
 > JSON.SET product:1 $ '{"name":"Aurora AcousticPro Headphones","brand":"Aurora","category":"Audio","price":199.99,"rating":4.6,"features":["wireless","noise-cancelling","bluetooth"],"specs":{"color":"midnight black","weight_grams":268}}'
 {{< /clients-example >}}
 
@@ -55,15 +55,14 @@ Both hashes and JSON documents can be indexed and searched by Redis Search, so y
 
 For this tutorial, the catalog records have arrays (`features`) and a nested object (`specs`), so **we will use JSON documents** for the rest of the tutorial. If you are coming from a background where every record is a flat row, JSON is also a gentle way to keep your existing object shapes.
 
-{{% alert title="Note" color="info" %}}
-This is a modeling choice, not a limitation. The indexing and query commands you will learn (`FT.CREATE`, `FT.SEARCH`, `FT.AGGREGATE`) work with both hashes and JSON. The main practical difference shows up when indexing arrays, which you will see on the [next page]({{< relref "/develop/get-started/search-tutorial/indexing" >}}).
-{{% /alert %}}
+> [!NOTE]
+> This is a modeling choice, not a limitation. The indexing and query commands you will learn (`FT.CREATE`, `FT.SEARCH`, `FT.AGGREGATE`) work with both hashes and JSON. The main practical difference shows up when indexing arrays, which you will see on the [next page](/content/develop/get-started/search-tutorial/indexing.md).
 
 ## Load the dataset
 
 Now load the full catalog of 12 products. Each product is stored as a JSON document under a key with the prefix `product:`. The key prefix matters: in the next step you will tell Redis to index every key that starts with `product:`.
 
-{{< clients-example set="search_tutorial" step="load_data" description="Foundational: Load the tutorial dataset as JSON documents under a shared key prefix using JSON.SET" difficulty="beginner" max_lines="4" >}}
+{{< clients-example set="search_tutorial" step="load_data" description="Foundational: Load the tutorial dataset as JSON documents under a shared key prefix using JSON.SET" difficulty="beginner" max_lines="4" prereq="true" >}}
 > JSON.SET product:2 $ '{"name":"Aurora BudsMini Earbuds","brand":"Aurora","category":"Audio","description":"Tiny true-wireless earbuds with a secure in-ear fit and sweat resistance for workouts. The compact charging case slips into a pocket and delivers three full recharges on the go.","price":89.99,"rating":4.3,"review_count":942,"stock":130,"release_year":2023,"features":["wireless","bluetooth","in-ear","water-resistant"],"specs":{"color":"pearl white","weight_grams":5,"warranty_years":1}}'
 > JSON.SET product:3 $ '{"name":"Sonus Boom Portable Speaker","brand":"Sonus","category":"Audio","description":"A rugged portable Bluetooth speaker with deep bass and a waterproof shell. Toss it in a bag for the beach or a campsite and enjoy room-filling sound for up to 20 hours per charge.","price":129.5,"rating":4.5,"review_count":512,"stock":64,"release_year":2024,"features":["wireless","bluetooth","portable","waterproof"],"specs":{"color":"slate gray","weight_grams":540,"warranty_years":1}}'
 > JSON.SET product:4 $ '{"name":"Pixma Vortex 15 Laptop","brand":"Pixma","category":"Computers","description":"A thin-and-light 15-inch laptop with a fast multi-core processor, 16 GB of memory, and a speedy solid-state drive. The backlit keyboard and bright display make it a capable companion for work and study.","price":1399.0,"rating":4.7,"review_count":318,"stock":18,"release_year":2024,"features":["laptop","ssd","backlit-keyboard","lightweight"],"specs":{"color":"space silver","weight_grams":1600,"warranty_years":2}}'
@@ -77,7 +76,7 @@ Now load the full catalog of 12 products. Each product is stored as a JSON docum
 > JSON.SET product:12 $ '{"name":"Vista Action Cam 4K","brand":"Vista","category":"Cameras","description":"A pocket-sized action camera that shoots stabilized 4K video and is waterproof without a case. Mount it on a helmet or bike and capture your adventures in sharp detail.","price":299.0,"rating":4.3,"review_count":455,"stock":33,"release_year":2023,"features":["camera","4k","waterproof","wifi"],"specs":{"color":"black","weight_grams":128,"warranty_years":1}}'
 {{< /clients-example >}}
 
-You can read any single document back by its key with [JSON.GET]({{< relref "/commands/json.get" >}}):
+You can read any single document back by its key with [JSON.GET](/content/commands/json.get.md):
 
 {{< clients-example set="search_tutorial" step="get_one" description="Foundational: Read one JSON document back by its key with JSON.GET" difficulty="beginner" >}}
 > JSON.GET product:1 $.name
@@ -88,4 +87,4 @@ At this point the data is in Redis, but you can only fetch it one key at a time.
 
 ## Next steps
 
-Continue to [creating an index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}) to make this data searchable.
+Continue to [creating an index](/content/develop/get-started/search-tutorial/indexing.md) to make this data searchable.

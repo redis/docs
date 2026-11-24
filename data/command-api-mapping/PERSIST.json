@@ -69,7 +69,7 @@
     ],
     "node_redis": [
       {
-        "signature": "PERSIST(key: RedisArgument)",
+        "signature": "persist(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -78,7 +78,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -202,6 +202,27 @@
         "returns": {
           "type": "Boolean",
           "description": "whether the timeout was removed or not"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "persist(key: RedisKey, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
         }
       }
     ]

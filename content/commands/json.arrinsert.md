@@ -54,9 +54,8 @@ is key to modify.
 
 is one or more values to insert in one or more arrays. 
 
-{{% alert title="About using strings with JSON commands" color="warning" %}}
-To specify a string as an array value to insert, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
-{{% /alert %}}
+> [!NOTE] About using strings with JSON commands
+> To specify a string as an array value to insert, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
 </details>
 
 <details open><summary><code>index</code></summary> 
@@ -69,6 +68,8 @@ is position in the array where you want to insert a value. The index must be in 
 <details open><summary><code>path</code></summary> 
 
 is JSONPath to specify. Default is root `$`.
+
+Starting with Redis 8.12, if the [`json-auto-create-deep-paths`](/content/develop/data-types/json/configuration.md#json-auto-create-deep-paths) configuration parameter is enabled and `path` doesn't exist, `JSON.ARRINSERT` creates the missing objects, starts the new location as an empty array, and inserts into it. This works only when `index` is `0`. With any other index, nothing is created. The key must already exist. See [Auto-create missing paths](/content/develop/data-types/json/configuration.md#auto-create-missing-paths).
 </details>
 
 ## Examples
@@ -131,23 +132,23 @@ redis> JSON.GET item:1 $.colors
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the array's new size, or `null` if the matching value is not an array.
+With `$`-based path argument: [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the array's new size, or `null` if the matching value is not an array.
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the array's new size, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+With `.`-based path argument: [Integer reply](/content/develop/reference/protocol-spec.md#integers) representing the array's new size, or [null reply](/content/develop/reference/protocol-spec.md#nulls) if the matching value is not an array.
 
 -tab-sep-
 
-With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the array's new size, or `null` if the matching value is not an array.
+With `$`-based path argument (default): [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the array's new size, or `null` if the matching value is not an array.
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the array's new size, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an array.
+With `.`-based path argument: [Integer reply](/content/develop/reference/protocol-spec.md#integers) representing the array's new size, or [null reply](/content/develop/reference/protocol-spec.md#nulls) if the matching value is not an array.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) | [`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) 
+[`JSON.ARRAPPEND`](/content/commands/json.arrappend.md) | [`JSON.ARRINDEX`](/content/commands/json.arrindex.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

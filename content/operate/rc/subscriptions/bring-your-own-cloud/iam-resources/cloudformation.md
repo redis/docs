@@ -15,11 +15,10 @@ aliases:
 ---
 You can use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to create the IAM resources for Redis Cloud Bring your Own Cloud (BYOC).
 
-{{< warning >}}
-We use the provided credentials to configure your AWS environment and provision required resources.
-
-You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
-{{< /warning >}}
+> [!WARNING]
+> We use the provided credentials to configure your AWS environment and provision required resources.
+>
+> You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md#avoid-service-disruption) for more details.
 
 ## Create resources using CloudFormation on the AWS Console
 
@@ -29,7 +28,7 @@ The following link uses CloudFormation to create a stack using the AWS console:
 <img alt="Launch RedisCloud template" src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/>
 </a>
 
-When the stack finishes, select the stack and then the **Outputs** tab. You need the following information to [create a Cloud Account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) in the Redis Cloud console:
+When the stack finishes, select the stack and then the **Outputs** tab. You need the following information to [create a Cloud Account](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md) in the Redis Cloud console:
 
 - **Access Key ID**: The `accessKeyId` output.
 - **Secret Access Key**: Follow the link to AWS Secrets Manager in the `accessSecretKey` output and select **Retrieve secret value**. 
@@ -53,7 +52,7 @@ aws cloudformation describe-stacks --stack-name RedisCloud
 
 After the stack finishes, you can retrieve the outputs from the `Outputs` section of the response.
 
-You need the following information to [create a Cloud Account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) in the Redis Cloud console:
+You need the following information to [create a Cloud Account](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md) in the Redis Cloud console:
 
 - **Access Key ID**: The `accessKeyId` output.
 - **Secret Access Key**: Extract the secret ID from the `accessSecretKey` output. The secret ID is the `name` query parameter in the `accessSecretKey` output. 

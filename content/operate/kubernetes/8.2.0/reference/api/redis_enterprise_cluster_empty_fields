@@ -1,0 +1,8 @@
+spec.extraEnvVars
+spec.podAntiAffinity
+spec.redisEnterpriseAdditionalPodSpecAttributes
+spec.redisEnterpriseServicesRiggerResources
+spec.redisEnterpriseVolumeMounts
+spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes
+spec.sideContainersSpec
+spec.volumes

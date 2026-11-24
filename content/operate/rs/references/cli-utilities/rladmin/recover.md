@@ -12,9 +12,9 @@ toc: 'true'
 weight: $weight
 ---
 
-Recovers databases in recovery mode after events such as cluster failure, and restores the databases' configurations and data from stored persistence files. See [Recover a failed database]({{< relref "/operate/rs/databases/recover" >}}) for detailed instructions.
+Recovers databases in recovery mode after events such as cluster failure, and restores the databases' configurations and data from stored persistence files. See [Recover a failed database](/content/operate/rs/databases/recover.md) for detailed instructions.
 
-Database persistence files are stored in `/var/opt/redislabs/persist/redis/` by default, but you can specify a different directory to use for database recovery with [`rladmin node <id> recovery_path set <path>`]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/recovery-path" >}}).
+Database persistence files are stored in `/var/opt/redislabs/persist/redis/` by default, but you can specify a different directory to use for database recovery with [`rladmin node <id> recovery_path set <path>`](/content/operate/rs/references/cli-utilities/rladmin/node/recovery-path.md).
 
 ## `recover all`
 

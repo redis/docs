@@ -16,14 +16,13 @@ Use these steps to set up a Redis Enterprise Software cluster with OpenShift.
 
 ## Prerequisites
 
-- [OpenShift cluster](https://docs.openshift.com/container-platform/4.8/installing/index.html) with at least 3 nodes (each meeting the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}))
+- [OpenShift cluster](https://docs.openshift.com/container-platform/4.8/installing/index.html) with at least 3 nodes (each meeting the [minimum requirements for a development installation](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md))
 - [OpenShift CLI](https://docs.openshift.com/container-platform/latest/cli_reference/openshift_cli/getting-started-cli.html)
 
-To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/8.0/reference/supported_k8s_distributions" >}}).
+To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions](/content/operate/kubernetes/8.0/reference/supported_k8s_distributions.md).
 
-{{<note>}}
-If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/8.0/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
-{{</note>}}
+> [!NOTE]
+> If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment](/content/operate/kubernetes/8.0/security/allow-resource-adjustment.md). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
 ## Deploy the operator
 
@@ -53,9 +52,8 @@ If you suspect your file descriptor limits are below 100,000, you must either ma
     oc apply -f openshift.bundle.yaml
     ```
 
-    {{< warning >}}
-Changes to the `openshift.bundle.yaml` file can cause unexpected results.
-    {{< /warning >}}
+    > [!WARNING]
+    > Changes to the `openshift.bundle.yaml` file can cause unexpected results.
 
 1. Verify that your `redis-enterprise-operator` deployment is running.
 
@@ -70,35 +68,31 @@ Changes to the `openshift.bundle.yaml` file can cause unexpected results.
     redis-enterprise-operator   1/1     1            1           0m36s
     ```
 
-    {{<warning>}}
-DO NOT modify or delete the StatefulSet created during the deployment process. Doing so could destroy your Redis Enterprise cluster (REC).
-    {{</warning>}}
+    > [!WARNING]
+    > DO NOT modify or delete the StatefulSet created during the deployment process. Doing so could destroy your Redis Enterprise cluster (REC).
 
 ## Security context constraints
 
-Versions 7.22.0-6 and later run in without permissions to [allow automatic resource adjustment]({{< relref "/operate/kubernetes/8.0/security/allow-resource-adjustment" >}}). If you use the recommended default security constraints, remove the existing `redis-enterprise-scc-v2` SCC and unbind it from the REC service account after upgrading.
+Versions 7.22.0-6 and later run in without permissions to [allow automatic resource adjustment](/content/operate/kubernetes/8.0/security/allow-resource-adjustment.md). If you use the recommended default security constraints, remove the existing `redis-enterprise-scc-v2` SCC and unbind it from the REC service account after upgrading.
 
 ## Create a Redis Enterprise cluster custom resource
 
 1. Apply the `RedisEnterpriseCluster` resource file ([rec_rhel.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/rec_rhel.yaml)).
 
-    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api" >}}) for a full list of options.
+    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md) for a full list of options.
 
-    {{<note>}}
-If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/8.0/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
-    {{</note>}}
+    > [!NOTE]
+    > If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment](/content/operate/kubernetes/8.0/security/allow-resource-adjustment.md). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
     The REC name cannot be changed after cluster creation.
 
-    {{<note>}}
-Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are not supported.
-    {{</note>}}
+    > [!NOTE]
+    > Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are not supported.
 
 2. Apply the custom resource file to create your Redis Enterprise cluster.
 
-    {{<note>}}
-If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
-    {{</note>}}
+    > [!NOTE]
+    > If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
 
     ```sh
     oc apply -f <rec_rhel>.yaml
@@ -162,16 +156,15 @@ If not limited, the webhook intercepts requests from all namespaces. If you have
       redis-enterprise-admission --patch "$(cat modified-webhook.yaml)"
     ```
 
-    {{<note>}}
-For releases before 6.4.2-4, use this command instead:
-
-```sh
-oc patch ValidatingWebhookConfiguration \
-  redb-admission --patch "$(cat modified-webhook.yaml)"
-```
-
-The 6.4.2-4 release introduces a new `ValidatingWebhookConfiguration` to replace `redb-admission`. See the [6.4.2-4 release notes]({{< relref "/operate/kubernetes/release-notes/previous-releases/" >}}).
-    {{</note>}}
+    > [!NOTE]
+    > For releases before 6.4.2-4, use this command instead:
+    >
+    > ```sh
+    > oc patch ValidatingWebhookConfiguration \
+    >   redb-admission --patch "$(cat modified-webhook.yaml)"
+    > ```
+    >
+    > The 6.4.2-4 release introduces a new `ValidatingWebhookConfiguration` to replace `redb-admission`. See the [6.4.2-4 release notes](/content/operate/kubernetes/release-notes/previous-releases/_index.md).
 
 ### Verify admission controller installation
 
@@ -200,7 +193,7 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 1. Create a `RedisEnterpriseDatabase` custom resource.
 
-    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/8.0/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api" >}}).
+    This example creates a test database. For production databases, see [create a database](/content/operate/kubernetes/8.0/re-databases/db-controller.md#create-a-database) and [RedisEnterpriseDatabase API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md).
 
     ```sh
     cat << EOF > /tmp/redis-enterprise-database.yml
@@ -221,5 +214,5 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 ## More info
 
-- [Redis Enterprise cluster API]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api" >}})
-- [Redis Enterprise database API]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api" >}})
+- [Redis Enterprise cluster API](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md)
+- [Redis Enterprise database API](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md)

@@ -29,7 +29,7 @@ The examples in this article use a schema with the following fields:
 | `condition` | `TAG` |
 | `price` | `NUMERIC` |
 
-You can find more details about creating the index and loading the demo data in the [quick start guide]({{< relref "/develop/get-started/search-tutorial" >}}).
+You can find more details about creating the index and loading the demo data in the [quick start guide](/content/develop/get-started/search-tutorial/_index.md).
 
 ## Numeric field
 
@@ -47,7 +47,7 @@ or
 FT.SEARCH index "@field==value" DIALECT 2 # requires v2.10
 ```
 
-As described in the [article about range queries]({{< relref "/develop/ai/search-and-query/query/range" >}}), you can also use the `FILTER` argument:
+As described in the [article about range queries](/content/develop/ai/search-and-query/query/range.md), you can also use the `FILTER` argument:
 
 ```
 FT.SEARCH index "*" FILTER field start end
@@ -86,9 +86,8 @@ The following examples show you how to query for bicycles with a price of exactl
 
 A tag is a short sequence of text, for example, "new" or "Los Angeles". 
 
-{{% alert title="Important" color="warning" %}}
-If you need to query for short texts, use a tag query instead of a full-text query. Tag fields are more space-efficient for storing index entries and often lead to lower query complexity for exact match queries.
-{{% /alert  %}}
+> [!NOTE] Important
+> If you need to query for short texts, use a tag query instead of a full-text query. Tag fields are more space-efficient for storing index entries and often lead to lower query complexity for exact match queries.
 
 You can construct a tag query for a single tag in the following way:
 
@@ -96,9 +95,8 @@ You can construct a tag query for a single tag in the following way:
 FT.SEARCH index "@field:{tag}"
 ```
 
-{{% alert title="Note" color="warning" %}}
-The curly brackets are mandatory for tag queries.
-{{% /alert  %}}
+> [!NOTE]
+> The curly brackets are mandatory for tag queries.
 
 This short example shows you how to query for new bicycles:
 
@@ -122,7 +120,7 @@ This short example shows you how to query for new bicycles:
     2) "{\"pickup_zone\":\"POLYGON((1.9450 41.4301, 2.4018 41.4301, 2.4018 41.1987, 1.9450 41.1987, 1.9450 41.4301))\",\"store_location\":\"2.1734, 41.3851\",\"brand\":\"nHill\",\"model\":\"Summit\",\"price\":1200,\"description\":\"This budget mountain bike from nHill performs well both on bike paths and on the trail. The fork with 100mm of travel absorbs rough terrain. Fat Kenda Booster tires give you grip in corners and on wet trails. The Shimano Tourney drivetrain offered enough gears for finding a comfortable pace to ride uphill, and the Tektro hydraulic disc brakes break smoothly. Whether you want an affordable bike that you can take to work, but also take trail in mountains on the weekends or you\xe2\x80\x99re just after a stable, comfortable ride for the bike path, the Summit gives a good value for money.\",\"condition\":\"new\"}"
 {{< /clients-example >}}
 
-Use double quotes and [DIALECT 2]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}#dialect-2) for exact match queries involving tags that contain special characters. As of v2.10, the only character that needs escaping in queries involving double-quoted tags is the double-quote character. Here's an example of using double-quoted tags that contain special characters:
+Use double quotes and [DIALECT 2](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-2) for exact match queries involving tags that contain special characters. As of v2.10, the only character that needs escaping in queries involving double-quoted tags is the double-quote character. Here's an example of using double-quoted tags that contain special characters:
 
 {{< clients-example set="query_em" step="em3" description="Tag fields: Query tag fields with special characters using double-quoted syntax and DIALECT 2 when you need to match tags containing symbols or spaces" difficulty="advanced" >}}
 > FT.CREATE idx:email ON JSON PREFIX 1 key: SCHEMA $.email AS email TAG
@@ -138,17 +136,16 @@ OK
 
 ## Full-text field
 
-A detailed explanation of full-text queries is available in the [full-text queries documentation]({{< relref "/develop/ai/search-and-query/query/full-text" >}}). You can also query for an exact match of a phrase within a text field:
+A detailed explanation of full-text queries is available in the [full-text queries documentation](/content/develop/ai/search-and-query/query/full-text.md). You can also query for an exact match of a phrase within a text field:
 
 ```
 FT.SEARCH index "@field:\"phrase\""
 ```
 
-{{% alert title="Important" color="warning" %}}
-The phrase must be wrapped by escaped double quotes for an exact match query.
-
-You can't use a phrase that starts with a [stop word]({{< relref "/develop/ai/search-and-query/advanced-concepts/stopwords" >}}).
-{{% /alert  %}}
+> [!NOTE] Important
+> The phrase must be wrapped by escaped double quotes for an exact match query.
+>
+> You can't use a phrase that starts with a [stop word](/content/develop/ai/search-and-query/advanced-concepts/stopwords.md).
 
 Here is an example for finding all bicycles that have a description containing the exact text 'rough terrain':
 

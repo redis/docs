@@ -14,7 +14,7 @@ title: Rolling sensor graph demo with Java and Lettuce
 weight: 4
 ---
 
-This guide shows you how to build a compact rolling sensor graph demo in Java with [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
+This guide shows you how to build a compact rolling sensor graph demo in Java with [`Lettuce`](/content/develop/clients/lettuce/_index.md) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
 
 ## Overview
 
@@ -34,7 +34,7 @@ For Lettuce, we show asynchronous and reactive APIs rather than a synchronous AP
 
 * Async with `RedisAsyncCommands` works well for a small local demo server using `CompletableFuture`
 * Reactive with `RedisReactiveCommands` is a good fit when you are already using Reactor
-* For a synchronous Java version of this dashboard, see [Jedis]({{< relref "/develop/use-cases/time-series-dashboard/java-jedis" >}})
+* For a synchronous Java version of this dashboard, see [Jedis](/content/develop/use-cases/time-series-dashboard/java-jedis/_index.md)
 
 ## How it works
 
@@ -45,7 +45,7 @@ The example has four main parts:
 3. A `ReactiveRedisTimeSeriesStore` exposes the same Redis TimeSeries operations as Reactor `Mono` pipelines
 4. A small local HTTP server built with Java's built-in `HttpServer` renders three stacked combined graph-and-bucket views and polls a JSON snapshot endpoint
 
-Each sensor is stored in its own time series with labels such as `sensor_type`, `sensor_id`, `zone`, and `unit`. The dashboard uses [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) to ingest new readings and [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) to query both raw samples and aggregated bucket summaries. The aggregate queries use aligned buckets so the bucket boundaries stay stable as the visible window moves.
+Each sensor is stored in its own time series with labels such as `sensor_type`, `sensor_id`, `zone`, and `unit`. The dashboard uses [`TS.MADD`](/content/commands/ts.madd.md) to ingest new readings and [`TS.RANGE`](/content/commands/ts.range.md) to query both raw samples and aggregated bucket summaries. The aggregate queries use aligned buckets so the bucket boundaries stay stable as the visible window moves.
 
 ## The Java classes
 
@@ -90,10 +90,10 @@ The demo uses a 12-second retention period so the graphs visibly slide forward a
 
 The implementation uses these time series commands directly through Lettuce:
 
-* [`TS.CREATE`]({{< relref "/commands/ts.create" >}}) - Create one time series per sensor with retention and labels
-* [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) - Batch-ingest readings from all three sensors every 500ms
-* [`TS.GET`]({{< relref "/commands/ts.get" >}}) - Fetch the latest reading for a sensor
-* [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) - Read raw recent samples and aggregated 3-second buckets
+* [`TS.CREATE`](/content/commands/ts.create.md) - Create one time series per sensor with retention and labels
+* [`TS.MADD`](/content/commands/ts.madd.md) - Batch-ingest readings from all three sensors every 500ms
+* [`TS.GET`](/content/commands/ts.get.md) - Fetch the latest reading for a sensor
+* [`TS.RANGE`](/content/commands/ts.range.md) - Read raw recent samples and aggregated 3-second buckets
 * `ALIGN 0` with `TS.RANGE ... AGGREGATION` - Keep bucket boundaries stable as the visible window moves
 
 ## Async usage
@@ -124,11 +124,12 @@ redisClient.shutdown();
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.reactive.RedisReactiveCommands;
 
 RedisClient redisClient = RedisClient.create(RedisURI.Builder.redis("localhost", 6379).build());
 StatefulRedisConnection<String, String> connection = redisClient.connect();
 
-ReactiveRedisTimeSeriesStore store = new ReactiveRedisTimeSeriesStore(connection.reactive(), SensorSimulator.SENSORS);
+ReactiveRedisTimeSeriesStore store = new ReactiveRedisTimeSeriesStore(connection.commands(RedisReactiveCommands.factory()), SensorSimulator.SENSORS);
 
 store.ensureSchema()
     .then(store.addSamples(new SensorSimulator(SensorSimulator.SENSORS).nextSamples()))
@@ -154,7 +155,7 @@ If you use Maven:
 <dependency>
     <groupId>io.lettuce</groupId>
     <artifactId>lettuce-core</artifactId>
-    <version>6.7.1.RELEASE</version>
+    <version>7.9.0.RELEASE</version>
 </dependency>
 ```
 
@@ -173,19 +174,42 @@ curl -O $BASE/ReactiveRedisTimeSeriesStore.java
 curl -O $BASE/DemoServer.java
 ```
 
+### Get Lettuce and its dependencies
+
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
+
+```bash
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
+```
+
 ### Start the demo server
 
 Compile and run the demo:
 
 ```bash
-javac -cp lettuce-core-6.7.1.RELEASE.jar:reactor-core-3.6.6.jar:reactive-streams-1.0.4.jar SensorSimulator.java AsyncRedisTimeSeriesStore.java ReactiveRedisTimeSeriesStore.java DemoServer.java
-java -cp .:lettuce-core-6.7.1.RELEASE.jar:reactor-core-3.6.6.jar:reactive-streams-1.0.4.jar DemoServer
+javac -cp 'lib/*' SensorSimulator.java AsyncRedisTimeSeriesStore.java ReactiveRedisTimeSeriesStore.java DemoServer.java
+java -cp '.:lib/*' DemoServer
 ```
 
 The server accepts optional flags if your Redis instance is not on the default host and port:
 
 ```bash
-java -cp .:lettuce-core-6.7.1.RELEASE.jar:reactor-core-3.6.6.jar:reactive-streams-1.0.4.jar DemoServer --redis-host 127.0.0.1 --redis-port 6379 --port 8080
+java -cp '.:lib/*' DemoServer --redis-host 127.0.0.1 --redis-port 6379 --port 8080
 ```
 
 After starting the server, visit `http://localhost:8080`.
@@ -235,8 +259,8 @@ This example intentionally keeps the server and UI small so the Redis behavior i
 
 ## Learn more
 
-* [Lettuce guide]({{< relref "/develop/clients/lettuce" >}}) - Install and use the Java client
-* [Time series overview]({{< relref "/develop/data-types/timeseries" >}}) - Time series concepts and commands
-* [TS.RANGE command]({{< relref "/commands/ts.range" >}}) - Query raw and aggregated ranges from a time series
-* [TS.MADD command]({{< relref "/commands/ts.madd" >}}) - Add multiple samples in one call
-* [TS.CREATE command]({{< relref "/commands/ts.create" >}}) - Create a time series with labels and retention
+* [Lettuce guide](/content/develop/clients/lettuce/_index.md) - Install and use the Java client
+* [Time series overview](/content/develop/data-types/timeseries/_index.md) - Time series concepts and commands
+* [TS.RANGE command](/content/commands/ts.range.md) - Query raw and aggregated ranges from a time series
+* [TS.MADD command](/content/commands/ts.madd.md) - Add multiple samples in one call
+* [TS.CREATE command](/content/commands/ts.create.md) - Create a time series with labels and retention

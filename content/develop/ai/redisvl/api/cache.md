@@ -10,7 +10,7 @@ aliases:
 
 <a id="semantic-cache-api"></a>
 
-### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, create_index=True, **kwargs)`
+### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None, overwrite=False, create_index=True, refresh_ttl_on_hit=True, **kwargs)`
 
 Bases: `BaseLLMCache`
 
@@ -48,6 +48,8 @@ Semantic Cache for Large Language Models.
     externally, or when the credential cannot run `FT.INFO`. See
     [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the ACL details. Defaults to
     true.
+  * **refresh_ttl_on_hit** (*bool*) – Whether cache hits refresh matched
+    entries’ TTL by default. Defaults to True.
 * **Raises:**
   * **TypeError** – If an invalid vectorizer is provided.
   * **TypeError** – If the TTL value is not an int.
@@ -70,7 +72,7 @@ cache = SemanticCache(
 )
 ```
 
-#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
+#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, *, refresh_ttl=None)`
 
 Async check the semantic cache for results similar to the specified prompt
 or vector.
@@ -95,6 +97,9 @@ LLM responses.
     the full cache will be searched.
   * **distance_threshold** (*Optional* *[* *float* *]*) – The threshold for semantic
     vector distance.
+  * **refresh_ttl** (*Optional* *[* *bool* *]*) – Whether this cache hit should refresh
+    matched entries’ TTL. If None, uses the cache-level
+    refresh_ttl_on_hit setting.
 * **Returns:**
   A list of dicts containing the requested
   : return fields for each similar cached response.
@@ -113,7 +118,9 @@ response = await cache.acheck(
 
 #### `async aclear()`
 
-Async clear all cache keys when RedisVL manages the index lifecycle.
+Async delete every cache entry, leaving the index in place.
+
+See [clear](#clear) for the caveats, which apply identically here.
 
 * **Return type:**
   None
@@ -122,6 +129,8 @@ Async clear all cache keys when RedisVL manages the index lifecycle.
 
 Async delete the cache and its index entirely.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. See [delete](#delete).
 * **Return type:**
   None
 
@@ -143,9 +152,8 @@ Async drop specific entries from the cache by ID or Redis key.
 * **Return type:**
   None
 
-{{< note >}}
-At least one of ids or keys must be provided.
-{{< /note >}}
+> [!NOTE]
+> At least one of ids or keys must be provided.
 
 * **Raises:**
   **ValueError** – If neither ids nor keys is provided.
@@ -167,10 +175,9 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
@@ -226,7 +233,7 @@ await cache.aupdate(
 )
 ```
 
-#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
+#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, *, refresh_ttl=None)`
 
 Checks the semantic cache for results similar to the specified prompt
 or vector.
@@ -251,6 +258,9 @@ LLM responses.
     the full cache will be searched.
   * **distance_threshold** (*Optional* *[* *float* *]*) – The threshold for semantic
     vector distance.
+  * **refresh_ttl** (*Optional* *[* *bool* *]*) – Whether this cache hit should refresh
+    matched entries’ TTL. If None, uses the cache-level
+    refresh_ttl_on_hit setting.
 * **Returns:**
   A list of dicts containing the requested
   : return fields for each similar cached response.
@@ -269,7 +279,16 @@ response = cache.check(
 
 #### `clear()`
 
-Clear all cache keys when RedisVL manages the index lifecycle.
+Delete every cache entry, leaving the index in place.
+
+Clears by key prefix, not by index membership, so it removes every key
+under `{name}:` and nothing outside it. Available under
+`create_index=False`; dropping the index is [delete](#delete).
+
+> [!WARNING]
+> Under `create_index=False` the prefix is unverified, so this can
+> delete keys the index never covered and miss entries it does. See
+> [Install RedisVL]({{< relref "../user_guide/installation" >}}).
 
 * **Return type:**
   None
@@ -278,6 +297,9 @@ Clear all cache keys when RedisVL manages the index lifecycle.
 
 Delete the cache and its index entirely.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. Use [clear](#clear) to
+      empty the cache and leave the index standing.
 * **Return type:**
   None
 
@@ -299,9 +321,8 @@ Drop specific entries from the cache by ID or Redis key.
 * **Return type:**
   None
 
-{{< note >}}
-At least one of ids or keys must be provided.
-{{< /note >}}
+> [!NOTE]
+> At least one of ids or keys must be provided.
 
 * **Raises:**
   **ValueError** – If neither ids nor keys is provided.
@@ -323,10 +344,9 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `set_threshold(distance_threshold)`
 
@@ -487,7 +507,7 @@ Initialize a LangCache semantic cache.
   * **ImportError** – If the langcache package is not installed.
   * **ValueError** – If cache_id or api_key is not provided.
 
-#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None)`
+#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None, *, refresh_ttl=None)`
 
 Async check the cache for semantically similar prompts.
 
@@ -503,6 +523,8 @@ Async check the cache for semantically similar prompts.
     If "normalized", uses (1.0 - distance_threshold) ([0,1] -> [0,1]).
   * **attributes** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – LangCache attributes to filter by.
     Note: Attributes must be pre-configured in your LangCache instance.
+  * **refresh_ttl** (*Optional* *[* *bool* *]*) – Not supported by LangCache; ignored
+    with a warning if set.
 * **Returns:**
   List of matching cache entries.
 * **Return type:**
@@ -570,10 +592,9 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
@@ -608,7 +629,7 @@ This method will raise NotImplementedError.
 * **Return type:**
   None
 
-#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None)`
+#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None, *, refresh_ttl=None)`
 
 Check the cache for semantically similar prompts.
 
@@ -624,6 +645,8 @@ Check the cache for semantically similar prompts.
     If "normalized", uses (1.0 - distance_threshold) ([0,1] -> [0,1]).
   * **attributes** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – LangCache attributes to filter by.
     Note: Attributes must be pre-configured in your LangCache instance.
+  * **refresh_ttl** (*Optional* *[* *bool* *]*) – Not supported by LangCache; ignored
+    with a warning if set.
 * **Returns:**
   List of matching cache entries.
 * **Return type:**
@@ -691,10 +714,9 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `set_ttl(ttl=None)`
 
@@ -887,7 +909,7 @@ The semantic distance between the query vector and the stored prompt vector
 
 <a id="embeddings-cache-api"></a>
 
-### `class EmbeddingsCache(name='embedcache', ttl=None, redis_client=None, async_redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={})`
+### `class EmbeddingsCache(name='embedcache', ttl=None, redis_client=None, async_redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None)`
 
 Bases: `BaseCache`
 
@@ -915,7 +937,24 @@ cache = EmbeddingsCache(
 
 #### `async aclear()`
 
-Async clear the cache of all keys.
+Asynchronously clear the cache of all keys.
+
+Deletes every Redis key under the cache’s prefix (`<name>:`) with
+`SCAN` + `DEL`. The cache object itself stays usable for future
+writes.
+
+> [!NOTE]
+> `SCAN` is not a point-in-time snapshot, so this is a best-effort
+> sweep rather than an atomic flush:
+
+- Keys written by other clients while the sweep is in progress may
+  or may not be deleted, so the cache is not guaranteed to be empty
+  when this returns. Quiesce writers first if you need that.
+- `SCAN` may return the same key on more than one page. `DEL`
+  on an already-deleted key is a no-op, so this is harmless.
+- Deletion is not atomic across keys. If the call raises partway
+  through, some keys are already gone. The operation is idempotent,
+  so retrying is safe and converges.
 
 * **Return type:**
   None
@@ -1010,10 +1049,9 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `async aget(content, model_name)`
 
@@ -1196,6 +1234,11 @@ Each item in the input list should be a dictionary with the following fields:
 * **Return type:**
   List[str]
 
+> [!NOTE]
+> The batch is pipelined, not transactional, so on a Redis Cluster it
+> fans out across shards. If it fails partway, some entries will have
+> been written; the operation is idempotent, so simply retry it.
+
 ```python
 # Store multiple embeddings asynchronously
 keys = await cache.amset([
@@ -1243,6 +1286,23 @@ key = await cache.aset(
 #### `clear()`
 
 Clear the cache of all keys.
+
+Deletes every Redis key under the cache’s prefix (`<name>:`) with
+`SCAN` + `DEL`. The cache object itself stays usable for future
+writes.
+
+> [!NOTE]
+> `SCAN` is not a point-in-time snapshot, so this is a best-effort
+> sweep rather than an atomic flush:
+
+- Keys written by other clients while the sweep is in progress may
+  or may not be deleted, so the cache is not guaranteed to be empty
+  when this returns. Quiesce writers first if you need that.
+- `SCAN` may return the same key on more than one page. `DEL`
+  on an already-deleted key is a no-op, so this is harmless.
+- Deletion is not atomic across keys. If the call raises partway
+  through, some keys are already gone. The operation is idempotent,
+  so retrying is safe and converges.
 
 * **Return type:**
   None
@@ -1329,10 +1389,9 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-{{< note >}}
-If neither the provided TTL nor the default TTL is set (both are None),
-this method will have no effect.
-{{< /note >}}
+> [!NOTE]
+> If neither the provided TTL nor the default TTL is set (both are None),
+> this method will have no effect.
 
 #### `get(content, model_name)`
 
@@ -1514,6 +1573,11 @@ Each item in the input list should be a dictionary with the following fields:
   List of Redis keys where the embeddings were stored.
 * **Return type:**
   List[str]
+
+> [!NOTE]
+> The batch is pipelined, not transactional, so on a Redis Cluster it
+> fans out across shards. If it fails partway, some entries will have
+> been written; the operation is idempotent, so simply retry it.
 
 ```python
 # Store multiple embeddings

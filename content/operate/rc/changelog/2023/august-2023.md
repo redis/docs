@@ -22,28 +22,27 @@ This changelog lists new features, enhancements, and other changes added to Redi
 
 ### Redis 7.2 flexible opt-in
 
-You can opt in to Redis 7.2 on [Flexible subscriptions]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}). Redis 7.2 introduces several changes to existing Redis commands; see the [list of breaking changes]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) published in June's changelog for more details.
+You can opt in to Redis 7.2 on [Flexible subscriptions](/content/operate/rc/databases/create-database/create-pro-database-new.md). Redis 7.2 introduces several changes to existing Redis commands; see the [list of breaking changes](/content/operate/rc/changelog/2023/june-2023.md#redis-72-breaking-changes) published in June's changelog for more details.
 
 ### Triggers and functions preview
 
-A preview of [triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions" >}}) (previously known as RedisGears) is now available in the following regions:
+A preview of [triggers and functions](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/_index.md) (previously known as RedisGears) is now available in the following regions:
 
 - AWS Asia Pacific - Singapore (`ap-southeast-1`)
 - GCP Asia Pacific - Tokyo (`asia-northeast1`)
 
-To use it, [create a fixed subscription]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) in one of these regions. Then, [create your database]({{< relref "/operate/rc/databases/create-database" >}}) and set the database Type to Redis and select Triggers and Functions in the drop-down. Or, set the database Type to Redis Stack to get all of our advanced capabilities.
+To use it, [create a fixed subscription](/content/operate/rc/databases/create-database/create-essentials-database.md) in one of these regions. Then, [create your database](/content/operate/rc/databases/create-database/_index.md) and set the database Type to Redis and select Triggers and Functions in the drop-down. Or, set the database Type to Redis Stack to get all of our advanced capabilities.
 
-If you'd like to use triggers and functions with a [Flexible subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}), contact [support](https://redis.com/company/support/).
+If you'd like to use triggers and functions with a [Flexible subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md), contact [support](https://redis.com/company/support/).
 
-For more information about triggers and functions, see the [triggers and functions documentation]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}).
+For more information about triggers and functions, see the [triggers and functions documentation](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/_index.md).
 
-{{< note >}}
-Triggers and functions is discontinued as of [May 2024]({{< relref "/operate/rc/changelog/2024/may-2024" >}}).
-{{< /note >}}
+> [!NOTE]
+> Triggers and functions is discontinued as of [May 2024](/content/operate/rc/changelog/2024/may-2024.md).
 
 ### Maintenance windows
 
-You can now [set manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) if you want to control when Redis can perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) for a Flexible subscription.
+You can now [set manual maintenance windows](/content/operate/rc/subscriptions/maintenance/set-maintenance-windows.md) if you want to control when Redis can perform [maintenance](/content/operate/rc/subscriptions/maintenance/_index.md) for a Flexible subscription.
 
 ## Known issues
 

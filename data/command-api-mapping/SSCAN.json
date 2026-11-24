@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "sscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,)",
+        "signature": "sscan(name: KeyT, cursor: int = 0, match: Union[PatternT, None] = None, count: Optional[int] = None)",
         "params": [
           {
             "name": "name",
@@ -410,7 +410,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SSCAN(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
+        "signature": "sScan(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
         "params": [
           {
             "name": "key",
@@ -450,12 +450,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -484,12 +484,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -518,12 +518,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       },
@@ -562,12 +562,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<[cursor",
+            "type": "Callback<[cursor: string, elements: string[]]>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<[cursor: string, elements: string[]], Context>",
           "description": ""
         }
       }
@@ -644,36 +644,7 @@
     ],
     "nredisstack_async": [
       {
-        "signature": "SetScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the set."
-          },
-          {
-            "name": "pattern",
-            "type": "RedisValue",
-            "description": "The pattern to match."
-          },
-          {
-            "name": "pageSize",
-            "type": "int",
-            "description": "The page size to iterate by."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "IEnumerable<RedisValue>",
-          "description": "Yields all matching elements of the set."
-        }
-      },
-      {
-        "signature": "SetScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "SetScanAsync(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -707,7 +678,7 @@
           }
         ],
         "returns": {
-          "type": "IEnumerable<RedisValue>",
+          "type": "IAsyncEnumerable<RedisValue>",
           "description": "Yields all matching elements of the set."
         }
       }
@@ -727,8 +698,8 @@
             "description": ""
           },
           {
-            "name": "array $options = null",
-            "type": "Any",
+            "name": "$options",
+            "type": "array",
             "description": ""
           }
         ],

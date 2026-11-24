@@ -19,9 +19,8 @@ weight: 2
 
 Efficient management of high-dimensional vector data is crucial for scalable search and retrieval. Advanced methods for vector quantization and compression, such as LVQ (Locally-adaptive Vector Quantization) and LeanVec, can dramatically optimize memory usage and improve search speed, without sacrificing much accuracy. This page describes practical approaches to quantizing and compressing vectors for scalable search.
 
-{{< warning >}}
-Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available in Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
-{{< /warning >}}
+> [!WARNING]
+> Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available in Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
 
 ## Quantization and compression techniques
 
@@ -99,7 +98,7 @@ The strong performance of LVQ and LeanVec stems from their ability to adapt to t
 ### What does this mean in practice?
 
 * **Initial training requirement:**
-    A minimum number of representative vectors is required during index initialization to train the compression parameters (see the [TRAINING_THRESHOLD]({{< relref "/develop/ai/search-and-query/vectors/#svs-vamana-index" >}}) parameter). A random sample from the dataset typically works well.
+    A minimum number of representative vectors is required during index initialization to train the compression parameters (see the [TRAINING_THRESHOLD](/content/develop/ai/search-and-query/vectors/_index.md#svs-vamana-index) parameter). A random sample from the dataset typically works well.
 * **Handling data drift:**
     If the characteristics of incoming vectors change significantly over time (that is, a data distribution shift), compression quality may degrade. This is a general limitation of all data-dependent compression methods,not just LVQ and LeanVec. When the data no longer resembles the original training sample, the learned representation becomes less effective.
 
@@ -107,15 +106,14 @@ The strong performance of LVQ and LeanVec stems from their ability to adapt to t
 
 By default, Redis Open Source with Redis Search supports SVS-VAMANA indexing with the global 8-bit quantisation. To compile Redis with the Intel SVS-VAMANA optimisations, LeanVec and LVQ, for Intel platforms, follow the instructions below.
 
-{{< warning >}}
-If you are using Redis Open Source under the AGPLv3 or SSPLv1 licenses, you cannot use it together with the Intel Optimization binaries (LeanVec and LVQ). The reason is that the Intel SVS license is not compatible with those licenses.
-The LeanVec and LVQ techniques are closed source and are only available for use with Redis Open Source when distributed under the RSALv2 license.
-For more details, please refer to the [information provided by Intel](https://github.com/intel/ScalableVectorSearch).
-{{< /warning >}}
+> [!WARNING]
+> If you are using Redis Open Source under the AGPLv3 or SSPLv1 licenses, you cannot use it together with the Intel Optimization binaries (LeanVec and LVQ). The reason is that the Intel SVS license is not compatible with those licenses.
+> The LeanVec and LVQ techniques are closed source and are only available for use with Redis Open Source when distributed under the RSALv2 license.
+> For more details, please refer to the [information provided by Intel](https://github.com/intel/ScalableVectorSearch).
 
 ### Build Redis Open Source
 
-Follow the [Redis Open Source build instructions]({{< relref "/operate/oss_and_stack/install/build-stack" >}}). Before executing `make`, define the following environment variable.
+Follow the [Redis Open Source build instructions](/content/operate/oss_and_stack/install/build-stack/_index.md). Before executing `make`, define the following environment variable.
 
 ```sh
 export BUILD_INTEL_SVS_OPT=yes

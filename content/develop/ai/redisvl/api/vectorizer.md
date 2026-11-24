@@ -6,20 +6,19 @@ aliases:
 ---
 
 
-{{< note >}}
-**Backwards Compatibility:** Several vectorizers have deprecated aliases
-available in the `redisvl.utils.vectorize.text` module for backwards
-compatibility:
-
-- `VoyageAITextVectorizer` → Use `VoyageAIVectorizer` instead
-- `VertexAITextVectorizer` → Use `GoogleGenAIVectorizer` instead
-  (`VertexAIVectorizer` is itself deprecated; see below)
-- `BedrockTextVectorizer` → Use `BedrockVectorizer` instead
-- `CustomTextVectorizer` → Use `CustomVectorizer` instead
-
-These aliases are deprecated as of version 0.13.0 and will be removed
-in a future major release.
-{{< /note >}}
+> [!NOTE]
+> **Backwards Compatibility:** Several vectorizers have deprecated aliases
+> available in the `redisvl.utils.vectorize.text` module for backwards
+> compatibility:
+>
+> - `VoyageAITextVectorizer` → Use `VoyageAIVectorizer` instead
+> - `VertexAITextVectorizer` → Use `GoogleGenAIVectorizer` instead
+>   (`VertexAIVectorizer` is itself deprecated; see below)
+> - `BedrockTextVectorizer` → Use `BedrockVectorizer` instead
+> - `CustomTextVectorizer` → Use `CustomVectorizer` instead
+>
+> These aliases are deprecated as of version 0.13.0 and will be removed
+> in a future major release.
 
 ## HFTextVectorizer
 
@@ -44,12 +43,11 @@ Hugging Face’s vast collection of Sentence Transformers. These models are
 trained on a variety of datasets and tasks, ensuring versatility and
 robust performance across different embedding needs.
 
-{{< note >}}
-Some multimodal models can make use of sentence-transformers by passing
-PIL Image objects in place of strings (e.g. CLIP). To enable those use
-cases, this class follows the SentenceTransformer convention of hinting
-that it expects string inputs, but never enforcing it.
-{{< /note >}}
+> [!NOTE]
+> Some multimodal models can make use of sentence-transformers by passing
+> PIL Image objects in place of strings (e.g. CLIP). To enable those use
+> cases, this class follows the SentenceTransformer convention of hinting
+> that it expects string inputs, but never enforcing it.
 
 Requirements:
 : - The sentence-transformers library must be installed with pip.
@@ -188,7 +186,9 @@ Initialize the OpenAI vectorizer.
   * **model** (*str*) – Model to use for embedding. Defaults to
     ‘text-embedding-ada-002’.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
-    API key and any additional OpenAI API options. Defaults to None.
+    API key and any additional OpenAI API options. The API key
+    falls back to the `OPENAI_API_KEY` environment variable when it
+    is missing or empty. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
@@ -305,15 +305,14 @@ Return the type of vectorizer.
 
 <a id="vertexaivectorizer-api"></a>
 
-{{< note >}}
-`VertexAIVectorizer` is **deprecated**. It uses Google’s Vertex AI
-model-garden SDK, which Google has deprecated with a scheduled removal. Use
-[GoogleGenAIVectorizer](#googlegenaivectorizer) for text
-embeddings on the supported `google-genai` SDK. The alias
-`VertexAITextVectorizer` (in `redisvl.utils.vectorize.text`) is likewise
-deprecated. Multimodal (image/video) migration is tracked in
-[issue #620](https://github.com/redis/redis-vl-python/issues/620).
-{{< /note >}}
+> [!NOTE]
+> `VertexAIVectorizer` is **deprecated**. It uses Google’s Vertex AI
+> model-garden SDK, which Google has deprecated with a scheduled removal. Use
+> [GoogleGenAIVectorizer](#googlegenaivectorizer) for text
+> embeddings on the supported `google-genai` SDK. The alias
+> `VertexAITextVectorizer` (in `redisvl.utils.vectorize.text`) is likewise
+> deprecated. Multimodal (image/video) migration is tracked in
+> [issue #620](https://github.com/redis/redis-vl-python/issues/620).
 
 ### `class VertexAIVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
@@ -391,7 +390,9 @@ Initialize the VertexAI vectorizer.
   * **model** (*str*) – Model to use for embedding. Defaults to
     ‘textembedding-gecko’.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
-    API config details. Defaults to None.
+    API config details. `project_id` and `location` fall back
+    to the `GCP_PROJECT_ID` and `GCP_LOCATION` environment
+    variables when missing or empty. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
@@ -465,15 +466,14 @@ Credentials are resolved in this order (explicit beats ambient):
 
 Install the client with `pip install redisvl[google-genai]`.
 
-{{< note >}}
-The default model `gemini-embedding-001` returns **3072-dimensional**
-vectors (≈4× the width of the legacy `textembedding-gecko`, so ≈4× the
-index memory). A reduced `output_dimensionality` returns shorter vectors that
-Google does **not** re-normalize; this is invisible under the COSINE metric
-(scale-invariant) but matters for inner-product / L2 — normalize yourself if your
-index needs it. Embeddings from different models (or dimensions) are not
-interchangeable — reindex when you change them.
-{{< /note >}}
+> [!NOTE]
+> The default model `gemini-embedding-001` returns **3072-dimensional**
+> vectors (≈4× the width of the legacy `textembedding-gecko`, so ≈4× the
+> index memory). A reduced `output_dimensionality` returns shorter vectors that
+> Google does **not** re-normalize; this is invisible under the COSINE metric
+> (scale-invariant) but matters for inner-product / L2 — normalize yourself if your
+> index needs it. Embeddings from different models (or dimensions) are not
+> interchangeable — reindex when you change them.
 
 ```python
 # Vertex AI backend
@@ -568,8 +568,9 @@ environment variable. User must obtain an API key from Cohere’s website
 ([https://dashboard.cohere.com/](https://dashboard.cohere.com/)). Additionally, the cohere python
 client must be installed with pip install cohere.
 
-The vectorizer supports only synchronous operations, allows for batch
-processing of texts and flexibility in handling preprocessing tasks.
+The vectorizer supports both synchronous and asynchronous operations,
+allows for batch processing of texts and flexibility in handling
+preprocessing tasks.
 
 You can optionally enable caching to improve performance when generating
 embeddings for repeated text inputs.
@@ -621,13 +622,19 @@ Visit [https://cohere.ai/embed](https://cohere.ai/embed) to learn about embeddin
 * **Parameters:**
   * **model** (*str*) – Model to use for embedding. Defaults to ‘embed-english-v3.0’.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
-    Defaults to None.
+    Missing or empty keys fall back to the
+    `COHERE_API_KEY` environment variable. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     ‘float32’ will use Cohere’s float embeddings, ‘int8’ and ‘uint8’ will map
     to Cohere’s corresponding embedding types. Defaults to ‘float32’.
   * **cache** (*Optional* *[*[*EmbeddingsCache*]({{< relref "cache/#embeddingscache" >}}) *]*) – Optional EmbeddingsCache instance to cache embeddings for
     better performance with repeated texts. Defaults to None.
+  * **\*\*kwargs** – Passed to the Cohere `Client` and `AsyncClient`, for
+    example `timeout` or `base_url`. A custom `httpx_client` is
+    synchronous, so it goes to the sync client only and the async
+    methods fall back to it; pass `async_httpx_client` (an
+    `httpx.AsyncClient`) to give the async client its own.
   * **dims** (*Annotated* *[* *int* *|* *None* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
 * **Raises:**
   * **ImportError** – If the cohere library is not installed.
@@ -646,11 +653,10 @@ Return the type of vectorizer.
 
 <a id="bedrockvectorizer-api"></a>
 
-{{< note >}}
-For backwards compatibility, an alias `BedrockTextVectorizer` is available
-in the `redisvl.utils.vectorize.text` module. This alias is deprecated
-as of version 0.13.0 and will be removed in a future major release.
-{{< /note >}}
+> [!NOTE]
+> For backwards compatibility, an alias `BedrockTextVectorizer` is available
+> in the `redisvl.utils.vectorize.text` module. This alias is deprecated
+> as of version 0.13.0 and will be removed in a future major release.
 
 ### `class BedrockVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
@@ -759,11 +765,10 @@ Return the type of vectorizer.
 
 <a id="customvectorizer-api"></a>
 
-{{< note >}}
-For backwards compatibility, an alias `CustomTextVectorizer` is available
-in the `redisvl.utils.vectorize.text` module. This alias is deprecated
-as of version 0.13.0 and will be removed in a future major release.
-{{< /note >}}
+> [!NOTE]
+> For backwards compatibility, an alias `CustomTextVectorizer` is available
+> in the `redisvl.utils.vectorize.text` module. This alias is deprecated
+> as of version 0.13.0 and will be removed in a future major release.
 
 ### `class CustomVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32', cache=None)`
 
@@ -837,11 +842,10 @@ Return the type of vectorizer.
 
 <a id="voyageaivectorizer-api"></a>
 
-{{< note >}}
-For backwards compatibility, an alias `VoyageAITextVectorizer` is available
-in the `redisvl.utils.vectorize.text` module. This alias is deprecated
-as of version 0.13.0 and will be removed in a future major release.
-{{< /note >}}
+> [!NOTE]
+> For backwards compatibility, an alias `VoyageAITextVectorizer` is available
+> in the `redisvl.utils.vectorize.text` module. This alias is deprecated
+> as of version 0.13.0 and will be removed in a future major release.
 
 ### `class VoyageAIVectorizer(model='voyage-3-large', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
@@ -850,8 +854,15 @@ Bases: `BaseVectorizer`
 The VoyageAIVectorizer class utilizes VoyageAI’s API to generate
 embeddings for text and multimodal (text / image / video) data.
 
-This vectorizer is designed to interact with VoyageAI’s /embed and /multimodal_embed APIs,
-requiring an API key for authentication. The key can be provided
+This vectorizer is designed to interact with VoyageAI’s /embed, /multimodal_embed,
+and /contextualized_embed APIs. Any model identifier accepted by VoyageAI can be
+passed via `model` - for example the general-purpose `voyage-4-large` /
+`voyage-4` / `voyage-4-lite` / `voyage-4-nano` family, domain models such
+as `voyage-code-4`, contextualized `voyage-context-4` / `voyage-context-3`
+models, and multimodal `voyage-multimodal-*` models.
+See [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings) for the current catalog.
+
+It requires an API key for authentication. The key can be provided
 directly in the api_config dictionary or through the VOYAGE_API_KEY
 environment variable. User must obtain an API key from VoyageAI’s website
 ([https://dash.voyageai.com/](https://dash.voyageai.com/)). Additionally, the voyageai python
@@ -879,6 +890,25 @@ query_embedding = vectorizer.embed(
 doc_embeddings = vectorizer.embed_many(
     contents=["your document text", "more document text"],
     input_type="document"
+)
+
+# Contextualized embeddings (voyage-context-* models) - requires voyageai>=0.5.0
+# Each input string is treated as its own document (auto-chunked) and
+# embedded independently: inputs do not influence one another, which keeps
+# the one-embedding-per-input contract and cache determinism intact.
+context_vectorizer = VoyageAIVectorizer(
+    model="voyage-context-4",
+    api_config={"api_key": "your-voyageai-api-key"}
+)
+context_embeddings = context_vectorizer.embed_many(
+    contents=["chunk one", "chunk two", "chunk three"],
+    input_type="document"
+)
+# Retrieval queries use input_type="query"; auto-chunking is a
+# document-only feature, so query inputs are embedded as-is.
+context_query = context_vectorizer.embed(
+    content="your query text here",
+    input_type="query"
 )
 
 # Multimodal usage - requires Pillow and voyageai>=0.3.6
@@ -926,7 +956,8 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
 * **Parameters:**
   * **model** (*str*) – Model to use for embedding. Defaults to "voyage-3-large".
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
-    Defaults to None.
+    Missing or empty keys fall back to the
+    `VOYAGE_API_KEY` environment variable. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding content as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
@@ -941,6 +972,17 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
 
 - Multimodal models require voyageai>=0.3.6 to be installed for video embeddings, as well as
   : ffmpeg installed on the system. Image embeddings require pillow to be installed.
+- Contextualized (`voyage-context-*`) models require voyageai>=0.5.0. Each input
+  : string is sent as its own document with auto-chunking, so inputs are embedded
+    independently (no cross-input contextualization) and the one-embedding-per-input
+    contract and cache determinism are preserved. A document longer than `chunk_size`
+    (32000 tokens) auto-chunks into multiple chunks but only the first chunk’s embedding
+    is kept; the rest are dropped. `truncation` is not forwarded to the contextualized
+    API (it does not accept it), so it is silently ignored for these models.
+- The plain text embedding path (`embed`/`embed_many` for non-context,
+  : non-multimodal models) uses token-aware batching: inputs are grouped into requests
+    bounded by both the per-model item cap and the model’s per-request token limit, so
+    large inputs are packed efficiently without exceeding VoyageAI’s token budget.
 
 #### `embed_image(image_path, **kwargs)`
 
@@ -961,6 +1003,16 @@ Requires voyageai>=0.3.6 to be installed, as well as ffmpeg to be installed on t
   **video_path** (*str*)
 * **Return type:**
   list[float] | bytes
+
+#### `property is_context: bool`
+
+Whether a contextualized-embedding model (voyage-context-
+
+```
+*
+```
+
+) has been configured.
 
 #### `property is_multimodal: bool`
 
@@ -1036,7 +1088,8 @@ Initialize the MistralAI vectorizer.
   * **model** (*str*) – Model to use for embedding. Defaults to
     ‘mistral-embed’.
   * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
-    API key. Defaults to None.
+    API key. Missing or empty keys fall back to the
+    `MISTRAL_API_KEY` environment variable. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.

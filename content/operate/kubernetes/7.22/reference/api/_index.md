@@ -54,4 +54,4 @@ kubectl apply -f my-redis-config.yaml
 - Create `RedisEnterpriseDatabase` (REDB) resources within a cluster to provision individual databases
 - Use `RedisEnterpriseActiveActiveDatabase` (REAADB) with `RedisEnterpriseRemoteCluster (RERC)` resources to define participating clusters
 
-For complete YAML configuration examples, see the [YAML examples]({{< relref "/operate/kubernetes/7.22/reference/yaml/" >}}) section.
+For complete YAML configuration examples, see the [YAML examples](/content/operate/kubernetes/7.22/reference/yaml/_index.md) section.

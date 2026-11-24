@@ -131,9 +131,17 @@ results = index.query(query)
 
 Use when neither pure keyword search nor pure semantic search gives good enough results. Common in RAG applications where you want both exact matches and semantic understanding.
 
-{{< note >}}
-HybridQuery requires Redis >= 8.4.0 and redis-py >= 7.1.0.
-{{< /note >}}
+> [!NOTE]
+> HybridQuery requires Redis >= 8.4.0 and redis-py >= 7.1.0.
+
+For explicit `vector_search_method="KNN"` or `"RANGE"`, the optional tuning
+parameters default to `None`. RedisVL omits these parameters, so Redis uses the
+index’s configured values. Set `knn_ef_runtime` only for HNSW,
+and `range_epsilon` only for HNSW or SVS-VAMANA. FLAT supports neither option.
+Explicit values, including zero, are sent to Redis for validation.
+
+`"RANGE"` requires `range_radius`. A radius of `0` is valid. Omitting the radius
+raises `ValueError`.
 
 ### AggregateHybridQuery
 
@@ -295,9 +303,8 @@ Requires Redis 8.4+ and `redis-py >= 7.1.0`.
 
 Use when your team is more comfortable with SQL syntax, or when integrating with tools that generate SQL.
 
-{{< note >}}
-SQLQuery requires the optional `sql-redis` package. Install with: `pip install redisvl[sql-redis]`
-{{< /note >}}
+> [!NOTE]
+> SQLQuery requires the optional `sql-redis` package. Install with: `pip install redisvl[sql-redis]`
 
 For comprehensive examples including geographic filtering, date functions, and vector search, see the [SQL to Redis Queries guide]({{< relref "../user_guide/how_to_guides/sql_to_redis_queries" >}}).
 
@@ -353,7 +360,7 @@ query = HybridQuery(
 
 RedisVL returns query results as a list of dictionaries, one per matched document. On Redis 8.8+ a document can occasionally come back with its field payload missing: the RediSearch worker pool now defaults to a nonzero number of background worker threads, and if a document — or one of its indexed fields — expires (via TTL or `HPEXPIRE`) at the exact moment a background search is reading it, the server returns the matched id with an empty field payload instead of dropping it from the result set. This is most likely in workloads that combine search with short TTLs, such as a semantic cache or chat history.
 
-RedisVL detects and **silently skips** such a document (logging at `WARNING` level) whenever the query type guarantees a field would be present on a healthy match:
+RedisVL detects and **skips** such a document (logging at `WARNING` level) whenever the query type guarantees a field would be present on a healthy match:
 
 - **`VectorQuery` / `VectorRangeQuery`** with `return_score=True` (the default) — a healthy match always carries a `vector_distance`.
 - **`FilterQuery` on JSON storage** that returns the whole object — a healthy match always carries its JSON payload.
@@ -381,6 +388,7 @@ Practical consequences:
 
 - A query may return **fewer results than `num_results`** (or fewer than `page_size` when paginating) when some matched documents were expiring. Treat those limits as upper bounds, not guarantees; use `results.complete` to detect when it happened.
 - A `CountQuery` reports the server’s match count, which still includes the expiring document, so a count can legitimately exceed the number of documents a materializing query returns at the same instant.
+- **`paginate()` keeps going past a page it could not materialize.** If every match on one page was expiring, that page is skipped and iteration continues to the end of the offset range rather than stopping early. An empty batch is never yielded, and a skipped page’s `dropped_count` is added to the next batch you receive, so `results.complete` stays meaningful across the whole stream. Two caveats: a result set whose *trailing* pages were entirely dropped has no later batch to report on, so those drops appear only in the logged warning; and paging is only stable if the query sorts on a unique field — Redis documents `LIMIT` without sorting as non-deterministic, which can duplicate or miss documents independently of expiry.
 - The higher-level extensions build on this: the **semantic cache** drops an expiring hit (a benign cache miss), **message history** drops an expiring message from its formatted output, and the **semantic router** drops an expiring route candidate (which, in the rare case the best match is the one expiring, can shift the selected route). Message history’s `raw=True` mode returns the unprocessed hash entries and may therefore still surface an id-only record.
 
 **Learn more:** [Use Advanced Query Types]({{< relref "../user_guide/how_to_guides/advanced_queries" >}}) demonstrates these query types in detail.

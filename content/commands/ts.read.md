@@ -99,10 +99,10 @@ is the inclusive lower-bound cursor for the read. The command selects samples wh
 | -------------------- | ------------- | ----------- |
 | Non-negative integer | Literal cursor | A Unix timestamp in milliseconds. Matching is inclusive. `0` is accepted and reads from the beginning. |
 | `-`                  | Earliest      | The timestamp of the earliest sample in the series, or `0` when the series is empty or does not exist. |
-| `+`                  | Latest        | The timestamp of the latest sample in the series, or `0` when the series is empty or does not exist. The cursor is inclusive, so the latest existing sample itself qualifies (aligned with [`TS.RANGE`]({{< relref "commands/ts.range/" >}})). Without `BLOCK`, the call returns that sample immediately; with `BLOCK` and a `min_count` greater than `1`, it blocks until enough samples at or after that timestamp exist. Intended for the first call only. |
+| `+`                  | Latest        | The timestamp of the latest sample in the series, or `0` when the series is empty or does not exist. The cursor is inclusive, so the latest existing sample itself qualifies (aligned with [`TS.RANGE`](/content/commands/ts.range.md)). Without `BLOCK`, the call returns that sample immediately; with `BLOCK` and a `min_count` greater than `1`, it blocks until enough samples at or after that timestamp exist. Intended for the first call only. |
 | `$`                  | New           | The timestamp of the latest sample plus 1, or `0` when the series is empty or does not exist. Only samples reported after the command was received by the server qualify; the latest existing sample is excluded. |
 
-The `+` and `$` semantics mirror the special IDs of [`XREAD`]({{< relref "commands/xread/" >}}) and [`XREADGROUP`]({{< relref "commands/xreadgroup/" >}}). The server resolves all sentinels exactly once, when the command is received, so the cursor stays stable while the client is blocked. Send `-`, `+`, and `$` to the server as-is; do not resolve them on the client side.
+The `+` and `$` semantics mirror the special IDs of [`XREAD`](/content/commands/xread.md) and [`XREADGROUP`](/content/commands/xreadgroup.md). The server resolves all sentinels exactly once, when the command is received, so the cursor stays stable while the client is blocked. Send `-`, `+`, and `$` to the server as-is; do not resolve them on the client side.
 
 Use the following table to choose the cursor for the first call:
 
@@ -122,7 +122,7 @@ For every subsequent call, use `last_returned_timestamp + 1` so you receive no m
 
 makes the command block instead of returning immediately. When `BLOCK` is present, the command waits until at least `min_count` qualifying samples are available, until `milliseconds` elapse, or until the key is removed, whichever occurs first.
 
-`milliseconds` is a non-negative integer timeout. A value of `0` means block indefinitely, until `min_count` samples become available or the key is removed (the same convention as [`BLPOP`]({{< relref "commands/blpop/" >}}) and `XREAD BLOCK 0`).
+`milliseconds` is a non-negative integer timeout. A value of `0` means block indefinitely, until `min_count` samples become available or the key is removed (the same convention as [`BLPOP`](/content/commands/blpop.md) and `XREAD BLOCK 0`).
 
 `min_count` is the unblock threshold: the number of qualifying samples required before the command returns ahead of the timeout. It must be a positive integer. When `BLOCK` is omitted, the command does not block and returns whatever is available immediately, even when no samples qualify.
 </details>
@@ -256,7 +256,7 @@ When nothing qualifies by the timeout, the reply is an empty array.
 
 ### When to use `TS.READ`
 
-Applications often render charts from time series data — metrics, sensor readings, financial prices and volumes, or application telemetry — and need to keep those charts current as new samples arrive. Without `TS.READ`, an application typically either polls [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) at a fixed interval and checks for samples added since the previous request, or listens for keyspace notifications. Both approaches work, but they require periodic polling or additional notification handling.
+Applications often render charts from time series data — metrics, sensor readings, financial prices and volumes, or application telemetry — and need to keep those charts current as new samples arrive. Without `TS.READ`, an application typically either polls [`TS.RANGE`](/content/commands/ts.range.md) at a fixed interval and checks for samples added since the previous request, or listens for keyspace notifications. Both approaches work, but they require periodic polling or additional notification handling.
 
 `TS.READ` replaces that with a single, optionally blocking read: the application issues one call and waits until new samples are available, then appends them and repeats. This suits anything that streams updates continuously — monitoring dashboards, live charts, financial terminals, IoT sensor feeds, or alerting systems — without issuing repeated range queries when no new sample has been added.
 
@@ -265,7 +265,7 @@ Applications often render charts from time series data — metrics, sensor readi
 - From `key`, the command reads samples whose timestamp is greater than or equal to the resolved cursor.
 - Without `BLOCK`, the command never blocks: it returns up to `max_count` of the oldest qualifying samples immediately, even when no samples qualify (an empty array).
 - With `BLOCK milliseconds min_count`, if at least `min_count` matching samples are already available, the server returns immediately with up to `max_count` of the oldest qualifying samples.
-- With `BLOCK` and fewer than `min_count` matching samples available, the server blocks until `min_count` is reached, `milliseconds` elapse, or the key is removed. `BLOCK 0` blocks indefinitely. Each sample append ([`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}), and compaction-rule writes to the destination key) can unblock a blocked client.
+- With `BLOCK` and fewer than `min_count` matching samples available, the server blocks until `min_count` is reached, `milliseconds` elapse, or the key is removed. `BLOCK 0` blocks indefinitely. Each sample append ([`TS.ADD`](/content/commands/ts.add.md), [`TS.MADD`](/content/commands/ts.madd.md), [`TS.INCRBY`](/content/commands/ts.incrby.md), [`TS.DECRBY`](/content/commands/ts.decrby.md), and compaction-rule writes to the destination key) can unblock a blocked client.
 - On timeout, the server returns whatever is available, which can be an empty array or fewer than `min_count` samples. This is a successful reply, not an error.
 - If the key is removed while the client is blocked (`DEL`, `UNLINK`, `FLUSHDB`, `FLUSHALL`, expiry, or eviction), the server returns an empty list to the blocked client. This is a successful reply, not an error.
 - Returned samples are sorted by increasing timestamp, including when samples were inserted out of order.
@@ -284,21 +284,21 @@ Applications often render charts from time series data — metrics, sensor readi
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value), ordered by increasing timestamp. The array is empty when no matching samples are available by the time the command returns, or when the key was removed while the command was blocked.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid timestamp, invalid `milliseconds`, invalid `min_count` or `max_count`, `min_count` greater than `max_count`, wrong number of arguments, wrong key type, the command is used with `BLOCK` where blocking is not allowed (for example, inside `MULTI` or a Lua script), etc.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) of ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) pairs representing (timestamp, value), ordered by increasing timestamp. The array is empty when no matching samples are available by the time the command returns, or when the key was removed while the command was blocked.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid timestamp, invalid `milliseconds`, invalid `min_count` or `max_count`, `min_count` greater than `max_count`, wrong number of arguments, wrong key type, the command is used with `BLOCK` where blocking is not allowed (for example, inside `MULTI` or a Lua script), etc.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pairs representing (timestamp, value), ordered by increasing timestamp. The array is empty when no matching samples are available by the time the command returns, or when the key was removed while the command was blocked.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid timestamp, invalid `milliseconds`, invalid `min_count` or `max_count`, `min_count` greater than `max_count`, wrong number of arguments, wrong key type, the command is used with `BLOCK` where blocking is not allowed (for example, inside `MULTI` or a Lua script), etc.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) of ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Double reply](/content/develop/reference/protocol-spec.md#doubles)) pairs representing (timestamp, value), ordered by increasing timestamp. The array is empty when no matching samples are available by the time the command returns, or when the key was removed while the command was blocked.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid timestamp, invalid `milliseconds`, invalid `min_count` or `max_count`, `min_count` greater than `max_count`, wrong number of arguments, wrong key type, the command is used with `BLOCK` where blocking is not allowed (for example, inside `MULTI` or a Lua script), etc.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.GET`]({{< relref "commands/ts.get/" >}}) | [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}})
+[`TS.GET`](/content/commands/ts.get.md) | [`TS.RANGE`](/content/commands/ts.range.md) | [`TS.REVRANGE`](/content/commands/ts.revrange.md)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

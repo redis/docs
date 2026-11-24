@@ -11,7 +11,7 @@ linkTitle: Active-Active databases
 weight: 40
 ---
 
-Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases on Kubernetes provide read and write access to the same dataset from different Kubernetes clusters. This enables globally distributed applications with local read and write access, automatic conflict resolution, and seamless failover capabilities.
+Redis Enterprise [Active-Active](/content/operate/rs/databases/active-active/_index.md) databases on Kubernetes provide read and write access to the same dataset from different Kubernetes clusters. This enables globally distributed applications with local read and write access, automatic conflict resolution, and seamless failover capabilities.
 
 Active-Active databases use multi-master replication to keep data synchronized across participating clusters, allowing applications to read and write data locally while maintaining global consistency.
 
@@ -31,9 +31,9 @@ Versions 6.4.2-6 or later fully support the Active-Active controller. Some of th
 
 This setup method includes the following steps:
 
-1. Gather REC credentials and [prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}}).
-2. Create [`RedisEnterpriseRemoteCluster` (RERC)]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-rerc" >}}) resources.
-3. Create [`RedisEnterpriseActiveActiveDatabase` (REAADB)]({{< relref "/operate/kubernetes/active-active/create-reaadb#create-reaadb" >}}) resource.
+1. Gather REC credentials and [prepare participating clusters](/content/operate/kubernetes/active-active/prepare-clusters.md).
+2. Create [`RedisEnterpriseRemoteCluster` (RERC)](/content/operate/kubernetes/active-active/create-reaadb.md#create-rerc) resources.
+3. Create [`RedisEnterpriseActiveActiveDatabase` (REAADB)](/content/operate/kubernetes/active-active/create-reaadb.md#create-reaadb) resource.
 
 ### `crdb-cli` method
 
@@ -46,33 +46,34 @@ For versions 6.4.2 or earlier, this Active-Active setup method includes the foll
 
 ## Redis Enterprise Active-Active controller for Kubernetes
 
-{{<note>}}These features are supported for general availability in releases 6.4.2-6 and later.{{</note>}}
+> [!NOTE]
+> These features are supported for general availability in releases 6.4.2-6 and later.
 
-[Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases give you read-and-write access to Redis Enterprise clusters (REC) in different Kubernetes clusters or namespaces. Active-Active deployments managed by the Redis Enterprise operator require two additional custom resources: Redis Enterprise Active-Active database (REAADB) and Redis Enterprise remote cluster (RERC).
+[Active-Active](/content/operate/rs/databases/active-active/_index.md) databases give you read-and-write access to Redis Enterprise clusters (REC) in different Kubernetes clusters or namespaces. Active-Active deployments managed by the Redis Enterprise operator require two additional custom resources: Redis Enterprise Active-Active database (REAADB) and Redis Enterprise remote cluster (RERC).
 
-To create an Active-Active Redis Enterprise deployment for Kubernetes with these new features, first [prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}}) then [create an Active-Active database]({{< relref "/operate/kubernetes/active-active/create-reaadb" >}}).
+To create an Active-Active Redis Enterprise deployment for Kubernetes with these new features, first [prepare participating clusters](/content/operate/kubernetes/active-active/prepare-clusters.md) then [create an Active-Active database](/content/operate/kubernetes/active-active/create-reaadb.md).
 
 ### REAADB custom resource
 
 Redis Enterprise Active-Active database (REAADB) contains a link to the RERC for each participating cluster, and provides configuration and status to the management plane.
 
-For a full list of fields and options, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api">}}).
+For a full list of fields and options, see the [REAADB API reference](/content/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api.md).
 
-For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
+For examples, see the [YAML examples](/content/operate/kubernetes/reference/yaml/active-active.md) section.
 
 ### RERC custom resource
 
 Redis Enterprise remote cluster (RERC) custom resource contains configuration details for all the participating clusters.
 
-For a full list of fields and options, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
+For a full list of fields and options, see the [RERC API reference](/content/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api.md).
 
-For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
+For examples, see the [YAML examples](/content/operate/kubernetes/reference/yaml/active-active.md) section.
 
 ### Manage certificates
 
 The operator automates Active-Active certificate updates. When you update the proxy or syncer certificate secret on a participating cluster's REC, the operator detects the change and propagates the new certificate to the other participating clusters.
 
-For details, see [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}}) and [cert-manager integration]({{< relref "/operate/kubernetes/security/certificates/cert-manager" >}}).
+For details, see [Manage REC certificates](/content/operate/kubernetes/security/certificates/manage-rec-certificates.md) and [cert-manager integration](/content/operate/kubernetes/security/certificates/cert-manager.md).
 
 ### Limitations
 
@@ -83,8 +84,8 @@ For details, see [Manage REC certificates]({{< relref "/operate/kubernetes/secur
 * Only global database options are supported, no support for specifying configuration per location.
 * No support for migration from old (`crdb-cli`) Active-Active database method to new Active-Active controller.
 * No support for REAADB with participating clusters co-located within the same Kubernetes cluster, except for a single designated local participating cluster.
-* Active-Active databases cannot be configured as [Redis Flex]({{< relref "/operate/kubernetes/flex" >}}) deployments.
+* Active-Active databases cannot be configured as [Redis Flex](/content/operate/kubernetes/flex/_index.md) deployments.
 
 ## More info
 
-For more general information about Active-Active, see the [Redis Enterprise Software docs]({{< relref "/operate/rs/databases/active-active/" >}}).
+For more general information about Active-Active, see the [Redis Enterprise Software docs](/content/operate/rs/databases/active-active/_index.md).

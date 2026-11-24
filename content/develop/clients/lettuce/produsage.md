@@ -43,12 +43,11 @@ of them may not apply to your particular use case.
 
 Lettuce provides timeouts for many operations, such as command execution, SSL handshake, and Sentinel discovery. By default, Lettuce uses a global timeout value of 60 seconds for these operations, but you can override the global timeout value with individual timeout values for each operation.
 
-{{% alert title="Tip" color="warning" %}}
-Choosing suitable timeout values is crucial for your application's performance and stability and is specific to each environment.
-Configuring timeouts is only necessary if you have issues with the default values. 
-In some cases, the defaults are based on environment-specific settings (e.g., operating system settings), while in other cases, they are built into the Lettuce driver. 
-For more details on setting specific timeouts, see the [Lettuce reference guide](https://redis.github.io/lettuce/).
-{{% /alert  %}}
+> [!TIP]
+> Choosing suitable timeout values is crucial for your application's performance and stability and is specific to each environment.
+> Configuring timeouts is only necessary if you have issues with the default values. 
+> In some cases, the defaults are based on environment-specific settings (e.g., operating system settings), while in other cases, they are built into the Lettuce driver. 
+> For more details on setting specific timeouts, see the [Lettuce reference guide](https://redis.github.io/lettuce/).
 
 ### Prerequisites
 
@@ -163,7 +162,7 @@ public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBui
 
 The Redis Cluster configuration is dynamic and can change at runtime. 
 New nodes may be added, and the primary node for a specific slot can shift.
-Lettuce automatically handles [MOVED]({{< relref "/operate/oss_and_stack/reference/cluster-spec#moved-redirection" >}}) and [ASK]({{< relref "/operate/oss_and_stack/reference/cluster-spec#ask-redirection" >}}) redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
+Lettuce automatically handles [MOVED](/content/operate/oss_and_stack/reference/cluster-spec.md#moved-redirection) and [ASK](/content/operate/oss_and_stack/reference/cluster-spec.md#ask-redirection) redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
 
 ```java
 RedisURI redisURI = RedisURI.Builder
@@ -261,7 +260,7 @@ well, re-run the warm-up when the topology changes (for example, from a
 
 ### Warming up connections in Spring Data Redis
 
-With [Spring Data Redis]({{< relref "/integrate/spring-framework-cache" >}}), run the warm-up once at startup, before the instance is
+With [Spring Data Redis](/content/integrate/spring-framework-cache/_index.md), run the warm-up once at startup, before the instance is
 marked ready. Obtain the shared native cluster connection from the
 `LettuceConnectionFactory` and warm it with the same `upstream()` call:
 
@@ -291,11 +290,12 @@ class RedisClusterWarmUp {
 }
 ```
 
-{{< note >}}The `LettuceConnectionFactory` `eagerInitialization` option is not
-sufficient on its own. It establishes the cluster topology and a single
-connection at startup, but the remaining per-node connections are still opened
-lazily on first use. Use the warm-up shown above to open connections to all
-nodes.{{< /note >}}
+> [!NOTE]
+> The `LettuceConnectionFactory` `eagerInitialization` option is not
+> sufficient on its own. It establishes the cluster topology and a single
+> connection at startup, but the remaining per-node connections are still opened
+> lazily on first use. Use the warm-up shown above to open connections to all
+> nodes.
 
 
 ## DNS cache and Redis
@@ -353,10 +353,10 @@ client.setOptions(ClientOptions.builder()
 If you need finer control over which commands you want to execute in which mode, you can
 configure a *replay filter* to choose the commands that should retry after a disconnection.
 The example below shows a filter that retries all commands except for
-[`DECR`]({{< relref "/commands/decr" >}})
+[`DECR`](/content/commands/decr.md)
 (this command is not [idempotent](https://en.wikipedia.org/wiki/Idempotence) and
 so you might need to avoid executing it more than once). Note that
-replay filters are only available in in Lettuce v6.6 and above.
+replay filters are only available in Lettuce v6.6 and above.
 
 ```java
 Predicate<RedisCommand<?, ?, ?> > filter =
@@ -378,7 +378,7 @@ Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH and
-[Connect using Smart client handoffs]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}})
+[Connect using Smart client handoffs](/content/develop/clients/lettuce/connect.md#connect-using-smart-client-handoffs-sch)
 for example code.

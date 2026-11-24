@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import tomllib
+import unicodedata
 from glob import glob
 from pathlib import Path
 
@@ -469,14 +470,15 @@ _BROKEN_API_CLI_LINK = re.compile(
 )
 # MyST/Sphinx admonition directives (```{warning} ... ```) survive nbconvert as
 # fenced blocks whose `{name}` info string Hugo's goldmark tries to parse as
-# Markdown attributes, breaking the build. Convert them to the site's alert
-# shortcodes instead.
+# Markdown attributes, breaking the build. Convert them to the site's
+# `> [!NOTE]` alert blockquotes (layouts/_default/_markup/render-blockquote.html)
+# instead.
 _MYST_ADMONITION = re.compile(
     r"^(`{3,})\{(note|warning|tip|important|caution|danger|attention|hint|error)\}"
     r"[^\n]*\n(.*?)\n\1[ \t]*$",
     re.DOTALL | re.MULTILINE,
 )
-_ADMONITION_SHORTCODE = {
+_ADMONITION_ALERT = {
     "note": "note", "important": "note",
     "warning": "warning", "caution": "warning", "danger": "warning",
     "attention": "warning", "error": "warning",
@@ -484,9 +486,25 @@ _ADMONITION_SHORTCODE = {
 }
 
 
+def _alert_blockquote(indent: str, kind: str, body: list[str]) -> list[str]:
+    """Render an admonition as a `> [!KIND]` alert blockquote.
+
+    The `> ` marker goes after `indent`, so an admonition nested in a list item
+    stays inside it. Body lines carry that indent already; it's moved in front
+    of the marker rather than doubled. A blank body line becomes a bare `>` so
+    the blockquote doesn't end there.
+    """
+    out = [f"{indent}> [!{kind.upper()}]"]
+    for line in body:
+        if line.startswith(indent):
+            line = line[len(indent):]
+        out.append(f"{indent}> {line}" if line.strip() else f"{indent}>")
+    return out
+
+
 def _myst_admonition_repl(m: re.Match) -> str:
-    sc = _ADMONITION_SHORTCODE[m.group(2)]
-    return f"{{{{< {sc} >}}}}\n{m.group(3)}\n{{{{< /{sc} >}}}}"
+    kind = _ADMONITION_ALERT[m.group(2)]
+    return "\n".join(_alert_blockquote("", kind, m.group(3).split("\n")))
 
 
 # Non-notebook (.rst) pages are rendered by sphinx_markdown_builder, which turns
@@ -507,14 +525,14 @@ def _myst_admonition_repl(m: re.Match) -> str:
 # that follow are autodoc scaffolding (Parameters/Returns/Raises), not note body.
 # Admonitions nested in a list item are indented by the builder ("  #### NOTE"),
 # so the heading may carry leading whitespace; we capture that indent and re-emit
-# the shortcode at the same level to keep it inside the list item.
+# the blockquote at the same level to keep it inside the list item.
 _SPHINX_BOX = re.compile(
     r"^([ \t]*)#### (WARNING|NOTE|TIP|IMPORTANT|CAUTION|DANGER|ATTENTION|HINT|ERROR|SEE ALSO)"
     r"[ \t]*\n(.+?)"
     r"(?=\n[ \t]*\n|\n[ \t]*#{1,6}[ \t]|\n[ \t]*[-*+][ \t]|\n[ \t]*[0-9]+[.)][ \t]|\Z)",
     re.DOTALL | re.MULTILINE,
 )
-_SPHINX_BOX_SHORTCODE = {
+_SPHINX_BOX_ALERT = {
     "WARNING": "warning", "CAUTION": "warning", "DANGER": "warning",
     "ATTENTION": "warning", "ERROR": "warning",
     "NOTE": "note", "IMPORTANT": "note", "SEE ALSO": "note",
@@ -524,9 +542,9 @@ _SPHINX_BOX_SHORTCODE = {
 
 def _sphinx_box_repl(m: re.Match) -> str:
     indent = m.group(1)
-    sc = _SPHINX_BOX_SHORTCODE[m.group(2)]
+    kind = _SPHINX_BOX_ALERT[m.group(2)]
     body = m.group(3).rstrip()
-    return f"{indent}{{{{< {sc} >}}}}\n{body}\n{indent}{{{{< /{sc} >}}}}"
+    return "\n".join(_alert_blockquote(indent, kind, body.split("\n")))
 
 
 _SPHINX_BOX_TITLE_RE = re.compile(
@@ -538,7 +556,7 @@ _SENTINEL_LINE_RE = re.compile(r"^[ \t]*" + re.escape(_ADMONITION_SENTINEL) + r"
 
 
 def _convert_sentinel_boxes(text: str) -> str:
-    """Wrap sentinel-tagged admonitions (from mark_rst_admonitions) in shortcodes.
+    """Turn sentinel-tagged admonitions (from mark_rst_admonitions) into alert blockquotes.
 
     Walks line by line: at each bare "#### TITLE" heading, scans ahead for the
     sentinel that marks the end of that admonition's body. The scan stops at the
@@ -546,7 +564,7 @@ def _convert_sentinel_boxes(text: str) -> str:
     reach a later note's sentinel (each tagged note renders its own "#### TITLE"
     immediately above its sentinel) — those headings are left untouched for the
     first-paragraph _SPHINX_BOX fallback. When a sentinel is found, the whole
-    body up to it is emitted inside the shortcode and the sentinel line dropped.
+    body up to it is emitted inside the blockquote and the sentinel line dropped.
     """
     lines = text.split("\n")
     out: list[str] = []
@@ -571,14 +589,44 @@ def _convert_sentinel_boxes(text: str) -> str:
             i += 1
             continue
         indent = m.group(1)
-        sc = _SPHINX_BOX_SHORTCODE[m.group(2)]
+        kind = _SPHINX_BOX_ALERT[m.group(2)]
         body = lines[i + 1:sidx]
         while body and not body[-1].strip():
             body.pop()
-        out.append(f"{indent}{{{{< {sc} >}}}}")
-        out.extend(body)
-        out.append(f"{indent}{{{{< /{sc} >}}}}")
+        out.extend(_alert_blockquote(indent, kind, body))
         i = sidx + 1
+    return "\n".join(out)
+
+
+_QUOTED_RE = re.compile(r"^[ \t]*>")
+_ALERT_HEADER_RE = re.compile(r"^[ \t]*> \[!(NOTE|WARNING|TIP)\]$")
+_BLOCK_START_RE = re.compile(r"^[ \t]*([-*+][ \t]|[0-9]+[.)][ \t]|#{1,6}[ \t]|`{3,}|~{3,}|<)")
+
+
+def _end_alert_blockquotes(text: str) -> str:
+    """Put a blank line after an alert blockquote that runs straight into text.
+
+    A shortcode's closing tag used to end the callout. A blockquote has no
+    closing tag: a plain line right after it is a lazy continuation and renders
+    inside the callout, and so does a second alert directly after it. A
+    following list item, heading, fence, or HTML line starts its own block, so
+    it's left alone (a blank line there would loosen a list).
+    """
+    lines = text.split("\n")
+    out: list[str] = []
+    in_alert = False
+    for i, line in enumerate(lines):
+        out.append(line)
+        # Only blockquotes this script emitted: a `>>>` prompt in a code block
+        # also starts with `>`.
+        in_alert = bool(_ALERT_HEADER_RE.match(line) or (in_alert and _QUOTED_RE.match(line)))
+        nxt = lines[i + 1] if i + 1 < len(lines) else ""
+        # A second alert straight after the first is a quoted line too, so it
+        # would join the first blockquote as body text.
+        if in_alert and nxt.strip() and (
+                _ALERT_HEADER_RE.match(nxt)
+                or (not _QUOTED_RE.match(nxt) and not _BLOCK_START_RE.match(nxt))):
+            out.append("")
     return "\n".join(out)
 
 
@@ -636,6 +684,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
     # Defensive: drop any sentinel that survived (e.g. a tagged admonition whose
     # heading sphinx rendered unexpectedly) so the marker never leaks into output.
     text = "\n".join(l for l in text.split("\n") if not _SENTINEL_LINE_RE.match(l))
+    text = _end_alert_blockquotes(text)
     text = _DOCS_REDISVL_DEEP.sub(_docs_redisvl_deep_repl, text)
     text = _DOCS_REDISVL_SHALLOW.sub(
         lambda m: f"https://redis.io/docs/latest/develop/ai/redisvl/{m.group(1)}", text)
@@ -650,7 +699,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
         text = moved_re.sub(r'relref "\1/how_to_guides/\2"', text)
         text = _rewrite_bare_relref_for_moved_layout(text, src, staging, moved_slugs)
     text = _IMAGE_STATIC.sub(
-        lambda m: f'{{{{< image filename="/images/redisvl/{m.group(2)}" alt="{m.group(1)}" >}}}}',
+        lambda m: f'![{m.group(1)}](/images/redisvl/{m.group(2)})',
         text,
     )
     # Upstream `user_guide/cli.ipynb` links to `../api/cli.rst`, but no such
@@ -822,6 +871,118 @@ def rename_strip_numbers(staging: Path) -> None:
 
 
 
+# Sphinx and Hugo build a heading's ID from its text in different ways, so a
+# link that Sphinx resolved can name an ID that Hugo never generates. For
+# "Transport Security (Host / Origin Validation)":
+#   Sphinx: transport-security-host-origin-validation   (each run of spaces
+#           and punctuation becomes one hyphen)
+#   Hugo:   transport-security-host--origin-validation  (punctuation is
+#           dropped, and each space becomes a hyphen)
+# Such a link opens the right page but doesn't jump to the section.
+_FENCE_RE = re.compile(r"^[ \t]*(`{3,}|~{3,})")
+_ATX_HEADING_RE = re.compile(r"^ {0,3}#{1,6}[ \t]+(.*?)(?:[ \t]+#+)?[ \t]*$")
+_HTML_ID_RE = re.compile(r"""\bid=["']([^"']+)["']""")
+_INLINE_LINK_RE = re.compile(r"\[([^\]]*)\]\([^)]*\)")
+# `](#id)`, `](page.md#id)` and `]({{< relref "page#id" >}})`.
+_FRAGMENT_LINK_RE = re.compile(
+    r'(\]\((?:\{\{<\s*relref\s+")?)([^)#"\s]*)#([^)"\s]+)')
+
+
+def _outside_fences(lines: list[str]):
+    """Yield the index of every line that isn't part of a fenced code block."""
+    fence = ""
+    for i, line in enumerate(lines):
+        m = _FENCE_RE.match(line)
+        if fence:
+            if m and m.group(1).startswith(fence) and not line.strip().strip(fence[0]):
+                fence = ""
+        elif m:
+            fence = m.group(1)
+        else:
+            yield i
+
+
+def _sphinx_heading_id(title: str) -> str:
+    """The ID Sphinx gives a section with this title (docutils `make_id`)."""
+    text = _INLINE_LINK_RE.sub(r"\1", title).lower()
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
+    return re.sub(r"^[-0-9]+|-+$", "", re.sub(r"[^a-z0-9]+", "-", text))
+
+
+def _hugo_heading_id(title: str) -> str:
+    """The ID Hugo gives a heading with this source text, before it numbers
+    duplicates (goldmark's GitHub-style auto heading ID)."""
+    kept = []
+    for ch in title:
+        if ch in " -":
+            kept.append("-")
+        elif ch == "_" or ch.isalpha() or ch.isdecimal():
+            kept.append(ch.lower())
+    return "".join(kept) or "heading"
+
+
+def _page_anchors(text: str) -> tuple[set[str], dict[str, str]]:
+    """Return every ID Hugo renders on a page, and each heading's Hugo ID keyed
+    by its Sphinx ID."""
+    lines = text.split("\n")
+    heading_ids: set[str] = set()
+    html_ids: set[str] = set()
+    by_sphinx_id: dict[str, str] = {}
+    for i in _outside_fences(lines):
+        html_ids.update(_HTML_ID_RE.findall(lines[i]))
+        m = _ATX_HEADING_RE.match(lines[i])
+        # A shortcode in a heading reaches goldmark as a placeholder, so the
+        # ID Hugo builds from it can't be worked out here.
+        if not m or "{{" in m.group(1):
+            continue
+        base = hugo_id = _hugo_heading_id(m.group(1))
+        n = 0
+        while hugo_id in heading_ids:
+            n += 1
+            hugo_id = f"{base}-{n}"
+        heading_ids.add(hugo_id)
+        sphinx_id = _sphinx_heading_id(m.group(1))
+        if sphinx_id:
+            # Sphinx gives a repeated title a counter ID, so only the first
+            # heading with this title has this ID.
+            by_sphinx_id.setdefault(sphinx_id, hugo_id)
+    return heading_ids | html_ids, by_sphinx_id
+
+
+def retarget_heading_links(staging: Path) -> None:
+    """Make links to a heading use the ID Hugo gives it, not the Sphinx one.
+
+    A link changes only when its target page has no such ID and one of that
+    page's headings had the ID in Sphinx. Every other link is left alone.
+    """
+    staging = staging.resolve()
+    pages = {p: p.read_text(encoding="utf-8") for p in sorted(staging.rglob("*.md"))}
+    anchors = {p: _page_anchors(text) for p, text in pages.items()}
+
+    for page, text in pages.items():
+        def repl(m: re.Match) -> str:
+            prefix, dest, fragment = m.groups()
+            target = page
+            if dest:
+                base = os.path.normpath(page.parent / re.sub(r"(\.md|/)$", "", dest))
+                target = next((p for p in (Path(base + ".md"), Path(base) / "_index.md")
+                               if p in anchors), None)
+            if target is None:
+                return m.group(0)
+            ids, by_sphinx_id = anchors[target]
+            if fragment in ids or fragment not in by_sphinx_id:
+                return m.group(0)
+            return f"{prefix}{dest}#{by_sphinx_id[fragment]}"
+
+        lines = text.split("\n")
+        for i in _outside_fences(lines):
+            if "#" in lines[i]:
+                lines[i] = _FRAGMENT_LINK_RE.sub(repl, lines[i])
+        new_text = "\n".join(lines)
+        if new_text != text:
+            page.write_text(new_text, encoding="utf-8")
+
+
 def copy_tree_into(src: Path, dst: Path) -> None:
     """Recursive copy of *contents* of src into dst (cp -r src/* dst/)."""
     dst.mkdir(parents=True, exist_ok=True)
@@ -833,14 +994,104 @@ def copy_tree_into(src: Path, dst: Path) -> None:
             shutil.copy2(entry, target)
 
 
+_ALIAS_ITEM_RE = re.compile(r"^\s*-\s+(.+?)\s*$")
+
+
+def _alias_block(lines: list[str]) -> tuple[int, int] | None:
+    """Locate the frontmatter ``aliases:`` block list as (key, end) indices.
+
+    ``end`` is one past the last ``- item`` line. Returns None when there is no
+    frontmatter or no ``aliases`` key; raises ValueError when the key exists but
+    is not a block list (scalar, inline list, or empty), since guessing at those
+    shapes could drop a live redirect.
+    """
+    if not lines or lines[0].strip() != "---":
+        return None
+    for i in range(1, len(lines)):
+        if lines[i].strip() == "---":
+            return None
+        if lines[i].startswith("aliases:"):
+            if lines[i].strip() != "aliases:":
+                raise ValueError(f"aliases is not a block list: {lines[i].strip()!r}")
+            end = i + 1
+            while end < len(lines) and _ALIAS_ITEM_RE.match(lines[end]):
+                end += 1
+            if end == i + 1:
+                raise ValueError("aliases key has no items")
+            return i, end
+    return None
+
+
+def read_aliases(path: Path) -> list[str]:
+    """Return the aliases declared in a page's frontmatter, in order."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    block = _alias_block(lines)
+    if block is None:
+        return []
+    key, end = block
+    return [_ALIAS_ITEM_RE.match(line).group(1).strip("'\"")
+            for line in lines[key + 1:end]]
+
+
+def merge_aliases(path: Path, extra: list[str]) -> None:
+    """Append any of ``extra`` the page does not already declare."""
+    text = path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    block = _alias_block(lines)
+    if block is None:
+        raise ValueError(f"{path}: no aliases block to merge into")
+    key, end = block
+    present = set(read_aliases(path))
+    missing = [a for a in extra if a not in present]
+    if not missing:
+        return
+    lines[end:end] = [f"- {a}" for a in missing]
+    path.write_text("\n".join(lines) + ("\n" if text.endswith("\n") else ""),
+                    encoding="utf-8")
+
+
+def collect_existing_aliases(staging: Path, dest: Path) -> dict[Path, list[str]]:
+    """Read the aliases of every page in ``dest`` that ``staging`` will overwrite.
+
+    format_page writes only the computed /integrate/redisvl/... alias, so any
+    alias added later -- by hand, or by the alias_check workflow when a page
+    moves -- would otherwise be deleted on every sync, and alias_check would
+    then propose it again (DOC-7155).
+    """
+    found: dict[Path, list[str]] = {}
+    for page in sorted(staging.rglob("*.md")):
+        rel = page.relative_to(staging)
+        existing = dest / rel
+        if not existing.exists():
+            continue
+        try:
+            aliases = read_aliases(existing)
+        except ValueError as exc:
+            print(f"  ! {existing}: {exc}; its aliases are not preserved", flush=True)
+            continue
+        if aliases:
+            found[rel] = aliases
+    return found
+
+
+def restore_aliases(found: dict[Path, list[str]], dest: Path) -> None:
+    for rel, aliases in found.items():
+        try:
+            merge_aliases(dest / rel, aliases)
+        except ValueError as exc:
+            print(f"  ! {exc}; its aliases are not preserved", flush=True)
+
+
 def write_to_destination(staging: Path, repo_dir: Path, version: str, *, is_latest: bool) -> None:
     """Final step 14 of the bash pipeline."""
     if is_latest:
+        preserved = collect_existing_aliases(staging, CONTENT_BASE)
         for sub in ("api", "user_guide", "overview", "concepts"):
             target = CONTENT_BASE / sub
             if target.exists():
                 shutil.rmtree(target)
         copy_tree_into(staging, CONTENT_BASE)
+        restore_aliases(preserved, CONTENT_BASE)
         arch_svg = repo_dir / "docs/_static/redisvl-architecture.svg"
         if arch_svg.exists():
             STATIC_BASE.mkdir(parents=True, exist_ok=True)
@@ -946,6 +1197,10 @@ def sync_version(version: str, *, is_latest: bool, repo_dir: Path,
 
     # Step 13: rename to drop NN_.
     rename_strip_numbers(staging_dir)
+
+    # Step 13b: point heading links at the IDs Hugo generates. Runs on the
+    # final file names so that links between pages resolve.
+    retarget_heading_links(staging_dir)
 
     # Step 14: write to destination tree.
     write_to_destination(staging_dir, repo_dir, version, is_latest=is_latest)

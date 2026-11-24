@@ -13,10 +13,9 @@ tocEmbedHeaders: true
 
 {{<embed-md "rs-upgrade-paths.md">}}
 
-For detailed upgrade instructions, see [Upgrade a Redis Software cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+For detailed upgrade instructions, see [Upgrade a Redis Software cluster](/content/operate/rs/installing-upgrading/upgrading/upgrade-cluster.md).
 
-See the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
+See the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md) for more information about release numbers and the end-of-life schedule.
 
-{{<note>}}
-Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
-{{</note>}}
+> [!NOTE]
+> Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions](/content/operate/kubernetes/reference/supported_k8s_distributions.md).

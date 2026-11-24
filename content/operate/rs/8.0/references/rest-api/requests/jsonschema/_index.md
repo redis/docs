@@ -21,7 +21,7 @@ url: '/operate/rs/8.0/references/rest-api/requests/jsonschema/'
 
 	GET /v1/jsonschema
 
-Get the JSON schema of various [Redis Software REST API objects]({{< relref "/operate/rs/8.0/references/rest-api/objects" >}}).
+Get the JSON schema of various [Redis Software REST API objects](/content/operate/rs/8.0/references/rest-api/objects/_index.md).
 
 ### Request {#get-request} 
 

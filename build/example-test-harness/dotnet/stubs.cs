@@ -26,6 +26,16 @@ namespace NRedisStack.Tests
 
     // The examples annotate the test method [SkippableFact]; make it a plain Fact.
     public class SkippableFactAttribute : FactAttribute { }
+
+    // Some examples annotate with [SkipIfRedisFact(Comparison.LessThan, "7.0.0")] to skip
+    // on old servers. The harness always runs against a recent Redis, so make it a plain
+    // Fact too rather than reproducing NRedisStack's real version-detection logic.
+    public enum Comparison { LessThan, GreaterThanOrEqual }
+
+    public class SkipIfRedisFactAttribute : FactAttribute
+    {
+        public SkipIfRedisFactAttribute(Comparison comparison, string targetVersion) { }
+    }
 }
 
 // Satisfy [Collection("DocsTests")] + constructor injection of EndpointsFixture.

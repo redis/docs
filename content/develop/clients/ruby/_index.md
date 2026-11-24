@@ -23,7 +23,7 @@ weight: 11
 The sections below explain how to install `redis-rb` and connect your application
 to a Redis database.
 
-`redis-rb` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`redis-rb` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -39,6 +39,11 @@ Connect to localhost on port 6379:
 
 {{< jupyter-example set="landing" step="connect" lang_filter="Ruby" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" />}}
 
+> [!NOTE]
+> redis-rb supports [connection URLs](/content/develop/clients/connection-urls.md#redis-rb-ruby) through the `url` option of `Redis.new`.
+> A URL can set the host, port, credentials, database, and whether to use TLS,
+> so you can use one instead of passing those options separately.
+
 Store and retrieve a simple string.
 
 {{< jupyter-example set="landing" step="set_get_string" depends="connect" lang_filter="Ruby" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" />}}
@@ -50,6 +55,9 @@ Store and retrieve a dict.
 Close the connection when you're done.
 
 {{< jupyter-example set="landing" step="close" depends="connect" lang_filter="Ruby" description="Foundational: Properly close a Redis client connection to release resources" difficulty="beginner" no_output="true" />}}
+
+To connect to a cluster, through Redis Sentinel, or over TLS, see
+[Connect to the server](/content/develop/clients/ruby/connect.md).
 
 ## More information
 

@@ -150,7 +150,7 @@ below.
             to show in the UI.
         1. "_RLECID " should be the database's internal ID that can
             be retrieved from
-            [`rladmin status`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) command output.
+            [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md) command output.
     1. "nodes.cfg " ­ holds configuration details of the nodes in the
         cluster. The "define host" section should be duplicated for
         every node in the cluster.
@@ -161,7 +161,7 @@ below.
             IP address of the node, or to the IP address itself.
         1. "_RLECID " should be the node's internal ID that can be
             retrieved
-            from [`rladmin status`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) command output.
+            from [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md) command output.
     1. Under the "/rlec_obj" folder:
         1. "rlec_cmd.cfg" ­ holds configuration details of how to
             activate the plugin. No need to make any updates to it.

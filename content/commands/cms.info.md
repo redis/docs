@@ -29,7 +29,7 @@ summary: Returns information about a sketch
 syntax_fmt: CMS.INFO key
 title: CMS.INFO
 ---
-Returns width, depth and total count of the sketch.
+Returns width, depth, count, and cell size of the sketch.
 
 ## Required arguments
 
@@ -49,6 +49,8 @@ redis> CMS.INFO test
  4) (integer) 7
  5) count
  6) (integer) 0
+ 7) cell size
+ 8) (integer) 4
 ```
 
 ## Redis Software and Redis Cloud compatibility
@@ -65,14 +67,14 @@ redis> CMS.INFO test
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs containing sketch information.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, missing key, or wrong key type.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) and [integer reply](/content/develop/reference/protocol-spec.md#integers) pairs containing sketch information.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, missing key, or wrong key type.
 
 -tab-sep-
 
 One of the following:
 
-* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) of [simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs containing sketch information.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, missing key, or wrong key type.
+* [Map reply](/content/develop/reference/protocol-spec.md#maps) of [simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) and [integer reply](/content/develop/reference/protocol-spec.md#integers) pairs containing sketch information.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, missing key, or wrong key type.
 
 {{< /multitabs >}}

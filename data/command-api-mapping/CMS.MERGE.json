@@ -111,7 +111,7 @@
     ],
     "node_redis": [
       {
-        "signature": "CMS.MERGE(destination, source)",
+        "signature": "client.cms.merge(destination, source)",
         "params": [
           {
             "name": "destination",

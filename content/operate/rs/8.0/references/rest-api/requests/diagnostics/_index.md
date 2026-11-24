@@ -30,7 +30,7 @@ Gets the diagnostic logging service configuration as JSON.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_info]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_cluster_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_info](/content/operate/rs/8.0/references/rest-api/permissions.md#view_cluster_info) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -116,7 +116,7 @@ Updates the diagnostic logging service configuration.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/8.0/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster](/content/operate/rs/8.0/references/rest-api/permissions.md#update_cluster) | admin |
 
 ### Request {#put-request}
 

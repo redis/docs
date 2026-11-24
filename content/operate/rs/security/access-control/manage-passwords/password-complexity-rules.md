@@ -40,7 +40,7 @@ To enable password complexity rules, use one of the following methods:
 
     1. Select **Save**.
 
-- [Update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
+- [Update cluster](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) REST API request:
 
     ```sh
     PUT https://[host][:port]/v1/cluster
@@ -65,11 +65,11 @@ To change the minimum password length, use one of the following methods:
 
     1. Set the number of characters for **Minimum password length**.
 
-        {{<image filename="images/rs/screenshots/cluster/security-preferences-min-password-length.png" alt="The minimum password length setting appears in the password section of the cluster security preferences screen when complexity rules are enabled." >}}
+        ![The minimum password length setting appears in the password section of the cluster security preferences screen when complexity rules are enabled.](/images/rs/screenshots/cluster/security-preferences-min-password-length.png)
 
     1. Click **Save**.
 
-- [Update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
+- [Update cluster](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) REST API request:
 
     ```sh
     PUT https://[host][:port]/v1/cluster
@@ -88,7 +88,7 @@ To deactivate password complexity rules, use one of the following methods:
 
     1. Select **Save**.
 
-- [Update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
+- [Update cluster](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) REST API request:
 
     ```sh
     PUT https://[host][:port]/v1/cluster

@@ -19,14 +19,13 @@ When you install Redis Software on CentOS or RHEL, it automatically creates two 
 - A service named **redislabs-clients**, which includes the ports and protocols needed for external communication (outside of the cluster).
 
 These services are defined but not allowed through the firewall by default.
-During Redis Software installation, the [installer prompts]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions" >}}) you to confirm auto-configuration of a default (public) zone
+During Redis Software installation, the [installer prompts](/content/operate/rs/installing-upgrading/install/manage-installation-questions.md) you to confirm auto-configuration of a default (public) zone
 to allow the **redislabs** service.
 
 Although automatic firewall configuration simplifies installation, your deployment might not be secure if you did not use other methods to secure the host machine's network, such as external firewall rules or security groups.
 You can use firewalld configuration tools such as **firewall-cmd** (command line) or **firewall-config** (UI)
 to create more specific firewall policies that allow these two services through the firewall, as necessary.
 
-{{<note>}}
-If databases are created with non-standard [Redis Software ports]({{< relref "/operate/rs/networking/port-configurations" >}}),
-you need to explicitly configure firewalld to make sure those ports are not blocked.
-{{</note>}}
+> [!NOTE]
+> If databases are created with non-standard [Redis Software ports](/content/operate/rs/networking/port-configurations.md),
+> you need to explicitly configure firewalld to make sure those ports are not blocked.

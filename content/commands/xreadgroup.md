@@ -113,17 +113,16 @@ syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [MAXCOUNT\_maxcount
   key [key ...] id [id ...]"
 title: XREADGROUP
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-The `XREADGROUP` command is a special version of the [`XREAD`]({{< relref "/commands/xread" >}}) command
+The `XREADGROUP` command is a special version of the [`XREAD`](/content/commands/xread.md) command
 with support for consumer groups. See 
-[`XREAD`]({{< relref "/commands/xread" >}}) command before reading this page.
+[`XREAD`](/content/commands/xread.md) command before reading this page.
 
 If you are new to streams, see 
-[Introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
+[Introduction to Redis Streams](/content/develop/data-types/streams/_index.md).
 Make sure you understand consumer groups in the introduction.
 
 ## Required arguments
@@ -182,14 +181,14 @@ Do not add the read messages to the PEL; treat them as acknowledged immediately.
 
 ### Consumer groups in 30 seconds
 
-The difference between this command and the vanilla [`XREAD`]({{< relref "/commands/xread" >}}) is that this
+The difference between this command and the vanilla [`XREAD`](/content/commands/xread.md) is that this
 one supports consumer groups.
 
-Without consumer groups, just using [`XREAD`]({{< relref "/commands/xread" >}}), all the clients are served with all the entries arriving in a stream. Instead using consumer groups with `XREADGROUP`, it is possible to create groups of clients that consume different parts of the messages arriving in a given stream. If, for instance, the stream gets the new entries A, B, and C and there are two consumers reading via a consumer group, one client will get, for instance, the messages A and C, and the other the message B, and so forth.
+Without consumer groups, just using [`XREAD`](/content/commands/xread.md), all the clients are served with all the entries arriving in a stream. Instead using consumer groups with `XREADGROUP`, it is possible to create groups of clients that consume different parts of the messages arriving in a given stream. If, for instance, the stream gets the new entries A, B, and C and there are two consumers reading via a consumer group, one client will get, for instance, the messages A and C, and the other the message B, and so forth.
 
 Within a consumer group, a given consumer (that is, just a client consuming messages from the stream), has to identify with a unique *consumer name*. Which is just a string.
 
-One of the guarantees of consumer groups is that a given consumer can only see the history of messages that were delivered to it, so a message has just a single owner. However there is a special feature called *message claiming* that allows other consumers to claim messages in case there is a non recoverable failure of some consumer. In order to implement such semantics, consumer groups require explicit acknowledgment of the messages successfully processed by the consumer, via the [`XACK`]({{< relref "/commands/xack" >}}) command. This is needed because the stream will track, for each consumer group, who is processing what message.
+One of the guarantees of consumer groups is that a given consumer can only see the history of messages that were delivered to it, so a message has just a single owner. However there is a special feature called *message claiming* that allows other consumers to claim messages in case there is a non recoverable failure of some consumer. In order to implement such semantics, consumer groups require explicit acknowledgment of the messages successfully processed by the consumer, via the [`XACK`](/content/commands/xack.md) command. This is needed because the stream will track, for each consumer group, who is processing what message.
 
 This is how to understand if you want to use a consumer group or not:
 
@@ -204,7 +203,7 @@ however `XREADGROUP` *requires* a special and mandatory option:
     GROUP `group-name` `consumer-name`
 
 The group name is just the name of a consumer group associated to the stream.
-The group is created using the [`XGROUP`]({{< relref "/commands/xgroup" >}}) command. The consumer name is the
+The group is created using the [`XGROUP`](/content/commands/xgroup.md) command. The consumer name is the
 string that is used by the client to identify itself inside the group.
 The consumer is auto created inside the consumer group the first time it
 is seen. Different clients should select a different consumer name.
@@ -214,9 +213,9 @@ message was delivered to you: the message will be stored inside the
 consumer group in what is called a Pending Entries List (PEL), that is
 a list of message IDs delivered but not yet acknowledged.
 
-The client will have to acknowledge the message processing using [`XACK`]({{< relref "/commands/xack" >}})
+The client will have to acknowledge the message processing using [`XACK`](/content/commands/xack.md)
 in order for the pending entry to be removed from the PEL. The PEL
-can be inspected using the [`XPENDING`]({{< relref "/commands/xpending" >}}) command.
+can be inspected using the [`XPENDING`](/content/commands/xpending.md) command.
 
 The `NOACK` subcommand can be used to avoid adding the message to the PEL in
 cases where reliability is not a requirement and the occasional message loss
@@ -230,7 +229,7 @@ be one of the following two:
 * When the special `>` id is specified with `CLAIM`, the consumer wants, in addition, to receive messages that have been delivered to some consumer and have been pending for at least min-idle-time milliseconds.
 * Any other ID, that is, 0 or any other valid ID or incomplete ID (just the millisecond time part), will have the effect of returning entries that are pending for the consumer sending the command with IDs greater than the one provided. So basically if the ID is not `>`, then the command will just let the client access its pending entries: messages delivered to it, but not yet acknowledged. Note that in this case, `BLOCK`, `NOACK`, and `CLAIM` are ignored.
 
-Like [`XREAD`]({{< relref "/commands/xread" >}}) the `XREADGROUP` command can be used in a blocking way. There
+Like [`XREAD`](/content/commands/xread.md) the `XREADGROUP` command can be used in a blocking way. There
 are no differences in this regard.
 
 ### The CLAIM option
@@ -241,11 +240,11 @@ If there are no such messages, Redis will continue as normal (consume incoming m
 
 `CLAIM min-idle-time` is ignored if the specified id is not `>`.
 
-Messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), added in Redis 8.8, are immediately claimable since their delivery time is set to 0, satisfying any minimum idle time requirement.
+Messages that have been released back to the group using [`XNACK`](/content/commands/xnack.md), added in Redis 8.8, are immediately claimable since their delivery time is set to 0, satisfying any minimum idle time requirement.
 
 #### Reply extension for claimed entries
 
-When `CLAIM min-idle-time` is used, additional information is provided for each pending entry retrieved (similar to the reply of [`XPENDING`]({{< relref "/commands/xpending" >}})). For each claimed pending entry, the reply includes:
+When `CLAIM min-idle-time` is used, additional information is provided for each pending entry retrieved (similar to the reply of [`XPENDING`](/content/commands/xpending.md)). For each claimed pending entry, the reply includes:
 
 1. Entry id
 2. Field-value pairs
@@ -261,7 +260,7 @@ When not blocked, across streams, entries are reported in the order the streams 
 When using `CLAIM`, the following ordering guarantees apply per stream:
 
 - Idle pending entries are reported first, then incoming entries
-- Among pending entries, messages released via [`XNACK`]({{< relref "/commands/xnack" >}}) are prioritized and reported first
+- Among pending entries, messages released via [`XNACK`](/content/commands/xnack.md) are prioritized and reported first
 - Other idle pending entries are ordered by idle time (longer first)
 - Incoming entries are reported in the order they were added by `XADD` (older first)
 
@@ -315,7 +314,7 @@ messages:
 Two things:
 
 1. If the message was never delivered to anyone, that is, if we are talking about a new message, then a PEL (Pending Entries List) is created.
-2. If instead the message was already delivered to this consumer, and it is just re-fetching the same message again, then the *last delivery counter* is updated to the current time, and the *number of deliveries* is incremented by one. You can access those message properties using the [`XPENDING`]({{< relref "/commands/xpending" >}}) command.
+2. If instead the message was already delivered to this consumer, and it is just re-fetching the same message again, then the *last delivery counter* is updated to the current time, and the *number of deliveries* is incremented by one. You can access those message properties using the [`XPENDING`](/content/commands/xpending.md) command.
 
 ### Usage example
 
@@ -342,7 +341,7 @@ END
 ```
 
 In this way the example consumer code will fetch only new messages, process
-them, and acknowledge them via [`XACK`]({{< relref "/commands/xack" >}}). However the example code above is
+them, and acknowledge them via [`XACK`](/content/commands/xack.md). However the example code above is
 not complete, because it does not handle recovering after a crash. What
 will happen if we crash in the middle of processing messages, is that our
 messages will remain in the pending entries list, so we can access our
@@ -352,15 +351,15 @@ know that we processed and acknowledged all the pending messages: we
 can start to use `>` as ID, in order to get the new messages and rejoin the
 consumers that are processing new things.
 
-To see how the command actually replies, please check the [`XREAD`]({{< relref "/commands/xread" >}}) command page.
+To see how the command actually replies, please check the [`XREAD`](/content/commands/xread.md) command page.
 
 ### What happens when a pending message is deleted?
 
-Entries may be deleted from the stream due to trimming with [`XADD`]({{< relref "/commands/xadd" >}}) or [`XTRIM`]({{< relref "/commands/xtrim" >}}),
-or explicit calls to [`XDEL`]({{< relref "/commands/xdel" >}}), [`XDELEX`]({{< relref "/commands/xdelex" >}}), or [`XACKDEL`]({{< relref "/commands/xackdel" >}}).
+Entries may be deleted from the stream due to trimming with [`XADD`](/content/commands/xadd.md) or [`XTRIM`](/content/commands/xtrim.md),
+or explicit calls to [`XDEL`](/content/commands/xdel.md), [`XDELEX`](/content/commands/xdelex.md), or [`XACKDEL`](/content/commands/xackdel.md).
 
-When an entry is trimmed with [`XADD`]({{< relref "/commands/xadd" >}}) or [`XTRIM`]({{< relref "/commands/xtrim" >}}) and `DELREF` or `ACKED` are not specified,
-deleted with [`XDEL`]({{< relref "/commands/xdel" >}}), or deleted with [`XDELEX`]({{< relref "/commands/xdelex" >}}) or [`XACKDEL`]({{< relref "/commands/xackdel" >}}) 
+When an entry is trimmed with [`XADD`](/content/commands/xadd.md) or [`XTRIM`](/content/commands/xtrim.md) and `DELREF` or `ACKED` are not specified,
+deleted with [`XDEL`](/content/commands/xdel.md), or deleted with [`XDELEX`](/content/commands/xdelex.md) or [`XACKDEL`](/content/commands/xackdel.md) 
 and `DELREF` or `ACKED` are not specified, Redis doesn't prevent the deletion of entries that are present in the stream's PELs.
 When this happens, the PELs retain the deleted entries' IDs, but the actual entry payload is no longer available.
 Therefore, when reading such PEL entries, Redis will return a null value in place of their respective data.
@@ -385,7 +384,7 @@ OK
          2) (nil)
 ```
 
-See [Introduction to Redis streams]({{< relref "/develop/data-types/streams" >}}) to understand more about the overall behavior of Redis streams.
+See [Introduction to Redis streams](/content/develop/data-types/streams/_index.md) to understand more about the overall behavior of Redis streams.
 and semantics.
 
 ## Redis Software and Redis Cloud compatibility

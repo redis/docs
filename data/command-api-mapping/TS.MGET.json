@@ -2,7 +2,7 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "mget(, filters: List[str],, with_labels: Optional[bool] = False,, select_labels: Optional[List[str]] = None,, latest: Optional[bool] = False,)",
+        "signature": "mget(filters: List[str], with_labels: Optional[bool] = False, select_labels: Optional[List[str]] = None, latest: Optional[bool] = False)",
         "params": [
           {
             "name": "filters",
@@ -99,7 +99,7 @@
     ],
     "node_redis": [
       {
-        "signature": "MGET(filter: RedisVariadicArgument, options?: TsMGetOptions)",
+        "signature": "client.ts.mGet(filter: RedisVariadicArgument, options?: TsMGetOptions)",
         "params": [
           {
             "name": "filter",
@@ -190,8 +190,8 @@
             "description": ""
           },
           {
-            "name": "$filterExpression",
-            "type": "string ...",
+            "name": "...$filterExpression",
+            "type": "string",
             "description": ""
           }
         ],

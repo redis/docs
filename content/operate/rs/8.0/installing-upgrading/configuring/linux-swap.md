@@ -12,7 +12,7 @@ url: '/operate/rs/8.0/installing-upgrading/configuring/linux-swap/'
 ---
 Linux operating systems use swap space, which is enabled by default, to help manage memory (pages) by
 copying pages from RAM to disk. Due to the way Redis Software
-utilizes and manages memory, it is best to prevent OS swapping. For more details, see [memory limits]({{< relref "/operate/rs/8.0/databases/memory-performance/memory-limit.md" >}}). The
+utilizes and manages memory, it is best to prevent OS swapping. For more details, see [memory limits](/content/operate/rs/8.0/databases/memory-performance/memory-limit.md). The
 recommendation is to turn off Linux swap completely in the OS.
 
 When you install or build the OS on the machine intended to host your Redis Software cluster, avoid configuring swap partitions if possible.

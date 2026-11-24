@@ -21,19 +21,19 @@ Here's how it works:
 
 Before enabling certificate-based authentication for LDAP, you must complete the following prerequisites:
 
-1. [Enable mutual TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls">}}) for the relevant databases to set up certificate-based authentication.
+1. [Enable mutual TLS](/content/operate/rs/security/encryption/tls/enable-tls.md) for the relevant databases to set up certificate-based authentication.
 
-1. [Set up LDAP for the cluster]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap#set-up-ldap-connection" >}}).
+1. [Set up LDAP for the cluster](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md#set-up-ldap-connection).
 
-1. [Map LDAP users to appropriate cluster roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}).
+1. [Map LDAP users to appropriate cluster roles](/content/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles.md).
 
-1. [Configure database ACLs]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}}) to authorize LDAP users.
+1. [Configure database ACLs](/content/operate/rs/security/access-control/ldap/update-database-acls.md) to authorize LDAP users.
 
 ## Set up certificate-based authentication for LDAP
 
 To set up certificate-based authentication for LDAP:
 
-1. Enable certificate-based authentication in the cluster LDAP configuration using an [update LDAP configuration]({{<relref "/operate/rs/references/rest-api/api-reference/#tag/Cluster/operation/cluster_update_ldap_config">}}) REST API request.
+1. Enable certificate-based authentication in the cluster LDAP configuration using an [update LDAP configuration](/content/operate/rs/references/rest-api/api-reference.md#tag/Cluster/operation/cluster_update_ldap_config) REST API request.
 
     To perform LDAP lookup for certificate-authenticated users:
     
@@ -78,7 +78,7 @@ The certificate subject must include the OID.
 
     {{</multitabs>}}
 
-1. Enable external certificate-based authentication in cluster settings using an [update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
+1. Enable external certificate-based authentication in cluster settings using an [update cluster settings](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) REST API request:
 
     ```sh
     PUT https://<host>:<port>/v1/cluster
@@ -89,4 +89,4 @@ The certificate subject must include the OID.
 
 ## Verify your setup
 
-After configuration is complete, try to [connect to the database with certificate-based authentication]({{<relref "/operate/rs/security/certificates/certificate-based-authentication#authenticate-database-connections">}}) and verify your setup.
+After configuration is complete, try to [connect to the database with certificate-based authentication](/content/operate/rs/security/certificates/certificate-based-authentication.md#authenticate-database-connections) and verify your setup.

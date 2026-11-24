@@ -244,7 +244,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZREMRANGEBYLEX(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number)",
+        "signature": "zRemRangeByLex(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number)",
         "params": [
           {
             "name": "key",
@@ -263,7 +263,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
@@ -294,7 +294,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -385,45 +385,11 @@
           "type": "long",
           "description": "The number of elements removed."
         }
-      },
-      {
-        "signature": "SortedSetRemoveRangeByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "min",
-            "type": "RedisValue",
-            "description": "The minimum value to remove."
-          },
-          {
-            "name": "max",
-            "type": "RedisValue",
-            "description": "The maximum value to remove."
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": "Which of min and max to exclude (defaults to both inclusive)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements removed."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetRemoveRangeByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetRemoveRangeByValueAsync(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -452,41 +418,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of elements removed."
-        }
-      },
-      {
-        "signature": "SortedSetRemoveRangeByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the sorted set."
-          },
-          {
-            "name": "min",
-            "type": "RedisValue",
-            "description": "The minimum value to remove."
-          },
-          {
-            "name": "max",
-            "type": "RedisValue",
-            "description": "The maximum value to remove."
-          },
-          {
-            "name": "exclude",
-            "type": "Exclude",
-            "description": "Which of min and max to exclude (defaults to both inclusive)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements removed."
         }
       }

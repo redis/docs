@@ -10,9 +10,8 @@ description: Information about using sorted sets with an Active-Active database.
 linkTitle: Sorted sets
 weight: $weight
 ---
-{{< note >}}
-[Redis Geospatial (Geo)]({{< relref "/commands/GEOADD" >}}) is based on Sorted Sets, so the same Active-Active database development instructions apply to Geo.
-{{< /note >}}
+> [!NOTE]
+> [Redis Geospatial (Geo)](/content/commands/geoadd.md) is based on Sorted Sets, so the same Active-Active database development instructions apply to Geo.
 
 Similar to Redis Sets, Redis Sorted Sets are non-repeating collections
 of Strings. The difference between the two is that every member of a

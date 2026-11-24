@@ -23,6 +23,5 @@ Use a Redis client like `redis-cli` to send commands to the RedisGears JVM plugi
 
 {{<table-children columnNames="Command,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
-{{<note>}}
-Ignore any commands that start with `RG.PY` while using the JVM plugin. The `RG.PY` commands are for the Python plugin.
-{{</note>}}
+> [!NOTE]
+> Ignore any commands that start with `RG.PY` while using the JVM plugin. The `RG.PY` commands are for the Python plugin.

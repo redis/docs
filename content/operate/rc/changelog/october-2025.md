@@ -20,11 +20,11 @@ aliases:
 
 ### Data Integration
 
-Redis Cloud now supports [Redis Data Integration (RDI)]({{< relref "/operate/rc/rdi" >}}) to create data pipelines that ingest data from a supported primary database to Redis. 
+Redis Cloud now supports [Redis Data Integration (RDI)](/content/operate/rc/rdi/_index.md) to create data pipelines that ingest data from a supported primary database to Redis. 
 
 Using a data pipeline lets you have a cache that is always ready for queries. RDI Data pipelines ensure that any changes made to your primary database are captured in your Redis cache within a few seconds, preventing cache misses and stale data within the cache. 
 
-See [Data Integration]({{< relref "/operate/rc/rdi" >}}) to learn how to set up data pipelines with Redis Cloud.
+See [Data Integration](/content/operate/rc/rdi/_index.md) to learn how to set up data pipelines with Redis Cloud.
 
 ## Security fixes
 

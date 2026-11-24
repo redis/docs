@@ -19,6 +19,7 @@ import io.lettuce.core.codec.StringCodec;
 import io.lettuce.core.output.NestedMultiOutput;
 import io.lettuce.core.protocol.CommandArgs;
 import io.lettuce.core.protocol.ProtocolKeyword;
+import io.lettuce.core.search.FieldValue;
 import io.lettuce.core.search.SearchReply;
 import io.lettuce.core.search.arguments.CreateArgs;
 import io.lettuce.core.search.arguments.FieldArgs;
@@ -161,19 +162,19 @@ public class Recommender {
      * {@code FT.SEARCH} can pre-filter and then KNN-rank in one pass.</p>
      */
     public void createIndex() {
-        List<FieldArgs<String>> schema = Arrays.asList(
-                TextFieldArgs.<String>builder().name("name").weight(1L).build(),
+        List<FieldArgs> schema = Arrays.asList(
+                TextFieldArgs.builder().name("name").weight(1L).build(),
                 // Lettuce's TextField weight is a long: 1 == default weight,
                 // we accept the loss of the 0.5 fractional weight on
                 // description because Lettuce 7 does not expose a double
                 // weight builder.
-                TextFieldArgs.<String>builder().name("description").build(),
-                TagFieldArgs.<String>builder().name("category").build(),
-                TagFieldArgs.<String>builder().name("brand").build(),
-                TagFieldArgs.<String>builder().name("in_stock").build(),
-                NumericFieldArgs.<String>builder().name("price").sortable().build(),
-                NumericFieldArgs.<String>builder().name("rating").sortable().build(),
-                VectorFieldArgs.<String>builder()
+                TextFieldArgs.builder().name("description").build(),
+                TagFieldArgs.builder().name("category").build(),
+                TagFieldArgs.builder().name("brand").build(),
+                TagFieldArgs.builder().name("in_stock").build(),
+                NumericFieldArgs.builder().name("price").sortable().build(),
+                NumericFieldArgs.builder().name("rating").sortable().build(),
+                VectorFieldArgs.builder()
                         .name("embedding")
                         .hnsw()
                         .type(VectorFieldArgs.VectorType.FLOAT32)
@@ -181,7 +182,7 @@ public class Recommender {
                         .distanceMetric(VectorFieldArgs.DistanceMetric.COSINE)
                         .build());
 
-        CreateArgs<String, String> createArgs = CreateArgs.<String, String>builder()
+        CreateArgs createArgs = CreateArgs.builder()
                 .on(CreateArgs.TargetType.HASH)
                 .withPrefix(keyPrefix)
                 .build();
@@ -205,13 +206,21 @@ public class Recommender {
         try {
             connection.sync().ftDropindex(indexName, deleteDocuments);
         } catch (RedisCommandExecutionException exc) {
-            String msg = String.valueOf(exc.getMessage()).toLowerCase();
-            // Different Redis Search versions phrase the missing-index
-            // error differently; tolerate either.
-            if (!msg.contains("no such index") && !msg.contains("unknown index name")) {
+            if (!isMissingIndex(exc)) {
                 throw exc;
             }
         }
+    }
+
+    /**
+     * Different Redis Search versions phrase the missing-index error
+     * differently ("Unknown index name", "no such index", and, from
+     * Redis 8.10, "SEARCH_INDEX_NOT_FOUND Index not found").
+     */
+    private static boolean isMissingIndex(RedisCommandExecutionException exc) {
+        String msg = String.valueOf(exc.getMessage()).toLowerCase();
+        return msg.contains("no such index") || msg.contains("unknown index name")
+                || msg.contains("index not found");
     }
 
     // ------------------------------------------------------------------
@@ -325,7 +334,7 @@ public class Recommender {
         // parameter goes through as raw bytes and the returned hash
         // field values come back as byte[] (we UTF-8-decode the text
         // fields ourselves below).
-        SearchArgs<String, byte[]> args = SearchArgs.<String, byte[]>builder()
+        SearchArgs<String> args = SearchArgs.<String>builder()
                 .param("vec", floatsToBytes(effective))
                 .returnField("name")
                 .returnField("description")
@@ -335,39 +344,37 @@ public class Recommender {
                 .returnField("rating")
                 .returnField("in_stock")
                 .returnField("vector_score")
-                .sortBy(SortByArgs.<String>builder().attribute("vector_score").build())
+                .sortBy(SortByArgs.builder().attribute("vector_score").build())
                 .limit(0, k)
                 .dialect(QueryDialects.DIALECT2)
                 .build();
 
-        // ftSearch's V (value type) is byte[] on the binary connection,
-        // so the query expression has to be supplied as UTF-8 bytes too.
-        SearchReply<String, byte[]> reply = binConnection.sync()
-                .ftSearch(indexName, utf8(queryStr), args);
-        List<SearchReply.SearchResult<String, byte[]>> results =
+        SearchReply<String> reply = binConnection.sync()
+                .ftSearch(indexName, queryStr, args);
+        List<SearchReply.SearchResult<String>> results =
                 reply == null ? Collections.emptyList() : reply.getResults();
         List<Candidate> out = new ArrayList<>(results.size());
-        for (SearchReply.SearchResult<String, byte[]> doc : results) {
+        for (SearchReply.SearchResult<String> doc : results) {
             out.add(decodeCandidate(doc));
         }
         return out;
     }
 
-    private Candidate decodeCandidate(SearchReply.SearchResult<String, byte[]> doc) {
+    private Candidate decodeCandidate(SearchReply.SearchResult<String> doc) {
         String rawKey = doc.getId();
         String bareId = rawKey.startsWith(keyPrefix)
                 ? rawKey.substring(keyPrefix.length()) : rawKey;
-        Map<String, byte[]> fields = doc.getFields();
-        double dist = parseDouble(fromUtf8(fields.get("vector_score")), 0.0);
-        double price = parseDouble(fromUtf8(fields.get("price")), 0.0);
-        double rating = parseDouble(fromUtf8(fields.get("rating")), 0.0);
-        boolean inStock = "true".equals(fromUtf8(fields.get("in_stock")));
+        Map<String, FieldValue> fields = doc.getFields();
+        double dist = parseDouble(text(fields, "vector_score"), 0.0);
+        double price = parseDouble(text(fields, "price"), 0.0);
+        double rating = parseDouble(text(fields, "rating"), 0.0);
+        boolean inStock = "true".equals(text(fields, "in_stock"));
         Candidate c = new Candidate();
         c.id = bareId;
-        c.name = fromUtf8(fields.get("name"));
-        c.description = fromUtf8(fields.get("description"));
-        c.category = fromUtf8(fields.get("category"));
-        c.brand = fromUtf8(fields.get("brand"));
+        c.name = stringOrEmpty(text(fields, "name"));
+        c.description = stringOrEmpty(text(fields, "description"));
+        c.category = stringOrEmpty(text(fields, "category"));
+        c.brand = stringOrEmpty(text(fields, "brand"));
         c.price = price;
         c.rating = rating;
         c.inStock = inStock;
@@ -695,8 +702,7 @@ public class Recommender {
             Object vecMb = info.get("vector_index_sz_mb");
             stats.vectorIndexSizeMb = vecMb == null ? 0.0 : parseDouble(vecMb.toString(), 0.0);
         } catch (RedisCommandExecutionException exc) {
-            String msg = String.valueOf(exc.getMessage()).toLowerCase();
-            if (!msg.contains("no such index") && !msg.contains("unknown index name")) {
+            if (!isMissingIndex(exc)) {
                 throw exc;
             }
         }
@@ -709,32 +715,32 @@ public class Recommender {
      */
     public List<ProductSummary> listProducts(int limit) {
         if (limit <= 0) limit = 100;
-        SearchArgs<String, String> args = SearchArgs.<String, String>builder()
+        SearchArgs<String> args = SearchArgs.<String>builder()
                 .returnField("name")
                 .returnField("category")
                 .returnField("brand")
                 .returnField("price")
                 .returnField("rating")
                 .returnField("in_stock")
-                .sortBy(SortByArgs.<String>builder().attribute("price").build())
+                .sortBy(SortByArgs.builder().attribute("price").build())
                 .limit(0, limit)
                 .dialect(QueryDialects.DIALECT2)
                 .build();
-        SearchReply<String, String> reply = connection.sync().ftSearch(indexName, "*", args);
-        List<SearchReply.SearchResult<String, String>> results =
+        SearchReply<String> reply = connection.sync().ftSearch(indexName, "*", args);
+        List<SearchReply.SearchResult<String>> results =
                 reply == null ? Collections.emptyList() : reply.getResults();
         List<ProductSummary> out = new ArrayList<>(results.size());
-        for (SearchReply.SearchResult<String, String> doc : results) {
+        for (SearchReply.SearchResult<String> doc : results) {
             ProductSummary p = new ProductSummary();
             String rawKey = doc.getId();
             p.id = rawKey.startsWith(keyPrefix) ? rawKey.substring(keyPrefix.length()) : rawKey;
-            Map<String, String> fields = doc.getFields();
-            p.name = stringOrEmpty(fields.get("name"));
-            p.category = stringOrEmpty(fields.get("category"));
-            p.brand = stringOrEmpty(fields.get("brand"));
-            p.price = parseDouble(fields.get("price"), 0.0);
-            p.rating = parseDouble(fields.get("rating"), 0.0);
-            p.inStock = "true".equals(fields.get("in_stock"));
+            Map<String, FieldValue> fields = doc.getFields();
+            p.name = stringOrEmpty(text(fields, "name"));
+            p.category = stringOrEmpty(text(fields, "category"));
+            p.brand = stringOrEmpty(text(fields, "brand"));
+            p.price = parseDouble(text(fields, "price"), 0.0);
+            p.rating = parseDouble(text(fields, "rating"), 0.0);
+            p.inStock = "true".equals(text(fields, "in_stock"));
             out.add(p);
         }
         return out;
@@ -849,6 +855,12 @@ public class Recommender {
 
     private static String stringOrEmpty(Object value) {
         return value == null ? "" : value.toString();
+    }
+
+    /** The field's value as a string, or null if the document doesn't have it. */
+    private static String text(Map<String, FieldValue> fields, String key) {
+        FieldValue value = fields.get(key);
+        return value == null ? null : value.asString();
     }
 
     private static byte[] utf8(String value) {

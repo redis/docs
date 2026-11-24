@@ -19,27 +19,27 @@ compatible with Redis Software databases with JSON enabled.
 
 ## JSON paths
 
-[Paths]({{< relref "/develop/data-types/json/path" >}}) let you traverse the structure of a JSON document, starting from the root, and interact only with the data you want. You can also use paths to perform operations on specific JSON elements.
+[Paths](/content/develop/data-types/json/path.md) let you traverse the structure of a JSON document, starting from the root, and interact only with the data you want. You can also use paths to perform operations on specific JSON elements.
 
 Since there is no standard for JSON path syntax, Redis Open Source implements its own.
 
 ### JSONPath syntax
 
-RedisJSON v2.0 and later support the [JSONPath syntax]({{< relref "/develop/data-types/json/path" >}}), which resembles [Goessner's design](https://goessner.net/articles/JsonPath/):
+RedisJSON v2.0 and later support the [JSONPath syntax](/content/develop/data-types/json/path.md), which resembles [Goessner's design](https://goessner.net/articles/JsonPath/):
   
   - Paths start with a dollar sign (`$`), which represents the root of the JSON document.
 
-  - See the [JSONPath syntax table]({{< relref "/develop/data-types/json/path" >}}) to learn how to access various elements within a JSON document.
+  - See the [JSONPath syntax table](/content/develop/data-types/json/path.md) to learn how to access various elements within a JSON document.
 
 The following path refers to `headphones`, which is a child of `inventory` under the root:
 
 `$.inventory.headphones`
   
-See [JSONPath examples]({{< relref "/develop/data-types/json/path" >}}) for examples with more complex syntax.
+See [JSONPath examples](/content/develop/data-types/json/path.md) for examples with more complex syntax.
 
 ### Legacy path syntax
 
-The [legacy path syntax]({{< relref "/develop/data-types/json/path" >}}#legacy-path-syntax) refers to the path implementation in RedisJSON v1. RedisJSON v2 still supports this legacy path syntax in addition to JSONPath syntax.
+The [legacy path syntax](/content/develop/data-types/json/path.md#legacy-path-syntax) refers to the path implementation in RedisJSON v1. RedisJSON v2 still supports this legacy path syntax in addition to JSONPath syntax.
 
 The legacy path syntax works as follows:
 
@@ -69,16 +69,16 @@ You can only use the legacy path syntax to access JSON keys if they follow these
 
 You can index, search, and query stored JSON documents.
 
-For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/get-started/search-tutorial" >}}).
+For more information about how to search and query JSON documents, see the [quick start](/content/develop/get-started/search-tutorial/_index.md).
 
 ## JSON in Active-Active databases
 
-RedisJSON v2.2 and later support the JSON data structure as a conflict-free replicated data type [(CRDT)](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type) in [Active-Active Redis Software databases]({{< relref "/operate/rs/databases/active-active" >}}).
+RedisJSON v2.2 and later support the JSON data structure as a conflict-free replicated data type [(CRDT)](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type) in [Active-Active Redis Software databases](/content/operate/rs/databases/active-active/_index.md).
 
-For details about how Redis Software resolves JSON operation conflicts that can arise when replicas attempt to sync, see the JSON [conflict resolution rules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json/active-active#conflict-resolution-rules" >}}).
+For details about how Redis Software resolves JSON operation conflicts that can arise when replicas attempt to sync, see the JSON [conflict resolution rules](/content/operate/oss_and_stack/stack-with-enterprise/json/active-active.md#conflict-resolution-rules).
 
 ## More info
 
-- [JSON quick start]({{< relref "/develop/data-types/json/" >}}#use-redisjson)
-- [JSON commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json/commands" >}})
+- [JSON quick start](/content/develop/data-types/json/_index.md#use-redisjson)
+- [JSON commands](/content/operate/oss_and_stack/stack-with-enterprise/json/commands.md)
 - [RedisJSON source](https://github.com/RedisJSON/RedisJSON)

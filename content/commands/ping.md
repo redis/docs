@@ -35,7 +35,7 @@ syntax_fmt: PING [message]
 title: PING
 ---
 
-This command returns the bulk string `PONG` if no argument is provided, otherwise it returns a copy of the
+This command returns the simple string `PONG` if no argument is provided, otherwise it returns a copy of the
 provided `message` as a bulk string.
 
 This command is useful for:
@@ -43,10 +43,10 @@ This command is useful for:
 1. Verifying the server's ability to serve data - an error is returned when this isn't the case (for example, during load from persistence data or accessing a stale replica).
 1. Measuring latency.
 
-If the client is subscribed to a channel or a pattern, it will instead return a
-multi-bulk string with `PONG` in the first position and an empty bulk string in the second
-position, unless an argument is provided, in which case it returns a copy
-of the argument.
+If a RESP2 client is subscribed to a channel, pattern, or shard channel, PING returns a
+two-element array instead. The first element is the bulk string `pong` (lowercase). The
+second is a copy of `message` if you provide one, or an empty bulk string if you don't.
+RESP3 clients get the standard reply whether or not they're subscribed.
 
 ## Optional arguments
 
@@ -80,6 +80,7 @@ redis> PING "hello world"
 Any of the following:
 * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.
 * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.
+* [Array reply](../../develop/reference/protocol-spec#arrays): "`pong`" and either the provided argument or an empty bulk string, when the client is in subscribed mode.
 
 -tab-sep-
 

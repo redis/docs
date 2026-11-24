@@ -667,7 +667,7 @@ fn redis_value_to_string(v: &Value) -> Option<String> {
             // variants we didn't list explicitly (Map, Set, BigNumber,
             // etc — these shouldn't appear in FT.SEARCH replies but
             // future protocol additions could).
-            String::from_redis_value(v).ok()
+            String::from_redis_value_ref(v).ok()
         }
     }
 }

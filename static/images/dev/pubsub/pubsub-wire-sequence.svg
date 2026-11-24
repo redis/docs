@@ -1,0 +1,57 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="600" height="272" viewBox="0 0 600 272">
+  <style>
+    .bg { fill: #ffffff; }
+    .actor { fill: #ffffff; stroke: url(#border-gradient); stroke-width: 1; }
+    .actor-text { font: 14px 'trebuchet ms', verdana, arial, sans-serif; fill: #333333; }
+    .lifeline { stroke: #999999; stroke-width: 1; }
+    .msg { stroke: #333333; stroke-width: 1.5; fill: none; }
+    .reply { stroke: #333333; stroke-width: 1.5; fill: none; stroke-dasharray: 3 3; }
+    .msg-text { font: 13px 'trebuchet ms', verdana, arial, sans-serif; fill: #333333; paint-order: stroke; stroke: #ffffff; stroke-width: 10px; stroke-linejoin: round; }
+  </style>
+  <defs>
+    <!-- Red-to-grey node border, matching the site's mermaid diagrams -->
+    <linearGradient id="border-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ee0000" />
+      <stop offset="100%" stop-color="#e5e5e5" />
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="600" height="272" />
+
+  <!-- Participants -->
+  <rect class="actor" x="35" y="10" width="110" height="36" rx="3" />
+  <text class="actor-text" x="90" y="33" text-anchor="middle">Client A</text>
+  <rect class="actor" x="245" y="10" width="110" height="36" rx="3" />
+  <text class="actor-text" x="300" y="33" text-anchor="middle">Redis</text>
+  <rect class="actor" x="455" y="10" width="110" height="36" rx="3" />
+  <text class="actor-text" x="510" y="33" text-anchor="middle">Client B</text>
+
+  <line class="lifeline" x1="90" y1="46" x2="90" y2="262" />
+  <line class="lifeline" x1="300" y1="46" x2="300" y2="262" />
+  <line class="lifeline" x1="510" y1="46" x2="510" y2="262" />
+
+  <!-- Client A subscribes -->
+  <line class="msg" x1="90" y1="70" x2="300" y2="70" marker-end="url(#arrow)" />
+  <text class="msg-text" x="195" y="74.5" text-anchor="middle">SUBSCRIBE first second</text>
+  <line class="reply" x1="300" y1="96" x2="90" y2="96" marker-end="url(#arrow)" />
+  <text class="msg-text" x="195" y="100.5" text-anchor="middle">subscribe, first, 1</text>
+  <line class="reply" x1="300" y1="122" x2="90" y2="122" marker-end="url(#arrow)" />
+  <text class="msg-text" x="195" y="126.5" text-anchor="middle">subscribe, second, 2</text>
+
+  <!-- Client B publishes -->
+  <line class="msg" x1="510" y1="148" x2="300" y2="148" marker-end="url(#arrow)" />
+  <text class="msg-text" x="405" y="152.5" text-anchor="middle">PUBLISH second Hello</text>
+  <line class="reply" x1="300" y1="174" x2="90" y2="174" marker-end="url(#arrow)" />
+  <text class="msg-text" x="195" y="178.5" text-anchor="middle">message, second, Hello</text>
+
+  <!-- Client A unsubscribes -->
+  <line class="msg" x1="90" y1="200" x2="300" y2="200" marker-end="url(#arrow)" />
+  <text class="msg-text" x="195" y="204.5" text-anchor="middle">UNSUBSCRIBE</text>
+  <line class="reply" x1="300" y1="226" x2="90" y2="226" marker-end="url(#arrow)" />
+  <text class="msg-text" x="195" y="230.5" text-anchor="middle">unsubscribe, second, 1</text>
+  <line class="reply" x1="300" y1="252" x2="90" y2="252" marker-end="url(#arrow)" />
+  <text class="msg-text" x="195" y="256.5" text-anchor="middle">unsubscribe, first, 0</text>
+</svg>

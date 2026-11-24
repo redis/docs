@@ -93,7 +93,7 @@
     ],
     "node_redis": [
       {
-        "signature": "TDIGEST.CREATE(key, options?)",
+        "signature": "client.tDigest.create(key, options?)",
         "params": [
           {
             "name": "key",

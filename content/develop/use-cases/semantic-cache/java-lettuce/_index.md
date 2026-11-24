@@ -14,22 +14,22 @@ title: Redis semantic cache with Lettuce
 weight: 4
 ---
 
-This guide shows you how to build a small Redis-backed semantic cache for LLM responses in Java with [Lettuce]({{< relref "/develop/clients/lettuce" >}}) and [DJL (Deep Java Library)](https://djl.ai/) running the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) encoder locally on PyTorch. It includes a local web server built with the JDK's standard `com.sun.net.httpserver.HttpServer` so you can send paraphrased prompts at a mock LLM, watch the cache decide hit or miss, sweep the cosine-distance threshold, and see the cumulative latency and token savings build up.
+This guide shows you how to build a small Redis-backed semantic cache for LLM responses in Java with [Lettuce](/content/develop/clients/lettuce/_index.md) and [DJL (Deep Java Library)](https://djl.ai/) running the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) encoder locally on PyTorch. It includes a local web server built with the JDK's standard `com.sun.net.httpserver.HttpServer` so you can send paraphrased prompts at a mock LLM, watch the cache decide hit or miss, sweep the cosine-distance threshold, and see the cumulative latency and token savings build up.
 
 ## Overview
 
-Each cache entry is stored as a single Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) at `cache:<id>`. The hash holds the original prompt, the LLM's response, the raw `float32` bytes of a 384-dimensional embedding of the prompt, and metadata fields — tenant, locale, model version, safety flag — plus a `created_ts` and a `hit_count`. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers the embedding field and every metadata field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call with a `KNN` clause does the vector lookup *and* the TAG pre-filter in the same round trip — no cross-store joins.
+Each cache entry is stored as a single Redis [Hash](/content/develop/data-types/hashes.md) at `cache:<id>`. The hash holds the original prompt, the LLM's response, the raw `float32` bytes of a 384-dimensional embedding of the prompt, and metadata fields — tenant, locale, model version, safety flag — plus a `created_ts` and a `hit_count`. A single [Redis Search](/content/develop/ai/search-and-query/_index.md) index covers the embedding field and every metadata field, so one [`FT.SEARCH`](/content/commands/ft.search.md) call with a `KNN` clause does the vector lookup *and* the TAG pre-filter in the same round trip — no cross-store joins.
 
-The lookup is thresholded: [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) always returns the nearest entry that satisfies the filters, but the application only serves it as a hit when the reported cosine distance is at or below `distanceThreshold`. Anything further away is treated as a miss; the caller runs the LLM and writes the new prompt, response, and embedding back to the same key pattern with a TTL.
+The lookup is thresholded: [`FT.SEARCH`](/content/commands/ft.search.md) always returns the nearest entry that satisfies the filters, but the application only serves it as a hit when the reported cosine distance is at or below `distanceThreshold`. Anything further away is treated as a miss; the caller runs the LLM and writes the new prompt, response, and embedding back to the same key pattern with a TTL.
 
-The embedder is [DJL](https://djl.ai/) loading the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) PyTorch model from the DJL model zoo. This is the same 384-dimensional encoder the [Python example]({{< relref "/develop/use-cases/semantic-cache/redis-py" >}}), the [Node.js example]({{< relref "/develop/use-cases/semantic-cache/nodejs" >}}), and the [Jedis example]({{< relref "/develop/use-cases/semantic-cache/java-jedis" >}}) use. Embeddings produced by the four implementations are semantically equivalent — paraphrase distances differ only at the fourth decimal place — so a cache populated by one demo can be queried by another against the same Redis instance.
+The embedder is [DJL](https://djl.ai/) loading the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) PyTorch model from the DJL model zoo. This is the same 384-dimensional encoder the [Python example](/content/develop/use-cases/semantic-cache/redis-py/_index.md), the [Node.js example](/content/develop/use-cases/semantic-cache/nodejs/_index.md), and the [Jedis example](/content/develop/use-cases/semantic-cache/java-jedis/_index.md) use. Embeddings produced by the four implementations are semantically equivalent — paraphrase distances differ only at the fourth decimal place — so a cache populated by one demo can be queried by another against the same Redis instance.
 
 That gives you:
 
-* A single round trip for lookup — vector KNN + metadata pre-filter in one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+* A single round trip for lookup — vector KNN + metadata pre-filter in one [`FT.SEARCH`](/content/commands/ft.search.md).
 * Tens of milliseconds on a hit vs. a multi-second LLM call on a miss; the embedding step is the bottleneck either way, and that's a model-side cost, not a Redis one.
 * Tenant, locale, and model-version isolation enforced inside the query, not in application code — a write under one tenant cannot be served to another.
-* Bounded memory: every entry has an [`EXPIRE`]({{< relref "/commands/expire" >}}) TTL, and a database-level [eviction policy]({{< relref "/develop/reference/eviction" >}}) (LRU / LFU) caps the cache size under pressure.
+* Bounded memory: every entry has an [`EXPIRE`](/content/commands/expire.md) TTL, and a database-level [eviction policy](/content/develop/reference/eviction/index.md) (LRU / LFU) caps the cache size under pressure.
 
 ## How it works
 
@@ -38,8 +38,8 @@ A query goes through three stages: **embed**, **lookup**, and (on a miss) **call
 ### Hit path (the goal)
 
 1. The application calls `embedder.encodeOne(prompt)` to turn the incoming text into a 384-dimensional `float[]`.
-2. `cache.lookup(queryVec, tenant, locale, modelVersion, "ok", threshold)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a TAG pre-filter and a `KNN 1` clause. Redis returns the closest cached prompt that satisfies the filters along with its cosine distance.
-3. If the distance is at or below the threshold, the cache returns a `CacheHit` containing the cached response. The helper also runs an [`HINCRBY`]({{< relref "/commands/hincrby" >}}) on `hit_count` and an [`EXPIRE`]({{< relref "/commands/expire" >}}) refresh inside a [`MULTI/EXEC`]({{< relref "/commands/multi" >}}), so a frequently used answer keeps its TTL and the demo UI can see which entries are load-bearing.
+2. `cache.lookup(queryVec, tenant, locale, modelVersion, "ok", threshold)` runs [`FT.SEARCH`](/content/commands/ft.search.md) with a TAG pre-filter and a `KNN 1` clause. Redis returns the closest cached prompt that satisfies the filters along with its cosine distance.
+3. If the distance is at or below the threshold, the cache returns a `CacheHit` containing the cached response. The helper also runs an [`HINCRBY`](/content/commands/hincrby.md) on `hit_count` and an [`EXPIRE`](/content/commands/expire.md) refresh inside a [`MULTI/EXEC`](/content/commands/multi.md), so a frequently used answer keeps its TTL and the demo UI can see which entries are load-bearing.
 4. The LLM is not called at all. The application returns the cached response to the user.
 
 ### Miss path
@@ -47,7 +47,7 @@ A query goes through three stages: **embed**, **lookup**, and (on a miss) **call
 When the distance is above the threshold — or there is no candidate in scope at all — the helper returns a `CacheMiss` instead, carrying the distance of the nearest candidate (if any) for logging. The application then:
 
 1. Calls the LLM with the prompt.
-2. Calls `cache.put(prompt, response, embedding, tenant, locale, modelVersion, ...)`. The same embedding the lookup used is reused — no re-encode. The helper writes the Hash with [`HSET`]({{< relref "/commands/hset" >}}) and an [`EXPIRE`]({{< relref "/commands/expire" >}}) TTL inside a single [`MULTI/EXEC`]({{< relref "/commands/multi" >}}) so the entry never lands without a TTL on a partial failure.
+2. Calls `cache.put(prompt, response, embedding, tenant, locale, modelVersion, ...)`. The same embedding the lookup used is reused — no re-encode. The helper writes the Hash with [`HSET`](/content/commands/hset.md) and an [`EXPIRE`](/content/commands/expire.md) TTL inside a single [`MULTI/EXEC`](/content/commands/multi.md) so the entry never lands without a TTL on a partial failure.
 3. Returns the LLM's response to the user. The next semantically similar prompt under the same metadata scope will be a hit.
 
 ## The cache helper
@@ -56,20 +56,15 @@ The `RedisSemanticCache` class wraps the Redis Search index and the lookup / wri
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-lettuce/src/main/java/com/redis/semcache/RedisSemanticCache.java)):
 
 ```java
-import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.ByteArrayCodec;
-import io.lettuce.core.protocol.ProtocolVersion;
 import com.redis.semcache.RedisSemanticCache;
 import com.redis.semcache.LocalEmbedder;
 import com.redis.semcache.LookupResult;
 import com.redis.semcache.CacheHit;
 
 RedisClient client = RedisClient.create("redis://localhost:6379");
-client.setOptions(ClientOptions.builder()
-        .protocolVersion(ProtocolVersion.RESP2)
-        .build());
 StatefulRedisConnection<byte[], byte[]> connection =
         client.connect(ByteArrayCodec.INSTANCE);
 
@@ -120,7 +115,7 @@ if (result instanceof CacheHit hit) {
 }
 ```
 
-The connection uses Lettuce's `ByteArrayCodec` so the binary float-32 bytes of the embedding can share an `HSET` mapping with the UTF-8 text fields without a second connection. RESP2 is pinned explicitly: Lettuce 6.7 negotiates RESP3 by default, which returns the [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) reply as a map keyed by `results` / `total_results` instead of the flat alternating list the demo's parser expects, and pinning RESP2 keeps the wire format identical to what the Python, Node, and Jedis ports speak.
+The connection uses Lettuce's `ByteArrayCodec` so the binary float-32 bytes of the embedding can share an `HSET` mapping with the UTF-8 text fields without a second connection.
 
 ### Data model
 
@@ -158,29 +153,31 @@ FT.CREATE semcache:idx
 
 ### The query
 
-The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `=>[KNN 1 @embedding $vec]`. With `DIALECT 2`, Redis applies the filter first and KNN-ranks only the matching documents. Lettuce 6.7 doesn't yet ship first-class [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) bindings, so the helper sends the command through `RedisCommands.dispatch()` with a custom `ProtocolKeyword` — the same machinery Lettuce uses internally for any command it does support natively, just spelled out by the caller. The wire bytes are identical to typing the command in `redis-cli`:
+The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `=>[KNN 1 @embedding $vec]`. With `DIALECT 2`, Redis applies the filter first and KNN-ranks only the matching documents. Lettuce has a typed [`FT.SEARCH`](/content/commands/ft.search.md) method, `ftSearch`, so the helper builds the query with `SearchArgs` and sends it on the same `byte[]` connection. The binary `$vec` parameter goes through `SearchArgs.Builder.param(...)`:
 
 ```java
-CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
-        .add(indexNameBytes)
-        .add("(@tenant:{acme} @locale:{en} @model_version:{gpt\\-4\\.5\\-2026} @safety:{ok})"
-                + "=>[KNN 1 @embedding $vec AS distance]")
-        .add("RETURN").add(7)
-        .add("prompt").add("response").add("tenant").add("locale")
-        .add("model_version").add("hit_count").add("distance")
-        .add("SORTBY").add("distance").add("ASC")
-        .add("LIMIT").add(0).add(1)
-        .add("PARAMS").add(2).add("vec".getBytes()).add(LocalEmbedder.toBytes(queryVec))
-        .add("DIALECT").add(2);
+SearchArgs<byte[]> args = SearchArgs.<byte[]>builder()
+        .param("vec", LocalEmbedder.toBytes(queryVec))
+        .returnField("prompt").returnField("response")
+        .returnField("tenant").returnField("locale")
+        .returnField("model_version").returnField("hit_count")
+        .returnField("distance")
+        .sortBy(SortByArgs.builder().attribute("distance").build())
+        .limit(0, 1)
+        .dialect(QueryDialects.DIALECT2)
+        .build();
 
-List<Object> raw = sync.dispatch(
-        FtCommand.FT_SEARCH,
-        new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
+SearchReply<byte[]> reply = sync.ftSearch(
+        "semcache:idx",
+        "(@tenant:{acme} @locale:{en} @model_version:{gpt\\-4\\.5\\-2026} @safety:{ok})"
+                + "=>[KNN 1 @embedding $vec AS distance]",
         args
 );
 ```
 
 `distance` is the cosine *distance* (0 means identical, 2 means opposite). The result is sorted ascending, so the top row is the closest candidate. The application inspects `distance` against the threshold and decides hit or miss in user code — Redis returns the row either way, and treating it as a hit or a miss is a policy decision the cache helper owns, not a server-side filter.
+
+The index itself is created with the typed `ftCreate` method and `dropIndex` uses `ftDropindex`. `FT.INFO` is the one Redis Search command Lettuce has no typed method for, so the helper's `indexInfo()` sends it with `dispatch()` and a custom `ProtocolKeyword`.
 
 ## The mock LLM
 
@@ -243,8 +240,8 @@ The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLLM
     ```
 
 2.  Make sure a Redis instance with the Redis Search module is running locally on
-    port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-    [Redis 8 with Search]({{< relref "/develop/ai/search-and-query" >}}) both work.
+    port 6379. [Redis Stack](/content/operate/oss_and_stack/install/install-stack/_index.md) or
+    [Redis 8 with Search](/content/develop/ai/search-and-query/_index.md) both work.
 
 3.  Build the project with Maven. This pulls Lettuce, DJL, and the PyTorch native
     libraries. The first build takes a couple of minutes:

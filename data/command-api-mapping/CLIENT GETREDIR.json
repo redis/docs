@@ -27,7 +27,16 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientGetRedir()",
+        "params": [],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "Long clientGetredir()",
@@ -60,28 +69,45 @@
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "ioredis": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "client(subcommand: \"GETREDIR\", callback?: Callback<number>)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
+            "name": "subcommand",
+            "type": "\"GETREDIR\"",
             "description": ""
           },
           {
-            "name": "$args",
-            "type": "mixed",
+            "name": "callback?",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "int",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
     ],
-    "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rb": [
+      {
+        "signature": "client(:getredir, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Hash",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }

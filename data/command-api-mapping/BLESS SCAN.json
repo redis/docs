@@ -1,0 +1,87 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bless_scan(cursor: int, flag: BlessFlag, count: int | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "tuple[int, list[bytes | str]]",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "blessScan(cursor: RedisArgument, flag: BlessFlag, options?: BlessScanOptions)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "BlessScanOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "{ cursor: BlobStringReply; keys: ArrayReply<BlobStringReply> }",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bless_scan(cursor, flag, count: nil)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "String, Integer",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array(String, Array<String>)",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

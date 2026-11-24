@@ -3,6 +3,7 @@ linkTitle: Use langcache as the llm cache backend
 title: Use LangCache as the LLM Cache Backend
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/13_langcache_semantic_cache
+- /develop/ai/redisvl/user_guide/langcache_semantic_cache/
 weight: 13
 ---
 
@@ -15,7 +16,7 @@ For more on semantic caching, see [Extensions]({{< relref "../../concepts/extens
 
 Before you begin, ensure you have:
 - Installed RedisVL with the LangCache extra: `pip install redisvl[langcache]`
-- Python 3.10+ (same as RedisVL)
+- Python 3.11+ (same as RedisVL)
 - A LangCache service with a **cache ID** and **API key**. You can set up a LangCache service in Redis Cloud [here](https://cloud.redis.io/#/)
 - Optionally: **attributes** configured on your LangCache cache if you plan to pass `metadata` / `attributes` from RedisVL
 

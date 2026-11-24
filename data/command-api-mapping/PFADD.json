@@ -126,7 +126,7 @@
     ],
     "ioredis": [
       {
-        "signature": "pfadd(key: RedisKey, ...elements: (string | Buffer | number)[], callback?: Callback<number>)",
+        "signature": "pfadd(...args: [ key: RedisKey, ...elements: (string | Buffer | number)[], callback: Callback<number> ])",
         "params": [
           {
             "name": "key",
@@ -341,7 +341,7 @@
     ],
     "node_redis": [
       {
-        "signature": "PFADD(key: RedisArgument, element?: RedisVariadicArgument)",
+        "signature": "pfAdd(key: RedisArgument, element?: RedisVariadicArgument)",
         "params": [
           {
             "name": "key",

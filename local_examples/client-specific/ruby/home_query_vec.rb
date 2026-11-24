@@ -86,6 +86,25 @@ r.hset('doc:2', {
 })
 # STEP_END
 
+# STEP_START himport_data
+docs = [
+  ['doc:0', 'That is a very happy person', 'persons'],
+  ['doc:1', 'That is a happy dog', 'pets'],
+  ['doc:2', 'Today is a sunny day', 'weather']
+]
+
+r.pipelined do |pipe|
+  pipe.himport_prepare('doc', %w[content genre embedding])
+  docs.each do |key, content, genre|
+    pipe.himport_set(key, 'doc', [
+      content,
+      genre,
+      to_bytes(model.(content, pooling: 'mean', normalize: true))
+    ])
+  end
+end
+# STEP_END
+
 # STEP_START query
 query_text = 'That is a happy person'
 query_vec = to_bytes(model.(query_text, pooling: 'mean', normalize: true))

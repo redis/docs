@@ -1,0 +1,81 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "himport_discard_all()",
+        "params": [],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HImportDiscardAll(ctx context.Context) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "hImportDiscardAll()",
+        "params": [],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "himport(subcommand: 'DISCARDALL', callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "'DISCARDALL'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "discardAll()",
+        "params": [],
+        "returns": {
+          "type": "int",
+          "description": "Number of fieldsets removed."
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "himport_discard_all",
+        "params": [],
+        "returns": {
+          "type": "Integer",
+          "description": "number of fieldsets removed"
+        }
+      }
+    ]
+  }
+}

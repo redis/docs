@@ -1,0 +1,8 @@
+"""redis-rs (sync API) bridge for live_clients.py."""
+from rust_redis import VERSION, prepare_api
+
+KEY = 'redis_rs_sync'
+
+
+def prepare(version, cache):
+    return prepare_api('sync', version, cache)

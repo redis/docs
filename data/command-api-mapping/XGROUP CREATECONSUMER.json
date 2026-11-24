@@ -74,30 +74,6 @@
           "type": "boolean",
           "description": ""
         }
-      },
-      {
-        "signature": "boolean xgroupCreateConsumer(String key, String groupName, String consumerName)",
-        "params": [
-          {
-            "name": "key",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "groupName",
-            "type": "String",
-            "description": ""
-          },
-          {
-            "name": "consumerName",
-            "type": "String",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "boolean",
-          "description": ""
-        }
       }
     ],
     "lettuce_sync": [
@@ -196,7 +172,7 @@
     ],
     "node_redis": [
       {
-        "signature": "XGROUP_CREATECONSUMER(key: RedisArgument, group: RedisArgument, consumer: RedisArgument)",
+        "signature": "xGroupCreateConsumer(key: RedisArgument, group: RedisArgument, consumer: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -215,18 +191,18 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+        "signature": "xgroup(subcommand: \"CREATECONSUMER\", key: RedisKey, groupname: string | Buffer, consumername: string | Buffer, callback?: Callback<unknown>)",
         "params": [
           {
             "name": "subcommand",
-            "type": "\"CREATE\"",
+            "type": "\"CREATECONSUMER\"",
             "description": ""
           },
           {
@@ -240,184 +216,18 @@
             "description": ""
           },
           {
-            "name": "id",
-            "type": "string | Buffer | number",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"CREATE\"",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupname",
+            "name": "consumername",
             "type": "string | Buffer",
             "description": ""
           },
           {
-            "name": "id",
-            "type": "string | Buffer | number",
-            "description": ""
-          },
-          {
-            "name": "entriesReadToken",
-            "type": "\"ENTRIESREAD\"",
-            "description": ""
-          },
-          {
-            "name": "entriesRead",
-            "type": "number | string",
-            "description": ""
-          },
-          {
             "name": "callback?",
             "type": "Callback<unknown>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"CREATE\"",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupname",
-            "type": "string | Buffer",
-            "description": ""
-          },
-          {
-            "name": "id",
-            "type": "string | Buffer | number",
-            "description": ""
-          },
-          {
-            "name": "mkstream",
-            "type": "\"MKSTREAM\"",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"CREATE\"",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupname",
-            "type": "string | Buffer",
-            "description": ""
-          },
-          {
-            "name": "id",
-            "type": "string | Buffer | number",
-            "description": ""
-          },
-          {
-            "name": "mkstream",
-            "type": "\"MKSTREAM\"",
-            "description": ""
-          },
-          {
-            "name": "entriesReadToken",
-            "type": "\"ENTRIESREAD\"",
-            "description": ""
-          },
-          {
-            "name": "entriesRead",
-            "type": "number | string",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
-          "description": ""
-        }
-      },
-      {
-        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
-        "params": [
-          {
-            "name": "subcommand",
-            "type": "\"CREATE\"",
-            "description": ""
-          },
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": ""
-          },
-          {
-            "name": "groupname",
-            "type": "string | Buffer",
-            "description": ""
-          },
-          {
-            "name": "newId",
-            "type": "\"$\"",
-            "description": ""
-          },
-          {
-            "name": "callback?",
-            "type": "Callback<unknown>",
-            "description": ""
-          }
-        ],
-        "returns": {
-          "type": "Any",
+          "type": "Result<unknown, Context>",
           "description": ""
         }
       }
@@ -497,6 +307,32 @@
         "returns": {
           "type": "int",
           "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xgroup(:createconsumer, key, group, consumer)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "1 when the consumer was created, 0 when it already existed"
         }
       }
     ]

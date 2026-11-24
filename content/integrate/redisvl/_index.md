@@ -55,4 +55,4 @@ RedisVL (Redis Vector Library) is a Python client library specifically designed 
 
 ## Getting Started
 
-Refer to the complete [RedisVL documentation]({{< relref "/develop/ai/redisvl/" >}}) for installation, setup, and usage examples.
+Refer to the complete [RedisVL documentation](/content/develop/ai/redisvl/_index.md) for installation, setup, and usage examples.

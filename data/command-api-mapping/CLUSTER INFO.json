@@ -1,6 +1,21 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "cluster_info(target_nodes: TargetNodesT | None = None)",
+        "params": [
+          {
+            "name": "target_nodes",
+            "type": "TargetNodesT | None = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "dict[str, str]",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String clusterInfo()",
@@ -29,14 +44,8 @@
     ],
     "node_redis": [
       {
-        "signature": "parseCommand(parser: CommandParser)",
-        "params": [
-          {
-            "name": "parser",
-            "type": "CommandParser",
-            "description": "The Redis command parser"
-          }
-        ],
+        "signature": "clusterInfo()",
+        "params": [],
         "returns": {
           "type": "VerbatimStringReply",
           "description": ""
@@ -77,7 +86,43 @@
     "nredisstack_async": [],
     "php": [],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "cluster(subcommand: \"INFO\", callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"INFO\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "cluster(:info, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "depends on the subcommand"
+        }
+      }
+    ]
   }
 }
-

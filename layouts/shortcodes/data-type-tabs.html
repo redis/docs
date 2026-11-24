@@ -1,0 +1,120 @@
+{{- /*
+  data-type-tabs
+  --------------
+  Shows the data type sections of the data types landing page as tabs. Each
+  tab has the data type's name, its animation, and the section's text.
+
+  Usage:
+      {{< data-type-tabs >}}
+      ### Strings
+
+      [Redis strings](...) are the most basic Redis data type...
+
+      #### Bitfields
+
+      ...
+
+      ### Arrays
+
+      ...
+      {{< /data-type-tabs >}}
+
+  The inner content stays ordinary Markdown: a `###` heading for each data
+  type, then its text. A `####` heading is a data type that belongs under the
+  `###` heading before it, such as bitfields under strings, and its tab is
+  shown under that one's tab.
+
+  In a column with room for it, the tabs are a list down the side, in one
+  frame with the panel. In a narrow column they are rows of pills above it.
+
+  A heading becomes a tab. The heading itself isn't shown, but it keeps its ID
+  and sits at the top of the tabs, so a link to `#sorted-sets` still lands
+  there, and the script opens that tab. The Markdown and JSON versions of the
+  page drop the shortcode tags and keep the sections as they are written.
+
+  The animations are the ones from data-type-animation. Only the first is on
+  the page at load. The others are added when their tab is first opened.
+
+  Without JavaScript, and in print, the sections show one after the other
+  under their headings, with no animations.
+*/ -}}
+
+{{- /* The animation for each section, by the ID of its heading. A section that isn't listed has none. */ -}}
+{{- $anim := dict
+  "strings" "string" "bitfields" "bitfield" "bitmaps" "bitmap" "arrays" "array"
+  "geospatial-indexes" "geospatial" "hashes" "hash" "json" "json" "lists" "list"
+  "bloom-filter" "bloom" "count-min-sketch" "count-min-sketch" "cuckoo-filter" "cuckoo"
+  "hyperloglog" "hyperloglog" "t-digest" "t-digest" "top-k" "top-k"
+  "sets" "set" "sorted-sets" "sorted-set" "streams" "stream"
+  "time-series" "timeseries" "vector-sets" "vector-set" -}}
+
+{{- /* One entry for each heading, in the order written. `parent` is the ID of the ### heading a ####
+       heading belongs under, `kids` is how many #### headings a ### heading has, and `first` marks
+       the first of them. */ -}}
+{{- $parts := split (print "\n" .Inner) "\n### " -}}
+{{- if strings.TrimSpace (index $parts 0) -}}
+  {{- errorf "data-type-tabs: text before the first ### heading at %s" .Position -}}
+{{- end -}}
+{{- $tabs := slice -}}
+{{- range after 1 $parts -}}
+  {{- $subs := split . "\n#### " -}}
+  {{- $parent := "" -}}
+  {{- range $k, $section := $subs -}}
+    {{- $lines := split $section "\n" -}}
+    {{- $title := strings.TrimSpace (index $lines 0) -}}
+    {{- $id := anchorize $title -}}
+    {{- if not $k -}}{{- $parent = $id -}}{{- end -}}
+    {{- $tabs = $tabs | append (dict "id" $id "title" $title "body" (delimit (after 1 $lines) "\n") "anim" (index $anim $id)
+        "parent" (cond (gt $k 0) $parent "") "kids" (cond (gt $k 0) 0 (sub (len $subs) 1)) "first" (eq $k 1)) -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $tabs -}}
+  {{- errorf "data-type-tabs: no ### headings at %s" .Position -}}
+{{- end -}}
+{{- $open := (index $tabs 0).id -}}
+
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/data-type-animation.css" "css/data-type-tabs.css" "js/demo-highlight.js" "js/data-type-animation.js" "js/data-type-tabs.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/data-type-animation.css" | relURL }}?v={{ index $v "css/data-type-animation.css" }}">
+<link rel="stylesheet" href="{{ "css/data-type-tabs.css" | relURL }}?v={{ index $v "css/data-type-tabs.css" }}">
+<script defer src="{{ "js/demo-highlight.js" | relURL }}?v={{ index $v "js/demo-highlight.js" }}"></script>
+<script defer src="{{ "js/data-type-animation.js" | relURL }}?v={{ index $v "js/data-type-animation.js" }}"></script>
+<script defer src="{{ "js/data-type-tabs.js" | relURL }}?v={{ index $v "js/data-type-tabs.js" }}"></script>
+
+<div class="dtt">
+  {{- /* Runs before the sections below are painted, so a page with scripts never shows them as a list first. */}}
+  <script>document.currentScript.parentElement.classList.add("is-tabbed");</script>
+  <div class="dtt-body">
+    <div class="dtt-pick">
+      <div class="dtt-tabs" role="tablist" aria-label="Data types">
+        {{- range $i, $t := $tabs }}
+        <button type="button" class="dtt-tab{{ if $t.parent }} is-sub{{ if $t.first }} is-first{{ end }}{{ if eq $t.parent $open }} is-open{{ end }}{{ end }}" role="tab" id="dtt-tab-{{ $t.id }}" data-id="{{ $t.id }}"{{ with $t.parent }} data-parent="{{ . }}"{{ end }}{{ if $t.kids }} data-kids="{{ $t.kids }}"{{ end }} aria-controls="dtt-panel-{{ $t.id }}" aria-selected="{{ if $i }}false{{ else }}true{{ end }}"{{ if $i }} tabindex="-1"{{ end }}>{{ $t.title }}</button>
+        {{- end }}
+      </div>
+    </div>
+    <div class="dtt-panels">
+      {{- range $i, $t := $tabs }}
+      <section class="dtt-panel{{ if not $i }} is-on{{ end }}" id="dtt-panel-{{ $t.id }}" role="tabpanel" aria-labelledby="dtt-tab-{{ $t.id }}">
+        {{- if $t.parent }}
+        <h4 class="dtt-title" id="{{ $t.id }}">{{ $t.title }}</h4>
+        {{- else }}
+        <h3 class="dtt-title" id="{{ $t.id }}">{{ $t.title }}</h3>
+        {{- end }}
+        {{- /* The title the reader sees. The heading above can't be it: see .dtt-title in the stylesheet. */}}
+        <div class="dtt-name" aria-hidden="true">{{ $t.title }}</div>
+        {{- with $t.anim }}
+        {{- if $i }}
+        <div class="dtt-anim" data-type="{{ . }}"></div>
+        {{- else }}
+        <div class="dtt-anim" data-type="{{ . }}"><div class="dta" data-dta="{{ . }}"></div></div>
+        {{- end }}
+        {{- end }}
+        <div class="dtt-text">{{ $.Page.RenderString (dict "display" "block") $t.body }}</div>
+      </section>
+      {{- end }}
+    </div>
+  </div>
+</div>

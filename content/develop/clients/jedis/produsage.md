@@ -46,27 +46,27 @@ and then closes the connection at the end. However, production code
 typically uses connections many times intermittently. Repeatedly opening
 and closing connections has a performance overhead.
 
-Use [connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})
+Use [connection pooling](/content/develop/clients/pools-and-muxing.md)
 to avoid the overhead of opening and closing connections without having to
 write your own code to cache and reuse open connections. See
-[Configure a connection pool]({{< relref "/develop/clients/jedis/connect#configure-a-connection-pool" >}})
+[Configure a connection pool](/content/develop/clients/jedis/connect.md#configure-a-connection-pool)
 to learn how to use this technique with Jedis.
 
 ### Connection retries
 
 If a connection is lost before a command is completed, the command will fail with a `JedisConnectionException`. However, a connection error is often transient, in which case the
 command will succeed after one or more reconnection attempts. See
-[Retrying a command after a connection failure]({{< relref "/develop/clients/jedis/connect#retrying-a-command-after-a-connection-failure" >}})
+[Retrying a command after a connection failure](/content/develop/clients/jedis/connect.md#retrying-a-command-after-a-connection-failure)
 for an example of a simple retry loop that can recover from a transient connection error.
 
 ### Client-side caching
 
-[Client-side caching]({{< relref "/develop/clients/client-side-caching" >}})
+[Client-side caching](/content/develop/clients/client-side-caching.md)
 involves storing the results from read-only commands in a local cache. If the
 same command is executed again later, the results can be obtained from the cache,
 without contacting the server. This improves command execution time on the client,
 while also reducing network traffic and server load. See
-[Connect using client-side caching]({{< relref "/develop/clients/jedis/connect#connect-using-client-side-caching" >}})
+[Connect using client-side caching](/content/develop/clients/jedis/connect.md#connect-using-client-side-caching)
 for more information and example code.
 
 ### Timeouts
@@ -96,7 +96,7 @@ RedisClient jedisWithTimeout = RedisClient.builder()
 If your code doesn't access the Redis server continuously then it
 might be useful to make a "health check" periodically (perhaps once
 every few seconds). You can do this using a simple
-[`PING`]({{< relref "/commands/ping" >}}) command:
+[`PING`](/content/commands/ping.md) command:
 
 ```java
 ConnectionPoolConfig poolConfig = new ConnectionPoolConfig();
@@ -157,7 +157,7 @@ In general, Jedis can throw the following exceptions while executing commands:
 - `JedisException` - this exception is a catch-all exception that can be thrown for any other unexpected errors.
 
 Conditions when `JedisException` can be thrown:
-- Bad return from a health check with the [`PING`]({{< relref "/commands/ping" >}}) command
+- Bad return from a health check with the [`PING`](/content/commands/ping.md) command
 - Failure during SHUTDOWN
 - Pub/Sub failure when issuing commands (disconnect)
 - Any unknown server messages

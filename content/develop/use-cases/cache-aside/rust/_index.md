@@ -100,12 +100,12 @@ cache:product:p-001
 
 The implementation uses:
 
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to read the cached record
-* [`HSET`]({{< relref "/commands/hset" >}}) plus [`EXPIRE`]({{< relref "/commands/expire" >}}) to repopulate after a miss
-* [`DEL`]({{< relref "/commands/del" >}}) to invalidate on writes
-* [`TTL`]({{< relref "/commands/ttl" >}}) to surface remaining staleness in the demo UI
-* [`EVAL`]({{< relref "/commands/eval" >}}) for the Lua single-flight lock that prevents stampedes
-* [`WATCH`]({{< relref "/commands/watch" >}})/[`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) for the conditional field update path
+* [`HGETALL`](/content/commands/hgetall.md) to read the cached record
+* [`HSET`](/content/commands/hset.md) plus [`EXPIRE`](/content/commands/expire.md) to repopulate after a miss
+* [`DEL`](/content/commands/del.md) to invalidate on writes
+* [`TTL`](/content/commands/ttl.md) to surface remaining staleness in the demo UI
+* [`EVAL`](/content/commands/eval.md) for the Lua single-flight lock that prevents stampedes
+* [`WATCH`](/content/commands/watch.md)/[`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) for the conditional field update path
 
 ## Cache-aside reads
 
@@ -191,7 +191,7 @@ where
             .release_script
             .key(&lock_key)
             .arg(token.as_str())
-            .invoke_async::<_, i64>(&mut conn)
+            .invoke_async::<i64>(&mut conn)
             .await;
         return result;
     }
@@ -234,10 +234,10 @@ pub async fn update_field(&self, id: &str, field: &str, value: &str) -> RedisRes
     let cache_key = self.cache_key(id);
     let mut conn = self.conn.clone();
     loop {
-        redis::cmd("WATCH").arg(&cache_key).query_async::<_, ()>(&mut conn).await?;
+        redis::cmd("WATCH").arg(&cache_key).query_async::<()>(&mut conn).await?;
         let exists: i64 = conn.exists(&cache_key).await?;
         if exists == 0 {
-            redis::cmd("UNWATCH").query_async::<_, ()>(&mut conn).await?;
+            redis::cmd("UNWATCH").query_async::<()>(&mut conn).await?;
             return Ok(false);
         }
         let result: Option<((),)> = redis::pipe()
@@ -293,7 +293,7 @@ Before running the demo, make sure that:
 
 ```toml
 [dependencies]
-redis = { version = "0.24", features = ["tokio-comp", "aio", "connection-manager"] }
+redis = { version = "1.8", features = ["tokio-comp", "aio", "connection-manager"] }
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
 serde = { version = "1.0", features = ["derive"] }
@@ -388,9 +388,9 @@ redis-cli TTL cache:product:p-001
 ## Learn more
 
 * [redis crate on crates.io](https://crates.io/crates/redis) - Install and use the Rust Redis client
-* [SET command]({{< relref "/commands/set" >}}) - Set a string with TTL options (`EX`, `PX`, `NX`)
-* [HSET command]({{< relref "/commands/hset" >}}) - Write hash fields
-* [HGETALL command]({{< relref "/commands/hgetall" >}}) - Read every field of a hash
-* [EXPIRE command]({{< relref "/commands/expire" >}}) - Set key expiration in seconds
-* [DEL command]({{< relref "/commands/del" >}}) - Delete a key on invalidation
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Atomic single-flight locks and stampede mitigation
+* [SET command](/content/commands/set.md) - Set a string with TTL options (`EX`, `PX`, `NX`)
+* [HSET command](/content/commands/hset.md) - Write hash fields
+* [HGETALL command](/content/commands/hgetall.md) - Read every field of a hash
+* [EXPIRE command](/content/commands/expire.md) - Set key expiration in seconds
+* [DEL command](/content/commands/del.md) - Delete a key on invalidation
+* [Lua scripting](/content/develop/programmability/eval-intro.md) - Atomic single-flight locks and stampede mitigation

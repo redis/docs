@@ -21,7 +21,8 @@ As of version 6.2.18-3, the log collector tool has two modes:
 - **all** collects everything from your environment
   - This is the default mode for versions 6.2.12-1 and earlier
 
-{{<note>}} This script requires Python 3.6 or later. {{</note>}}
+> [!NOTE]
+>  This script requires Python 3.6 or later. 
 
 1. Download the latest [`log_collector.py`](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/log_collector/log_collector.py) file.
 
@@ -34,8 +35,8 @@ As of version 6.2.18-3, the log collector tool has two modes:
     python log_collector.py 
     ```
 
-   {{< note >}} If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
-  {{< /note >}}
+   > [!NOTE]
+   > If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
 
 
 

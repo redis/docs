@@ -25,7 +25,7 @@ All examples require:
 
 - **Python 3.10+**
 - **Redis 8.4+**: `docker run -d --name redis -p 6379:6379 redis:8.4-alpine`
-- **A memory backend** (for memory examples): a [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) store on Redis Cloud or self-managed.
+- **A memory backend** (for memory examples): a [Redis Agent Memory](/content/integrate/google-adk/redis-agent-memory.md) store on Redis Cloud or self-managed.
 - **API keys**: Most examples need a `GOOGLE_API_KEY` for Gemini
 
 ## `managed_memory_quickstart`
@@ -48,7 +48,7 @@ Uses REST-based memory tools exclusively, without framework-managed services. Th
 
 **Capability:** Vector, text, and range search &middot; **Run:** `adk web .`
 
-Three in-process RedisVL [search tools]({{< relref "/integrate/google-adk/search-tools" >}}) plugged into a single agent with a product catalog dataset.
+Three in-process RedisVL [search tools](/content/integrate/google-adk/search-tools.md) plugged into a single agent with a product catalog dataset.
 
 [View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_search_tools)
 
@@ -80,7 +80,7 @@ Demonstrates LLM response caching and tool result caching using the `RedisVLCach
 
 **Capability:** Managed semantic caching (LangCache) &middot; **Run:** `python main.py`
 
-Uses the managed [LangCache]({{< relref "/integrate/google-adk/semantic-caching" >}}) service for semantic caching with server-side embeddings. No local vectorizer required.
+Uses the managed [LangCache](/content/integrate/google-adk/semantic-caching.md) service for semantic caching with server-side embeddings. No local vectorizer required.
 
 [View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/langcache_cache)
 
@@ -101,7 +101,7 @@ python main.py
 Three examples are written against the deprecated `opensource-agent-memory`
 backend: `simple_redis_memory`, `travel_agent_memory_hybrid`, and
 `fitness_coach_mcp`. They are listed under
-[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server#examples-still-on-this-backend" >}}).
+[Agent Memory Server (deprecated)](/content/integrate/google-adk/agent-memory-server.md#examples-still-on-this-backend).
 For a `redis-agent-memory` starting point, use `managed_memory_quickstart` above.
 
 ## More info

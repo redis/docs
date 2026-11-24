@@ -301,7 +301,7 @@ async function main() {
 
     process.on('SIGINT', async () => {
         console.log('\n✓ Server stopped');
-        await redisClient.quit();
+        await redisClient.close();
         process.exit(0);
     });
 }

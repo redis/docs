@@ -15,11 +15,10 @@ aliases:
 ---
 Follow these steps to manually create IAM resources using the [AWS console](https://console.aws.amazon.com/).
 
-{{< warning >}}
-We use the provided credentials to configure your AWS environment and provision required resources.
-
-You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
-{{< /warning >}}
+> [!WARNING]
+> We use the provided credentials to configure your AWS environment and provision required resources.
+>
+> You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md#avoid-service-disruption) for more details.
 
 ## Step 1: Create the IAM instance policy
 
@@ -96,9 +95,9 @@ Follow the steps to [Create a role for an IAM user](https://docs.aws.amazon.com/
     - **An AWS account**: Select **Another AWS account**.
     - **Account ID**: Enter account number `168085023892` (Redis Cloud's AWS account).
     - **Options**: Select **Require MFA**.
-    {{< warning >}}
-Do not check the **Require external ID** checkbox.
-    {{< /warning >}}
+    > [!WARNING]
+    > Do not check the **Require external ID** checkbox.
+    >
 - In **Add permissions**, select the **RedislabsIAMUserRestrictedPolicy** you created.
 - In **Name, review, and create**, enter `redislabs-role` in the **Role name** field.
 
@@ -106,7 +105,7 @@ Select **Create role** to finish role creation. Save the Role name for later.
 
 ## Next steps
 
-When you've finished creating all of the resources, you can [create a Cloud Account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) in the Redis Cloud console. To do this, you'll need the following information:
+When you've finished creating all of the resources, you can [create a Cloud Account](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md) in the Redis Cloud console. To do this, you'll need the following information:
 
 - **Access Key ID**: The Access Key ID for the [programmatic user you created](#step-4-create-the-programmatic-access-user).
 - **Secret Access Key**: The Secret Access Key for the [programmatic user you created](#step-4-create-the-programmatic-access-user).

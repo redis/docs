@@ -33,12 +33,12 @@ title: CF.ADDNX
 ---
 Adds an item to a cuckoo filter if the item does not exist.
 
-This command is similar to the combination of [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}) and [`CF.ADD`]({{< relref "commands/cf.add/" >}}). It does not add an item into the filter if its fingerprint already exists.
+This command is similar to the combination of [`CF.EXISTS`](/content/commands/cf.exists.md) and [`CF.ADD`](/content/commands/cf.add.md). It does not add an item into the filter if its fingerprint already exists.
 
 <note><b>Notes:</b>
 
-- This command is slower than [`CF.ADD`]({{< relref "commands/cf.add/" >}}) because it first checks whether the item exists.
-- Since [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}) can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.
+- This command is slower than [`CF.ADD`](/content/commands/cf.add.md) because it first checks whether the item exists.
+- Since [`CF.EXISTS`](/content/commands/cf.exists.md) can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.
 
 </note>
 
@@ -78,13 +78,13 @@ redis> CF.ADDNX cf item
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` for successfully adding an item to the filter or `0` if the item's fingerprint already exists in the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers): `1` for successfully adding an item to the filter or `0` if the item's fingerprint already exists in the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
 
 -tab-sep-
 
 One of the following:
-* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}): `true` for successfully adding an item to the filter or `false` if the item's fingerprint already exists in the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when the filter is full.
+* [Boolean reply](/content/develop/reference/protocol-spec.md#booleans): `true` for successfully adding an item to the filter or `false` if the item's fingerprint already exists in the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, or when the filter is full.
 
 {{< /multitabs >}}

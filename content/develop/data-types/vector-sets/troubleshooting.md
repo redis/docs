@@ -20,7 +20,7 @@ Vector sets are approximate by design. That makes debugging trickier than with e
 
 ## Low recall or missing results
 
-If [`VSIM`]({{< relref "/commands/vsim" >}}) doesn't return expected items:
+If [`VSIM`](/content/commands/vsim.md) doesn't return expected items:
 
 - Increase the `EF` parameter:
 
@@ -45,7 +45,7 @@ Filters silently exclude items if:
 - The JSON is invalid
 - A type doesn’t match the expression (for example, `.rating > 8` when `.rating` is a string)
 
-Try retrieving the attributes with [`VGETATTR`]({{< relref "/commands/vgetattr" >}}):
+Try retrieving the attributes with [`VGETATTR`](/content/commands/vgetattr.md):
 
 ```bash
 VGETATTR myset myelement
@@ -66,7 +66,7 @@ Use default `Q8` quantization and compact attributes to save space.
 
 ## Inspecting the graph
 
-Use [`VLINKS`]({{< relref "/commands/vlinks" >}}) to examine a node’s connections:
+Use [`VLINKS`](/content/commands/vlinks.md) to examine a node’s connections:
 
 ```bash
 VLINKS myset myelement WITHSCORES
@@ -84,7 +84,7 @@ Large sets deleted using the `DEL` command can briefly spike latency as Redis re
 - `VADD` with `REDUCE` does not replicate the random projection matrix.
 - Replicas will produce different projected vectors for the same inputs.
 
-This doesn't affect similarity searches but does affect [`VEMB`]({{< relref "/commands/vemb" >}}) output.
+This doesn't affect similarity searches but does affect [`VEMB`](/content/commands/vemb.md) output.
 
 ## Summary
 
@@ -97,6 +97,6 @@ This doesn't affect similarity searches but does affect [`VEMB`]({{< relref "/co
 
 ## See also
 
-- [Filtered Search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
-- [Memory Usage]({{< relref "/develop/data-types/vector-sets/memory" >}})
-- [Performance]({{< relref "/develop/data-types/vector-sets/performance" >}})
+- [Filtered Search](/content/develop/data-types/vector-sets/filtered-search.md)
+- [Memory Usage](/content/develop/data-types/vector-sets/memory.md)
+- [Performance](/content/develop/data-types/vector-sets/performance.md)

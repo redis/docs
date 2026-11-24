@@ -46,11 +46,11 @@ Consider using Redis Cloud BYOC if you have specific organizational needs or req
 
 To set up Redis Cloud BYOC on Amazon Web Services (AWS):
 
-1. [Create the Identity and Access Management (IAM) resources]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}) needed to let Redis create, monitor, and maintain deployment infrastructure.
+1. [Create the Identity and Access Management (IAM) resources](/content/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/_index.md) needed to let Redis create, monitor, and maintain deployment infrastructure.
 
-1. [Set your AWS Account as a BYOC Cloud account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) on Redis Cloud.
+1. [Set your AWS Account as a BYOC Cloud account](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md) on Redis Cloud.
 
-After you set up your cloud account, you can create a [new Redis Cloud Pro subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) or an [Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) that uses your cloud account.
+After you set up your cloud account, you can create a [new Redis Cloud Pro subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md) or an [Active-Active database](/content/operate/rc/databases/active-active/create-active-active-database.md) that uses your cloud account.
 
 ## Redis Cloud BYOC pricing
 
@@ -60,9 +60,8 @@ When you create a database, you'll see the costs for the Redis Cloud service, bu
 
 ## Avoid Redis Cloud BYOC service disruption {#avoid-service-disruption}
 
-{{< warning >}}
-Failing to follow the instructions in this section will cause your databases to become inaccessible, and Redis will not be able to ensure cluster and database stability. Please read them carefully.
-{{< /warning >}}
+> [!WARNING]
+> Failing to follow the instructions in this section will cause your databases to become inaccessible, and Redis will not be able to ensure cluster and database stability. Please read them carefully.
 
 To keep your Redis Cloud BYOC service and all databases running without issues:
 - Do not stop, delete, or modify Redis-managed resources through the cloud provider - including VPCs, subnets, virtual machines, and other infrastructure.

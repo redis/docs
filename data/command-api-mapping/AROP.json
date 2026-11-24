@@ -685,6 +685,178 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "arop(key: RedisKey, start: number | string, end: number | string, sum: 'SUM', callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "sum",
+            "type": "'SUM'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arop(key: RedisKey, start: number | string, end: number | string, min: 'MIN', callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "'MIN'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arop(key: RedisKey, start: number | string, end: number | string, max: 'MAX', callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "'MAX'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arop(key: RedisKey, start: number | string, end: number | string, and: 'AND', callback?: Callback<number | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "and",
+            "type": "'AND'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number | null, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arop(key: RedisKey, start: number | string, end: number | string, or: 'OR', callback?: Callback<number | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "or",
+            "type": "'OR'",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number | null, Context>",
+          "description": ""
+        }
+      }
     ]
   }
 }

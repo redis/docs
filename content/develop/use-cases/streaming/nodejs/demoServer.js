@@ -614,7 +614,7 @@ class StreamingDemo {
     } catch (err) {
       // Best-effort cleanup of any partially-opened client.
       if (client) {
-        try { await client.quit(); } catch { /* ignore */ }
+        try { await client.close(); } catch { /* ignore */ }
       }
       throw err;
     } finally {
@@ -689,7 +689,7 @@ class StreamingDemo {
     this.workers.delete(key);
     await entry.worker.stop();
     try {
-      await entry.client.quit();
+      await entry.client.close();
     } catch {
       // ignore close errors
     }
@@ -729,7 +729,7 @@ class StreamingDemo {
       entries.map(async (entry) => {
         await entry.worker.stop();
         try {
-          await entry.client.quit();
+          await entry.client.close();
         } catch {
           // ignore
         }
@@ -1138,7 +1138,7 @@ async function main() {
     await demo.stopAll();
     server.close();
     try {
-      await mainClient.quit();
+      await mainClient.close();
     } catch {
       // ignore
     }

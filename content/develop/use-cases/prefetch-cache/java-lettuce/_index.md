@@ -14,7 +14,7 @@ title: Redis prefetch cache with Lettuce
 weight: 5
 ---
 
-This guide shows you how to implement a Redis prefetch cache in Java with the [Lettuce]({{< relref "/develop/clients/lettuce" >}}) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can watch the cache pre-load at startup, see a background sync worker apply primary mutations within milliseconds, and break the cache to confirm that reads never fall back to the primary.
+This guide shows you how to implement a Redis prefetch cache in Java with the [Lettuce](/content/develop/clients/lettuce/_index.md) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can watch the cache pre-load at startup, see a background sync worker apply primary mutations within milliseconds, and break the cache to confirm that reads never fall back to the primary.
 
 ## Overview
 
@@ -40,7 +40,7 @@ The flow has three independent paths:
 2. **On every read**, the application calls `cache.get(entityId)`, which runs `HGETALL` against Redis only. A miss is treated as an error, not a trigger to query the primary.
 3. **On every primary mutation**, the primary appends a change event to an in-process queue. The sync worker thread drains the queue and calls `cache.applyChange(event)`. For an `upsert`, the helper rewrites the cache hash and refreshes the safety-net TTL; for a `delete`, it removes the cache key.
 
-In a real system the in-process change queue is replaced by a CDC pipeline — [Redis Data Integration]({{< relref "/integrate/redis-data-integration" >}}), Debezium plus a lightweight consumer, or an equivalent tool that tails the source's binlog/WAL and pushes events into Redis.
+In a real system the in-process change queue is replaced by a CDC pipeline — [Redis Data Integration](/content/integrate/redis-data-integration/_index.md), Debezium plus a lightweight consumer, or an equivalent tool that tails the source's binlog/WAL and pushes events into Redis.
 
 ## The prefetch-cache helper
 
@@ -85,12 +85,12 @@ cache:category:cat-001
 
 The implementation uses:
 
-* [`HSET`]({{< relref "/commands/hset" >}}) + [`EXPIRE`]({{< relref "/commands/expire" >}}), pipelined, for the bulk load and every sync event
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) on the read path
-* [`DEL`]({{< relref "/commands/del" >}}) for sync-delete events and explicit invalidation
-* [`SCAN`]({{< relref "/commands/scan" >}}) to enumerate the cached keyspace and to clear the prefix
-* [`TTL`]({{< relref "/commands/ttl" >}}) to surface remaining safety-net time in the demo UI
-* [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) for the transactional upsert path in `applyChange`
+* [`HSET`](/content/commands/hset.md) + [`EXPIRE`](/content/commands/expire.md), pipelined, for the bulk load and every sync event
+* [`HGETALL`](/content/commands/hgetall.md) on the read path
+* [`DEL`](/content/commands/del.md) for sync-delete events and explicit invalidation
+* [`SCAN`](/content/commands/scan.md) to enumerate the cached keyspace and to clear the prefix
+* [`TTL`](/content/commands/ttl.md) to surface remaining safety-net time in the demo UI
+* [`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) for the transactional upsert path in `applyChange`
 
 ## Bulk load on startup
 
@@ -151,7 +151,7 @@ public Result get(String entityId) {
 }
 ```
 
-This is the key behavioural difference from [cache-aside]({{< relref "/develop/use-cases/cache-aside" >}}): the request path never touches the primary, so reference-data reads cannot contribute to primary database load.
+This is the key behavioural difference from [cache-aside](/content/develop/use-cases/cache-aside/_index.md): the request path never touches the primary, so reference-data reads cannot contribute to primary database load.
 
 ## Applying sync events
 
@@ -292,20 +292,25 @@ curl -O $BASE/SyncWorker.java
 curl -O $BASE/DemoServer.java
 ```
 
-You also need Lettuce and its runtime dependencies on your classpath. The simplest way is to download them into a local `lib/` directory:
+Lettuce needs Netty, Reactor and a few other jars at runtime, and `javac` and `java` need them on the classpath. The simplest way to collect them is with Maven. In the demo directory, create a minimal `pom.xml`, then copy its dependencies into a local `lib/` directory:
 
 ```bash
-mkdir lib && cd lib
-LETTUCE=https://repo1.maven.org/maven2/io/lettuce/lettuce-core/6.5.0.RELEASE
-curl -O $LETTUCE/lettuce-core-6.5.0.RELEASE.jar
-NETTY=https://repo1.maven.org/maven2/io/netty
-for ARTIFACT in netty-buffer netty-codec netty-common netty-handler \
-                netty-resolver netty-transport netty-transport-native-unix-common; do
-  curl -O "$NETTY/$ARTIFACT/4.1.113.Final/$ARTIFACT-4.1.113.Final.jar"
-done
-curl -O https://repo1.maven.org/maven2/io/projectreactor/reactor-core/3.6.6/reactor-core-3.6.6.jar
-curl -O https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar
-cd ..
+cat > pom.xml <<'EOF'
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo</groupId>
+  <artifactId>demo</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>7.9.0.RELEASE</version>
+    </dependency>
+  </dependencies>
+</project>
+EOF
+mvn -q dependency:copy-dependencies -DoutputDirectory=lib
 ```
 
 ### Start the demo server
@@ -426,12 +431,12 @@ If a key is missing for an ID that still exists in the primary, the prefetch did
 
 ## Learn more
 
-* [Lettuce guide]({{< relref "/develop/clients/lettuce" >}}) - Install and use the Lettuce Redis client
-* [HSET command]({{< relref "/commands/hset" >}}) - Write hash fields
-* [HGETALL command]({{< relref "/commands/hgetall" >}}) - Read every field of a hash
-* [EXPIRE command]({{< relref "/commands/expire" >}}) - Set key expiration in seconds
-* [DEL command]({{< relref "/commands/del" >}}) - Delete a key on invalidation or sync-delete
-* [SCAN command]({{< relref "/commands/scan" >}}) - Iterate the cached keyspace without blocking the server
-* [TTL command]({{< relref "/commands/ttl" >}}) - Inspect remaining safety-net time on a key
-* [MULTI command]({{< relref "/commands/multi" >}}) / [EXEC command]({{< relref "/commands/exec" >}}) - Transactional upsert path in `applyChange`
-* [Redis Data Integration]({{< relref "/integrate/redis-data-integration" >}}) - Configuration-driven CDC into Redis on Redis Enterprise and Redis Cloud
+* [Lettuce guide](/content/develop/clients/lettuce/_index.md) - Install and use the Lettuce Redis client
+* [HSET command](/content/commands/hset.md) - Write hash fields
+* [HGETALL command](/content/commands/hgetall.md) - Read every field of a hash
+* [EXPIRE command](/content/commands/expire.md) - Set key expiration in seconds
+* [DEL command](/content/commands/del.md) - Delete a key on invalidation or sync-delete
+* [SCAN command](/content/commands/scan.md) - Iterate the cached keyspace without blocking the server
+* [TTL command](/content/commands/ttl.md) - Inspect remaining safety-net time on a key
+* [MULTI command](/content/commands/multi.md) / [EXEC command](/content/commands/exec.md) - Transactional upsert path in `applyChange`
+* [Redis Data Integration](/content/integrate/redis-data-integration/_index.md) - Configuration-driven CDC into Redis on Redis Enterprise and Redis Cloud

@@ -55,9 +55,8 @@ summary: Atomically modifies the string values of one or more keys only when all
 syntax_fmt: MSETNX key value [key value ...]
 title: MSETNX
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Sets the given keys to their respective values.

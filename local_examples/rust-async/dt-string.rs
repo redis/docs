@@ -1,7 +1,7 @@
 // EXAMPLE: set_tutorial
 #[cfg(test)]
 mod tests {
-    use redis::{AsyncCommands, ExistenceCheck};
+    use redis::{AsyncCommands, ExistenceCheck, ValueComparison};
 
     #[tokio::test]
     async fn run() {
@@ -92,6 +92,44 @@ mod tests {
                 return;
             }
         };
+        // STEP_END
+
+        // STEP_START cas_cad
+        let _: () = r.set("bike:1", "Deimos").await.expect("Failed to set");
+
+        let res: Option<String> = r
+            .set_options("bike:1", "Ares", redis::SetOptions::default().value_comparison(ValueComparison::ifeq("Deimos")))
+            .await.expect("Failed to set");
+        println!("{res:?}");    // >>> Some("OK")
+        // REMOVE_START
+        assert_eq!(res, Some("OK".to_string()));
+        // REMOVE_END
+
+        let res: Option<String> = r
+            .set_options("bike:1", "Zeus", redis::SetOptions::default().value_comparison(ValueComparison::ifeq("Deimos")))
+            .await.expect("Failed to set");
+        println!("{res:?}");    // >>> None
+        // REMOVE_START
+        assert_eq!(res, None);
+        // REMOVE_END
+
+        let res: String = r.get("bike:1").await.expect("Failed to get");
+        println!("{res}");   // >>> Ares
+        // REMOVE_START
+        assert_eq!(res, "Ares");
+        // REMOVE_END
+
+        let res: usize = r.del_ex("bike:1", ValueComparison::ifeq("Deimos")).await.expect("Failed to delete");
+        println!("{res}");    // >>> 0
+        // REMOVE_START
+        assert_eq!(res, 0);
+        // REMOVE_END
+
+        let res: usize = r.del_ex("bike:1", ValueComparison::ifeq("Ares")).await.expect("Failed to delete");
+        println!("{res}");    // >>> 1
+        // REMOVE_START
+        assert_eq!(res, 1);
+        // REMOVE_END
         // STEP_END
 
         // STEP_START mset

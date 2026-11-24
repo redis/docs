@@ -18,16 +18,45 @@
 // .readyState (init immediately when the DOM is already parsed), not solely via a
 // DOMContentLoaded listener.
 
+// Which /cli backend serves both the widget and the command batches: the
+// deployment, for every page. The workbench needs the window.RedisCli API that
+// only an unreleased backend publishes, so until that ships it stays dormant
+// against production — the alternative, a hostname-gated local default, is
+// local-development plumbing and does not belong in the repo.
+const REDIS_CLI_BACKEND = 'https://redis.io/cli';
+
 window.REDIS_CLI_CONFIG = {
-  apiUrl: 'https://redis.io/cli', // POST command batches to the public CLI backend
+  apiUrl: REDIS_CLI_BACKEND,      // POST command batches here
+  // Which docs page a batch came from, for usage metrics. The widget used to
+  // read this from its own URL (?source=), which only existed because "Try it"
+  // opened redis.io/cli in a new tab. Snippets run in the workbench on the page
+  // itself now, so the page has to say. The backend format-checks it and caps
+  // distinct values.
+  page: (function () {
+    try { return window.location.pathname; } catch (err) { return ''; }
+  })(),
   appendDbId: false,              // docs widgets don't carry a per-widget dbid
   promptPrefix: 'redis> ',        // docs use the bare prompt, not redis:6379>
   enableUrlCommands: false,       // commands come from the code block, not the URL
   showBadge: false,               // no "Powered by" badge in the docs
 };
 
+// Whether the canonical widget is still on its way. A "Try it" clicked before it
+// lands must wait rather than fall back to another tab: "not here yet" and "this
+// backend cannot do it" are different answers, and only the second one is a
+// reason to leave the page.
+window.REDIS_CLI_LOADING = true;
+window.REDIS_CLI_FAILED = false;
+
 (function () {
   const script = document.createElement('script');
-  script.src = 'https://redis.io/cli/static/js/cli.js';
+  script.src = REDIS_CLI_BACKEND + '/static/js/cli.js';
+  script.addEventListener('load', function () {
+    window.REDIS_CLI_LOADING = false;
+  });
+  script.addEventListener('error', function () {
+    window.REDIS_CLI_LOADING = false;
+    window.REDIS_CLI_FAILED = true;
+  });
   document.head.appendChild(script);
 })();

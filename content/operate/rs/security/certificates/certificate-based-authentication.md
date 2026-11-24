@@ -10,7 +10,7 @@ linkTitle: Certificate-based authentication
 weight: 70
 ---
 
-You can set up certificate-based authentication for specific users to enable secure, passwordless access to the Redis Software [REST API]({{<relref "/operate/rs/references/rest-api">}}) and databases.
+You can set up certificate-based authentication for specific users to enable secure, passwordless access to the Redis Software [REST API](/content/operate/rs/references/rest-api/_index.md) and databases.
 
 ## Certificate-based authentication for the REST API
 
@@ -18,7 +18,7 @@ You can set up certificate-based authentication for specific users to enable sec
 
 To set up certificate-based authentication:
 
-1. Add a trusted CA certificate `mtls_trusted_ca` to the cluster using an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) request:
+1. Add a trusted CA certificate `mtls_trusted_ca` to the cluster using an [update cluster certificates](/content/operate/rs/references/rest-api/requests/cluster/certificates/_index.md) request:
 
     {{< multitabs id="add-mtls_trusted_ca-cert"
           tab1="Redis Software v7.22.2 and later"
@@ -52,7 +52,7 @@ PUT /v1/cluster/update_cert
 
     {{< /multitabs >}}
 
-1. [Update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) with mutual TLS (mTLS) configuration using one of the following options:
+1. [Update cluster settings](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) with mutual TLS (mTLS) configuration using one of the following options:
 
     {{< multitabs id="enable-mTLS"
           tab1="Without subject validation"
@@ -156,7 +156,7 @@ PUT /v1/cluster
 
     {{< /multitabs >}}
 
-1. When you [create new users]({{<relref "/operate/rs/references/rest-api/requests/users#post-user">}}), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body:
+1. When you [create new users](/content/operate/rs/references/rest-api/requests/users/_index.md#post-user), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body:
 
     ```sh
     POST /v1/users
@@ -168,25 +168,25 @@ PUT /v1/cluster
 
     Replace the placeholder values `<>` with your client certificate's subject values.
 
-    {{<note>}}
-The `certificate_subject_line` must:
-
-- Follow [RFC 2253](https://www.rfc-editor.org/rfc/rfc2253) format.
-
-- List the attributes in reverse order, starting with the Common Name (`CN`).
-
-- Not contain spaces after the commas that separate attributes.
-
-- Exactly match the certificate's RFC 2253 subject.
-
-- Contain only one Organizational Unit (`OU`) value.
-    {{</note>}}
+    > [!NOTE]
+    > The `certificate_subject_line` must:
+    >
+    > - Follow [RFC 2253](https://www.rfc-editor.org/rfc/rfc2253) format.
+    >
+    > - List the attributes in reverse order, starting with the Common Name (`CN`).
+    >
+    > - Not contain spaces after the commas that separate attributes.
+    >
+    > - Exactly match the certificate's RFC 2253 subject.
+    >
+    > - Contain only one Organizational Unit (`OU`) value.
+    >     
 
 ### Authenticate REST API requests
 
 To use the REST API with certificate-based authentication, you must provide a client certificate, signed by the trusted CA `mtls_trusted_ca`, and a private key.
 
-The following example uses [cURL](https://curl.se/) to send a [REST API request]({{<relref "/operate/rs/references/rest-api/requests">}}):
+The following example uses [cURL](https://curl.se/) to send a [REST API request](/content/operate/rs/references/rest-api/requests/_index.md):
 
 ```sh
 curl --request <METHOD> --url https://<hostname-or-IP-address>:9443/<API-version>/<API-path> --cert client.pem --key client.key
@@ -217,13 +217,13 @@ The same three values take different formats depending on the interface:
 | Interface | Format |
 |-----------|--------|
 | Bootstrap API `credentials` | PEM strings |
-| [`rladmin cluster join`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/join">}}) | File paths |
+| [`rladmin cluster join`](/content/operate/rs/references/cli-utilities/rladmin/cluster/join.md) | File paths |
 | Active-Active REST API `certificate_auth` | PEM strings |
-| [`crdb-cli`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli">}}) | PEM strings |
+| [`crdb-cli`](/content/operate/rs/references/cli-utilities/crdb-cli/_index.md) | PEM strings |
 
 ### Join a node to the cluster
 
-To join a node with certificate credentials, include `client_cert`, `client_key`, and `trusted_ca` in the `credentials` object of a [bootstrap]({{<relref "/operate/rs/references/rest-api/requests/bootstrap">}}) request. These fields take PEM strings:
+To join a node with certificate credentials, include `client_cert`, `client_key`, and `trusted_ca` in the `credentials` object of a [bootstrap](/content/operate/rs/references/rest-api/requests/bootstrap/_index.md) request. These fields take PEM strings:
 
 ```sh
 POST /v1/bootstrap/join_cluster
@@ -240,7 +240,7 @@ POST /v1/bootstrap/join_cluster
 }
 ```
 
-[`rladmin cluster join`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/join">}}) accepts the same three values as file paths, not PEM strings:
+[`rladmin cluster join`](/content/operate/rs/references/cli-utilities/rladmin/cluster/join.md) accepts the same three values as file paths, not PEM strings:
 
 ```sh
 rladmin cluster join nodes <target-node-ip> \
@@ -290,7 +290,7 @@ POST /v1/crdbs
 }
 ```
 
-To create an Active-Active database with certificate credentials from the command line, use [`crdb-cli crdb create`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/create">}}). The `--instance` option takes PEM strings:
+To create an Active-Active database with certificate credentials from the command line, use [`crdb-cli crdb create`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/create.md). The `--instance` option takes PEM strings:
 
 ```sh
 crdb-cli crdb create \
@@ -299,7 +299,7 @@ crdb-cli crdb create \
   --instance "fqdn=cluster2.local,client_cert=<client-cert>,client_key=<client-key>,trusted_ca=<trusted-ca>"
 ```
 
-To add a participating cluster to an existing Active-Active database, use [`crdb-cli crdb add-instance`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/add-instance">}}). Its `--instance` option accepts the same fields as `crdb-cli crdb create`:
+To add a participating cluster to an existing Active-Active database, use [`crdb-cli crdb add-instance`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/add-instance.md). Its `--instance` option accepts the same fields as `crdb-cli crdb create`:
 
 ```sh
 crdb-cli crdb add-instance \
@@ -307,7 +307,7 @@ crdb-cli crdb add-instance \
   --instance "fqdn=cluster3.local,client_cert=<client-cert>,client_key=<client-key>,trusted_ca=<trusted-ca>"
 ```
 
-To switch an existing participating cluster from a username and password to certificate credentials, use [`crdb-cli crdb update`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update">}}) with the instance's `id`:
+To switch an existing participating cluster from a username and password to certificate credentials, use [`crdb-cli crdb update`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/update.md) with the instance's `id`:
 
 ```sh
 crdb-cli crdb update \
@@ -321,9 +321,9 @@ crdb-cli crdb update \
 
 To set up certificate-based authentication for databases:
 
-1. Enable mutual TLS for the relevant databases. See [Enable TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls">}}) for detailed instructions.
+1. Enable mutual TLS for the relevant databases. See [Enable TLS](/content/operate/rs/security/encryption/tls/enable-tls.md) for detailed instructions.
 
-1. When you [create new users]({{<relref "/operate/rs/references/rest-api/requests/users#post-user">}}), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body:
+1. When you [create new users](/content/operate/rs/references/rest-api/requests/users/_index.md#post-user), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body:
 
     ```sh
     POST /v1/users
@@ -335,25 +335,25 @@ To set up certificate-based authentication for databases:
 
     Replace the placeholder values `<>` with your client certificate's subject values.
 
-    {{<note>}}
-The `certificate_subject_line` must:
-
-- Follow [RFC 2253](https://www.rfc-editor.org/rfc/rfc2253) format.
-
-- List the attributes in reverse order, starting with the Common Name (`CN`).
-
-- Not contain spaces after the commas that separate attributes.
-
-- Exactly match the certificate's RFC 2253 subject.
-
-- Contain only one Organizational Unit (`OU`) value.
-    {{</note>}}
+    > [!NOTE]
+    > The `certificate_subject_line` must:
+    >
+    > - Follow [RFC 2253](https://www.rfc-editor.org/rfc/rfc2253) format.
+    >
+    > - List the attributes in reverse order, starting with the Common Name (`CN`).
+    >
+    > - Not contain spaces after the commas that separate attributes.
+    >
+    > - Exactly match the certificate's RFC 2253 subject.
+    >
+    > - Contain only one Organizational Unit (`OU`) value.
+    >     
 
 ### Authenticate database connections
 
-To connect to a database with certificate-based authentication, you must provide a client certificate, signed by a trusted CA, and a private key. The client certificate must either be one you previously added to the database to [enable mutual TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls#enable-mutual-tls">}}) (`authentication_ssl_client_certs` in the REST API), or be signed by one of these certificates.
+To connect to a database with certificate-based authentication, you must provide a client certificate, signed by a trusted CA, and a private key. The client certificate must either be one you previously added to the database to [enable mutual TLS](/content/operate/rs/security/encryption/tls/enable-tls.md#enable-mutual-tls) (`authentication_ssl_client_certs` in the REST API), or be signed by one of these certificates.
 
-The following example shows how to connect to a Redis database with [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}):
+The following example shows how to connect to a Redis database with [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md):
 
 ```sh
 redis-cli -h <hostname-or-IP-address> -p <port> --tls --cacert <redis_cert>.pem --cert redis_user.crt --key redis_user_private.key

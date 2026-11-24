@@ -267,7 +267,7 @@
     ],
     "node_redis": [
       {
-        "signature": "SORT(key: RedisArgument, options?: SortOptions)",
+        "signature": "sort(key: RedisArgument, options?: SortOptions)",
         "params": [
           {
             "name": "key",
@@ -281,7 +281,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "ArrayReply<BlobStringReply>",
           "description": ""
         }
       }
@@ -732,6 +732,51 @@
         "returns": {
           "type": "Array<String>, Integer",
           "description": "array of elements or count when store is specified"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "sort(...args: [key: RedisKey, ...args: RedisValue[], callback: Callback<unknown>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sort(...args: [key: RedisKey, ...args: RedisValue[]])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "RedisValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
         }
       }
     ]

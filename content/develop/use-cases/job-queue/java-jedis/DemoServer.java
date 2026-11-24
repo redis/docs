@@ -1,8 +1,8 @@
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.ConnectionPoolConfig;
+import redis.clients.jedis.RedisClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +27,7 @@ public class DemoServer {
 
     private static RedisJobQueue queue;
     private static WorkerPool pool;
-    private static JedisPool jedisPool;
+    private static RedisClient jedis;
 
     public static void main(String[] args) {
         String host = "127.0.0.1";
@@ -62,19 +62,22 @@ public class DemoServer {
             }
         }
 
-        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        ConnectionPoolConfig poolConfig = new ConnectionPoolConfig();
         poolConfig.setMaxTotal(32);
         poolConfig.setMaxIdle(16);
         poolConfig.setMinIdle(2);
-        jedisPool = new JedisPool(poolConfig, redisHost, redisPort);
-        try (var jedis = jedisPool.getResource()) {
+        jedis = RedisClient.builder()
+                .hostAndPort(redisHost, redisPort)
+                .poolConfig(poolConfig)
+                .build();
+        try {
             jedis.ping();
         } catch (Exception e) {
             System.err.printf("Failed to connect to Redis at %s:%d: %s%n", redisHost, redisPort, e.getMessage());
             System.exit(1);
         }
 
-        queue = new RedisJobQueue(jedisPool, "jobs-jedis", visibilityMs, 300, 50, 3);
+        queue = new RedisJobQueue(jedis, "jobs-jedis", visibilityMs, 300, 50, 3);
         pool = new WorkerPool(queue, 0, 400, 0.0, 0.0);
         if (initialWorkers > 0) {
             pool.resize(initialWorkers);
@@ -106,7 +109,7 @@ public class DemoServer {
             } catch (Exception ignored) {
             }
             try {
-                jedisPool.close();
+                jedis.close();
             } catch (Exception ignored) {
             }
             server.stop(0);
@@ -583,7 +586,7 @@ public class DemoServer {
                 + "    <h1>Redis Job Queue Demo</h1>\n"
                 + "    <p class=\"lede\">\n"
                 + "      Enqueue background jobs and watch a pool of workers drain them through Redis.\n"
-                + "      Pending jobs sit in a list; each worker uses <code>BRPOPLPUSH</code> to atomically\n"
+                + "      Pending jobs sit in a list; each worker uses <code>BLMOVE</code> to atomically\n"
                 + "      claim a job and move it to a processing list. Completed jobs move to a short\n"
                 + "      history. If a worker hangs past the " + visibilityMs + " ms visibility timeout,\n"
                 + "      the reclaimer moves its job back to pending so no work is lost.\n"

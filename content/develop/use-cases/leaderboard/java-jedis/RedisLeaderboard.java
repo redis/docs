@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.AbstractTransaction;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.Response;
-import redis.clients.jedis.Transaction;
 import redis.clients.jedis.params.ZRangeParams;
 import redis.clients.jedis.resps.Tuple;
 
@@ -30,21 +29,21 @@ public class RedisLeaderboard {
         }
     }
 
-    private final JedisPool jedisPool;
+    private final RedisClient jedis;
     private final String key;
     private int maxEntries;
 
-    public RedisLeaderboard(JedisPool jedisPool, String key, int maxEntries) {
-        if (jedisPool == null) {
-            throw new IllegalArgumentException("jedisPool is required");
+    public RedisLeaderboard(RedisClient jedis, String key, int maxEntries) {
+        if (jedis == null) {
+            throw new IllegalArgumentException("jedis is required");
         }
-        this.jedisPool = jedisPool;
+        this.jedis = jedis;
         this.key = (key == null || key.isBlank()) ? "leaderboard:demo" : key;
         this.maxEntries = normalizePositiveInt(maxEntries == 0 ? 100 : maxEntries, "maxEntries");
     }
 
-    public RedisLeaderboard(JedisPool jedisPool) {
-        this(jedisPool, "leaderboard:demo", 100);
+    public RedisLeaderboard(RedisClient jedis) {
+        this(jedis, "leaderboard:demo", 100);
     }
 
     public String getKey() {
@@ -58,8 +57,7 @@ public class RedisLeaderboard {
     public LeaderboardEntry upsertUser(String userId, double score, Map<String, String> metadata) {
         Map<String, String> payload = coerceMetadata(metadata);
 
-        try (Jedis jedis = jedisPool.getResource()) {
-            Transaction tx = jedis.multi();
+        try (AbstractTransaction tx = jedis.multi()) {
             tx.zadd(key, score, userId);
             if (!payload.isEmpty()) {
                 tx.hset(metadataKey(userId), payload);
@@ -79,8 +77,7 @@ public class RedisLeaderboard {
         Map<String, String> payload = coerceMetadata(metadata);
         double newScore;
 
-        try (Jedis jedis = jedisPool.getResource()) {
-            Transaction tx = jedis.multi();
+        try (AbstractTransaction tx = jedis.multi()) {
             Response<Double> scoreResponse = tx.zincrby(key, amount, userId);
             if (!payload.isEmpty()) {
                 tx.hset(metadataKey(userId), payload);
@@ -104,13 +101,11 @@ public class RedisLeaderboard {
 
     public List<LeaderboardEntry> getTop(int count) {
         int normalizedCount = normalizePositiveInt(count, "count");
-        try (Jedis jedis = jedisPool.getResource()) {
-            List<Tuple> entries = jedis.zrangeWithScores(
-                    key,
-                    ZRangeParams.zrangeParams(0, normalizedCount - 1).rev()
-            );
-            return hydrateEntries(entries, 1);
-        }
+        List<Tuple> entries = jedis.zrangeWithScores(
+                key,
+                ZRangeParams.zrangeParams(0, normalizedCount - 1).rev()
+        );
+        return hydrateEntries(entries, 1);
     }
 
     public List<LeaderboardEntry> getAroundRank(int rank, int count) {
@@ -133,34 +128,27 @@ public class RedisLeaderboard {
         }
         int end = start + normalizedCount - 1;
 
-        try (Jedis jedis = jedisPool.getResource()) {
-            List<Tuple> entries = jedis.zrangeWithScores(
-                    key,
-                    ZRangeParams.zrangeParams(start, end).rev()
-            );
-            return hydrateEntries(entries, start + 1);
-        }
+        List<Tuple> entries = jedis.zrangeWithScores(
+                key,
+                ZRangeParams.zrangeParams(start, end).rev()
+        );
+        return hydrateEntries(entries, start + 1);
     }
 
     public Integer getRank(String userId) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            Long rank = jedis.zrevrank(key, userId);
-            if (rank == null) {
-                return null;
-            }
-            return Math.toIntExact(rank) + 1;
+        Long rank = jedis.zrevrank(key, userId);
+        if (rank == null) {
+            return null;
         }
+        return Math.toIntExact(rank) + 1;
     }
 
     public Map<String, String> getUserMetadata(String userId) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            return jedis.hgetAll(metadataKey(userId));
-        }
+        return jedis.hgetAll(metadataKey(userId));
     }
 
     public LeaderboardEntry getUserEntry(String userId) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            Pipeline pipeline = jedis.pipelined();
+        try (Pipeline pipeline = jedis.pipelined()) {
             Response<Double> scoreResponse = pipeline.zscore(key, userId);
             Response<Long> rankResponse = pipeline.zrevrank(key, userId);
             Response<Map<String, String>> metadataResponse = pipeline.hgetAll(metadataKey(userId));
@@ -183,24 +171,19 @@ public class RedisLeaderboard {
     }
 
     public List<LeaderboardEntry> listAll() {
-        try (Jedis jedis = jedisPool.getResource()) {
-            List<Tuple> entries = jedis.zrangeWithScores(
-                    key,
-                    ZRangeParams.zrangeParams(0, -1).rev()
-            );
-            return hydrateEntries(entries, 1);
-        }
+        List<Tuple> entries = jedis.zrangeWithScores(
+                key,
+                ZRangeParams.zrangeParams(0, -1).rev()
+        );
+        return hydrateEntries(entries, 1);
     }
 
     public long getSize() {
-        try (Jedis jedis = jedisPool.getResource()) {
-            return jedis.zcard(key);
-        }
+        return jedis.zcard(key);
     }
 
     public boolean deleteUser(String userId) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            Transaction tx = jedis.multi();
+        try (AbstractTransaction tx = jedis.multi()) {
             Response<Long> removed = tx.zrem(key, userId);
             tx.del(metadataKey(userId));
             tx.exec();
@@ -209,15 +192,13 @@ public class RedisLeaderboard {
     }
 
     public void clear() {
-        try (Jedis jedis = jedisPool.getResource()) {
-            List<String> userIds = jedis.zrange(key, 0, -1);
-            List<String> keysToDelete = new ArrayList<>();
-            keysToDelete.add(key);
-            for (String userId : userIds) {
-                keysToDelete.add(metadataKey(userId));
-            }
-            jedis.del(keysToDelete.toArray(String[]::new));
+        List<String> userIds = jedis.zrange(key, 0, -1);
+        List<String> keysToDelete = new ArrayList<>();
+        keysToDelete.add(key);
+        for (String userId : userIds) {
+            keysToDelete.add(metadataKey(userId));
         }
+        jedis.del(keysToDelete.toArray(String[]::new));
     }
 
     private String metadataKey(String userId) {
@@ -232,34 +213,30 @@ public class RedisLeaderboard {
     }
 
     private List<String> trimToMaxEntries() {
-        try (Jedis jedis = jedisPool.getResource()) {
-            long overflow = jedis.zcard(key) - maxEntries;
-            if (overflow <= 0) {
-                return List.of();
-            }
-
-            List<String> trimmedUserIds = jedis.zrange(key, 0, overflow - 1);
-            if (trimmedUserIds.isEmpty()) {
-                return List.of();
-            }
-
-            jedis.zremrangeByRank(key, 0, overflow - 1);
-            deleteMetadataForUsers(trimmedUserIds);
-            return List.copyOf(trimmedUserIds);
+        long overflow = jedis.zcard(key) - maxEntries;
+        if (overflow <= 0) {
+            return List.of();
         }
+
+        List<String> trimmedUserIds = jedis.zrange(key, 0, overflow - 1);
+        if (trimmedUserIds.isEmpty()) {
+            return List.of();
+        }
+
+        jedis.zremrangeByRank(key, 0, overflow - 1);
+        deleteMetadataForUsers(trimmedUserIds);
+        return List.copyOf(trimmedUserIds);
     }
 
     private void deleteMetadataForUsers(List<String> userIds) {
         if (userIds.isEmpty()) {
             return;
         }
-        try (Jedis jedis = jedisPool.getResource()) {
-            List<String> keysToDelete = new ArrayList<>();
-            for (String userId : userIds) {
-                keysToDelete.add(metadataKey(userId));
-            }
-            jedis.del(keysToDelete.toArray(String[]::new));
+        List<String> keysToDelete = new ArrayList<>();
+        for (String userId : userIds) {
+            keysToDelete.add(metadataKey(userId));
         }
+        jedis.del(keysToDelete.toArray(String[]::new));
     }
 
     private List<LeaderboardEntry> hydrateEntries(List<Tuple> entries, int startRank) {
@@ -269,24 +246,23 @@ public class RedisLeaderboard {
 
         List<LeaderboardEntry> hydratedEntries = new ArrayList<>();
 
-        try (Jedis jedis = jedisPool.getResource()) {
-            Pipeline pipeline = jedis.pipelined();
-            List<Response<Map<String, String>>> metadataResponses = new ArrayList<>();
+        List<Response<Map<String, String>>> metadataResponses = new ArrayList<>();
+        try (Pipeline pipeline = jedis.pipelined()) {
             for (Tuple entry : entries) {
                 metadataResponses.add(pipeline.hgetAll(metadataKey(entry.getElement())));
             }
             pipeline.sync();
+        }
 
-            for (int index = 0; index < entries.size(); index++) {
-                Tuple entry = entries.get(index);
-                hydratedEntries.add(new LeaderboardEntry(
-                        startRank + index,
-                        entry.getElement(),
-                        entry.getScore(),
-                        metadataResponses.get(index).get(),
-                        Collections.emptyList()
-                ));
-            }
+        for (int index = 0; index < entries.size(); index++) {
+            Tuple entry = entries.get(index);
+            hydratedEntries.add(new LeaderboardEntry(
+                    startRank + index,
+                    entry.getElement(),
+                    entry.getScore(),
+                    metadataResponses.get(index).get(),
+                    Collections.emptyList()
+            ));
         }
 
         return hydratedEntries;

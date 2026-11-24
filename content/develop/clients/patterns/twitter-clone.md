@@ -37,7 +37,7 @@ implementation for the sake of following the article better).
 
 What is a key-value store?
 ---
-The essence of a key-value store is the ability to store some data, called a _value_, inside a key. The value can be retrieved later only if we know the specific key it was stored in. There is no direct way to search for a key by value. In some sense, it is like a very large hash/dictionary, but it is persistent, i.e. when your application ends, the data doesn't go away. So, for example, I can use the command [`SET`]({{< relref "/commands/set" >}}) to store the value *bar* in the key *foo*:
+The essence of a key-value store is the ability to store some data, called a _value_, inside a key. The value can be retrieved later only if we know the specific key it was stored in. There is no direct way to search for a key by value. In some sense, it is like a very large hash/dictionary, but it is persistent, i.e. when your application ends, the data doesn't go away. So, for example, I can use the command [`SET`](/content/commands/set.md) to store the value *bar* in the key *foo*:
 
     SET foo bar
 
@@ -45,7 +45,7 @@ Redis stores data permanently, so if I later ask "_What is the value stored in k
 
     GET foo => bar
 
-Other common operations provided by key-value stores are [`DEL`]({{< relref "/commands/del" >}}), to delete a given key and its associated value, SET-if-not-exists (called [`SETNX`]({{< relref "/commands/setnx" >}}) on Redis), to assign a value to a key only if the key does not already exist, and [`INCR`]({{< relref "/commands/incr" >}}), to atomically increment a number stored in a given key:
+Other common operations provided by key-value stores are [`DEL`](/content/commands/del.md), to delete a given key and its associated value, SET-if-not-exists (called [`SETNX`](/content/commands/setnx.md) on Redis), to assign a value to a key only if the key does not already exist, and [`INCR`](/content/commands/incr.md), to atomically increment a number stored in a given key:
 
     SET foo 10
     INCR foo => 11
@@ -55,7 +55,7 @@ Other common operations provided by key-value stores are [`DEL`]({{< relref "/co
 Atomic operations
 ---
 
-There is something special about [`INCR`]({{< relref "/commands/incr" >}}). You may wonder why Redis provides such an operation if we can do it ourselves with a bit of code? After all, it is as simple as:
+There is something special about [`INCR`](/content/commands/incr.md). You may wonder why Redis provides such an operation if we can do it ourselves with a bit of code? After all, it is as simple as:
 
     x = GET foo
     x = x + 1
@@ -83,7 +83,7 @@ In this section we will see which Redis features we need to build our Twitter cl
     LPUSH mylist b (now mylist holds 'b','a')
     LPUSH mylist c (now mylist holds 'c','b','a')
 
-[`LPUSH`]({{< relref "/commands/lpush" >}}) means _Left Push_, that is, add an element to the left (or to the head) of the list stored in _mylist_. If the key _mylist_ does not exist it is automatically created as an empty list before the PUSH operation. As you can imagine, there is also an [`RPUSH`]({{< relref "/commands/rpush" >}}) operation that adds the element to the right of the list (on the tail). This is very useful for our Twitter clone. User updates can be added to a list stored in `username:updates`, for instance.
+[`LPUSH`](/content/commands/lpush.md) means _Left Push_, that is, add an element to the left (or to the head) of the list stored in _mylist_. If the key _mylist_ does not exist it is automatically created as an empty list before the PUSH operation. As you can imagine, there is also an [`RPUSH`](/content/commands/rpush.md) operation that adds the element to the right of the list (on the tail). This is very useful for our Twitter clone. User updates can be added to a list stored in `username:updates`, for instance.
 
 There are operations to get data from Lists, of course. For instance, LRANGE returns a range from the list, or the whole list.
 
@@ -103,7 +103,7 @@ Sorted Sets, which are kind of a more capable version of Sets, it is better
 to start introducing Sets first (which are a very useful data structure
 per se), and later Sorted Sets.
 
-There are more data types than just Lists. Redis also supports Sets, which are unsorted collections of elements. It is possible to add, remove, and test for existence of members, and perform the intersection between different Sets. Of course it is possible to get the elements of a Set. Some examples will make it more clear. Keep in mind that [`SADD`]({{< relref "/commands/sadd" >}}) is the _add to set_ operation, [`SREM`]({{< relref "/commands/srem" >}}) is the _remove from set_ operation, [`SISMEMBER`]({{< relref "/commands/sismember" >}}) is the _test if member_ operation, and [`SINTER`]({{< relref "/commands/sinter" >}}) is the _perform intersection_ operation. Other operations are [`SCARD`]({{< relref "/commands/scard" >}}) to get the cardinality (the number of elements) of a Set, and [`SMEMBERS`]({{< relref "/commands/smembers" >}}) to return all the members of a Set.
+There are more data types than just Lists. Redis also supports Sets, which are unsorted collections of elements. It is possible to add, remove, and test for existence of members, and perform the intersection between different Sets. Of course it is possible to get the elements of a Set. Some examples will make it more clear. Keep in mind that [`SADD`](/content/commands/sadd.md) is the _add to set_ operation, [`SREM`](/content/commands/srem.md) is the _remove from set_ operation, [`SISMEMBER`](/content/commands/sismember.md) is the _test if member_ operation, and [`SINTER`](/content/commands/sinter.md) is the _perform intersection_ operation. Other operations are [`SCARD`](/content/commands/scard.md) to get the cardinality (the number of elements) of a Set, and [`SMEMBERS`](/content/commands/smembers.md) to return all the members of a Set.
 
     SADD myset a
     SADD myset b
@@ -112,14 +112,14 @@ There are more data types than just Lists. Redis also supports Sets, which are u
     SCARD myset => 4
     SMEMBERS myset => bar,a,foo,b
 
-Note that [`SMEMBERS`]({{< relref "/commands/smembers" >}}) does not return the elements in the same order we added them since Sets are *unsorted* collections of elements. When you want to store in order it is better to use Lists instead. Some more operations against Sets:
+Note that [`SMEMBERS`](/content/commands/smembers.md) does not return the elements in the same order we added them since Sets are *unsorted* collections of elements. When you want to store in order it is better to use Lists instead. Some more operations against Sets:
 
     SADD mynewset b
     SADD mynewset foo
     SADD mynewset hello
     SINTER myset mynewset => foo,b
 
-[`SINTER`]({{< relref "/commands/sinter" >}}) can return the intersection between Sets but it is not limited to two Sets. You may ask for the intersection of 4,5, or 10000 Sets. Finally let's check how [`SISMEMBER`]({{< relref "/commands/sismember" >}}) works:
+[`SINTER`](/content/commands/sinter.md) can return the intersection between Sets but it is not limited to two Sets. You may ask for the intersection of 4,5, or 10000 Sets. Finally let's check how [`SISMEMBER`](/content/commands/sismember.md) works:
 
     SISMEMBER myset foo => 1
     SISMEMBER myset notamember => 0
@@ -144,17 +144,17 @@ of Sorted Sets usage:
     ZADD zset 12.55 c
     ZRANGE zset 0 -1 => b,a,c
 
-In the above example we added a few elements with [`ZADD`]({{< relref "/commands/zadd" >}}), and later retrieved
-the elements with [`ZRANGE`]({{< relref "/commands/zrange" >}}). As you can see the elements are returned in order
+In the above example we added a few elements with [`ZADD`](/content/commands/zadd.md), and later retrieved
+the elements with [`ZRANGE`](/content/commands/zrange.md). As you can see the elements are returned in order
 according to their score. In order to check if a given element exists, and
-also to retrieve its score if it exists, we use the [`ZSCORE`]({{< relref "/commands/zscore" >}}) command:
+also to retrieve its score if it exists, we use the [`ZSCORE`](/content/commands/zscore.md) command:
 
     ZSCORE zset a => 10
     ZSCORE zset non_existing_element => NULL
 
 Sorted Sets are a very powerful data structure, you can query elements by
 score range, lexicographically, in reverse order, and so forth.
-To know more [please check the Sorted Set sections in the official Redis commands documentation]({{< relref "/commands/#sorted_set" >}}).
+To know more [please check the Sorted Set sections in the official Redis commands documentation](/commands/?group=sorted-set).
 
 The Hash data type
 ---
@@ -167,9 +167,9 @@ collection of fields associated with values:
     HMSET myuser name Salvatore surname Sanfilippo country Italy
     HGET myuser surname => Sanfilippo
 
-[`HMSET`]({{< relref "/commands/hmset" >}}) can be used to set fields in the hash, that can be retrieved with
-[`HGET`]({{< relref "/commands/hget" >}}) later. It is possible to check if a field exists with [`HEXISTS`]({{< relref "/commands/hexists" >}}), or
-to increment a hash field with [`HINCRBY`]({{< relref "/commands/hincrby" >}}) and so forth.
+[`HMSET`](/content/commands/hmset.md) can be used to set fields in the hash, that can be retrieved with
+[`HGET`](/content/commands/hget.md) later. It is possible to check if a field exists with [`HEXISTS`](/content/commands/hexists.md), or
+to increment a hash field with [`HINCRBY`](/content/commands/hincrby.md) and so forth.
 
 Hashes are the ideal data structure to represent *objects*. For example we
 use Hashes in order to represent Users and Updates in our Twitter clone.
@@ -189,7 +189,7 @@ Data layout
 
 When working with a relational database, a database schema must be designed so that we'd know the tables, indexes, and so on that the database will contain. We don't have tables in Redis, so what do we need to design? We need to identify what keys are needed to represent our objects and what kind of values these keys need to hold.
 
-Let's start with Users. We need to represent users, of course, with their username, userid, password, the set of users following a given user, the set of users a given user follows, and so on. The first question is, how should we identify a user? Like in a relational DB, a good solution is to identify different users with different numbers, so we can associate a unique ID with every user. Every other reference to this user will be done by id. Creating unique IDs is very simple to do by using our atomic [`INCR`]({{< relref "/commands/incr" >}}) operation. When we create a new user we can do something like this, assuming the user is called "antirez":
+Let's start with Users. We need to represent users, of course, with their username, userid, password, the set of users following a given user, the set of users a given user follows, and so on. The first question is, how should we identify a user? Like in a relational DB, a good solution is to identify different users with different numbers, so we can associate a unique ID with every user. Every other reference to this user will be done by id. Creating unique IDs is very simple to do by using our atomic [`INCR`](/content/commands/incr.md) operation. When we create a new user we can do something like this, assuming the user is called "antirez":
 
     INCR next_user_id => 1000
     HMSET user:1000 username antirez password p1pp0
@@ -225,7 +225,7 @@ We can add new followers with:
 
     ZADD followers:1000 1401267618 1234 => Add user 1234 with time 1401267618
 
-Another important thing we need is a place where we can add the updates to display in the user's home page. We'll need to access this data in chronological order later, from the most recent update to the oldest, so the perfect kind of data structure for this is a List. Basically every new update will be [`LPUSH`]({{< relref "/commands/lpush" >}})ed in the user updates key, and thanks to [`LRANGE`]({{< relref "/commands/lrange" >}}), we can implement pagination and so on. Note that we use the words _updates_ and _posts_ interchangeably, since updates are actually "little posts" in some way.
+Another important thing we need is a place where we can add the updates to display in the user's home page. We'll need to access this data in chronological order later, from the most recent update to the oldest, so the perfect kind of data structure for this is a List. Basically every new update will be [`LPUSH`](/content/commands/lpush.md)ed in the user updates key, and thanks to [`LRANGE`](/content/commands/lrange.md), we can implement pagination and so on. Note that we use the words _updates_ and _posts_ interchangeably, since updates are actually "little posts" in some way.
 
     posts:1000 => a List of post ids - every new post is LPUSHed here.
 
@@ -378,22 +378,22 @@ After we create a post and we obtain the post ID, we need to LPUSH the ID in the
 
     header("Location: index.php");
 
-The core of the function is the `foreach` loop. We use [`ZRANGE`]({{< relref "/commands/zrange" >}}) to get all the followers of the current user, then the loop will [`LPUSH`]({{< relref "/commands/lpush" >}}) the push the post in every follower timeline List.
+The core of the function is the `foreach` loop. We use [`ZRANGE`](/content/commands/zrange.md) to get all the followers of the current user, then the loop will [`LPUSH`](/content/commands/lpush.md) the push the post in every follower timeline List.
 
-Note that we also maintain a global timeline for all the posts, so that in the Retwis home page we can show everybody's updates easily. This requires just doing an [`LPUSH`]({{< relref "/commands/lpush" >}}) to the `timeline` List. Let's face it, aren't you starting to think it was a bit strange to have to sort things added in chronological order using `ORDER BY` with SQL? I think so.
+Note that we also maintain a global timeline for all the posts, so that in the Retwis home page we can show everybody's updates easily. This requires just doing an [`LPUSH`](/content/commands/lpush.md) to the `timeline` List. Let's face it, aren't you starting to think it was a bit strange to have to sort things added in chronological order using `ORDER BY` with SQL? I think so.
 
 There is an interesting thing to notice in the code above: we used a new
-command called [`LTRIM`]({{< relref "/commands/ltrim" >}}) after we perform the [`LPUSH`]({{< relref "/commands/lpush" >}}) operation in the global
+command called [`LTRIM`](/content/commands/ltrim.md) after we perform the [`LPUSH`](/content/commands/lpush.md) operation in the global
 timeline. This is used in order to trim the list to just 1000 elements. The
 global timeline is actually only used in order to show a few posts in the
 home page, there is no need to have the full history of all the posts.
 
-Basically [`LTRIM`]({{< relref "/commands/ltrim" >}}) + [`LPUSH`]({{< relref "/commands/lpush" >}}) is a way to create a *capped collection* in Redis.
+Basically [`LTRIM`](/content/commands/ltrim.md) + [`LPUSH`](/content/commands/lpush.md) is a way to create a *capped collection* in Redis.
 
 Paginating updates
 ---
 
-Now it should be pretty clear how we can use [`LRANGE`]({{< relref "/commands/lrange" >}}) in order to get ranges of posts, and render these posts on the screen. The code is simple:
+Now it should be pretty clear how we can use [`LRANGE`](/content/commands/lrange.md) in order to get ranges of posts, and render these posts on the screen. The code is simple:
 
     function showPost($id) {
         $r = redisLink();
@@ -424,7 +424,7 @@ Now it should be pretty clear how we can use [`LRANGE`]({{< relref "/commands/lr
 
 `showPost` will simply convert and print a Post in HTML while `showUserPosts` gets a range of posts and then passes them to `showPosts`.
 
-*Note: [`LRANGE`]({{< relref "/commands/lrange" >}}) is not very efficient if the list of posts start to be very
+*Note: [`LRANGE`](/content/commands/lrange.md) is not very efficient if the list of posts start to be very
 big, and we want to access elements which are in the middle of the list, since Redis Lists are backed by linked lists. If a system is designed for
 deep pagination of million of items, it is better to resort to Sorted Sets
 instead.*
@@ -432,12 +432,12 @@ instead.*
 Following users
 ---
 
-It is not hard, but we did not yet check how we create following / follower relationships. If user ID 1000 (antirez) wants to follow user ID 5000 (pippo), we need to create both a following and a follower relationship. We just need to [`ZADD`]({{< relref "/commands/zadd" >}}) calls:
+It is not hard, but we did not yet check how we create following / follower relationships. If user ID 1000 (antirez) wants to follow user ID 5000 (pippo), we need to create both a following and a follower relationship. We just need to [`ZADD`](/content/commands/zadd.md) calls:
 
         ZADD following:1000 5000
         ZADD followers:5000 1000
 
-Note the same pattern again and again. In theory with a relational database, the list of following and followers would be contained in a single table with fields like `following_id` and `follower_id`. You can extract the followers or following of every user using an SQL query. With a key-value DB things are a bit different since we need to set both the `1000 is following 5000` and `5000 is followed by 1000` relations. This is the price to pay, but on the other hand accessing the data is simpler and extremely fast. Having these things as separate sets allows us to do interesting stuff. For example, using [`ZINTERSTORE`]({{< relref "/commands/zinterstore" >}}) we can have the intersection of `following` of two different users, so we may add a feature to our Twitter clone so that it is able to tell you very quickly when you visit somebody else's profile, "you and Alice have 34 followers in common", and things like that.
+Note the same pattern again and again. In theory with a relational database, the list of following and followers would be contained in a single table with fields like `following_id` and `follower_id`. You can extract the followers or following of every user using an SQL query. With a key-value DB things are a bit different since we need to set both the `1000 is following 5000` and `5000 is followed by 1000` relations. This is the price to pay, but on the other hand accessing the data is simpler and extremely fast. Having these things as separate sets allows us to do interesting stuff. For example, using [`ZINTERSTORE`](/content/commands/zinterstore.md) we can have the intersection of `following` of two different users, so we may add a feature to our Twitter clone so that it is able to tell you very quickly when you visit somebody else's profile, "you and Alice have 34 followers in common", and things like that.
 
 You can find the code that sets or removes a following / follower relation in the `follow.php` file.
 
@@ -454,7 +454,7 @@ simple: you may use client-side sharding, or something like a sharding proxy
 like Twemproxy, or the upcoming Redis Cluster.
 
 To know more about those topics please read
-[our documentation about sharding]({{< relref "/operate/oss_and_stack/management/scaling" >}}). However, the point here
+[our documentation about sharding](/content/operate/oss_and_stack/management/scaling.md). However, the point here
 to stress is that in a key-value store, if you design with care, the data set
 is split among **many independent small keys**. To distribute those keys
 to multiple nodes is more straightforward and predictable compared to using

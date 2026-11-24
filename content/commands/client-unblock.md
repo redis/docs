@@ -47,7 +47,7 @@ summary: Unblocks a client blocked by a blocking command from a different connec
 syntax_fmt: CLIENT UNBLOCK client-id [TIMEOUT | ERROR]
 title: CLIENT UNBLOCK
 ---
-Use this command from one connection to unblock a client that is blocked by a blocking operation, such as [`BRPOP`]({{< relref "/commands/brpop" >}}), [`XREAD`]({{< relref "/commands/xread" >}}), or [`WAIT`]({{< relref "/commands/wait" >}}).
+Use this command from one connection to unblock a client that is blocked by a blocking operation, such as [`BRPOP`](/content/commands/brpop.md), [`XREAD`](/content/commands/xread.md), or [`WAIT`](/content/commands/wait.md).
 
 By default, Redis unblocks the client as if the blocked command timed out. You can pass an optional argument to choose the unblocking behavior: TIMEOUT, the default, or ERROR. If you specify ERROR, Redis unblocks the client and returns an error that indicates the client was force-unblocked.Specifically the client will receive the following error:
 

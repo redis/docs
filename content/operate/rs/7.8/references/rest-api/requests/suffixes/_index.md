@@ -39,7 +39,7 @@ Get all DNS suffixes in the cluster.
 
 ### Response {#get-all-response} 
 
-The response body contains a JSON array with all suffixes, represented as [suffix objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/suffix" >}}).
+The response body contains a JSON array with all suffixes, represented as [suffix objects](/content/operate/rs/7.8/references/rest-api/objects/suffix.md).
 
 #### Example JSON body
 

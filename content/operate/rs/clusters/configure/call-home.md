@@ -54,7 +54,7 @@ The following example shows the data collected hourly for each database:
 
 The cluster collects usage data hourly by default.
 
-To change the data collection schedule, [update job scheduler settings]({{<relref "/operate/rs/references/rest-api/requests/job_scheduler#put-job-scheduler">}}) for `bdb_usage_report_job_settings` with a REST API request:
+To change the data collection schedule, [update job scheduler settings](/content/operate/rs/references/rest-api/requests/job_scheduler/_index.md#put-job-scheduler) for `bdb_usage_report_job_settings` with a REST API request:
 
 ```sh
 PUT /v1/job_scheduler
@@ -70,7 +70,7 @@ Replace `cron_expression`'s value with a [`cron` expression](https://en.wikipedi
 
 ## Turn off call home client
 
-To stop the call home client from sending daily usage statistics to Redis, [update cluster services configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#put-cluster-services_config">}}) for `call_home_agent` with a REST API request:
+To stop the call home client from sending daily usage statistics to Redis, [update cluster services configuration](/content/operate/rs/references/rest-api/requests/cluster/services_configuration.md#put-cluster-services_config) for `call_home_agent` with a REST API request:
 
 ```sh
 PUT /v1/cluster/services_configuration

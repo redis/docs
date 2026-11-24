@@ -64,7 +64,7 @@ The name of the key that holds the array.
 
 <details open><summary><code>value</code></summary>
 
-One or more string values to insert at consecutive indices, beginning at the current insert cursor position. The cursor advances by one for each value inserted. Use [`ARNEXT`]({{< relref "/commands/arnext" >}}) to inspect the current cursor position and [`ARSEEK`]({{< relref "/commands/arseek" >}}) to reposition it.
+One or more string values to insert at consecutive indices, beginning at the current insert cursor position. The cursor advances by one for each value inserted. Use [`ARNEXT`](/content/commands/arnext.md) to inspect the current cursor position and [`ARSEEK`](/content/commands/arseek.md) to reposition it.
 
 </details>
 
@@ -87,7 +87,7 @@ redis> ARNEXT myarray
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -57,13 +57,13 @@ Restore libraries from serialized payload.
 You can use the optional [policy argument](#optional-arguments) to provide a policy for handling existing libraries.
 
 
-For more information see [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+For more information see [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md).
 
 ## Required arguments
 
 <details open><summary><code>serialized-value</code></summary>
 
-The payload produced by [`FUNCTION DUMP`]({{< relref "/commands/function-dump" >}}).
+The payload produced by [`FUNCTION DUMP`](/content/commands/function-dump.md).
 
 </details>
 

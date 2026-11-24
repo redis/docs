@@ -123,13 +123,12 @@ The operator tracks the tag keys it manages for each database. This lets it appl
 - **Removing a key deletes it.** If you remove a key that was recorded in `status.managedTags`, the operator removes that tag from the database on the next reconciliation. Keys that were never in `status.managedTags`, such as tags set only through the Redis Enterprise REST API, aren't deleted.
 - **Reserved keys are rejected.** Keys the operator reserves for its own internal use cannot be set in the spec. For REDB, these are `managed_by`, `redb_name`, `redb_namespace`, `db_service_port`, and `oss_cluster_access`. For REAADB, they also include `redb_resource`, `redb_resource_name`, `global_configurations_spec`, `replication_endpoint_port`, `rerc_name`, and the operator's internal secret-tracking keys (`redis.io/db-sec-name`, `redis.io/db-sec-latest`, `redis.io/certs-latest`, `redis.io/bu-sec-name`, and `redis.io/bu-sec-latest`). The admission controller rejects a custom resource that uses one.
 
-{{< note >}}
-When you upgrade to a release with this feature, `status.managedTags` starts empty for databases that already existed. The operator does not drop existing tags. It reapplies only the keys currently in the spec, so the upgrade has no effect on databases that never used tags.
-{{< /note >}}
+> [!NOTE]
+> When you upgrade to a release with this feature, `status.managedTags` starts empty for databases that already existed. The operator does not drop existing tags. It reapplies only the keys currently in the spec, so the upgrade has no effect on databases that never used tags.
 
 ## View tagged metrics in Prometheus
 
-For instructions on connecting Prometheus to Redis Enterprise for Kubernetes, see [Export metrics to Prometheus]({{< relref "/operate/kubernetes/re-clusters/connect-prometheus-operator" >}}).
+For instructions on connecting Prometheus to Redis Enterprise for Kubernetes, see [Export metrics to Prometheus](/content/operate/kubernetes/re-clusters/connect-prometheus-operator.md).
 
 ## Limitations
 

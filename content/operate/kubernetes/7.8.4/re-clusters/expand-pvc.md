@@ -13,18 +13,20 @@ url: '/operate/kubernetes/7.8.4/re-clusters/expand-pvc/'
 
 This article outlines steps to increase the size of the persistent volume claim for your Redis Enterprise cluster (REC).
 
-{{<note>}} This feature is only supported in versions 7.4.2-12 and above. {{</note>}}
+> [!NOTE]
+>  This feature is only supported in versions 7.4.2-12 and above. 
 
 [PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) are created by the Redis Enterprise operator and used by the RedisEnterpriseCluster (REC). PVCs are created with a specific size and [can be expanded](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) with the following steps, if the underlying [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) supports it.
 
 This process involves deleting and recreating the REC StatefulSet with a larger persistent volume size. The pods owned by the StatefulSet are not restarted or affected by the deletion and recreation process, except when they are left without an owner momentarily.
 
-{{<note>}}Shrinking (reducing the size) of your PVC is not allowed. This process only allows you to expand (size up) your PVC.{{</note>}}
+> [!NOTE]
+> Shrinking (reducing the size) of your PVC is not allowed. This process only allows you to expand (size up) your PVC.
 
 ## Prerequisites
 
-{{<warning>}}Do not change any other REC fields related to the StatefulSet while resizing is in progress.
-{{</warning>}}
+> [!WARNING]
+> Do not change any other REC fields related to the StatefulSet while resizing is in progress.
 
 - PVC expansion must be supported and enabled by the StorageClass and underlying storage driver of the REC PVCs.
   - The relevant StorageClass is the one associated with the REC PVCs. The StorageClass for existing PVCs cannot be changed.
@@ -32,7 +34,8 @@ This process involves deleting and recreating the REC StatefulSet with a larger 
 - Your storage driver must support online expansion.
 - We highly recommend you backup your databases before beginning this PVC expansion process.
 
-{{<warning>}} OpenShift users should be aware that (`ClusterResourceQuota`) can limit the PVC expansion. Check your quota before resizing using `oc describe clusterresourcequota <quota-name>`.{{</warning>}}
+> [!WARNING]
+>  OpenShift users should be aware that (`ClusterResourceQuota`) can limit the PVC expansion. Check your quota before resizing using `oc describe clusterresourcequota <quota-name>`.
 
 ## Expand REC PVC
 

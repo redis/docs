@@ -21,7 +21,7 @@ Build powerful AI applications using Redis as your vector database with speciali
 
 Redis provides comprehensive AI libraries and tools to help you build intelligent applications with vector search, retrieval-augmented generation (RAG), semantic caching, and more. Whether you're working with LangChain, LlamaIndex, or building custom AI solutions, Redis has the tools you need.
 
-[Explore the complete Redis for AI documentation]({{< relref "/develop/ai" >}})
+[Explore the complete Redis for AI documentation](/content/develop/ai/_index.md)
 
 ## Key Features
 
@@ -42,7 +42,7 @@ The Redis Vector Library (RedisVL) is a Python client library for building AI ap
 - **RAG Utilities**: Tools for building retrieval-augmented generation apps
 - **Framework Integration**: Works with LangChain, LlamaIndex, and more
 
-[Learn more about RedisVL]({{< relref "/develop/ai/redisvl" >}})
+[Learn more about RedisVL](/content/develop/ai/redisvl/_index.md)
 
 ### LangChain Integration
 
@@ -52,28 +52,28 @@ Use Redis with LangChain for vector stores, semantic caching, and chat message h
 - **Semantic Cache**: Cache LLM responses based on semantic similarity
 - **Chat History**: Persist conversation history for AI agents
 
-[Learn more about LangChain integration]({{< relref "/integrate/langchain-redis" >}})
+[Learn more about LangChain integration](/content/integrate/langchain-redis/_index.md)
 
 ### Client Libraries with Vector Search
 
 All major Redis client libraries support vector search operations:
 
-- **redis-py (Python)**: [Vector search guide]({{< relref "/develop/clients/redis-py/vecsearch" >}})
-- **node-redis (JavaScript)**: [Vector search guide]({{< relref "/develop/clients/nodejs/vecsearch" >}})
-- **Jedis (Java)**: [Vector search guide]({{< relref "/develop/clients/jedis/vecsearch" >}})
-- **NRedisStack (C#/.NET)**: [Vector search guide]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
-- **go-redis (Go)**: [Vector search guide]({{< relref "/develop/clients/go/vecsearch" >}})
+- **redis-py (Python)**: [Vector search guide](/content/develop/clients/redis-py/vecsearch.md)
+- **node-redis (JavaScript)**: [Vector search guide](/content/develop/clients/nodejs/vecsearch.md)
+- **Jedis (Java)**: [Vector search guide](/content/develop/clients/jedis/vecsearch.md)
+- **NRedisStack (C#/.NET)**: [Vector search guide](/content/develop/clients/dotnet/nredisstack/vecsearch.md)
+- **go-redis (Go)**: [Vector search guide](/content/develop/clients/go/vecsearch.md)
 
 ## Getting Started
 
 ### Quick Start Guides
 
-- [Redis vector database quick start]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
-- [RAG quick start guide]({{< relref "/develop/get-started/rag" >}})
+- [Redis vector database quick start](/content/develop/get-started/search-tutorial/vector-search.md)
+- [RAG quick start guide](/content/develop/get-started/rag.md)
 
 ### Tutorials and Examples
 
-Explore our [AI notebooks collection]({{< relref "/develop/ai/notebook-collection" >}}) with examples for:
+Explore our [AI notebooks collection](/content/develop/ai/notebook-collection.md) with examples for:
 
 - RAG implementations with RedisVL, LangChain, and LlamaIndex
 - Advanced RAG techniques and optimizations
@@ -81,7 +81,7 @@ Explore our [AI notebooks collection]({{< relref "/develop/ai/notebook-collectio
 
 ### Video Tutorials
 
-Watch our [AI video collection]({{< relref "/develop/ai/ai-videos" >}}) for practical demonstrations.
+Watch our [AI video collection](/content/develop/ai/ai-videos.md) for practical demonstrations.
 
 ## Use Cases
 
@@ -93,8 +93,8 @@ Watch our [AI video collection]({{< relref "/develop/ai/ai-videos" >}}) for prac
 
 ## Additional Resources
 
-- [Complete AI documentation]({{< relref "/develop/ai" >}})
-- [Ecosystem integrations]({{< relref "/develop/ai/ecosystem-integrations" >}})
+- [Complete AI documentation](/content/develop/ai/_index.md)
+- [Ecosystem integrations](/content/develop/ai/ecosystem-integrations.md)
 - [Vector search benchmarks](https://redis.io/blog/benchmarking-results-for-vector-databases/)
 - [RAG best practices](https://redis.io/blog/get-better-rag-responses-with-ragas/)
 

@@ -1,0 +1,823 @@
+/* Redis Copilot pane — see static/js/ai-chat-pane.js.
+
+   Plain CSS rather than Tailwind classes: the script builds the markup, and
+   Tailwind's content scan doesn't read static/js. Colors are the site palette
+   from tailwind.config.js.
+
+   No vw units anywhere in here: on redis.io the Qualified widget rewrites every
+   viewport-width unit in page stylesheets (see assets/css/index.css). */
+
+:root {
+  --ai-pane-w: 440px;
+  /* The pane starts below the sticky site header, which keeps its full width. */
+  --ai-pane-top: 70px;
+}
+
+/* ------------------------------------------------------------ page layout --
+   Docked, the page gives up the pane's width instead of sitting under it. The
+   pinned sidebar and table of contents are position: fixed without a left or
+   right offset, so they follow the reflowed layout on their own. */
+html.ai-pane-docked body > main,
+html.ai-pane-docked body > footer {
+  width: auto;
+  /* Body is a grid, and a grid item won't go narrower than its widest code
+     block unless told to. Without this, main runs on under the pane. */
+  min-width: 0;
+  margin-right: var(--ai-pane-w);
+}
+
+/* The workbench dock spans the window bottom; keep it beside the pane. */
+html.ai-pane-docked .rwb {
+  right: var(--ai-pane-w);
+}
+
+/* When what's left of the page is narrow, the pane stands in for the right-hand
+   rail (table of contents and page links) rather than squeezing the text. */
+html.ai-pane-tight main > :is(section, aside):has(a[data-ai-chat-open]) {
+  display: none;
+}
+/* Narrower still, the 24rem section nav would leave the text a phone-width
+   column, so it steps aside too until the pane is collapsed. The sidebar id
+   is on the nav itself in docs-nav.html, and on a div inside the nav in
+   docs-nav-collapsed.html (Commands and Integrate list pages). */
+html.ai-pane-narrow body > main > :has(#sidebar) {
+  display: none;
+}
+
+/* Holds the pane's place between the first paint and the script mounting the
+   real pane, on a page that opens with the pane already open. */
+html.ai-pane-restoring::after {
+  content: '';
+  position: fixed;
+  top: var(--ai-pane-top);
+  right: 0;
+  bottom: 0;
+  width: var(--ai-pane-w);
+  z-index: 60;
+  background: #fff;
+  border-left: 1px solid #B9C2C6;
+}
+
+html.ai-pane-resizing,
+html.ai-pane-resizing * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+/* ------------------------------------------------------------------ pane -- */
+.aicp {
+  position: fixed;
+  top: var(--ai-pane-top);
+  right: 0;
+  bottom: 0;
+  width: var(--ai-pane-w);
+  /* Over the workbench dock (55) and the footer (50); under the search
+     modal (200). */
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-left: 1px solid #B9C2C6;
+  color: #091A23;
+  font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: normal;
+  transform: translateX(100%);
+  transition: transform .2s ease;
+}
+.aicp.is-in {
+  transform: none;
+}
+.aicp[hidden] {
+  display: none;
+}
+/* Overlaying the page rather than docked beside it. */
+html:not(.ai-pane-docked) .aicp.is-in {
+  box-shadow: -12px 0 32px rgba(9, 26, 35, .18);
+}
+html.ai-pane-resizing .aicp {
+  transition: none;
+}
+
+.aicp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Drag handle on the pane's left edge. */
+.aicp-resize {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  width: 8px;
+  z-index: 1;
+  cursor: col-resize;
+  touch-action: none;
+}
+.aicp-resize::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 2px;
+  transition: background-color .15s;
+}
+.aicp-resize:hover::after,
+html.ai-pane-resizing .aicp-resize::after {
+  background: #5961ff;
+}
+
+/* ---------------------------------------------------------------- header -- */
+.aicp-head {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  padding: 10px 10px 10px 16px;
+  border-bottom: 1px solid #E8EBEC;
+}
+.aicp-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.aicp-title svg,
+.aicp-tab svg {
+  flex: none;
+  color: #FF4438;
+}
+.aicp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #5C707A;
+  cursor: pointer;
+}
+.aicp-btn:hover {
+  background: #F0F0F0;
+  color: #091A23;
+}
+.aicp-btn:focus-visible,
+.aicp-send:focus-visible,
+.aicp-chip:focus-visible,
+.aicp-copy:focus-visible,
+.aicp-tab:focus-visible,
+.aicp-md a:focus-visible,
+.aicp-source:focus-visible,
+.aicp-vote:focus-visible,
+.aicp-rate-send:focus-visible,
+.aicp-rate-cancel:focus-visible {
+  outline: 2px solid #5961ff;
+  outline-offset: 1px;
+}
+
+/* ------------------------------------------------------------ transcript -- */
+.aicp-log {
+  position: relative; /* offsetParent for the turns, which the script scrolls to */
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+}
+.aicp-notice {
+  margin: 0 0 16px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #F9F9F9;
+  color: #5C707A;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.aicp-turn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 24px;
+}
+/* Room for the newest question to sit at the top of the pane while its answer
+   arrives below it, instead of the pane following the end of the answer. */
+.aicp-turn:last-child {
+  min-height: 100%;
+  padding-bottom: 0;
+}
+.aicp-user {
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 8px 12px;
+  border-radius: 12px 12px 2px 12px;
+  background: #E8EBEC;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.aicp-bot {
+  overflow-wrap: break-word;
+}
+
+.aicp-empty p {
+  margin: 0 0 12px;
+  color: #5C707A;
+}
+.aicp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid #B9C2C6;
+  border-radius: 999px;
+  background: #fff;
+  color: #091A23;
+  font: inherit;
+  cursor: pointer;
+}
+.aicp-chip:hover {
+  border-color: #091A23;
+}
+.aicp-chip svg {
+  color: #FF4438;
+}
+
+.aicp-dots {
+  display: inline-flex;
+  gap: 4px;
+  padding: 8px 0;
+}
+.aicp-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8A99A0;
+  animation: aicp-pulse 1.2s infinite ease-in-out;
+}
+.aicp-dots i:nth-child(2) { animation-delay: .15s; }
+.aicp-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes aicp-pulse {
+  0%, 80%, 100% { opacity: .25; }
+  40% { opacity: 1; }
+}
+
+.aicp-status {
+  margin: 8px 0 0;
+  color: #5C707A;
+  font-size: 12px;
+}
+.aicp-status.is-error {
+  color: #D52D1F;
+}
+.aicp-status a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.aicp-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+.aicp-sources-label {
+  width: 100%;
+  color: #5C707A;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.aicp-source {
+  max-width: 100%;
+  overflow: hidden;
+  padding: 2px 8px;
+  border: 1px solid #B9C2C6;
+  border-radius: 6px;
+  background: #FBFFE8;
+  color: #091A23;
+  font-size: 12px;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.aicp-source:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------- rating -- */
+.aicp-rate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #E8EBEC;
+  color: #5C707A;
+  font-size: 12px;
+}
+.aicp-rate-label {
+  margin-right: 6px;
+}
+.aicp-vote {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #5C707A;
+  cursor: pointer;
+}
+.aicp-vote:hover:not(:disabled) {
+  background: #F0F0F0;
+  color: #091A23;
+}
+.aicp-vote:disabled {
+  cursor: default;
+}
+.aicp-vote:disabled:not([aria-pressed="true"]) {
+  opacity: .4;
+}
+.aicp-vote[aria-pressed="true"] {
+  color: #091A23;
+}
+.aicp-vote[aria-pressed="true"] svg {
+  fill: #DCFF1E;
+}
+.aicp-rate-note {
+  margin-left: 6px;
+}
+.aicp-rate-note:focus {
+  outline: none;
+}
+.aicp-rate-note.is-error {
+  color: #D52D1F;
+}
+.aicp-rate-form {
+  display: flex;
+  flex-basis: 100%;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+.aicp-rate-ask {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #091A23;
+  font-size: 13px;
+}
+.aicp-rate-ask i {
+  color: #5C707A;
+  font-size: 12px;
+  font-style: normal;
+}
+.aicp-rate-ask textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #B9C2C6;
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  resize: vertical;
+}
+.aicp-rate-ask textarea:focus {
+  border-color: #091A23;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(89, 97, 255, .18);
+}
+/* Turnstile's widget is 65px tall; hold the room so the buttons don't jump. */
+.aicp-check {
+  min-height: 65px;
+}
+.aicp-rate-actions {
+  display: flex;
+  gap: 8px;
+}
+.aicp-rate-send,
+.aicp-rate-cancel {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.aicp-rate-send {
+  border: 1px solid #091A23;
+  background: #091A23;
+  color: #fff;
+}
+.aicp-rate-send:hover:not(:disabled) {
+  border-color: #FF4438;
+  background: #FF4438;
+}
+.aicp-rate-send:disabled {
+  border-color: #E8EBEC;
+  background: #E8EBEC;
+  color: #8A99A0;
+  cursor: default;
+}
+.aicp-rate-cancel {
+  border: 1px solid #B9C2C6;
+  background: #fff;
+  color: #091A23;
+}
+.aicp-rate-cancel:hover {
+  border-color: #091A23;
+}
+
+/* -------------------------------------------------------- answer content -- */
+.aicp-md > :first-child { margin-top: 0; }
+.aicp-md > :last-child { margin-bottom: 0; }
+.aicp-md p,
+.aicp-md ul,
+.aicp-md ol,
+.aicp-md blockquote,
+.aicp-md .aicp-code,
+.aicp-md .aicp-table {
+  margin: 0 0 10px;
+}
+.aicp-md ul,
+.aicp-md ol {
+  padding-left: 20px;
+}
+.aicp-md ul { list-style: disc; }
+.aicp-md ol { list-style: decimal; }
+.aicp-md li { margin: 3px 0; }
+.aicp-md li > ul,
+.aicp-md li > ol,
+.aicp-md li > .aicp-code {
+  margin: 4px 0 6px;
+}
+.aicp-md h3,
+.aicp-md h4,
+.aicp-md h5 {
+  margin: 16px 0 6px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.aicp-md h3 { font-size: 16px; }
+.aicp-md h4 { font-size: 15px; }
+.aicp-md h5 { font-size: 14px; }
+.aicp-md strong { font-weight: 600; }
+.aicp-md a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #8A99A0;
+  text-underline-offset: 2px;
+}
+.aicp-md a:hover {
+  text-decoration-color: #FF4438;
+}
+.aicp-md code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: #F0F0F0;
+  font-family: 'Space Mono', 'SF Mono', ui-monospace, monospace;
+  font-size: .86em;
+}
+.aicp-md blockquote {
+  padding-left: 10px;
+  border-left: 3px solid #B9C2C6;
+  color: #4C4C4C;
+}
+.aicp-md hr {
+  margin: 14px 0;
+  border: 0;
+  border-top: 1px solid #E8EBEC;
+}
+
+.aicp-code {
+  overflow: hidden;
+  border-radius: 8px;
+  background: #0f172a;
+}
+.aicp-code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 4px 12px;
+  background: #1e293b;
+  color: #94a3b8;
+  font-family: 'Space Mono', 'SF Mono', ui-monospace, monospace;
+  font-size: 11px;
+}
+.aicp-copy {
+  padding: 1px 8px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  background: none;
+  color: #cbd5e1;
+  font: inherit;
+  cursor: pointer;
+}
+.aicp-copy:hover {
+  border-color: #64748b;
+  color: #fff;
+}
+.aicp-code pre {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+  background: none;
+  color: #e2e8f0;
+  font-family: 'Space Mono', 'SF Mono', ui-monospace, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.aicp-code pre code {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  white-space: pre;
+}
+
+.aicp-table {
+  overflow-x: auto;
+}
+.aicp-table table {
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.aicp-table th,
+.aicp-table td {
+  padding: 4px 8px;
+  border: 1px solid #E8EBEC;
+  text-align: left;
+  vertical-align: top;
+}
+.aicp-table th {
+  background: #F9F9F9;
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------- input -- */
+.aicp-form {
+  flex: none;
+  margin: 0;
+  padding: 10px 12px 12px;
+  border-top: 1px solid #E8EBEC;
+}
+.aicp-field {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 6px 6px 6px 12px;
+  border: 1px solid #B9C2C6;
+  border-radius: 10px;
+  background: #fff;
+}
+.aicp-field:focus-within {
+  border-color: #091A23;
+  box-shadow: 0 0 0 3px rgba(89, 97, 255, .18);
+}
+.aicp-input {
+  flex: 1;
+  min-width: 0;
+  max-height: 160px;
+  margin: 0;
+  padding: 5px 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1.45;
+  resize: none;
+}
+.aicp-input::placeholder {
+  color: #8A99A0;
+}
+.aicp-send {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: #091A23;
+  color: #fff;
+  cursor: pointer;
+}
+.aicp-send:hover:not(:disabled) {
+  background: #FF4438;
+}
+.aicp-send:disabled {
+  background: #E8EBEC;
+  color: #8A99A0;
+  cursor: default;
+}
+.aicp-foot {
+  margin: 8px 2px 0;
+  color: #5C707A;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* ------------------------------------------------- collapsed pane's tab -- */
+.aicp-tab {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  z-index: 59;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 7px;
+  border: 1px solid #B9C2C6;
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
+  background: #fff;
+  color: #091A23;
+  box-shadow: -4px 0 14px rgba(9, 26, 35, .12);
+  font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.aicp-tab[hidden] {
+  display: none;
+}
+.aicp-tab:hover {
+  background: #F9F9F9;
+}
+.aicp-tab span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+@media (max-width: 639px) {
+  .aicp {
+    border-left: 0;
+  }
+  .aicp-resize {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aicp {
+    transition: none;
+  }
+  .aicp-dots i {
+    animation: none;
+    opacity: .6;
+  }
+}
+
+/* ------------------------------------------------------------ Iris pages --
+   Iris pages are dark (body.iris-dark, see partials/is-iris-page.html), and
+   so is the pane on them, in the --iris-* colors that iris-dark.css sets on
+   body. That file only restyles <main>, and the pane is outside it. */
+body.iris-dark .aicp {
+  border-color: var(--iris-border);
+  background: var(--iris-bg);
+  color: var(--iris-text);
+  color-scheme: dark;
+}
+/* The restore placeholder is on html, outside body and its colors, so these
+   are --iris-bg and --iris-border. */
+html.ai-pane-restoring:has(> body.iris-dark)::after {
+  border-color: #3d5866;
+  background: #091A23;
+}
+
+body.iris-dark .aicp-head,
+body.iris-dark .aicp-rate,
+body.iris-dark .aicp-md hr,
+body.iris-dark .aicp-md blockquote,
+body.iris-dark .aicp-table th,
+body.iris-dark .aicp-table td,
+body.iris-dark .aicp-form {
+  border-color: var(--iris-border);
+}
+body.iris-dark .aicp-btn,
+body.iris-dark .aicp-vote,
+body.iris-dark .aicp-notice,
+body.iris-dark .aicp-empty p,
+body.iris-dark .aicp-status,
+body.iris-dark .aicp-sources-label,
+body.iris-dark .aicp-rate,
+body.iris-dark .aicp-rate-ask i,
+body.iris-dark .aicp-md blockquote,
+body.iris-dark .aicp-foot {
+  color: var(--iris-muted);
+}
+body.iris-dark .aicp-title,
+body.iris-dark .aicp-md :is(h3, h4, h5, strong),
+body.iris-dark .aicp-vote[aria-pressed="true"] {
+  color: var(--iris-heading);
+}
+body.iris-dark .aicp-btn:hover,
+body.iris-dark .aicp-vote:hover:not(:disabled) {
+  background: var(--iris-surface-hover);
+  color: var(--iris-heading);
+}
+body.iris-dark .aicp-status.is-error,
+body.iris-dark .aicp-rate-note.is-error {
+  color: #ff6b6b;   /* the error red iris-dark.css uses in the scripted demos */
+}
+
+body.iris-dark .aicp-notice,
+body.iris-dark .aicp-md :not(pre) > code,
+body.iris-dark .aicp-table th {
+  background: var(--iris-surface);
+}
+body.iris-dark .aicp-user {
+  background: var(--iris-surface-hover);
+  color: var(--iris-heading);
+}
+
+/* Chips, source links, and fields */
+body.iris-dark .aicp-chip,
+body.iris-dark .aicp-source,
+body.iris-dark .aicp-rate-cancel,
+body.iris-dark .aicp-rate-ask textarea,
+body.iris-dark .aicp-field {
+  border-color: var(--iris-border);
+  background: var(--iris-surface);
+  color: var(--iris-text);
+}
+body.iris-dark .aicp-chip:hover,
+body.iris-dark .aicp-rate-cancel:hover,
+body.iris-dark .aicp-rate-ask textarea:focus,
+body.iris-dark .aicp-field:focus-within {
+  border-color: var(--iris-muted);
+}
+body.iris-dark .aicp-rate-ask {
+  color: var(--iris-text);
+}
+
+/* Send buttons: light on the dark pane, red on hover as on light pages. */
+body.iris-dark .aicp-send,
+body.iris-dark .aicp-rate-send {
+  border-color: var(--iris-heading);
+  background: var(--iris-heading);
+  color: var(--iris-bg);
+}
+body.iris-dark .aicp-send:hover:not(:disabled),
+body.iris-dark .aicp-rate-send:hover:not(:disabled) {
+  border-color: var(--iris-accent);
+  background: var(--iris-accent);
+  color: #fff;
+}
+body.iris-dark .aicp-send:disabled,
+body.iris-dark .aicp-rate-send:disabled {
+  border-color: var(--iris-surface-hover);
+  background: var(--iris-surface-hover);
+  color: var(--iris-muted);
+}
+
+/* Code blocks, framed like the ones on Iris pages */
+body.iris-dark .aicp-code {
+  border: 1px solid var(--iris-border);
+  background: var(--iris-surface);
+}
+body.iris-dark .aicp-code-bar {
+  background: var(--iris-surface-hover);
+  color: var(--iris-muted);
+}
+body.iris-dark .aicp-code pre {
+  color: var(--iris-text);
+}
+body.iris-dark .aicp-copy {
+  border-color: var(--iris-border);
+  color: var(--iris-text);
+}
+body.iris-dark .aicp-copy:hover {
+  border-color: var(--iris-muted);
+  color: var(--iris-heading);
+}
+
+/* The collapsed pane's tab */
+body.iris-dark .aicp-tab {
+  border-color: var(--iris-border);
+  background: var(--iris-surface);
+  color: var(--iris-text);
+  box-shadow: -4px 0 14px rgba(0, 0, 0, .35);
+}
+body.iris-dark .aicp-tab:hover {
+  background: var(--iris-surface-hover);
+}

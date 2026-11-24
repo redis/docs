@@ -63,9 +63,9 @@ List the aliases for `idx:bicycle`
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</nobr></span> |  |
+| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Not supported</nobr></span> |  |
 
 ## Return information
 
@@ -75,14 +75,14 @@ List the aliases for `idx:bicycle`
 
 One of the following:
 
-* An [array]({{< relref "/develop/reference/protocol-spec#array" >}}) of [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), the names of existing index aliases, or an empty array if no aliases exist.
-* A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) when the provided index doesn't exist.
+* An [array](/content/develop/reference/protocol-spec.md#array) of [bulk strings](/content/develop/reference/protocol-spec.md#bulk-strings), the names of existing index aliases, or an empty array if no aliases exist.
+* A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) when the provided index doesn't exist.
 
 -tab-sep-
 
 One of the following:
 
-* A [set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), the names of index aliases, or an empty set if no aliases exist.
-* A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) when the provided index doesn't exist.
+* A [set](/content/develop/reference/protocol-spec.md#sets) of [bulk strings](/content/develop/reference/protocol-spec.md#bulk-strings), the names of index aliases, or an empty set if no aliases exist.
+* A [simple error](/content/develop/reference/protocol-spec.md#simple-errors) when the provided index doesn't exist.
 
 {{< /multitabs >}}

@@ -114,13 +114,13 @@ controls the search effort. Higher values explore more nodes, improving recall a
 <details open>
 <summary><code>FILTER expression</code></summary>
 
-applies a filter expression to restrict matching elements. See [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}) for syntax details.
+applies a filter expression to restrict matching elements. See [Filtered search](/content/develop/data-types/vector-sets/filtered-search.md) for syntax details.
 </details>
 
 <details open>
 <summary><code>FILTER-EF max-filtering-effort</code></summary>
 
-limits the number of filtering attempts for the `FILTER` expression. See [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}) for more information.
+limits the number of filtering attempts for the `FILTER` expression. See [Filtered search](/content/develop/data-types/vector-sets/filtered-search.md) for more information.
 </details>
 
 <details open>
@@ -151,8 +151,8 @@ One of the following:
 * [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for an unknown element.
 * [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for an unknown key.
 * [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.
-* With the `WITHSCORES` option, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements juxtaposed with [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-point scores.
-* With the `WITHSCORES` and `WITHATTRIBS` options, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements, and two additional elements: (1) a [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as floating-point score and (2) a [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the JSON attribute associated with the element or [nil (null bulk string)]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) for the elements missing an attribute.
+* With the `WITHSCORES` option, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) elements juxtaposed with [bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) as floating-point scores.
+* With the `WITHSCORES` and `WITHATTRIBS` options, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) elements, and two additional elements: (1) a [bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) as floating-point score and (2) a [bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) representing the JSON attribute associated with the element or [nil (null bulk string)](/content/develop/reference/protocol-spec.md#bulk-strings) for the elements missing an attribute.
 
 -tab-sep-
 
@@ -160,12 +160,12 @@ One of the following:
 * [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.
 * [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.
 * [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.
-* With the `WITHSCORES` option, a [map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements (keys) and  [double](../../develop/reference/protocol-spec#doubles) scores (values).
-* With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements (keys), and an additional array (values) with the following elements: (1) a [double reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})  for the score and (2) a [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the JSON attribute associated with the element or [null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) for the elements missing an attribute.
+* With the `WITHSCORES` option, a [map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) elements (keys) and  [double](../../develop/reference/protocol-spec#doubles) scores (values).
+* With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) elements (keys), and an additional array (values) with the following elements: (1) a [double reply](/content/develop/reference/protocol-spec.md#bulk-strings)  for the score and (2) a [bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) representing the JSON attribute associated with the element or [null](/content/develop/reference/protocol-spec.md#nulls) for the elements missing an attribute.
 
 {{< /multitabs >}}
 
 ## Related topics
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-- [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
+- [Vector sets](/content/develop/data-types/vector-sets/_index.md)
+- [Filtered search](/content/develop/data-types/vector-sets/filtered-search.md)

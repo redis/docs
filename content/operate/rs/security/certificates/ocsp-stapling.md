@@ -58,11 +58,11 @@ To set up OCSP stapling with the Redis Software Cluster Manager UI:
 
 ### REST API method
 
-To set up OCSP stapling with the [REST API]({{< relref "/operate/rs/references/rest-api" >}}):
+To set up OCSP stapling with the [REST API](/content/operate/rs/references/rest-api/_index.md):
 
-1. Use the REST API to [replace the proxy certificate]({{< relref "/operate/rs/security/certificates/updating-certificates#use-the-rest-api" >}}) with a certificate signed by your third-party CA.
+1. Use the REST API to [replace the proxy certificate](/content/operate/rs/security/certificates/updating-certificates.md#use-the-rest-api) with a certificate signed by your third-party CA.
 
-1. To configure and enable OCSP, send a [`PUT` request to the `/v1/ocsp`]({{< relref "/operate/rs/references/rest-api/requests/ocsp#put-ocsp" >}}) endpoint and include an [OCSP JSON object]({{< relref "/operate/rs/references/rest-api/objects/ocsp" >}}) in the request body:
+1. To configure and enable OCSP, send a [`PUT` request to the `/v1/ocsp`](/content/operate/rs/references/rest-api/requests/ocsp/_index.md#put-ocsp) endpoint and include an [OCSP JSON object](/content/operate/rs/references/rest-api/objects/ocsp.md) in the request body:
 
     ```json
     {
@@ -76,11 +76,11 @@ To set up OCSP stapling with the [REST API]({{< relref "/operate/rs/references/r
 
 ### `rladmin` method
 
-To set up OCSP stapling with the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command-line utility:
+To set up OCSP stapling with the [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) command-line utility:
 
-1. Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}) to [replace the proxy certificate]({{< relref "/operate/rs/security/certificates/updating-certificates#use-the-cli" >}}) with a certificate signed by your third-party CA.
+1. Use [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/cluster/certificate.md) to [replace the proxy certificate](/content/operate/rs/security/certificates/updating-certificates.md#use-the-cli) with a certificate signed by your third-party CA.
 
-1. Update the cluster's OCSP settings with the [`rladmin cluster ocsp config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/ocsp#ocsp-config" >}}) command if you don't want to use their default values.
+1. Update the cluster's OCSP settings with the [`rladmin cluster ocsp config`](/content/operate/rs/references/cli-utilities/rladmin/cluster/ocsp.md#ocsp-config) command if you don't want to use their default values.
 
     For example: 
 

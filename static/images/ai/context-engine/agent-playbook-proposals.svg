@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="280" viewBox="0 0 640 280" role="img" aria-labelledby="title desc">
+  <title id="title">Proposal lifecycle: propose, inbox, accepted FAQ, published; or trash</title>
+  <desc id="desc">Left to right: propose, then an inbox holding a candidate plus evidence, then accept to create FAQ v1 unpublished, then publish to serve it to agents. Dismissal or inbox expiry moves the proposal to trash; restore returns it to the inbox. By default, the inbox review window is 30 days from the latest qualifying activity, and proposals remain in trash for 30 days.</desc>
+  <defs>
+    <linearGradient id="border" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ee0000"/>
+      <stop offset="100%" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#b9b9b9"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#0b0b0b"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "trebuchet ms", verdana, arial, sans-serif; font-size: 16px; fill: #333333; }
+    .node { fill: #ffffff; stroke: url(#border); stroke-width: 1; filter: url(#shadow); }
+    .detail { font-size: 14px; fill: #56616b; }
+    .edge { fill: none; stroke: #0b0b0b; stroke-width: 1; marker-end: url(#arrow); }
+  </style>
+  <g text-anchor="middle">
+    <rect class="node" x="12" y="32" width="84" height="80"/>
+    <text x="54" y="78">Propose</text>
+
+    <rect class="node" x="136" y="32" width="148" height="80"/>
+    <text x="210" y="55">Inbox</text>
+    <text class="detail" x="210" y="78">candidate + evidence</text>
+    <text class="detail" x="210" y="100">30 days by default</text>
+
+    <rect class="node" x="332" y="32" width="118" height="80"/>
+    <text x="391" y="66">FAQ v1</text>
+    <text class="detail" x="391" y="88">unpublished</text>
+
+    <rect class="node" x="500" y="32" width="128" height="80"/>
+    <text x="564" y="66">Published</text>
+    <text class="detail" x="564" y="88">served to agents</text>
+
+    <rect class="node" x="136" y="204" width="148" height="60"/>
+    <text x="210" y="228">Trash</text>
+    <text class="detail" x="210" y="250">30 days by default</text>
+  </g>
+
+  <path class="edge" d="M96 72 H134"/>
+  <path class="edge" d="M284 72 H330"/>
+  <text class="detail" x="308" y="61" text-anchor="middle">accept</text>
+  <path class="edge" d="M450 72 H498"/>
+  <text class="detail" x="475" y="61" text-anchor="middle">publish</text>
+  <path class="edge" d="M172 112 V202"/>
+  <text class="detail" x="160" y="148" text-anchor="end">dismiss or</text>
+  <text class="detail" x="160" y="168" text-anchor="end">inbox expiry</text>
+  <path class="edge" d="M248 204 V114"/>
+  <text class="detail" x="260" y="160">restore</text>
+</svg>

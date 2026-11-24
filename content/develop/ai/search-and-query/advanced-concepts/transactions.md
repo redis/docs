@@ -15,13 +15,13 @@ title: Search commands in MULTI/EXEC transactions and Lua scripts
 weight: 36
 ---
 
-Redis Search commands ([`FT.SEARCH`]({{< relref "/commands/ft.search" >}}),
-[`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}),
-[`FT.HYBRID`]({{< relref "/commands/ft.hybrid" >}}),
-[`FT.PROFILE`]({{< relref "/commands/ft.profile" >}}), and
-[`FT.CURSOR READ`]({{< relref "/commands/ft.cursor-read" >}}))
-can be used inside [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}})
-transactions and [Lua scripts]({{< relref "/develop/programmability/lua-api" >}}),
+Redis Search commands ([`FT.SEARCH`](/content/commands/ft.search.md),
+[`FT.AGGREGATE`](/content/commands/ft.aggregate.md),
+[`FT.HYBRID`](/content/commands/ft.hybrid.md),
+[`FT.PROFILE`](/content/commands/ft.profile.md), and
+[`FT.CURSOR READ`](/content/commands/ft.cursor-read.md))
+can be used inside [`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md)
+transactions and [Lua scripts](/content/develop/programmability/lua-api.md),
 but the behavior differs depending on your deployment topology.
 
 ## Standalone and single-shard deployments
@@ -29,7 +29,7 @@ but the behavior differs depending on your deployment topology.
 Query commands inside a `MULTI`/`EXEC` block or Lua script (including when issued
 through a client pipeline that wraps commands in a transaction) execute synchronously
 on the main Redis thread, regardless of the
-[`search-workers`]({{< relref "/develop/ai/search-and-query/administration/configuration#search-workers" >}})
+[`search-workers`](/content/develop/ai/search-and-query/administration/configuration.md#search-workers)
 setting.
 
 The worker thread pool is bypassed in this context because Redis transactions
@@ -54,10 +54,10 @@ execution model of transactions. This limitation applies regardless of the
 
 ## Related commands
 
-- [`FT.SEARCH`]({{< relref "/commands/ft.search" >}})
-- [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}})
-- [`FT.HYBRID`]({{< relref "/commands/ft.hybrid" >}})
-- [`FT.PROFILE`]({{< relref "/commands/ft.profile" >}})
-- [`FT.CURSOR READ`]({{< relref "/commands/ft.cursor-read" >}})
-- [`MULTI`]({{< relref "/commands/multi" >}})
-- [`EXEC`]({{< relref "/commands/exec" >}})
+- [`FT.SEARCH`](/content/commands/ft.search.md)
+- [`FT.AGGREGATE`](/content/commands/ft.aggregate.md)
+- [`FT.HYBRID`](/content/commands/ft.hybrid.md)
+- [`FT.PROFILE`](/content/commands/ft.profile.md)
+- [`FT.CURSOR READ`](/content/commands/ft.cursor-read.md)
+- [`MULTI`](/content/commands/multi.md)
+- [`EXEC`](/content/commands/exec.md)

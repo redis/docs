@@ -35,13 +35,13 @@ title: SELECT
 Select the logical Redis database having the specified zero-based numeric index.
 New connections always use database zero.
 
-Selectable Redis databases are a form of namespacing: all databases are still persisted in the same RDB or AOF file. However, different databases can have keys with the same name, and commands like [`FLUSHDB`]({{< relref "/commands/flushdb" >}}), [`SWAPDB`]({{< relref "/commands/swapdb" >}}) or [`RANDOMKEY`]({{< relref "/commands/randomkey" >}}) work on specific databases.
+Selectable Redis databases are a form of namespacing: all databases are still persisted in the same RDB or AOF file. However, different databases can have keys with the same name, and commands like [`FLUSHDB`](/content/commands/flushdb.md), [`SWAPDB`](/content/commands/swapdb.md) or [`RANDOMKEY`](/content/commands/randomkey.md) work on specific databases.
 
 Use Redis databases to separate keys within the same application when needed. Don’t use them to run multiple unrelated applications in a single Redis instance.
 
 When using Redis Cluster, the `SELECT` command cannot be used, since Redis Cluster only supports database zero. Having multiple databases would be useless and an unnecessary source of complexity. Commands operating atomically on a single database would not be possible with the Redis Cluster's design and goals.
 
-Since the currently selected database is a property of the connection, clients should track the currently selected database and re-select it on reconnection. While there is no command in order to query the selected database in the current connection, the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) output shows, for each client, the currently selected database.
+Since the currently selected database is a property of the connection, clients should track the currently selected database and re-select it on reconnection. While there is no command in order to query the selected database in the current connection, the [`CLIENT LIST`](/content/commands/client-list.md) output shows, for each client, the currently selected database.
 
 ## Required arguments
 

@@ -169,6 +169,5 @@ PUT /v1/bdbs/1
 }
 ```
 
-{{<warning>}}
-If you submit such an optimized blueprint, it may cause strain on the cluster and its resources. Use with caution.
-{{</warning>}}
+> [!WARNING]
+> If you submit such an optimized blueprint, it may cause strain on the cluster and its resources. Use with caution.

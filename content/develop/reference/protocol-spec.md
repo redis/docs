@@ -37,10 +37,9 @@ RESP is binary-safe and uses prefixed length to transfer bulk data so it does no
 
 RESP is the protocol you should implement in your Redis client.
 
-{{% alert title="Note" color="info" %}}
-The protocol outlined here is used only for client-server communication.
-[Redis Cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}) uses a different binary protocol for exchanging messages between nodes.
-{{% /alert %}}
+> [!NOTE]
+> The protocol outlined here is used only for client-server communication.
+> [Redis Cluster](/content/operate/oss_and_stack/reference/cluster-spec.md) uses a different binary protocol for exchanging messages between nodes.
 
 ## RESP versions
 Support for the first version of the RESP protocol was introduced in Redis 1.2.
@@ -50,7 +49,7 @@ In Redis 2.0, the protocol's next version, a.k.a RESP2, became the standard comm
 
 [RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md) is mostly a superset of RESP2 that mainly aims to make a client author's life a little bit easier.
 Redis 6.0 introduced experimental opt-in support of RESP3's features (excluding streaming strings and streaming aggregates).
-In addition, the introduction of the [`HELLO`]({{< relref "/commands/hello" >}}) command allows clients to handshake and upgrade the connection's protocol version (see [Client handshake](#client-handshake)).
+In addition, the introduction of the [`HELLO`](/content/commands/hello.md) command allows clients to handshake and upgrade the connection's protocol version (see [Client handshake](#client-handshake)).
 
 From Redis version 7 and forward, both RESP2 and RESP3 clients can invoke all core commands.
 However, commands may return differently typed replies for different protocol versions.
@@ -72,12 +71,12 @@ This is the simplest model possible; however, there are some exceptions:
 
 * Redis requests can be [pipelined](#multiple-commands-and-pipelining).
   Pipelining enables clients to send multiple commands at once and wait for replies later.
-* When a RESP2 connection subscribes to a [Pub/Sub]({{< relref "/develop/pubsub" >}}) channel, the protocol changes semantics and becomes a *push* protocol.
+* When a RESP2 connection subscribes to a [Pub/Sub](/content/develop/pubsub/_index.md) channel, the protocol changes semantics and becomes a *push* protocol.
   The client no longer requires sending commands because the server will automatically send new messages to the client (for the channels the client is subscribed to) as soon as they are received.
-* The [`MONITOR`]({{< relref "/commands/monitor" >}}) command.
-  Invoking the [`MONITOR`]({{< relref "/commands/monitor" >}}) command switches the connection to an ad-hoc push mode.
+* The [`MONITOR`](/content/commands/monitor.md) command.
+  Invoking the [`MONITOR`](/content/commands/monitor.md) command switches the connection to an ad-hoc push mode.
   The protocol of this mode is not specified but is obvious to parse.
-* [Protected mode]({{< relref "operate/oss_and_stack/management/security/#protected-mode" >}}).
+* [Protected mode](/content/operate/oss_and_stack/management/security/_index.md#protected-mode).
   Connections opened from a non-loopback address to a Redis while in protected mode are denied and terminated by the server.
   Before terminating the connection, Redis unconditionally sends a `-DENIED` reply, regardless of whether the client writes to the socket.
 * The [RESP3 Push type](#resp3-pushes).
@@ -125,19 +124,22 @@ The following table summarizes the RESP data types that Redis supports:
 | [Simple strings](#simple-strings) | RESP2 | Simple | `+` |
 | [Simple Errors](#simple-errors) | RESP2 | Simple | `-` |
 | [Integers](#integers) | RESP2 | Simple | `:` |
-| [Bulk strings](#bulk-strings) | RESP2 | Aggregate | `$` |
-| [Null bulk strings](#null-bulk-strings) | RESP2 | Aggregate | `$-1\r\n` |
+| [Bulk strings](#bulk-strings) | RESP2 | Bulk | `$` |
+| [Null bulk strings](#null-bulk-strings) | RESP2 | Bulk | `$-1\r\n` |
 | [Arrays](#arrays) | RESP2 | Aggregate | `*` |
 | [Nulls](#nulls) | RESP3 | Simple | `_` |
 | [Booleans](#booleans) | RESP3 | Simple | `#` |
 | [Doubles](#doubles) | RESP3 | Simple | `,` |
 | [Big numbers](#big-numbers) | RESP3 | Simple | `(` |
-| [Bulk errors](#bulk-errors) | RESP3 | Aggregate | `!` |
-| [Verbatim strings](#verbatim-strings) | RESP3 | Aggregate | `=` |
+| [Bulk errors](#bulk-errors) | RESP3 | Bulk | `!` |
+| [Verbatim strings](#verbatim-strings) | RESP3 | Bulk | `=` |
 | [Maps](#maps) | RESP3 | Aggregate | `%` |
 | [Attributes](#attributes) | RESP3 | Aggregate | <code>&#124;</code> |
 | [Sets](#sets) | RESP3 | Aggregate | `~` |
 | [Pushes](#pushes) | RESP3 | Aggregate | `>` |
+
+RESP3 also defines two _streamed_ encodings for payloads whose length isn't known when the transfer begins: [streamed strings](#streamed-strings) and [streamed aggregated data types](#streamed-aggregated-data-types).
+These are alternative encodings of the types in the table rather than types of their own, so the table doesn't list them.
 
 <a name="simple-string-reply"></a>
 
@@ -202,15 +204,15 @@ RESP encodes integers in the following way:
 
 For example, `:0\r\n` and `:1000\r\n` are integer replies (of zero and one thousand, respectively).
 
-Many Redis commands return RESP integers, including [`INCR`]({{< relref "/commands/incr" >}}), [`LLEN`]({{< relref "/commands/llen" >}}), and [`LASTSAVE`]({{< relref "/commands/lastsave" >}}).
+Many Redis commands return RESP integers, including [`INCR`](/content/commands/incr.md), [`LLEN`](/content/commands/llen.md), and [`LASTSAVE`](/content/commands/lastsave.md).
 An integer, by itself, has no special meaning other than in the context of the command that returned it.
-For example, it is an incremental number for [`INCR`]({{< relref "/commands/incr" >}}), a UNIX timestamp for [`LASTSAVE`]({{< relref "/commands/lastsave" >}}), and so forth.
+For example, it is an incremental number for [`INCR`](/content/commands/incr.md), a UNIX timestamp for [`LASTSAVE`](/content/commands/lastsave.md), and so forth.
 However, the returned integer is guaranteed to be in the range of a signed 64-bit integer.
 
 In some cases, integers can represent true and false Boolean values.
-For instance, [`SISMEMBER`]({{< relref "/commands/sismember" >}}) returns 1 for true and 0 for false.
+For instance, [`SISMEMBER`](/content/commands/sismember.md) returns 1 for true and 0 for false.
 
-Other commands, including [`SADD`]({{< relref "/commands/sadd" >}}), [`SREM`]({{< relref "/commands/srem" >}}), and [`SETNX`]({{< relref "/commands/setnx" >}}), return 1 when the data changes and 0 otherwise.
+Other commands, including [`SADD`](/content/commands/sadd.md), [`SREM`](/content/commands/srem.md), and [`SETNX`](/content/commands/setnx.md), return 1 when the data changes and 0 otherwise.
 
 <a name="bulk-string-reply"></a>
 
@@ -243,7 +245,7 @@ Whereas RESP3 has a dedicated data type for [null values](#nulls), RESP2 has no 
 Instead, due to historical reasons, the representation of null values in RESP2 is via predetermined forms of the [bulk strings](#bulk-strings) and [arrays](#arrays) types.
 
 The null bulk string represents a non-existing value.
-The [`GET`]({{< relref "/commands/get" >}}) command returns the Null Bulk String when the target key doesn't exist.
+The [`GET`](/content/commands/get.md) command returns the Null Bulk String when the target key doesn't exist.
 
 It is encoded as a bulk string with the length of negative one (-1), like so:
 
@@ -257,7 +259,7 @@ For example, a Ruby library should return `nil` while a C library should return 
 ### Arrays
 Clients send commands to the Redis server as RESP arrays.
 Similarly, some Redis commands that return collections of elements use arrays as their replies. 
-An example is the [`LRANGE`]({{< relref "/commands/lrange" >}}) command that returns elements of a list.
+An example is the [`LRANGE`](/content/commands/lrange.md) command that returns elements of a list.
 
 RESP Arrays' encoding uses the following format:
 
@@ -316,10 +318,9 @@ The above encodes a two-element array.
 The first element is an array that, in turn, contains three integers (1, 2, 3).
 The second element is another array containing a simple string and an error.
 
-{{% alert title="Multi bulk reply" color="info" %}}
-In some places, the RESP Array type may be referred to as _multi bulk_.
-The two are the same.
-{{% /alert %}}
+> [!NOTE] Multi bulk reply
+> In some places, the RESP Array type may be referred to as _multi bulk_.
+> The two are the same.
 
 <a name="nil-array-reply"></a>
 
@@ -327,18 +328,18 @@ The two are the same.
 Whereas RESP3 has a dedicated data type for [null values](#nulls), RESP2 has no such type. Instead, due to historical reasons, the representation of null values in RESP2 is via predetermined forms of the [Bulk Strings](#bulk-strings) and [arrays](#arrays) types.
 
 Null arrays exist as an alternative way of representing a null value.
-For instance, when the [`BLPOP`]({{< relref "/commands/blpop" >}}) command times out, it returns a null array.
+For instance, when the [`BLPOP`](/content/commands/blpop.md) command times out, it returns a null array.
 
 The encoding of a null array is that of an array with the length of -1, i.e.:
 
     *-1\r\n
 
 When Redis replies with a null array, the client should return a null object rather than an empty array.
-This is necessary to distinguish between an empty list and a different condition (for instance, the timeout condition of the [`BLPOP`]({{< relref "/commands/blpop" >}}) command).
+This is necessary to distinguish between an empty list and a different condition (for instance, the timeout condition of the [`BLPOP`](/content/commands/blpop.md) command).
 
 #### Null elements in arrays
 Single elements of an array may be [null bulk string](#null-bulk-strings).
-This is used in Redis replies to signal that these elements are missing and not empty strings. This can happen, for example, with the [`SORT`]({{< relref "/commands/sort" >}}) command when used with the `GET pattern` option
+This is used in Redis replies to signal that these elements are missing and not empty strings. This can happen, for example, with the [`SORT`](/content/commands/sort.md) command when used with the `GET pattern` option
 if the specified key is missing.
 
 Here's an example of an array reply containing a null element:
@@ -365,12 +366,11 @@ Here's Null's raw RESP encoding:
 
     _\r\n
 
-{{% alert title="Null Bulk String, Null Arrays and Nulls" color="info" %}}
-Due to historical reasons, RESP2 features two specially crafted values for representing null values of bulk strings and arrays.
-This duality has always been a redundancy that added zero semantical value to the protocol itself.
-
-The null type, introduced in RESP3, aims to fix this wrong.
-{{% /alert %}}
+> [!NOTE] Null Bulk String, Null Arrays and Nulls
+> Due to historical reasons, RESP2 features two specially crafted values for representing null values of bulk strings and arrays.
+> This duality has always been a redundancy that added zero semantical value to the protocol itself.
+>
+> The null type, introduced in RESP3, aims to fix this wrong.
 
 <a name="boolean-reply">
 
@@ -486,11 +486,11 @@ Example:
 (The raw RESP encoding is split into multiple lines for readability).
 
 Some client libraries may ignore the difference between this type and the string type and return a native string in both cases.
-However, interactive clients, such as command line interfaces (e.g., [`redis-cli`]({{< relref "/develop/tools/cli" >}})), can use this type and know that their output should be presented to the human user as is and without quoting the string.
+However, interactive clients, such as command line interfaces (e.g., [`redis-cli`](/content/develop/tools/cli.md)), can use this type and know that their output should be presented to the human user as is and without quoting the string.
 
-For example, the Redis command [`INFO`]({{< relref "/commands/info" >}}) outputs a report that includes newlines.
+For example, the Redis command [`INFO`](/content/commands/info.md) outputs a report that includes newlines.
 When using RESP3, `redis-cli` displays it correctly because it is sent as a Verbatim String reply (with its three bytes being "txt").
-When using RESP2, however, the `redis-cli` is hard-coded to look for the [`INFO`]({{< relref "/commands/info" >}}) command to ensure its correct display to the user.
+When using RESP2, however, the `redis-cli` is hard-coded to look for the [`INFO`](/content/commands/info.md) command to ensure its correct display to the user.
 
 <a name="map-reply"></a>
 
@@ -528,12 +528,11 @@ Both map keys and values can be any of RESP's types.
 Redis clients should return the idiomatic dictionary type that their language provides.
 However, low-level programming languages (such as C, for example) will likely return an array along with type information that indicates to the caller that it is a dictionary.
 
-{{% alert title="Map pattern in RESP2" color="info" %}}
-RESP2 doesn't have a map type.
-A map in RESP2 is represented by a flat array containing the keys and the values.
-The first element is a key, followed by the corresponding value, then the next key and so on, like this:
-`key1, value1, key2, value2, ...`.
-{{% /alert %}}
+> [!NOTE] Map pattern in RESP2
+> RESP2 doesn't have a map type.
+> A map in RESP2 is represented by a flat array containing the keys and the values.
+> The first element is a key, followed by the corresponding value, then the next key and so on, like this:
+> `key1, value1, key2, value2, ...`.
 
 <a name="attribute-reply"></a>
 
@@ -623,15 +622,72 @@ It also means that pushed data may appear before or after a command's reply, as 
 
 Clients should react to pushes by invoking a callback that implements their handling of the pushed data.
 
+### Streamed strings
+A streamed string is a [bulk string](#bulk-strings) whose total length isn't known when the transfer begins.
+Instead of a prefixed length, the sender transfers the payload as a series of chunks.
+
+A streamed string's RESP encoding is as follows:
+
+    $?\r\n;<chunk-1-length>\r\n<chunk-1-data>\r\n...;0\r\n
+
+* A dollar sign (`$`) as the first byte, followed by a question mark (`?`) in place of the length.
+* The CRLF terminator.
+* One or more chunks. Each chunk starts with a semicolon (`;`), followed by the chunk's length in bytes as an unsigned, base-10 value, the CRLF terminator, the chunk's data, and a final CRLF.
+* A zero-length chunk (`;0\r\n`) to mark the end of the string.
+
+Example:
+
+    $?\r\n
+    ;5\r\n
+    Hello\r\n
+    ;6\r\n
+     world\r\n
+    ;0\r\n
+
+(The raw RESP encoding is split into multiple lines for readability).
+
+The chunks concatenate to the string's value, so the example encodes `Hello world`.
+
+Redis doesn't emit streamed strings, because its RESP3 support excludes streamed types (see [RESP versions](#resp-versions)).
+The [RESP3 specification](https://github.com/redis/redis-specifications/blob/1252427cdbc497f66a7f8550c6b5f2f35367dc92/protocol/RESP3.md#streamed-strings) permits modules to use the encoding, so a client that implements RESP3 in full should be able to parse it.
+
+### Streamed aggregated data types
+[Arrays](#arrays), [sets](#sets), and [maps](#maps) can also be streamed when the number of elements isn't known when the transfer begins.
+A streamed aggregate replaces its number of elements with a question mark (`?`) and marks its end with a dedicated terminator.
+
+A streamed aggregate's RESP encoding is as follows:
+
+    <first-byte>?\r\n<element-1>...<element-n>.\r\n
+
+* The aggregate's usual first byte: an asterisk (`*`) for an array, a tilde (`~`) for a set, or a percent sign (`%`) for a map.
+* A question mark (`?`) in place of the number of elements.
+* The CRLF terminator.
+* An additional RESP type for every element of the aggregate.
+* A period (`.`) followed by the CRLF terminator to mark the end of the aggregate.
+
+Example:
+
+    *?\r\n
+    :1\r\n
+    :2\r\n
+    :3\r\n
+    .\r\n
+
+(The raw RESP encoding is split into multiple lines for readability).
+
+A streamed map's elements are field-value pairs, as in a regular [map](#maps), so a streamed map must contain an even number of elements.
+
+As with [streamed strings](#streamed-strings), Redis doesn't emit streamed aggregates.
+
 ## Client handshake
-New RESP connections should begin the session by calling the [`HELLO`]({{< relref "/commands/hello" >}}) command.
+New RESP connections should begin the session by calling the [`HELLO`](/content/commands/hello.md) command.
 This practice accomplishes two things:
 
 1. It allows servers to be backward compatible with RESP2 versions.
   This is needed in Redis to make the transition to version 3 of the protocol gentler.
-2. The [`HELLO`]({{< relref "/commands/hello" >}}) command returns information about the server and the protocol that the client can use for different goals.
+2. The [`HELLO`](/content/commands/hello.md) command returns information about the server and the protocol that the client can use for different goals.
 
-The [`HELLO`]({{< relref "/commands/hello" >}}) command has the following high-level syntax:
+The [`HELLO`](/content/commands/hello.md) command has the following high-level syntax:
 
     HELLO <protocol-version> [optional-arguments]
 
@@ -651,14 +707,14 @@ Similarly, the client can easily detect a server that is only able to speak RESP
 
 The client can then proceed and use RESP2 to communicate with the server.
 
-Note that even if the protocol's version is supported, the [`HELLO`]({{< relref "/commands/hello" >}}) command may return an error, perform no action and remain in RESP2 mode. 
+Note that even if the protocol's version is supported, the [`HELLO`](/content/commands/hello.md) command may return an error, perform no action and remain in RESP2 mode. 
 For example, when used with invalid authentication credentials in the command's optional `AUTH` clause:
 
     Client: HELLO 3 AUTH default mypassword
     Server: -ERR invalid password
     (the connection remains in RESP2 mode)
 
-A successful reply to the [`HELLO`]({{< relref "/commands/hello" >}}) command is a map reply.
+A successful reply to the [`HELLO`](/content/commands/hello.md) command is a map reply.
 The information in the reply is partly server-dependent, but certain fields are mandatory for all the RESP3 implementations:
 * **server**: "redis" (or other software name).
 * **version**: the server's version.
@@ -699,7 +755,7 @@ Pipelining is supported, so multiple commands can be sent with a single write op
 The client can skip reading replies and continue to send the commands one after the other.
 All the replies can be read at the end.
 
-For more information, see [Pipelining]({{< relref "/develop/using-commands/pipelining" >}}).
+For more information, see [Pipelining](/content/develop/using-commands/pipelining.md).
 
 ## Inline commands
 Sometimes you may need to send a command to the Redis server but only have `telnet` available.
@@ -758,7 +814,7 @@ While comparable in performance to a binary protocol, the Redis protocol is sign
 
 ## Tips for Redis client authors
 
-* For testing purposes, use [Lua's type conversions]({{< relref "develop/programmability/lua-api#lua-to-resp3-type-conversion" >}}) to have Redis reply with any RESP2/RESP3 needed.
+* For testing purposes, use [Lua's type conversions](/content/develop/programmability/lua-api.md#lua-to-resp3-type-conversion) to have Redis reply with any RESP2/RESP3 needed.
   As an example, a RESP3 double can be generated like so:
   ```
   EVAL "return { double = tonumber(ARGV[1]) }" 0 1e0

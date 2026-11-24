@@ -73,20 +73,50 @@
         }
       }
     ],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "nredisstack_sync": [
       {
-        "signature": "slowlog(string $operation, ?int $length = null)",
+        "signature": "void SlowlogReset(CommandFlags flags = CommandFlags.None)",
         "params": [
           {
-            "name": "$operation",
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task SlowlogResetAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The command flags to use."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "slowlog($subcommand, $argument = null)",
+        "params": [
+          {
+            "name": "$subcommand",
             "type": "string",
             "description": ""
           },
           {
-            "name": "$length",
-            "type": "int|null",
+            "name": "$argument",
+            "type": "mixed",
             "description": ""
           }
         ],
@@ -97,6 +127,37 @@
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "slowlog(subcommand: \"RESET\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"RESET\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "slowlog(:reset)",
+        "params": [],
+        "returns": {
+          "type": "Array<String>, Integer, String",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }

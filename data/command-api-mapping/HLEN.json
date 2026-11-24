@@ -117,7 +117,7 @@
     ],
     "node_redis": [
       {
-        "signature": "HLEN(key: RedisArgument)",
+        "signature": "hLen(key: RedisArgument)",
         "params": [
           {
             "name": "key",
@@ -126,14 +126,14 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "hlen(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Get the values of all the given hash fields, * - _group_: hash, * - _complexity_: O(N) where N is the number of fields being requested., * - _since_: 2.0.0, */, hmget(, ...args: [, key: RedisKey, ...fields: (string | Buffer)[], callback: Callback<(string | null)[]>, ])",
+        "signature": "hlen(key: RedisKey, callback?: Callback<number>)",
         "params": [
           {
             "name": "key",
@@ -142,17 +142,12 @@
           },
           {
             "name": "callback?",
-            "type": "Callback<number>)",
-            "description": ""
-          },
-          {
-            "name": "...args",
-            "type": "[, key",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -208,30 +203,11 @@
           "type": "long",
           "description": "The number of fields in the hash, or 0 when key does not exist."
         }
-      },
-      {
-        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of fields in the hash, or 0 when key does not exist."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "signature": "HashLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "key",
@@ -245,26 +221,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of fields in the hash, or 0 when key does not exist."
-        }
-      },
-      {
-        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "key",
-            "type": "RedisKey",
-            "description": "The key of the hash."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of fields in the hash, or 0 when key does not exist."
         }
       }

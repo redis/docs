@@ -13,7 +13,7 @@ weight: 30
 
 ## Configure probabilistic data structures in Redis Software
 
-[Redis Software]({{< relref "/operate/rs" >}}) lets you manually change any [RedisBloom configuration setting]({{< relref "/develop/data-types/probabilistic/" >}}configuration/#redisbloom-configuration-parameters).
+[Redis Software](/content/operate/rs/_index.md) lets you manually change any [RedisBloom configuration setting](/content/develop/data-types/probabilistic/configuration.md#redisbloom-configuration-parameters).
 
 To change the RedisBloom configuration using the Redis Software Cluster Manager UI:
 
@@ -29,8 +29,8 @@ To change the RedisBloom configuration using the Redis Software Cluster Manager 
 
 ## Configure probabilistic data structures in Redis Cloud
 
-[Redis Cloud]({{< relref "/operate/rc" >}}) does not let you configure RedisBloom manually. However, if you have a Flexible or Annual [subscription]({{< relref "/operate/rc/subscriptions" >}}), you can contact [support](https://redis.com/company/support/) to request a configuration change. You cannot change RedisBloom configuration for Free or Fixed subscriptions.
+[Redis Cloud](/content/operate/rc/_index.md) does not let you configure RedisBloom manually. However, if you have a Flexible or Annual [subscription](/content/operate/rc/subscriptions/_index.md), you can contact [support](https://redis.com/company/support/) to request a configuration change. You cannot change RedisBloom configuration for Free or Fixed subscriptions.
 
 ## Configuration settings
 
-See [configuration parameters]({{< relref "/develop/data-types/probabilistic/configuration" >}}) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.
+See [configuration parameters](/content/develop/data-types/probabilistic/configuration.md) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.

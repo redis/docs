@@ -17,11 +17,6 @@ type: integration
 weight: 50
 ---
 
-## Which license does RDI use?
-
-You must purchase a commercial license for RDI with Redis Enterprise. This includes two extra
-Redis Enterprise shards (primary and replica) for the staging database.
-
 ## How does RDI track data changes in the source database?
 
 RDI uses change data capture (CDC) mechanisms that are specific to each of the
@@ -44,15 +39,18 @@ supported source databases:
   only when RDI is deployed on Kubernetes with Helm.
 
 For the complete list of supported source databases and versions, see
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}).
+[Prepare source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md).
 
 ## How much data can RDI process?
 
-RDI uses the concept of *processing units*. Each processing unit uses 1 CPU core and can process
-about 10,000 records per second, assuming the records have a size of about 1KB each. This throughput
-might change slightly depending on the number of columns, the number of data transformations,
-and the speed of the network. Typically, one processing unit is enough for RDI to deal with the
-traffic from a relational database.
+With the Flink processor, RDI can process up to 20K records per second during change data capture
+(CDC) and up to 60K records per second during full sync. These figures assume an average record
+size of about 1KB and a pipeline without transformations. The classic processor supports about
+half of each limit. Throughput can change with the number of columns, the number of data
+transformations, and the speed of the network.
+
+See [When to use RDI](/content/integrate/redis-data-integration/when-to-use.md) for the full
+throughput and data-size guidelines.
 
 ## Can RDI work with any Redis database?
 
@@ -68,23 +66,40 @@ supported whether or not you also run a disaster recovery (DR) setup for RDI.
 If you have two RDI instances sharing a single RDI database then they will use that database for leader election, so
 they need no other lease mechanism. This is how high availability (HA) works for VM
 installations. See
-[Installing with High Availability]({{< relref "/integrate/redis-data-integration/installation/install-vm#installing-with-high-availability" >}}).
+[Installing with High Availability](/content/integrate/redis-data-integration/installation/install-vm.md#installing-with-high-availability).
 
 In a DR setup, each site runs its own RDI instance against its local instance of the
-Active-Active RDI database, so leader election needs an external lease. Google Cloud Storage
-(GCS) is currently the only supported lease mechanism, and you can configure it only for
-[Helm based installations]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
+Active-Active RDI database, so leader election needs an external lease. RDI supports Google
+Cloud Storage (GCS) and Amazon DynamoDB leases for Helm installations. See
+[Disaster recovery (DR)](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md)
+for the supported setup and configuration steps.
 
-**Important:** Use a DR setup only when both sites capture changes from the same source
-database server. Both RDI instances must point at that same server, not at a replica of it.
+Each site captures from the source database named in its pipeline configuration, which can be
+the active source database or a replica of it. Configure the source database and its replicas
+so that RDI can resume capture after a failover. See
+[Source databases and data after a failover](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#source-databases-and-data-after-a-failover).
 
 ## Can I run multiple RDI installations in the same Kubernetes cluster?
 
 No. Only one RDI installation is supported per Kubernetes cluster, even if
 you install into different namespaces. If you need more than one RDI
 deployment, use separate Kubernetes clusters. See
-[Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
+[Install on Kubernetes](/content/integrate/redis-data-integration/installation/install-k8s.md)
 for installation details.
+
+## Can one pipeline capture from several source databases?
+
+Yes. Add one entry per source to the `sources` section of `config.yaml`. Each source has its
+own collector, which captures change records independently of the other sources. See
+[Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md) for more information.
+
+## Can one RDI installation run several pipelines?
+
+Yes. Deploy each pipeline under its own name, for example with `redis-di deploy orders`. Each
+pipeline has its own configuration, secrets, collectors, and stream processor, and you can
+start, stop, reset, and delete it without affecting the others. All the pipelines share the
+RDI control plane and the RDI database. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md) for more information.
 
 ## Can RDI automatically track changes to the source database schema?
 
@@ -94,12 +109,14 @@ and changes to column names unless you configure it for a specific set of column
 Bear in mind that the Redis keys in the target database will change to reflect the
 new or renamed tables and columns.
 
+SQL Server is an exception to automatic column handling. You must create a new CDC capture instance after a schema change. Until you do, events can continue to use the old captured column structure and omit a newly added column. Follow [Handling changes to the SQL Server schema](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server.md#handling-changes-to-the-schema) for the migration procedure and its capture history limits.
+
 ## Should I be concerned when the log says RDI is out of memory? {#rdi-oom}
 
 Sometimes the Debezium log will contain a message saying that RDI is out of
 memory. This is not an error but an informative message to say that RDI
 is applying *backpressure* to Debezium. See
-[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture#backpressure-mechanism" >}})
+[Backpressure mechanism](/content/integrate/redis-data-integration/architecture/_index.md#backpressure-mechanism)
 in the Architecture guide for more information.
 
 ## What happens when RDI can't write to the target Redis database?
@@ -123,10 +140,10 @@ job then RDI can't transform the data. When this happens, RDI will store the ori
 in a "dead letter queue" along with a message to say why it was rejected. The dead letter
 queue is stored as a capped stream in the RDI staging database. You can see its contents
 with Redis Insight or with the
-[`redis-di list-dlq-records`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlq-records" >}})
+[`redis-di list-dlq-records`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-dlq-records.md)
 command from the CLI.
 
-See [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}) for more information about DLQ.
+See [Rejected records](/content/integrate/redis-data-integration/data-pipelines/rejected-records.md) for more information about DLQ.
 
 ## Can I use RDI without persistence enabled?
 
@@ -161,21 +178,17 @@ processor. It also adds optional expression and `redis.lookup` result
 caching.
 
 **We strongly recommend using the Flink processor** for new pipelines and
-migrating existing pipelines to it, to benefit from these improvements. The
-*classic* processor is still the default, so pipelines keep using it until
-you opt in, and it remains a fully supported choice — for example, when you
-want to ensure your pipelines continue to work as before until you have
-consciously migrated them. In a future release, however, the Flink processor
-will become the default and the classic processor may be deprecated, so adopting
-the Flink processor now avoids a later migration.
+migrating existing pipelines to it, to benefit from these improvements. It is
+the default, so a pipeline whose `config.yaml` does not set a processor type
+uses it. The *classic* processor remains a fully supported choice for now.
+It may be deprecated in a future release.
 
-Switch a pipeline to the Flink processor by setting
-[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` (`classic` is the default). You can adopt it per pipeline without
-changing the others.
+To switch a pipeline to the classic processor, set
+[`processors.type`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors)
+to `classic`. You can do that per pipeline without changing the others.
 
 See
-[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+[Differences between the classic and Flink processors](/content/integrate/redis-data-integration/architecture/classic-vs-flink.md)
 for a side-by-side comparison and
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md)
 for a step-by-step migration guide.

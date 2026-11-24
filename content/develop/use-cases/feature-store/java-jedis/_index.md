@@ -16,7 +16,7 @@ weight: 4
 ---
 
 This guide shows you how to build a small Redis-backed online feature store in
-Java with [Jedis]({{< relref "/develop/clients/jedis" >}}). It includes a
+Java with [Jedis](/content/develop/clients/jedis/_index.md). It includes a
 local web server built with the JDK's `com.sun.net.httpserver.HttpServer` so
 you can bulk-load a batch of users with a key-level TTL, run a streaming
 worker that overwrites real-time features with per-field TTL, retrieve any
@@ -26,22 +26,22 @@ hundred users for batch scoring.
 ## Overview
 
 Each entity (here, a user) is one Redis
-[Hash]({{< relref "/develop/data-types/hashes" >}}) at a deterministic key —
+[Hash](/content/develop/data-types/hashes.md) at a deterministic key —
 `fs:user:{id}`. The hash holds every feature for that entity as one field per
 feature: batch-materialized aggregates (refreshed once a day) alongside
 streaming-updated signals (refreshed every few seconds). One
-[`HMGET`]({{< relref "/commands/hmget" >}}) returns whichever subset the model
+[`HMGET`](/content/commands/hmget.md) returns whichever subset the model
 needs in one network round trip.
 
 Two TTL layers solve the *mixed staleness* problem without an application-side
 cleaner:
 
-* A **key-level** [`EXPIRE`]({{< relref "/commands/expire" >}}) aligned with the
+* A **key-level** [`EXPIRE`](/content/commands/expire.md) aligned with the
   batch materialization cycle (24 hours in the demo). If the batch refresher
   fails, the whole entity disappears at the next cycle and inference sees a
   missing entity — which the model handler can detect and fall back on —
   rather than silently outdated values.
-* A **per-field** [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) (Redis 7.4+) on
+* A **per-field** [`HEXPIRE`](/content/commands/hexpire.md) (Redis 7.4+) on
   each streaming feature gives that field its own shorter expiry, independent
   of the rest of the hash. If the streaming pipeline stops updating a feature,
   the field self-cleans while the batch fields stay populated.
@@ -60,7 +60,7 @@ through `FeatureStore.java`'s helper class.
 That gives you:
 
 * A single round trip for retrieval — any subset of features for one entity
-  in one [`HMGET`]({{< relref "/commands/hmget" >}}).
+  in one [`HMGET`](/content/commands/hmget.md).
 * Sub-millisecond hot path. The Redis-side work is microseconds; in practice
   the bottleneck is the network round trip plus the model's own feature-prep.
 * Pipelined batch scoring — one round trip for `N` users at once.
@@ -84,9 +84,9 @@ request side.
    the warehouse). The result is `Map<String, Map<String, Object>>` keyed by
    user ID.
 2. `store.bulkLoad(rows, ttlSeconds)` queues one
-   [`HSET`]({{< relref "/commands/hset" >}}) plus one
-   [`EXPIRE`]({{< relref "/commands/expire" >}}) per user through Jedis's
-   [`Pipeline`]({{< relref "/develop/clients/jedis/transpipe" >}}), then
+   [`HSET`](/content/commands/hset.md) plus one
+   [`EXPIRE`](/content/commands/expire.md) per user through Jedis's
+   [`Pipeline`](/content/develop/clients/jedis/transpipe.md), then
    `pipe.sync()` ships the whole batch in a single round trip. The `HSET`
    writes every batch field; the `EXPIRE` is what makes the entity disappear
    if the next batch run fails, so inference reads a missing entity rather
@@ -98,10 +98,10 @@ When a user does something (login, transaction, page view) the streaming
 layer computes whatever real-time signals fall out of that event and calls
 `store.updateStreaming(userId, fields, ttlSeconds)`. That batches:
 
-1. An [`HSET`]({{< relref "/commands/hset" >}}) writing the new field values.
+1. An [`HSET`](/content/commands/hset.md) writing the new field values.
    Redis is single-threaded per shard, so this is atomic against any
    concurrent batch write on the same hash — no version columns, no locks.
-2. An [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) over exactly the fields
+2. An [`HEXPIRE`](/content/commands/hexpire.md) over exactly the fields
    that were written, with the streaming TTL. Each streaming field carries
    its own per-field expiry independent of the rest of the hash. Stop the
    worker and these fields drop out one by one as their TTLs elapse, while
@@ -112,12 +112,12 @@ layer computes whatever real-time signals fall out of that event and calls
 1. The model server picks the feature subset it needs (the schema is owned by
    the model, not the store).
 2. It calls `store.getFeatures(userId, names)`, which is one
-   [`HMGET`]({{< relref "/commands/hmget" >}}). Redis returns the values in
+   [`HMGET`](/content/commands/hmget.md). Redis returns the values in
    the same order as the requested fields, with `null` for any field that
    doesn't exist (or has expired).
 3. For batch inference, the model server calls
    `store.batchGetFeatures(userIds, names)`, which pipelines one
-   [`HMGET`]({{< relref "/commands/hmget" >}}) per user across all `N` users
+   [`HMGET`](/content/commands/hmget.md) per user across all `N` users
    in a single network round trip via Jedis's `Pipeline.sync()`.
 
 ## The feature-store helper
@@ -126,13 +126,16 @@ The `FeatureStore` class wraps the read/write paths
 ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/feature-store/java-jedis/FeatureStore.java)):
 
 ```java
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.ConnectionPoolConfig;
+import redis.clients.jedis.RedisClient;
 
-JedisPoolConfig cfg = new JedisPoolConfig();
+ConnectionPoolConfig cfg = new ConnectionPoolConfig();
 cfg.setMaxTotal(64);
-JedisPool pool = new JedisPool(cfg, "localhost", 6379);
-FeatureStore store = new FeatureStore(pool,
+RedisClient jedis = RedisClient.builder()
+    .hostAndPort("localhost", 6379)
+    .poolConfig(cfg)
+    .build();
+FeatureStore store = new FeatureStore(jedis,
     "fs:user:",
     24L * 60L * 60L,    // whole-entity TTL aligned with the daily batch cycle
     5L * 60L            // per-field TTL on each streaming feature
@@ -205,7 +208,7 @@ fs:user:u0001                                   TTL = 86400 s (key-level)
 ```
 
 The batch fields sit under the key-level `EXPIRE`. The streaming fields each
-carry their own [`HEXPIRE`]({{< relref "/commands/hexpire" >}}). If the
+carry their own [`HEXPIRE`](/content/commands/hexpire.md). If the
 streaming pipeline stops, the streaming fields drop one by one as their
 per-field TTLs elapse; the batch fields stay until the daily key-level
 `EXPIRE` fires (or the next batch cycle re-pins them).
@@ -220,8 +223,7 @@ server side but the client only pays one RTT.
 ```java
 public int bulkLoad(Map<String, Map<String, Object>> rows, long ttlSeconds) {
     if (rows.isEmpty()) return 0;
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    try (Pipeline pipe = jedis.pipelined()) {
         for (Map.Entry<String, Map<String, Object>> e : rows.entrySet()) {
             String key = keyFor(e.getKey());
             Map<String, String> encoded = encode(e.getValue());
@@ -241,7 +243,7 @@ independent of every other user's, and an all-or-nothing transaction would
 block the server for the duration of the batch. For the rare case where the
 pair has to be inseparable (a server crash between the two would leave the
 entity without a key-level TTL) you'd wrap each user in a `Transaction` or a
-[Lua script]({{< relref "/develop/programmability/eval-intro" >}}); for a
+[Lua script](/content/develop/programmability/eval-intro.md); for a
 daily ingestion job that runs end-to-end every cycle, the next run re-pins
 the TTL — no extra machinery needed.
 
@@ -250,7 +252,7 @@ Spark or Feast `materialize` job) that reads from the warehouse and writes
 into Redis. The
 [Feast `RedisOnlineStore`](https://docs.feast.dev/reference/online-stores/redis)
 provider does exactly this under the hood; the in-house
-[Redis Feature Form]({{< relref "/develop/ai/featureform" >}}) integration
+[Redis Feature Form](/content/develop/ai/featureform/_index.md) integration
 covers the materialize + serve path end-to-end.
 
 ### Streaming writes with per-field TTL
@@ -265,13 +267,13 @@ public void updateStreaming(String entityId, Map<String, Object> fields, long tt
     String[] names = encoded.keySet().toArray(new String[0]);
 
     List<Long> expireCodes;
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    Response<List<Long>> expireResp;
+    try (Pipeline pipe = jedis.pipelined()) {
         pipe.hset(key, encoded);
-        Response<List<Long>> expireResp = pipe.hexpire(key, ttlSeconds, names);
+        expireResp = pipe.hexpire(key, ttlSeconds, names);
         pipe.sync();
-        expireCodes = expireResp.get();
     }
+    expireCodes = expireResp.get();
     for (Long code : expireCodes) {
         if (code == null || code != 1L) {
             throw new IllegalStateException(
@@ -282,7 +284,7 @@ public void updateStreaming(String entityId, Map<String, Object> fields, long tt
 }
 ```
 
-[`HEXPIRE`]({{< relref "/commands/hexpire" >}}) sets the TTL on *individual*
+[`HEXPIRE`](/content/commands/hexpire.md) sets the TTL on *individual*
 hash fields, not on the whole key. The two commands are queued in one
 `Pipeline` and Redis runs them in order: the `HSET` first creates or
 overwrites the fields, then `HEXPIRE` attaches a TTL to each of those same
@@ -301,7 +303,7 @@ codes; that list is what the helper validates above.
 
 If a streaming pipeline stops, the streaming fields drop out one by one as
 their per-field TTLs elapse — there is no application-side cleaner involved.
-[`HTTL`]({{< relref "/commands/httl" >}}) lets the model side inspect the
+[`HTTL`](/content/commands/httl.md) lets the model side inspect the
 remaining TTL on any field, which is useful both for debugging ("why is this
 feature missing?" → "it expired three seconds ago") and as a freshness signal
 in the model itself.
@@ -309,7 +311,7 @@ in the model itself.
 > **HEXPIRE requires Redis 7.4 or later.** `HEXPIRE` and the field-level TTL
 > commands (`HTTL`, `HPERSIST`, `HEXPIREAT`, `HPEXPIRE`, `HPEXPIREAT`,
 > `HPTTL`, `HEXPIRETIME`, `HPEXPIRETIME`) were added in Redis 7.4. Jedis 5.2
-> was the first release with the bindings; the demo's `pom.xml` pins 6.2.
+> was the first release with the bindings; the demo's `pom.xml` pins 8.0.2.
 > On older Redis builds you would have to put streaming features on their
 > own keys (one key per feature, or one key per feature group) and set a
 > key-level `EXPIRE` instead — at the cost of giving up the single-`HMGET`
@@ -324,17 +326,13 @@ public Map<String, String> getFeatures(String entityId, List<String> fieldNames)
     String key = keyFor(entityId);
     Map<String, String> out = new LinkedHashMap<>();
     if (fieldNames == null) {
-        try (Jedis jedis = pool.getResource()) {
-            Map<String, String> all = jedis.hgetAll(key);
-            if (all != null) out.putAll(all);
-        }
+        Map<String, String> all = jedis.hgetAll(key);
+        if (all != null) out.putAll(all);
         return out;
     }
     if (fieldNames.isEmpty()) return out;
     List<String> values;
-    try (Jedis jedis = pool.getResource()) {
-        values = jedis.hmget(key, fieldNames.toArray(new String[0]));
-    }
+    values = jedis.hmget(key, fieldNames.toArray(new String[0]));
     for (int i = 0; i < fieldNames.size(); i++) {
         String v = values.get(i);
         if (v != null) out.put(fieldNames.get(i), v);
@@ -368,8 +366,7 @@ public Map<String, Map<String, String>> batchGetFeatures(
     }
     String[] names = fieldNames.toArray(new String[0]);
     List<Response<List<String>>> responses = new ArrayList<>(entityIds.size());
-    try (Jedis jedis = pool.getResource()) {
-        Pipeline pipe = jedis.pipelined();
+    try (Pipeline pipe = jedis.pipelined()) {
         for (String id : entityIds) {
             responses.add(pipe.hmget(keyFor(id), names));
         }
@@ -396,7 +393,7 @@ pipelining is what keeps batch scoring practical.
 A Redis Cluster is different: a single `Pipeline.sync()` is bound to one
 shard, because cross-slot pipelines on a cluster connection don't make sense.
 For batch reads on a cluster, use
-[`JedisCluster`]({{< relref "/develop/clients/jedis" >}}) and either fan out
+[`JedisCluster`](/content/develop/clients/jedis/_index.md) and either fan out
 parallel `hmget` calls (the cluster client routes per-shard for you) or, for
 tighter control, group the IDs by hash slot ahead of time and issue one
 `Pipeline.sync()` against each shard's connection in parallel. A hash tag
@@ -513,8 +510,8 @@ pool. The HTML page lets you:
   read time.
 
 The server holds one `FeatureStore` and one `StreamingWorker` for the
-lifetime of the process, plus a `JedisPool` that all handlers borrow
-connections from. Endpoints:
+lifetime of the process, plus a `RedisClient` whose connection pool all
+handlers borrow from. Endpoints:
 
 | Endpoint                  | What it does                                                                        |
 |---------------------------|-------------------------------------------------------------------------------------|
@@ -528,14 +525,14 @@ connections from. Endpoints:
 
 ## Prerequisites
 
-* **Redis 7.4 or later.** [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and
-  [`HTTL`]({{< relref "/commands/httl" >}}) were added in Redis 7.4; the
+* **Redis 7.4 or later.** [`HEXPIRE`](/content/commands/hexpire.md) and
+  [`HTTL`](/content/commands/httl.md) were added in Redis 7.4; the
   demo relies on per-field TTL for the mixed-staleness story.
 * **Java 17 or later.** The demo uses switch expressions with arrow
   labels (`case "..." -> ...`), records, and text blocks.
-* **Jedis 5.2 or later.** The demo's `pom.xml` pins
-  `redis.clients:jedis:6.2.0`. Field-level TTL bindings (`hexpire`, `httl`,
-  `hpersist`) ship from Jedis 5.2.
+* **Jedis 8.0 or later.** The demo uses `RedisClient`, and its `pom.xml`
+  pins `redis.clients:jedis:8.0.2`. Field-level TTL bindings (`hexpire`,
+  `httl`, `hpersist`) ship from Jedis 5.2.
 
 If your Redis server is running elsewhere, start the demo with `--redis-host`
 and `--redis-port`.
@@ -607,11 +604,11 @@ is `fs:user:`. Pass `--no-reset` to keep existing data across restarts, or
 
 The guidance below focuses on the production concerns that are specific to
 running a feature store on Redis. For the generic Jedis production checklist
-— `JedisPool` sizing, AUTH/ACL, retry policy, sentinel/cluster failover —
+— connection pool sizing, AUTH/ACL, retry policy, sentinel/cluster failover —
 see the
-[Jedis production usage guide]({{< relref "/develop/clients/jedis/produsage" >}}).
+[Jedis production usage guide](/content/develop/clients/jedis/produsage.md).
 For TLS specifically, follow the
-[connect-with-TLS recipe]({{< relref "/develop/clients/jedis/connect#connect-to-your-production-redis-with-tls" >}}).
+[connect-with-TLS recipe](/content/develop/clients/jedis/connect.md#connect-to-your-production-redis-with-tls).
 The feature-store demo runs against `localhost` with the defaults; a real
 deployment should harden the client first.
 
@@ -650,7 +647,7 @@ one round trip. A Redis Cluster is different: a single `Pipeline.sync()` is
 bound to one shard, because cross-slot pipelines on a cluster connection
 don't make sense, and the keys for a typical user batch will land on
 multiple shards. For batch reads on a cluster, use
-[`JedisCluster`]({{< relref "/develop/clients/jedis" >}}) — its
+[`JedisCluster`](/content/develop/clients/jedis/_index.md) — its
 implementation routes per-shard for you. For tighter control, group the IDs
 by hash slot ahead of time and issue one `Pipeline.sync()` per shard's
 connection in parallel. For a small number of frequently-queried users (a
@@ -665,7 +662,7 @@ write applies `HEXPIRE` *every time*. If a streaming worker writes a field
 without renewing its TTL, the field carries whatever expiry was there before
 — possibly none, possibly stale — and the mixed-staleness invariant breaks.
 Keep the `HSET` and `HEXPIRE` in the same pipeline (or, even safer, in the
-same [Lua script]({{< relref "/develop/programmability/eval-intro" >}}) if
+same [Lua script](/content/develop/programmability/eval-intro.md) if
 you don't trust the call site).
 
 ### Avoid HGETALL on the request path
@@ -679,11 +676,11 @@ The exception is debugging and feature-set discovery, where you genuinely
 want the full hash. The demo's "Inspect" button uses `hgetAll` for exactly
 this reason.
 
-### Size the JedisPool for the request shape
+### Size the connection pool for the request shape
 
 Every `FeatureStore` helper method borrows a connection from the
-`JedisPool` for the duration of one Redis call (or one `Pipeline.sync()`)
-and returns it via the try-with-resources block. One HTTP handler can
+`RedisClient` pool for the duration of one Redis call (or one pipeline,
+until try-with-resources closes it) and returns it afterwards. One HTTP handler can
 therefore borrow several connections sequentially — `/read`, for example,
 makes one `hmget` call, one `httl` call, and one `ttl` call, each of
 which is its own borrow.
@@ -724,24 +721,24 @@ positive value is the remaining TTL in seconds.
 
 This example uses the following Redis commands:
 
-* [`HSET`]({{< relref "/commands/hset" >}}) to write a feature or a whole
+* [`HSET`](/content/commands/hset.md) to write a feature or a whole
   feature row in one call.
-* [`HMGET`]({{< relref "/commands/hmget" >}}) to retrieve any subset of
+* [`HMGET`](/content/commands/hmget.md) to retrieve any subset of
   features for one entity in one round trip.
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) for debugging and
+* [`HGETALL`](/content/commands/hgetall.md) for debugging and
   feature-set discovery.
-* [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and
-  [`HTTL`]({{< relref "/commands/httl" >}}) for per-field TTL on streaming
+* [`HEXPIRE`](/content/commands/hexpire.md) and
+  [`HTTL`](/content/commands/httl.md) for per-field TTL on streaming
   features (Redis 7.4+).
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) and
-  [`TTL`]({{< relref "/commands/ttl" >}}) for the whole-entity TTL aligned
+* [`EXPIRE`](/content/commands/expire.md) and
+  [`TTL`](/content/commands/ttl.md) for the whole-entity TTL aligned
   with the batch materialization cycle.
 * Pipelined `HMGET` across many entities for batch scoring with one network
   round trip — see
-  [transactions and pipelining]({{< relref "/develop/clients/jedis/transpipe" >}}).
+  [transactions and pipelining](/content/develop/clients/jedis/transpipe.md).
 
-See the [Jedis documentation]({{< relref "/develop/clients/jedis" >}}) for
+See the [Jedis documentation](/content/develop/clients/jedis/_index.md) for
 the full client reference, and the
-[Hashes overview]({{< relref "/develop/data-types/hashes" >}}) for the deeper
+[Hashes overview](/content/develop/data-types/hashes.md) for the deeper
 conceptual model — including the listpack encoding that makes small hashes
 particularly compact in memory, which matters at feature-store scale.

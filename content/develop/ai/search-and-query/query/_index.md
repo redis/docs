@@ -20,7 +20,7 @@ title: Querying data
 weight: 5
 ---
 
-Redis Open Source distinguishes between the [FT.SEARCH]({{< relref "/commands/ft.search" >}}) and [FT.AGGREGATE]({{< relref "/commands/ft.aggregate" >}}) query commands. You should use [FT.SEARCH]({{< relref "/commands/ft.search" >}}) if you want to perform selections and projections only. If you also need to apply mapping functions, group, or aggregate data, use the [FT.AGGREGATE]({{< relref "/commands/ft.aggregate" >}}) command. 
+Redis Open Source distinguishes between the [FT.SEARCH](/content/commands/ft.search.md) and [FT.AGGREGATE](/content/commands/ft.aggregate.md) query commands. You should use [FT.SEARCH](/content/commands/ft.search.md) if you want to perform selections and projections only. If you also need to apply mapping functions, group, or aggregate data, use the [FT.AGGREGATE](/content/commands/ft.aggregate.md) command. 
 
 * **Selection**: A selection allows you to return all documents that fulfill specific criteria.
 * **Projection**: Projections are used to return specific fields of the result set. You can also map/project to calculated field values.
@@ -35,15 +35,15 @@ Here is a short SQL comparison using the [bicycle dataset](./data/bicycles.txt):
 | Calculated projection| `SELECT id, price-price*0.1 AS discounted FROM bicycles`| `FT.AGGREGATE idx:bicycle "*" LOAD 2 __key price APPLY "@price-@price*0.1" AS discounted`| 
 | Aggregation | `SELECT condition, AVG(price) AS avg_price FROM bicycles GROUP BY condition` | `FT.AGGREGATE idx:bicycle "*" GROUPBY 1 @condition REDUCE AVG 1 @price AS avg_price` |
 
-The following articles provide an overview of how to query data with the [FT.SEARCH]({{< relref "commands/ft.search" >}}) command:
+The following articles provide an overview of how to query data with the [FT.SEARCH](/content/commands/ft.search.md) command:
 
-* [Exact match queries]({{< relref "/develop/ai/search-and-query/query/exact-match" >}})
-* [Range queries]({{< relref "/develop/ai/search-and-query/query/range" >}})
-* [Full-text search ]({{< relref "/develop/ai/search-and-query/query/full-text" >}})
-* [Geospatial queries]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}})
-* [Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
-* [Combined queries]({{< relref "/develop/ai/search-and-query/query/combined" >}})
+* [Exact match queries](/content/develop/ai/search-and-query/query/exact-match.md)
+* [Range queries](/content/develop/ai/search-and-query/query/range.md)
+* [Full-text search ](/content/develop/ai/search-and-query/query/full-text.md)
+* [Geospatial queries](/content/develop/ai/search-and-query/query/geo-spatial.md)
+* [Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
+* [Combined queries](/content/develop/ai/search-and-query/query/combined.md)
 
-You can find further details about aggregation queries with [FT.AGGREGATE]({{< relref "commands/ft.aggregate" >}}) in the following article:
+You can find further details about aggregation queries with [FT.AGGREGATE](/content/commands/ft.aggregate.md) in the following article:
 
-* [Aggregation queries]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
+* [Aggregation queries](/content/develop/ai/search-and-query/query/aggregation.md)

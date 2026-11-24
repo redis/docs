@@ -18,9 +18,8 @@ Istio can also understand Ingress resources, but using that mechanism takes away
 
 To configure Istio to work with the Redis Kubernetes operator, we will use two custom resources: a `Gateway` and a `VirtualService`. Then you'll be able to establish external access to your database.
 
-{{< note >}}
-When using Istio ingress for Redis on Kubernetes, avoid partial wildcard hostnames in your REC configuration. Use only valid FQDNs or leftmost wildcards for Istio compatibility and stable external routing. For more information, see [Istio Ingress Fails for Redis on Kubernetes with Partial Wildcard Hostnames](https://support.redislabs.com/hc/en-us/articles/30446436267666-Istio-Ingress-Fails-for-Redis-on-Kubernetes-with-Partial-Wildcard-Hostnames).
-{{< /note >}}
+> [!NOTE]
+> When using Istio ingress for Redis on Kubernetes, avoid partial wildcard hostnames in your REC configuration. Use only valid FQDNs or leftmost wildcards for Istio compatibility and stable external routing. For more information, see [Istio Ingress Fails for Redis on Kubernetes with Partial Wildcard Hostnames](https://support.redislabs.com/hc/en-us/articles/30446436267666-Istio-Ingress-Fails-for-Redis-on-Kubernetes-with-Partial-Wildcard-Hostnames).
 
 ## Install and configure Istio for Redis Enterprise
 
@@ -150,10 +149,10 @@ When using Istio ingress for Redis on Kubernetes, avoid partial wildcard hostnam
     redis-vs   ["redis-gateway"]   ["*.istio.k8s.my.example.com"]   3h33m
     ```
 
-1. [Deploy the operator]({{< relref "/operate/kubernetes/8.0.18/deployment/quick-start" >}}), Redis Enterprise Cluster (REC), and Redis Enterprise Database (REDB) on the same namespace as the gateway and virtual service.
+1. [Deploy the operator](/content/operate/kubernetes/8.0.18/deployment/quick-start.md), Redis Enterprise Cluster (REC), and Redis Enterprise Database (REDB) on the same namespace as the gateway and virtual service.
 
 ## Test your external access to the database
 
-To [test your external access]({{< relref "/operate/kubernetes/8.0.18/networking/ingress" >}}) to the database, you need a client that supports [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) and [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication).
+To [test your external access](/content/operate/kubernetes/8.0.18/networking/ingress.md) to the database, you need a client that supports [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) and [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication).
 
-See [Test your access with Openssl]({{< relref "/operate/kubernetes/8.0.18/networking/ingress#test-your-access-with-openssl" >}}) or [Test your access with Python]({{< relref "/operate/kubernetes/8.0.18/networking/ingress#test-your-access-with-python" >}}) for more info.
+See [Test your access with Openssl](/content/operate/kubernetes/8.0.18/networking/ingress.md#test-your-access-with-openssl) or [Test your access with Python](/content/operate/kubernetes/8.0.18/networking/ingress.md#test-your-access-with-python) for more info.

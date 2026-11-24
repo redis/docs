@@ -13,9 +13,9 @@ url: '/operate/rs/8.0/references/rest-api/objects/crdb/database_config/'
 
 An object that represents the database configuration. This configuration object is used in two contexts within CRDB objects:
 
-- As `default_db_config` in the main [CRDB object]({{< relref "/operate/rs/8.0/references/rest-api/objects/crdb" >}}) for settings that apply to all instances. In most cases, instances should use the same configuration.
+- As `default_db_config` in the main [CRDB object](/content/operate/rs/8.0/references/rest-api/objects/crdb/_index.md) for settings that apply to all instances. In most cases, instances should use the same configuration.
 
-- As `db_config` in individual [instance objects]({{< relref "/operate/rs/8.0/references/rest-api/objects/crdb/instance_info" >}}) to override `default_db_config` or add configuration values for specific instances. Use `db_config` only when an instance needs different settings than the default configuration.
+- As `db_config` in individual [instance objects](/content/operate/rs/8.0/references/rest-api/objects/crdb/instance_info.md) to override `default_db_config` or add configuration values for specific instances. Use `db_config` only when an instance needs different settings than the default configuration.
 
 ## `default_db_config` settings
 
@@ -38,7 +38,7 @@ The following fields don't break replication if they differ between instances, b
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
-| eviction_policy | **'noeviction'**<br />'allkeys-lru'<br />'allkeys-lfu'<br />'allkeys-random'<br />'volatile-lru'<br />'volatile-lfu'<br />'volatile-random'<br />'volatile-ttl' | Database memory eviction policy. See [eviction policy]({{< relref "/operate/rs/8.0/databases/memory-performance/eviction-policy" >}}) for more information. |
+| eviction_policy | **'noeviction'**<br />'allkeys-lru'<br />'allkeys-lfu'<br />'allkeys-random'<br />'volatile-lru'<br />'volatile-lfu'<br />'volatile-random'<br />'volatile-ttl' | Database memory eviction policy. See [eviction policy](/content/operate/rs/8.0/databases/memory-performance/eviction-policy.md) for more information. |
 | memory_size | integer (default: 0) | Database memory size limit in bytes. 0 is unlimited. |
 | oss_cluster | boolean (default: false) | Enables OSS Cluster mode |
 | <span class="break-all">oss_cluster_api_preferred_ip_type</span> | 'internal'<br />'external' | Indicates preferred IP type in OSS cluster API |
@@ -55,16 +55,16 @@ The following fields don't break replication or cause future issues if they diff
 |------|------------|-------------|
 | aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always' | Policy for Append-Only File data persistence |
 | <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Software v7.2, replaced with multiple passwords feature in version 6.0.X) |
-| data_persistence | 'disabled'<br />'snapshot'<br />**'aof'** | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/8.0/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided |
+| data_persistence | 'disabled'<br />'snapshot'<br />**'aof'** | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy](/content/operate/rs/8.0/references/rest-api/objects/bdb/snapshot_policy.md) must be provided |
 | max_aof_file_size | integer | Maximum AOF file size in bytes |
 | max_aof_load_time | integer (default: 3600) | Maximum AOF reload time in seconds |
 | replication | boolean (default: true) | Database replication |
-| <span class="break-all">replication_oom_threshold_percent</span> | integer (range: 0-20) (default: 5) | Reserved memory buffer percentage below `maxmemory` that blocks client writes while allowing Active-Active replication. Requires Redis database version 8.4 or later. See [Replication OOM protection]({{<relref "/operate/rs/8.0/databases/active-active/planning#replication-oom-protection">}}) for more information. |
-| snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/8.0/references/rest-api/objects/bdb/snapshot_policy" >}}) objects | Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset. |
+| <span class="break-all">replication_oom_threshold_percent</span> | integer (range: 0-20) (default: 5) | Reserved memory buffer percentage below `maxmemory` that blocks client writes while allowing Active-Active replication. Requires Redis database version 8.4 or later. See [Replication OOM protection](/content/operate/rs/8.0/databases/active-active/planning.md#replication-oom-protection) for more information. |
+| snapshot_policy | array of [snapshot_policy](/content/operate/rs/8.0/references/rest-api/objects/bdb/snapshot_policy.md) objects | Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset. |
 
 ## Per-instance `db_config` settings
 
-Set the following fields in an individual [instance]({{<relref "/operate/rs/8.0/references/rest-api/objects/crdb/instance_info">}})'s `db_config` because they are specific to that cluster's environment.
+Set the following fields in an individual [instance](/content/operate/rs/8.0/references/rest-api/objects/crdb/instance_info.md)'s `db_config` because they are specific to that cluster's environment.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|

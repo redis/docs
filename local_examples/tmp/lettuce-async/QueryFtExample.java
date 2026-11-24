@@ -38,14 +38,14 @@ public class QueryFtExample {
                     "bicycle:7", "bicycle:8", "bicycle:9", "key:1").toCompletableFuture().join();
             // REMOVE_END
 
-            List<FieldArgs<String>> bicycleSchema = Arrays.asList(
-                    TextFieldArgs.<String> builder().name("$.brand").as("brand").build(),
-                    TextFieldArgs.<String> builder().name("$.model").as("model").build(),
-                    TextFieldArgs.<String> builder().name("$.description").as("description").build(),
-                    NumericFieldArgs.<String> builder().name("$.price").as("price").build(),
-                    TagFieldArgs.<String> builder().name("$.condition").as("condition").build());
+            List<FieldArgs> bicycleSchema = Arrays.asList(
+                    TextFieldArgs.builder().name("$.brand").as("brand").build(),
+                    TextFieldArgs.builder().name("$.model").as("model").build(),
+                    TextFieldArgs.builder().name("$.description").as("description").build(),
+                    NumericFieldArgs.builder().name("$.price").as("price").build(),
+                    TagFieldArgs.builder().name("$.condition").as("condition").build());
 
-            CreateArgs<String, String> bicycleCreateArgs = CreateArgs.<String, String> builder().on(CreateArgs.TargetType.JSON)
+            CreateArgs bicycleCreateArgs = CreateArgs.builder().on(CreateArgs.TargetType.JSON)
                     .withPrefix("bicycle:").build();
 
             asyncCommands.ftCreate("idx:bicycle", bicycleCreateArgs, bicycleSchema).toCompletableFuture().join();
@@ -163,7 +163,7 @@ public class QueryFtExample {
             CompletableFuture.allOf(bikeFutures).join();
 
             // STEP_START ft1
-            CompletableFuture<SearchReply<String, String>> descriptionResults = asyncCommands
+            CompletableFuture<SearchReply<String>> descriptionResults = asyncCommands
                     .ftSearch("idx:bicycle", "@description: kids").thenApply(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -172,7 +172,7 @@ public class QueryFtExample {
                         // >>> ID: bicycle:2
                         // REMOVE_START
                         assertThat(res.getResults().size()).isEqualTo(2);
-                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                 .toArray()).containsExactly("bicycle:1", "bicycle:2");
                         // REMOVE_END
                         return res;
@@ -180,7 +180,7 @@ public class QueryFtExample {
             // STEP_END
 
             // STEP_START ft2
-            CompletableFuture<SearchReply<String, String>> startsWithResults = asyncCommands
+            CompletableFuture<SearchReply<String>> startsWithResults = asyncCommands
                     .ftSearch("idx:bicycle", "@model: ka*").thenApply(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -195,7 +195,7 @@ public class QueryFtExample {
             // STEP_END
 
             // STEP_START ft3
-            CompletableFuture<SearchReply<String, String>> endsWithResults = asyncCommands
+            CompletableFuture<SearchReply<String>> endsWithResults = asyncCommands
                     .ftSearch("idx:bicycle", "@brand: *bikes").thenApply(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -204,7 +204,7 @@ public class QueryFtExample {
                         // >>> ID: bicycle:6
                         // REMOVE_START
                         assertThat(res.getResults().size()).isEqualTo(2);
-                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String, String>::getId).sorted()
+                        assertThat(res.getResults().stream().map(SearchReply.SearchResult<String>::getId).sorted()
                                 .toArray()).containsExactly("bicycle:4", "bicycle:6");
                         // REMOVE_END
                         return res;
@@ -212,7 +212,7 @@ public class QueryFtExample {
             // STEP_END
 
             // STEP_START ft4
-            CompletableFuture<SearchReply<String, String>> fuzzyResults = asyncCommands.ftSearch("idx:bicycle", "%optamized%")
+            CompletableFuture<SearchReply<String>> fuzzyResults = asyncCommands.ftSearch("idx:bicycle", "%optamized%")
                     .thenApply(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());
@@ -227,7 +227,7 @@ public class QueryFtExample {
             // STEP_END
 
             // STEP_START ft5
-            CompletableFuture<SearchReply<String, String>> fuzzierResults = asyncCommands
+            CompletableFuture<SearchReply<String>> fuzzierResults = asyncCommands
                     .ftSearch("idx:bicycle", "%%optamised%%").thenApply(res -> {
                         res.getResults().stream().sorted((doc1, doc2) -> doc1.getId().compareTo(doc2.getId())).forEach(doc -> {
                             System.out.printf("ID: %s\n", doc.getId());

@@ -17,7 +17,7 @@ A role binding assigns a role to one or more users. Redis Software for Kubernete
 
 Both have the same two spec fields: `roleRef` points at a single role, and `subjects` lists the users who receive it. A user holds the permissions defined by every role bound to it across all bindings.
 
-For the conceptual model and a complete end-to-end example, see [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}).
+For the conceptual model and a complete end-to-end example, see [Roles and bindings](/content/operate/kubernetes/security/access-control/_index.md#roles-and-bindings).
 
 ## Common patterns
 
@@ -164,10 +164,10 @@ Watch reconciliation events with `kubectl describe redisenterpriserolebinding <n
 - **User has permissions you didn't expect** — Multiple bindings may be granting the same user different roles. Use the recipes in [Find bindings that reference a role or user](#find-bindings-that-reference-a-role-or-user) to list everything that targets the user.
 - **`MissingRoleUIDs` event on a user** — Redis Software has role UIDs assigned to the user that the operator can't trace back to any Kubernetes role resource. This typically means roles were granted directly through the Redis Software REST API or Cluster Manager UI, bypassing the CRD model. Recreate the assignment as a `RedisEnterpriseRoleBinding` (or `RedisEnterpriseClusterRoleBinding`) so the CRD model is the source of truth, then revoke the direct assignment.
 
-For full field details, see the [`RedisEnterpriseRoleBinding`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_role_binding_api" >}}) and [`RedisEnterpriseClusterRoleBinding`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_role_binding_api" >}}) API reference.
+For full field details, see the [`RedisEnterpriseRoleBinding`](/content/operate/kubernetes/reference/api/redis_enterprise_role_binding_api.md) and [`RedisEnterpriseClusterRoleBinding`](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_role_binding_api.md) API reference.
 
 ## Related topics
 
-- [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}) — the conceptual model and an end-to-end example.
-- [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) — create the roles that a binding references.
-- [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}) — create the users that a binding lists as subjects.
+- [Roles and bindings](/content/operate/kubernetes/security/access-control/_index.md#roles-and-bindings) — the conceptual model and an end-to-end example.
+- [Manage roles](/content/operate/kubernetes/security/access-control/manage-roles.md) — create the roles that a binding references.
+- [Manage users](/content/operate/kubernetes/security/access-control/manage-users.md) — create the users that a binding lists as subjects.

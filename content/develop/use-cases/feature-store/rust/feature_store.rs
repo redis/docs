@@ -247,7 +247,7 @@ impl FeatureStore {
         for code in &codes {
             if *code != 1 {
                 return Err(redis::RedisError::from((
-                    redis::ErrorKind::ResponseError,
+                    redis::ErrorKind::Server(redis::ServerErrorKind::ResponseError),
                     "HEXPIRE invariant violated",
                     format!(
                         "HEXPIRE did not set every field TTL for {key}: {codes:?}"
@@ -278,7 +278,7 @@ impl FeatureStore {
         }
         let key = self.key_for(entity_id);
         let mut conn = self.conn.clone();
-        let values: Vec<Option<String>> = conn.hget(&key, field_names).await?;
+        let values: Vec<Option<String>> = conn.hmget(&key, field_names).await?;
         let mut out = BTreeMap::new();
         for (n, v) in field_names.iter().zip(values.into_iter()) {
             if let Some(s) = v {
@@ -320,7 +320,7 @@ impl FeatureStore {
         }
         let mut pipe = redis::pipe();
         for id in entity_ids {
-            pipe.hget(self.key_for(id), field_names);
+            pipe.hmget(self.key_for(id), field_names);
         }
         let mut conn = self.conn.clone();
         let rows: Vec<Vec<Option<String>>> = pipe.query_async(&mut conn).await?;
@@ -377,7 +377,7 @@ impl FeatureStore {
         // shape coercion here the way redis-py and Lettuce do for
         // their respective clients.
         let values: Value = cmd.query_async(&mut conn).await?;
-        let codes: Vec<i64> = Vec::<i64>::from_redis_value(&values).unwrap_or_else(|_| {
+        let codes: Vec<i64> = Vec::<i64>::from_redis_value_ref(&values).unwrap_or_else(|_| {
             // Defensive fallback: if the client ever returns nil for
             // a missing key, treat every field as -2.
             field_names.iter().map(|_| -2).collect()
@@ -404,6 +404,7 @@ impl FeatureStore {
         let mut ids: Vec<String> = Vec::new();
         let prefix_len = self.key_prefix.len();
         while let Some(k) = iter.next_item().await {
+            let k = k?;
             if k.len() > prefix_len {
                 ids.push(k[prefix_len..].to_string());
             }
@@ -422,7 +423,8 @@ impl FeatureStore {
         let mut conn = self.conn.clone();
         let mut iter: AsyncIter<String> = conn.scan_match(&pattern).await?;
         let mut n = 0i64;
-        while let Some(_k) = iter.next_item().await {
+        while let Some(k) = iter.next_item().await {
+            k?;
             n += 1;
         }
         Ok(n)
@@ -444,7 +446,7 @@ impl FeatureStore {
         let mut batch: Vec<String> = Vec::with_capacity(500);
         let mut iter: AsyncIter<String> = conn.scan_match(&pattern).await?;
         while let Some(k) = iter.next_item().await {
-            batch.push(k);
+            batch.push(k?);
             if batch.len() >= 500 {
                 let n: i64 = self.conn.clone().del(batch.as_slice()).await?;
                 deleted += n;

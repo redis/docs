@@ -181,13 +181,22 @@ func ExampleClient_search_json() {
 
 	// STEP_START query3
 	aggOptions := redis.FTAggregateOptions{
-		GroupBy: []redis.FTAggregateGroupBy{
+		Steps: []redis.FTAggregateStep{
 			{
-				Fields: []interface{}{"@city"},
-				Reduce: []redis.FTAggregateReducer{
-					{
-						Reducer: redis.SearchCount,
-						As:      "count",
+				GroupBy: &redis.FTAggregateGroupBy{
+					Fields: []interface{}{"@city"},
+					Reduce: []redis.FTAggregateReducer{
+						{
+							Reducer: redis.SearchCount,
+							As:      "count",
+						},
+					},
+				},
+			},
+			{
+				SortBy: &redis.FTAggregateSortByStep{
+					Fields: []redis.FTAggregateSortBy{
+						{FieldName: "@city", Asc: true},
 					},
 				},
 			},
@@ -205,22 +214,17 @@ func ExampleClient_search_json() {
 		panic(err)
 	}
 
-	sort.Slice(aggResult.Rows, func(i, j int) bool {
-		return aggResult.Rows[i].Fields["city"].(string) <
-			aggResult.Rows[j].Fields["city"].(string)
-	})
-
 	for _, row := range aggResult.Rows {
 		fmt.Printf("%v - %v\n",
 			row.Fields["city"], row.Fields["count"],
 		)
 	}
-	// >>> City: London - 1
-	// >>> City: Tel Aviv - 2
+	// >>> London - 1
+	// >>> Tel Aviv - 2
 	// STEP_END
 
 	// Output:
-	// {1 [{user:3 <nil> <nil> <nil> map[$:{"age":35,"city":"Tel Aviv","email":"paul.zamir@example.com","name":"Paul Zamir"}] <nil>}]}
+	// {1 [{user:3 <nil> <nil> <nil> map[$:{"age":35,"city":"Tel Aviv","email":"paul.zamir@example.com","name":"Paul Zamir"}] <nil>}] []}
 	// London
 	// Tel Aviv
 	// 0
@@ -329,6 +333,52 @@ func ExampleClient_search_hash() {
 	// >>> {1 [{huser:3 <nil> <nil> <nil> map[age:35 city:Tel Aviv...
 	// STEP_END
 
+	// STEP_START add_hash_himport
+	fields := []string{"name", "email", "age", "city"}
+
+	err = rdb.HImportPrepare(ctx, "huser", fields...).Err()
+	if err != nil {
+		panic(err)
+	}
+
+	pipe := rdb.Pipeline()
+
+	for i, user := range []map[string]interface{}{user1, user2, user3} {
+		values := make([]interface{}, len(fields))
+		for j, field := range fields {
+			values[j] = user[field]
+		}
+
+		pipe.HImportSet(ctx, fmt.Sprintf("huser:%d", i+1), "huser", values...)
+	}
+
+	if _, err := pipe.Exec(ctx); err != nil {
+		panic(err)
+	}
+	// STEP_END
+	// REMOVE_START
+	himportEncoding, err := rdb.ObjectEncoding(ctx, "huser:3").Result()
+	if err != nil {
+		panic(err)
+	}
+	if len(himportEncoding) < 8 || himportEncoding[:8] != "template" {
+		panic(fmt.Sprintf("huser:3 is not a compact hash: %v", himportEncoding))
+	}
+
+	himportQueryRes, err := rdb.FTSearch(
+		ctx,
+		"hash-idx:users",
+		"Paul @age:[30 40]",
+	).Result()
+	if err != nil {
+		panic(err)
+	}
+	if himportQueryRes.Total != 1 || himportQueryRes.Docs[0].ID != "huser:3" ||
+		fmt.Sprint(himportQueryRes.Docs[0].Fields) != "map[age:35 city:Tel Aviv email:paul.zamir@example.com name:Paul Zamir]" {
+		panic(fmt.Sprintf("unexpected HIMPORT query result: %v", himportQueryRes))
+	}
+	// REMOVE_END
+
 	// Output:
-	// {1 [{huser:3 <nil> <nil> <nil> map[age:35 city:Tel Aviv email:paul.zamir@example.com name:Paul Zamir] <nil>}]}
+	// {1 [{huser:3 <nil> <nil> <nil> map[age:35 city:Tel Aviv email:paul.zamir@example.com name:Paul Zamir] <nil>}] []}
 }

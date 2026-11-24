@@ -14,7 +14,7 @@ title: Redis session store with Rust
 weight: 8
 ---
 
-This guide shows you how to implement a Redis-backed session store in Rust with [`redis-rs`]({{< relref "/develop/clients/rust" >}}). The module includes both synchronous and asynchronous APIs, and the demo server uses the async path so you can see the session lifecycle end to end.
+This guide shows you how to implement a Redis-backed session store in Rust with [`redis-rs`](/content/develop/clients/rust/_index.md). The module includes both synchronous and asynchronous APIs, and the demo server uses the async path so you can see the session lifecycle end to end.
 
 ## Overview
 
@@ -88,7 +88,7 @@ use std::collections::HashMap;
 #[tokio::main]
 async fn main() -> redis::RedisResult<()> {
     let client = Client::open("redis://localhost:6379/")?;
-    let mut con = client.get_async_connection().await?;
+    let mut con = client.get_multiplexed_async_connection().await?;
 
     let store = RedisSessionStore::new("session:", 1800)?;
 
@@ -133,11 +133,11 @@ session:abc123...
 
 The implementation uses:
 
-* [`HSET`]({{< relref "/commands/hset" >}}) to create and update session fields
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to load the session
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) to update counters
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) to implement sliding expiration
-* [`DEL`]({{< relref "/commands/del" >}}) to remove a session on logout
+* [`HSET`](/content/commands/hset.md) to create and update session fields
+* [`HGETALL`](/content/commands/hgetall.md) to load the session
+* [`HINCRBY`](/content/commands/hincrby.md) to update counters
+* [`EXPIRE`](/content/commands/expire.md) to implement sliding expiration
+* [`DEL`](/content/commands/del.md) to remove a session on logout
 
 The store treats `created_at`, `last_accessed_at`, and `session_ttl` as reserved internal fields, so caller-provided session data cannot overwrite them.
 
@@ -176,7 +176,7 @@ pub async fn get_session_async<C>(
     refresh_ttl: bool,
 ) -> RedisResult<Option<HashMap<String, String>>>
 where
-    C: redis::aio::ConnectionLike + Send,
+    C: redis::aio::ConnectionLike + Send + Sync,
 {
     let key = self.session_key(session_id);
     let session: HashMap<String, String> = con.hgetall(&key).await?;
@@ -205,7 +205,7 @@ Add the crates you need to `Cargo.toml`:
 
 ```toml
 [dependencies]
-redis = { version = "0.24", features = ["tokio-comp"] }
+redis = { version = "1.8", features = ["tokio-comp"] }
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
 serde = { version = "1.0", features = ["derive"] }
@@ -307,6 +307,6 @@ You now have a complete Redis-backed session example in Rust using `redis-rs`. F
 
 For more Redis data modeling patterns, see:
 
-* [Session store overview]({{< relref "/develop/use-cases/session-store" >}})
-* [Rust client guide]({{< relref "/develop/clients/rust" >}})
-* [Redis data types]({{< relref "/develop/data-types" >}})
+* [Session store overview](/content/develop/use-cases/session-store/_index.md)
+* [Rust client guide](/content/develop/clients/rust/_index.md)
+* [Redis data types](/content/develop/data-types/_index.md)

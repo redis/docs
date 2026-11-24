@@ -94,12 +94,10 @@ In the command `SUMMARIZE FIELDS 1 bar HIGHLIGHT FIELDS 1 baz`, `bar` is returne
 ## JSON indexes
 
 `HIGHLIGHT` and `SUMMARIZE` work on a JSON index when the field maps to a single-value
-[JSONPath]({{< relref "/develop/data-types/json/path" >}}) such as `$.name`.
+[JSONPath](/content/develop/data-types/json/path.md) such as `$.name`.
 
-Added in the 8.4 maintenance line (v8.4.14), the 8.6 line (v8.6.10), the 8.8 line (v8.8.1),
-the 8.10 line (v8.10.1), and Redis Open Source 8.12. Not available in Redis Open Source 8.2
-or earlier, and not present in the initial 8.4.0, 8.6.0, 8.8.0, or 8.10.0 releases, which
-reject `HIGHLIGHT` and `SUMMARIZE` on every JSON index.
+Requires Redis Open Source 8.10.2 or later. Earlier releases reject `HIGHLIGHT` and
+`SUMMARIZE` on every JSON index with `HIGHLIGHT/SUMMARIZE is not supported with JSON indexes`.
 
 Three rules apply to JSON indexes but not to hash indexes:
 
@@ -111,8 +109,9 @@ Three rules apply to JSON indexes but not to hash indexes:
 * **Multi-value JSONPaths are rejected.** A path such as `$.tags[*]` or `$..name` fails with
     `HIGHLIGHT/SUMMARIZE is not supported for JSON fields with multi-value JSONPath`. Each
     value in a multi-value path is indexed separately, with its own byte offsets, so there is
-    no single value to highlight. The error applies to any field in the returned or
-    highlighted set, whatever its schema type.
+    no single value to highlight. The error applies to every highlighted or summarized
+    field, whatever its schema type. Without a `FIELDS` list, that's every field in
+    `RETURN`. With one, it's only the fields that `FIELDS` names.
 
 * **Projection aliases created from raw JSONPath cannot be highlighted.** In a `RETURN` clause such as `RETURN 3 $.name AS alias`, the alias
     `alias` is not a schema field, so naming it in `HIGHLIGHT FIELDS` or `SUMMARIZE FIELDS`
@@ -152,14 +151,14 @@ Without `RETURN`, the same query fails:
 
 ```sql
 127.0.0.1:6379> FT.SEARCH itemIdx '@name:(bluetooth)' HIGHLIGHT
-(error) HIGHLIGHT/SUMMARIZE on JSON indexes requires RETURN with explicit field names
+(error) SEARCH_QUERY_BAD HIGHLIGHT/SUMMARIZE on JSON indexes requires RETURN with explicit field names
 ```
 
 Highlighting `tags`, which uses the multi-value JSONPath `$.tags[*]`, also fails:
 
 ```sql
 127.0.0.1:6379> FT.SEARCH itemIdx 'bluetooth' RETURN 1 tags HIGHLIGHT FIELDS 1 tags
-(error) HIGHLIGHT/SUMMARIZE is not supported for JSON fields with multi-value JSONPath
+(error) SEARCH_QUERY_BAD HIGHLIGHT/SUMMARIZE is not supported for JSON fields with multi-value JSONPath
 ```
 
 The equivalent hash index needs no `RETURN`:
@@ -177,4 +176,4 @@ OK
 ```
 
 For more about indexing and querying JSON documents, see
-[Index and query JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
+[Index and query JSON documents](/content/develop/ai/search-and-query/indexing/_index.md).

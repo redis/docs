@@ -20,4 +20,4 @@ tags:
 
 Redis 8.2 is now available on Redis Cloud Pro. You can now upgrade your existing Pro database to Redis 8.2. 
 
-See [upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) to learn how to upgrade your existing Pro database to the latest version. If you are upgrading to Redis 8.2 from Redis 7.4 or earlier, review the [Redis 8.0 breaking changes]({{< relref "/operate/rc/changelog/version-release-notes/8-0#breaking-changes" >}}) before upgrading.
+See [upgrade database version](/content/operate/rc/databases/version-management/upgrade-version.md) to learn how to upgrade your existing Pro database to the latest version. If you are upgrading to Redis 8.2 from Redis 7.4 or earlier, review the [Redis 8.0 breaking changes](/content/operate/rc/changelog/version-release-notes/8-0.md#breaking-changes) before upgrading.

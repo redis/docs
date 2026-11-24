@@ -38,34 +38,155 @@
       }
     ],
     "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [],
-    "lettuce_async": [],
-    "lettuce_reactive": [],
-    "nredisstack_sync": [],
-    "nredisstack_async": [],
-    "php": [
+    "node_redis": [
       {
-        "signature": "client(string $subcommand, ...$args)",
+        "signature": "clientNoEvict(value: boolean)",
         "params": [
           {
-            "name": "$subcommand",
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "$args",
-            "type": "mixed",
+            "name": "value",
+            "type": "boolean",
             "description": ""
           }
         ],
         "returns": {
-          "type": "string",
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String clientNoEvict(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true will turn eviction mode on, and false will turn it off."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply OK."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientNoEvict(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true will turn eviction mode on, and false will turn it off."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply OK."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientNoEvict(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true will turn eviction mode on, and false will turn it off."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply OK."
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "noEvict(bool $enable = null)",
+        "params": [
+          {
+            "name": "$enable",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
           "description": ""
         }
       }
     ],
     "redis_rs_sync": [],
-    "redis_rs_async": []
+    "redis_rs_async": [],
+    "ioredis": [
+      {
+        "signature": "client(subcommand: \"NO-EVICT\", on: \"ON\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"NO-EVICT\"",
+            "description": ""
+          },
+          {
+            "name": "on",
+            "type": "\"ON\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client(subcommand: \"NO-EVICT\", off: \"OFF\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"NO-EVICT\"",
+            "description": ""
+          },
+          {
+            "name": "off",
+            "type": "\"OFF\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<unknown, Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "client(:no_evict, *args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array",
+            "description": "arguments sent to the server after the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "String, Hash",
+          "description": "depends on subcommand"
+        }
+      }
+    ]
   }
 }

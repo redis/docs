@@ -18,7 +18,7 @@ Diagnostic logs are collected at scheduled intervals and saved in the `/var/opt/
 
 ## View log collector settings
 
-To view the current log collection schedule and parameters for each log collector, use the REST API to [get the diagnostic logging service configuration]({{<relref "/operate/rs/references/rest-api/requests/diagnostics#get-diagnostics">}}).
+To view the current log collection schedule and parameters for each log collector, use the REST API to [get the diagnostic logging service configuration](/content/operate/rs/references/rest-api/requests/diagnostics/_index.md#get-diagnostics).
 
 ```sh
 GET /v1/diagnostics
@@ -73,7 +73,7 @@ Example response:
 
 ## Change log collector settings
 
-To change how often a log is collected, set the `cron_expression` when you [update the diagnostic logging service configuration]({{<relref "/operate/rs/references/rest-api/requests/diagnostics#put-diagnostics">}}) with the REST API.
+To change how often a log is collected, set the `cron_expression` when you [update the diagnostic logging service configuration](/content/operate/rs/references/rest-api/requests/diagnostics/_index.md#put-diagnostics) with the REST API.
 
 ```sh
 PUT /v1/diagnostics
@@ -102,7 +102,7 @@ PUT /v1/diagnostics
 
 ## Turn off log collectors
 
-To turn off a log collector, set its `cron_expression` to an empty string when you [update the diagnostic logging service configuration]({{<relref "/operate/rs/references/rest-api/requests/diagnostics#put-diagnostics">}}) with the REST API.
+To turn off a log collector, set its `cron_expression` to an empty string when you [update the diagnostic logging service configuration](/content/operate/rs/references/rest-api/requests/diagnostics/_index.md#put-diagnostics) with the REST API.
 
 ```sh
 PUT /v1/diagnostics
@@ -127,16 +127,16 @@ Default `cron_expression` values:
 
 | Log collector | Description |
 |---------------|-------------|
-| bdb | Logs database metadata similar to [`GET /bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}). Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
+| bdb | Logs database metadata similar to [`GET /bdbs`](/content/operate/rs/references/rest-api/requests/bdbs/_index.md). Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
 | bdb_client_list | Logs database client lists, with a separate file for each database. Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
-| bdb_info | Logs the result of running [`INFO ALL`]({{<relref "/commands/info">}}) on a database, excluding `commandstats`, with a separate file for each database. Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
-| command_stats | Logs [`INFO commandstats`]({{<relref "/commands/info">}}) for each database, with a separate file for each database. Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/30 * * * *"{{</code>}} |
+| bdb_info | Logs the result of running [`INFO ALL`](/content/commands/info.md) on a database, excluding `commandstats`, with a separate file for each database. Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
+| command_stats | Logs [`INFO commandstats`](/content/commands/info.md) for each database, with a separate file for each database. Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/30 * * * *"{{</code>}} |
 | network_stats | Logs the node's network statistics.<br />Default settings:<br />{{<code>}}"cron_expression": "*/30 * * * *"{{</code>}} |
 | persistent_files | Lists persistent files from `/var/opt/redislabs/persist/redis`<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
-| rladmin_status | Logs data about nodes, databases, endpoints, and shards from [`rladmin status`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}). Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
-| shard | Logs shard status similar to [`GET /shards`]({{<relref "/operate/rs/references/rest-api/requests/shards">}}). Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
-| shard_info | Logs the result of running [INFO ALL]({{<relref "/commands/info">}}) on a shard, with a separate file for each shard. Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
-| shard_latency | Logs the result of running [`latency latest`]({{<relref "/commands/latency-latest">}}) on a shard, with a separate file for each shard.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
-| <span class="break-all">`shard_latency_histogram`</span> | Logs the result of running [`latency histogram`]({{<relref "/commands/latency-histogram">}}) on a shard, with a separate file for each shard.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
-| slowlog | Logs slow commands from the databases using [`SLOWLOG GET`]({{<relref "/commands/slowlog-get">}}), with a separate file for each database. Each entry is in JSON format. The log is sanitized, only the commands are visible.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *",<br />"max_entries": 100{{</code>}} |
+| rladmin_status | Logs data about nodes, databases, endpoints, and shards from [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md). Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
+| shard | Logs shard status similar to [`GET /shards`](/content/operate/rs/references/rest-api/requests/shards/_index.md). Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
+| shard_info | Logs the result of running [INFO ALL](/content/commands/info.md) on a shard, with a separate file for each shard. Each entry is in JSON format.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
+| shard_latency | Logs the result of running [`latency latest`](/content/commands/latency-latest.md) on a shard, with a separate file for each shard.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
+| <span class="break-all">`shard_latency_histogram`</span> | Logs the result of running [`latency histogram`](/content/commands/latency-histogram.md) on a shard, with a separate file for each shard.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
+| slowlog | Logs slow commands from the databases using [`SLOWLOG GET`](/content/commands/slowlog-get.md), with a separate file for each database. Each entry is in JSON format. The log is sanitized, only the commands are visible.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *",<br />"max_entries": 100{{</code>}} |
 | socket_files | Lists socket files used by Redis Software.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |

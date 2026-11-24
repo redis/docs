@@ -85,7 +85,7 @@ increments the existing entry of the suggestion by the given score, instead of r
 <details open>
 <summary><code>PAYLOAD {payload}</code></summary> 
 
-saves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}).
+saves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`](/content/commands/ft.sugget.md).
 </details>
 
 ## Examples
@@ -101,9 +101,9 @@ saves an extra payload with the suggestion, that can be fetched by adding the `W
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
+| Redis<br />Software | Redis Software<br />Flex | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
 
 ## Return information
 
@@ -111,18 +111,18 @@ saves an extra payload with the suggestion, that can be fetched by adding the `W
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of elements added to the suggestion dictionary.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): number of elements added to the suggestion dictionary.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of elements added to the suggestion dictionary.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): number of elements added to the suggestion dictionary.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 
+[`FT.SUGGET`](/content/commands/ft.sugget.md) | [`FT.SUGDEL`](/content/commands/ft.sugdel.md) | [`FT.SUGLEN`](/content/commands/ft.suglen.md) 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

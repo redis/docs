@@ -75,14 +75,14 @@ redis> TOPK.ADD topk foo bar 42
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing either dropped elements or [nil (null bulk string)]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments or non-existant key.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing either dropped elements or [nil (null bulk string)](/content/develop/reference/protocol-spec.md#bulk-strings).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect number of arguments or non-existant key.
 
 -tab-sep-
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing either dropped elements or [null]({{< relref "/develop/reference/protocol-spec#nulls" >}}).
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing either dropped elements or [null](/content/develop/reference/protocol-spec.md#nulls).
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
 
 {{< /multitabs >}}

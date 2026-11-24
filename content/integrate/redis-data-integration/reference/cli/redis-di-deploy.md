@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy/
 ---
 
 Deploys a pipeline, creating it or updating it from the configuration in the `--dir` directory. The
@@ -14,28 +14,43 @@ API validates the configuration and rejects an invalid one. By default, the comm
 pipeline after deploying and waits for it to reach the expected state. `set` is an alias for this
 command.
 
+Pass `--empty` instead of `--dir` to deploy an empty configuration, which clears the pipeline. See
+[Clear a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline) for
+what clearing a pipeline removes and what it keeps.
+
 ## Usage
 
 ```
 redis-di deploy [pipeline] [flags]
 ```
 
-The pipeline name is an optional argument that defaults to `default`.
+The pipeline name is an optional argument that defaults to `default`. If the pipeline does not
+exist, the command creates it. A pipeline name must be 3 to 20 characters long, start with a
+lowercase letter, end with a letter or a digit, contain only lowercase letters, digits, and
+dashes, and not contain consecutive dashes. The name `rdi` is reserved. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md).
+
+When the command creates a pipeline, RDI checks the configuration itself, but not against the
+source and target databases. RDI runs those checks through a component of the pipeline, which
+starts only once the pipeline exists, so `--validate-tables` and `--validate-cdc` have no effect
+on the first deployment. To have a new configuration checked against its databases, create the
+pipeline empty first and then deploy the configuration, as shown in the [example](#example).
 
 ## Options
 
-| Option              | Description                                                                          |
-| :------------------ | :----------------------------------------------------------------------------------- |
-| `--dir`             | Directory containing the pipeline configuration (default `.`).                       |
-| `--dry-run`         | Validate the configuration without deploying.                                        |
-| `--validate-tables` | Validate the configuration against the source and target databases (default `true`). |
-| `--validate-cdc`    | Validate the source database CDC configuration.                                      |
-| `--start`           | Start the pipeline after deploying (default `true`).                                 |
-| `--wait`            | Wait for the pipeline to reach the expected state (default `true`).                  |
-| `--timeout`         | Maximum time to wait for the pipeline to reach the expected state (default `2m`).    |
+| Option              | Description                                                                                             |
+| :------------------ | :------------------------------------------------------------------------------------------------------ |
+| `--dir`             | Directory containing the pipeline configuration (default `.`).                                          |
+| `--empty`           | Deploy an empty configuration instead of loading one from a directory. Cannot be combined with `--dir`. |
+| `--dry-run`         | Validate the configuration without deploying.                                                           |
+| `--validate-tables` | Validate the configuration against the source and target databases (default `true`).                    |
+| `--validate-cdc`    | Validate the CDC configuration of the source databases.                                                 |
+| `--start`           | Start the pipeline after deploying (default `true`, or `false` with `--empty`).                         |
+| `--wait`            | Wait for the pipeline to reach the expected state (default `true`).                                     |
+| `--timeout`         | Maximum time to wait for the pipeline to reach the expected state (default `2m`).                       |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 
@@ -45,4 +60,11 @@ redis-di deploy
 
 # Validate a configuration folder without deploying it
 redis-di deploy --dir /opt/rdi/config --dry-run
+
+# Create the orders pipeline empty, then deploy and validate its configuration
+redis-di deploy orders --empty
+redis-di deploy orders --dir /opt/rdi/config
+
+# Clear the pipeline by deploying an empty configuration
+redis-di deploy --empty
 ```

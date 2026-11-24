@@ -6,7 +6,7 @@ To enable TLS for Replica Of cluster connections:
 
     1. Expand the **Replica Of and Active-Active authentication (Syncer certificate)** section.
 
-        {{<image filename="images/rs/screenshots/cluster/security-syncer-cert.png"  alt="Syncer certificate for Replica Of and Active-Active authentication.">}}
+        ![Syncer certificate for Replica Of and Active-Active authentication.](/images/rs/screenshots/cluster/security-syncer-cert.png)
     
     1. Download or copy the syncer certificate.
 
@@ -18,7 +18,7 @@ To enable TLS for Replica Of cluster connections:
 
 1. Select **Mutual TLS (Client authentication)**.
 
-    {{<image filename="images/rs/screenshots/databases/security-tls-replica-of.png"  alt="Replica Of TLS authentication configuration.">}}
+    ![Replica Of TLS authentication configuration.](/images/rs/screenshots/databases/security-tls-replica-of.png)
 
 1. Select **+ Add certificate**, paste or upload the syncer certificate, then select **Done**.
 

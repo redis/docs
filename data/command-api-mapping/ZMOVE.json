@@ -1,0 +1,112 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zmove(source: KeyT, destination: KeyT, min: bool | None = False, max: bool | None = False, byscore: tuple[ZScoreBoundT, ZScoreBoundT] | None = None, count: int | None = None)",
+        "params": [
+          {
+            "name": "source",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "bool | None",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "bool | None",
+            "description": ""
+          },
+          {
+            "name": "byscore",
+            "type": "tuple[ZScoreBoundT, ZScoreBoundT] | None",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int | None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list[list[Any]] | None",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "zMove(source: RedisArgument, destination: RedisArgument, selection: ZMoveSelection, options?: ZMoveOptions)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "selection",
+            "type": "ZMoveSelection",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZMoveOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NullReply | Array<{ value: BlobStringReply; score: number }>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zmove(source, destination, modifier: nil, byscore: nil, count: nil)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "modifier",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "byscore",
+            "type": "Array<String, Numeric>",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "nil | Array<Array<String, Float>>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

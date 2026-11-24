@@ -38,7 +38,7 @@ Runs the following checks on a cluster node:
 
 | Permission name |
 |-----------------|
-| [view_node_check]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_node_check" >}}) |
+| [view_node_check](/content/operate/rs/7.22/references/rest-api/permissions.md#view_node_check) |
 
 ### Request {#get-request} 
 

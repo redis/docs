@@ -22,7 +22,7 @@ alone. Renaming is a deliberate repo-wide pass, not something to do while editin
 page for another reason.
 
 When linking to a page whose `title` still carries the old name, use the current name
-in your link text — `relref` resolves by path, not by title.
+in your link text — the link resolves by path, not by title.
 
 ## Active-Active databases
 

@@ -227,7 +227,7 @@
     ],
     "node_redis": [
       {
-        "signature": "ZINTERCARD(keys: RedisVariadicArgument, options?: ZInterCardOptions['LIMIT'] | ZInterCardOptions)",
+        "signature": "zInterCard(keys: RedisVariadicArgument, options?: ZInterCardOptions['LIMIT'] | ZInterCardOptions)",
         "params": [
           {
             "name": "keys",
@@ -241,37 +241,57 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }
     ],
     "ioredis": [
       {
-        "signature": "zintercard(...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "zintercard(...args: [ numkeys: number | string, ...keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zintercard(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])",
+        "signature": "zintercard(...args: [ numkeys: number | string, keys: RedisKey[], callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -279,13 +299,18 @@
         "signature": "zintercard(...args: [numkeys: number | string, ...keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
@@ -293,27 +318,52 @@
         "signature": "zintercard(...args: [numkeys: number | string, keys: RedisKey[]])",
         "params": [
           {
-            "name": "...args",
-            "type": "[numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       },
       {
-        "signature": "zintercard(...args: [, numkeys: number | string, ...keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number>, ])",
+        "signature": "zintercard(...args: [ numkeys: number | string, ...keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number> ])",
         "params": [
           {
-            "name": "...args",
-            "type": "[, numkeys",
+            "name": "numkeys",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "limitToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
             "description": ""
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "Result<number, Context>",
           "description": ""
         }
       }
@@ -342,35 +392,11 @@
           "type": "long",
           "description": "The number of elements in the resulting intersection."
         }
-      },
-      {
-        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "limit",
-            "type": "long",
-            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality (defaults to 0 meaning unlimited)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting intersection."
-        }
       }
     ],
     "nredisstack_async": [
       {
-        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
+        "signature": "SortedSetIntersectionLengthAsync(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
         "params": [
           {
             "name": "keys",
@@ -389,31 +415,7 @@
           }
         ],
         "returns": {
-          "type": "long",
-          "description": "The number of elements in the resulting intersection."
-        }
-      },
-      {
-        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
-        "params": [
-          {
-            "name": "keys",
-            "type": "RedisKey[]",
-            "description": "The keys of the sorted sets."
-          },
-          {
-            "name": "limit",
-            "type": "long",
-            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality (defaults to 0 meaning unlimited)."
-          },
-          {
-            "name": "flags",
-            "type": "CommandFlags",
-            "description": "The flags to use for this operation."
-          }
-        ],
-        "returns": {
-          "type": "long",
+          "type": "Task<long>",
           "description": "The number of elements in the resulting intersection."
         }
       }
@@ -428,8 +430,8 @@
             "description": ""
           },
           {
-            "name": "int $limit = 0",
-            "type": "Any",
+            "name": "$limit",
+            "type": "int",
             "description": ""
           }
         ],

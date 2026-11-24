@@ -62,7 +62,7 @@ summary: Iterates over members of a set.
 syntax_fmt: "SSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
 title: SSCAN
 ---
-See [`SCAN`]({{< relref "/commands/scan" >}}) for `SSCAN` documentation.
+See [`SCAN`](/content/commands/scan.md) for `SSCAN` documentation.
 
 ## Required arguments
 

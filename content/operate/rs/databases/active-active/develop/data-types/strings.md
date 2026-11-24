@@ -12,15 +12,14 @@ weight: $weight
 ---
 Active-Active databases support both strings and bitfields.
 
-{{<note>}}
-Active-Active **bitfield** support was added in RS version 6.0.20.
-{{</note>}}
+> [!NOTE]
+> Active-Active **bitfield** support was added in RS version 6.0.20.
 
 Changes to both of these data structures will be replicated across Active-Active member databases.
 
 ## Replication semantics
 
-Except in the case of [string counters]({{< relref "#string-counter-support" >}}) (see below), both strings and bitfields are replicated using a "last write wins" approach. The reason for this is that strings and bitfields are effectively binary objects. So, unlike with lists, sets, and hashes, the conflict resolution semantics of a given operation on a string or bitfield are undefined.
+Except in the case of [string counters](#string-counter-support) (see below), both strings and bitfields are replicated using a "last write wins" approach. The reason for this is that strings and bitfields are effectively binary objects. So, unlike with lists, sets, and hashes, the conflict resolution semantics of a given operation on a string or bitfield are undefined.
 
 ### How "last write wins" works
 
@@ -42,7 +41,7 @@ time (t2) wins over the update at t1.
 
 ### String counter support
 
-When you're using a string as counter (for instance, with the [INCR]({{< relref "/commands/incr" >}}) or [INCRBY]({{< relref "/commands/incrby" >}}) commands),
+When you're using a string as counter (for instance, with the [INCR](/content/commands/incr.md) or [INCRBY](/content/commands/incrby.md) commands),
 then conflicts will be resolved semantically.
 
 On conflicting writes, counters accumulate the total counter operations
@@ -66,7 +65,6 @@ concurrent writes.
 |  t8 | — Sync — | — Sync — |
 |  t9 | GET counter<br/>13 | GET counter<br/>13 |
 
-{{< note >}}
-Active-Active databases support 59-bit counters.
-This limitation is to protect from overflowing a counter in a concurrent operation.
-{{< /note >}}
+> [!NOTE]
+> Active-Active databases support 59-bit counters.
+> This limitation is to protect from overflowing a counter in a concurrent operation.

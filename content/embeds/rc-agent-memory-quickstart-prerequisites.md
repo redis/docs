@@ -3,6 +3,6 @@
 
 The database must be active, run a supported Redis version, and use a Pro or Essentials plan. It must also have a public endpoint, Redis Search, and the default user enabled.
 
-Redis Agent Memory doesn't support Flex, Active-Active, or AWS PrivateLink databases during public preview.
+Redis Agent Memory doesn't support Flex, Active-Active, or AWS PrivateLink databases.
 
 For the complete list, see [prerequisites and limitations]({{< relref "/operate/iris/agent-memory/create-service#prerequisites-and-limitations" >}}).

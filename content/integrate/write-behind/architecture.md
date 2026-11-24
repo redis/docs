@@ -24,7 +24,7 @@ Write-behind captures any changes to a selected set of key patterns in a Redis k
 
 Write-behind can normalize a key in Redis to several records in one or more tables at the target.
 To learn more about write-behind declarative jobs and normalization, see the
-[write-behind quick start guide]({{< relref "/integrate/write-behind/quickstart/write-behind-guide" >}}).
+[write-behind quick start guide](/content/integrate/write-behind/quickstart/write-behind-guide.md).
 
 ## Write-behind topology
 
@@ -37,10 +37,10 @@ The Write-behind engine is installed on the Redis database that contains the app
 
 Write-behind can track changes to the following Redis types:
 
-- [Hash]({{< relref "/develop/data-types/hashes" >}})
-- [JSON]({{< relref "/develop/data-types/json/" >}})
-- [Set]({{< relref "/develop/data-types/sets" >}})
-- [Sorted Set]({{< relref "/develop/data-types/sorted-sets" >}})
+- [Hash](/content/develop/data-types/hashes.md)
+- [JSON](/content/develop/data-types/json/_index.md)
+- [Set](/content/develop/data-types/sets.md)
+- [Sorted Set](/content/develop/data-types/sorted-sets.md)
 
 Unlike the ingest scenario, write-behind has no default behavior for model translation. You must always
 create a declarative job to specify the mapping between Redis keys and target database records.
@@ -69,6 +69,6 @@ record and the reason in a *dead letter queue (DLQ)*.
 ### Write-behind configuration
 
 The Write-behind configuration is persisted at the cluster level. The configuration is written by the CLI
-[`deploy`]({{< relref "/integrate/write-behind/reference/cli/redis-di-deploy" >}})
+[`deploy`](/content/integrate/write-behind/reference/cli/redis-di-deploy.md)
 command, which saves all changes to the configuration file. This mechanism allows for automatic configuration of new shards
 whenever you need them, and it can survive shard and node failure.

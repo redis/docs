@@ -16,13 +16,13 @@ url: '/operate/kubernetes/8.0.18/active-active/prepare-clusters/'
 
 Before you prepare your clusters to participate in an Active-Active database, make sure you've completed all the following steps and have gathered the information listed below each step.
 
-1. Configure the [admission controller and ValidatingWebhook]({{< relref "/operate/kubernetes/8.0.18/deployment/quick-start#enable-the-admission-controller/" >}}).
+1. Configure the [admission controller and ValidatingWebhook](/content/operate/kubernetes/8.0.18/deployment/quick-start.md#enable-the-admission-controller/).
 
-2. Create two or more [RedisEnterpriseCluster (REC) custom resources]({{< relref "/operate/kubernetes/8.0.18/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}}) with enough [memory resources]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}).
+2. Create two or more [RedisEnterpriseCluster (REC) custom resources](/content/operate/kubernetes/8.0.18/deployment/quick-start.md#create-a-redis-enterprise-cluster-rec) with enough [memory resources](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md).
    * Name of each REC (`<rec-name>`)
    * Namespace for each REC (`<rec-namespace>`)
 
-3. Configure the REC [`ingressOrRoutes` field]({{< relref "/operate/kubernetes/8.0.18/networking/ingressorroutespec" >}}) and [create DNS records]({{< relref "/operate/kubernetes/8.0.18/networking/ingressorroutespec#configure-dns/" >}}).
+3. Configure the REC [`ingressOrRoutes` field](/content/operate/kubernetes/8.0.18/networking/ingressorroutespec.md) and [create DNS records](/content/operate/kubernetes/8.0.18/networking/ingressorroutespec.md#configure-dns/).
    * REC API hostname (`api-<rec-name>-<rec-namespace>.<subdomain>`)
    * Database hostname suffix (`-db-<rec-name>-<rec-namespace>.<subdomain>`)
 
@@ -82,9 +82,8 @@ To communicate with other clusters, all participating clusters will need access 
     type: Opaque
     ```
 
-    {{< note >}}
-    The `username` and `password` values should be base64 encoded, not plain text.
-    {{< /note >}}
+    > [!NOTE]
+    > The `username` and `password` values should be base64 encoded, not plain text.
 
 1. Add the username and password to the new secret for that REC and namespace.
 
@@ -123,11 +122,11 @@ To communicate with other clusters, all participating clusters will need access 
 
 ## Next steps
 
-Now you are ready to [create your Redis Enterprise Active-Active database]({{< relref "/operate/kubernetes/8.0.18/active-active/create-reaadb" >}}).
+Now you are ready to [create your Redis Enterprise Active-Active database](/content/operate/kubernetes/8.0.18/active-active/create-reaadb.md).
 
 ## Example values
 
-This article uses the example values listed below. They can also be found in the [YAML examples]({{< relref "/operate/kubernetes/8.0.18/reference/yaml/active-active" >}}) section.
+This article uses the example values listed below. They can also be found in the [YAML examples](/content/operate/kubernetes/8.0.18/reference/yaml/active-active.md) section.
 
 Example cluster 1:
 

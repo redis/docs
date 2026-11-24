@@ -29,20 +29,21 @@ dashboards.
 
 RDI exposes the following endpoints:
 - **Collector metrics**: CDC collector performance and connectivity
-- **Stream processor metrics**: Data processing performance and throughput. The exposed metrics depend on the [stream processor implementation]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}}) used by the pipeline:
+- **Stream processor metrics**: Data processing performance and throughput. The exposed metrics depend on the [stream processor implementation](/content/integrate/redis-data-integration/architecture/_index.md#stream-processor-implementations) used by the pipeline:
   - The classic processor exposes the metrics described in [Stream processor metrics](#stream-processor-metrics) through the `rdi-metrics-exporter` service.
   - The Flink processor exposes the metrics described in [Flink processor metrics](#flink-processor-metrics) directly from its JobManager and TaskManager pods. The `rdi-metrics-exporter` service is not deployed for Flink-based pipelines.
 - **Operator metrics**: Kubernetes operator health and Pipeline resource states
 
 The sections below explain these sets of metrics in more detail.
 See the
-[architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
+[architecture overview](/content/integrate/redis-data-integration/architecture/_index.md#overview)
 for an introduction to these concepts.
 
-{{< note >}}If you don't use Prometheus or Grafana, you can still see
-RDI metrics with the RDI monitoring screen in Redis Insight or with the
-[`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
-command from the CLI.{{< /note >}}
+> [!NOTE]
+> If you don't use Prometheus or Grafana, you can still see
+> RDI metrics with the RDI monitoring screen in Redis Insight or with the
+> [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
+> command from the CLI.
 
 ## Accessing the metrics
 
@@ -50,10 +51,68 @@ The way you access the metrics endpoints depends on whether you are using a VM i
 
 ### VM Installation
 
+You can use the CLI to determine the metrics endpoints instead of assembling them yourself.
+The `Components` section of
+[`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
+has a `Metrics Endpoints` column listing each component's externally-reachable metrics URLs,
+so a pipeline with several sources shows the URL of every collector. Pass a pipeline name, as in
+`redis-di describe orders`, for a pipeline other than `default`.
+
+To get the endpoints of every pipeline at once, for example in a script, run
+`redis-di list -o json` or send a `GET /api/v2/pipelines` request. The `external_endpoints`
+field of each component in the response lists its URLs.
+
+RDI discovers these endpoints from each component's `Ingress` resources, so a component
+without an ingress has none, and the list is empty until the ingress controller assigns an
+address to the ingress.
+
 For VM installations, the metrics are available by default on the following endpoints:
-- Collector metrics: `https://<RDI_HOST>/collector-source/metrics`
-- Stream processor metrics: `https://<RDI_HOST>/processor/metrics`
-- Operator metrics: `https://<RDI_HOST>/operator/metrics`
+- Collector metrics: `https://<RDI_HOST>:<RDI_HTTPS_PORT>/collector-<source>/metrics`, where `<source>` is
+  the source name from `config.yaml`. Each source has its own collector, so a pipeline with
+  several sources has one endpoint per source.
+- Stream processor metrics: `https://<RDI_HOST>:<RDI_HTTPS_PORT>/processor/metrics` (Flink processor)
+  or `https://<RDI_HOST>:<RDI_HTTPS_PORT>/metrics` (classic processor).
+- Operator metrics: `https://<RDI_HOST>:<RDI_HTTPS_PORT>/operator/metrics`
+
+Above, `<RDI_HTTPS_PORT>` is the HTTPS port you specified when installing RDI, or 443 if you kept the default.
+
+For a pipeline other than `default`, the paths start with the pipeline name. For a pipeline named
+`orders`, they are `/orders/collector-mysql/metrics` for a source named `mysql`,
+`/orders/processor/metrics` for the Flink processor, and `/orders/metrics-exporter/metrics` for
+the classic processor.
+
+RDI does not include a Prometheus server in a VM installation, so add a scrape job to your own
+Prometheus server for each endpoint. The metrics do not identify the pipeline by themselves, so
+add a `pipeline` label to the jobs of each pipeline to filter its metrics in your queries and
+dashboards. For example, for the `orders` pipeline:
+
+```yaml
+scrape_configs:
+  - job_name: rdi-orders-collector-mysql
+    scheme: https
+    metrics_path: /orders/collector-mysql/metrics
+    tls_config:
+      ca_file: <path to the CA certificate of the RDI HTTPS endpoint>
+    static_configs:
+      - targets: ["<RDI_HOST>:<RDI_HTTPS_PORT>"]
+        labels:
+          pipeline: orders
+  - job_name: rdi-orders-processor
+    scheme: https
+    metrics_path: /orders/processor/metrics
+    tls_config:
+      ca_file: <path to the CA certificate of the RDI HTTPS endpoint>
+    static_configs:
+      - targets: ["<RDI_HOST>:<RDI_HTTPS_PORT>"]
+        labels:
+          pipeline: orders
+```
+
+If the RDI HTTPS endpoint uses a self-signed certificate, set `insecure_skip_verify: true` in
+`tls_config` instead of `ca_file`. Add the jobs of a pipeline when you create it, and remove them
+when you delete it. See
+[Multiple pipelines in one RDI installation](/content/integrate/redis-data-integration/data-pipelines/multiple-pipelines.md#monitor-each-pipeline)
+for more information.
 
 Please note that for RDI versions prior to 1.16.0 the collector metrics are not accessible.
 
@@ -118,8 +177,12 @@ For Helm installations, the metrics are available via autodiscovery in the K8s c
                     release: prometheus
         ```
 
-{{< note >}}The Prometheus service discovery loop runs at regular intervals. This means that after deploying or updating RDI with the above configuration, it may take a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
-{{< /note >}}
+> [!NOTE]
+> The Prometheus service discovery loop runs at regular intervals. This means that after deploying or updating RDI with the above configuration, it may take a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
+
+For Debezium collectors, Flink collectors, Flink processors, and the classic processor
+metrics exporter, RDI adds a `pipeline` label to the ServiceMonitor metrics. Use this label to select metrics for a specific
+pipeline, such as `pipeline="orders"`, or `pipeline="default"` for the `default` pipeline.
 
 ## Collector metrics
 
@@ -168,20 +231,19 @@ The following table lists all collector metrics and their descriptions:
 | `SnapshotRunning` | Gauge | Whether a snapshot is currently running (1=running, 0=not running) | Informational - monitor snapshot state |
 | `TotalTableCount` | Gauge | Total number of tables included in the snapshot | Informational - use for progress calculation |
 
-{{< note >}}
-Many metrics include context labels that specify the phase (`snapshot` or `streaming`), database name, and other contextual information. Metrics with a value of `-1` typically indicate that the measurement is not applicable in the current state.
-{{< /note >}}
+> [!NOTE]
+> Many metrics include context labels that specify the phase (`snapshot` or `streaming`), database name, and other contextual information. Metrics with a value of `-1` typically indicate that the measurement is not applicable in the current state.
 
 ## Stream processor metrics
 
 The metrics in this section are reported by the *classic* stream processor and
 exposed through the `rdi-metrics-exporter` service. For pipelines that use
-the [Flink processor]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}}),
+the [Flink processor](/content/integrate/redis-data-integration/architecture/_index.md#stream-processor-implementations),
 see [Flink processor metrics](#flink-processor-metrics) instead.
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
-[pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines" >}})
+[pipeline lifecycle](/content/integrate/redis-data-integration/data-pipelines/_index.md)
 docs for more information). The table below shows the full set of metrics that
 RDI reports with their descriptions.
 
@@ -218,17 +280,16 @@ RDI reports with their descriptions.
 | `rdi_processor_total_time_ms_last` | Gauge | Last batch total time in milliseconds | Informational - use for real-time performance monitoring |
 | `rdi_processor_rec_per_sec_last` | Gauge | Last batch records per second | Informational - use for real-time throughput monitoring |
 
-{{< note >}}
-**Additional information about stream processor metrics:**
-
-- Where the metric name has the `rdi_` prefix, this will be replaced by the Kubernetes namespace name if you supplied a custom name during installation. The prefix is always `rdi_` for VM installations.
-- Metrics with the `_created` suffix are automatically generated by Prometheus for counters and gauges to track when they were first created.
-- The `rdi_incoming_entries` metric provides a detailed breakdown for each data source by operation type.
-- The `rdi_stream_event_latency_ms` metric helps monitor data freshness and processing delays.
-- The processor performance metrics are divided into two categories:
-  - **Total metrics**: Accumulate values across all processed batches for historical analysis
-  - **Last batch metrics**: Show real-time performance data for the most recently processed batch
-{{< /note >}}
+> [!NOTE]
+> **Additional information about stream processor metrics:**
+>
+> - Where the metric name has the `rdi_` prefix, this will be replaced by the Kubernetes namespace name if you supplied a custom name during installation. The prefix is always `rdi_` for VM installations.
+> - Metrics with the `_created` suffix are automatically generated by Prometheus for counters and gauges to track when they were first created.
+> - The `rdi_incoming_entries` metric provides a detailed breakdown for each data source by operation type. The `data_source` label identifies the data stream the value belongs to, as the stream's key without the `data:` prefix (for example, `{rdi}:mysql.inventory.customers`). The key contains the source name, so you can break the metric down per source. Sources that existed before the upgrade to a version that supports multiple sources do not have the source segment in the key.
+> - The `rdi_stream_event_latency_ms` metric helps monitor data freshness and processing delays.
+> - The processor performance metrics are divided into two categories:
+>   - **Total metrics**: Accumulate values across all processed batches for historical analysis
+>   - **Last batch metrics**: Show real-time performance data for the most recently processed batch
 
 ## Flink processor metrics
 
@@ -255,7 +316,7 @@ In addition to the standard Flink metrics, the Flink processor emits a small
 set of RDI-specific metrics that cover record counters, source/target
 connectivity, and stream backlog. These metrics, together with a curated
 subset of native Flink metrics, are surfaced through the
-[RDI API v2 metric collections endpoint]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}})
+[RDI API v2 metric collections endpoint](/content/integrate/redis-data-integration/reference/api-reference.md)
 and are the recommended starting point for dashboards and alerts.
 
 **RDI-emitted metrics** (per pipeline):
@@ -283,10 +344,11 @@ and are the recommended starting point for dashboards and alerts.
 | `flink_jobmanager_job_<status>Time` | Time spent in each job state (ms), where `<status>` is one of `running`, `restarting`, `failing`, `cancelling`, `initializing`, `created`, or `deploying`. The metric for the current state is non-zero; all others are zero. Use this to derive both the current job status and the time spent in it. |
 | `flink_jobmanager_job_numRestarts` | Total number of job restarts since submission. |
 
-{{< note >}}Flink runtime metric names follow Flink's own naming scheme rather
-than the `rdi_` prefix used by the classic processor. When you build
-dashboards that should work for both processors, query the two metric sets
-separately.{{< /note >}}
+> [!NOTE]
+> Flink runtime metric names follow Flink's own naming scheme rather
+> than the `rdi_` prefix used by the classic processor. When you build
+> dashboards that should work for both processors, query the two metric sets
+> separately.
 
 ## Operator metrics
 
@@ -389,19 +451,22 @@ RDI uses [fluentd](https://www.fluentd.org/) and
 for its Kubernetes (K8s) components.
 So whenever a containerized component is removed by the RDI operator process or by K8s,
 the logs are available for you to inspect.
-By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`.
-The logs are recorded at the minimum `INFO` level and get rotated when they reach a size of 100MB.
+By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`, with the logs of each
+pipeline in a `pipelines/<pipeline>/` directory and the logs of the control plane in a
+`control-plane/` directory. See [RDI logs](/content/integrate/redis-data-integration/troubleshooting.md#rdi-logs)
+for the names of the log files.
+The logs are recorded at the minimum `INFO` level and get rotated when they reach 20 mebibytes (MiB).
 RDI retains the last five log rotated files by default.
 Logs are in a straightforward text format, which lets you analyze them with several different observability tools.
 You can change the default log settings using the
-[`redis-di configure-rdi`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-configure-rdi" >}})
+[`redis-di configure-rdi`](/content/integrate/redis-data-integration/reference/cli/redis-di-configure-rdi.md)
 command.
 
 ## Dump support package
 
 If you ever need to send a comprehensive set of forensics data to Redis support then you should
 run the
-[`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-dump-support-package" >}})
+[`redis-di dump-support-package`](/content/integrate/redis-data-integration/reference/cli/redis-di-dump-support-package.md)
 command from the CLI. See
-[Troubleshooting]({{< relref "/integrate/redis-data-integration/troubleshooting#dump-support-package" >}})
+[Troubleshooting](/content/integrate/redis-data-integration/troubleshooting.md#dump-support-package)
 for more information.

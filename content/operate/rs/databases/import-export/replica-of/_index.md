@@ -21,19 +21,17 @@ all write commands are synchronized from the sources to the destination.
 Replica Of lets you distribute the read load of your application across multiple databases or
 synchronize the database, either within Redis Software or external to Redis Software, to another database.
 
-{{< warning >}}
-Do not write directly to a Replica Of destination database, because it can result in replication errors, data inconsistencies, or data loss. See [Enforce read-only access]({{<relref "/operate/rs/databases/import-export/replica-of/create#enforce-read-only-access">}}) for details and instructions.
-{{< /warning >}}
+> [!WARNING]
+> Do not write directly to a Replica Of destination database, because it can result in replication errors, data inconsistencies, or data loss. See [Enforce read-only access](/content/operate/rs/databases/import-export/replica-of/create.md#enforce-read-only-access) for details and instructions.
 
-You can [create Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}) databases on Redis Software or Redis Cloud.
+You can [create Active-Passive](/content/operate/rs/databases/import-export/replica-of/create.md) databases on Redis Software or Redis Cloud.
 
-[Active-Active Geo-Distribution (CRDB)]({{< relref "/operate/rs/databases/active-active" >}})
+[Active-Active Geo-Distribution (CRDB)](/content/operate/rs/databases/active-active/_index.md)
 provides these benefits and also provides write access to all of the database replicas.
 
-{{< warning >}}
-Configuring a database as a replica of the database that it replicates
-creates a cyclical replication and is not supported.
-{{< /warning >}}
+> [!WARNING]
+> Configuring a database as a replica of the database that it replicates
+> creates a cyclical replication and is not supported.
 
 The Replica Of is defined in the context of the destination database
 by specifying the source databases.
@@ -49,13 +47,12 @@ result, commands that were executed in a certain order when compared
 across source databases might be executed in a different order on the
 destination database.
 
-{{< note >}}
-The Replica Of feature should not be confused with the
-in-memory [Database
-replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}})
-feature, which is used for creating a master / replica configuration that
-enables ensuring database high-availability.
-{{< /note >}}
+> [!NOTE]
+> The Replica Of feature should not be confused with the
+> in-memory [Database
+> replication](/content/operate/rs/databases/durability-ha/replication.md)
+> feature, which is used for creating a master / replica configuration that
+> enables ensuring database high-availability.
 
 ## Replication process
 
@@ -104,11 +101,10 @@ the source was executed on the destination.
 The system also displays the destination database status as an aggregate
 of the statuses of all the sources.
 
-{{< note >}}
-If you encounter issues with the Replica Of process, refer
-to the troubleshooting section [Replica Of repeatedly
-fails]({{< relref "/operate/rs/databases/import-export/replica-of/replicaof-repeatedly-fails.md" >}}).
-{{< /note >}}
+> [!NOTE]
+> If you encounter issues with the Replica Of process, refer
+> to the troubleshooting section [Replica Of repeatedly
+> fails](/content/operate/rs/databases/import-export/replica-of/replicaof-repeatedly-fails.md).
 
 ### Synchronization errors
 
@@ -204,27 +200,25 @@ For example, if the database updates for the destination databases
 that are stored by the destination database in a synchronization backlog exceed their allocated memory,
 the source database starts a full sync.
 
-{{% warning %}}
-When you failover to the destination database for write operations,
-make sure that you disable **Replica Of** before you direct clients to the destination database.
-This avoids a full sync that can overwrite your data.
-{{% /warning %}}
+> [!WARNING]
+> When you failover to the destination database for write operations,
+> make sure that you disable **Replica Of** before you direct clients to the destination database.
+> This avoids a full sync that can overwrite your data.
 
 ## Upgrade order
 
-When you [upgrade]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-database" >}}) a Replica Of database, upgrade the destination database before the source database to avoid possible replication failures.
+When you [upgrade](/content/operate/rs/installing-upgrading/upgrading/upgrade-database.md) a Replica Of database, upgrade the destination database before the source database to avoid possible replication failures.
 
 ## Active-Passive replication backlog
 
-In addition to the [database replication backlog]({{< relref "/operate/rs/databases/durability-ha/replication#database-replication-backlog" >}}), active-passive databases maintain a replication backlog (per shard) to synchronize the database instances between clusters.
+In addition to the [database replication backlog](/content/operate/rs/databases/durability-ha/replication.md#database-replication-backlog), active-passive databases maintain a replication backlog (per shard) to synchronize the database instances between clusters.
 By default, the replication backlog is set to one percent (1%) of the database size divided by the database number of shards and ranges between 1MB to 250MB per shard.
-Use the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) utility to control the size of the replication backlog. You can set it to `auto` or set a specific size.  
+Use the [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) utility to control the size of the replication backlog. You can set it to `auto` or set a specific size.  
 
 For an Active-Passive database:
 ```text
 rladmin tune db <db:id | name> repl_backlog <Backlog size in MB or 'auto'>
 ```
 
-{{<note>}}
-On an Active-Passive database, the replication backlog configuration applies to both the replication backlog for shards synchronization and for synchronization of database instances between clusters.
-{{</note>}}
+> [!NOTE]
+> On an Active-Passive database, the replication backlog configuration applies to both the replication backlog for shards synchronization and for synchronization of database instances between clusters.

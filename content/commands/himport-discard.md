@@ -30,7 +30,7 @@ summary: Removes a single session-local fieldset by name.
 syntax_fmt: HIMPORT DISCARD fieldset-name
 title: HIMPORT DISCARD
 ---
-Removes a single session-local fieldset, previously defined with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}), from the current connection.
+Removes a single session-local fieldset, previously defined with [`HIMPORT PREPARE`](/content/commands/himport-prepare.md), from the current connection.
 
 ## Required arguments
 
@@ -53,9 +53,9 @@ redis> HIMPORT DISCARD u
 
 ## Details
 
-Discarding a fieldset only removes the fieldset itself; it does not affect any hashes already created from it with [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}).
+Discarding a fieldset only removes the fieldset itself; it does not affect any hashes already created from it with [`HIMPORT SET`](/content/commands/himport-set.md).
 
-Use `HIMPORT DISCARD` to free up resources on the connection once a bulk-ingestion job that used a given fieldset has finished. If you don't discard it, the fieldset stays allocated on the connection until the connection closes or the client issues the [`RESET`]({{< relref "/commands/reset" >}}) command.
+Use `HIMPORT DISCARD` to free up resources on the connection once a bulk-ingestion job that used a given fieldset has finished. If you don't discard it, the fieldset stays allocated on the connection until the connection closes or the client issues the [`RESET`](/content/commands/reset.md) command.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -79,4 +79,4 @@ Use `HIMPORT DISCARD` to free up resources on the connection once a bulk-ingesti
 
 ## See also
 
-[`HIMPORT PREPARE`]({{< relref "commands/himport-prepare/" >}}) | [`HIMPORT DISCARDALL`]({{< relref "commands/himport-discardall/" >}})
+[`HIMPORT PREPARE`](/content/commands/himport-prepare.md) | [`HIMPORT DISCARDALL`](/content/commands/himport-discardall.md)

@@ -57,12 +57,11 @@ summary: Returns the difference between multiple sorted sets.
 syntax_fmt: ZDIFF numkeys key [key ...] [WITHSCORES]
 title: ZDIFF
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`ZDIFFSTORE`]({{< relref "/commands/zdiffstore" >}}), but instead of storing the resulting
+This command is similar to [`ZDIFFSTORE`](/content/commands/zdiffstore.md), but instead of storing the resulting
 sorted set, it is returned to the client.
 
 ## Required arguments
@@ -106,6 +105,10 @@ redis> ZDIFF 2 zset1 zset2 WITHSCORES
 1) "three"
 2) "3"
 {{% /redis-cli %}}
+
+## Details
+
+This command also accepts plain sets as input, treating each member as having a score of 1. If a plain-set input has member expirations, the command returns the error `ERR operation not supported on a set with member expirations`, because a sorted set can't hold member expirations. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
 
 ## Redis Software and Redis Cloud compatibility
 

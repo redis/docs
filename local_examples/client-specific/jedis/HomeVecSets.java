@@ -101,7 +101,7 @@ public class HomeVecSets {
     // STEP_END
 
     // STEP_START add_data
-        RedisClient jedis = new RedisClient("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
         // REMOVE_START
         jedis.del("famousPeople");
         // REMOVE_END

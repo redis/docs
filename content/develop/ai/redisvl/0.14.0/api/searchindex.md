@@ -390,15 +390,13 @@ for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause.
 
 #### `query(query)`
 
@@ -870,15 +868,13 @@ async for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-{{< note >}}
-The page_size parameter controls the number of items each result
-batch contains. Adjust this value based on performance
-considerations and the expected volume of search results.
-{{< /note >}}
+> [!NOTE]
+> The page_size parameter controls the number of items each result
+> batch contains. Adjust this value based on performance
+> considerations and the expected volume of search results.
 
-{{< note >}}
-For stable pagination, the query must have a sort_by clause.
-{{< /note >}}
+> [!NOTE]
+> For stable pagination, the query must have a sort_by clause.
 
 #### `async query(query)`
 

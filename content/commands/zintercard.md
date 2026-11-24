@@ -56,12 +56,11 @@ summary: Returns the number of members of the intersect of multiple sorted sets.
 syntax_fmt: "ZINTERCARD numkeys key [key ...] [LIMIT\_limit]"
 title: ZINTERCARD
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`ZINTER`]({{< relref "/commands/zinter" >}}), but instead of returning the result set, it returns just the cardinality of the result.
+This command is similar to [`ZINTER`](/content/commands/zinter.md), but instead of returning the result set, it returns just the cardinality of the result.
 
 Keys that do not exist are considered to be empty sets.
 With one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).
@@ -113,6 +112,10 @@ redis> ZINTERCARD 2 zset1 zset2
 redis> ZINTERCARD 2 zset1 zset2 LIMIT 1
 (integer) 1
 {{% /redis-cli %}}
+
+## Details
+
+This command also accepts plain sets as input, treating each member as having a score of 1. If a plain-set input has member expirations, the command returns the error `ERR operation not supported on a set with member expirations`, because a sorted set can't hold member expirations. See [set member expiration](/content/develop/data-types/sets.md#member-expiration).
 
 ## Redis Software and Redis Cloud compatibility
 

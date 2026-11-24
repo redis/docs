@@ -17,8 +17,8 @@ This page covers moving an existing database from `rolesPermissions` to the CRD 
 ## Before you start
 
 - Requires Redis Software for Kubernetes operator 8.2.0-12 or later.
-- Every user who currently holds access through `rolesPermissions` must exist as a `RedisEnterpriseUser` resource before you can bind a CRD role to them. If you created users through the Redis Software REST API or Cluster Manager UI, migrate them first. See [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}).
-- List which Redis Software users hold each role. The CRD inventory only captures the database side of the assignment; the user-to-role mapping lives in Redis Software. Pull it from the Cluster Manager UI or the [Redis Software users REST API]({{< relref "/operate/rs/references/rest-api/objects/user" >}}).
+- Every user who currently holds access through `rolesPermissions` must exist as a `RedisEnterpriseUser` resource before you can bind a CRD role to them. If you created users through the Redis Software REST API or Cluster Manager UI, migrate them first. See [Manage users](/content/operate/kubernetes/security/access-control/manage-users.md).
+- List which Redis Software users hold each role. The CRD inventory only captures the database side of the assignment; the user-to-role mapping lives in Redis Software. Pull it from the Cluster Manager UI or the [Redis Software users REST API](/content/operate/rs/references/rest-api/objects/user.md).
 
 ## How the two sources interact
 
@@ -63,7 +63,7 @@ Each entry has a `role` (Redis Software role name) and an `acl` (Redis Software 
 
 ### 2. Create RedisEnterpriseACL resources
 
-For every distinct ACL name in the inventory, create a `RedisEnterpriseACL` resource that holds the same rule string. See [Manage ACLs]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}).
+For every distinct ACL name in the inventory, create a `RedisEnterpriseACL` resource that holds the same rule string. See [Manage ACLs](/content/operate/kubernetes/security/access-control/manage-acls.md).
 
 ```yaml
 apiVersion: app.redislabs.com/v1alpha1
@@ -78,7 +78,7 @@ The resource `metadata.name` doesn't have to match the original Redis Software A
 
 ### 3. Create RedisEnterpriseRole resources
 
-For each role-ACL-REDB combination in the inventory, create a `RedisEnterpriseRole` scoped to the target REDB. See [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}).
+For each role-ACL-REDB combination in the inventory, create a `RedisEnterpriseRole` scoped to the target REDB. See [Manage roles](/content/operate/kubernetes/security/access-control/manage-roles.md).
 
 ```yaml
 apiVersion: app.redislabs.com/v1alpha1
@@ -110,7 +110,7 @@ spec:
 
 ### 4. Create bindings for affected users
 
-For each user that previously gained access through `rolesPermissions`, create a `RedisEnterpriseRoleBinding` that references the new role. See [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}).
+For each user that previously gained access through `rolesPermissions`, create a `RedisEnterpriseRoleBinding` that references the new role. See [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md).
 
 ```yaml
 apiVersion: app.redislabs.com/v1alpha1
@@ -186,8 +186,8 @@ To revert to the deprecated field, set `allowREDBRolesPermissions: true` (or omi
 
 ## Related topics
 
-- [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) — full details on `RedisEnterpriseRole` and `RedisEnterpriseClusterRole`.
-- [Manage ACLs]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}) — define the data-path permissions roles reference.
-- [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}) — assign the new roles to users.
-- [`RedisEnterpriseDatabase` API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}) — the source schema, including the deprecated `rolesPermissions` field.
-- [`RedisEnterpriseCluster` API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) — the `accessControl.policy.allowREDBRolesPermissions` flag.
+- [Manage roles](/content/operate/kubernetes/security/access-control/manage-roles.md) — full details on `RedisEnterpriseRole` and `RedisEnterpriseClusterRole`.
+- [Manage ACLs](/content/operate/kubernetes/security/access-control/manage-acls.md) — define the data-path permissions roles reference.
+- [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md) — assign the new roles to users.
+- [`RedisEnterpriseDatabase` API reference](/content/operate/kubernetes/reference/api/redis_enterprise_database_api.md) — the source schema, including the deprecated `rolesPermissions` field.
+- [`RedisEnterpriseCluster` API reference](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_api.md) — the `accessControl.policy.allowREDBRolesPermissions` flag.

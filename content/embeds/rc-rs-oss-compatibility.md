@@ -2,7 +2,7 @@ Redis contributes extensively to the Redis project and uses it inside of Redis S
 
 ## Redis commands
 
-See [Compatibility with Redis commands]({{< relref "/operate/rs/references/compatibility/commands" >}}) to learn which Redis commands are compatible with Redis Software and Redis Cloud.
+Each [Redis command page](/content/commands) includes a link at the top to Redis Software and Redis Cloud compatibility information.
 
 ## Configuration settings
 

@@ -15,7 +15,7 @@ title: Redis cache-aside with Jedis
 weight: 4
 ---
 
-This guide shows you how to implement a Redis cache-aside layer in Java with the [Jedis]({{< relref "/develop/clients/jedis" >}}) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can see cache hits, misses, invalidation on write, and stampede protection in action.
+This guide shows you how to implement a Redis cache-aside layer in Java with the [Jedis](/content/develop/clients/jedis/_index.md) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can see cache hits, misses, invalidation on write, and stampede protection in action.
 
 ## Overview
 
@@ -50,12 +50,11 @@ The `RedisCache` class wraps the cache-aside operations
 ([source](RedisCache.java)):
 
 ```java
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.RedisClient;
 
-JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+RedisClient jedis = RedisClient.create("localhost", 6379);
 MockPrimaryStore primary = new MockPrimaryStore(150);
-RedisCache cache = new RedisCache(pool);
+RedisCache cache = new RedisCache(jedis);
 
 // Read through the cache.
 RedisCache.Result result = cache.get("p-001", primary::read);
@@ -84,12 +83,12 @@ cache:product:p-001
 
 The implementation uses:
 
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to read the cached record
-* [`HSET`]({{< relref "/commands/hset" >}}) plus [`EXPIRE`]({{< relref "/commands/expire" >}}) to repopulate after a miss
-* [`DEL`]({{< relref "/commands/del" >}}) to invalidate on writes
-* [`TTL`]({{< relref "/commands/ttl" >}}) to surface remaining staleness in the demo UI
-* [`EVAL`]({{< relref "/commands/eval" >}}) for the Lua single-flight lock that prevents stampedes
-* [`WATCH`]({{< relref "/commands/watch" >}})/[`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) for the conditional field update path
+* [`HGETALL`](/content/commands/hgetall.md) to read the cached record
+* [`HSET`](/content/commands/hset.md) plus [`EXPIRE`](/content/commands/expire.md) to repopulate after a miss
+* [`DEL`](/content/commands/del.md) to invalidate on writes
+* [`TTL`](/content/commands/ttl.md) to surface remaining staleness in the demo UI
+* [`EVAL`](/content/commands/eval.md) for the Lua single-flight lock that prevents stampedes
+* [`WATCH`](/content/commands/watch.md)/[`MULTI`](/content/commands/multi.md)/[`EXEC`](/content/commands/exec.md) for the conditional field update path
 
 ## Cache-aside reads
 
@@ -101,9 +100,7 @@ public Result get(String entityId, Function<String, Map<String, String>> loader)
     Map<String, String> cached;
     long startedNs = System.nanoTime();
 
-    try (Jedis jedis = pool.getResource()) {
-        cached = jedis.hgetAll(cacheKey);
-    }
+    cached = jedis.hgetAll(cacheKey);
     double redisLatencyMs = (System.nanoTime() - startedNs) / 1_000_000.0;
 
     if (cached != null && !cached.isEmpty()) {
@@ -152,24 +149,23 @@ private Map<String, String> loadWithSingleFlight(
     String lockKey = lockKey(entityId);
     String token = randomToken();
 
-    try (Jedis jedis = pool.getResource()) {
-        Object acquired = jedis.eval(
-                ACQUIRE_LOCK_SCRIPT,
-                List.of(lockKey),
-                List.of(token, Integer.toString(lockTtlMs)));
-        if (asInt(acquired) == 1) {
-            try {
-                Map<String, String> record = loader.apply(entityId);
-                if (record == null) return null;
-                Transaction tx = jedis.multi();
+    Object acquired = jedis.eval(
+            ACQUIRE_LOCK_SCRIPT,
+            List.of(lockKey),
+            List.of(token, Integer.toString(lockTtlMs)));
+    if (asInt(acquired) == 1) {
+        try {
+            Map<String, String> record = loader.apply(entityId);
+            if (record == null) return null;
+            try (AbstractTransaction tx = jedis.multi()) {
                 tx.del(cacheKey);
                 tx.hset(cacheKey, record);
                 tx.expire(cacheKey, ttl);
                 tx.exec();
-                return record;
-            } finally {
-                jedis.eval(RELEASE_LOCK_SCRIPT, List.of(lockKey), List.of(token));
             }
+            return record;
+        } finally {
+            jedis.eval(RELEASE_LOCK_SCRIPT, List.of(lockKey), List.of(token));
         }
     }
 
@@ -177,10 +173,8 @@ private Map<String, String> loadWithSingleFlight(
     long deadline = System.nanoTime() + (long) lockTtlMs * 1_000_000L;
     while (System.nanoTime() < deadline) {
         Thread.sleep(waitPollMs);
-        try (Jedis jedis = pool.getResource()) {
-            Map<String, String> cached = jedis.hgetAll(cacheKey);
-            if (cached != null && !cached.isEmpty()) return cached;
-        }
+        Map<String, String> cached = jedis.hgetAll(cacheKey);
+        if (cached != null && !cached.isEmpty()) return cached;
     }
     return loader.apply(entityId);
 }
@@ -194,9 +188,7 @@ When a write hits the primary, the application invalidates the cache key. The ne
 
 ```java
 public boolean invalidate(String entityId) {
-    try (Jedis jedis = pool.getResource()) {
-        return jedis.del(cacheKey(entityId)) == 1L;
-    }
+    return jedis.del(cacheKey(entityId)) == 1L;
 }
 ```
 
@@ -210,13 +202,15 @@ Because each record is stored as a hash, the cache helper can also update a sing
 public boolean updateField(String entityId, String field, String value) {
     String cacheKey = cacheKey(entityId);
     while (true) {
-        try (Jedis jedis = pool.getResource()) {
-            jedis.watch(cacheKey);
-            if (!jedis.exists(cacheKey)) {
-                jedis.unwatch();
+        // WATCH is tied to one connection, so open a transaction that
+        // holds it until EXEC.
+        try (AbstractTransaction tx = jedis.transaction(false)) {
+            tx.watch(cacheKey);
+            if (!tx.exists(cacheKey).get()) {
+                tx.unwatch();
                 return false;
             }
-            Transaction tx = jedis.multi();
+            tx.multi();
             tx.hset(cacheKey, field, value);
             tx.expire(cacheKey, ttl);
             List<Object> result = tx.exec();
@@ -268,10 +262,10 @@ A local demo server is included to show the cache-aside layer in action
 ([source](DemoServer.java)):
 
 ```bash
-javac -cp jedis-5.0.0.jar:commons-pool2-2.12.1.jar:slf4j-api-1.7.36.jar:gson-2.9.1.jar:json-20230618.jar \
+javac -cp jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
     RedisCache.java MockPrimaryStore.java DemoServer.java
 
-java -cp .:jedis-5.0.0.jar:commons-pool2-2.12.1.jar:slf4j-api-1.7.36.jar:gson-2.9.1.jar:json-20230618.jar \
+java -cp .:jedis-8.0.2.jar:commons-pool2-2.13.1.jar:slf4j-api-1.7.36.jar:gson-2.14.0.jar:json-20260719.jar:redis-authx-core-0.1.1-beta2.jar \
     DemoServer --port 8080 --redis-host localhost --redis-port 6379
 ```
 
@@ -333,9 +327,9 @@ In this demo, a missing record returns `null` and nothing is cached. In a real s
 
 The lock TTL needs to be longer than the worst-case primary read latency so a slow loader does not lose the lock midway. The unique token in `RELEASE_LOCK_SCRIPT` ensures the original caller does not delete someone else's lock if its lock has expired.
 
-### Tune the JedisPool
+### Tune the connection pool
 
-The demo uses a default `JedisPoolConfig`. In production, set `setMaxTotal()` and `setMaxIdle()` to match your concurrency profile and server-side `maxclients`. Wrap pool acquisition in try-with-resources so connections are returned even on exceptions.
+The demo uses the default jedis settings of `RedisClient.create()`. In production, build the client with `RedisClient.builder()` and a `ConnectionPoolConfig`, and set `setMaxTotal()` and `setMaxIdle()` to match your concurrency profile and server-side `maxclients`. Wrap transactions and pipelines in try-with-resources so their connections return to the jedis even on exceptions. An open transaction or pipeline holds a pooled connection, so send any reads it needs through the transaction or pipeline itself, not through the client.
 
 ### Namespace cache keys in shared Redis deployments
 
@@ -352,10 +346,10 @@ redis-cli TTL cache:product:p-001
 
 ## Learn more
 
-* [Jedis guide]({{< relref "/develop/clients/jedis" >}}) - Install and use the Jedis Redis client
-* [SET command]({{< relref "/commands/set" >}}) - Set a string with TTL options (`EX`, `PX`, `NX`)
-* [HSET command]({{< relref "/commands/hset" >}}) - Write hash fields
-* [HGETALL command]({{< relref "/commands/hgetall" >}}) - Read every field of a hash
-* [EXPIRE command]({{< relref "/commands/expire" >}}) - Set key expiration in seconds
-* [DEL command]({{< relref "/commands/del" >}}) - Delete a key on invalidation
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Atomic single-flight locks and stampede mitigation
+* [Jedis guide](/content/develop/clients/jedis/_index.md) - Install and use the Jedis Redis client
+* [SET command](/content/commands/set.md) - Set a string with TTL options (`EX`, `PX`, `NX`)
+* [HSET command](/content/commands/hset.md) - Write hash fields
+* [HGETALL command](/content/commands/hgetall.md) - Read every field of a hash
+* [EXPIRE command](/content/commands/expire.md) - Set key expiration in seconds
+* [DEL command](/content/commands/del.md) - Delete a key on invalidation
+* [Lua scripting](/content/develop/programmability/eval-intro.md) - Atomic single-flight locks and stampede mitigation

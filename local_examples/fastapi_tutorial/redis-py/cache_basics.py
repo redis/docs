@@ -47,6 +47,15 @@ client = TestClient(app)
 client.__enter__()
 # HIDE_END
 
+# REMOVE_START
+# Self-reset: an entry cached by a previous run would make the first request a HIT.
+import redis as _redis
+
+_r = _redis.Redis()
+for _key in _r.scan_iter("redis:fastapi:cache:*demo*"):
+    _r.delete(_key)
+# REMOVE_END
+
 # STEP_START cache_hit_miss
 # The first request is a MISS: the handler runs and the response is cached.
 first = client.get("/cache-demo")
@@ -114,3 +123,117 @@ assert not_modified.status_code == 304
 # Redis connection pool opened by client.__enter__() above.
 client.__exit__(None, None, None)
 # HIDE_END
+
+# REMOVE_START
+# Self-reset: rate-limit counters last for their whole window, so a rerun within
+# a minute would start with the counter already spent.
+for _key in _r.scan_iter("redis:fastapi:ratelimit:*search:demo*"):
+    _r.delete(_key)
+# REMOVE_END
+
+# STEP_START rate_limit
+from fastapi import Depends, FastAPI
+from fastapi.testclient import TestClient
+from redis_fastapi import FastAPIRedis, rate_limit
+
+app = FastAPI()
+FastAPIRedis(app).lifespan().rate_limiting()
+
+
+@app.get(
+    "/search",
+    dependencies=[
+        Depends(rate_limit("2/minute", scope="search:demo:burst")),
+        Depends(rate_limit("100/hour", scope="search:demo:sustained")),
+    ],
+)
+async def search():
+    return {"results": []}
+
+
+with TestClient(app) as client:
+    responses = [client.get("/search") for _ in range(3)]
+
+print([r.status_code for r in responses])
+# >>> [200, 200, 429]
+
+# The rejected request tells the client how long to wait.
+print("Retry-After" in responses[-1].headers)
+# >>> True
+
+# Every response reports the limit and what is left of it.
+print(responses[0].headers["X-RateLimit-Remaining"])
+# >>> 1
+# STEP_END
+
+# REMOVE_START
+assert [r.status_code for r in responses] == [200, 200, 429]
+assert "Retry-After" in responses[-1].headers
+assert responses[0].headers["X-RateLimit-Remaining"] == "1"
+# REMOVE_END
+
+# STEP_START sessions
+from fastapi import Depends, FastAPI
+from fastapi.testclient import TestClient
+from redis_fastapi import FastAPIRedis, SessionDep, valid_session
+
+app = FastAPI()
+FastAPIRedis(app).lifespan().sessions()
+
+
+@app.post("/login")
+async def login(session: SessionDep):
+    session["user_id"] = 42  # rotates the session ID after the endpoint completes
+    return {"ok": True}
+
+
+@app.get("/me", dependencies=[Depends(valid_session())])
+async def me(session: SessionDep):
+    return {"user_id": session.get("user_id")}
+
+
+# The session cookie is Secure by default, so the test client must use HTTPS.
+with TestClient(app, base_url="https://testserver") as client:
+    print(client.get("/me").status_code)
+    # >>> 401
+
+    client.post("/login")
+    print(client.get("/me").json())
+    # >>> {'user_id': 42}
+# STEP_END
+
+# REMOVE_START
+with TestClient(app, base_url="https://testserver") as _c:
+    assert _c.get("/me").status_code == 401
+    assert _c.post("/login").status_code == 200
+    assert _c.get("/me").json() == {"user_id": 42}
+for _key in _r.scan_iter("redis:fastapi:session*"):
+    _r.delete(_key)
+# REMOVE_END
+
+# STEP_START testing
+import fakeredis.aioredis
+from fastapi import Depends, FastAPI
+from fastapi.testclient import TestClient
+from redis_fastapi import FastAPIRedis, cache, get_async_redis
+
+app = FastAPI()
+FastAPIRedis(app).lifespan().caching()
+
+
+@app.get("/items", dependencies=[Depends(cache(ttl=60))])
+async def get_items():
+    return {"items": [1, 2, 3]}
+
+
+# Replace the Redis client with an in-memory fake. No server is needed.
+fake = fakeredis.aioredis.FakeRedis()
+app.dependency_overrides[get_async_redis] = lambda: fake
+
+with TestClient(app) as client:
+    print(client.get("/items").headers["X-Redis-Cache"])
+    # >>> MISS
+
+    print(client.get("/items").headers["X-Redis-Cache"])
+    # >>> HIT
+# STEP_END

@@ -21,7 +21,8 @@ We thoroughly test each release of Redis Enterprise for Kubernetes against a set
 
 Any distribution not listed below is not supported for production workloads.
 
-{{<note>}}Each platform is tested with its default configuration, including storage, network, security, and container runtime components.{{</note>}}
+> [!NOTE]
+> Each platform is tested with its default configuration, including storage, network, security, and container runtime components.
 
 ## Community Kubernetes
 

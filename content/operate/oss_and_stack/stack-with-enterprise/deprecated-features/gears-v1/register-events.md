@@ -36,16 +36,16 @@ For more information and examples of event registration, see:
 
 - Java references:
 
-    - [`KeysReader`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/readers/keysreader" >}})
+    - [`KeysReader`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/readers/keysreader.md)
 
-    - [`GearsBuilder.register()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register" >}})
+    - [`GearsBuilder.register()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register.md)
 
 ## Event types
 
-For the list of event types you can register on, see the [Redis keyspace notification documentation]({{< relref "/develop/pubsub/keyspace-notifications" >}}#events-generated-by-different-commands).
+For the list of event types you can register on, see the [Redis keyspace notification documentation](/content/develop/pubsub/keyspace-notifications.md#events-generated-by-different-commands).
 
 ## Active-Active event types
 
-In addition to standard Redis [events]({{< relref "/develop/pubsub/keyspace-notifications" >}}#events-generated-by-different-commands), [Redis Software Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}) also support the registration of RedisGears functions for the following event types:
+In addition to standard Redis [events](/content/develop/pubsub/keyspace-notifications.md#events-generated-by-different-commands), [Redis Software Active-Active databases](/content/operate/rs/databases/active-active/_index.md) also support the registration of RedisGears functions for the following event types:
 
 - `change`: This event occurs when a key changes on another replica of the Active-Active database.

@@ -98,8 +98,8 @@ execute them in script-replication mode.
 
 ## Eviction
 
-The default policy for Active-Active databases is _noeviction_ mode. Redis Enterprise version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering]({{< relref "/operate/rs/7.4/databases/auto-tiering" >}})(previously known as Redis on Flash) is enabled.
-For details, see [eviction for Active-Active databases]({{< relref "/operate/rs/7.4/databases/memory-performance/eviction-policy#active-active-database-eviction" >}}).
+The default policy for Active-Active databases is _noeviction_ mode. Redis Enterprise version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering](/content/operate/rs/7.4/databases/auto-tiering/_index.md)(previously known as Redis on Flash) is enabled.
+For details, see [eviction for Active-Active databases](/content/operate/rs/7.4/databases/memory-performance/eviction-policy.md#active-active-database-eviction).
 
 
 ## Expiration
@@ -145,9 +145,9 @@ Furthermore, a replica that is NOT the "owner" of the expired value:
 - Expires it (sending a DEL) before making any modifications if a user
     attempts to access it in WRITE mode.
     
-    {{< note >}}
-Expiration values are in the range of [0,&nbsp;2^49] for Active-Active databases and [0,&nbsp;2^64] for non Active-Active databases.
-    {{< /note >}}
+    > [!NOTE]
+    > Expiration values are in the range of [0,&nbsp;2^49] for Active-Active databases and [0,&nbsp;2^64] for non Active-Active databases.
+    >
 
 ## Out-of-Memory (OOM) {#outofmemory-oom}
 

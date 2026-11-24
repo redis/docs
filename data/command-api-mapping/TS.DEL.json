@@ -85,7 +85,7 @@
     ],
     "node_redis": [
       {
-        "signature": "DEL(key: RedisArgument, fromTimestamp: Timestamp, toTimestamp: Timestamp)",
+        "signature": "client.ts.del(key: RedisArgument, fromTimestamp: Timestamp, toTimestamp: Timestamp)",
         "params": [
           {
             "name": "key",
@@ -104,7 +104,7 @@
           }
         ],
         "returns": {
-          "type": "Any",
+          "type": "NumberReply",
           "description": ""
         }
       }

@@ -15,4 +15,4 @@ This section describes complete Data Integration setups that customers run in pr
 
 Available guides:
 
-- [Connect a data pipeline to on-premises SQL Server and handle failover]({{<relref "/operate/rc/rdi/use-cases/sql-server-failover">}}): Connect a pipeline to a self-managed SQL Server Always On availability group and keep it running through failover and disaster recovery events.
+- [Connect a data pipeline to on-premises SQL Server and handle failover](/content/operate/rc/rdi/use-cases/sql-server-failover.md): Connect a pipeline to a self-managed SQL Server Always On availability group and keep it running through failover and disaster recovery events.

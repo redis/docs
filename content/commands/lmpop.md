@@ -70,19 +70,18 @@ summary: Returns multiple elements from a list after removing them. Deletes the 
 syntax_fmt: "LMPOP numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: LMPOP
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Pops one or more elements from the first non-empty list key from the list of provided key names.
 
-`LMPOP` and [`BLMPOP`]({{< relref "/commands/blmpop" >}}) are similar to the following, more limited, commands:
+`LMPOP` and [`BLMPOP`](/content/commands/blmpop.md) are similar to the following, more limited, commands:
 
-- [`LPOP`]({{< relref "/commands/lpop" >}}) or [`RPOP`]({{< relref "/commands/rpop" >}}) which take only one key, and can return multiple elements.
-- [`BLPOP`]({{< relref "/commands/blpop" >}}) or [`BRPOP`]({{< relref "/commands/brpop" >}}) which take multiple keys, but return only one element from just one key.
+- [`LPOP`](/content/commands/lpop.md) or [`RPOP`](/content/commands/rpop.md) which take only one key, and can return multiple elements.
+- [`BLPOP`](/content/commands/blpop.md) or [`BRPOP`](/content/commands/brpop.md) which take multiple keys, but return only one element from just one key.
 
-See [`BLMPOP`]({{< relref "/commands/blmpop" >}}) for the blocking variant of this command.
+See [`BLMPOP`](/content/commands/blmpop.md) for the blocking variant of this command.
 
 Elements are popped from either the left or right of the first non-empty list based on the passed argument.
 The number of returned elements is limited to the lower between the non-empty list's length, and the count argument (which defaults to 1).

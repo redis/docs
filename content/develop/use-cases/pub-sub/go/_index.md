@@ -14,7 +14,7 @@ title: Redis pub/sub with go-redis
 weight: 3
 ---
 
-This guide shows you how to implement a Redis-backed pub/sub broadcaster in Go with [`go-redis`]({{< relref "/develop/clients/go" >}}). It includes a small local web server built with the Go standard library so you can publish messages to named channels, add and remove subscribers live, and watch Redis fan out each message to every interested listener.
+This guide shows you how to implement a Redis-backed pub/sub broadcaster in Go with [`go-redis`](/content/develop/clients/go/_index.md). It includes a small local web server built with the Go standard library so you can publish messages to named channels, add and remove subscribers live, and watch Redis fan out each message to every interested listener.
 
 ## Overview
 
@@ -108,12 +108,12 @@ Subscription                            (in-process, one per subscriber)
 
 The implementation uses:
 
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) to fan a JSON-encoded message out to every subscriber of a channel
-* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) for exact-match subscribers
-* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) for glob-style pattern subscribers
-* [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}) to list the channels with at least one active exact-match subscriber
-* [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per channel
-* [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide
+* [`PUBLISH`](/content/commands/publish.md) to fan a JSON-encoded message out to every subscriber of a channel
+* [`SUBSCRIBE`](/content/commands/subscribe.md) for exact-match subscribers
+* [`PSUBSCRIBE`](/content/commands/psubscribe.md) for glob-style pattern subscribers
+* [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list the channels with at least one active exact-match subscriber
+* [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per channel
+* [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide
 * The go-redis `*redis.PubSub.Channel()` helper, which spins up an internal goroutine that pumps messages off the socket into a Go channel — so the helper just ranges over that channel and never touches `Receive()` or `ReceiveMessage()` directly
 
 ## Publishing messages
@@ -331,7 +331,7 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ### Pub/sub is at-most-once — pair it with durable state if you need replay
 
-A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams]({{< relref "/develop/data-types/streams" >}}) with consumer groups.
+A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams](/content/develop/data-types/streams/_index.md) with consumer groups.
 
 ### Use a separate connection (or `PubSub` object) per subscriber
 
@@ -347,7 +347,7 @@ A flat namespace gets ugly fast — `email`, `email_high_priority`, `email_high_
 
 ### Don't do heavy work in the dispatch goroutine
 
-The dispatch goroutine reads messages from a single Go channel. If your handler blocks (synchronous HTTP call, big computation, slow DB write), the next message waits behind it and the subscriber's effective throughput drops to whatever the handler's latency is. For heavier work, the handler should hand the message off to a worker pool, a buffered job channel, or — for true durable handoff — a [Redis Streams]({{< relref "/develop/data-types/streams" >}}) consumer group.
+The dispatch goroutine reads messages from a single Go channel. If your handler blocks (synchronous HTTP call, big computation, slow DB write), the next message waits behind it and the subscriber's effective throughput drops to whatever the handler's latency is. For heavier work, the handler should hand the message off to a worker pool, a buffered job channel, or — for true durable handoff — a [Redis Streams](/content/develop/data-types/streams/_index.md) consumer group.
 
 ### Tune the subscriber buffer for your traffic shape
 
@@ -355,7 +355,7 @@ The demo caps each subscriber's in-memory message buffer at 50. That's right for
 
 ### Sharded pub/sub on a Redis Cluster
 
-On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. go-redis exposes the matching `SPublish`, `SSubscribe`, `PubSubShardChannels`, and `PubSubShardNumSub` methods on the cluster client. If you're scaling pub/sub on a cluster, prefer the sharded commands and pick channel names whose hash distribution matches your traffic.
+On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub](/content/develop/pubsub/_index.md#sharded-pubsub): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. go-redis exposes the matching `SPublish`, `SSubscribe`, `PubSubShardChannels`, and `PubSubShardNumSub` methods on the cluster client. If you're scaling pub/sub on a cluster, prefer the sharded commands and pick channel names whose hash distribution matches your traffic.
 
 ### Inspect pub/sub state directly in Redis
 
@@ -381,11 +381,11 @@ redis-cli psubscribe 'orders:*'
 
 This example uses the following Redis commands:
 
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) to fan a message out to every subscriber of a channel.
-* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) for exact-match topic subscriptions.
-* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) and [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}) for glob-style pattern subscriptions.
-* [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}) to list channels with at least one active exact-match subscriber.
-* [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per named channel.
-* [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide.
+* [`PUBLISH`](/content/commands/publish.md) to fan a message out to every subscriber of a channel.
+* [`SUBSCRIBE`](/content/commands/subscribe.md) and [`UNSUBSCRIBE`](/content/commands/unsubscribe.md) for exact-match topic subscriptions.
+* [`PSUBSCRIBE`](/content/commands/psubscribe.md) and [`PUNSUBSCRIBE`](/content/commands/punsubscribe.md) for glob-style pattern subscriptions.
+* [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list channels with at least one active exact-match subscriber.
+* [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per named channel.
+* [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide.
 
-See the [`go-redis` documentation]({{< relref "/develop/clients/go" >}}) for full client reference.
+See the [`go-redis` documentation](/content/develop/clients/go/_index.md) for full client reference.

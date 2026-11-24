@@ -36,6 +36,8 @@ This application answers this question: What was the sales volume (on a certain 
 
 Use one Count-Min sketch created per day (period). Every product sale goes into the CMS. The CMS give reasonably accurate results for the products that contribute the most toward the sales. Products with low percentage of the total sales are ignored. 
 
+{{< data-type-animation type="count-min-sketch" >}}
+
 ## Examples
 Assume you select an error rate of 0.1% (0.001) with a certainty of 99.8% (0.998). This means you have an error probability of 0.2% (0.002). Your sketch strives to keep the error within 0.1% of the total count of all elements you've added. There's a 0.2% chance the error might exceed this—like when an element below the threshold overlaps with one above it. When you add a few items to the CMS and evaluate their frequency, remember that in such a small sample, collisions are rare, as seen with other probabilistic data structures.
 
@@ -105,7 +107,7 @@ or
 error = threshold/total_count
 ```
 
-where `total_count` is the sum of the count of all elements that can be obtained from the `count` key of the result of the [`CMS.INFO`]({{< relref "commands/cms.info/" >}}) command and is of course dynamic - it changes with every new increment in the sketch. At creation time you can approximate the `total_count` ratio as a product of the average count you'll be expecting in the sketch and the average number of elements.
+where `total_count` is the sum of the count of all elements that can be obtained from the `count` key of the result of the [`CMS.INFO`](/content/commands/cms.info.md) command and is of course dynamic - it changes with every new increment in the sketch. At creation time you can approximate the `total_count` ratio as a product of the average count you'll be expecting in the sketch and the average number of elements.
 
 Since the threshold is a function of the total count in the filter it's very important to note that it will grow as  the count grows, but knowing the total count we can always dynamically calculate the threshold. If a result is below it - it can be discarded.
 

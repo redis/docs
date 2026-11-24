@@ -53,15 +53,13 @@ Considerations:
 
 The following diagram shows how a global traffic manager with DNS resolution routes traffic:
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/gtm-with-DNS.svg" alt="Diagram of a global traffic manager routing applications to Active-Active database members across regions" width="50%">
-</div>
+![Diagram of a global traffic manager routing applications to Active-Active database members across regions](/images/active-active-disaster-recovery/gtm-with-DNS.svg)
+{width="50%" class="mx-auto"}
 
 If the environment does not allow DNS resolution, you can use a load balancer to direct traffic to the cluster nodes: 
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/gtm-with-load-balancer.svg" alt="Diagram of a global traffic manager with a load balancer directing traffic to Active-Active database members across regions" width="50%">
-</div>
+![Diagram of a global traffic manager with a load balancer directing traffic to Active-Active database members across regions](/images/active-active-disaster-recovery/gtm-with-load-balancer.svg)
+{width="50%" class="mx-auto"}
 
 ### Global load balancer
 
@@ -69,9 +67,8 @@ For real-time traffic control and more advanced routing logic for cross-region f
 
 The following diagram shows how a global load balancer routes traffic between regions:
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/global-load-balancer.svg" alt="Diagram of a global load balancer routing traffic between Active-Active database members in different regions" width="50%">
-</div>
+![Diagram of a global load balancer routing traffic between Active-Active database members in different regions](/images/active-active-disaster-recovery/global-load-balancer.svg)
+{width="50%" class="mx-auto"}
 
 ## Cross-zone availability
 
@@ -79,9 +76,8 @@ If your deployment does not require cross-region availability, you can use a reg
 
 The following diagram shows how a regional load balancer routes traffic across availability zones:
 
-<div class="flex justify-center">
-<img src="../../../../../../images/active-active-disaster-recovery/regional-load-balancer.svg" alt="Diagram of a regional load balancer routing traffic across availability zones within a single region" width="50%">
-</div>
+![Diagram of a regional load balancer routing traffic across availability zones within a single region](/images/active-active-disaster-recovery/regional-load-balancer.svg)
+{width="50%" class="mx-auto"}
 
 ## Advantages
 
