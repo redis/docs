@@ -298,6 +298,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arlastitems(key, count, rev: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "maximum number of elements to return; if the array holds fewer elements, all of them are returned"
+          },
+          {
+            "name": "rev",
+            "type": "Boolean",
+            "description": "return elements most recent first instead of the default oldest-first order"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "the most recently inserted elements"
+        }
+      }
     ]
   }
 }

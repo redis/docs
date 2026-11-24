@@ -828,6 +828,82 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vsim(key, vector: nil, element: nil, with_scores: false, with_attribs: false, raw: false, count: nil, epsilon: nil, ef: nil, filter: nil, filter_ef: nil, truth: nil, nothread: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "vector",
+            "type": "Array<Numeric>, String",
+            "description": "the query vector"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "name of an existing element to use as the similarity reference"
+          },
+          {
+            "name": "with_scores",
+            "type": "Boolean",
+            "description": "include the similarity score (1 identical … 0 opposite) for each result"
+          },
+          {
+            "name": "with_attribs",
+            "type": "Boolean",
+            "description": "include the attributes for each result, parsed with JSON.parse (nil when absent)"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "return attribute JSON strings as stored instead of parsing them"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "limit the number of results"
+          },
+          {
+            "name": "epsilon",
+            "type": "Float",
+            "description": "only return elements with a distance no further than this delta (similarity better than 1 - delta)"
+          },
+          {
+            "name": "ef",
+            "type": "Integer",
+            "description": "search exploration factor; higher values improve recall at the cost of speed"
+          },
+          {
+            "name": "filter",
+            "type": "String",
+            "description": "filter expression over element attributes"
+          },
+          {
+            "name": "filter_ef",
+            "type": "Integer",
+            "description": "cap on filtering attempts"
+          },
+          {
+            "name": "truth",
+            "type": "Boolean",
+            "description": "exact linear scan instead of HNSW (O(N))"
+          },
+          {
+            "name": "nothread",
+            "type": "Boolean",
+            "description": "run in the main thread"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Hash",
+          "description": "element names; with `with_scores:` a `{ name => Float }` Hash; with `with_scores:` and `with_attribs:` a `{ name => [Float, Object] }` Hash; with `with_attribs:` alone a `{ name => Object }` Hash. Exactly one of `vector:` and `element:` must be given. Empty when the key does not exist."
+        }
+      }
     ]
   }
 }

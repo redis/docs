@@ -3305,6 +3305,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arcount(key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of set elements, or 0 if the key does not exist"
+          }
+        }
       ]
     }
   },
@@ -3561,6 +3577,27 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ardel(key, *indices)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*indices",
+              "type": "Integer, Array<Integer>",
+              "description": "one or more zero-based indices to delete"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of elements deleted"
           }
         }
       ]
@@ -3836,6 +3873,27 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "ardelrange(key, *ranges)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*ranges",
+              "type": "Integer, Array<Integer>",
+              "description": "one or more start/stop pairs, as flat alternating integers or one array per range"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of elements deleted"
+          }
+        }
       ]
     }
   },
@@ -4016,6 +4074,27 @@
           "returns": {
             "type": "Result<string | null, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arget(key, index)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "index",
+              "type": "Integer",
+              "description": "zero-based index of the element to retrieve"
+            }
+          ],
+          "returns": {
+            "type": "String, nil",
+            "description": "the value at the given index, or `nil` if the key does not exist or the index holds no value"
           }
         }
       ]
@@ -4238,6 +4317,32 @@
           "returns": {
             "type": "Result<(string | null)[], Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "argetrange(key, start, stop)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "zero-based index of the first element (inclusive)"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "zero-based index of the last element (inclusive)"
+            }
+          ],
+          "returns": {
+            "type": "Array<String, nil>",
+            "description": "the values in traversal order"
           }
         }
       ]
@@ -4730,6 +4835,72 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "argrep(key, start, stop, exact: nil, match: nil, glob: nil, re: nil, logic: nil, limit: nil, with_values: nil, nocase: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "Integer, String",
+              "description": "zero-based start index (inclusive), or `\"-\"` for the start of the array; iteration is reversed when greater than `stop`"
+            },
+            {
+              "name": "stop",
+              "type": "Integer, String",
+              "description": "zero-based end index (inclusive), or `\"+\"` for the end of the array"
+            },
+            {
+              "name": "exact",
+              "type": "String, Array<String>",
+              "description": "match by exact equality"
+            },
+            {
+              "name": "match",
+              "type": "String, Array<String>",
+              "description": "match by substring"
+            },
+            {
+              "name": "glob",
+              "type": "String, Array<String>",
+              "description": "match by glob-style pattern (`*`, `?`, `[...]`)"
+            },
+            {
+              "name": "re",
+              "type": "String, Array<String>",
+              "description": "match by regular expression"
+            },
+            {
+              "name": "logic",
+              "type": "Symbol",
+              "description": "`:and` or `:or`: how multiple predicates combine (server default is OR)"
+            },
+            {
+              "name": "limit",
+              "type": "Integer",
+              "description": "stop after this many matches"
+            },
+            {
+              "name": "with_values",
+              "type": "Boolean",
+              "description": "return `[index, value]` pairs instead of indices"
+            },
+            {
+              "name": "nocase",
+              "type": "Boolean",
+              "description": "case-insensitive comparison for all predicates"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Array<Array(Integer, String)>",
+            "description": "matching indices in traversal order, or `[index, value]` pairs with `with_values`"
+          }
+        }
       ]
     }
   },
@@ -4970,6 +5141,27 @@
           "returns": {
             "type": "Result<(string | number)[], Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arinfo(key, full: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "full",
+              "type": "Boolean",
+              "description": "include per-slice statistics"
+            }
+          ],
+          "returns": {
+            "type": "Hash{String => Integer, Float}",
+            "description": "metadata fields such as `count`, `len`, `next-insert-index` and `slices`; with `full:` the `avg-*` slice statistics are returned as `Float`"
           }
         }
       ]
@@ -5228,6 +5420,27 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arinsert(key, *values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*values",
+              "type": "String",
+              "description": "one or more values to insert"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the last index where a value was inserted"
           }
         }
       ]
@@ -5533,6 +5746,32 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arlastitems(key, count, rev: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": "maximum number of elements to return; if the array holds fewer elements, all of them are returned"
+            },
+            {
+              "name": "rev",
+              "type": "Boolean",
+              "description": "return elements most recent first instead of the default oldest-first order"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": "the most recently inserted elements"
+          }
+        }
       ]
     }
   },
@@ -5673,6 +5912,22 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arlen(key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the array length, or 0 if the key does not exist"
           }
         }
       ]
@@ -5876,6 +6131,27 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "armget(key, *indices)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*indices",
+              "type": "Integer, Array<Integer>",
+              "description": "one or more zero-based indices"
+            }
+          ],
+          "returns": {
+            "type": "Array<String, nil>",
+            "description": "the values at the requested indices"
+          }
+        }
       ]
     }
   },
@@ -6077,6 +6353,27 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "armset(key, *pairs)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*pairs",
+              "type": "Integer, String, Array<Integer, String>, Array<Array(Integer, String)>, Hash{Integer => String}",
+              "description": "index-value pairs: as alternating index/value arguments, a single flat array, one array per pair, or a Hash"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of previously empty slots that were set"
+          }
+        }
       ]
     }
   },
@@ -6217,6 +6514,22 @@
           "returns": {
             "type": "Result<number | null, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arnext(key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Integer, nil",
+            "description": "the next insert index (0 for missing keys or before any insert), or `nil` when the insertion cursor is exhausted"
           }
         }
       ]
@@ -7081,6 +7394,42 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arop(key, start, stop, operation, value: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "zero-based index of the first element (inclusive); the range is always scanned from the lower to the higher index"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "zero-based index of the last element (inclusive)"
+            },
+            {
+              "name": "operation",
+              "type": "Symbol, String",
+              "description": "one of `:sum`, `:min`, `:max`, `:and`, `:or`, `:xor`, `:match`, `:used`"
+            },
+            {
+              "name": "value",
+              "type": "String",
+              "description": "the value to compare against (required for `:match`)"
+            }
+          ],
+          "returns": {
+            "type": "Float, Integer, nil",
+            "description": "the aggregate result: a Float for `:sum`/`:min`/`:max`, an Integer otherwise; `nil` when no elements qualify"
+          }
+        }
       ]
     }
   },
@@ -7397,6 +7746,32 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arring(key, size, *values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "type": "Integer",
+              "description": "the size of the ring buffer window"
+            },
+            {
+              "name": "*values",
+              "type": "String",
+              "description": "one or more values to insert"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the last index where a value was inserted"
           }
         }
       ]
@@ -7767,6 +8142,37 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arscan(key, start, stop, limit: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "zero-based start index (inclusive)"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "zero-based end index (inclusive)"
+            },
+            {
+              "name": "limit",
+              "type": "Integer",
+              "description": "cap on the number of elements returned; all populated elements in range are returned when omitted"
+            }
+          ],
+          "returns": {
+            "type": "Array<Array(Integer, String)>",
+            "description": "`[index, value]` pairs in traversal order; empty when the key does not exist"
+          }
+        }
       ]
     }
   },
@@ -7947,6 +8353,27 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arseek(key, index)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "index",
+              "type": "Integer",
+              "description": "zero-based index for the new cursor position"
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": "whether the cursor was set (`false` if the key does not exist)"
           }
         }
       ]
@@ -8265,6 +8692,32 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "arset(key, index, *values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "index",
+              "type": "Integer",
+              "description": "zero-based index at which to start writing"
+            },
+            {
+              "name": "*values",
+              "type": "String",
+              "description": "one or more values stored at consecutive indices beginning at `index`"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of previously empty slots that were set"
           }
         }
       ]
@@ -139636,6 +140089,62 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vadd(key, vector, element, reduce: nil, cas: nil, quantization: nil, ef: nil, attributes: nil, m: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "vector",
+              "type": "Array<Numeric>, String",
+              "description": "the vector as an array of numbers, or a little-endian FP32 blob"
+            },
+            {
+              "name": "element",
+              "type": "String",
+              "description": "name of the element being added"
+            },
+            {
+              "name": "reduce",
+              "type": "Integer",
+              "description": "project the vector down to this number of dimensions"
+            },
+            {
+              "name": "cas",
+              "type": "Boolean",
+              "description": "collect neighbor candidates in a background thread, check-and-set style"
+            },
+            {
+              "name": "quantization",
+              "type": "Symbol, String",
+              "description": "one of `:noquant`, `:q8` (the default) or `:bin`"
+            },
+            {
+              "name": "ef",
+              "type": "Integer",
+              "description": "build-time exploration factor (default 200)"
+            },
+            {
+              "name": "attributes",
+              "type": "Hash, String",
+              "description": "attributes associated with the element, as an object serialized to JSON or a pre-encoded JSON string"
+            },
+            {
+              "name": "m",
+              "type": "Integer",
+              "description": "maximum number of connections per graph node (default 16)"
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": "whether the element was added"
+          }
+        }
       ]
     }
   },
@@ -139882,6 +140391,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vcard(key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of elements in the vector set, or 0 if the key does not exist"
+          }
+        }
       ]
     }
   },
@@ -140126,6 +140651,22 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vdim(key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the dimension of the vectors in the set; raises `Redis::CommandError` if the key does not exist"
           }
         }
       ]
@@ -140583,6 +141124,32 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vemb(key, element, raw: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "element",
+              "type": "String",
+              "description": "name of the element whose vector to retrieve"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return the raw internal representation instead"
+            }
+          ],
+          "returns": {
+            "type": "Array<Float>, Hash, nil",
+            "description": "the vector as an array of Floats; with `raw: true` a Hash with `\"quantization\"`, `\"raw\"` (blob), `\"l2\"` and, for q8 sets, `\"range\"` keys; nil if the key or element does not exist"
+          }
+        }
       ]
     }
   },
@@ -140885,6 +141452,32 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vgetattr(key, element, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "element",
+              "type": "String",
+              "description": "name of the element whose attributes to retrieve"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return the JSON string without parsing it"
+            }
+          ],
+          "returns": {
+            "type": "Object, String, nil",
+            "description": "the parsed attributes (or the JSON string with `raw: true`); nil if the key or element does not exist or has no attributes"
+          }
+        }
       ]
     }
   },
@@ -141117,6 +141710,22 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vinfo(key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Hash, nil",
+            "description": "the vector set metadata, or nil if the key does not exist"
+          }
+        }
       ]
     }
   },
@@ -141197,6 +141806,27 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vismember(key, element)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "element",
+              "type": "String",
+              "description": "name of the element to check for membership"
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": "whether the element exists in the vector set; false if the key does not exist"
           }
         }
       ]
@@ -141683,6 +142313,32 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vlinks(key, element, with_scores: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "element",
+              "type": "String",
+              "description": "name of the element whose neighbors to inspect"
+            },
+            {
+              "name": "with_scores",
+              "type": "Boolean",
+              "description": "include similarity scores for each neighbor"
+            }
+          ],
+          "returns": {
+            "type": "Array<Array<String>>, Array<Hash>, nil",
+            "description": "one array of neighbor names per layer; with scores, one `{ name => Float }` Hash per layer; nil if the key or element does not exist"
+          }
+        }
       ]
     }
   },
@@ -142054,6 +142710,27 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vrandmember(key, count = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": "number of elements to return; positive for distinct elements, negative to allow duplicates"
+            }
+          ],
+          "returns": {
+            "type": "String, Array<String>, nil",
+            "description": "a single element (or nil for a missing key) without count; an array of elements (empty for a missing key) with count"
+          }
+        }
       ]
     }
   },
@@ -142332,6 +143009,37 @@
           "returns": {
             "type": "Result<string[], Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vrange(key, start, stop, count = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "String",
+              "description": "range start: `\"[elem\"`, `\"(elem\"` or `\"-\"`"
+            },
+            {
+              "name": "stop",
+              "type": "String",
+              "description": "range end: `\"[elem\"`, `\"(elem\"` or `\"+\"`"
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": "maximum number of elements to return; negative returns the whole range"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>",
+            "description": "the elements in the range, empty if the key does not exist"
           }
         }
       ]
@@ -142648,6 +143356,27 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vrem(key, element)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "element",
+              "type": "String",
+              "description": "name of the element to remove"
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": "whether the element was removed; false if the key or element does not exist"
           }
         }
       ]
@@ -143090,6 +143819,32 @@
           "returns": {
             "type": "Result<number, Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vsetattr(key, element, attributes)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "element",
+              "type": "String",
+              "description": "name of the element whose attributes to set"
+            },
+            {
+              "name": "attributes",
+              "type": "Hash, String, nil",
+              "description": "attributes as an object serialized to JSON or a pre-encoded JSON string; nil or an empty string deletes the attributes"
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": "whether the attributes were set; false if the key or element does not exist"
           }
         }
       ]
@@ -143923,6 +144678,82 @@
           "returns": {
             "type": "Result<(string | null)[], Context>",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "vsim(key, vector: nil, element: nil, with_scores: false, with_attribs: false, raw: false, count: nil, epsilon: nil, ef: nil, filter: nil, filter_ef: nil, truth: nil, nothread: nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "vector",
+              "type": "Array<Numeric>, String",
+              "description": "the query vector"
+            },
+            {
+              "name": "element",
+              "type": "String",
+              "description": "name of an existing element to use as the similarity reference"
+            },
+            {
+              "name": "with_scores",
+              "type": "Boolean",
+              "description": "include the similarity score (1 identical … 0 opposite) for each result"
+            },
+            {
+              "name": "with_attribs",
+              "type": "Boolean",
+              "description": "include the attributes for each result, parsed with JSON.parse (nil when absent)"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return attribute JSON strings as stored instead of parsing them"
+            },
+            {
+              "name": "count",
+              "type": "Integer",
+              "description": "limit the number of results"
+            },
+            {
+              "name": "epsilon",
+              "type": "Float",
+              "description": "only return elements with a distance no further than this delta (similarity better than 1 - delta)"
+            },
+            {
+              "name": "ef",
+              "type": "Integer",
+              "description": "search exploration factor; higher values improve recall at the cost of speed"
+            },
+            {
+              "name": "filter",
+              "type": "String",
+              "description": "filter expression over element attributes"
+            },
+            {
+              "name": "filter_ef",
+              "type": "Integer",
+              "description": "cap on filtering attempts"
+            },
+            {
+              "name": "truth",
+              "type": "Boolean",
+              "description": "exact linear scan instead of HNSW (O(N))"
+            },
+            {
+              "name": "nothread",
+              "type": "Boolean",
+              "description": "run in the main thread"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>, Hash",
+            "description": "element names; with `with_scores:` a `{ name => Float }` Hash; with `with_scores:` and `with_attribs:` a `{ name => [Float, Object] }` Hash; with `with_attribs:` alone a `{ name => Object }` Hash. Exactly one of `vector:` and `element:` must be given. Empty when the key does not exist."
           }
         }
       ]

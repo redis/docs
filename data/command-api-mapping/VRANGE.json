@@ -275,6 +275,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vrange(key, start, stop, count = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "String",
+            "description": "range start: `\"[elem\"`, `\"(elem\"` or `\"-\"`"
+          },
+          {
+            "name": "stop",
+            "type": "String",
+            "description": "range end: `\"[elem\"`, `\"(elem\"` or `\"+\"`"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "maximum number of elements to return; negative returns the whole range"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "the elements in the range, empty if the key does not exist"
+        }
+      }
     ]
   }
 }

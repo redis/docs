@@ -217,6 +217,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "argetrange(key, start, stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "zero-based index of the first element (inclusive)"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "zero-based index of the last element (inclusive)"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, nil>",
+          "description": "the values in traversal order"
+        }
+      }
     ]
   }
 }

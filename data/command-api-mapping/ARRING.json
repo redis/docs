@@ -313,6 +313,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arring(key, size, *values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "size",
+            "type": "Integer",
+            "description": "the size of the ring buffer window"
+          },
+          {
+            "name": "*values",
+            "type": "String",
+            "description": "one or more values to insert"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the last index where a value was inserted"
+        }
+      }
     ]
   }
 }

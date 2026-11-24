@@ -485,6 +485,72 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "argrep(key, start, stop, exact: nil, match: nil, glob: nil, re: nil, logic: nil, limit: nil, with_values: nil, nocase: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer, String",
+            "description": "zero-based start index (inclusive), or `\"-\"` for the start of the array; iteration is reversed when greater than `stop`"
+          },
+          {
+            "name": "stop",
+            "type": "Integer, String",
+            "description": "zero-based end index (inclusive), or `\"+\"` for the end of the array"
+          },
+          {
+            "name": "exact",
+            "type": "String, Array<String>",
+            "description": "match by exact equality"
+          },
+          {
+            "name": "match",
+            "type": "String, Array<String>",
+            "description": "match by substring"
+          },
+          {
+            "name": "glob",
+            "type": "String, Array<String>",
+            "description": "match by glob-style pattern (`*`, `?`, `[...]`)"
+          },
+          {
+            "name": "re",
+            "type": "String, Array<String>",
+            "description": "match by regular expression"
+          },
+          {
+            "name": "logic",
+            "type": "Symbol",
+            "description": "`:and` or `:or`: how multiple predicates combine (server default is OR)"
+          },
+          {
+            "name": "limit",
+            "type": "Integer",
+            "description": "stop after this many matches"
+          },
+          {
+            "name": "with_values",
+            "type": "Boolean",
+            "description": "return `[index, value]` pairs instead of indices"
+          },
+          {
+            "name": "nocase",
+            "type": "Boolean",
+            "description": "case-insensitive comparison for all predicates"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Array<Array(Integer, String)>",
+          "description": "matching indices in traversal order, or `[index, value]` pairs with `with_values`"
+        }
+      }
     ]
   }
 }

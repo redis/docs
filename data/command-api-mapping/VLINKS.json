@@ -479,6 +479,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vlinks(key, element, with_scores: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "name of the element whose neighbors to inspect"
+          },
+          {
+            "name": "with_scores",
+            "type": "Boolean",
+            "description": "include similarity scores for each neighbor"
+          }
+        ],
+        "returns": {
+          "type": "Array<Array<String>>, Array<Hash>, nil",
+          "description": "one array of neighbor names per layer; with scores, one `{ name => Float }` Hash per layer; nil if the key or element does not exist"
+        }
+      }
     ]
   }
 }

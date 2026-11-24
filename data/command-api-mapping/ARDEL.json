@@ -253,6 +253,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ardel(key, *indices)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*indices",
+            "type": "Integer, Array<Integer>",
+            "description": "one or more zero-based indices to delete"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of elements deleted"
+        }
+      }
     ]
   }
 }

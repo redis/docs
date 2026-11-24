@@ -85,60 +85,6 @@
     "nredisstack_async": "generic_only",
     "redis_rb": "generic_only"
   },
-  "ARCOUNT": {
-    "redis_rb": "generic_only"
-  },
-  "ARDEL": {
-    "redis_rb": "generic_only"
-  },
-  "ARDELRANGE": {
-    "redis_rb": "generic_only"
-  },
-  "ARGET": {
-    "redis_rb": "generic_only"
-  },
-  "ARGETRANGE": {
-    "redis_rb": "generic_only"
-  },
-  "ARGREP": {
-    "redis_rb": "generic_only"
-  },
-  "ARINFO": {
-    "redis_rb": "generic_only"
-  },
-  "ARINSERT": {
-    "redis_rb": "generic_only"
-  },
-  "ARLASTITEMS": {
-    "redis_rb": "generic_only"
-  },
-  "ARLEN": {
-    "redis_rb": "generic_only"
-  },
-  "ARMGET": {
-    "redis_rb": "generic_only"
-  },
-  "ARMSET": {
-    "redis_rb": "generic_only"
-  },
-  "ARNEXT": {
-    "redis_rb": "generic_only"
-  },
-  "AROP": {
-    "redis_rb": "generic_only"
-  },
-  "ARRING": {
-    "redis_rb": "generic_only"
-  },
-  "ARSCAN": {
-    "redis_rb": "generic_only"
-  },
-  "ARSEEK": {
-    "redis_rb": "generic_only"
-  },
-  "ARSET": {
-    "redis_rb": "generic_only"
-  },
   "ASKING": {
     "redis_py": "unsupported",
     "go-redis": "unsupported",
@@ -1930,45 +1876,6 @@
   },
   "TS.REVRANGE": {
     "ioredis": "generic_only",
-    "redis_rb": "generic_only"
-  },
-  "VADD": {
-    "redis_rb": "generic_only"
-  },
-  "VCARD": {
-    "redis_rb": "generic_only"
-  },
-  "VDIM": {
-    "redis_rb": "generic_only"
-  },
-  "VEMB": {
-    "redis_rb": "generic_only"
-  },
-  "VGETATTR": {
-    "redis_rb": "generic_only"
-  },
-  "VINFO": {
-    "redis_rb": "generic_only"
-  },
-  "VISMEMBER": {
-    "redis_rb": "generic_only"
-  },
-  "VLINKS": {
-    "redis_rb": "generic_only"
-  },
-  "VRANDMEMBER": {
-    "redis_rb": "generic_only"
-  },
-  "VRANGE": {
-    "redis_rb": "generic_only"
-  },
-  "VREM": {
-    "redis_rb": "generic_only"
-  },
-  "VSETATTR": {
-    "redis_rb": "generic_only"
-  },
-  "VSIM": {
     "redis_rb": "generic_only"
   },
   "WAIT": {

@@ -227,6 +227,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vinfo(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Hash, nil",
+          "description": "the vector set metadata, or nil if the key does not exist"
+        }
+      }
     ]
   }
 }
