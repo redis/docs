@@ -84,7 +84,7 @@ Two consequences worth knowing if you diff the feed against the sitemap:
 ### Schema version
 
 Every record carries a `schema_version` integer, and the same value appears in the
-`json metadata` block of the Markdown output. It is currently **2**.
+`json metadata` block of the Markdown output. It is currently **3**.
 
 It increments only when the **shape** of a record changes: a field added, removed or
 renamed, or a new value entering the [role vocabulary](#section-roles). It does **not**
@@ -92,7 +92,7 @@ change when page content changes, and it does not change when the value inside a
 changes without the field itself changing. Use `content_hash` to detect content changes;
 use `schema_version` to detect when your parser might need attention.
 
-Version 2 added the `aliases` field to page records, and a new `page_type` value,
+Version 3 added the `compatibility` field to command page records. Version 2 added the `aliases` field to page records, and a new `page_type` value,
 `moved`, for the [redirect records](#pages-that-have-moved) served at a moved page's
 old URL. Version 1 was the initial shape: `sections`, `examples`, `content_hash`,
 `page_type`, `id` and `since`.
@@ -110,7 +110,7 @@ Appending `/index.json` to a moved page's URL returns a record with
 
 ```json
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "id": "develop/ai/agent-memory",
   "title": "Moved",
   "url": "https://redis.io/docs/latest/develop/ai/agent-memory/",
@@ -134,7 +134,7 @@ the page it resolves to:
 
 ```json
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "base_url": "https://redis.io/docs/latest/",
   "generated": "2026-08-07T15:00:00Z",
   "count": 1061,
@@ -192,6 +192,7 @@ Each document contains:
 | `url` | string | Canonical URL |
 | `summary` | string | Short description |
 | `since` | string | Redis version the command was introduced in. Present on command pages only. |
+| `compatibility` | object | Redis Software and Redis Cloud support for the command. Keyed by product (`software`, `cloud`), then by variant (`general`, `standard`, `pro`, `essentials`, `active_active`, `flex`). Each value is a status (`supported`, `limited`, `workaround`, `unsupported`) or an object with `status` and `note`. A missing variant means the support isn't documented. An optional `notes` array applies to the whole command. Present on command pages only. |
 | `page_type` | string | `"content"` (has prose) or `"index"` (navigation only) |
 | `content_hash` | string | SHA256 hash for cache invalidation (content pages only) |
 | `sections` | array | Content split by headings with semantic roles |

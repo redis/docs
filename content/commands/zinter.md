@@ -50,6 +50,13 @@ categories:
 command_flags:
 - readonly
 - movablekeys
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N*K)+O(M*log(M)) worst case with N being the smallest input sorted set,
   K being the number of input sorted sets and M being the number of elements in the
   resulting sorted set.
@@ -151,9 +158,7 @@ This command also accepts plain sets as input, treating each member as having a 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

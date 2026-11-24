@@ -51,7 +51,7 @@ The preview supports:
 - Loading fields from the keyspace with the `SORTBY` and `RETURN` options of `FT.SEARCH`
 - High availability, persistence, backup, and upgrades
 
-Redis Search on Flex doesn't support some Redis Search commands, field types, and options. If you use one of them, the command returns an error. For command support, see [Redis Search commands](/content/operate/oss_and_stack/stack-with-enterprise/search/commands.md).
+Redis Search on Flex doesn't support some Redis Search commands, field types, and options. If you use one of them, the command returns an error. For command support, see [Redis Search commands](/content/commands/_index.md?group=search,suggestion).
 
 Redis Search on Flex doesn't support:
 

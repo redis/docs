@@ -86,6 +86,15 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
+  notes:
+  - Deprecated as of Redis v6.2.0.
 complexity: O(N+log(M)) where N is the number of elements inside the bounding box
   of the circular area delimited by center and radius and M is the number of items
   inside the index.
@@ -188,9 +197,7 @@ Sort the results by distance from the center: nearest first (`ASC`) or farthest 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
+{{< command-compatibility >}}
 
 ## Return information
 

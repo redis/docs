@@ -76,6 +76,12 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    general: supported
+  cloud:
+    pro: supported
+    essentials: supported
 complexity: O(M) when M is the amount of compaction rules or O(1) with no compaction
 description: Decrease the value of the sample with the maximum existing timestamp,
   or create a new sample with a value equal to the value of the sample with the maximum
@@ -199,9 +205,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

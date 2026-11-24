@@ -55,6 +55,13 @@ categories:
 command_flags:
 - write
 - denyoom
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(log(N) + K*(log(N)+log(M))) where N and M are the source and destination
   sizes and K is the number of moved members.
 description: Moves highest- or lowest-scoring members, or a score range of members,
@@ -228,9 +235,7 @@ copied or snapshotted.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

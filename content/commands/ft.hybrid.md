@@ -498,6 +498,14 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+    flex: unsupported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(N+M) where N is the complexity of the text search and M is the complexity
   of the vector search
 description: Performs hybrid search combining text search and vector similarity search
@@ -842,9 +850,7 @@ FT.HYBRID complexity depends on both the text search and vector similarity compo
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Software<br />Flex | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Not supported</span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

@@ -26,6 +26,13 @@ categories:
 - oss
 - kubernetes
 - clients
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(1) for every call. O(N) for a complete iteration, where N is the number
   of blessed keys.
 description: Incrementally iterates the blessed keys of the current database that
@@ -91,9 +98,7 @@ redis> BLESS SCAN 0 NO-EVICT
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

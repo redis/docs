@@ -152,6 +152,6 @@ Time series can dramatically reduce the memory consumption when compared against
 ## More info
 
 - [Time series quick start](/content/develop/data-types/timeseries/_index.md)
-- [Time series commands](/content/operate/oss_and_stack/stack-with-enterprise/timeseries/commands.md)
+- [Time series commands](/content/commands/_index.md?group=timeseries)
 - [Time series configuration](/content/operate/oss_and_stack/stack-with-enterprise/timeseries/config.md)
 - [RedisTimeSeries source](https://github.com/RedisTimeSeries/RedisTimeSeries)

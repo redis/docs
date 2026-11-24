@@ -54,6 +54,13 @@ categories:
 command_flags:
 - write
 - denyoom
+compatibility:
+  software:
+    standard: supported
+    active_active: supported
+  cloud:
+    standard: supported
+    active_active: supported
 complexity: O(log(N)) for each item added, where N is the number of elements in the
   sorted set.
 description: Adds one or more members to a geospatial index. The key is created if
@@ -167,9 +174,7 @@ redis> GEORADIUS Sicily 15 37 200 km
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

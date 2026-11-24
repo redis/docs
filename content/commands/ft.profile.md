@@ -35,6 +35,13 @@ categories:
 - clients
 command_flags:
 - readonly
+compatibility:
+  software:
+    general: supported
+    flex: supported
+  cloud:
+    pro: supported
+    essentials: supported
 complexity: O(N)
 description: Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance
   information
@@ -435,9 +442,7 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis Software<br />Flex | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:----------------------|:-----------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 

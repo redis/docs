@@ -46,6 +46,13 @@ categories:
 command_flags:
 - readonly
 - module
+compatibility:
+  software:
+    standard: unsupported
+    active_active: unsupported
+  cloud:
+    standard: unsupported
+    active_active: unsupported
 complexity: O(n) where n is the number of time-series that match the filters (all
   indexed series when FILTER is omitted)
 description: Get all label names, or all values of a given label, for time series
@@ -137,9 +144,7 @@ Unlike [`TS.QUERYINDEX`](/content/commands/ts.queryindex.md), which lists every 
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+{{< command-compatibility >}}
 
 ## Return information
 
