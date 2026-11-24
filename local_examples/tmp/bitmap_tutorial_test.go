@@ -257,6 +257,8 @@ func ExampleClient_bitrangeintarray() {
 		rdb.SetBit(ctx, "members", offset, 1)
 	}
 
+	two, one := int64(2), int64(1)
+
 	res1, err := rdb.BitRangeIntArray(ctx, "members", 0, -1).Result()
 
 	if err != nil {
@@ -265,8 +267,8 @@ func ExampleClient_bitrangeintarray() {
 
 	fmt.Println(res1) // >>> [1 7 9 30]
 
-	res2, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 28, 31,
-		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexBit, Zeros: true},
+	res2, err := rdb.BitRangeIntArrayWithOptions(ctx, "members", 28, 31,
+		&redis.BitRangeIntArrayOptions{Unit: "BIT", Zeros: true},
 	).Result()
 
 	if err != nil {
@@ -275,8 +277,8 @@ func ExampleClient_bitrangeintarray() {
 
 	fmt.Println(res2) // >>> [28 29 31]
 
-	res3, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 0, -1,
-		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexBit, Limit: 2},
+	res3, err := rdb.BitRangeIntArrayWithOptions(ctx, "members", 0, -1,
+		&redis.BitRangeIntArrayOptions{Unit: "BIT", Limit: &two},
 	).Result()
 
 	if err != nil {
@@ -285,8 +287,8 @@ func ExampleClient_bitrangeintarray() {
 
 	fmt.Println(res3) // >>> [1 7]
 
-	res4, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 8, -1,
-		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexBit, Limit: 2},
+	res4, err := rdb.BitRangeIntArrayWithOptions(ctx, "members", 8, -1,
+		&redis.BitRangeIntArrayOptions{Unit: "BIT", Limit: &two},
 	).Result()
 
 	if err != nil {
@@ -295,8 +297,8 @@ func ExampleClient_bitrangeintarray() {
 
 	fmt.Println(res4) // >>> [9 30]
 
-	res5, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 0, -1,
-		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexByte, Limit: 1},
+	res5, err := rdb.BitRangeIntArrayWithOptions(ctx, "members", 0, -1,
+		&redis.BitRangeIntArrayOptions{Unit: "BYTE", Limit: &one},
 	).Result()
 
 	if err != nil {
@@ -305,8 +307,8 @@ func ExampleClient_bitrangeintarray() {
 
 	fmt.Println(res5) // >>> [1 7]
 
-	res6, err := rdb.BitRangeIntArrayWithArgs(ctx, "members", 1, -1,
-		&redis.BitRangeIntArrayArgs{Unit: redis.BitCountIndexByte, Limit: 1},
+	res6, err := rdb.BitRangeIntArrayWithOptions(ctx, "members", 1, -1,
+		&redis.BitRangeIntArrayOptions{Unit: "BYTE", Limit: &one},
 	).Result()
 
 	if err != nil {
