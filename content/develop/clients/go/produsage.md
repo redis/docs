@@ -98,6 +98,21 @@ client := redis.NewClient(&redis.Options{
 })
 ```
 
+A failed connection attempt has its own, separate retry settings. The
+`DialerRetries` field sets the number of dial attempts, including the first
+(defaulting to 5), and `DialerRetryTimeout` sets the delay between attempts
+(defaulting to 100 milliseconds). With the default settings, a refused
+connection is reported after about 0.4 seconds. `DialTimeout` still limits
+each attempt, so a dial that hangs for the whole timeout is bounded by
+`DialTimeout` multiplied by `DialerRetries`.
+
+In `go-redis` v9.24.0 or later, `MaxRetries` doesn't start a new sequence of
+dial attempts on an endpoint where one has already failed. Before that
+release, the default settings reported a refused connection after about
+1.7 seconds. On a cluster or a ring, a command skips an endpoint that has
+failed and uses its remaining retries on the other nodes or shards. A custom
+`Dialer` keeps the earlier behavior.
+
 You can use the observability features of `go-redis` to monitor the
 number of retries and the time taken for each attempt, as noted in the
 [Monitor performance and errors](#monitor-performance-and-errors) section
@@ -143,6 +158,32 @@ total number of connections, and `PoolTimeout` sets how long a command waits
 for a free connection. By default, no connections are opened in advance, the
 total is uncapped, and a command waits one second longer than `ReadTimeout`.
 
+In `go-redis` v9.24.0 or later, `MaxActiveConns` counts every connection
+registered with the pool, including the dedicated connections that
+`EphemeralConn()` and `NewConn()` create, plus any dial in progress. If your
+app uses these methods with a `MaxActiveConns` limit, a command can fail with
+`ErrPoolExhausted` while those connections are open.
+
+By default, `go-redis` closes an idle connection that has outlived
+`ConnMaxIdleTime` (30 minutes by default) or `ConnMaxLifetime` (unlimited by
+default) only when a command next needs a connection. To close them in
+the background instead, so that expired connections never slow down a command,
+set `ConnMaxLifetimeReapInterval`:
+
+```go
+client := redis.NewClient(&redis.Options{
+    ConnMaxIdleTime:             5 * time.Minute,
+    ConnMaxLifetimeReapInterval: time.Minute,
+})
+```
+
+Every interval, a background goroutine closes the idle connections that are
+past either limit and refills the pool towards `MinIdleConns`. This also
+shrinks the pool after a burst of traffic. The reaper never touches a
+connection that is in use. It does nothing unless `ConnMaxIdleTime` or
+`ConnMaxLifetime` is greater than zero, and it is off by default.
+Use `conn_max_lifetime_reap_interval` to set it in a connection URL.
+
 By default, pipelines don't use the main pool. In go-redis v9.23.0 or later,
 every client also creates a separate *pipeline pool* that
 [pipelines and transactions](/content/develop/clients/go/transpipe.md) and
@@ -155,12 +196,13 @@ Use the following fields of `Options` to size the pipeline pool:
 | Field | Description |
 | :---- | :---------- |
 | `PipelinePoolSize` | Number of connections the pipeline pool keeps. Defaults to 10. Set it to `0` to use the default number of connections, or to `-1` to disable the separate pipeline pool (which means connections are allocated to pipelines from the main pool). |
+| `PipelineMinIdleConns` | Minimum number of idle connections that the pipeline pool keeps, like `MinIdleConns` for the main pool. Defaults to 0, so an idle pipeline pool holds no connections. The connections are dialed in advance, but `go-redis` runs the connection handshake only on first use. Available in v9.24.0 or later. |
 | `PipelineReadBufferSize` | Size of the read buffer for each pipeline connection. Defaults to the larger of `ReadBufferSize` and 128 KiB, because a batch of commands can return many replies in a single round trip. If the value is set smaller than the minimum required by the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions) protocol for push messages then that minimum is used instead. |
 | `PipelineWriteBufferSize` | Size of the write buffer for each pipeline connection. Defaults to the larger of `WriteBufferSize` and 128 KiB. |
 
-The pipeline pool costs you nothing while you are not using pipelining. It never opens
-connections in advance regardless of the value of `MinIdleConns`, so an idle pipeline
-pool holds no connections at all. Also, it doesn't use
+The pipeline pool costs you nothing while you are not using pipelining. It doesn't
+inherit `MinIdleConns`, so by default an idle pipeline pool holds no connections at
+all (use `PipelineMinIdleConns` to change this). Also, it doesn't use
 `MaxActiveConns` as its upper limit (which would double the number of connections your client can
 open). The limit is instead the value of `MaxActiveConns` plus `PipelinePoolSize`.
 `ClusterClient` and `Ring` create a pipeline pool for each node, so this limit

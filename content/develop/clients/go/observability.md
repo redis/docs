@@ -101,6 +101,54 @@ for an example that calls a variety of commands in a more realistic way.
 {{< clients-example set="observability" step="use_redis" lang_filter="Go" description="Foundational: Use Redis with automatic instrumentation" difficulty="beginner" >}}
 {{< /clients-example >}}
 
+> [!NOTE]
+> The `db.client.connection.count` and `db.client.connection.pending_requests`
+> metrics are asynchronous instruments: `go-redis` reads them from the pool
+> statistics when the meter provider collects metrics, not when a connection is
+> taken or returned. If you use views or selectors that match on the instrument
+> kind, make sure they match these two metrics as asynchronous.
+
+## Record metrics for a single client
+
+By default, every client you create records to the same global recorder, so
+all of your Redis metrics share one set of attributes. In `go-redis` v9.24.0
+and later, you can give a client its own recorder, for example to tag each
+tenant's metrics separately. Call `NewRecorder()` on the `ObservabilityInstance`
+with a `redisotel.Config` that holds the attributes for that client, and pass
+the result in the `OTelRecorder` option:
+
+```go
+inst := redisotel.GetObservabilityInstance()
+_ = inst.Init(redisotel.NewConfig().WithEnabled(true).WithMeterProvider(provider))
+defer inst.Shutdown()
+
+acmeRec, _ := inst.NewRecorder(redisotel.NewConfig().
+    WithCustomAttributes(attribute.String("tenant", "acme")))
+acme := redis.NewClient(&redis.Options{
+    Addr:         "acme:6379",
+    OTelRecorder: acmeRec,
+})
+```
+
+The metrics from `acme` carry the `tenant` attribute. Clients that don't set
+`OTelRecorder` keep using the global recorder, so their metrics don't have it.
+A custom attribute on a per-client recorder takes precedence over a global
+attribute with the same key.
+
+`Options`, `ClusterOptions`, `RingOptions`, `FailoverOptions`,
+`UniversalOptions`, and `MultiDBOptions` all accept `OTelRecorder`. The client
+sends its commands, pipelines, errors, cluster redirects, pub/sub messages,
+stream lag, and pool and connection events to the recorder. The node clients of
+a cluster, the shard clients of a ring, sentinel clients, and the members of a
+MultiDB client use the recorder of their parent.
+
+You must call `Init()` before `NewRecorder()`, or `NewRecorder()` returns an
+error. If you called `Init()` with a disabled configuration, `NewRecorder()`
+returns a `nil` recorder and no error, and a client with a `nil` `OTelRecorder`
+uses the global recorder. This means that you can pass the result straight to
+the client if you switch metrics on and off with a flag. A recorder stops
+recording when you call `Shutdown()`.
+
 ## Shutdown
 
 When your application exits, you should close the Redis connection and then

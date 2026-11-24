@@ -70,6 +70,28 @@ if err != nil {
 fmt.Println("foo", val)
 ```
 
+### Authenticate as a user with no password
+
+If you set `Username` but leave `Password` empty, `go-redis` sends no `AUTH`
+command, so the connection stays authenticated as the default user. To
+authenticate as an [ACL](/content/operate/oss_and_stack/management/security/acl.md)
+user that you created with `nopass`, set `AuthEmptyPassword` to `true` in
+`go-redis` v9.24.0 or later:
+
+```go
+client := redis.NewClient(&redis.Options{
+    Addr:              "localhost:6379",
+    Username:          "app-user", // a user created with nopass
+    AuthEmptyPassword: true,
+})
+```
+
+The option is off by default because Redis Software and Redis Cloud databases
+with unauthenticated access can reject an empty password. For
+[Sentinel](#connect-to-redis-sentinel) connections, use
+`SentinelAuthEmptyPassword` for the Sentinel credentials. You can also set
+`auth_empty_password=true` in a connection URL.
+
 ## Connect to a Redis cluster
 
 To connect to a Redis cluster, use `NewClusterClient()`. You can specify
@@ -192,8 +214,7 @@ as shown in the following example:
 
 ```go
 rdb := redis.NewClient(&redis.Options{
-    Addr:     "localhost:6379",
-    Protocol: 3, // RESP3 required
+    Addr: "localhost:6379",
     MaintNotificationsConfig: &maintnotifications.Config{
             Mode:                       maintnotifications.ModeEnabled,
             EndpointType:               maintnotifications.EndpointTypeExternalIP,
@@ -207,7 +228,8 @@ rdb := redis.NewClient(&redis.Options{
 
 > [!NOTE]
 > SCH requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
-> protocol, so you must set `Protocol:3` explicitly when you connect.
+> protocol, which is the default for `go-redis`. If you set `Protocol: 2`,
+> `go-redis` doesn't use SCH, even if you set `MaintNotificationsConfig`.
 
 The `maintnotifications.Config` object accepts the following parameters:
 
@@ -244,13 +266,15 @@ for more information about how client-side caching works and how to use it effec
 > is supported by Redis v7.4 or later.
 >
 > Client-side caching requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
-> protocol, so you must set `Protocol: 3` explicitly when you connect. On a RESP2
-> connection, client-side caching silently does nothing. It is also limited to
-> standalone clients and to logical database 0; on any other database it is
-> disabled with a log warning.
+> protocol, which is the default for `go-redis`. If you set `Protocol: 2`,
+> client-side caching is disabled with a log warning. It is also limited to
+> logical database 0; on any other database it is disabled with a log warning.
+>
+> The tracking modes, the cache predicate, cluster support, and ephemeral
+> connections described below require go-redis v9.24.0 or later.
 
 To enable client-side caching, pass a `ClientSideCacheConfig` object when you
-connect on a `Protocol: 3` client. Passing an empty `ClientSideCacheConfig{}`
+connect. Passing an empty `ClientSideCacheConfig{}`
 enables caching with the default settings:
 
 ```go
@@ -264,7 +288,6 @@ func main() {
 
     client := redis.NewClient(&redis.Options{
         Addr:                  "localhost:6379",
-        Protocol:              3, // RESP3 required for client-side caching
         ClientSideCacheConfig: &redis.ClientSideCacheConfig{},
     })
 
@@ -279,6 +302,100 @@ with [`redis-cli`](/content/develop/tools/cli.md) and run the
 [`MONITOR`](/content/commands/monitor.md) command. With caching enabled,
 the server sees the first `Get("city")` call but not the second, which the
 client satisfies from the cache.
+
+### Choose what to cache
+
+By default, go-redis caches the reply of every eligible read-only command.
+Set `ClientSideCacheTrackingMode` to change the default for calls that you
+don't mark:
+
+| Mode | Unmarked calls | Server tracking |
+| :-- | :-- | :-- |
+| `redis.TrackingModePlain` (default) | Cached | The server tracks every key the connection reads. |
+| `redis.TrackingModeOptIn` | Not cached | The server tracks only the keys you ask to cache. |
+| `redis.TrackingModeOptOut` | Cached | The server tracks every key except those you bypass. |
+
+Choose `TrackingModeOptIn` when only a small set of hot keys benefits from
+caching. The server then tracks fewer keys, which reduces the memory it uses
+for tracking and the number of invalidation messages it sends.
+
+To override the default for one call, derive a context with `WithCache()` or
+`WithoutCache()` and pass it to the command:
+
+```go
+client := redis.NewClient(&redis.Options{
+    Addr:                        "localhost:6379",
+    ClientSideCacheConfig:       &redis.ClientSideCacheConfig{},
+    ClientSideCacheTrackingMode: redis.TrackingModeOptIn,
+})
+
+client.Get(ctx, "city")                      // Not cached: opt-in mode, unmarked
+client.Get(redis.WithCache(ctx), "city")     // Retrieved from the server and cached
+client.Get(redis.WithCache(ctx), "city")     // Retrieved from the cache
+client.Get(redis.WithoutCache(ctx), "city")  // Always retrieved from the server
+```
+
+To choose by command or key instead, set `ClientSideCacheable` to a function
+that receives the command name and its keys, and returns `true` for the calls
+to cache. go-redis applies it to unmarked calls in every mode. go-redis can
+call the function from several goroutines at once, so it must be fast and
+thread-safe, must not modify the keys, and must not call methods that control
+the client.
+
+```go
+client := redis.NewClient(&redis.Options{
+    Addr:                        "localhost:6379",
+    ClientSideCacheConfig:       &redis.ClientSideCacheConfig{},
+    ClientSideCacheTrackingMode: redis.TrackingModeOptIn,
+    ClientSideCacheable: func(command string, keys []string) bool {
+        return len(keys) > 0 && strings.HasPrefix(keys[0], "hot:")
+    },
+})
+```
+
+A mark on the context overrides both the tracking mode and the function. The
+tracking mode is fixed when you create the client.
+
+go-redis decides which commands it can cache from the server's
+[`COMMAND`](/content/commands/command.md) metadata, so a mark can't make an
+ineligible command cacheable. A command that is unknown, blocking,
+nondeterministic, or based on a script runs as usual but isn't cached. A raw
+`CLIENT CACHING` command is rejected while client-side caching is enabled,
+because go-redis manages tracking itself.
+
+### Use client-side caching with a cluster
+
+`ClusterOptions` accepts the same client-side caching options as `Options`,
+and so do `UniversalOptions` and `NewFailoverClusterClient`:
+
+```go
+cluster := redis.NewClusterClient(&redis.ClusterOptions{
+    Addrs:                 []string{"localhost:7001", "localhost:7002", "localhost:7003"},
+    ClientSideCacheConfig: &redis.ClientSideCacheConfig{},
+})
+```
+
+Each node client keeps its own cache, which its connections share, and the
+`MaxEntries` and `MaxMemoryBytes` limits apply to each node, not to the
+cluster as a whole. `CSCStats()` and `CSCRefreshStats()` on the cluster client
+add up the statistics of the nodes it currently knows about.
+
+The cluster client doesn't store a reply that can't prove that every key it
+depends on exists. It bypasses the cache when a `MOVED` or `ASK` redirect
+applies, and a topology change flushes only the caches of the nodes that enter
+or leave routing. Reads from replicas, ordinary pipelines, and transactions
+aren't cached.
+
+### Use ephemeral connections with caching
+
+[`EphemeralConn()`](https://pkg.go.dev/github.com/redis/go-redis/v9#Client.EphemeralConn)
+returns a connection that go-redis discards when you close it, so you can run
+commands that change session state, such as `SELECT` or `CLIENT SETNAME`.
+When client-side caching is active, the connection is a fresh, untracked one.
+Your session commands don't affect the cache of the parent client, and reads on
+the ephemeral connection always go to the server. The connection doesn't use a
+slot of the pool, but it does count toward `MaxActiveConns`. You must call
+`Close()` when you finish with it.
 
 ### How invalidation works
 
