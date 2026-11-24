@@ -19,6 +19,22 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "BackupSeal(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

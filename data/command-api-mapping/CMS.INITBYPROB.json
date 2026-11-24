@@ -73,6 +73,40 @@
           "type": "*StatusCmd",
           "description": "Status command result"
         }
+      },
+      {
+        "signature": "CMSInitByProbCellSize(ctx context.Context, key string, errorRate, probability float64, cellSize int64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "errorRate",
+            "type": "float64",
+            "description": ""
+          },
+          {
+            "name": "probability",
+            "type": "float64",
+            "description": ""
+          },
+          {
+            "name": "cellSize",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
       }
     ],
     "node_redis": [

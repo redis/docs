@@ -8690,6 +8690,22 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "BackupAbort(ctx context.Context) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -8711,6 +8727,22 @@
           "params": [],
           "returns": {
             "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BackupCleanup(ctx context.Context) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
             "description": ""
           }
         }
@@ -8738,6 +8770,22 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "BackupList(ctx context.Context) *StringSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*StringSliceCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -8759,6 +8807,22 @@
           "params": [],
           "returns": {
             "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BackupSeal(ctx context.Context) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
             "description": ""
           }
         }
@@ -8786,6 +8850,22 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "BackupStart(ctx context.Context) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -8807,6 +8887,22 @@
           "params": [],
           "returns": {
             "type": "BackupStatusReply",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BackupStatus(ctx context.Context) *BackupStatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*BackupStatusCmd",
             "description": ""
           }
         }
@@ -14936,6 +15032,71 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "BitRangeIntArray(ctx context.Context, key string, start, end int64) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "int64",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "int64",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "BitRangeIntArrayWithOptions(ctx context.Context, key string, start, end int64, opts *BitRangeIntArrayOptions) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "int64",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "int64",
+              "description": ""
+            },
+            {
+              "name": "opts",
+              "type": "*BitRangeIntArrayOptions",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -15003,6 +15164,32 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "BlessClear(ctx context.Context, key string, flag BlessFlag) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -15052,6 +15239,27 @@
           ],
           "returns": {
             "type": "Array<String>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BlessGet(ctx context.Context, key string) *StringSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StringSliceCmd",
             "description": ""
           }
         }
@@ -15142,6 +15350,37 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "BlessScan(ctx context.Context, cursor uint64, flag BlessFlag, count int64) *ScanCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "cursor",
+              "type": "uint64",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int64",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ScanCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -15206,6 +15445,32 @@
           ],
           "returns": {
             "type": "Boolean",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BlessSet(ctx context.Context, key string, flag BlessFlag) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
             "description": ""
           }
         }
@@ -18255,6 +18520,81 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "BZMove(ctx context.Context, source, destination, end string, timeout time.Duration) *ZSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "timeout",
+              "type": "time.Duration",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ZSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "BZMoveCount(ctx context.Context, source, destination, end string, timeout time.Duration, count int64) *ZSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "timeout",
+              "type": "time.Duration",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int64",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ZSliceCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -20440,6 +20780,31 @@
           "returns": {
             "type": "mixed",
             "description": "Result of the operation"
+          }
+        }
+      ]
+    }
+  },
+  "CF.COMPACT": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "CFCompact(ctx context.Context, key string) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
           }
         }
       ]
@@ -31137,6 +31502,40 @@
             "type": "*StatusCmd",
             "description": "Status command result"
           }
+        },
+        {
+          "signature": "CMSInitByDimCellSize(ctx context.Context, key string, width, depth, cellSize int64) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "width",
+              "type": "int64",
+              "description": ""
+            },
+            {
+              "name": "depth",
+              "type": "int64",
+              "description": ""
+            },
+            {
+              "name": "cellSize",
+              "type": "int64",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
         }
       ],
       "node_redis": [
@@ -31314,6 +31713,40 @@
           "returns": {
             "type": "*StatusCmd",
             "description": "Status command result"
+          }
+        },
+        {
+          "signature": "CMSInitByProbCellSize(ctx context.Context, key string, errorRate, probability float64, cellSize int64) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "errorRate",
+              "type": "float64",
+              "description": ""
+            },
+            {
+              "name": "probability",
+              "type": "float64",
+              "description": ""
+            },
+            {
+              "name": "cellSize",
+              "type": "int64",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
           }
         }
       ],
@@ -111483,6 +111916,61 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "SAddEX(ctx context.Context, key string, members ...string) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "SAddEXWithArgs(ctx context.Context, key string, options *SAddEXOptions, members ...string) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "options",
+              "type": "*SAddEXOptions",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -117713,6 +118201,71 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "SExpire(ctx context.Context, key string, expiration time.Duration, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "SExpireWithArgs(ctx context.Context, key string, expiration time.Duration, condition SExpireCondition, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "SExpireCondition",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -117840,6 +118393,71 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "SExpireAt(ctx context.Context, key string, tm time.Time, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "tm",
+              "type": "time.Time",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "SExpireAtWithArgs(ctx context.Context, key string, tm time.Time, condition SExpireCondition, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "tm",
+              "type": "time.Time",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "SExpireCondition",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -117904,6 +118522,32 @@
           ],
           "returns": {
             "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "SExpireTime(ctx context.Context, key string, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
             "description": ""
           }
         }
@@ -123469,6 +124113,32 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "SPersist(ctx context.Context, key string, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -123593,6 +124263,71 @@
           ],
           "returns": {
             "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "SPExpire(ctx context.Context, key string, expiration time.Duration, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "SPExpireWithArgs(ctx context.Context, key string, expiration time.Duration, condition SExpireCondition, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "SExpireCondition",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
             "description": ""
           }
         }
@@ -123723,6 +124458,71 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "SPExpireAt(ctx context.Context, key string, tm time.Time, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "tm",
+              "type": "time.Time",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "SPExpireAtWithArgs(ctx context.Context, key string, tm time.Time, condition SExpireCondition, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "tm",
+              "type": "time.Time",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "SExpireCondition",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -123787,6 +124587,32 @@
           ],
           "returns": {
             "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "SPExpireTime(ctx context.Context, key string, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
             "description": ""
           }
         }
@@ -124265,6 +125091,32 @@
           ],
           "returns": {
             "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "SPTTL(ctx context.Context, key string, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
             "description": ""
           }
         }
@@ -126923,6 +127775,32 @@
           ],
           "returns": {
             "type": "Array<Integer>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "STTL(ctx context.Context, key string, members ...string) *IntSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntSliceCmd",
             "description": ""
           }
         }
@@ -164794,6 +165672,144 @@
             "description": ""
           }
         }
+      ],
+      "go-redis": [
+        {
+          "signature": "ZMove(ctx context.Context, source, destination, end string) *ZSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ZSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "ZMoveCount(ctx context.Context, source, destination, end string, count int64) *ZSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int64",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ZSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "ZMoveByScore(ctx context.Context, source, destination, min, max string) *ZSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ZSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "ZMoveByScoreCount(ctx context.Context, source, destination, min, max string, count int64) *ZSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int64",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ZSliceCmd",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -164898,6 +165914,71 @@
           ],
           "returns": {
             "type": "nil | Array<Array<String, Float>>",
+            "description": ""
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ZMoveMember(ctx context.Context, source, destination string, members ...string) *ZSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ZSliceCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "ZMoveMemberWithArgs(ctx context.Context, source, destination string, condition ZMoveMemberCondition, members ...string) *ZSliceCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ZMoveMemberCondition",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "...string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*ZSliceCmd",
             "description": ""
           }
         }

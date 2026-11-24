@@ -112,6 +112,81 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "BZMove(ctx context.Context, source, destination, end string, timeout time.Duration) *ZSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BZMoveCount(ctx context.Context, source, destination, end string, timeout time.Duration, count int64) *ZSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }
