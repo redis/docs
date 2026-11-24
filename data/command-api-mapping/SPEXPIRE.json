@@ -187,6 +187,37 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "spexpire(string $key, int $milliseconds, array $members, ?string $flag = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$milliseconds",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "?string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

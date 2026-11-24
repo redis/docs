@@ -187,6 +187,42 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "bzmove(string $source, string $destination, string $where, int|float $timeout, ?int $count = null)",
+        "params": [
+          {
+            "name": "$source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$where",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$timeout",
+            "type": "int|float",
+            "description": ""
+          },
+          {
+            "name": "$count",
+            "type": "?int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
     ]
   }
 }

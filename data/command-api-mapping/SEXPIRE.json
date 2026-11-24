@@ -187,6 +187,37 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "sexpire(string $key, int $seconds, array $members, ?string $flag = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$seconds",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "?string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

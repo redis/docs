@@ -15550,6 +15550,47 @@
             "description": ""
           }
         }
+      ],
+      "php": [
+        {
+          "signature": "bitrangeintarray(string $key, int $start, int $end, ?string $index = null, ?int $limit = null, bool $zeros = false)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$start",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "$end",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "$index",
+              "type": "?string",
+              "description": ""
+            },
+            {
+              "name": "$limit",
+              "type": "?int",
+              "description": ""
+            },
+            {
+              "name": "$zeros",
+              "type": "bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -19045,6 +19086,42 @@
           ],
           "returns": {
             "type": "*ZSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bzmove(string $source, string $destination, string $where, int|float $timeout, ?int $count = null)",
+          "params": [
+            {
+              "name": "$source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$where",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$timeout",
+              "type": "int|float",
+              "description": ""
+            },
+            {
+              "name": "$count",
+              "type": "?int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array|null",
             "description": ""
           }
         }
@@ -112424,6 +112501,42 @@
             "description": ""
           }
         }
+      ],
+      "php": [
+        {
+          "signature": "saddex(string $key, array $members, string $condition = SADDEX::COND_NULL, string $ttlModifier = SADDEX::TTL_NULL, int|bool $ttlModifierValue = false)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            },
+            {
+              "name": "$condition",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$ttlModifier",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$ttlModifierValue",
+              "type": "int|bool",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -118719,6 +118832,37 @@
             "description": ""
           }
         }
+      ],
+      "php": [
+        {
+          "signature": "sexpire(string $key, int $seconds, array $members, ?string $flag = null)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$seconds",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            },
+            {
+              "name": "$flag",
+              "type": "?string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -118911,6 +119055,37 @@
             "description": ""
           }
         }
+      ],
+      "php": [
+        {
+          "signature": "sexpireat(string $key, int $unixTimeSeconds, array $members, ?string $flag = null)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$unixTimeSeconds",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            },
+            {
+              "name": "$flag",
+              "type": "?string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -119001,6 +119176,27 @@
           ],
           "returns": {
             "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "sexpiretime(string $key, array $members)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
             "description": ""
           }
         }
@@ -124592,6 +124788,27 @@
             "description": ""
           }
         }
+      ],
+      "php": [
+        {
+          "signature": "spersist(string $key, array $members)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -124781,6 +124998,37 @@
           ],
           "returns": {
             "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "spexpire(string $key, int $milliseconds, array $members, ?string $flag = null)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$milliseconds",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            },
+            {
+              "name": "$flag",
+              "type": "?string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
             "description": ""
           }
         }
@@ -124976,6 +125224,37 @@
             "description": ""
           }
         }
+      ],
+      "php": [
+        {
+          "signature": "spexpireat(string $key, int $unixTimeMilliseconds, array $members, ?string $flag = null)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$unixTimeMilliseconds",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            },
+            {
+              "name": "$flag",
+              "type": "?string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -125066,6 +125345,27 @@
           ],
           "returns": {
             "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "spexpiretime(string $key, array $members)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
             "description": ""
           }
         }
@@ -125570,6 +125870,27 @@
           ],
           "returns": {
             "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "spttl(string $key, array $members)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
             "description": ""
           }
         }
@@ -128254,6 +128575,27 @@
           ],
           "returns": {
             "type": "*IntSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "sttl(string $key, array $members)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array",
             "description": ""
           }
         }
@@ -166641,6 +166983,37 @@
             "description": ""
           }
         }
+      ],
+      "php": [
+        {
+          "signature": "zmove(string $source, string $destination, string|array $selection, ?int $count = null)",
+          "params": [
+            {
+              "name": "$source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$selection",
+              "type": "string|array",
+              "description": ""
+            },
+            {
+              "name": "$count",
+              "type": "?int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array|null",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -166810,6 +167183,37 @@
           ],
           "returns": {
             "type": "*ZSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "zmovemember(string $source, string $destination, array $members, ?string $condition = null)",
+          "params": [
+            {
+              "name": "$source",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$destination",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "$members",
+              "type": "array",
+              "description": ""
+            },
+            {
+              "name": "$condition",
+              "type": "?string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "array|null",
             "description": ""
           }
         }

@@ -187,6 +187,42 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "saddex(string $key, array $members, string $condition = SADDEX::COND_NULL, string $ttlModifier = SADDEX::TTL_NULL, int|bool $ttlModifierValue = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$condition",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$ttlModifier",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$ttlModifierValue",
+            "type": "int|bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

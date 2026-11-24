@@ -245,6 +245,37 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "zmove(string $source, string $destination, string|array $selection, ?int $count = null)",
+        "params": [
+          {
+            "name": "$source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$selection",
+            "type": "string|array",
+            "description": ""
+          },
+          {
+            "name": "$count",
+            "type": "?int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
     ]
   }
 }
