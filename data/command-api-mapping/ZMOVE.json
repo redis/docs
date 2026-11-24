@@ -107,6 +107,144 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZMove(ctx context.Context, source, destination, end string) *ZSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ZMoveCount(ctx context.Context, source, destination, end string, count int64) *ZSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ZMoveByScore(ctx context.Context, source, destination, min, max string) *ZSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ZMoveByScoreCount(ctx context.Context, source, destination, min, max string, count int64) *ZSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -19,6 +19,22 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "BackupStatus(ctx context.Context) *BackupStatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*BackupStatusCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

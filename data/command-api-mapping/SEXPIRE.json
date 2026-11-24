@@ -122,6 +122,71 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "SExpire(ctx context.Context, key string, expiration time.Duration, members ...string) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "SExpireWithArgs(ctx context.Context, key string, expiration time.Duration, condition SExpireCondition, members ...string) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "SExpireCondition",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -112,6 +112,71 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "BitRangeIntArray(ctx context.Context, key string, start, end int64) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BitRangeIntArrayWithOptions(ctx context.Context, key string, start, end int64, opts *BitRangeIntArrayOptions) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "opts",
+            "type": "*BitRangeIntArrayOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -73,6 +73,40 @@
           "type": "*StatusCmd",
           "description": "Status command result"
         }
+      },
+      {
+        "signature": "CMSInitByDimCellSize(ctx context.Context, key string, width, depth, cellSize int64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "width",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "depth",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "cellSize",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
       }
     ],
     "node_redis": [

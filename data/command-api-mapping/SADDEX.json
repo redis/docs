@@ -132,6 +132,61 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "SAddEX(ctx context.Context, key string, members ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "SAddEXWithArgs(ctx context.Context, key string, options *SAddEXOptions, members ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "*SAddEXOptions",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -47,6 +47,27 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "BlessGet(ctx context.Context, key string) *StringSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -122,6 +122,71 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "SPExpireAt(ctx context.Context, key string, tm time.Time, members ...string) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "tm",
+            "type": "time.Time",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "SPExpireAtWithArgs(ctx context.Context, key string, tm time.Time, condition SExpireCondition, members ...string) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "tm",
+            "type": "time.Time",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "SExpireCondition",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

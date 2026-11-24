@@ -102,6 +102,71 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZMoveMember(ctx context.Context, source, destination string, members ...string) *ZSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ZMoveMemberWithArgs(ctx context.Context, source, destination string, condition ZMoveMemberCondition, members ...string) *ZSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ZMoveMemberCondition",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

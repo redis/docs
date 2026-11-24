@@ -19,6 +19,22 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "BackupList(ctx context.Context) *StringSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -1,0 +1,25 @@
+{
+  "api_calls": {
+    "go-redis": [
+      {
+        "signature": "CFCompact(ctx context.Context, key string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

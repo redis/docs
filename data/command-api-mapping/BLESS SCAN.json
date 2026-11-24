@@ -82,6 +82,37 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "BlessScan(ctx context.Context, cursor uint64, flag BlessFlag, count int64) *ScanCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "cursor",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ScanCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }
