@@ -179,37 +179,6 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 > described in [Uninstall RDI](/content/integrate/redis-data-integration/installation/install-k8s.md#uninstall-rdi),
 > and then install the old version.
 
-### Downgrading a DR setup
-
-Do not downgrade a DR setup after you create a pipeline other than `default`. A DR setup with a
-DynamoDB lease requires RDI 2.2.0 or later.
-
-To downgrade a DR setup with a GCS lease to RDI 2.0.0, plan for downtime. The examples use
-the CLI contexts `site-a` and `site-b` from
-[Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets):
-
-1. Put both instances in standby, and check that neither reports `Leader Election Mode: leader`:
-
-   ```bash
-   redis-di --context site-a set-setting standby_mode true
-   redis-di --context site-b set-setting standby_mode true
-   ```
-
-1. Delete the lease object:
-
-   ```bash
-   gcloud storage rm "gs://<lease-bucket>/<lease-object>"
-   ```
-
-1. Downgrade both instances with Helm. Versions before 2.2.0 use
-   `operator.leaderElection.standbyMode` instead of the `standby_mode` setting. The first
-   instance that takes part in leader election recreates the lease in its earlier format.
-1. Check that only one instance is the leader, and verify pipeline health and data delivery.
-
-The `standby_mode` settings remain in the RDI database. If you upgrade to 2.2.0 again, run
-`redis-di delete-setting standby_mode` on each instance as soon as it runs 2.2.0, or set the
-mode you want.
-
 ## Upgrading an HA installation or a DR setup
 
 An HA installation and a DR setup each have two RDI instances that use leader election. Only the
@@ -263,6 +232,37 @@ and assume that site A is the leader. To upgrade the two sites:
 > With a GCS lease, the upgraded leader migrates the lease to a format that versions before
 > 2.2.0 can't read. The follower can take over only after you upgrade it, so upgrade it as
 > soon as you've checked the leader.
+
+### Downgrading a DR setup
+
+Do not downgrade a DR setup after you create a pipeline other than `default`. A DR setup with a
+DynamoDB lease requires RDI 2.2.0 or later.
+
+To downgrade a DR setup with a GCS lease to RDI 2.0.0, plan for downtime. The examples use
+the CLI contexts `site-a` and `site-b` from
+[Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets):
+
+1. Put both instances in standby, and check that neither reports `Leader Election Mode: leader`:
+
+   ```bash
+   redis-di --context site-a set-setting standby_mode true
+   redis-di --context site-b set-setting standby_mode true
+   ```
+
+1. Delete the lease object:
+
+   ```bash
+   gcloud storage rm "gs://<lease-bucket>/<lease-object>"
+   ```
+
+1. Downgrade both instances with Helm. Versions before 2.2.0 use
+   `operator.leaderElection.standbyMode` instead of the `standby_mode` setting. The first
+   instance that takes part in leader election recreates the lease in its earlier format.
+1. Check that only one instance is the leader, and verify pipeline health and data delivery.
+
+The `standby_mode` settings remain in the RDI database. If you upgrade to 2.2.0 again, run
+`redis-di delete-setting standby_mode` on each instance as soon as it runs 2.2.0, or set the
+mode you want.
 
 <a id="upgrading-to-rdi-220"></a>
 <a id="upgrading-to-rdi-200"></a>
