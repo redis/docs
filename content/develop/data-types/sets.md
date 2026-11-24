@@ -225,7 +225,7 @@ Because the members expire, each example recreates the `bikes:reserved` set firs
 
 Add two members with a TTL of 15 minutes, add a third member with no expiration, and then retrieve the remaining TTL of each member:
 
-{{< clients-example set="sets_tutorial" step="member_expiration" lang_filter="Node.js" description="Member expiration: Add set members with a TTL using SADDEX, then read each member's remaining TTL with STTL" difficulty="intermediate" buildsUpon="sadd" >}}
+{{< clients-example set="sets_tutorial" step="member_expiration" lang_filter="Node.js,PHP" description="Member expiration: Add set members with a TTL using SADDEX, then read each member's remaining TTL with STTL" difficulty="intermediate" buildsUpon="sadd" >}}
 > DEL bikes:reserved
 (integer) 0
 > SADDEX bikes:reserved EX 900 MEMBERS 2 bike:1 bike:2
