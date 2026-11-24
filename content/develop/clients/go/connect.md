@@ -70,6 +70,28 @@ if err != nil {
 fmt.Println("foo", val)
 ```
 
+### Authenticate as a user with no password
+
+If you set `Username` but leave `Password` empty, `go-redis` sends no `AUTH`
+command, so the connection stays authenticated as the default user. To
+authenticate as an [ACL](/content/operate/oss_and_stack/management/security/acl.md)
+user that you created with `nopass`, set `AuthEmptyPassword` to `true` in
+`go-redis` v9.24.0 or later:
+
+```go
+client := redis.NewClient(&redis.Options{
+    Addr:              "localhost:6379",
+    Username:          "app-user", // a user created with nopass
+    AuthEmptyPassword: true,
+})
+```
+
+The option is off by default because Redis Software and Redis Cloud databases
+with unauthenticated access can reject an empty password. For
+[Sentinel](#connect-to-redis-sentinel) connections, use
+`SentinelAuthEmptyPassword` for the Sentinel credentials. You can also set
+`auth_empty_password=true` in a connection URL.
+
 ## Connect to a Redis cluster
 
 To connect to a Redis cluster, use `NewClusterClient()`. You can specify
@@ -366,8 +388,8 @@ add up the statistics of the nodes it currently knows about.
 The cluster client doesn't store a reply that can't prove that every key it
 depends on exists. It bypasses the cache when a `MOVED` or `ASK` redirect
 applies, and a topology change flushes only the caches of the nodes that enter
-or leave routing. Reads from replicas, ordinary pipelines, transactions, and
-full-duplex batches aren't cached.
+or leave routing. Reads from replicas, ordinary pipelines, and transactions
+aren't cached.
 
 ### Use ephemeral connections with caching
 
