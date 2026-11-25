@@ -113,6 +113,51 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "ScanResult<String> blessScan(String cursor, BlessFlag flag)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ScanResult<String> blessScan(String cursor, BlessFlag flag, int count)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<String>",
+          "description": ""
+        }
+      }
     ]
   }
 }

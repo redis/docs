@@ -223,6 +223,71 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Tuple> bzmove(String srcKey, String dstKey, SortedSetOption option, double timeout)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "option",
+            "type": "SortedSetOption",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> bzmove(String srcKey, String dstKey, SortedSetOption option, double timeout, long count)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "option",
+            "type": "SortedSetOption",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      }
     ]
   }
 }

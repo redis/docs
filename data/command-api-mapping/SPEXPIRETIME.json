@@ -109,6 +109,46 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "long spexpireTime(String key, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> spexpireTime(String key, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -218,6 +218,114 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "long sexpire(String key, long seconds, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long sexpire(String key, long seconds, ExpiryOption condition, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> sexpire(String key, long seconds, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> sexpire(String key, long seconds, ExpiryOption condition, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -218,6 +218,114 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "long sexpireAt(String key, long unixTimeSeconds, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long sexpireAt(String key, long unixTimeSeconds, ExpiryOption condition, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> sexpireAt(String key, long unixTimeSeconds, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> sexpireAt(String key, long unixTimeSeconds, ExpiryOption condition, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

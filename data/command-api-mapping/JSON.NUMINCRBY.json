@@ -74,6 +74,30 @@
           "type": "Object",
           "description": ""
         }
+      },
+      {
+        "signature": "List<Number> jsonNumIncrByAsNumbers(String key, Path2 path, Number value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path2",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "Number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Number>",
+          "description": ""
+        }
       }
     ],
     "lettuce_sync": [

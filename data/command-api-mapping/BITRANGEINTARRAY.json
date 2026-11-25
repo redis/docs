@@ -218,6 +218,61 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Long> bitrangeintarray(String key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> bitrangeintarray(String key, long start, long end, BitRangeIntArrayParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "BitRangeIntArrayParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

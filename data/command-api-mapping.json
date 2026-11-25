@@ -15591,6 +15591,61 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Long> bitrangeintarray(String key, long start, long end)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "long",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> bitrangeintarray(String key, long start, long end, BitRangeIntArrayParams params)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "end",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "params",
+              "type": "BitRangeIntArrayParams",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -15684,6 +15739,27 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "long blessClear(String key, BlessFlag flag)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -15754,6 +15830,22 @@
           ],
           "returns": {
             "type": "*StringSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "List<BlessFlag> blessGet(String key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<BlessFlag>",
             "description": ""
           }
         }
@@ -15875,6 +15967,51 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "ScanResult<String> blessScan(String cursor, BlessFlag flag)",
+          "params": [
+            {
+              "name": "cursor",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ScanResult<String>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "ScanResult<String> blessScan(String cursor, BlessFlag flag, int count)",
+          "params": [
+            {
+              "name": "cursor",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ScanResult<String>",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -15965,6 +16102,27 @@
           ],
           "returns": {
             "type": "*IntCmd",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long blessSet(String key, BlessFlag flag)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "flag",
+              "type": "BlessFlag",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
             "description": ""
           }
         }
@@ -19122,6 +19280,71 @@
           ],
           "returns": {
             "type": "array|null",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Tuple> bzmove(String srcKey, String dstKey, SortedSetOption option, double timeout)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "option",
+              "type": "SortedSetOption",
+              "description": ""
+            },
+            {
+              "name": "timeout",
+              "type": "double",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Tuple> bzmove(String srcKey, String dstKey, SortedSetOption option, double timeout, long count)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "option",
+              "type": "SortedSetOption",
+              "description": ""
+            },
+            {
+              "name": "timeout",
+              "type": "double",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "long",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
             "description": ""
           }
         }
@@ -32005,6 +32228,35 @@
             "type": "String",
             "description": "OK"
           }
+        },
+        {
+          "signature": "String cmsInitByDim(String key, long width, long depth, CmsCellSize cellSize)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "width",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "depth",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "cellSize",
+              "type": "CmsCellSize",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": ""
+          }
         }
       ],
       "go-redis": [
@@ -32216,6 +32468,35 @@
           "returns": {
             "type": "String",
             "description": "OK"
+          }
+        },
+        {
+          "signature": "String cmsInitByProb(String key, double error, double probability, CmsCellSize cellSize)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "error",
+              "type": "double",
+              "description": ""
+            },
+            {
+              "name": "probability",
+              "type": "double",
+              "description": ""
+            },
+            {
+              "name": "cellSize",
+              "type": "CmsCellSize",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": ""
           }
         }
       ],
@@ -83227,6 +83508,30 @@
             "type": "Object",
             "description": ""
           }
+        },
+        {
+          "signature": "List<String> jsonArrPopRaw(String key, Path2 path, int index)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "Path2",
+              "description": ""
+            },
+            {
+              "name": "index",
+              "type": "int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<String>",
+            "description": ""
+          }
         }
       ],
       "lettuce_sync": [
@@ -86608,6 +86913,30 @@
           ],
           "returns": {
             "type": "Object",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Number> jsonNumIncrByAsNumbers(String key, Path2 path, Number value)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "Path2",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "type": "Number",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Number>",
             "description": ""
           }
         }
@@ -112537,6 +112866,56 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "long saddex(String key, SAddExParams params, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "params",
+              "type": "SAddExParams",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "long saddex(String key, SAddExParams params, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "params",
+              "type": "SAddExParams",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -118863,6 +119242,114 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "long sexpire(String key, long seconds, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "seconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "long sexpire(String key, long seconds, ExpiryOption condition, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "seconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ExpiryOption",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> sexpire(String key, long seconds, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "seconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> sexpire(String key, long seconds, ExpiryOption condition, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "seconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ExpiryOption",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -119086,6 +119573,114 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "long sexpireAt(String key, long unixTimeSeconds, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unixTimeSeconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "long sexpireAt(String key, long unixTimeSeconds, ExpiryOption condition, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unixTimeSeconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ExpiryOption",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> sexpireAt(String key, long unixTimeSeconds, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unixTimeSeconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> sexpireAt(String key, long unixTimeSeconds, ExpiryOption condition, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unixTimeSeconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ExpiryOption",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -119197,6 +119792,46 @@
           ],
           "returns": {
             "type": "array",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long sexpireTime(String key, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> sexpireTime(String key, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
             "description": ""
           }
         }
@@ -124809,6 +125444,46 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "long spersist(String key, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> spersist(String key, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -125029,6 +125704,114 @@
           ],
           "returns": {
             "type": "array",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long spexpire(String key, long milliseconds, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "milliseconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "long spexpire(String key, long milliseconds, ExpiryOption condition, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "milliseconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ExpiryOption",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> spexpire(String key, long milliseconds, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "milliseconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> spexpire(String key, long milliseconds, ExpiryOption condition, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "milliseconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ExpiryOption",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
             "description": ""
           }
         }
@@ -125255,6 +126038,114 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "long spexpireAt(String key, long unixTimeMilliseconds, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unixTimeMilliseconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "long spexpireAt(String key, long unixTimeMilliseconds, ExpiryOption condition, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unixTimeMilliseconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ExpiryOption",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> spexpireAt(String key, long unixTimeMilliseconds, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unixTimeMilliseconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> spexpireAt(String key, long unixTimeMilliseconds, ExpiryOption condition, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "unixTimeMilliseconds",
+              "type": "long",
+              "description": ""
+            },
+            {
+              "name": "condition",
+              "type": "ExpiryOption",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -125366,6 +126257,46 @@
           ],
           "returns": {
             "type": "array",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long spexpireTime(String key, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> spexpireTime(String key, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
             "description": ""
           }
         }
@@ -125891,6 +126822,46 @@
           ],
           "returns": {
             "type": "array",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long spttl(String key, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> spttl(String key, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
             "description": ""
           }
         }
@@ -128596,6 +129567,46 @@
           ],
           "returns": {
             "type": "array",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long sttl(String key, String member)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Long> sttl(String key, String... members)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Long>",
             "description": ""
           }
         }
@@ -167014,6 +168025,187 @@
             "description": ""
           }
         }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Tuple> zmove(String srcKey, String dstKey, SortedSetOption option)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "option",
+              "type": "SortedSetOption",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Tuple> zmove(String srcKey, String dstKey, SortedSetOption option, long count)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "option",
+              "type": "SortedSetOption",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "long",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Tuple> zmoveByScore(String srcKey, String dstKey, double min, double max)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "double",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "double",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Tuple> zmoveByScore(String srcKey, String dstKey, double min, double max, long count)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "double",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "double",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "long",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Tuple> zmoveByScore(String srcKey, String dstKey, String min, String max)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Tuple> zmoveByScore(String srcKey, String dstKey, String min, String max, long count)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "long",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
+            "description": ""
+          }
+        }
       ]
     }
   },
@@ -167214,6 +168406,114 @@
           ],
           "returns": {
             "type": "array|null",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "Tuple zmovemember(String srcKey, String dstKey, String member)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Tuple",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Tuple> zmovemember(String srcKey, String dstKey, String... members)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
+            "description": ""
+          }
+        },
+        {
+          "signature": "Tuple zmovemember(String srcKey, String dstKey, ZMoveMemberParams params, String member)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "params",
+              "type": "ZMoveMemberParams",
+              "description": ""
+            },
+            {
+              "name": "member",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Tuple",
+            "description": ""
+          }
+        },
+        {
+          "signature": "List<Tuple> zmovemember(String srcKey, String dstKey, ZMoveMemberParams params, String... members)",
+          "params": [
+            {
+              "name": "srcKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "dstKey",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "params",
+              "type": "ZMoveMemberParams",
+              "description": ""
+            },
+            {
+              "name": "members",
+              "type": "String...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<Tuple>",
             "description": ""
           }
         }

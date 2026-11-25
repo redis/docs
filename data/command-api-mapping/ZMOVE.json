@@ -276,6 +276,187 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Tuple> zmove(String srcKey, String dstKey, SortedSetOption option)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "option",
+            "type": "SortedSetOption",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zmove(String srcKey, String dstKey, SortedSetOption option, long count)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "option",
+            "type": "SortedSetOption",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zmoveByScore(String srcKey, String dstKey, double min, double max)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zmoveByScore(String srcKey, String dstKey, double min, double max, long count)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zmoveByScore(String srcKey, String dstKey, String min, String max)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zmoveByScore(String srcKey, String dstKey, String min, String max, long count)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      }
     ]
   }
 }
