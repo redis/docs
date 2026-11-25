@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 // REMOVE_END
 // HIDE_START
 import redis.clients.jedis.RedisClient;
+import redis.clients.jedis.params.SAddExParams;
 
 import java.util.List;
 import java.util.Set;
@@ -188,6 +189,26 @@ public class SetsExample {
 
         // REMOVE_START
         assertEquals(1,res19);
+        // REMOVE_END
+
+        // STEP_START member_expiration
+        jedis.del("bikes:reserved");
+
+        long res23 = jedis.saddex("bikes:reserved", SAddExParams.sAddExParams().ex(900), "bike:1", "bike:2");
+        System.out.println(res23);  // >>> 1
+
+        long res24 = jedis.sadd("bikes:reserved", "bike:3");
+        System.out.println(res24);  // >>> 1
+
+        List<Long> res25 = jedis.sttl("bikes:reserved", "bike:1", "bike:2", "bike:3");
+        System.out.println(res25);  // >>> [900, 900, -1]
+        // STEP_END
+
+        // REMOVE_START
+        assertEquals(1, res23);
+        assertEquals(1, res24);
+        assertEquals(List.of(900L, 900L, -1L), res25);
+        jedis.del("bikes:reserved");
         // REMOVE_END
 
         // HIDE_START
