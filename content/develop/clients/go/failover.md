@@ -90,11 +90,21 @@ Each entry in the `Clients` list supports the following fields:
 go-redis numbers the members from `0`, in the order you list them. Control methods and
 callbacks use these numbers to refer to a member.
 
+### Where to set options
+
+`NewMultiDBClient` takes a `redis.MultiDBOptions` struct. Options that affect the whole
+client are fields of that struct. Options for one member are fields of that member's
+entry in `Clients`. Connection settings such as timeouts go in the member's `Options`
+(or `ClusterOptions`).
+
+The sections that follow show where each option goes.
+
 ## Start the client
 
 `NewMultiDBClient` runs a health check on every member and picks the active member
-from the healthy ones. Set `InitialDBState` to choose how many members must pass
-before the call succeeds:
+from the healthy ones. Set the `InitialDBState` field of `MultiDBOptions` to choose how
+many members must pass before the call succeeds, for example
+`InitialDBState: redis.InitialDBStateOneAvailable`:
 
 | Value | Meaning |
 | --- | --- |
@@ -126,7 +136,18 @@ Either one triggers a failover.
 
 Each member has its own circuit breaker, which opens after a run of consecutive
 failures. After a cooldown it moves to half-open and lets health checks through.
-It closes again after a run of successes. Configure it with `CircuitBreakerConfig`:
+It closes again after a run of successes. Configure it with the `CircuitBreakerConfig`
+field of `MultiDBOptions`, which takes a `*redis.MultiDBCircuitBreakerConfig`. The
+settings apply to every member.
+
+```go
+CircuitBreakerConfig: &redis.MultiDBCircuitBreakerConfig{
+	FailureThreshold: 3,
+	GracePeriod:      10 * time.Second,
+},
+```
+
+The struct has these fields. A field you leave at zero takes its default.
 
 | Field | Description | Default |
 | --- | --- | --- |
@@ -141,7 +162,8 @@ threshold opens the circuit.
 
 One failure detector watches the traffic to all members. It trips only when both
 conditions hold within a sliding time window: a minimum number of failures and a
-minimum failure rate. Configure it with `FailureDetectorConfig`:
+minimum failure rate. Configure it with the `FailureDetectorConfig` field of
+`MultiDBOptions`, which takes a `*redis.MultiDBFailureDetectorConfig`:
 
 ```go
 FailureDetectorConfig: &redis.MultiDBFailureDetectorConfig{
@@ -161,9 +183,14 @@ from `redis.DefaultMultiDBFailureDetectorConfig()`.
 
 ### Retries
 
-`CommandRetries` sets how many extra attempts a failed command gets. Each attempt goes to
-whichever member is active at that moment, so a retry reaches the new member after a
-failover. `0` means the default of `2`, and `-1` disables retries.
+The `CommandRetries` field of `MultiDBOptions` sets how many extra attempts a failed
+command gets. Each attempt goes to whichever member is active at that moment, so a retry
+reaches the new member after a failover. `0` means the default of `2`, and `-1` disables
+retries.
+
+```go
+CommandRetries: -1, // No retries.
+```
 
 > [!WARNING]
 > Leave `MaxRetries` unset in each member's `Options` or `ClusterOptions`. go-redis then turns off the
@@ -175,8 +202,12 @@ failover. `0` means the default of `2`, and `-1` disables retries.
 ## Fail over and fail back
 
 When the active member's circuit opens or the failure detector trips, the client picks
-the healthy member with the highest weight and retries the command there. Set
-`FailoverStrategy` to replace this selection with your own.
+the healthy member with the highest weight and retries the command there. To replace
+this selection with your own, set the `FailoverStrategy` field of `MultiDBOptions` to a
+type that implements `redis.MultiDBFailoverStrategy`. The default is
+`redis.WeightBasedFailoverStrategy`.
+
+These fields of `MultiDBOptions` control failover and failback:
 
 | Field | Description | Default |
 | --- | --- | --- |
@@ -230,7 +261,10 @@ Messages that are published while the active member is failing aren't delivered.
 ## Health checks
 
 The client checks every member on a timer, so it can find out that a failed member has
-recovered. Set the interval and timeout in `MultiDBOptions`:
+recovered. Set these fields of `MultiDBOptions` to control the checks for every member.
+To give one member its own checks, set `HealthChecks` and `HealthCheckPolicy` in that
+member's entry in `Clients` instead. A member's own settings replace the client-wide
+ones.
 
 | Field | Description | Default |
 | --- | --- | --- |
@@ -254,11 +288,13 @@ When you set several checks, all of them must pass.
 
 The ping check sends a [`PING`](/content/commands/ping.md) command and expects the usual
 reply. By default, it sends 3 probes 500 ms apart. Change this with the `WithProbes()`,
-`WithDelay()` and `WithTimeout()` options:
+`WithDelay()` and `WithTimeout()` options, and pass the check in the `HealthChecks`
+field. The policy goes in `HealthCheckPolicy`:
 
 ```go
 import "github.com/redis/go-redis/v9/multidb"
 
+// Fields of MultiDBOptions (or of a member's MultiDBClientConfig).
 HealthChecks: []redis.MultiDBHealthCheck{
 	multidb.NewPingHealthCheck(
 		multidb.WithProbes(2),
@@ -275,12 +311,16 @@ The lag-aware check uses the Redis Software
 to check the replication lag between an Active-Active database and its other instances.
 The member is healthy if the lag is within the tolerance.
 
+Add the check to the `HealthChecks` list, alongside or instead of the ping check:
+
 ```go
-multidb.NewLagAwareHealthCheck(
-	multidb.WithLagAwareBaseURL("https://<cluster-fqdn>:9443"),
-	multidb.WithLagAwareBasicAuth("<username>", "<password>"),
-	multidb.WithLagAwareTolerance(2000), // milliseconds; the default is 5000
-),
+HealthChecks: []redis.MultiDBHealthCheck{
+	multidb.NewLagAwareHealthCheck(
+		multidb.WithLagAwareBaseURL("https://<cluster-fqdn>:9443"),
+		multidb.WithLagAwareBasicAuth("<username>", "<password>"),
+		multidb.WithLagAwareTolerance(2000), // milliseconds; the default is 5000
+	),
+},
 ```
 
 Other options set the REST API port (default `9443`), the HTTP client, and the
@@ -306,21 +346,20 @@ To run your own check, implement the `redis.MultiDBHealthCheck` interface and ad
 
 ## Failover callbacks
 
-The client calls your functions when its state changes. Each callback runs on its own
-queue, so it doesn't block commands.
+The client calls your functions when its state changes. Set them as fields of
+`MultiDBOptions`. Each callback runs on its own queue, so it doesn't block commands.
 
 ```go
-redis.MultiDBOptions{
-	OnFailover: func(ctx context.Context, from, to int) {
-		log.Printf("failing over from member %d to member %d", from, to)
-	},
-	OnActiveDatabaseChanged: func(from, to int) {
-		log.Printf("active member is now %d (was %d)", to, from)
-	},
-	OnCircuitStateChanged: func(id int, from, to string) {
-		log.Printf("member %d circuit: %s -> %s", id, from, to)
-	},
-}
+// Fields of MultiDBOptions.
+OnFailover: func(ctx context.Context, from, to int) {
+	log.Printf("failing over from member %d to member %d", from, to)
+},
+OnActiveDatabaseChanged: func(from, to int) {
+	log.Printf("active member is now %d (was %d)", to, from)
+},
+OnCircuitStateChanged: func(id int, from, to string) {
+	log.Printf("member %d circuit: %s -> %s", id, from, to)
+},
 ```
 
 `OnActiveDatabaseChanged` also fires when you switch members by hand.
@@ -346,8 +385,23 @@ Member numbers are stable. If you remove a member, go-redis never reuses its num
 The `redisotel-native` package records MultiDB metrics when you enable the
 `MetricGroupFlagMultiDB` metric group. See
 [Observability](/content/develop/clients/go/observability.md) to set up
-OpenTelemetry (OTel) metrics, and note that `redisotel.NewConfig()` needs
-`WithEnabled(true)` before it records anything.
+OpenTelemetry (OTel) metrics. You enable the group when you initialize the
+observability instance, before you create the client:
+
+```go
+import redisotel "github.com/redis/go-redis/extra/redisotel-native/v9"
+
+otelInstance := redisotel.GetObservabilityInstance()
+config := redisotel.NewConfig().
+	WithEnabled(true). // Metrics are off unless you enable them.
+	WithMetricGroups(redisotel.MetricGroupFlagMultiDB)
+
+if err := otelInstance.Init(config); err != nil {
+	panic(err)
+}
+```
+
+The `MultiDBClient` then records to this instance with no further setup.
 
 | Metric | Description |
 | --- | --- |
@@ -365,24 +419,25 @@ look the same.
 
 ### `NewMultiDBClient` fails with `ErrInsufficientHealthyDatabases`
 
-Fewer members passed the first health check than `InitialDBState` requires. Check that
-the members are reachable from the app. If some members start late, pass a context with
-a deadline so the client keeps retrying, or set `InitialDBState` to
-`redis.InitialDBStateOneAvailable`.
+Fewer members passed the first health check than the `InitialDBState` field of
+`MultiDBOptions` requires. Check that the members are reachable from the app. If some
+members start late, pass a context with a deadline to `NewMultiDBClient` so the client
+keeps retrying, or set `InitialDBState` to `redis.InitialDBStateOneAvailable`.
 
 ### A failing command blocks for a long time before failover
 
 Check that you left `MaxRetries` unset in each member's `Options` or `ClusterOptions`.
-Also check the dial, read and write timeouts. The circuit breaker needs
-`FailureThreshold` failed commands, so each command should fail quickly.
+Also check the `DialTimeout`, `ReadTimeout` and `WriteTimeout` fields in each member's
+`Options` or `ClusterOptions`. The circuit breaker needs `FailureThreshold` failed
+commands, so each command should fail quickly.
 
 A command on a cluster member takes longer to fail than one on a standalone member.
 With 1 second timeouts, a command against an unresponsive three-node cluster took
 about 4 seconds to return an error, so the default threshold of 5 takes about 20
-seconds to open the circuit. Use shorter timeouts or a lower `FailureThreshold` for
-cluster members.
+seconds to open the circuit. Use shorter timeouts in the member's `ClusterOptions`, or a
+lower `FailureThreshold` in `CircuitBreakerConfig`.
 
 ### The client doesn't fail back after the preferred member recovers
 
-Failback waits for the circuit's `GracePeriod` and then for the next
-`AutoFallbackInterval` check. Check that `AutoFallbackInterval` isn't negative.
+Failback waits for the circuit's `GracePeriod` (in `CircuitBreakerConfig`) and then for
+the next `AutoFallbackInterval` check. Check that `AutoFallbackInterval` isn't negative.
