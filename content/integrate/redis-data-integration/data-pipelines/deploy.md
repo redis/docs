@@ -472,7 +472,7 @@ deleted either.
 > Clearing a pipeline discards the source aliases of any source that predates RDI's
 > support for multiple sources, so if you deploy such a source again under the same name you
 > must set its secrets again, and also change its secret references and job `server_name` values. See
-> [Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/installation/upgrade.md#redeploying-a-configuration-after-clearing-a-pipeline)
+> [Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#redeploying-a-configuration-after-clearing-a-pipeline)
 > for a before and after example.
 
 ## Delete a pipeline
