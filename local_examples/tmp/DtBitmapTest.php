@@ -162,6 +162,49 @@ extends PredisTestCase
         // REMOVE_START
         $this->assertEquals(0b10100101, ord($res15));
         // REMOVE_END
+
+        // STEP_START bitrangeintarray
+        $r->config('SET', 'bitmap-default-roaring', 'yes');
+        $r->del('members');
+        $r->setbit('members', 1, 1);
+        $r->setbit('members', 7, 1);
+        $r->setbit('members', 9, 1);
+        $r->setbit('members', 30, 1);
+
+        $res16 = $r->bitrangeintarray('members', 0, -1);
+        echo json_encode($res16) . PHP_EOL;
+        // >>> [1,7,9,30]
+
+        $res17 = $r->bitrangeintarray('members', 28, 31, 'BIT', null, true);
+        echo json_encode($res17) . PHP_EOL;
+        // >>> [28,29,31]
+
+        $res18 = $r->bitrangeintarray('members', 0, -1, 'BIT', 2);
+        echo json_encode($res18) . PHP_EOL;
+        // >>> [1,7]
+
+        $res19 = $r->bitrangeintarray('members', 8, -1, 'BIT', 2);
+        echo json_encode($res19) . PHP_EOL;
+        // >>> [9,30]
+
+        $res20 = $r->bitrangeintarray('members', 0, -1, 'BYTE', 1);
+        echo json_encode($res20) . PHP_EOL;
+        // >>> [1,7]
+
+        $res21 = $r->bitrangeintarray('members', 1, -1, 'BYTE', 1);
+        echo json_encode($res21) . PHP_EOL;
+        // >>> [9]
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals([1, 7, 9, 30], $res16);
+        $this->assertEquals([28, 29, 31], $res17);
+        $this->assertEquals([1, 7], $res18);
+        $this->assertEquals([9, 30], $res19);
+        $this->assertEquals([1, 7], $res20);
+        $this->assertEquals([9], $res21);
+        $r->del('members');
+        $r->config('SET', 'bitmap-default-roaring', 'no');
+        // REMOVE_END
     }
 }
 
