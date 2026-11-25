@@ -194,5 +194,27 @@ extends PredisTestCase
         $this->assertEquals(1, $res19);
         // Other sample outputs are non-deterministic.
         // REMOVE_END
+
+        // STEP_START member_expiration
+        $r->del('bikes:reserved');
+
+        $res23 = $r->saddex('bikes:reserved', ['bike:1', 'bike:2'], '', 'ex', 900);
+        echo $res23 . PHP_EOL;
+        // >>> 1
+
+        $res24 = $r->sadd('bikes:reserved', ['bike:3']);
+        echo $res24 . PHP_EOL;
+        // >>> 1
+
+        $res25 = $r->sttl('bikes:reserved', ['bike:1', 'bike:2', 'bike:3']);
+        echo json_encode($res25) . PHP_EOL;
+        // >>> [900,900,-1]
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals(1, $res23);
+        $this->assertEquals(1, $res24);
+        $this->assertEquals([900, 900, -1], $res25);
+        $r->del('bikes:reserved');
+        // REMOVE_END
     }
 }
