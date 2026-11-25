@@ -81,6 +81,13 @@ jedisClusterNodes.add(new HostAndPort("127.0.0.1", 7380));
 RedisClusterClient jedis = RedisClusterClient.create(jedisClusterNodes);
 ```
 
+A command that takes several keys, such as `msetex()`, needs all of its keys to
+hash to the same slot. From Jedis 8.1.0, `msetex()` throws a
+`JedisClusterOperationException` before it writes anything if the keys are in
+different slots. Earlier versions split the command by slot, which could set some
+keys and not others. To keep related keys in one slot, give them a shared
+hash tag, such as `{user:42}:name` and `{user:42}:session`.
+
 ### Connect to Redis Sentinel
 
 To connect through [Redis Sentinel](/content/operate/oss_and_stack/management/sentinel.md),

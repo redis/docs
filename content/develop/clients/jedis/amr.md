@@ -169,6 +169,22 @@ RedisClusterClient jedis = RedisClusterClient.builder()
 System.out.println(String.format("Database size is %d", jedis.dbSize()));
 ```
 
+Closing a client doesn't stop the `AuthXManager` that you passed to it, because
+the manager belongs to your application. Create the manager in a variable
+and call `stop()` after you close the last client that uses it:
+
+```java
+AuthXManager authXManager = new AuthXManager(authConfig);
+// Pass `authXManager` to `DefaultJedisClientConfig.builder().authXManager()`
+// and create your client(s)...
+
+jedis.close();
+authXManager.stop();
+```
+
+Before Jedis 8.1.0, closing a single-node client such as `JedisPooled` stopped
+the manager, but closing a cluster client didn't. From 8.1.0, no client stops it.
+
 ## Advanced configuration options
 
 The `TokenAuthConfig` class has several other options that you can
