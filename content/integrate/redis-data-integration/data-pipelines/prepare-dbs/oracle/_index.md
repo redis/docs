@@ -1075,7 +1075,7 @@ sources:
         database.dbname: ORCLCDB
         database.pdb.name: ORCLPDB1
         database.connection.adapter: xstream
-        database.out.server.name: dbzxout
+        xstream.out.server.name: dbzxout
 ```
 
 > [!NOTE]
