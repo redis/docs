@@ -155,8 +155,8 @@ The struct has these fields. A field you leave at zero takes its default.
 | `SuccessThreshold` | Successes in the half-open state before the circuit closes. | `2` |
 | `GracePeriod` | Cooldown between opening and the first half-open probe. | `60s` |
 
-Commands and health probes count their failures separately. Either count reaching the
-threshold opens the circuit.
+Commands and health probes count their failures separately. If either count reaches the
+threshold, the circuit will open.
 
 ### Failure detector
 
@@ -185,7 +185,7 @@ from `redis.DefaultMultiDBFailureDetectorConfig()`.
 
 The `CommandRetries` field of `MultiDBOptions` sets how many extra attempts a failed
 command gets. Each attempt goes to whichever member is active at that moment, so a retry
-reaches the new member after a failover. `0` means the default of `2`, and `-1` disables
+reaches the new member after a failover. A value of `0` means the default of `2`, and `-1` disables
 retries.
 
 ```go
@@ -193,10 +193,10 @@ CommandRetries: -1, // No retries.
 ```
 
 > [!WARNING]
-> Leave `MaxRetries` unset in each member's `Options` or `ClusterOptions`. go-redis then turns off the
-> member's own retries and relies on `CommandRetries`. An explicit `MaxRetries`
-> multiplies the sends of every attempt, and the circuit breaker and failure detector
-> don't see those extra retries. A command can then block for much longer before the
+> If you leave `MaxRetries` unset in each member's `Options` or `ClusterOptions`, go-redis will turn off the
+> member's own retries and rely only on `CommandRetries`. An explicit `MaxRetries` value
+> multiplies the number of times every attempt is sent, and the circuit breaker and failure detector
+> don't see those extra retries. If this happens, a command can block for much longer before the
 > client fails over.
 
 ## Fail over and fail back
@@ -218,8 +218,8 @@ These fields of `MultiDBOptions` control failover and failback:
 
 Failback happens in two steps:
 
-1.  The failed member's circuit breaker closes. This takes at least `GracePeriod`, plus
-    the successful probes in the half-open state.
+1.  The failed member's circuit breaker closes. The amount of time this takes is at least as long as `GracePeriod`, plus
+    the time to handle the successful probes in the half-open state.
 1.  At the next `AutoFallbackInterval` check, the client switches back to the
     higher-weight member.
 
@@ -229,11 +229,9 @@ With the defaults, failback can take several minutes. Lower `GracePeriod` and
 ### When no member is healthy
 
 If no member can take traffic, commands fail with `redis.ErrTemporarilyNotAvailable`
-while the client keeps trying other members. After `MaxFailoverAttempts` failed
-attempts in a row, commands fail with `redis.ErrPermanentlyNotAvailable`.
+while the client keeps trying other members. If the number of failed attempts in a row exceeds `MaxFailoverAttempts` then commands will fail with `redis.ErrPermanentlyNotAvailable`.
 The client doesn't close in either case. It keeps probing the members and recovers when
-one becomes healthy, but with the default `GracePeriod` of 60 seconds, recovery can
-take longer than that.
+one becomes healthy, as soon as the `GracePeriod` has elapsed (this defaults to 60 seconds).
 
 ```go
 err := client.Set(ctx, "key", "value", 0).Err()
@@ -247,10 +245,9 @@ case errors.Is(err, redis.ErrTemporarilyNotAvailable):
 
 ### Pipelines and transactions
 
-A pipeline goes to the active member as one unit. If the member fails, the client
-retries the whole pipeline on the new active member, subject to `CommandRetries`.
-A transaction pipeline (`TxPipelined`) isn't moved to another member. If a failover
-happens while it runs, it returns the error, and you decide whether to run it again.
+A pipeline executes on the active member as a single, indivisible operation. If the member fails, the client
+retries the whole pipeline on the new active member repeatedly, until the number of attempts exceeds `CommandRetries`.
+If a transaction pipeline (via `TxPipelined`) is interrupted by a failover, it doesn't automatically get moved to another member. Instead, it returns an error, and you must decide whether to attempt it again.
 
 ### Pub/Sub
 
@@ -287,7 +284,7 @@ When you set several checks, all of them must pass.
 ### Ping check (default)
 
 The ping check sends a [`PING`](/content/commands/ping.md) command and expects the usual
-reply. By default, it sends 3 probes 500 ms apart. Change this with the `WithProbes()`,
+reply. By default, it sends 3 probes with a 500 ms delay between them. Change this with the `WithProbes()`,
 `WithDelay()` and `WithTimeout()` options, and pass the check in the `HealthChecks`
 field. The policy goes in `HealthCheckPolicy`:
 
@@ -307,9 +304,9 @@ HealthCheckPolicy: multidb.NewHealthyMajorityPolicy(),
 ### Lag-aware check (Redis Software only)
 
 The lag-aware check uses the Redis Software
-[REST (Representational State Transfer) API](/content/operate/rs/references/rest-api/_index.md)
+[REST API](/content/operate/rs/references/rest-api/_index.md)
 to check the replication lag between an Active-Active database and its other instances.
-The member is healthy if the lag is within the tolerance.
+The member is considered healthy if the lag is within the tolerance.
 
 Add the check to the `HealthChecks` list, alongside or instead of the ping check:
 
@@ -334,15 +331,15 @@ it a plain `PING` so that a dead endpoint is found.
 ### Custom health checks
 
 To run your own check, implement the `redis.MultiDBHealthCheck` interface and add it to
-`HealthChecks`. A custom policy implements `redis.MultiDBHealthCheckPolicy`.
+`HealthChecks`. To create a custom policy, implement `redis.MultiDBHealthCheckPolicy`.
 
 > [!WARNING]
 > Health checks, policies, failover strategies, failure detectors, hooks (added with
 > `AddHook` or `AddDatabaseHook`) and metrics recorders run inside the client's own
 > locks. Don't call the control methods or `Close` from them, because the call can
 > deadlock or corrupt the failover accounting. The `OnFailover`,
-> `OnActiveDatabaseChanged` and `OnCircuitStateChanged` callbacks are the exception,
-> and they can call control methods.
+> `OnActiveDatabaseChanged` and `OnCircuitStateChanged` callbacks are the only exceptions
+> that *can* call control methods.
 
 ## Failover callbacks
 
@@ -428,14 +425,13 @@ keeps retrying, or set `InitialDBState` to `redis.InitialDBStateOneAvailable`.
 
 Check that you left `MaxRetries` unset in each member's `Options` or `ClusterOptions`.
 Also check the `DialTimeout`, `ReadTimeout` and `WriteTimeout` fields in each member's
-`Options` or `ClusterOptions`. The circuit breaker needs `FailureThreshold` failed
-commands, so each command should fail quickly.
+`Options` or `ClusterOptions`. The circuit breaker trips after a number of failed commands equal to `FailureThreshold` - you should ensure each command fails quickly.
 
 A command on a cluster member takes longer to fail than one on a standalone member.
-With 1 second timeouts, a command against an unresponsive three-node cluster took
-about 4 seconds to return an error, so the default threshold of 5 takes about 20
+With 1 second timeouts, a command against an unresponsive three-node cluster takes
+about 4 seconds to return an error, so the default threshold of five failed commands takes about 20
 seconds to open the circuit. Use shorter timeouts in the member's `ClusterOptions`, or a
-lower `FailureThreshold` in `CircuitBreakerConfig`.
+lower `FailureThreshold` in `CircuitBreakerConfig` to reduce this time.
 
 ### The client doesn't fail back after the preferred member recovers
 
