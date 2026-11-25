@@ -1544,7 +1544,7 @@
           },
           "clock_skew_seconds": {
             "default": 60,
-            "description": "Allowed clock skew when checking exp and nbf, in seconds",
+            "description": "Allowed clock skew when checking nbf and iat, in seconds. It does not extend exp, so a token is refused once it has expired.",
             "maximum": 300,
             "minimum": 0,
             "type": "integer"
