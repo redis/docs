@@ -20,9 +20,9 @@ redis-di delete-setting <name> [flags]
 
 ## Options
 
-| Option      | Description                           |
-| :---------- | :------------------------------------ |
-| `--force`   | Skip the confirmation prompt.          |
+| Option    | Description                   |
+| :-------- | :---------------------------- |
+| `--force` | Skip the confirmation prompt. |
 
 This command also accepts the
 [global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).

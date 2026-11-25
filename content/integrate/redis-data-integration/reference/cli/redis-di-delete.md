@@ -27,11 +27,11 @@ pipeline has not disappeared before `--timeout`.
 
 ## Options
 
-| Option      | Description                                                                       |
-| :---------- | :-------------------------------------------------------------------------------- |
-| `--force`   | Skip the confirmation prompt.                                                     |
-| `--wait`    | Wait for the pipeline to disappear (default `true`).                              |
-| `--timeout` | Maximum time to wait for the pipeline to disappear (default `2m`).                |
+| Option      | Description                                                        |
+| :---------- | :----------------------------------------------------------------- |
+| `--force`   | Skip the confirmation prompt.                                      |
+| `--wait`    | Wait for the pipeline to disappear (default `true`).               |
+| `--timeout` | Maximum time to wait for the pipeline to disappear (default `2m`). |
 
 This command also accepts the
 [global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).

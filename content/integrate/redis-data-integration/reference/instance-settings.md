@@ -53,13 +53,13 @@ value sets a setting, `null` deletes it, and the settings that the body omits ar
 example, the following body sets `standby_mode`:
 
 ```json
-{"standby_mode": true}
+{ "standby_mode": true }
 ```
 
 ## Available settings
 
-| Setting | Type | When not set |
-| :-- | :-- | :-- |
+| Setting                         | Type    | When not set                                                             |
+| :------------------------------ | :------ | :----------------------------------------------------------------------- |
 | [`standby_mode`](#standby_mode) | Boolean | The `operator.leaderElection.standbyMode` Helm value, `false` by default |
 
 ### `standby_mode`
