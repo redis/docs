@@ -45,6 +45,17 @@ result using the `Response` object's `get()` method.
 {{< clients-example set="pipe_trans_tutorial" step="basic_pipe" lang_filter="Java-Sync" description="Foundational: Use pipelines to batch multiple commands together and reduce network round trips" difficulty="beginner" >}}
 {{< /clients-example >}}
 
+From Jedis 8.1.0, `sync()` throws the exception if reading the replies fails,
+for example with a `JedisConnectionException` after a read timeout. Each
+`Response` whose reply was lost throws the same error from `get()`. A
+`ClusterPipeline` reads the replies from every node before it throws, so the
+responses from healthy nodes stay readable. Earlier versions of `ClusterPipeline`
+only logged the failure.
+
+Don't resend a failed pipeline unchanged, because the server may already have run
+some of its commands. After a failed `sync()` on a single-node pipeline, close the
+pipeline, because its connection is no longer usable.
+
 ## Execute a transaction
 
 A transaction works in a similar way to a pipeline. Create a
