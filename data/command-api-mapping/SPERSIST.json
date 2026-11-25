@@ -88,6 +88,27 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "spersist(string $key, array $members)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -187,6 +187,37 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "sexpireat(string $key, int $unixTimeSeconds, array $members, ?string $flag = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$unixTimeSeconds",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "?string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

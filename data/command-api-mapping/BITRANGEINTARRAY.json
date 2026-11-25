@@ -177,6 +177,47 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "bitrangeintarray(string $key, int $start, int $end, ?string $index = null, ?int $limit = null, bool $zeros = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "?string",
+            "description": ""
+          },
+          {
+            "name": "$limit",
+            "type": "?int",
+            "description": ""
+          },
+          {
+            "name": "$zeros",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

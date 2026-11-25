@@ -187,6 +187,37 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "spexpireat(string $key, int $unixTimeMilliseconds, array $members, ?string $flag = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$unixTimeMilliseconds",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "?string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -167,6 +167,37 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "zmovemember(string $source, string $destination, array $members, ?string $condition = null)",
+        "params": [
+          {
+            "name": "$source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$condition",
+            "type": "?string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
     ]
   }
 }
