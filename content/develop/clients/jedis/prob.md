@@ -175,6 +175,37 @@ large numbers of items. Use CMS objects to keep daily counts of
 items sold, accesses to individual web pages on your site, and
 other similar statistics.
 
+#### Choose a cell size and decrement counts
+
+From Redis 8.12 and Jedis 8.1.0, you can choose the size of each counter
+in a Count-min sketch. A smaller cell uses less memory but overflows at a
+lower count. To choose a size, pass a `CmsCellSize` as the last argument of
+[`cmsInitByDim()`](/content/commands/cms.initbydim.md) or
+[`cmsInitByProb()`](/content/commands/cms.initbyprob.md). The options are
+`ONE_BYTE`, `TWO_BYTES`, `FOUR_BYTES` (the default) and `EIGHT_BYTES`.
+[`cmsInfo()`](/content/commands/cms.info.md) reports the size as `cell_size`:
+
+```java
+jedis.cmsInitByDim("items", 2000, 5, CmsCellSize.ONE_BYTE);
+
+Map<String, Object> info = jedis.cmsInfo("items");
+System.out.println(info.get("cell_size")); // >>> 1
+```
+
+[`cmsIncrBy()`](/content/commands/cms.incrby.md) also accepts negative
+increments, which lower a count:
+
+```java
+jedis.cmsIncrBy("items", Map.of("bike:1", 5L));
+List<Long> counts = jedis.cmsIncrBy("items", Map.of("bike:1", -3L));
+System.out.println(counts); // >>> [2]
+```
+
+An increment that would push a counter above its cell's maximum, or below zero,
+throws a `JedisDataException` with the message `CMS: INCRBY overflow` or
+`CMS: INCRBY underflow`, and the count doesn't change. Older servers reject
+the cell size option and negative increments with a server error.
+
 ### Quantiles
 
 A [quantile](https://en.wikipedia.org/wiki/Quantile) is the value
