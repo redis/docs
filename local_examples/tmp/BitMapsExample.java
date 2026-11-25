@@ -166,6 +166,10 @@ public class BitMapsExample {
         assertEquals(0b10100101, res15[0] & 0xFF);
         // REMOVE_END
 
+        // REMOVE_START
+        jedis.del("members");
+        // REMOVE_END
+
         // STEP_START bitrangeintarray
         jedis.configSet("bitmap-default-roaring", "yes");
 
