@@ -196,6 +196,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "armset(key, *pairs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*pairs",
+            "type": "Integer, String, Array<Integer, String>, Array<Array(Integer, String)>, Hash{Integer => String}",
+            "description": "index-value pairs: as alternating index/value arguments, a single flat array, one array per pair, or a Hash"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of previously empty slots that were set"
+        }
+      }
     ]
   }
 }

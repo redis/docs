@@ -366,6 +366,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vrandmember(key, count = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "number of elements to return; positive for distinct elements, negative to allow duplicates"
+          }
+        ],
+        "returns": {
+          "type": "String, Array<String>, nil",
+          "description": "a single element (or nil for a missing key) without count; an array of elements (empty for a missing key) with count"
+        }
+      }
     ]
   }
 }

@@ -253,6 +253,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arinsert(key, *values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "String",
+            "description": "one or more values to insert"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the last index where a value was inserted"
+        }
+      }
     ]
   }
 }

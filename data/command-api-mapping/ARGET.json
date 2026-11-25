@@ -177,6 +177,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arget(key, index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "Integer",
+            "description": "zero-based index of the element to retrieve"
+          }
+        ],
+        "returns": {
+          "type": "String, nil",
+          "description": "the value at the given index, or `nil` if the key does not exist or the index holds no value"
+        }
+      }
     ]
   }
 }

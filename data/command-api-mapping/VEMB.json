@@ -450,6 +450,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vemb(key, element, raw: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "name of the element whose vector to retrieve"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "return the raw internal representation instead"
+          }
+        ],
+        "returns": {
+          "type": "Array<Float>, Hash, nil",
+          "description": "the vector as an array of Floats; with `raw: true` a Hash with `\"quantization\"`, `\"raw\"` (blob), `\"l2\"` and, for q8 sets, `\"range\"` keys; nil if the key or element does not exist"
+        }
+      }
     ]
   }
 }

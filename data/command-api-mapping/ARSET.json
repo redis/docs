@@ -313,6 +313,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arset(key, index, *values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "Integer",
+            "description": "zero-based index at which to start writing"
+          },
+          {
+            "name": "*values",
+            "type": "String",
+            "description": "one or more values stored at consecutive indices beginning at `index`"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of previously empty slots that were set"
+        }
+      }
     ]
   }
 }

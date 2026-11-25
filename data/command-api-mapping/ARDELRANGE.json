@@ -268,6 +268,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ardelrange(key, *ranges)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*ranges",
+            "type": "Integer, Array<Integer>",
+            "description": "one or more start/stop pairs, as flat alternating integers or one array per range"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of elements deleted"
+        }
+      }
     ]
   }
 }

@@ -237,6 +237,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arinfo(key, full: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "full",
+            "type": "Boolean",
+            "description": "include per-slice statistics"
+          }
+        ],
+        "returns": {
+          "type": "Hash{String => Integer, Float}",
+          "description": "metadata fields such as `count`, `len`, `next-insert-index` and `slices`; with `full:` the `avg-*` slice statistics are returned as `Float`"
+        }
+      }
     ]
   }
 }

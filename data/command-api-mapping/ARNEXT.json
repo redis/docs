@@ -137,6 +137,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arnext(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer, nil",
+          "description": "the next insert index (0 for missing keys or before any insert), or `nil` when the insertion cursor is exhausted"
+        }
+      }
     ]
   }
 }

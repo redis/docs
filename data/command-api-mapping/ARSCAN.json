@@ -363,6 +363,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arscan(key, start, stop, limit: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "zero-based start index (inclusive)"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "zero-based end index (inclusive)"
+          },
+          {
+            "name": "limit",
+            "type": "Integer",
+            "description": "cap on the number of elements returned; all populated elements in range are returned when omitted"
+          }
+        ],
+        "returns": {
+          "type": "Array<Array(Integer, String)>",
+          "description": "`[index, value]` pairs in traversal order; empty when the key does not exist"
+        }
+      }
     ]
   }
 }

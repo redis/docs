@@ -297,6 +297,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vgetattr(key, element, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "name of the element whose attributes to retrieve"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "return the JSON string without parsing it"
+          }
+        ],
+        "returns": {
+          "type": "Object, String, nil",
+          "description": "the parsed attributes (or the JSON string with `raw: true`); nil if the key or element does not exist or has no attributes"
+        }
+      }
     ]
   }
 }

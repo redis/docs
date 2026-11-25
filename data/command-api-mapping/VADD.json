@@ -850,6 +850,62 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vadd(key, vector, element, reduce: nil, cas: nil, quantization: nil, ef: nil, attributes: nil, m: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "vector",
+            "type": "Array<Numeric>, String",
+            "description": "the vector as an array of numbers, or a little-endian FP32 blob"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "name of the element being added"
+          },
+          {
+            "name": "reduce",
+            "type": "Integer",
+            "description": "project the vector down to this number of dimensions"
+          },
+          {
+            "name": "cas",
+            "type": "Boolean",
+            "description": "collect neighbor candidates in a background thread, check-and-set style"
+          },
+          {
+            "name": "quantization",
+            "type": "Symbol, String",
+            "description": "one of `:noquant`, `:q8` (the default) or `:bin`"
+          },
+          {
+            "name": "ef",
+            "type": "Integer",
+            "description": "build-time exploration factor (default 200)"
+          },
+          {
+            "name": "attributes",
+            "type": "Hash, String",
+            "description": "attributes associated with the element, as an object serialized to JSON or a pre-encoded JSON string"
+          },
+          {
+            "name": "m",
+            "type": "Integer",
+            "description": "maximum number of connections per graph node (default 16)"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the element was added"
+        }
+      }
     ]
   }
 }

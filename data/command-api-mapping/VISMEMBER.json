@@ -77,6 +77,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "vismember(key, element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "name of the element to check for membership"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the element exists in the vector set; false if the key does not exist"
+        }
+      }
     ]
   }
 }

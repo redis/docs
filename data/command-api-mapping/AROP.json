@@ -857,6 +857,42 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "arop(key, start, stop, operation, value: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "zero-based index of the first element (inclusive); the range is always scanned from the lower to the higher index"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "zero-based index of the last element (inclusive)"
+          },
+          {
+            "name": "operation",
+            "type": "Symbol, String",
+            "description": "one of `:sum`, `:min`, `:max`, `:and`, `:or`, `:xor`, `:match`, `:used`"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": "the value to compare against (required for `:match`)"
+          }
+        ],
+        "returns": {
+          "type": "Float, Integer, nil",
+          "description": "the aggregate result: a Float for `:sum`/`:min`/`:max`, an Integer otherwise; `nil` when no elements qualify"
+        }
+      }
     ]
   }
 }
