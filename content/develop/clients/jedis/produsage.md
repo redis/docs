@@ -32,6 +32,7 @@ progress in implementing the recommendations.
 - [ ] [Health checks](#health-checks)
 - [ ] [Exception handling](#exception-handling)
 - [ ] [DNS cache and Redis](#dns-cache-and-redis)
+- [ ] [Smart client handoffs](#smart-client-handoffs)
 ```
 
 ## Recommendations
@@ -182,3 +183,24 @@ Use the following code to disable the DNS cache:
 java.security.Security.setProperty("networkaddress.cache.ttl","0");
 java.security.Security.setProperty("networkaddress.cache.negative.ttl", "0");
 ```
+
+### Smart client handoffs
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Software servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+
+See [Smart client handoffs](/content/develop/clients/sch.md)
+for more information about SCH and
+[Connect using Smart client handoffs](/content/develop/clients/jedis/connect.md#connect-using-smart-client-handoffs-sch)
+for example code. When you use SCH, note the following:
+
+- After the server moves an endpoint, Jedis reconnects using the endpoint name
+  you configured. The JVM caches successful DNS lookups for 30 seconds by default,
+  which can be longer than the grace period. Lower the cache time as described in
+  [DNS cache and Redis](#dns-cache-and-redis).
+- While a maintenance window is open, a dead connection can take up to
+  `relaxedTimeout` to be reported. For blocking commands the default
+  `relaxedBlockingTimeout` is 0 (no timeout), so set a finite value if
+  blocking commands must fail within a bound.

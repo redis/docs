@@ -17,6 +17,7 @@ relatedPages:
 - /develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch
 - /develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch
 - /develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch
+- /develop/clients/jedis/connect#connect-using-smart-client-handoffs-sch
 - /develop/clients/go/connect#connect-using-smart-client-handoffs-sch
 - /develop/clients/dotnet/connect#connect-using-smart-client-handoffs-sch
 topics:
@@ -73,6 +74,7 @@ Standard routing covers any connection that doesn't use the OSS Cluster API.
 | [redis-py](/content/develop/clients/redis-py/connect.md#connect-using-smart-client-handoffs-sch) | v7.0.0 | v7.2.0 |
 | [node-redis](/content/develop/clients/nodejs/connect.md#connect-using-smart-client-handoffs-sch) | v5.9.0 | v5.11.0 |
 | [Lettuce](/content/develop/clients/lettuce/connect.md#connect-using-smart-client-handoffs-sch) | v7.0.0 | - |
+| [Jedis](/content/develop/clients/jedis/connect.md#connect-using-smart-client-handoffs-sch) | v8.1.0 | v8.1.0 |
 | [go-redis](/content/develop/clients/go/connect.md#connect-using-smart-client-handoffs-sch) | v9.16.0 | v9.18.0 |
 | [StackExchange.Redis](/content/develop/clients/dotnet/connect.md#connect-using-smart-client-handoffs-sch) | v3.3.0 | v3.3.0 |
 

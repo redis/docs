@@ -205,6 +205,106 @@ public class Main {
 }
 ```
 
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Software servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs](/content/develop/clients/sch.md)
+for more information about SCH.
+
+> [!NOTE]
+> SCH requires Jedis v8.1.0 or later and the
+> [RESP3](/content/develop/reference/protocol-spec.md#resp-versions) protocol.
+> It works with `RedisClient` (standard routing) and `RedisClusterClient`
+> ([OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections).
+> The older `Jedis`, `JedisPool` and `JedisCluster` classes don't support it.
+
+By default, `RedisClient` and `RedisClusterClient` attempt to connect via SCH
+when you select RESP3, but fall back to a non-SCH connection if the server
+doesn't support it. To configure SCH explicitly, pass a
+`MaintenanceNotificationsConfig` object to the builder's
+`maintenanceNotifications()` method:
+
+```java
+RedisClient jedis = RedisClient.builder()
+        .hostAndPort(new HostAndPort("localhost", 6379))
+        .clientConfig(DefaultJedisClientConfig.builder()
+                .protocol(RedisProtocol.RESP3)
+                .build())
+        .maintenanceNotifications(MaintenanceNotificationsConfig.builder()
+                .mode(MaintenanceNotificationsConfig.Mode.ENABLED)
+                .relaxedTimeout(30_000)
+                .relaxedBlockingTimeout(0)
+                .build())
+        .build();
+```
+
+`RedisClusterClient.builder()` accepts the same `maintenanceNotifications()` method.
+
+The `MaintenanceNotificationsConfig` builder accepts the following parameters:
+
+| Name | Description |
+|------ |------------- |
+| `mode` | Whether or not to enable SCH. The options are `Mode.DISABLED`, `Mode.ENABLED` (require SCH and fail the connection setup if not supported), and `Mode.AUTO` (use SCH if the server supports it and the connection uses RESP3). The default is `Mode.AUTO`. |
+| `relaxedTimeout` | The socket read timeout, in milliseconds, for non-blocking commands while the server is performing maintenance. The default is 10000. |
+| `relaxedBlockingTimeout` | The socket read timeout, in milliseconds, for blocking commands such as `BLPOP` while the server is performing maintenance. The default is 0 (no timeout). |
+| `relaxedWindowMaxDuration` | A `Duration` after which relaxed timeouts revert on their own if the notification that ends the maintenance is lost. The default is 60 seconds. |
+| `endpointType` | The type of address to request when the server moves an endpoint. The options are `EndpointType.INTERNAL_IP`, `INTERNAL_FQDN`, `EXTERNAL_IP`, `EXTERNAL_FQDN` and `NONE` (reconnect to the configured endpoint). By default, Jedis chooses a type based on the connection. This setting applies to `RedisClient` only. |
+
+Relaxed timeouts never tighten a timeout. While maintenance is in progress, a
+connection uses the looser of the relaxed value and the timeout you configured.
+
+To turn SCH off, pass `MaintenanceNotificationsConfig.DISABLED`:
+
+```java
+RedisClient jedis = RedisClient.builder()
+        .hostAndPort(new HostAndPort("localhost", 6379))
+        .maintenanceNotifications(MaintenanceNotificationsConfig.DISABLED)
+        .build();
+```
+
+> [!NOTE]
+> Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+> [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+> or the OSS Cluster API with [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md)
+> (see [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) for more information).
+> To use relaxed timeouts with these connections, set the `endpointType` to
+> `EndpointType.NONE`. All other configurations have full support for both relaxed timeouts and pre-handoffs.
+
+### How Jedis responds to maintenance
+
+With `RedisClient`, Jedis handles five notifications:
+
+- Before a shard migration (`MIGRATING`) or failover (`FAILING_OVER`), it
+  relaxes the timeouts on the connection that received the notification.
+  It restores them when the matching `MIGRATED` or `FAILED_OVER` notification arrives.
+- When the server moves the endpoint (`MOVING`), it relaxes the timeouts for
+  the whole pool, opens new connections to the new address and retires the
+  connections to the old address. A connection that you hold past the grace
+  period is disconnected by the server, and using it throws a
+  `JedisConnectionException`.
+
+With `RedisClusterClient`, Jedis handles two notifications:
+
+- When a slot migration starts (`SMIGRATING`), it relaxes the timeouts on
+  every connection of the client.
+- When the migration completes (`SMIGRATED`), it updates its slot map in place
+  and drops the connection pool of a node that has no slots left. It doesn't
+  need a `CLUSTER SLOTS` refresh or a `MOVED` redirection to find the new owner.
+  Leave `maxAttempts` at its default so that normal redirection still covers
+  any notification that arrives late or out of order.
+
+Jedis doesn't move a live Pub/Sub subscription. If maintenance ends a subscription,
+the listening loop fails with a `JedisConnectionException` and your code must
+subscribe again.
+
+For `MultiDbClient`, SCH is off by default. To enable it for a database, pass
+a `MaintenanceNotificationsConfig` to `DatabaseConfig.Builder.maintenanceNotificationsConfig()`.
+Maintenance notifications don't trigger a failover themselves, but relaxed
+timeouts help the active database stay usable so that fewer failures reach the circuit breaker.
+
 ## Connect using client-side caching
 
 Client-side caching is a technique to reduce network traffic between
