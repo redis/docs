@@ -10,12 +10,15 @@
    the heights in the widest text column. In a narrower column a long command wraps and the box grows. */
 .dta[data-dta="job-queue"] { min-height: 259px; }
 .dta[data-dta="leaderboard"] { min-height: 316px; }
+.dta[data-dta="pub-sub"] { min-height: 328px; }
 .dta[data-dta="streaming"] { min-height: 343px; }
 
 /* ---- the stage ---- */
 .dta-uc { position: relative; flex: none; }
 .dta-uc-wires { position: absolute; left: 0; top: 0; }
-.dta-uc-wire { fill: none; stroke: var(--dta-line-strong); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 1 5; }
+.dta-uc-wire { fill: none; stroke: var(--dta-line-strong); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 1 5; transition: opacity .3s; }
+/* The wire of an actor that has disconnected. */
+.dta-uc-wire.is-off { opacity: 0; }
 
 /* Whoever sends the commands, such as the application or a worker. */
 .dta-uc-app {
@@ -33,6 +36,8 @@
 /* A store is a card with a label over it that says where the key lives. */
 .dta-uc-store { position: absolute; display: flex; flex-direction: column; gap: 4px; }
 .dta-uc-label { font: 10px/14px var(--dta-mono); letter-spacing: .5px; text-transform: uppercase; color: var(--dta-faint); }
+/* A label that stands by itself, over a part of the drawing. */
+.dta-uc-over { position: absolute; white-space: nowrap; }
 .dta-uc-store .dta-card-h { display: flex; align-items: center; height: 25px; padding-top: 0; padding-bottom: 0; white-space: nowrap; }
 .dta-uc-title { overflow: hidden; text-overflow: ellipsis; }
 .dta-uc-store .dta-rows > .dta-r:last-child { border-bottom-color: transparent; }
@@ -65,6 +70,22 @@
 .dta-uc-lane { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 8px; }
 .dta-uc-lane .dta-cell { padding: 2px 7px; font-size: 11.5px; }
 
+/* ---- pub/sub: the channels and patterns that have subscribers ---- */
+/* Each one is a box on the side of the card, where the wires of its subscribers meet it. It reaches
+   from the wire of its first subscriber to the wire of its last. */
+.dta-uc-subs { position: relative; }
+.dta-uc-sub {
+  position: absolute; right: 0; display: flex; align-items: center; justify-content: center; min-width: 96px; padding: 0 8px;
+  border-right: 0; border-radius: 6px 0 0 6px; font-size: 12px;
+}
+/* Whether it is a channel or a pattern, written beside it where the card has the room. */
+.dta-uc-sub::before {
+  content: attr(data-kind); position: absolute; right: 100%; top: 50%; margin-right: 8px; transform: translateY(-50%);
+  font: 10px/14px var(--dta-mono); color: var(--dta-faint);
+}
+/* The message a subscriber has just received is brighter than one from an earlier step. */
+.dta-uc-app.is-read .dta-uc-line { color: var(--dta-ink); }
+
 /* ---- streaming: an event's ID, and the line that marks a group's place in the stream ---- */
 .dta-uc-id { color: var(--dta-muted); }
 /* In a narrow card, an event shows the end of its ID and no field name. */
@@ -94,6 +115,9 @@
   .dta-uc-group .dta-uc-label { padding-left: 6px; letter-spacing: .2px; }
   .dta-uc-store .dta-card-h { font-size: 10.5px; padding-left: 8px; padding-right: 8px; }
   .dta-uc-store .dta-uc-lane-h { font-size: 9.5px; }
+  .dta-uc-sub { min-width: 84px; padding: 0 6px; font-size: 11px; }
+  .dta-uc-sub::before { content: none; }
+  .dta-uc-over { font-size: 9px; letter-spacing: .2px; }
   .dta-uc-store .dta-r { font-size: 11.5px; column-gap: 8px; padding: 0 8px; }
   .dta-uc-app { font-size: 11px; }
   .dta-uc-line { font-size: 9.5px; }

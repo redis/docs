@@ -21,7 +21,9 @@
                no per-step timing to set. A step with `event` in place of
                `cmd` and `reply` is something that happens outside Redis,
                such as a worker crashing. The console shows that text, and
-               nothing is typed.
+               nothing is typed. When a scene has several clients, `who`
+               names the one that sends the step's command, and the console
+               shows that name before the prompt.
    `c` is the run's context: wait, anim, enter, leave, flip, tween, count,
    mark, and temp. Every one of them does its work without animating when
    the player is fast-forwarding, which is how a click on a step and the
@@ -94,9 +96,10 @@
     root.setAttribute("role", "figure");
     root.setAttribute("aria-label", "Animation of " + scene.label);
 
+    p.who = h("span", "dta-who");
     p.cmd = h("span");
     p.reply = h("div", "dta-reply");
-    p.term = add(h("div", "dta-term"), add(h("div", "dta-cmd"), h("span", "dta-prompt", "> "), p.cmd, h("span", "dta-caret")), p.reply);
+    p.term = add(h("div", "dta-term"), add(h("div", "dta-cmd"), p.who, h("span", "dta-prompt", "> "), p.cmd, h("span", "dta-caret")), p.reply);
     p.dots = scene.steps.map(function (st, i) {
       const b = h("button", "dta-dot");
       b.type = "button";
@@ -165,6 +168,7 @@
     let term = 0, note = 0;
     p.term.style.minHeight = p.note.style.minHeight = "";
     sc.steps.forEach(function (st) {
+      p.who.textContent = st.who || "";
       p.cmd.innerHTML = cmdHtml(st);
       p.reply.innerHTML = replyHtml(st);
       p.note.textContent = st.note || "";
@@ -265,6 +269,7 @@
     c.clear();
     p.dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); d.classList.toggle("is-done", k < i); });
     if (p.note.textContent !== (st.note || "")) p.note.classList.remove("is-on");
+    p.who.textContent = st.who || "";
     p.reply.innerHTML = "";
     p.root.classList.toggle("is-event", !st.cmd);
     if (p.instant || !st.cmd) p.cmd.innerHTML = cmdHtml(st);
