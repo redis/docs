@@ -285,12 +285,6 @@ Replace `disabled` and `preferred` with `disable`, `required` with `trust`, `ver
 `disable` turns off encryption. `trust` requires encryption but doesn't verify the server
 certificate.
 
-### Check PostgreSQL type metadata
-
-PostgreSQL user defined types are reported without their schema, for example `geometry`
-instead of `"inventory"."geometry"`. This changes the metadata that RDI reports, without any
-change to your configuration.
-
 ### Check SQL Server jobs that read previous values
 
 When an update leaves a large column unchanged, SQL Server change data capture doesn't record
