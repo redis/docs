@@ -381,7 +381,7 @@ The key, start, and end are required. Ranges follow `BITCOUNT`: byte offsets by
 default, bit offsets with `BIT`, and negative indexes count from the end.
 Returned offsets are always bit offsets.
 
-{{< clients-example set="bitmap_tutorial" step="bitrangeintarray" lang_filter="Python, Go, PHP" description="Offset retrieval: Use BITRANGEINTARRAY to list set-bit or clear-bit offsets in a range and to page through them with LIMIT when you need the positions of bits, not just a count" difficulty="intermediate" buildsUpon="ping" runnable="false" try_it="false" >}}
+{{< clients-example set="bitmap_tutorial" step="bitrangeintarray" lang_filter="Python, Go, PHP, Java-Sync" description="Offset retrieval: Use BITRANGEINTARRAY to list set-bit or clear-bit offsets in a range and to page through them with LIMIT when you need the positions of bits, not just a count" difficulty="intermediate" buildsUpon="ping" runnable="false" try_it="false" >}}
 > CONFIG SET bitmap-default-roaring yes
 OK
 > SETBIT members 1 1

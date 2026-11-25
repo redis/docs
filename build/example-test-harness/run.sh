@@ -272,6 +272,7 @@ legacy_src_path() {
     ss_tutorial:node)            echo local_examples/tmp/datatypes/sorted-sets/dt-ss.js ;;
     ss_tutorial:go)              echo local_examples/tmp/datatypes/sorted-sets/ss_tutorial_test.go ;;
     ss_tutorial:jedis)           echo local_examples/tmp/datatypes/sorted-sets/SortedSetsExample.java ;;
+    bitmap_tutorial:jedis)       echo local_examples/tmp/BitMapsExample.java ;;
     ss_tutorial:ruby)            echo local_examples/ruby/dt_sorted_sets.rb ;;
     ss_tutorial:rust-sync)       echo local_examples/rust-sync/dt-sorted-sets.rs ;;
     ss_tutorial:rust-async)      echo local_examples/rust-async/dt-sorted-sets.rs ;;
