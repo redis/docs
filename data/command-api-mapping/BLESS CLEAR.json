@@ -88,6 +88,27 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "long blessClear(String key, BlessFlag flag)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "flag",
+            "type": "BlessFlag",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
     ]
   }
 }

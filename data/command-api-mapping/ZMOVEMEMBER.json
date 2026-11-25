@@ -198,6 +198,114 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "Tuple zmovemember(String srcKey, String dstKey, String member)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Tuple",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zmovemember(String srcKey, String dstKey, String... members)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Tuple zmovemember(String srcKey, String dstKey, ZMoveMemberParams params, String member)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "ZMoveMemberParams",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Tuple",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zmovemember(String srcKey, String dstKey, ZMoveMemberParams params, String... members)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "ZMoveMemberParams",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      }
     ]
   }
 }

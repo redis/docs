@@ -46,6 +46,35 @@
           "type": "String",
           "description": "OK"
         }
+      },
+      {
+        "signature": "String cmsInitByDim(String key, long width, long depth, CmsCellSize cellSize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "width",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "depth",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "cellSize",
+            "type": "CmsCellSize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
       }
     ],
     "go-redis": [

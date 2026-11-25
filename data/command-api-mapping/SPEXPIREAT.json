@@ -218,6 +218,114 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "long spexpireAt(String key, long unixTimeMilliseconds, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long spexpireAt(String key, long unixTimeMilliseconds, ExpiryOption condition, String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> spexpireAt(String key, long unixTimeMilliseconds, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> spexpireAt(String key, long unixTimeMilliseconds, ExpiryOption condition, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
     ]
   }
 }

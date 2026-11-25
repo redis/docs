@@ -68,6 +68,22 @@
           "description": ""
         }
       }
+    ],
+    "jedis": [
+      {
+        "signature": "List<BlessFlag> blessGet(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<BlessFlag>",
+          "description": ""
+        }
+      }
     ]
   }
 }

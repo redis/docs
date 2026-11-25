@@ -126,6 +126,30 @@
           "type": "Object",
           "description": ""
         }
+      },
+      {
+        "signature": "List<String> jsonArrPopRaw(String key, Path2 path, int index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path2",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
       }
     ],
     "lettuce_sync": [

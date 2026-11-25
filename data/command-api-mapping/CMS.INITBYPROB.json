@@ -46,6 +46,35 @@
           "type": "String",
           "description": "OK"
         }
+      },
+      {
+        "signature": "String cmsInitByProb(String key, double error, double probability, CmsCellSize cellSize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "error",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "probability",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "cellSize",
+            "type": "CmsCellSize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
       }
     ],
     "go-redis": [
