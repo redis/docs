@@ -19,6 +19,7 @@ topics:
 - health checks
 relatedPages:
 - /develop/clients/dotnet/failover
+- /develop/clients/go/failover
 - /develop/clients/jedis/failover
 - /develop/clients/redis-py/failover
 scope: overview
@@ -39,6 +40,7 @@ along with their release state and available features.
 | Client | Basic failover | Pub/sub failover | OSS Cluster failover | Failback |
 | :-- | :-- | :-- | :-- | :-- |
 | [Jedis](/content/develop/clients/jedis/failover.md) | Yes | No | No | Yes |
+| [go-redis](/content/develop/clients/go/failover.md) | Yes (Preview) | Yes | Yes | Yes |
 | [redis-py](/content/develop/clients/redis-py/failover.md) | Yes  (Preview) | Yes | Yes | Yes |
 | [Lettuce](/content/develop/clients/lettuce/failover.md) | Yes | Yes | No | Yes |
 | [StackExchange.Redis](/content/develop/clients/dotnet/failover.md) | Yes | Yes | Yes | Yes |
