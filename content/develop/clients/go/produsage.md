@@ -195,8 +195,8 @@ Use the following fields of `Options` to size the pipeline pool:
 
 | Field | Description |
 | :---- | :---------- |
-| `PipelinePoolSize` | Number of connections the pipeline pool keeps. Defaults to 10. Set it to `0` to use the default number of connections, or to `-1` to disable the separate pipeline pool (which means connections are allocated to pipelines from the main pool). |
-| `PipelineMinIdleConns` | Minimum number of idle connections that the pipeline pool keeps, like `MinIdleConns` for the main pool. Defaults to 0, so an idle pipeline pool holds no connections. The connections are dialed in advance, but `go-redis` runs the connection handshake only on first use. Available in v9.24.0 or later. |
+| `PipelinePoolSize` | Number of connections the pipeline pool keeps. Defaults to 10. Set it to `0` to use the default number of connections, or to `-1` to disable the separate pipeline pool (which means connections are allocated to pipelines from the main pool). A [full-duplex autopipeliner](/content/develop/clients/go/autopipeline.md#full-duplex-mode) needs at least as many connections as it has pipes. |
+| `PipelineMinIdleConns` | Minimum number of idle connections that the pipeline pool keeps, like `MinIdleConns` for the main pool. Defaults to 0, so an idle pipeline pool holds no connections. The connections are dialed in advance, but `go-redis` runs the connection handshake only on first use. A [full-duplex autopipeliner](/content/develop/clients/go/autopipeline.md#full-duplex-mode) raises it to 1 unless you set a negative value. Available in v9.24.0 or later. |
 | `PipelineReadBufferSize` | Size of the read buffer for each pipeline connection. Defaults to the larger of `ReadBufferSize` and 128 KiB, because a batch of commands can return many replies in a single round trip. If the value is set smaller than the minimum required by the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions) protocol for push messages then that minimum is used instead. |
 | `PipelineWriteBufferSize` | Size of the write buffer for each pipeline connection. Defaults to the larger of `WriteBufferSize` and 128 KiB. |
 
