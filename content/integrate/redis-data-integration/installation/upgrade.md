@@ -179,7 +179,7 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 > described in [Uninstall RDI](/content/integrate/redis-data-integration/installation/install-k8s.md#uninstall-rdi),
 > and then install the old version.
 
-## Upgrading an HA installation or a DR setup
+## Upgrading and downgrading HA and DR setups
 
 An HA installation and a DR setup each have two RDI instances that use leader election. Only the
 leader runs the pipelines. Upgrade the leader first, and upgrade the other instance only after
