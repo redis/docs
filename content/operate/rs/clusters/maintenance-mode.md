@@ -12,6 +12,9 @@ weight: 60
 
 Use maintenance mode to prevent data loss during hardware patching or operating system maintenance on Redis Software servers. When maintenance mode is on, all shards move off of the node under maintenance and migrate to another available node.
 
+> [!NOTE]
+> Maintenance mode is temporary. Do not use it to create a quorum node. To configure a node that permanently participates only in cluster quorum, see [Set up a quorum node](/content/operate/rs/clusters/quorum-node.md).
+
 ## Activate maintenance mode
 
 When you activate maintenance mode, Redis Software does the following:
@@ -23,7 +26,7 @@ When you activate maintenance mode, Redis Software does the following:
 
 1. If no maintenance mode snapshots already exist or if you use `overwrite_snapshot` when you activate maintenance mode, Redis Software creates a new node snapshot that records the node's shard and endpoint configuration.
 
-1. Marks the node as a quorum node to prevent shards and endpoints from migrating to it.
+1. Temporarily sets the node to quorum-only, which prevents shards and endpoints from migrating to it.
 
     At this point, [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md) displays the node's shards field in yellow, which indicates that shards cannot migrate to the node.
 
@@ -87,7 +90,7 @@ When you deactivate maintenance mode, Redis Software:
 
 1. Loads a [specified node snapshot](#specify-a-snapshot) or defaults to the latest maintenance mode snapshot.
 
-1. Unmarks the node as a quorum node to allow shards and endpoints to migrate to the node.
+1. Removes the temporary quorum-only setting to allow shards and endpoints to migrate to the node.
 
 1. Restores the shards and endpoints that were in the node at the time of the snapshot.
 
@@ -139,6 +142,11 @@ In extreme cases, you may need to reset a node's status.  Run the following comm
 $ rladmin tune node <node_id> max_listeners 100
 $ rladmin tune node <node_id> quorum_only disabled
 ```
+
+The `quorum_only disabled` command clears the quorum-only setting that maintenance mode applied to the node.
+
+> [!WARNING]
+> Do not run these commands on a node you configured as a permanent [quorum node](/content/operate/rs/clusters/quorum-node.md). Disabling `quorum_only` allows shards and endpoints to migrate to that node.
 
 Use these commands with caution.  For best results, contact Support before running these commands.
 
