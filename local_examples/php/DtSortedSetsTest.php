@@ -180,5 +180,36 @@ extends PredisTestCase
         $this->assertEquals(150, $res19);
         $this->assertEquals(200, $res20);
         // REMOVE_END
+
+        // STEP_START zmove
+        $r->del('bookmarks:{user:42}', 'batch:{user:42}:001');
+
+        $res21 = $r->zadd('bookmarks:{user:42}', [
+            'page:1' => 1699990000,
+            'page:2' => 1699995000,
+            'page:3' => 1700000500,
+        ]);
+        echo $res21 . PHP_EOL;
+        // >>> 3
+
+        $res22 = $r->zmove('bookmarks:{user:42}', 'batch:{user:42}:001', ['-inf', '(1700000000'], 500);
+        echo json_encode($res22) . PHP_EOL;
+        // >>> {"page:1":1699990000,"page:2":1699995000}
+
+        $res23 = $r->zrange('bookmarks:{user:42}', 0, -1, ['withscores' => true]);
+        echo json_encode($res23) . PHP_EOL;
+        // >>> {"page:3":"1700000500"}
+
+        $res24 = $r->zrange('batch:{user:42}:001', 0, -1, ['withscores' => true]);
+        echo json_encode($res24) . PHP_EOL;
+        // >>> {"page:1":"1699990000","page:2":"1699995000"}
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals(3, $res21);
+        $this->assertEquals(['page:1' => 1699990000.0, 'page:2' => 1699995000.0], $res22);
+        $this->assertEquals(['page:3' => 1700000500.0], $res23);
+        $this->assertEquals(['page:1' => 1699990000.0, 'page:2' => 1699995000.0], $res24);
+        $r->del('bookmarks:{user:42}', 'batch:{user:42}:001');
+        // REMOVE_END
     }
 }
