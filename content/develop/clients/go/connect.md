@@ -272,6 +272,10 @@ for more information about how client-side caching works and how to use it effec
 >
 > The tracking modes, the cache predicate, cluster support, and ephemeral
 > connections described below require go-redis v9.24.0 or later.
+>
+> Commands that go through a
+> [full-duplex autopipeliner](/content/develop/clients/go/autopipeline.md#full-duplex-mode)
+> never read from or write to the cache.
 
 To enable client-side caching, pass a `ClientSideCacheConfig` object when you
 connect. Passing an empty `ClientSideCacheConfig{}`

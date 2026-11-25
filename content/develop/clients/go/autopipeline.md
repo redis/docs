@@ -146,8 +146,10 @@ The configuration options are:
 | `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` to be greater than 0. Defaults to `false`. |
 | `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` set to `true` because concurrent batches do not preserve a single ordered stream. |
 | `Unordered` | Allows commands to execute without preserving a single ordered stream, which enables higher concurrency. |
-| `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, values greater than 1 require `Unordered` to be set to `true`. |
+| `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, values greater than 1 require `Unordered` to be set to `true`. In [full-duplex mode](#full-duplex-mode), `NumShards` is the older spelling of `FullDuplexPipes` and doesn't require `Unordered`. |
 | `MaxQueuedCommands` | Maximum number of commands the autopipeliner has accepted but not yet completed. A command submitted at the limit fails immediately with `ErrAutoPipelineQueueFull` instead of being queued, which bounds client memory when the server is slower than your goroutines. Because each command is rejected separately, a later command can succeed after an earlier one failed, so check the error of any command that a later one depends on. Defaults to 0, meaning no limit. Requires v9.23.0 or later. |
+
+The [full-duplex](#full-duplex-mode) options are described in their own section.
 
 `MaxBatchSize` is the one default that differs between the two methods. If you
 set no options at all, `AutoPipeline()` uses a built-in preset that targets 300
@@ -187,6 +189,89 @@ Commands that must reach every node or shard, such as
 [`FLUSHALL`](/content/commands/flushall.md), cannot be added to a pipeline, so
 the cluster client rejects them with an error rather than let them spoil a
 batch shared with other callers. Run them on the plain client instead.
+
+## Full-duplex mode
+
+Full-duplex mode helps when many goroutines issue commands over a
+high-latency link, such as a cross-region connection. By default, the engine
+sends one batch per round trip. In full-duplex mode, the engine holds a
+connection from the
+[pipeline pool](/content/develop/clients/go/produsage.md#connection-pooling)
+and runs a writer goroutine and a reader goroutine on it. The writer streams
+commands while the reader collects replies, so each command completes in about
+one round-trip time (RTT) without waiting for a batch to finish. Each of these
+held connections is a *pipe*.
+
+On a low-latency link, such as loopback, there is no RTT to overlap, so the
+default mode is usually faster. A single blocking caller gains nothing either,
+because it has only one command in flight. Full-duplex mode requires v9.23.0
+or later.
+
+Set `FullDuplex` to enable it. It works with both `AutoPipeline()` and
+`AsyncAutoPipeline()`, and it requires the default ordered stream, so it can't
+be combined with `Unordered` or `MaxConcurrentBatches` greater than 1:
+
+```go
+rdb := redis.NewClient(&redis.Options{
+    Addr: "localhost:6379",
+    AutoPipelineOptions: &redis.AutoPipelineOptions{
+        FullDuplex:      true,
+        FullDuplexPipes: 4, // Optional; requires v9.24.0 or later.
+    },
+})
+```
+
+The full-duplex options are:
+
+| Field | Description |
+| :---- | :---------- |
+| `FullDuplex` | Enables full-duplex mode. Defaults to `false`. |
+| `FullDuplexPipes` | Number of pipes on a standalone client. Defaults to 0, which means one pipe. More pipes raise the throughput ceiling, but they pay off only with many concurrent callers, and they are slower than one pipe with few callers. Raise it only when one pipe is saturated. Requires v9.24.0 or later. |
+| `FullDuplexWindow` | Maximum number of commands that a pipe can write without receiving acknowledgement. When a pipe reaches the limit, it stops writing until replies arrive. Set it above the number of commands in flight at your RTT and target rate, or it limits throughput. The limit applies to each pipe separately. Defaults to 65536. |
+| `FullDuplexIdleTimeout` | How long an idle pipe keeps its connection before it returns the connection to the pool. Defaults to 1 second. |
+| `FullDuplexMaxHold` | Longest time a pipe keeps its connection under continuous load before it returns the connection to the pool. The pool then runs its per-connection work, such as re-authentication. Defaults to 5 seconds. |
+| `NumShards` | The older name for `FullDuplexPipes`, kept for backward compatibility. If you set both to different values, the options are invalid. |
+
+### Ordering
+
+The client routes each command to a pipe by a hash of its first key. The ordering
+holds only between commands that share a first key. Commands on other keys, such
+as the second key of [`RENAME`](/content/commands/rename.md), and commands
+without keys aren't ordered against the rest. Ensure you pass a key as the same Go type
+every time, because the client hashes it in its string form, which means that equivalent values like `true` and
+`"1"` can land on different pipes.
+
+If a command depends on an earlier one, wait for the earlier command's result
+before you submit the later one. Alternatively, keep `FullDuplexPipes` at 1, which keeps
+the whole submit order.
+
+### Pool size and the idle spare
+
+The pipeline pool must hold at least `FullDuplexPipes` connections. If you use
+both `AutoPipeline()` and `AsyncAutoPipeline()` then each will hold its own pipes, so
+size the pool for both. `AutoPipeline()` returns an error that names both
+numbers if the pool is too small. Raise `PipelinePoolSize` to fix it.
+
+A full-duplex autopipeliner also raises `PipelineMinIdleConns` to 1, so the
+pool keeps one dialed spare connection. This means that if a pipe's connection fails, the
+replacement doesn't need to wait for a new TCP or TLS connection. The spare adds one
+idle connection per client, or per node on a cluster, and it is added only when
+the pool has room for it next to the pipes. Set `PipelineMinIdleConns` to a
+negative value to opt out. This requires v9.24.0 or later.
+
+### Cluster and MultiDB clients
+
+On a `ClusterClient`, full-duplex mode keeps one pipe for each master node and
+ignores `FullDuplexPipes`. It sends each command to the pipe of the node that
+owns its slot. If a pipe's session drops, the unacknowledged commands go
+through the cluster router, so they reach the new owner of the slot. Before
+v9.24.0, they were retried only on the same node. If you set `ReadOnly`,
+`RouteByLatency`, or `RouteRandomly`, the client doesn't use full-duplex mode
+and falls back to the default mode.
+
+A `MultiDBClient` keeps one pipe for each member and also ignores
+`FullDuplexPipes`.
+<!-- TODO(DOC-7350): link MultiDBClient to the MultiDB page once it is merged. -->
 
 ## Caveats and limitations
 
