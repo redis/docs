@@ -269,9 +269,8 @@ v9.24.0, they were retried only on the same node. If you set `ReadOnly`,
 `RouteByLatency`, or `RouteRandomly`, the client doesn't use full-duplex mode
 and falls back to the default mode.
 
-A `MultiDBClient` keeps one pipe for each member and also ignores
-`FullDuplexPipes`.
-<!-- TODO(DOC-7350): link MultiDBClient to the MultiDB page once it is merged. -->
+A [`MultiDBClient`](/content/develop/clients/go/failover.md) keeps one pipe for
+each member and also ignores `FullDuplexPipes`.
 
 ## Caveats and limitations
 
