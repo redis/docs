@@ -205,5 +205,47 @@ assert.equal(res23, 1)
 assert.equal(res24, 1)
 assert.deepEqual(res25, [900, 900, -1])
 await client.del('bikes:reserved')
+// REMOVE_END
+
+// STEP_START member_expiration_ms
+await client.del('bikes:reserved')
+await client.sAdd('bikes:reserved', ['bike:1', 'bike:2'])
+
+const res26 = await client.spExpire('bikes:reserved', 'bike:1', 60000)
+console.log(res26)  // >>> [ 1 ]
+
+const res27 = await client.spTTL('bikes:reserved', ['bike:1', 'bike:2'])
+console.log(res27)  // >>> [ 59994, -1 ] (for example)
+
+const res28 = await client.sPersist('bikes:reserved', 'bike:1')
+console.log(res28)  // >>> [ 1 ]
+
+const res29 = await client.spTTL('bikes:reserved', 'bike:1')
+console.log(res29)  // >>> [ -1 ]
+// STEP_END
+
+// REMOVE_START
+assert.deepEqual(res26, [1])
+assert.deepEqual(res28, [1])
+assert.deepEqual(res29, [-1])
+await client.del('bikes:reserved')
+// REMOVE_END
+
+// STEP_START member_expiration_at
+await client.del('bikes:reserved')
+await client.sAdd('bikes:reserved', ['bike:1', 'bike:2'])
+
+// 4102444800 is an example Unix time in the future.
+const res30 = await client.sExpireAt('bikes:reserved', 'bike:1', 4102444800)
+console.log(res30)  // >>> [ 1 ]
+
+const res31 = await client.sExpireTime('bikes:reserved', ['bike:1', 'bike:2'])
+console.log(res31)  // >>> [ 4102444800, -1 ]
+// STEP_END
+
+// REMOVE_START
+assert.deepEqual(res30, [1])
+assert.deepEqual(res31, [4102444800, -1])
+await client.del('bikes:reserved')
 await client.close()
 // REMOVE_END

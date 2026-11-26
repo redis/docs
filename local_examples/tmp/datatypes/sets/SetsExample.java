@@ -211,6 +211,48 @@ public class SetsExample {
         jedis.del("bikes:reserved");
         // REMOVE_END
 
+        // STEP_START member_expiration_ms
+        jedis.del("bikes:reserved");
+        jedis.sadd("bikes:reserved", "bike:1", "bike:2");
+
+        long res26 = jedis.spexpire("bikes:reserved", 60000, "bike:1");
+        System.out.println(res26);  // >>> 1
+
+        List<Long> res27 = jedis.spttl("bikes:reserved", "bike:1", "bike:2");
+        System.out.println(res27);  // >>> [59994, -1] (for example)
+
+        long res28 = jedis.spersist("bikes:reserved", "bike:1");
+        System.out.println(res28);  // >>> 1
+
+        long res29 = jedis.spttl("bikes:reserved", "bike:1");
+        System.out.println(res29);  // >>> -1
+        // STEP_END
+
+        // REMOVE_START
+        assertEquals(1, res26);
+        assertEquals(1, res28);
+        assertEquals(-1, res29);
+        jedis.del("bikes:reserved");
+        // REMOVE_END
+
+        // STEP_START member_expiration_at
+        jedis.del("bikes:reserved");
+        jedis.sadd("bikes:reserved", "bike:1", "bike:2");
+
+        // 4102444800 is an example Unix time in the future.
+        long res30 = jedis.sexpireAt("bikes:reserved", 4102444800L, "bike:1");
+        System.out.println(res30);  // >>> 1
+
+        List<Long> res31 = jedis.sexpireTime("bikes:reserved", "bike:1", "bike:2");
+        System.out.println(res31);  // >>> [4102444800, -1]
+        // STEP_END
+
+        // REMOVE_START
+        assertEquals(1, res30);
+        assertEquals(List.of(4102444800L, -1L), res31);
+        jedis.del("bikes:reserved");
+        // REMOVE_END
+
         // HIDE_START
         jedis.close();
         // HIDE_END
