@@ -182,5 +182,67 @@ raise 'Expected SPOP to return one member' unless res20
 raise 'Expected three members after SREM and SPOP' unless res21.length == 3
 raise 'Expected popped member to be removed' if res21.include?(res20)
 raise 'Expected random member to come from the set' unless res21.include?(res22)
+# REMOVE_END
+
+# STEP_START member_expiration
+r.del('bikes:reserved')
+
+res23 = r.saddex('bikes:reserved', 'bike:1', 'bike:2', ex: 900)
+puts res23 # >>> 1
+
+res24 = r.sadd('bikes:reserved', 'bike:3')
+puts res24 # >>> 1
+
+res25 = r.sttl('bikes:reserved', 'bike:1', 'bike:2', 'bike:3')
+puts res25.inspect # >>> [900, 900, -1]
+# STEP_END
+
+# REMOVE_START
+assert_equal(1, res23)
+assert_equal(1, res24)
+assert_equal([900, 900, -1], res25)
+r.del('bikes:reserved')
+# REMOVE_END
+
+# STEP_START member_expiration_ms
+r.del('bikes:reserved')
+r.sadd('bikes:reserved', ['bike:1', 'bike:2'])
+
+res26 = r.spexpire('bikes:reserved', 60000, 'bike:1')
+puts res26.inspect # >>> [1]
+
+res27 = r.spttl('bikes:reserved', 'bike:1', 'bike:2')
+puts res27.inspect # >>> [59994, -1] (for example)
+
+res28 = r.spersist('bikes:reserved', 'bike:1')
+puts res28.inspect # >>> [1]
+
+res29 = r.spttl('bikes:reserved', 'bike:1')
+puts res29.inspect # >>> [-1]
+# STEP_END
+
+# REMOVE_START
+assert_equal([1], res26)
+assert_equal([1], res28)
+assert_equal([-1], res29)
+r.del('bikes:reserved')
+# REMOVE_END
+
+# STEP_START member_expiration_at
+r.del('bikes:reserved')
+r.sadd('bikes:reserved', ['bike:1', 'bike:2'])
+
+# 4102444800 is an example Unix time in the future.
+res30 = r.sexpireat('bikes:reserved', 4102444800, 'bike:1')
+puts res30.inspect # >>> [1]
+
+res31 = r.sexpiretime('bikes:reserved', 'bike:1', 'bike:2')
+puts res31.inspect # >>> [4102444800, -1]
+# STEP_END
+
+# REMOVE_START
+assert_equal([1], res30)
+assert_equal([4102444800, -1], res31)
+r.del('bikes:reserved')
 r.close
 # REMOVE_END
