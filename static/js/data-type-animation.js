@@ -23,7 +23,14 @@
                such as a worker crashing. The console shows that text, and
                nothing is typed. When a scene has several clients, `who`
                names the one that sends the step's command, and the console
-               shows that name before the prompt.
+               shows that name before the prompt. A step can also have
+               before(c, state), which draws what makes the application
+               send the command, such as a request from a browser. It plays
+               before the command is typed. When the first step has one,
+               the drawing shows from the start. Such a step can give its
+               note as [first, rest]: the first part shows with before(),
+               and the rest shows with the reply. If it has a `who`, that
+               name and the prompt show only once before() has ended.
    `c` is the run's context: wait, anim, enter, leave, flip, tween, count,
    mark, and temp. Every one of them does its work without animating when
    the player is fast-forwarding, which is how a click on a step and the
@@ -36,13 +43,14 @@
   const SVGNS = "http://www.w3.org/2000/svg";
   const EASE = "cubic-bezier(.2,.7,.2,1)";
   /* Pacing. Every command takes the same time to type, and every step stays on screen for the same
-     time, measured from its reply to the moment the next command starts, whatever its animation does.
+     time, measured from its reply to the moment the next step starts, whatever its animation does.
      Only the last step differs: it stays longer before the loop starts again. */
   const TYPE = 480;        // ms to type a command, whatever its length
   const TICKS = 24;        // screen updates while typing
   const STEP = 4000;       // ms a step stays on screen
   const MIN_REST = 600;    // a step's animation must end this long before its time is up, or the step runs over
   const END_HOLD = 2300;   // extra ms the last step stays before the loop restarts
+  const NOTE = 250;        // ms the note takes to fade in or out, as in the stylesheet
   const CANCEL = {};       // thrown inside a run that a newer run has replaced
   const reduced = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
@@ -74,6 +82,8 @@
   /* What a step puts in the console: its command and reply, or the text of an event, which has no reply. */
   function cmdHtml(st) { return st.cmd ? hlCmd(st.cmd) : '<span class="dta-event">' + esc(st.event) + "</span>"; }
   function replyHtml(st) { return st.cmd ? hlReply(st.reply) : ""; }
+  /* A step's whole note. A step that has before() can give its note in two parts. */
+  function noteOf(st) { return [].concat(st.note || []).join(" "); }
 
   const ICON = {
     pause: '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>',
@@ -171,7 +181,7 @@
       p.who.textContent = st.who || "";
       p.cmd.innerHTML = cmdHtml(st);
       p.reply.innerHTML = replyHtml(st);
-      p.note.textContent = st.note || "";
+      p.note.textContent = noteOf(st);
       term = Math.max(term, p.term.offsetHeight);
       note = Math.max(note, p.note.offsetHeight);
     });
@@ -188,6 +198,7 @@
       canvas: p.canvas,
       W: p.canvas.clientWidth,
       H: p.canvas.clientHeight,
+      check: check,   // stops this run if a newer one has replaced it
       /* Resolves after `ms` of play time: the clock stops while the animation is paused or off screen. */
       wait: function (ms) {
         check();
@@ -268,10 +279,31 @@
     p.cur = i;
     c.clear();
     p.dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); d.classList.toggle("is-done", k < i); });
-    if (p.note.textContent !== (st.note || "")) p.note.classList.remove("is-on");
+    const note = noteOf(st), parts = st.before && Array.isArray(st.note) ? st.note : null;
+    const fades = p.note.classList.contains("is-on") && p.note.textContent !== note;   // the note of the step before is on screen
+    let rest = null;
+    if (p.note.textContent !== note) p.note.classList.remove("is-on");
     p.who.textContent = st.who || "";
     p.reply.innerHTML = "";
     p.root.classList.toggle("is-event", !st.cmd);
+    p.root.classList.toggle("is-idle", !!(st.before && st.who));   // a named client isn't at the prompt until it has something to send
+    /* What makes the application send the command happens first, while the prompt is empty. The first
+       part of the note shows with it, once the note of the step before has faded out. The first step
+       needs the drawing on screen for that. A motion can end after a newer run has started, and this
+       run must not go on to type in that run's console. */
+    if (st.before) {
+      p.cmd.innerHTML = "";
+      if (parts) {
+        if (fades) await c.wait(NOTE);
+        p.note.textContent = parts[0] + " ";
+        rest = p.note.appendChild(h("span", "dta-note-rest", parts[1]));
+        p.note.classList.add("is-on");
+      }
+      if (!i) await p.reveal(c);
+      await st.before(c, c.state);
+      c.check();
+      p.root.classList.remove("is-idle");
+    }
     if (p.instant || !st.cmd) p.cmd.innerHTML = cmdHtml(st);
     if (!p.instant) {
       /* An event isn't typed, but it waits through the same ticks, so its step starts as late as the others. */
@@ -284,15 +316,19 @@
       await c.wait(160);
     }
     p.reply.innerHTML = replyHtml(st);
-    p.note.textContent = st.note || "";
-    p.note.classList.toggle("is-on", !!st.note);
-    if (!i) {   // the first command creates the key, so the whole drawing appears with it
-      p.canvas.style.opacity = "";
-      c.anim(p.canvas, [{ opacity: 0 }, { opacity: 1 }], 300);
-    }
+    if (rest) rest.classList.add("is-on");   // the first part is already on screen
+    else p.note.textContent = note;
+    p.note.classList.toggle("is-on", !!note);
+    if (!i && !st.before) p.reveal(c);   // the first command creates the key, so the whole drawing appears with it
     const hold = c.wait(STEP);   // counts play time from the reply, so time spent paused doesn't use it up
     if (st.run) await st.run(c, c.state);
     await Promise.all([hold, c.wait(MIN_REST)]);
+  };
+
+  /* The drawing stays hidden until the first step shows it. */
+  Player.prototype.reveal = function (c) {
+    this.canvas.style.opacity = "";
+    return c.anim(this.canvas, [{ opacity: 0 }, { opacity: 1 }], 300);
   };
 
   /* Play in a loop, starting with step `from`. The steps before it are drawn without animation. When

@@ -11,6 +11,7 @@
 .dta[data-dta="job-queue"] { min-height: 259px; }
 .dta[data-dta="leaderboard"] { min-height: 316px; }
 .dta[data-dta="pub-sub"] { min-height: 328px; }
+.dta[data-dta="session-store"] { min-height: 305px; }
 .dta[data-dta="streaming"] { min-height: 343px; }
 
 /* ---- the stage ---- */
@@ -49,10 +50,11 @@
 .dta-uc-group.is-off { border-style: dashed; background: none; }
 .dta-uc-group.is-off .dta-uc-label { color: var(--dta-faint); }
 
-/* A message on the wire: a command going out, or its answer coming back. */
+/* A message on the wire: a command going out, or its answer coming back. One that isn't a Redis
+   command, such as a request from a browser, keeps these plain colors. */
 .dta-uc-msg {
   position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none;
-  padding: 1px 7px; border: 1px solid var(--dta-line-strong); border-radius: 9px;
+  padding: 1px 7px; border: 1px solid var(--dta-line-strong); border-radius: 9px; background: var(--dta-surface);
   font: 700 10.5px/16px var(--dta-mono); white-space: nowrap;
 }
 .dta .dta-uc-msg.is-read { border-color: var(--dta-read); background: #1c2254; color: #d0d3ff; box-shadow: none; }
@@ -86,6 +88,35 @@
 /* The message a subscriber has just received is brighter than one from an earlier step. */
 .dta-uc-app.is-read .dta-uc-line { color: var(--dta-ink); }
 
+/* ---- session store: when the hash expires, and a hash that doesn't exist ---- */
+/* What the two parts of the card's title bar are: "key" before the key's name, and the type of the
+   key's value at the end. */
+.dta-uc-kind { flex: none; margin-left: auto; padding-left: 8px; font-size: 10px; color: var(--dta-faint); }
+.dta-uc-kind.is-key { margin: 0 6px 0 0; padding: 0; }
+/* How long the hash has left, as a line under its fields. The step that sets the time marks the line
+   the way a field is marked. */
+.dta-uc-ttl {
+  display: flex; align-items: center; gap: 5px; height: 22px; padding: 0 10px; border-left: 2px solid transparent; background: var(--dta-tint);
+  font: 10px/22px var(--dta-mono); color: var(--dta-muted); white-space: nowrap; transition: background-color .3s, border-color .3s;
+}
+.dta-uc-ttl svg { flex: none; fill: none; stroke: currentColor; stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
+.dta-uc-ttl b { font-weight: 700; color: var(--dta-ink); }
+.dta .dta-uc-ttl.is-write { border-color: transparent transparent transparent var(--dta-write); box-shadow: none; }
+/* An outline behind the card, where the hash would be. It shows while the hash doesn't exist, and a
+   command that looks for the hash then says so in it. */
+.dta-uc-none {
+  position: absolute; left: 0; right: 0; top: 18px; bottom: 0; display: flex; align-items: center; justify-content: center;
+  border: 1px dashed var(--dta-line-strong); border-radius: 8px;
+  font: 11.5px/16px var(--dta-mono); color: transparent; transition: color .3s, background-color .3s, border-color .3s;
+}
+.dta-uc-none.is-no { color: var(--dta-no); }
+.dta-uc-none ~ .dta-card { position: relative; }
+.dta-uc-store.is-gone .dta-card { visibility: hidden; }
+/* The browser stands out in the step that changes its cookie. Its cookie isn't in Redis, so it isn't
+   marked as written. */
+.dta-uc-app.is-new { border-color: var(--dta-ink); }
+.dta-uc-app.is-new .dta-uc-line { color: var(--dta-ink); }
+
 /* ---- streaming: an event's ID, and the line that marks a group's place in the stream ---- */
 .dta-uc-id { color: var(--dta-muted); }
 /* In a narrow card, an event shows the end of its ID and no field name. */
@@ -117,6 +148,7 @@
   .dta-uc-store .dta-uc-lane-h { font-size: 9.5px; }
   .dta-uc-sub { min-width: 84px; padding: 0 6px; font-size: 11px; }
   .dta-uc-sub::before { content: none; }
+  .dta-uc-kind.is-key { display: none; }
   .dta-uc-over { font-size: 9px; letter-spacing: .2px; }
   .dta-uc-store .dta-r { font-size: 11.5px; column-gap: 8px; padding: 0 8px; }
   .dta-uc-app { font-size: 11px; }
