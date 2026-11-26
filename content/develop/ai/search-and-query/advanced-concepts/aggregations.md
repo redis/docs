@@ -107,6 +107,8 @@ The document ID can be loaded using `@__key`.
 * **FILTER {expr}**. Filter the results using predicate expressions relating to values in each result. The expressions are applied post-query and relate to the current state of the pipeline. See FILTER Expressions below for full details.
 
 * **PARAMS {nargs} {name} {value}**. Define one or more value parameters. Each parameter has a name and a value. Parameters can be referenced in the query string by a `$`, followed by the parameter name, e.g., `$user`, and each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` would be evaluated to `@loc:[29.69465 34.95126 10 km]`. Parameters cannot be referenced in the query string where concrete values are not allowed, such as in field names, e.g., `@loc`
+
+  `PARAMS` placeholders apply only to the initial search query. They are not supported in pipeline `FILTER` or `APPLY` expressions, regardless of the query dialect.
 * 
 ## Example
 

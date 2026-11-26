@@ -36,7 +36,7 @@ The `FT.AGGREGATE` command processes multiple expressions in a pipeline. Below i
 1. `REDUCE` – performs aggregations. For example, `SUM`, `COUNT`, and `AVG`.
 1. `SORTBY` – orders the results based on specified fields.
 1. `LIMIT` – restricts the number of results returned.
-1. `DIALECT 2` - provides for more comprehensive query syntax, for example using parameters in `FILTER` expressions.
+1. `DIALECT 2` - supports parameters in the initial search query. Pipeline `FILTER` and `APPLY` expressions do not support `PARAMS` placeholders.
 
 Other keywords will be discussed toward the end of this page.
 
@@ -265,16 +265,18 @@ FT.AGGREGATE products "*"
 
 ## FILTER and PARAMS
 
-Use `FILTER` to remove unwanted records, and `PARAMS` to pass values to parameterized queries.
+Use `PARAMS` to pass values to the initial search query, and `FILTER` to remove records from the aggregation pipeline. `PARAMS` placeholders are not supported in pipeline `FILTER` or `APPLY` expressions, even with `DIALECT 2` or greater.
+
+This example uses `$min_price` in the search query and a literal threshold in the pipeline filter. The `price` field must be indexed as `NUMERIC`.
 
 ```sh
-FT.AGGREGATE products "*"
+FT.AGGREGATE products '@price:[$min_price +inf]'
   LOAD 3 @price @rating @quantity
-  FILTER "@price >= 500"
   FILTER "@rating >= 4.0"
   APPLY "@price * @quantity" AS total_value
   SORTBY 2 @total_value DESC
   LIMIT 0 10
+  PARAMS 2 min_price 500
   DIALECT 2
 
 1) (integer) 200
