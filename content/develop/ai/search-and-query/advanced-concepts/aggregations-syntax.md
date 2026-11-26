@@ -36,7 +36,7 @@ The `FT.AGGREGATE` command processes multiple expressions in a pipeline. Below i
 1. `REDUCE` – performs aggregations. For example, `SUM`, `COUNT`, and `AVG`.
 1. `SORTBY` – orders the results based on specified fields.
 1. `LIMIT` – restricts the number of results returned.
-1. `DIALECT 2` - provides for more comprehensive query syntax, for example using parameters in `FILTER` expressions.
+1. `DIALECT 2` - provides for more comprehensive query syntax, for example using parameters in query expressions.
 
 Other keywords will be discussed toward the end of this page.
 
