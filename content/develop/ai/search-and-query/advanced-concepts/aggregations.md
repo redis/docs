@@ -244,7 +244,7 @@ REDUCE SUM 1 {property}
 
 **Description**
 
-Return the sum of all numeric values of a given property in a group. Non-numeric values in the group are counted as 0.
+Returns the sum of values that are numeric or can be converted to numbers. Missing and nonnumeric values are ignored. If no values in the group can be converted to numbers, returns `NaN`.
 
 #### MIN
 
@@ -280,7 +280,7 @@ REDUCE AVG 1 {property}
 
 **Description**
 
-Return the average value of a numeric property. This is equivalent to reducing by sum and count, and later, applying the ratio of them as an APPLY step.
+Returns the average of values that are numeric or can be converted to numbers. Missing and nonnumeric values are ignored and excluded from the count. If no values can be converted to numbers, returns `NaN`.
 
 #### STDDEV
 
