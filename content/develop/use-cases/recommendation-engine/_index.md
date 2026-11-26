@@ -108,6 +108,8 @@ The following libraries and frameworks build on Redis Search for recommendation 
     Hash/JSON documents and Redis Search queries.
 -   **Go**: [`go-redis`](https://github.com/redis/go-redis) with first-class Redis Search support
     for FT.SEARCH KNN and structured filters.
+-   **Java**: [Spring AI](/content/integrate/spring-ai/_index.md) for a Redis vector store with
+    metadata filters, behind Spring's portable `VectorStore` interface.
 -   **ML platforms**: [NVIDIA Merlin](https://github.com/NVIDIA-Merlin) for an online feature store
     and retrieval layer that uses Redis as the serving substrate.
 

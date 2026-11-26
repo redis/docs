@@ -29,7 +29,7 @@ Redis integrates with a wide range of AI frameworks, platforms, and tools to enh
 - [**Microsoft Semantic Kernel**](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/out-of-the-box-connectors/redis-connector?pivots=programming-language-csharp): Use Redis as a vector store connector with Microsoft's Semantic Kernel framework.
 - [**DocArray**](https://docs.docarray.org/user_guide/storing/index_redis/): Leverage Redis as a document store and vector database with Jina AI's DocArray.
 - [**Redis Cloud on Vercel**](https://redis.io/blog/redis-cloud-now-available-on-vercel-marketplace/): Deploy and manage Redis databases directly from your Vercel dashboard with the Redis Cloud integration. Refer to the [setup guide]({{< relref "/operate/rc/cloud-integrations/vercel" >}}) for more details.
-- [**Spring AI & Redis**](https://redis.io/blog/building-a-rag-application-with-redis-and-spring-ai/): Build powerful RAG applications by combining Spring AI's framework with Redis for vector storage and retrieval.
+- [**Spring AI & Redis**](/content/integrate/spring-ai/_index.md): Use Redis as a Spring AI vector store, chat memory repository, and semantic cache.
 - [**Kernel Memory & Redis**](https://redis.io/blog/building-llm-applications-with-kernel-memory-and-redis/): Create memory-enabled LLM applications using Microsoft's Kernel Memory with Redis for efficient storage and retrieval.
 
 ## Getting started
