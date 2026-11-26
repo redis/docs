@@ -186,7 +186,7 @@ highest-scoring members to become available.
 For example, a consumer can claim up to 500 bookmarks updated before a cutoff
 while writers continue updating the source:
 
-{{< clients-example set="ss_tutorial" step="zmove" lang_filter="PHP" description="Move a score range: Use ZMOVE with BYSCORE to atomically claim a batch of members from one sorted set into another when you need to process them without losing concurrent updates" difficulty="intermediate" buildsUpon="zadd" >}}
+{{< clients-example set="ss_tutorial" step="zmove" lang_filter="PHP,Java-Sync" description="Move a score range: Use ZMOVE with BYSCORE to atomically claim a batch of members from one sorted set into another when you need to process them without losing concurrent updates" difficulty="intermediate" buildsUpon="zadd" >}}
 > DEL bookmarks:{user:42} batch:{user:42}:001
 (integer) 0
 > ZADD bookmarks:{user:42} 1699990000 page:1 1699995000 page:2 1700000500 page:3

@@ -2,7 +2,11 @@
 package io.redis.examples;
 
 import redis.clients.jedis.RedisClient;
+import redis.clients.jedis.args.BitCountOption;
 import redis.clients.jedis.args.BitOP;
+import redis.clients.jedis.params.BitRangeIntArrayParams;
+
+import java.util.List;
 // REMOVE_START
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -162,6 +166,50 @@ public class BitMapsExample {
         assertEquals(0b10100101, res15[0] & 0xFF);
         // REMOVE_END
 
+        // REMOVE_START
+        jedis.del("members");
+        // REMOVE_END
+
+        // STEP_START bitrangeintarray
+        jedis.configSet("bitmap-default-roaring", "yes");
+
+        for (long offset : new long[] {1, 7, 9, 30}) {
+            jedis.setbit("members", offset, true);
+        }
+
+        List<Long> res16 = jedis.bitrangeintarray("members", 0, -1);
+        System.out.println(res16); // >>> [1, 7, 9, 30]
+
+        List<Long> res17 = jedis.bitrangeintarray("members", 28, 31,
+                BitRangeIntArrayParams.bitRangeIntArrayParams().unit(BitCountOption.BIT).zeros());
+        System.out.println(res17); // >>> [28, 29, 31]
+
+        List<Long> res18 = jedis.bitrangeintarray("members", 0, -1,
+                BitRangeIntArrayParams.bitRangeIntArrayParams().unit(BitCountOption.BIT).limit(2));
+        System.out.println(res18); // >>> [1, 7]
+
+        List<Long> res19 = jedis.bitrangeintarray("members", 8, -1,
+                BitRangeIntArrayParams.bitRangeIntArrayParams().unit(BitCountOption.BIT).limit(2));
+        System.out.println(res19); // >>> [9, 30]
+
+        List<Long> res20 = jedis.bitrangeintarray("members", 0, -1,
+                BitRangeIntArrayParams.bitRangeIntArrayParams().unit(BitCountOption.BYTE).limit(1));
+        System.out.println(res20); // >>> [1, 7]
+
+        List<Long> res21 = jedis.bitrangeintarray("members", 1, -1,
+                BitRangeIntArrayParams.bitRangeIntArrayParams().unit(BitCountOption.BYTE).limit(1));
+        System.out.println(res21); // >>> [9]
+        // STEP_END
+        // REMOVE_START
+        assertEquals(List.of(1L, 7L, 9L, 30L), res16);
+        assertEquals(List.of(28L, 29L, 31L), res17);
+        assertEquals(List.of(1L, 7L), res18);
+        assertEquals(List.of(9L, 30L), res19);
+        assertEquals(List.of(1L, 7L), res20);
+        assertEquals(List.of(9L), res21);
+        jedis.del("members");
+        jedis.configSet("bitmap-default-roaring", "no");
+        // REMOVE_END
 
 // HIDE_START
         jedis.close();

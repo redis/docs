@@ -129,6 +129,38 @@ public class SortedSetsExample {
     System.out.println(res20); // >>> 200.0
     //STEP_END
 
+    //STEP_START zmove
+    jedis.del("bookmarks:{user:42}", "batch:{user:42}:001");
+
+    long res21 = jedis.zadd("bookmarks:{user:42}", new HashMap<String, Double>() {{
+      put("page:1", 1699990000d);
+      put("page:2", 1699995000d);
+      put("page:3", 1700000500d);
+    }});
+    System.out.println(res21); // >>> 3
+
+    List<Tuple> res22 = jedis.zmoveByScore("bookmarks:{user:42}", "batch:{user:42}:001", "-inf", "(1700000000", 500);
+    System.out.println(res22); // >>> [[page:1,1.69999E9], [page:2,1.699995E9]]
+
+    List<Tuple> res23 = jedis.zrangeWithScores("bookmarks:{user:42}", 0, -1);
+    System.out.println(res23); // >>> [[page:3,1.7000005E9]]
+
+    List<Tuple> res24 = jedis.zrangeWithScores("batch:{user:42}:001", 0, -1);
+    System.out.println(res24); // >>> [[page:1,1.69999E9], [page:2,1.699995E9]]
+    //STEP_END
+
+    //REMOVE_START
+    assertEquals(3, res21);
+    assertEquals(2, res22.size());
+    assertEquals("page:1", res22.get(0).getElement());
+    assertEquals(1699990000d, res22.get(0).getScore());
+    assertEquals("page:2", res22.get(1).getElement());
+    assertEquals(1, res23.size());
+    assertEquals("page:3", res23.get(0).getElement());
+    assertEquals(2, res24.size());
+    jedis.del("bookmarks:{user:42}", "batch:{user:42}:001");
+    //REMOVE_END
+
     //HIDE_START
     jedis.close();
     //HIDE_END
