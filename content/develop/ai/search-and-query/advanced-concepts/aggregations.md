@@ -244,7 +244,7 @@ REDUCE SUM 1 {property}
 
 **Description**
 
-Return the sum of all numeric values of a given property in a group. Non-numeric values in the group are counted as 0.
+Returns the sum of values that are numeric or can be converted to numbers. Missing and nonnumeric values are ignored. If no values in the group can be converted to numbers, returns `NaN`.
 
 #### MIN
 
