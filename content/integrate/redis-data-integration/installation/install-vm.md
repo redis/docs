@@ -333,6 +333,58 @@ through the `processors.advanced` section of `config.yaml` (see the
 For migrating existing pipelines to the Flink processor, see
 [Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md).
 
+## Move RDI to new VMs
+
+To move RDI to new VMs, for example from RHEL 8 or Ubuntu 20.04 to an operating system that
+RDI 2.4.0 supports, replace the RDI instances one at a time. Each new instance connects to the
+same RDI database. RDI restores your pipelines on the new leader, so you don't need to deploy them
+again. If you run a single instance, you run two instances while you replace it. To keep
+your current VMs instead, upgrade their operating system in place to RHEL 9 or Ubuntu 22.04, and
+then [upgrade RDI](/content/integrate/redis-data-integration/installation/upgrade.md).
+
+Restoring the pipelines requires RDI 1.19.1 or later on your current instances. If they run an
+earlier version, first [upgrade them](/content/integrate/redis-data-integration/installation/upgrade.md)
+to RDI 2.2.x on their current VMs.
+
+Replace the followers first and the leader last, so that a new instance takes over the pipelines
+from the leader. See [Test HA failover](/content/integrate/redis-data-integration/installation/ha-test.md#setup)
+to find the leader. For each instance:
+
+1.  On a new VM with a [supported operating system](#vm-installation-requirements), follow the
+    [Installation steps](#installation-steps), and enter the details of the RDI database that your
+    instances use.
+
+    - When the installer asks where to store the leader election lease, choose the default,
+      `redsync`, if your instances run a version earlier than 2.4.0. Otherwise, choose the store
+      that your instances use.
+    - When the installer reports that the RDI database is in use by another RDI installation and
+      that it is not empty, confirm both prompts.
+
+    The new instance joins as a follower.
+
+1.  [Set the secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
+    of your pipelines on the new instance.
+
+1.  Remove the old instance:
+
+    - For a follower, [uninstall RDI](#uninstall-rdi) on its VM.
+    - For the leader, stop K3s on its VM:
+
+      ```bash
+      sudo /usr/local/bin/k3s-killall.sh
+      ```
+
+      The new instance takes over within two minutes. Check that
+      [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
+      on the new instance shows `Leader Election Mode: leader`, and that
+      [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
+      shows each of your pipelines running without errors. Then uninstall RDI on the old VM.
+
+After you replace all instances, update the clients of the RDI API, such as Redis Insight and your
+`redis-di` [contexts](/content/integrate/redis-data-integration/reference/cli/_index.md#contexts),
+to connect to the new VMs. If the clients connect through a DNS name, update the DNS name to
+resolve to the new VMs instead.
+
 ## Uninstall RDI
 
 If you want to remove your RDI installation, go to the installation folder and run
