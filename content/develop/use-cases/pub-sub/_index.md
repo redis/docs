@@ -63,6 +63,11 @@ Subscribers register interest with `SUBSCRIBE channel` (exact-match) or `PSUBSCR
 messages over the same socket. Delivery is at-most-once: a subscriber that's offline when the
 message is published misses it for good.
 
+The animation shows a shop that publishes messages about its orders. Three services subscribe
+to get them: a dashboard, a notifier, and a live feed.
+
+{{< use-case-animation name="pub-sub" >}}
+
 Redis provides the following features that make it a good fit for broadcast messaging:
 
 -   [`PUBLISH`](/content/commands/publish.md) for fan-out from any client to every active

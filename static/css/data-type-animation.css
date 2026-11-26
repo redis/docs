@@ -69,6 +69,8 @@
 .dta-term { flex: 1 1 0; min-width: 0; }
 .dta-cmd { min-height: 20px; padding-left: 2ch; text-indent: -2ch; white-space: pre-wrap; overflow-wrap: anywhere; }
 .dta-prompt { color: #64748b; user-select: none; }
+/* The client that sends the command, in a scene that has several. */
+.dta-who { color: #8493a8; user-select: none; }
 /* A step with no command: something happens outside Redis, and this text says what. Nothing is typed. */
 .dta-event { color: #8493a8; font-style: italic; }
 .dta.is-event .dta-prompt, .dta.is-event .dta-caret { display: none; }

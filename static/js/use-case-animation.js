@@ -42,6 +42,8 @@
     /* A frame around actors that belong together, such as the workers of one group, with a label that
        names them. Place it before the actors, so that it is drawn behind them. */
     g.group = function (label, x, y, w2, h2) { return place(add(h("div", "dta-uc-group"), h("div", "dta-uc-label", label)), x, y, w2, h2); };
+    /* A label over a part of the drawing that says what it is, in the style of a store's label. */
+    g.label = function (text, x, y) { return place(h("div", "dta-uc-label dta-uc-over", text), x, y); };
     /* Whoever sends the commands, such as the application or a worker. `l` and `r` are the middles of
        its left and right sides, where a wire attaches. say() writes a second line under its name. */
     g.actor = function (name, x, y, w2, h2) {
@@ -335,6 +337,120 @@
         w.say(w.has + " ✓");
         w.line.classList.add("is-ok");
         return c.enter(w.line, "scale(.8)");
+      };
+      return st;
+    },
+  };
+
+  /* ---- pub/sub ---- */
+
+  /* What Redis answers when a client subscribes: the kind of subscription, its channel or pattern, and
+     how many subscriptions that client now has. */
+  function subscribed(kind, to) { return '1) "' + kind + '"\n2) "' + to + '"\n3) (integer) 1'; }
+  D.scenes["pub-sub"] = {
+    label: "pub/sub messaging with Redis",
+    h: 165,
+    steps: [
+      { who: "dashboard", cmd: "SUBSCRIBE orders:new", reply: subscribed("subscribe", "orders:new"), note: "The dashboard subscribes to the channel orders:new. It's a name to send messages to, not a key.",
+        run: function (c, st) { return st.subscribe(c, 0); } },
+      { who: "notifier", cmd: "SUBSCRIBE orders:new", reply: subscribed("subscribe", "orders:new"), note: "Now orders:new has two subscribers. The 1 in the reply counts the notifier's own subscriptions.",
+        run: function (c, st) { return st.subscribe(c, 1); } },
+      { who: "live-feed", cmd: "PSUBSCRIBE orders:*", reply: subscribed("psubscribe", "orders:*"), note: "The pattern orders:* is not a channel. It matches every channel whose name starts with orders:.",
+        run: function (c, st) { return st.subscribe(c, 2); } },
+      { who: "shop", cmd: 'PUBLISH orders:new "order 42"', reply: "(integer) 3", note: "The shop publishes a message to orders:new. All three subscribers get it, and Redis replies 3.",
+        run: function (c, st) { return st.publish(c, "orders:new", "order 42"); } },
+      { who: "shop", cmd: 'PUBLISH orders:shipped "order 17"', reply: "(integer) 1", note: "Only the live feed's pattern matches orders:shipped. Every message carries its channel's name.",
+        run: function (c, st) { return st.publish(c, "orders:shipped", "order 17"); } },
+      { event: "The dashboard goes offline", note: "The dashboard goes offline, and its subscription ends with its connection.",
+        run: function (c, st) { return st.drop(c, 0); } },
+      { who: "shop", cmd: 'PUBLISH orders:new "order 43"', reply: "(integer) 2", note: "The notifier and the live feed get order 43. Redis keeps no copy, so the dashboard misses it.",
+        run: function (c, st) { return st.publish(c, "orders:new", "order 43"); } },
+      { who: "dashboard", cmd: "SUBSCRIBE orders:new", reply: subscribed("subscribe", "orders:new"), note: "The dashboard is back and subscribes again. It will get later messages, but never order 43.",
+        run: function (c, st) { return st.subscribe(c, 0); } },
+    ],
+    build: function (c) {
+      /* The shop, then Redis, then the services that subscribe. Redis holds no messages, only who has
+         subscribed to what. */
+      const W = Math.max(c.W, 288), narrow = W < 430, aw = narrow ? 44 : 72, cw = narrow ? 104 : 160, rw = narrow ? 100 : 112;   // 288 is the least it fits in
+      const gap = Math.max(20, Math.min(narrow ? 40 : 84, Math.floor((W - aw - cw - rw) / 2)));
+      const x = aw + gap, rx = x + cw + gap, g = stage(c, rx + rw), P = 40, top = 44;   // each subscriber gets P pixels of height, from where the card's body starts
+      const card = g.store("Redis", "subscriptions", x, 0, cw, null, 0, 3 * P);
+      const shop = g.actor("Shop", 0, Math.round(card.l[1]) - 22, aw, 44), st = { held: {} };
+      card.body.classList.add("dta-uc-subs");
+      g.label("Publisher", 0, 0);
+      g.label("Subscribers", rx, 0);
+      g.wire(shop.r, card.l);
+      /* Each subscriber has a wire to the point `at` on the side of the card. Subscribers of the same
+         channel stand next to each other. */
+      st.subs = [["Dashboard", "orders:new"], ["Notifier", "orders:new"], ["Live feed", "orders:*"]].map(function (d, i) {
+        const y = top + P * i + P / 2, a = g.actor(d[0], rx, y - 17, rw, 34), at = [x + cw, y];
+        return { a: a, to: d[1], row: i, at: at, wire: g.wire(a.l, at) };
+      });
+      /* A subscription to a pattern matches every channel whose name starts with the text before the *. */
+      function matches(sub, channel) { return sub.to === channel || (sub.to.slice(-1) === "*" && channel.indexOf(sub.to.slice(0, -1)) === 0); }
+
+      /* Redis keeps each channel or pattern for as long as it has subscribers. The drawing shows it as a
+         box on the side of the card, which reaches from the wire of its first subscriber to the wire of
+         its last. Call this after a subscriber of `to` has come or gone. It marks the box when `kind`
+         is given. */
+      function hold(c, to, kind) {
+        const rows = st.subs.filter(function (s) { return s.on && s.to === to; }).map(function (s) { return s.row; });
+        let box = st.held[to];
+        if (!rows.length) {
+          delete st.held[to];
+          return c.leave(box);
+        }
+        const now = { top: P * rows[0] + 6 + "px", height: P * (rows[rows.length - 1] - rows[0] + 1) - 12 + "px" }, was = box && { top: box.style.top, height: box.style.height };
+        if (!box) {
+          box = st.held[to] = card.body.appendChild(cell(to, "dta-uc-sub"));
+          box.setAttribute("data-kind", to.slice(-1) === "*" ? "pattern" : "channel");
+        }
+        box.style.top = now.top;
+        box.style.height = now.height;
+        if (kind) c.mark(box, kind);
+        return was ? c.anim(box, [was, now], 400) : c.enter(box, "translateX(8px)");
+      }
+      /* A service subscribes to a channel, or to a pattern. One that was offline has connected again
+         to do it. */
+      st.subscribe = async function (c, i) {
+        const sub = st.subs[i];
+        if (sub.off) sub.a.say("");
+        sub.off = false;
+        sub.a.el.classList.remove("is-down");
+        sub.wire.classList.remove("is-off");
+        await g.send(c, sub.a.l, sub.at, sub.to.slice(-1) === "*" ? "PSUBSCRIBE" : "SUBSCRIBE", "write");
+        sub.on = true;
+        sub.a.say("no messages yet");   // the line under its name is the last message it has received
+        return hold(c, sub.to, "write");
+      };
+      /* The shop publishes a message to a channel. Redis sends a copy to every service whose subscription
+         matches the channel, and answers the shop with how many that was. It keeps nothing, so a service
+         that is offline misses the message. */
+      st.publish = async function (c, channel, text) {
+        const to = st.subs.filter(function (sub) { return sub.on && matches(sub, channel); });
+        await g.send(c, shop.r, card.l, "PUBLISH", "write");
+        to.forEach(function (sub) { c.mark(st.held[sub.to], "read"); });
+        await Promise.all(to.map(function (sub) { return g.send(c, sub.at, sub.a.l, text, "read"); }));
+        to.forEach(function (sub) {
+          c.mark(sub.a.el, "read");
+          sub.a.say(text);
+        });
+        st.subs.forEach(function (sub) {
+          if (!sub.off || !matches(sub, channel)) return;
+          sub.a.say("missed " + text);
+          shake(c, sub.a.el);
+        });
+        await g.send(c, card.l, shop.r, String(to.length), "read");
+      };
+      /* A service's connection closes, and its subscription goes with it. */
+      st.drop = function (c, i) {
+        const sub = st.subs[i];
+        sub.on = false;
+        sub.off = true;
+        sub.a.el.classList.add("is-down");
+        sub.a.say("offline");
+        sub.wire.classList.add("is-off");
+        return hold(c, sub.to);
       };
       return st;
     },
