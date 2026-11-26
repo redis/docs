@@ -48,13 +48,12 @@ Each upgrade step starts with these properties:
 
 Follow the steps below to upgrade an existing
 [VM installation](/content/integrate/redis-data-integration/installation/install-vm.md)
-of RDI. In an HA installation, do them on the active VM first, and then on the passive VM,
-as
-[Upgrading a VM installation with high availability](#upgrading-a-vm-installation-with-high-availability)
-describes.
+of RDI. In an HA installation, do them on the leader first, and then on the follower, as
+described in
+[Upgrading a VM installation with high availability](#upgrading-a-vm-installation-with-high-availability).
 
-1.  Do the [upgrade steps](#upgrade-steps) that apply to a VM installation and say **When**:
-    Before the upgrade.
+1.  Do the [upgrade steps](#upgrade-steps) for a VM installation whose **When** is before the
+    upgrade.
 
 1.  Download the RDI installer from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
     (in the *Modules, Tools & Integration* category) and extract it to your
@@ -72,7 +71,7 @@ describes.
     cd rdi_install/$RDI_VERSION
     ```
 
-1.  Do the upgrade steps that apply to a VM installation and say **When**: During the upgrade.
+1.  Do the upgrade steps for a VM installation whose **When** is during the upgrade.
 
 1.  Run the `upgrade.sh` script as a privileged user. Note that you must pass
     your RDI password to the script unless the password is empty.
@@ -81,24 +80,19 @@ describes.
     sudo ./upgrade.sh --rdi-password <redis-rdi-password>
     ```
 
-1.  Do the upgrade steps that apply to a VM installation and say **When**: After the upgrade.
+1.  Do the upgrade steps for a VM installation whose **When** is after the upgrade.
 
 ### Recovering from failure during a VM upgrade
 
 Go to the `rdi_install/<PREVIOUS_VERSION>` directory and run `sudo ./upgrade.sh` to revert to
 that version, as described in [Upgrading a VM installation](#upgrading-a-vm-installation).
 
-> [!NOTE]
-> If the `collector` or `processor` pods are not in the `Running` state after
-> the upgrade, you must run `redis-di deploy` and check again that they are both in the
-> `Running` state.
-
 ## Upgrading a Kubernetes installation
 
 Follow the steps below to upgrade an existing
 [Kubernetes](/content/integrate/redis-data-integration/installation/install-k8s.md)
 installation of RDI. In a DR setup, do them at the leader's site first, and then at the other
-site, as [Upgrading a DR setup](#upgrading-a-dr-setup) describes.
+site, as described in [Upgrading a DR setup](#upgrading-a-dr-setup).
 
 1.  If you are using a private registry, pull the new versions of all images listed in 
     [Using a private image registry](/content/integrate/redis-data-integration/installation/install-k8s.md#using-a-private-image-registry)
@@ -116,18 +110,17 @@ site, as [Upgrading a DR setup](#upgrading-a-dr-setup) describes.
     Before making any changes, save your existing `rdi-values.yaml` if you need to revert 
     to the old RDI version for any reason.
 
-1.  Do the [upgrade steps](#upgrade-steps) that apply to a Kubernetes installation and say
-    **When**: Before the upgrade.
+1.  Do the [upgrade steps](#upgrade-steps) for a Kubernetes installation whose **When** is
+    before the upgrade.
 
-1.  Do the upgrade steps that apply to a Kubernetes installation and say **When**: During the
-    upgrade, and then run the `helm upgrade` command:
+1.  Do the upgrade steps for a Kubernetes installation whose **When** is during the upgrade,
+    and then run the `helm upgrade` command:
     
     ```bash
     helm upgrade --install rdi rdi-<tag>.tar.gz -f rdi-values.yaml -n rdi
     ```
 
-1.  Do the upgrade steps that apply to a Kubernetes installation and say **When**: After the
-    upgrade.
+1.  Do the upgrade steps for a Kubernetes installation whose **When** is after the upgrade.
 
 Note that you don't need to
 [deploy](/content/integrate/redis-data-integration/data-pipelines/deploy.md)
@@ -150,22 +143,20 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 ## Upgrading and downgrading HA and DR setups
 
 An HA installation and a DR setup each have two RDI instances that use leader election. Only the
-leader runs the pipelines. Upgrade the leader first, and upgrade the other instance only after
-[`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
-on the upgraded instance shows `Leader Election Mode: leader`. Finish upgrading both instances
-before you create a pipeline other than `default`.
+leader runs the pipelines. Upgrade the leader first, and finish upgrading both instances before
+you create a pipeline other than `default`.
 
 ### Upgrading a VM installation with high availability
 
-In an HA installation, the active VM is the leader. To upgrade the two VMs:
+To upgrade the two VMs of an HA installation:
 
-1.  Upgrade the active VM, following [Upgrading a VM installation](#upgrading-a-vm-installation).
+1.  Upgrade the leader, following [Upgrading a VM installation](#upgrading-a-vm-installation).
     If a pipeline is active, it stops for up to two minutes.
 
-1.  Run `redis-di info` on the upgraded VM, and wait until it shows
-    `Leader Election Mode: leader`.
+1.  Run [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
+    on the upgraded VM, and wait until it shows `Leader Election Mode: leader`.
 
-1.  Upgrade the passive VM in the same way. This causes no pipeline downtime.
+1.  Upgrade the follower in the same way. This causes no pipeline downtime.
 
 ### Upgrading a DR setup
 
@@ -178,8 +169,8 @@ and assume that site A is the leader. To upgrade the two sites:
     [Upgrading a Kubernetes installation](#upgrading-a-kubernetes-installation) with its values
     file, such as `rdi-values-site-a.yaml`.
 
-1.  Check site A, as [Verify a takeover](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#verify-a-takeover)
-    describes:
+1.  Check site A, as described in
+    [Verify a takeover](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#verify-a-takeover):
 
     1.  Run `redis-di --context site-a info`, and check that it shows
         `Leader Election Mode: leader`.
@@ -196,8 +187,7 @@ and assume that site A is the leader. To upgrade the two sites:
 
 ### Downgrading a DR setup
 
-Don't downgrade a DR setup after you create a pipeline other than `default`, and don't downgrade
-a DR setup with a DynamoDB lease to RDI 2.0.x.
+Don't downgrade a DR setup with a DynamoDB lease to RDI 2.0.x.
 
 To downgrade a DR setup with a GCS lease to RDI 2.0.0, plan for downtime. The examples use
 the CLI contexts `site-a` and `site-b` from
@@ -233,7 +223,7 @@ The table lists the steps by **When**, and then by **From**, latest version firs
 | Step | From | When | Applies to |
 | :-- | :-- | :-- | :-- |
 | [Label the source and target secrets](#label-the-source-and-target-secrets) | RDI 1.19.x or earlier | Before the upgrade | Helm |
-| [Delete the operator Deployment](#delete-the-operator-deployment) | A version before 1.18.1 | During the upgrade | Helm |
+| [Delete the operator Deployment](#delete-the-operator-deployment) | A version before 1.18.1, with leader election | During the upgrade | Helm |
 | [Validate your configurations before you redeploy them](#validate-your-configurations-before-you-redeploy-them) | RDI 2.0.x or earlier | After the upgrade | VM and Helm |
 | [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys) | RDI 2.0.x or earlier | After the upgrade | VM and Helm |
 | [Add the processor type to your configurations](#add-the-processor-type-to-your-configurations) | RDI 1.19.x or earlier | After the upgrade | VM and Helm |
@@ -278,7 +268,7 @@ kubectl rollout restart deployment/rdi-operator -n rdi
 
 - **From**: A version before 1.18.1, with `operator.leaderElection.enabled` set to `true`
 - **When**: During the upgrade, right before you run `helm upgrade`
-- **Applies to**: Helm installations, at each site of a DR setup
+- **Applies to**: Helm installations
 
 Delete the operator Deployment, and run `helm upgrade` as soon as the command returns:
 
