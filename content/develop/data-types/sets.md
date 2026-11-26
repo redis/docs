@@ -225,7 +225,7 @@ Because the members expire, each example recreates the `bikes:reserved` set firs
 
 Add two members with a TTL of 15 minutes, add a third member with no expiration, and then retrieve the remaining TTL of each member:
 
-{{< clients-example set="sets_tutorial" step="member_expiration" lang_filter="Java-Sync,Node.js,PHP" description="Member expiration: Add set members with a TTL using SADDEX, then read each member's remaining TTL with STTL" difficulty="intermediate" buildsUpon="sadd" >}}
+{{< clients-example set="sets_tutorial" step="member_expiration" lang_filter="Python,Node.js,Java-Sync,Go,PHP,Ruby" description="Member expiration: Add set members with a TTL using SADDEX, then read each member's remaining TTL with STTL" difficulty="intermediate" buildsUpon="sadd" >}}
 > DEL bikes:reserved
 (integer) 0
 > SADDEX bikes:reserved EX 900 MEMBERS 2 bike:1 bike:2
@@ -240,7 +240,7 @@ Add two members with a TTL of 15 minutes, add a third member with no expiration,
 
 Set a member's TTL in milliseconds, retrieve the remaining TTL in milliseconds, and then remove the expiration:
 
-{{< clients-example set="sets_tutorial" step="member_expiration_ms" lang_filter="Java-Sync,Node.js,PHP" description="Member expiration in milliseconds: Set a member's TTL with SPEXPIRE, read it with SPTTL, then remove it with SPERSIST" difficulty="intermediate" buildsUpon="member_expiration" >}}
+{{< clients-example set="sets_tutorial" step="member_expiration_ms" lang_filter="Python,Node.js,Java-Sync,Go,PHP,Ruby" description="Member expiration in milliseconds: Set a member's TTL with SPEXPIRE, read it with SPTTL, then remove it with SPERSIST" difficulty="intermediate" buildsUpon="member_expiration" >}}
 > DEL bikes:reserved
 (integer) 1
 > SADD bikes:reserved bike:1 bike:2
@@ -258,7 +258,7 @@ Set a member's TTL in milliseconds, retrieve the remaining TTL in milliseconds, 
 
 Set a member's expiration to a specific timestamp and then retrieve that expiration time (both as a Unix time in seconds):
 
-{{< clients-example set="sets_tutorial" step="member_expiration_at" lang_filter="Java-Sync,Node.js,PHP" description="Member expiration at a timestamp: Set an exact expiration time with SEXPIREAT, then read it back with SEXPIRETIME" difficulty="intermediate" buildsUpon="member_expiration" >}}
+{{< clients-example set="sets_tutorial" step="member_expiration_at" lang_filter="Python,Node.js,Java-Sync,Go,PHP,Ruby" description="Member expiration at a timestamp: Set an exact expiration time with SEXPIREAT, then read it back with SEXPIRETIME" difficulty="intermediate" buildsUpon="member_expiration" >}}
 > DEL bikes:reserved
 (integer) 1
 > SADD bikes:reserved bike:1 bike:2

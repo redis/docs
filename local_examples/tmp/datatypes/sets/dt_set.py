@@ -177,3 +177,65 @@ print(res21)  # >>> bike:4
 assert res18 == 1
 # none of the other results are deterministic
 # REMOVE_END
+
+# STEP_START member_expiration
+r.delete("bikes:reserved")
+
+res22 = r.saddex("bikes:reserved", "bike:1", "bike:2", ex=900)
+print(res22)  # >>> 1
+
+res23 = r.sadd("bikes:reserved", "bike:3")
+print(res23)  # >>> 1
+
+res24 = r.sttl("bikes:reserved", "bike:1", "bike:2", "bike:3")
+print(res24)  # >>> [900, 900, -1]
+# STEP_END
+
+# REMOVE_START
+assert res22 == 1
+assert res23 == 1
+assert res24 == [900, 900, -1]
+r.delete("bikes:reserved")
+# REMOVE_END
+
+# STEP_START member_expiration_ms
+r.delete("bikes:reserved")
+r.sadd("bikes:reserved", "bike:1", "bike:2")
+
+res25 = r.spexpire("bikes:reserved", 60000, "bike:1")
+print(res25)  # >>> [1]
+
+res26 = r.spttl("bikes:reserved", "bike:1", "bike:2")
+print(res26)  # >>> [59994, -1] (for example)
+
+res27 = r.spersist("bikes:reserved", "bike:1")
+print(res27)  # >>> [1]
+
+res28 = r.spttl("bikes:reserved", "bike:1")
+print(res28)  # >>> [-1]
+# STEP_END
+
+# REMOVE_START
+assert res25 == [1]
+assert res27 == [1]
+assert res28 == [-1]
+r.delete("bikes:reserved")
+# REMOVE_END
+
+# STEP_START member_expiration_at
+r.delete("bikes:reserved")
+r.sadd("bikes:reserved", "bike:1", "bike:2")
+
+# 4102444800 is an example Unix time in the future.
+res29 = r.sexpireat("bikes:reserved", 4102444800, "bike:1")
+print(res29)  # >>> [1]
+
+res30 = r.sexpiretime("bikes:reserved", "bike:1", "bike:2")
+print(res30)  # >>> [4102444800, -1]
+# STEP_END
+
+# REMOVE_START
+assert res29 == [1]
+assert res30 == [4102444800, -1]
+r.delete("bikes:reserved")
+# REMOVE_END

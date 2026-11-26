@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"sort"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -459,4 +460,148 @@ func ExampleClient_srem() {
 
 	// Testable examples not available because the test output
 	// is not deterministic.
+}
+
+func ExampleClient_member_expiration() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// STEP_START member_expiration
+	rdb.Del(ctx, "bikes:reserved")
+
+	res22, err := rdb.SAddEXWithArgs(ctx, "bikes:reserved", &redis.SAddEXOptions{
+		ExpirationType: redis.SAddEXExpirationEX,
+		ExpirationVal:  900,
+	}, "bike:1", "bike:2").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res22) // >>> 1
+
+	res23, err := rdb.SAdd(ctx, "bikes:reserved", "bike:3").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res23) // >>> 1
+
+	res24, err := rdb.STTL(ctx, "bikes:reserved", "bike:1", "bike:2", "bike:3").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res24) // >>> [900 900 -1]
+	// STEP_END
+
+	// REMOVE_START
+	rdb.Del(ctx, "bikes:reserved")
+	// REMOVE_END
+
+	// Output:
+	// 1
+	// 1
+	// [900 900 -1]
+}
+
+func ExampleClient_member_expiration_ms() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// STEP_START member_expiration_ms
+	rdb.Del(ctx, "bikes:reserved")
+	rdb.SAdd(ctx, "bikes:reserved", "bike:1", "bike:2")
+
+	res25, err := rdb.SPExpire(ctx, "bikes:reserved", 60000*time.Millisecond, "bike:1").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res25) // >>> [1]
+
+	res26, err := rdb.SPTTL(ctx, "bikes:reserved", "bike:1", "bike:2").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res26) // >>> [59994 -1] (for example)
+
+	res27, err := rdb.SPersist(ctx, "bikes:reserved", "bike:1").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res27) // >>> [1]
+
+	res28, err := rdb.SPTTL(ctx, "bikes:reserved", "bike:1").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res28) // >>> [-1]
+	// STEP_END
+
+	// REMOVE_START
+	rdb.Del(ctx, "bikes:reserved")
+	// REMOVE_END
+
+	// Testable examples not available because the test output
+	// is not deterministic.
+}
+
+func ExampleClient_member_expiration_at() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// STEP_START member_expiration_at
+	rdb.Del(ctx, "bikes:reserved")
+	rdb.SAdd(ctx, "bikes:reserved", "bike:1", "bike:2")
+
+	// 4102444800 is an example Unix time in the future.
+	res29, err := rdb.SExpireAt(ctx, "bikes:reserved", time.Unix(4102444800, 0), "bike:1").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res29) // >>> [1]
+
+	res30, err := rdb.SExpireTime(ctx, "bikes:reserved", "bike:1", "bike:2").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res30) // >>> [4102444800 -1]
+	// STEP_END
+
+	// REMOVE_START
+	rdb.Del(ctx, "bikes:reserved")
+	// REMOVE_END
+
+	// Output:
+	// [1]
+	// [4102444800 -1]
 }
