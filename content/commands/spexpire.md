@@ -140,18 +140,18 @@ For each specified member, apply the expiration only when the new expiration is 
 
 ## Examples
 
-```redis
-redis> SADD myset member1 member2
+{{< clients-example set="cmds_set_expiration" step="spexpire" lang_filter="Python,Node.js,ioredis,Java-Sync,Go,PHP,Ruby" description="Member expiration in milliseconds: Set a TTL on individual set members using SPEXPIRE, with conditional options (LT) when you need sub-second precision" difficulty="intermediate" >}}
+> SADD myset member1 member2
 (integer) 2
-redis> SPEXPIRE myset 2000 MEMBERS 2 member1 member2
+> SPEXPIRE myset 2000 MEMBERS 2 member1 member2
 1) (integer) 1
 2) (integer) 1
-redis> SPEXPIRE myset 500 LT MEMBERS 1 member1
+> SPEXPIRE myset 500 LT MEMBERS 1 member1
 1) (integer) 1
-redis> SPTTL myset MEMBERS 2 member1 member2
+> SPTTL myset MEMBERS 2 member1 member2
 1) (integer) 491
 2) (integer) 1982
-```
+{{< /clients-example >}}
 
 ## Details
 

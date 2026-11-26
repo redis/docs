@@ -140,24 +140,24 @@ For each specified member, apply the expiration only when the new expiration is 
 
 ## Examples
 
-```redis
-redis> SEXPIRE no-key 20 NX MEMBERS 2 member1 member2
+{{< clients-example set="cmds_set_expiration" step="sexpire" lang_filter="Python,Node.js,ioredis,Java-Sync,Go,PHP,Ruby" description="Member expiration: Set a TTL in seconds on individual set members using SEXPIRE, with conditional options (NX, GT) when you need fine-grained control over member lifecycle" difficulty="intermediate" >}}
+> SEXPIRE no-key 20 NX MEMBERS 2 member1 member2
 1) (integer) -2
 2) (integer) -2
-redis> SADD myset member1 member2
+> SADD myset member1 member2
 (integer) 2
-redis> SEXPIRE myset 10 MEMBERS 3 member1 member2 member3
+> SEXPIRE myset 10 MEMBERS 3 member1 member2 member3
 1) (integer) 1
 2) (integer) 1
 3) (integer) -2
-redis> SEXPIRE myset 20 NX MEMBERS 1 member1
+> SEXPIRE myset 20 NX MEMBERS 1 member1
 1) (integer) 0
-redis> SEXPIRE myset 20 GT MEMBERS 1 member1
+> SEXPIRE myset 20 GT MEMBERS 1 member1
 1) (integer) 1
-redis> STTL myset MEMBERS 2 member1 member2
+> STTL myset MEMBERS 2 member1 member2
 1) (integer) 20
 2) (integer) 10
-```
+{{< /clients-example >}}
 
 ## Details
 
