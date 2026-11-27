@@ -13,6 +13,7 @@
 .dta[data-dta="pub-sub"] { min-height: 328px; }
 .dta[data-dta="session-store"] { min-height: 305px; }
 .dta[data-dta="streaming"] { min-height: 343px; }
+.dta[data-dta="time-series-dashboard"] { min-height: 357px; }
 
 /* ---- the stage ---- */
 .dta-uc { position: relative; flex: none; }
@@ -141,6 +142,27 @@
 /* What a worker holds, once it has acknowledged it: the color the console gives an OK reply. */
 .dta-uc-line.is-ok { color: #8cd7b9; }
 
+/* ---- time series dashboard: the samples drawn as a chart ---- */
+/* A sample that a command has read, and the cross that stays where a deleted sample was. */
+.dta-ts-dot.is-read { fill: var(--dta-read); }
+.dta-uc-gone { fill: none; stroke: var(--dta-no); stroke-width: 2; stroke-linecap: round; }
+/* What a sample holds, written beside its dot. */
+.dta-uc-chart .dta-uc-val { fill: var(--dta-ink); font-weight: 700; }
+.dta-uc-chart .dta-uc-val.is-read { fill: var(--dta-read); }
+/* The bracket over the time that the time series keeps. */
+.dta-uc-span path { fill: none; stroke: var(--dta-muted); stroke-width: 1.5; }
+.dta-uc-span text { fill: var(--dta-ink); }
+/* The band over the time that a command has read, with the timestamp that it starts at. */
+.dta-uc-range rect { fill: var(--dta-read-wash); }
+.dta-uc-range text { fill: var(--dta-read); }
+/* The line under the chart that says how much the time series keeps. The step that sets it marks it like a row. */
+.dta-uc-keep {
+  height: 24px; padding: 0 10px; border: solid transparent; border-width: 1px 0 0 2px; border-top-color: var(--dta-line);
+  font: 11px/22px var(--dta-mono); color: var(--dta-muted); white-space: nowrap;
+  transition: background-color .3s, border-color .3s;
+}
+.dta .dta-uc-keep.is-write { border-color: var(--dta-line) transparent transparent var(--dta-write); box-shadow: none; }
+
 @container (max-width: 460px) {
   .dta-uc-next { gap: 6px; padding: 0 8px 0 10px; font-size: 9px; }
   .dta-uc-group .dta-uc-label { padding-left: 6px; letter-spacing: .2px; }
@@ -153,4 +175,6 @@
   .dta-uc-store .dta-r { font-size: 11.5px; column-gap: 8px; padding: 0 8px; }
   .dta-uc-app { font-size: 11px; }
   .dta-uc-line { font-size: 9.5px; }
+  .dta-uc-chart text { font-size: 10px; }
+  .dta-uc-keep { padding: 0 8px; font-size: 10px; }
 }
