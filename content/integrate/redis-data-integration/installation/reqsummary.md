@@ -25,7 +25,7 @@ an RDI installation.
 
 ## OS requirements for VM installation
 
-{{< embed-md "rdi-os-reqs.md" >}}
+{{< embed-md "rdi-os-reqs-2.4.md" >}}
 
 ## Kubernetes/OpenShift supported versions
 

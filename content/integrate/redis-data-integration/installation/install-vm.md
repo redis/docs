@@ -67,12 +67,12 @@ development and testing.
 > ```
 >
 > Also, `iptables` versions 1.8.0-1.8.4 have known issues that can prevent RDI
-> from working, especially on RHEL 8. Ideally, use `iptables` v1.8.8, which is
-> known to work correctly with RDI.
+> from working. Ideally, use `iptables` v1.8.8, which is known to work correctly
+> with RDI.
 
 The supported OS versions for RDI are:
 
-{{< embed-md "rdi-os-reqs.md" >}}
+{{< embed-md "rdi-os-reqs-2.4.md" >}}
 
 You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
