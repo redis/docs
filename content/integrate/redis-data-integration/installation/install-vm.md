@@ -363,20 +363,13 @@ on each instance. RDI reports `Leader Election Mode: leader` on the leader. For 
 1.  [Set the secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
     of your pipelines on the new instance.
 
-1.  Remove the old instance:
+1.  [Uninstall RDI](#uninstall-rdi) on the old VM.
 
-    - For a follower, [uninstall RDI](#uninstall-rdi) on its VM.
-    - For the leader, stop K3s on its VM:
-
-      ```bash
-      sudo /usr/local/bin/k3s-killall.sh
-      ```
-
-      A new instance takes over within two minutes. Run `redis-di info` on each new instance,
-      and check that one of them reports `Leader Election Mode: leader`. On that instance, run
-      [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
-      for each of your pipelines, and check that its components run without errors. Then
-      uninstall RDI on the old VM.
+    If the old instance was the leader, a new instance takes over within two minutes. Run
+    `redis-di info` on each new instance, and check that one of them reports
+    `Leader Election Mode: leader`. On that instance, run
+    [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
+    for each of your pipelines, and check that its components run without errors.
 
 After you replace all instances, update the clients of the RDI API, such as Redis Insight and your
 `redis-di` [contexts](/content/integrate/redis-data-integration/reference/cli/_index.md#contexts),
