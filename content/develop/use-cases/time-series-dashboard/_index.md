@@ -40,6 +40,10 @@ You can:
 
 In practice, each metric is stored as a Redis [time series](/content/develop/data-types/timeseries/_index.md) key with optional labels for the dimensions you want to query by (region, host, sensor type), and compaction rules to write downsampled summaries into companion keys as new samples arrive.
 
+The animation shows a power sensor that adds a sample to a time series every second, and a dashboard that reads the newest sample, the samples in a range of time, and averages over 3-second periods. The time series keeps 12 seconds of samples, counted back from the newest sample and not from the clock. Redis deletes an old sample only when a newer one arrives. To stay small, the animation uses one time series with no labels or compaction rules, a retention of only 12 seconds, and timestamps that start near zero. An application usually uses the Unix time in milliseconds as the timestamp.
+
+{{< use-case-animation name="time-series-dashboard" >}}
+
 Redis provides the following features that make it a good fit for time series workloads:
 
 -   The [time series](/content/develop/data-types/timeseries/_index.md) data structure

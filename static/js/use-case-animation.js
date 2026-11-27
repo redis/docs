@@ -10,12 +10,13 @@
    is drawn before the first command has its reply, a step draws only what
    its own command caused, and every step stays on screen for the same time.
    Something that no command causes, such as a worker crashing or time
-   passing, is a step of its own with no command. One thing comes before a
-   command: what makes the application send it, such as a request from a
-   browser. A step draws that before its command is typed, and a scene
-   whose first step starts that way shows its drawing from the start. The
-   first sentence of such a step's note shows with the request, and the
-   rest of the note shows with the reply.
+   passing, is a step of its own with no command. Commands that are sent
+   while time passes are drawn as messages, and the console doesn't type
+   them. One thing comes before a command: what makes the application send
+   it, such as a request from a browser. A step draws that before its
+   command is typed, and a scene whose first step starts that way shows its
+   drawing from the start. The first sentence of such a step's note shows
+   with the request, and the rest of the note shows with the reply.
    ========================================================================= */
 (function () {
   "use strict";
@@ -76,12 +77,13 @@
     };
     g.wire = function (a, b) { return svg.appendChild(s("path", { class: "dta-uc-wire", d: "M" + a + "L" + b })); };
     /* A message crosses from point `a` to point `b`: a command going out, or its answer coming back.
-       `kind` is "write" or "read", as for a mark, or "plain" for a message that isn't a Redis command. */
-    g.send = function (c, a, b, text, kind) {
+       `kind` is "write" or "read", as for a mark, or "plain" for a message that isn't a Redis command.
+       One of many messages that follow each other closely can cross in `ms`, less than the usual time. */
+    g.send = function (c, a, b, text, kind, ms) {
       const m = el.appendChild(h("div", "dta-uc-msg is-" + kind, text));
       function at(p) { return "translate(" + p[0] + "px," + p[1] + "px) translate(-50%,-50%)"; }
       return c.anim(m, [{ transform: at(a), opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 1, offset: 0.88 }, { transform: at(b), opacity: 0 }],
-        CROSS, { easing: "ease-in-out", fill: "forwards" }).then(function () { m.remove(); });
+        ms || CROSS, { easing: "ease-in-out", fill: "forwards" }).then(function () { m.remove(); });
     };
     return g;
   }
@@ -590,6 +592,191 @@
         await c.wait(250);
         await c.anim(key, [{ opacity: 1 }, { opacity: 0 }], 420, { fill: "forwards" });
         card.el.classList.add("is-gone");
+      };
+      return st;
+    },
+  };
+
+  /* ---- time series dashboard ---- */
+
+  const SERIES = "power:1", KEEP = 12000;   // the time series of the sensor's samples, and how many milliseconds of them it keeps
+  D.scenes["time-series-dashboard"] = {
+    label: "a time series dashboard with Redis",
+    h: 174,
+    steps: [
+      { who: "sensor", cmd: "TS.CREATE " + SERIES + " RETENTION " + KEEP, reply: "OK", note: "The sensor creates a time series. It will keep only 12 seconds (12000 ms) of samples.",
+        run: async function (c, st) {
+          await st.write(c, "TS.CREATE");
+          return st.create(c);
+        } },
+      { who: "sensor", cmd: "TS.ADD " + SERIES + " 1500 623", reply: "(integer) 1500", note: "A sample is a timestamp in milliseconds and a value. Redis replies with the sample's timestamp.",
+        run: async function (c, st) {
+          await st.write(c, "TS.ADD");
+          return st.add(c, 1500, 623, true);
+        } },
+      { event: "12 seconds pass", note: "The sensor sends a TS.ADD every second. The 13 samples span exactly 12 seconds, so all stay.",
+        run: async function (c, st) {
+          await st.stream(c, [[2500, 629], [3500, 636], [4500, 644], [5500, 657], [6500, 661], [7500, 659], [8500, 645], [9500, 641], [10500, 630], [11500, 628], [12500, 639], [13500, 653]]);
+          return st.kept(c);
+        } },
+      { who: "sensor", cmd: "TS.ADD " + SERIES + " 14500 655", reply: "(integer) 14500", note: "The sample at 1500 ms is now more than 12 seconds older than the newest, so Redis deletes it.",
+        run: async function (c, st) {
+          await st.write(c, "TS.ADD");
+          await st.add(c, 14500, 655);
+          return st.trim(c);
+        } },
+      { who: "dashboard", cmd: "TS.GET " + SERIES, reply: "1) (integer) 14500\n2) 655", note: "TS.GET returns the newest sample. The dashboard shows 655 watts as the current power.",
+        run: async function (c, st) {
+          await st.read(c, "TS.GET");
+          st.latest(c);
+          await st.answer(c, "655");
+          return st.shows(c, 0, "now 655");
+        } },
+      { who: "dashboard", cmd: "TS.RANGE " + SERIES + " 13000 +", reply: "1) 1) (integer) 13500\n   2) 653\n2) 1) (integer) 14500\n   2) 655",
+        note: "TS.RANGE returns the samples between two timestamps. The + stands for the newest sample.",
+        run: async function (c, st) {
+          await st.read(c, "TS.RANGE");
+          await st.range(c, 13000);
+          await st.answer(c, "653, 655");
+          return st.shows(c, 1, "graph 653, 655");
+        } },
+      { who: "dashboard", cmd: "TS.RANGE " + SERIES + " 9000 + AGGREGATION avg 3000", reply: "1) 1) (integer) 9000\n   2) 633\n2) 1) (integer) 12000\n   2) 649",
+        note: "With AGGREGATION avg 3000, the reply has each 3-second period's start time and its average.",
+        run: async function (c, st) {
+          await st.read(c, "TS.RANGE");
+          await st.buckets(c, 3000, [[9000, 633], [12000, 649]]);
+          await st.answer(c, "633, 649");
+          return st.shows(c, 2, "avg 633, 649");
+        } },
+    ],
+    build: function (c) {
+      /* The sensor that writes and the dashboard that reads, then the sensor's time series in Redis, drawn
+         as a chart of its samples. The card gets the room that the two boxes don't need. */
+      const W = Math.max(c.W, 300), narrow = W < 430, aw = narrow ? 84 : 92;   // 300 is the least it fits in
+      const gap = Math.max(narrow ? 12 : 40, Math.min(84, W - aw - 420)), cw = Math.min(420, W - aw - gap), x = aw + gap, g = stage(c, x + cw);
+      const CH = 104, card = g.store("Redis time series", SERIES, x, 0, cw, null, 0, CH + 24);   // room for the chart and the line under it
+      const sensor = g.actor("Sensor", 0, 40, aw, 40), dash = g.actor("Dashboard", 0, 96, aw, 65), st = { pts: [] };
+      /* The three lines under the dashboard's name are what it shows: the newest value, the samples for
+         its graph, and the averages. Each is a dash until the dashboard has read it from Redis. */
+      const shown = ["now", "graph", "avg"].map(function (name) { return dash.el.appendChild(h("div", "dta-uc-line", name + " —")); });
+      /* Each of the two has a wire to the point on the side of the card that is level with it. */
+      const inS = [x, sensor.r[1]], inD = [x, dash.r[1]];
+      g.wire(sensor.r, inS);
+      g.wire(dash.r, inD);
+
+      /* The chart. Time runs to the right, in the milliseconds of the samples' timestamps, and a sample's
+         value, in watts, is its height. There is room for SPAN milliseconds. */
+      const SPAN = 15000, pw = cw - 2, xa = narrow ? 40 : 46, xb = pw - (narrow ? 8 : 20), ya = CH - 22, yb = 30;
+      function X(t) { return xa + t / SPAN * (xb - xa); }
+      function Y(v) { return ya - (v - 610) / 60 * (ya - yb); }
+      const svg = s("svg", { class: "dta-svg dta-uc-chart", width: pw, height: CH }), back = s("g"), line = s("polyline", { class: "dta-ts-line", points: "" }), dots = s("g");
+      add(svg, back, line, dots);
+      back.appendChild(s("line", { class: "dta-axis", x1: xa, x2: xb, y1: ya, y2: ya }));
+      [620, 640, 660].forEach(function (v) {
+        add(back, s("line", { class: "dta-grid", x1: xa, x2: xb, y1: Y(v), y2: Y(v) }), s("text", { x: xa - 7, y: Y(v), dy: ".35em", "text-anchor": "end" }, v + " W"));
+      });
+      for (let t = 0; t <= SPAN; t += 3000) {
+        back.appendChild(s("line", { class: "dta-axis", x1: X(t), x2: X(t), y1: ya, y2: ya + 4 }));
+        if (!narrow || t % 6000 === 0) back.appendChild(s("text", { x: X(t), y: ya + 16, "text-anchor": "middle" }, t || "0 ms"));
+      }
+      svg.style.opacity = "0";   // the time series doesn't exist until a command creates it
+      card.body.appendChild(svg);
+      const keep = h("div", "dta-uc-keep", "keeps " + KEEP / 1000 + " seconds of samples");
+
+      /* The line through the samples, oldest first. */
+      function join() { line.setAttribute("points", st.pts.map(function (p) { return X(p.t) + "," + Y(p.v); }).join(" ")); }
+      /* What a sample holds, written by its dot until the next step: to the right of the first sample,
+         which has the chart to itself, and over the newest one when a command has read it. */
+      function value(c, p, text, read) {
+        const at = read ? { x: X(p.t) + 5, y: Y(p.v) - 9, "text-anchor": "end", class: "dta-uc-val is-read" } : { x: X(p.t) + 8, y: Y(p.v), dy: ".35em", class: "dta-uc-val" };
+        return c.enter(svg.appendChild(c.temp(s("text", at, text))), read ? "translateY(4px)" : "translateX(-4px)");
+      }
+      /* A command from the sensor to Redis, a command from the dashboard, and what Redis answers the dashboard. */
+      st.write = function (c, text, ms) { return g.send(c, sensor.r, inS, text, "write", ms); };
+      st.read = function (c, text) { return g.send(c, dash.r, inD, text, "read"); };
+      st.answer = function (c, text) { return g.send(c, inD, dash.r, text, "read"); };
+      /* The dashboard shows what Redis answered, on the line that is for it. */
+      st.shows = function (c, i, text) {
+        shown[i].textContent = text;
+        c.mark(dash.el, "read");
+        return c.enter(shown[i], "scale(.8)");
+      };
+      /* TS.CREATE makes an empty time series that keeps KEEP milliseconds of samples. */
+      st.create = function (c) {
+        svg.style.opacity = "";
+        card.body.appendChild(c.mark(keep, "write"));
+        return Promise.all([c.anim(svg, [{ opacity: 0 }, { opacity: 1 }], 300), c.enter(keep, "translateY(-6px)")]);
+      };
+      /* A command adds a sample: a dot at its timestamp and value, joined to the sample before it. With
+         `show`, its value and its timestamp are written beside it. */
+      st.add = function (c, t, v, show) {
+        const p = { t: t, v: v, el: s("circle", { class: "dta-ts-dot", cx: X(t), cy: Y(v), r: narrow ? 3 : 3.5 }) };
+        p.el.appendChild(s("title", null, v + " W at " + t + " ms"));   // what a pointer held over the dot shows
+        st.pts.push(p);
+        join();
+        dots.appendChild(c.mark(p.el, "write"));
+        if (show) value(c, p, v + " W at " + t + " ms");
+        return c.enter(p.el, "scale(.2)");
+      };
+      /* Time passes, and the sensor adds each of these samples with a command of its own. The console
+         doesn't type them. Their messages cross one after the other, faster than a typed command's. */
+      st.stream = function (c, samples) {
+        return Promise.all(samples.map(function (p, k) {
+          return c.wait(k * 200).then(function () { return st.write(c, "TS.ADD", 280); }).then(function () { return st.add(c, p[0], p[1]); });
+        }));
+      };
+      /* The time series keeps a sample until it is more than KEEP milliseconds older than the newest one.
+         A bracket, which stays until the next step, shows the time that it keeps. */
+      st.kept = function (c) {
+        const to = st.pts[st.pts.length - 1].t, x1 = X(to - KEEP), x2 = X(to);
+        const span = c.temp(add(s("g", { class: "dta-uc-span" }), s("path", { d: "M" + x1 + " 21V16H" + x2 + "V21" }),
+          s("text", { x: (x1 + x2) / 2, y: 12, "text-anchor": "middle" }, KEEP / 1000 + " seconds")));
+        return c.anim(svg.appendChild(span), [{ opacity: 0 }, { opacity: 1 }], 300);
+      };
+      /* Redis deletes the samples from before that time. A cross stays where a deleted sample was until
+         the next step, and the line no longer reaches it. */
+      st.trim = async function (c) {
+        const from = st.pts[st.pts.length - 1].t - KEEP, old = st.pts.filter(function (p) { return p.t < from; });
+        await st.kept(c);
+        await c.wait(300);
+        st.pts = st.pts.slice(old.length);
+        const cut = s("polyline", { class: "dta-ts-line", points: old.concat(st.pts[0]).map(function (p) { return X(p.t) + "," + Y(p.v); }).join(" ") });
+        back.appendChild(cut);
+        join();
+        await Promise.all(old.map(function (p) {
+          const cross = c.temp(s("path", { class: "dta-uc-gone", d: "M" + (X(p.t) - 4) + " " + (Y(p.v) - 4) + "l8 8m0-8l-8 8" }));
+          cross.appendChild(s("title", null, p.v + " W at " + p.t + " ms, deleted"));
+          return Promise.all([c.leave(p.el), c.enter(svg.appendChild(cross), "scale(.2)", 380)]);
+        }).concat(c.leave(cut, "none", 380)));
+      };
+      /* TS.GET reads the newest sample. */
+      st.latest = function (c) {
+        const p = st.pts[st.pts.length - 1];
+        c.mark(p.el, "read");
+        return value(c, p, p.v + " W", true);
+      };
+      /* TS.RANGE reads the samples from the timestamp `from` to the newest one. A band covers that time,
+         with the timestamp over the edge that it starts at. */
+      st.range = function (c, from) {
+        const x1 = X(from), x2 = X(st.pts[st.pts.length - 1].t) + 7;
+        const band = c.temp(add(s("g", { class: "dta-uc-range" }), s("rect", { x: x1, y: 18, width: x2 - x1, height: ya - 18, rx: 4 }),
+          s("text", { x: x1, y: 12, "text-anchor": "middle" }, from)));
+        back.appendChild(band);
+        st.pts.forEach(function (p) { if (p.t >= from) c.mark(p.el, "read"); });
+        return c.anim(band, [{ opacity: 0 }, { opacity: 1 }], 380);
+      };
+      /* With an aggregation, TS.RANGE answers with one value for every `width` milliseconds: where that
+         bucket of time starts, and the average of the samples in it. The label of a bucket says "avg"
+         where the bucket is wide enough for it. */
+      st.buckets = async function (c, width, list) {
+        for (const b of list) {
+          const x1 = X(b[0]), x2 = X(b[0] + width), y = Y(b[1]);
+          const grp = c.temp(add(s("g", { class: "dta-ts-bucket" }), s("rect", { x: x1 + 1.5, y: 14, width: x2 - x1 - 3, height: ya - 14, rx: 4 }),
+            s("line", { x1: x1 + 6, x2: x2 - 6, y1: y, y2: y }), s("text", { x: (x1 + x2) / 2, y: 26, "text-anchor": "middle" }, (x2 - x1 < 60 ? "" : "avg ") + b[1])));
+          back.appendChild(grp);
+          c.anim(grp, [{ opacity: 0 }, { opacity: 1 }], 380);
+          await c.wait(240);
+        }
       };
       return st;
     },
