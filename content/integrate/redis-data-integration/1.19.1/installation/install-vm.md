@@ -76,7 +76,7 @@ development and testing.
 
 The supported OS versions for RDI are:
 
-{{< embed-md "rdi-os-reqs.md" >}}
+{{< embed-md "rdi-os-reqs-2-0.md" >}}
 
 You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
