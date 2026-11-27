@@ -150,7 +150,7 @@ create a pipeline.
 > [!WARNING]
 > If you upgraded RDI from an earlier version, finish upgrading all the RDI instances before you
 > create a pipeline other than `default`, and do not downgrade RDI after you create one. See
-> [Upgrading to RDI 2.2.0](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-to-rdi-220).
+> [Upgrading and downgrading HA and DR setups](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-and-downgrading-ha-and-dr-setups).
 
 ## Set secrets for each pipeline
 

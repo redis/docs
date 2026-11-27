@@ -1,6 +1,7 @@
 ---
 Title: Upgrading RDI
 alwaysopen: false
+bannerText: 'This documentation applies to version 2.0.0. Don''t upgrade to RDI 2.0.x. Upgrade directly to the latest RDI version instead, as described in [Upgrading RDI](/content/integrate/redis-data-integration/installation/upgrade.md).'
 categories:
 - docs
 - integrate

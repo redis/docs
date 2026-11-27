@@ -34,8 +34,7 @@ which applies to Kubernetes only.
 
 ## Before you migrate
 
-This procedure migrates the pipeline processor on RDI 1.19.0. It does not
-upgrade RDI.
+This procedure migrates the pipeline processor. It does not upgrade RDI.
 
 Before you start, save your existing configuration and jobs. Wait for the
 initial snapshot to finish. Interrupting it causes the snapshot to restart
@@ -163,8 +162,8 @@ processors:
 ```
 
 RDI 1.19.x requires this setting because its default processor is `classic`.
-On RDI 2.0.0 the default processor is `flink`, so this setting is no longer
-required.
+On RDI 2.0.0 and later, the default processor is `flink`, so this setting is no
+longer required.
 
 Keep the remaining configuration and jobs, then redeploy the complete
 configuration directory:
@@ -239,6 +238,6 @@ for the `ServiceMonitor` configuration and the available metrics.
 ## Rolling back
 
 To revert a pipeline to the classic processor, set `processors.type` to
-`classic` and redeploy the pipeline. This setting is required on RDI 2.0.0,
-where the default is `flink`. The classic processor silently ignores
+`classic` and redeploy the pipeline. This setting is required on RDI 2.0.0 and
+later, where the default is `flink`. The classic processor silently ignores
 `processors.advanced`, so you don't need to remove it before switching back.

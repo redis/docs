@@ -1,6 +1,7 @@
 ---
 Title: Upgrading RDI
 alwaysopen: false
+bannerText: 'Upgrade to the latest RDI version, RDI 2.2.2 or later. You can upgrade to it from RDI 1.8.0 or later.'
 categories:
 - docs
 - integrate
@@ -16,21 +17,43 @@ type: integration
 weight: 30
 ---
 
-> [!NOTE]
-> Before you upgrade, review [Upgrading to RDI 2.2.0](#upgrading-to-rdi-220). If you upgrade
-> from RDI 1.19.x or earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
+To upgrade RDI, follow the procedure for a
+[VM installation](#upgrading-a-vm-installation) or a
+[Kubernetes installation](#upgrading-a-kubernetes-installation), and do the
+[upgrade steps](#upgrade-steps) that apply to the version you upgrade from. Before you upgrade,
+read the [release notes](/content/integrate/redis-data-integration/release-notes/_index.md) of
+every version after yours, up to the one you install, and do what they say for your
+installation. To upgrade from a version before 1.8.0, upgrade to RDI 1.19.1 first, following the
+[RDI 1.19.1 upgrade instructions](/content/integrate/redis-data-integration/1.19.1/installation/upgrade.md),
+and check that the `default` pipeline runs.
+
+Each upgrade step starts with these properties:
+
+- **From**: The versions that you upgrade from, and any other condition for the step. Do every
+  step whose **From** includes your version.
+- **When**: Before, during, or after the upgrade. The procedures tell you where to do each group
+  of steps. Within a group, you can do the steps in any order, unless the **When** line says
+  otherwise.
+- **Applies to**: The installations that need the step: VM installations, Kubernetes
+  installations with Helm, or both. It also says what a VM installation with high availability
+  (HA) or a Kubernetes
+  [disaster recovery (DR) setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md)
+  needs, if that differs.
 
 > [!WARNING]
-> Downgrading from RDI 2.0.0 or later to a version earlier than 2.0.0 is not supported.
-
-For a disaster recovery deployment, also review
-[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
+> Downgrading from RDI 2.0.0 or later to a version earlier than 2.0.0 is not supported. Do not
+> downgrade from RDI 2.2.x after you create a pipeline other than `default`.
 
 ## Upgrading a VM installation
 
 Follow the steps below to upgrade an existing
 [VM installation](/content/integrate/redis-data-integration/installation/install-vm.md)
-of RDI:
+of RDI. In an HA installation, do them on the leader first, and then on the follower, as
+described in
+[Upgrading a VM installation with high availability](#upgrading-a-vm-installation-with-high-availability).
+
+1.  Do the [upgrade steps](#upgrade-steps) for a VM installation whose **When** is before the
+    upgrade.
 
 1.  Download the RDI installer from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
     (in the *Modules, Tools & Integration* category) and extract it to your
@@ -48,6 +71,8 @@ of RDI:
     cd rdi_install/$RDI_VERSION
     ```
 
+1.  Do the upgrade steps for a VM installation whose **When** is during the upgrade.
+
 1.  Run the `upgrade.sh` script as a privileged user. Note that you must pass
     your RDI password to the script unless the password is empty.
 
@@ -55,72 +80,19 @@ of RDI:
     sudo ./upgrade.sh --rdi-password <redis-rdi-password>
     ```
 
+1.  Do the upgrade steps for a VM installation whose **When** is after the upgrade.
+
 ### Recovering from failure during a VM upgrade
 
-If the previous version is v1.4.4 or later, go to the `rdi_install/<PREVIOUS_VERSION>`
-directory and run `sudo ./upgrade.sh` to revert to that version, as described in the section
-[Upgrading a VM installation](#upgrading-a-vm-installation) above.
-
-If the version you are replacing is earlier than v1.4.4, follow these steps. These steps restore and
-run the CLI binary of the previous RDI version, which still provided the `redis-di upgrade` command.
-(On current versions, upgrades are performed with the `upgrade.sh` script as described above, and
-`redis-di upgrade` is no longer a CLI command.)
-
-1.  Run `redis-di --version` to check the current version.
-
-    If the version is the new one, copy the previous version
-    of the RDI CLI to `/usr/local/bin` with the following command:
-    
-    ```bash
-    sudo cp rdi_install/<PREVIOUS_VERSION>/deps/rdi-cli/<OS>/redis-di usr/local/bin
-    ```
-
-1.  Check that the CLI version is correct by running `redis-di --version`.
-
-    Then, go to the `rdi_install/<PREVIOUS_VERSION>` directory and run the
-    following command;
-
-    ```bash
-    sudo redis-di upgrade --rdi-host <RDI_REDIS_HOST> --rdi-port <RDI_REDIS_PORT>
-    ```
-
-> [!NOTE]
-> If the `collector` or `processor` pods are not in the `Running` state after
-> the upgrade, you must run `redis-di deploy` and check again that they are both in the
-> `Running` state.
-
-### Upgrading a VM installation with High Availability
-
-If there is an active pipeline, upgrade RDI on the active VM first. 
-This will cause a short pipeline downtime of up to two minutes. 
-Afterwards, wait until `redis-di info` reports the upgraded VM as the leader, then upgrade RDI
-on the passive VM. This will not cause any downtime.
-
-> [!WARNING]
-> When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI instances may incorrectly consider themselves active after the upgrade. This occurs because the upgrade process doesn't change the cluster id value from its default `cluster-1`, causing both clusters to assume they are the active cluster.
->
-> **Symptoms:**
->
-> - The upgraded passive node will start collector and processor components
-> - Collector may enter a crash loop as it fails to connect to the source
-> - Both clusters will restart in a loop
->
-> **Workaround:**
->
-> After upgrading, manually set a unique cluster ID for one of the installations (preferably on the passive instance):
->
-> 1. Locate the RDI configuration file on the VM host. The file is typically located at `/etc/rdi/rdi-sys-config.yaml`.
-> 2. Open the configuration file in a text editor. For example:
->
->    ```bash
->    sudo nano /etc/rdi/rdi-sys-config.yaml
->    ```
+Go to the `rdi_install/<PREVIOUS_VERSION>` directory and run `sudo ./upgrade.sh` to revert to
+that version.
 
 ## Upgrading a Kubernetes installation
 
 Follow the steps below to upgrade an existing
 [Kubernetes](/content/integrate/redis-data-integration/installation/install-k8s.md)
-installation of RDI:
+installation of RDI. In a DR setup, do them at the leader's site first, and then at the other
+site, as described in [Upgrading a DR setup](#upgrading-a-dr-setup).
 
 1.  If you are using a private registry, pull the new versions of all images listed in 
     [Using a private image registry](/content/integrate/redis-data-integration/installation/install-k8s.md#using-a-private-image-registry)
@@ -135,34 +107,24 @@ installation of RDI:
     ```
 
 1.  Adapt your `rdi-values.yaml` file to any changes in the new RDI version if needed.
-    See also [Upgrading to RDI 1.8.0 or later from an earlier version](#upgrading-to-rdi-180-or-later-from-an-earlier-version). 
     Before making any changes, save your existing `rdi-values.yaml` if you need to revert 
     to the old RDI version for any reason.
 
-1.  Run the `helm upgrade` command:
+1.  Do the [upgrade steps](#upgrade-steps) for a Kubernetes installation whose **When** is
+    before the upgrade.
+
+1.  Do the upgrade steps for a Kubernetes installation whose **When** is during the upgrade,
+    and then run the `helm upgrade` command:
     
     ```bash
     helm upgrade --install rdi rdi-<tag>.tar.gz -f rdi-values.yaml -n rdi
     ```
 
+1.  Do the upgrade steps for a Kubernetes installation whose **When** is after the upgrade.
+
 Note that you don't need to
 [deploy](/content/integrate/redis-data-integration/data-pipelines/deploy.md)
 the RDI configuration again after this step.
-
-### Upgrading to RDI 1.8.0 or later from an earlier version
-
-When upgrading to RDI 1.8.0 or later from an earlier version
-you must adapt your `rdi-values.yaml` file to the following changes:
-
--   All collector and processor values that were previously under `collector`,
-    `collectorSourceMetricsExporter`, and `processor` have been moved to
-    `operator.dataPlane.collector` and `operator.dataPlane.processor`.
--   `global.collectorApiEnabled` has been moved to `operator.dataPlane.collectorApi.enabled`,
-    and is now a boolean value, not `"0"` or `"1"`.
--   `api.authEnabled` is also now a boolean value, not `"0"` or `"1"`.
--   The following values have been deprecated: `rdiMetricsExporter.service.protocol`,
-    `rdiMetricsExporter.service.port`, `rdiMetricsExporter.serviceMonitor.path`,
-    `api.service.name`.
 
 ### Verifying the upgrade
 
@@ -173,221 +135,216 @@ kubectl get all -n rdi
 ```
 
 If you find that the upgrade did not work as expected for any reason, 
-then run the `helm upgrade` command again (as described in the section
-[Upgrading a Kubernetes installation](#upgrading-a-kubernetes-installation) above),
-but this time with the previous version you were upgrading from, and using
+then run the `helm upgrade` command again, but this time with the previous version you were
+upgrading from, and using
 your saved `rdi-values.yaml` for that version. This will restore your previous working state.
 
-> [!NOTE]
-> Downgrading from RDI 1.8.0 or later to an earlier version using `helm upgrade`
-> will not work. If you need to perform such an upgrade, uninstall RDI completely first as
-> described in [Uninstall RDI](/content/integrate/redis-data-integration/installation/install-k8s.md#uninstall-rdi),
-> and then install the old version.
+## Upgrading and downgrading HA and DR setups
 
-## Upgrading to RDI 2.2.0
+An HA installation and a DR setup each have two RDI instances that use leader election. Only the
+leader runs the pipelines. Upgrade the leader first, and finish upgrading both instances before
+you create a pipeline other than `default`.
 
-Check the following changes before you upgrade from RDI 2.0.0. If you upgrade from RDI 1.19.x or
-earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
+### Upgrading a VM installation with high availability
 
-### Upgrade from a version before 1.8.0 in two steps
+To upgrade the two VMs of an HA installation:
 
-You cannot upgrade an installation of a version before 1.8.0 directly to RDI 2.2.0. Upgrade
-to RDI 2.0.0 first, following the
-[RDI 2.0.0 upgrade instructions](/content/integrate/redis-data-integration/2.0.0/installation/upgrade.md).
-Check that the `default` pipeline runs, and then upgrade to RDI 2.2.0.
+1.  Upgrade the leader, following [Upgrading a VM installation](#upgrading-a-vm-installation).
+    If a pipeline is active, it stops for up to two minutes.
 
-### Upgrade the leader first
+1.  Run [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
+    on the upgraded VM, and wait until it shows `Leader Election Mode: leader`.
 
-If you run two RDI instances with leader election, upgrade the leader first. Upgrade the other
-instance only after
-[`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
-on the upgraded instance shows `Leader Election Mode: leader`. See
-[Upgrading a VM installation with High Availability](#upgrading-a-vm-installation-with-high-availability).
-Finish upgrading all instances before creating a pipeline other than `default`.
+1.  Upgrade the follower in the same way. This causes no pipeline downtime.
 
-The first upgraded instance that becomes the leader saves its pipelines as the backup that RDI
-restores at every later failover. This matters most when you upgrade from a version before
-2.0.0: the other instance does not keep a copy of your pipelines, so if it became the leader first, RDI
-would delete your pipelines at the next failover.
+### Upgrading a DR setup
 
-In a disaster recovery setup with a GCS lease, the upgraded leader migrates the lease to a
-format that earlier versions can't read. The follower can't take over until you upgrade it
-too, so upgrade it as soon as you've checked the leader. See
-[Upgrade or downgrade a DR setup](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#upgrade-or-downgrade-a-dr-setup).
+In a DR setup, the leader is the site whose RDI instance holds the lease. The examples use the
+`site-a` and `site-b` contexts from
+[Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets),
+and assume that site A is the leader. To upgrade the two sites:
+
+1.  Upgrade site A, following
+    [Upgrading a Kubernetes installation](#upgrading-a-kubernetes-installation) with its values
+    file, such as `rdi-values-site-a.yaml`.
+
+1.  Check site A, as described in
+    [Verify a takeover](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#verify-a-takeover):
+
+    1.  Run `redis-di --context site-a info`, and check that it shows
+        `Leader Election Mode: leader`.
+    1.  Run `redis-di --context site-a describe "<pipeline>"` for each pipeline, and check its
+        components and errors.
+    1.  Make a test change in the source, and confirm that the expected result reaches the
+        target.
+
+1.  Upgrade site B in the same way, with its values file, such as `rdi-values-site-b.yaml`.
+
+> [!WARNING]
+> With a GCS lease, the follower can't take over until you upgrade it, so upgrade it as soon as
+> you've checked the leader.
+
+### Downgrading a DR setup
+
+Don't downgrade a DR setup with a DynamoDB lease to RDI 2.0.x.
+
+To downgrade a DR setup with a GCS lease to RDI 2.0.0, plan for downtime. The examples use
+the CLI contexts `site-a` and `site-b` from
+[Deploy pipelines and secrets](/content/integrate/redis-data-integration/installation/disaster-recovery/_index.md#deploy-pipelines-and-secrets):
+
+1. Put both instances in standby, and check that neither reports `Leader Election Mode: leader`:
+
+   ```bash
+   redis-di --context site-a set-setting standby_mode true
+   redis-di --context site-b set-setting standby_mode true
+   ```
+
+1. Delete the lease object:
+
+   ```bash
+   gcloud storage rm "gs://<lease-bucket>/<lease-object>"
+   ```
+
+1. Downgrade both instances with Helm. RDI 2.0.x uses `operator.leaderElection.standbyMode`
+   instead of the `standby_mode` setting.
+1. Check that only one instance is the leader, and verify pipeline health and data delivery.
+
+If you upgrade to RDI 2.2.x again, run `redis-di delete-setting standby_mode` on each instance as
+soon as it runs RDI 2.2.x, or set the mode you want.
+
+<a id="upgrading-to-rdi-220"></a>
+<a id="upgrading-to-rdi-200"></a>
+
+## Upgrade steps
+
+The table lists the steps by **When**, and then by **From**, latest version first:
+
+| Step | From | When | Applies to |
+| :-- | :-- | :-- | :-- |
+| [Label the source and target secrets](#label-the-source-and-target-secrets) | RDI 1.19.x or earlier | Before the upgrade | Helm |
+| [Delete the operator Deployment](#delete-the-operator-deployment) | A version before 1.18.1, with leader election | During the upgrade | Helm |
+| [Validate your configurations before you redeploy them](#validate-your-configurations-before-you-redeploy-them) | RDI 2.0.x or earlier | After the upgrade | VM and Helm |
+| [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys) | RDI 2.0.x or earlier | After the upgrade | VM and Helm |
+| [Add the processor type to your configurations](#add-the-processor-type-to-your-configurations) | RDI 1.19.x or earlier | After the upgrade | VM and Helm |
+
+### Label the source and target secrets
+
+- **From**: RDI 1.19.x or earlier, including an installation that you already upgraded to RDI
+  2.0.x, 2.2.0, or 2.2.1, unless you have already labeled its secrets
+- **When**: Before the upgrade
+- **Applies to**: Helm installations, at both sites of a DR setup
+
+Add the labels to the secrets:
+
+```bash
+kubectl label secret source-db target-db -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+
+# With source TLS or mTLS
+kubectl label secret source-db-ssl -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+
+# With target TLS or mTLS
+kubectl label secret target-db-ssl -n rdi --overwrite \
+  app.kubernetes.io/name=pipeline \
+  app.kubernetes.io/instance=default \
+  product=rdi
+```
+
+After the upgrade, run `redis-di list-secrets`, and check that it lists the secrets of the source
+as well as those of the target. If it doesn't list the source, run the `kubectl label` commands
+again, and then restart the operator:
+
+```bash
+kubectl rollout restart deployment/rdi-operator -n rdi
+```
+
+### Delete the operator Deployment
+
+- **From**: A version before 1.18.1, with `operator.leaderElection.enabled` set to `true`
+- **When**: During the upgrade, right before you run `helm upgrade`
+- **Applies to**: Helm installations
+
+Delete the operator Deployment, and run `helm upgrade` as soon as the command returns:
+
+```bash
+kubectl delete deployment rdi-operator -n rdi --cascade=foreground
+```
 
 ### Validate your configurations before you redeploy them
 
-RDI 2.2.0 rejects some configurations that earlier versions accepted. After the upgrade, check
-each configuration with `redis-di deploy --dry-run` before you deploy it again, and fix the
-following:
+- **From**: RDI 2.0.x or earlier
+- **When**: After the upgrade, before you deploy a configuration again
+- **Applies to**: VM and Helm installations
 
-- A source named `api`, or a source name that contains consecutive dashes (`--`). Rename the
-  source, and update its secrets, its secret references in `config.yaml`, and the `server_name`
-  of its jobs. See
-  [Name your sources](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#name-your-sources)
-  for the naming rules, and
-  [Add or remove a source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#add-or-remove-a-source)
-  for what renaming a source implies.
-- A secret provider name that contains consecutive dashes. Rename the provider, and update the
-  references to it in `config.yaml`.
-- The internal key overrides described in
-  [Remove overrides of internal Redis keys](#remove-overrides-of-internal-redis-keys).
+Check each configuration with `redis-di deploy --dry-run`, and fix any issues that it reports. If
+it rejects the name of a source, rename the source as described in
+[Add or remove a source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#add-or-remove-a-source).
 
 ### Remove overrides of internal Redis keys
 
-RDI 2.2.0 always uses the Redis keys and consumer groups that it generates, and rejects the
-following properties. This example shows where to remove them from your configuration:
+- **From**: RDI 2.0.x or earlier, with a configuration that sets any of the following properties
+- **When**: After the upgrade
+- **Applies to**: VM and Helm installations
+
+RDI 2.2.2 and later ignore the following properties and use their own values. Remove them from
+your configuration:
 
 ```yaml
 sources:
   <source-name>:
     advanced:
       source:
-        topic.delimiter: <value> # Rejected since RDI 2.2.0
-        offset.storage.redis.key: <value> # Rejected since RDI 2.2.0
-        schema.history.internal.redis.key: <value> # Rejected since RDI 2.2.0
+        topic.delimiter: <value>
+        offset.storage.redis.key: <value>
+        schema.history.internal.redis.key: <value>
+        database.ssl.keystore: <value>
+        database.ssl.keystore.password: <value>
+        mongodb.ssl.keystore: <value>
+        mongodb.ssl.keystore.password: <value>
       riotx:
-        streamPrefix: <value> # Rejected since RDI 2.2.0
+        streamPrefix: <value>
 processors:
   advanced:
     source:
-      stream.name.pattern: <value> # Rejected since RDI 2.2.0
-      consumer.group: <value> # Rejected since RDI 2.2.0
+      stream.name.pattern: <value>
+      consumer.group: <value>
     processor:
-      counters.key: <value> # Rejected since RDI 2.2.0
+      counters.key: <value>
 ```
 
-The operator uses the generated keys for your existing pipelines as soon as you upgrade, even
-before you redeploy them, and RDI does not migrate the state stored under custom keys or consumer
-groups. As a result:
+<a id="the-flink-processor-becomes-the-default"></a>
 
-- A Debezium collector that used custom offset or schema history keys takes a new snapshot.
-- A Flink processor that used a custom consumer group replays the entries retained in its
-  streams.
-- The entries left in streams with custom names or prefixes are no longer consumed.
+### Add the processor type to your configurations
 
-Remove these properties from your configurations before you deploy them again.
+- **From**: RDI 1.19.x or earlier, with a pipeline whose `config.yaml` doesn't set
+  `processors.type`
+- **When**: After the upgrade, before you deploy a configuration again
+- **Applies to**: VM and Helm installations
 
-### Check which certificate authorities RDI trusts
+The upgrade sets
+[`processors.type`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors)
+to `classic` on the deployed pipeline, but not in your `config.yaml`. Add
+`processors.type: classic` to the `config.yaml` of the pipeline, so that the next
+`redis-di deploy` keeps the classic processor. You don't need to deploy the change now. To move
+to the Flink processor instead, see [Optional steps after the upgrade](#optional-steps-after-the-upgrade).
 
-Debezium collectors and the Collector API now trust the system certificate authorities (CAs) in
-addition to the CAs of your secrets. To trust only the CAs of your secrets, as before, set
-`operator.dataPlane.collector.useSystemTruststore` and
-`operator.dataPlane.collectorApi.useSystemTruststore` to `false` in your Helm values.
+<a id="enabling-the-flink-processor"></a>
 
-### Update tools that read the VM log files
+## Optional steps after the upgrade
 
-On a VM installation, RDI 2.2.0 stores the log files of each pipeline in
-`/opt/rdi/logs/pipelines/<pipeline>/` and those of the control plane in
-`/opt/rdi/logs/control-plane/`, with new file names, such as
-`pipelines/default/collector-mysql-collector-source.log`. Update any scripts or tools that read
-the log files by path. RDI does not delete the log files at the previous paths, so delete them
-once you no longer need them. See
-[RDI logs](/content/integrate/redis-data-integration/troubleshooting.md#rdi-logs) for the new
-file names.
+You can do these steps at any time after the upgrade:
 
-### Reset MariaDB and SQL Server sources after you add tables
-
-RDI 2.2.0 limits the schema history of MariaDB and SQL Server sources to the tables that they
-capture, as it already did for MySQL and Oracle sources. If you add a table to the `tables` list
-of an existing MariaDB or SQL Server source, or add a database or schema to the ones it captures,
-[reset the source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#start-stop-and-reset-a-single-source).
-Otherwise, the source stops with an unknown schema error when the new table first changes. To
-keep the previous behavior, set `schema.history.internal.store.only.captured.tables.ddl` to
-`false` in the `advanced.source` section of the source.
-
-### Check the archived log retention of Oracle sources
-
-If you upgrade from a version before 1.18.1 and use an Oracle source, check that your backup and
-cleanup jobs keep archived logs long enough before you upgrade. See
-[Upgrade from RDI versions before 1.18.1](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md#upgrade-from-rdi-versions-before-1181).
-
-### Downgrade from RDI 2.2.0
-
-Downgrading to a version earlier than 2.0.0 is not supported. Do not downgrade after you create
-a pipeline other than `default`.
-
-## Upgrading to RDI 2.0.0
-
-RDI 2.0.0 changes several behaviors that affect a pipeline upgraded from RDI 1.19.x or earlier.
-
-### The Flink processor becomes the default
-
-RDI 2.0.0 changes the default processor from `classic` to `flink`. This default
-applies when the pipeline's `config.yaml` omits `processors.type`.
-
-For an existing pipeline that uses the classic processor, choose one of these options before upgrading:
-
-- To migrate to the Flink processor, first follow
-  [Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md)
-  on RDI 1.19.0. This stops the collector and drains the input streams before
-  switching processors. Then upgrade RDI.
-- To keep the classic processor, set `processors.type: classic` in the
-  pipeline's `config.yaml` and deploy it before upgrading.
-
-If your pipeline already uses `processors.type: flink`, no processor change
-is needed. Continue with the upgrade instructions for your installation.
-
-### Clearing a pipeline is different from deleting it
-
-`DELETE /api/v2/pipelines/{name}` deletes a pipeline rather than emptying its configuration. In RDI 2.2.0, use...
-`redis-di delete` to delete the pipeline, or clear the configuration with
-`redis-di deploy --empty`, or with
-`PUT /api/v2/pipelines/{name}` and an empty configuration, instead. See
-[Clear a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline).
-
-Clearing a pipeline is not the same as resetting it or flushing the target database. Clearing
-removes the configuration and the pipeline's data from the RDI database, while resetting keeps the
-configuration and re-snapshots the sources; neither one deletes any records from the target
-database.
-
-### Redeploying a configuration after clearing a pipeline
-
-A configuration of an upgraded pipeline still references the names from before the upgrade, so
-deploying it again after clearing the pipeline fails. See
-[Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#redeploying-a-configuration-after-clearing-a-pipeline)
-for what you have to change, with a before and after example.
-
-### API changes
-
-RDI 2.0.0 changes several API v2 query parameters and response fields. Most of them affect only
-an API client, and are listed in the
-[RDI 2.0.0 release notes](/content/integrate/redis-data-integration/release-notes/rdi-2-0-0.md).
-
-The one to check for is the metric collections endpoint, which now keys `data_streams.streams`
-by the source-qualified table name, such as `mysql.inventory.addresses`, instead of by the Redis
-stream name. Update any dashboard or script that reads the previous form. See
-[Observability](/content/integrate/redis-data-integration/observability.md) for the metrics RDI reports.
-
-### Check the archived log retention of Oracle sources
-
-If you upgrade from a version before 1.18.1 and use an Oracle source, check that your backup and
-cleanup jobs keep archived logs long enough before you upgrade. See
-[Upgrade from RDI versions before 1.18.1](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle/archive-log-retention.md#upgrade-from-rdi-versions-before-1181).
-
-## Enabling the Flink processor
-
-The
-[Apache Flink](https://flink.apache.org/)-based stream processor is
-fully supported on both VM and Kubernetes installations after upgrading to
-RDI 1.19.0. Once the upgrade completes, it is always available —
-no opt-in is required, and the defaults are sized for typical workloads.
-
-> [!WARNING]
-> The Flink processor is the default as of RDI 2.0.0.
-> Upgrading to that release or later moves a pipeline whose `config.yaml` does not set
-> [`processors.type`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors)
-> onto the Flink processor when you next deploy it. To keep such a pipeline on the classic
-> processor, set `processors.type` to `classic` before you upgrade.
-
-On Kubernetes, to override the Flink processor defaults, add an
-`operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as
-described in
-[Configure the Flink processor](/content/integrate/redis-data-integration/installation/install-k8s.md#configure-the-flink-processor).
-On VMs, see
-[Configure the Flink processor](/content/integrate/redis-data-integration/installation/install-vm.md#configure-the-flink-processor).
-For the per-pipeline migration steps, see
-[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md).
+- Migrate the pipelines that use the classic processor to the Flink processor, the default
+  processor since RDI 2.0.0. See
+  [Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md).
+- Change the defaults of the Flink processor, as described in Configure the Flink processor for a
+  [VM installation](/content/integrate/redis-data-integration/installation/install-vm.md#configure-the-flink-processor) or a
+  [Kubernetes installation](/content/integrate/redis-data-integration/installation/install-k8s.md#configure-the-flink-processor).
 
 ## What happens during the upgrade?
 
