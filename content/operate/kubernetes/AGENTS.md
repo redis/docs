@@ -93,36 +93,15 @@ current-version change backward into a snapshot.
 
 ## Document current behavior only
 
-Do not foreshadow planned support, future feature expansions, or roadmap items — even
-when a specification, an internal document, or a subject-matter expert mentions them.
-Planned work slips, changes shape, or gets cut, and removing a promise from a published
-page is visible to customers.
+The root `AGENTS.md` rule applies. Examples from these pages:
 
 - Wrong: "Support for multi-namespace deployments is planned for a future release."
 - Wrong: "This limitation is expected to be lifted in a later operator version."
 - Right: state the current limitation flatly, with no forecast — for example, "custom
   resources of this kind are reconciled only in the operator namespace."
-
-**Carve-out — deprecation and removal notices are correct and expected.** The rule bans
-promising something the reader will *gain*, not telling them what is going away.
-Customers need lead time to migrate or upgrade, and a warning is sometimes published
-ahead of the deprecation itself to give them that time.
-
 - Right: "Support for this platform will be removed in a future release."
 - Right: "This field is deprecated and will be removed in a future release. Use
   `<replacement>` instead."
-
-The test: does the sentence tell the reader they will gain something, or lose something?
-Gains are out. Losses are in.
-
-## Do not publish ahead of customer availability
-
-Content describing a feature does not go live until customers can use it. The gate is
-availability to customers — not that the code merged, and not that the field exists in
-an internal build. A feature that is cut or deferred takes its documentation with it:
-remove the content rather than softening it into a promise.
-
-Drafting ahead is normal. Draft, verify, open the pull request, and hold it.
 
 ## The operator source is private
 

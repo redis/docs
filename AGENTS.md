@@ -99,6 +99,24 @@ An editorial pass should leave a page shorter, not longer. Do not add summary se
 boilerplate introductions, or transitions the original did not have. If a section needs
 new material to be usable, say so instead of writing it.
 
+## Document current behavior only
+
+Do not foreshadow planned support, feature expansions, or roadmap items, even when a
+specification, an internal document, or a subject-matter expert mentions them. Planned
+work slips, changes shape, or gets cut, and removing a promise from a published page is
+visible to customers. State what the reader can do today, and stop.
+
+**Deprecation and removal notices are the carve-out.** Customers need lead time to
+migrate, so a warning can go out ahead of the removal itself. The test: does the sentence
+tell the reader they will gain something, or lose something? Gains are out. Losses are in.
+
+## Do not publish ahead of customer availability
+
+Content describing a feature goes live when customers can use it, not when the code
+merges or the capability exists in an internal build. A feature that is cut or deferred
+takes its documentation with it: remove the content rather than softening it into a
+promise. Drafting ahead is normal: draft, verify, open the pull request, and hold it.
+
 ## Flag rather than decide
 
 - **A technical fact looks wrong.** Never silently correct a command, value, field name,
