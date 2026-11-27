@@ -51,21 +51,3 @@ monitoring. Check snapshot completion separately from collector connectivity;
 
 An interrupted initial snapshot can restart when the collector starts again, including
 with `initial` and `initial_only`.
-
-For Debezium 3.5, note these connector differences:
-
-- PostgreSQL `no_data` performs no snapshot. It resumes from a saved log sequence
-  number (LSN), or from the replication slot's creation position when no LSN is saved.
-  This requires the relevant write-ahead log (WAL) history to remain available.
-- Other connectors can capture schema or initialize a position without copying
-  existing rows in `no_data` mode.
-- `never` is a deprecated alias for `no_data` in PostgreSQL and MongoDB. MySQL and
-  MariaDB retain `never` with connector-specific prerequisites. Oracle and SQL Server
-  do not offer `never`; use `no_data` to skip existing rows.
-
-See the Debezium 3.5 connector references for [MariaDB](https://debezium.io/documentation/reference/3.5/connectors/mariadb.html),
-[MongoDB](https://debezium.io/documentation/reference/3.5/connectors/mongodb.html),
-[MySQL](https://debezium.io/documentation/reference/3.5/connectors/mysql.html),
-[Oracle](https://debezium.io/documentation/reference/3.5/connectors/oracle.html),
-[PostgreSQL](https://debezium.io/documentation/reference/3.5/connectors/postgresql.html),
-and [SQL Server](https://debezium.io/documentation/reference/3.5/connectors/sqlserver.html).

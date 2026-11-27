@@ -17,7 +17,8 @@ weight: 30
 ---
 
 > [!NOTE]
-> Before you upgrade, review [Upgrading to RDI 2.2.0](#upgrading-to-rdi-220). If you upgrade
+> Before you upgrade, review [Upgrading to RDI 2.4.0](#upgrading-to-rdi-240). If you upgrade
+> from RDI 2.0.x, also review [Upgrading to RDI 2.2.0](#upgrading-to-rdi-220), and if you upgrade
 > from RDI 1.19.x or earlier, also review [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
 
 > [!WARNING]
@@ -183,6 +184,131 @@ your saved `rdi-values.yaml` for that version. This will restore your previous w
 > will not work. If you need to perform such an upgrade, uninstall RDI completely first as
 > described in [Uninstall RDI](/content/integrate/redis-data-integration/installation/install-k8s.md#uninstall-rdi),
 > and then install the old version.
+
+## Upgrading to RDI 2.4.0
+
+RDI 2.4.0 upgrades the Debezium collector from Debezium 3.5 to Debezium 3.7. Check the following
+changes before you upgrade from RDI 2.2.x. If you upgrade from RDI 2.0.x, also review
+[Upgrading to RDI 2.2.0](#upgrading-to-rdi-220).
+
+### Replace the Oracle LogMiner batch and sleep properties
+
+Debezium 3.7 no longer sizes each LogMiner iteration by a range of SCNs. Instead, while the
+collector catches up, each iteration reads `log.mining.log.count.min` (default `2`) logs per redo
+thread, and up to `log.mining.log.count.growth.max` (default `4`) while a long-running transaction
+holds back the mining. RDI 2.4.0 ignores the properties that Debezium removed, so a source that
+sets them mines with the default log counts after the upgrade. This example shows where to remove
+them from your configuration:
+
+```yaml
+sources:
+  <source-name>:
+    advanced:
+      source:
+        log.mining.batch.size.min: <value> # Ignored since RDI 2.4.0
+        log.mining.batch.size.max: <value> # Ignored since RDI 2.4.0
+        log.mining.batch.size.default: <value> # Ignored since RDI 2.4.0
+        log.mining.batch.size.increment: <value> # Ignored since RDI 2.4.0
+        log.mining.sleep.time.min.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.sleep.time.max.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.sleep.time.default.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.sleep.time.increment.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.scn.gap.detection.gap.size.min: <value> # Ignored since RDI 2.4.0
+        log.mining.scn.gap.detection.time.interval.max.ms: <value> # Ignored since RDI 2.4.0
+        log.mining.continuous.mine: <value> # Ignored since RDI 2.4.0
+        log.mining.buffer.infinispan.cache.rollbacks: <value> # Ignored since RDI 2.4.0
+        log.mining.buffer.ehcache.rollbacks.config: <value> # Ignored since RDI 2.4.0
+```
+
+If you set custom values for the removed properties, replace them as follows:
+
+| Removed properties | What to do |
+| :-- | :-- |
+| `log.mining.batch.size.*`, raised so the collector keeps up with the volume of your redo logs | Remove them and raise `log.mining.log.count.min`. Keep `log.mining.log.count.growth.max` above it. To mine all available logs in one pass, set `log.mining.log.count.min` to `0`. |
+| `log.mining.batch.size.*`, raised so mining advances past long-running transactions | Remove them and raise `log.mining.log.count.growth.max`. |
+| `log.mining.sleep.time.*` | Remove them. You can no longer change the pause between mining sessions. |
+| `log.mining.scn.gap.detection.*` | Remove them. Debezium 3.7 has no replacement. |
+| `log.mining.continuous.mine`, `log.mining.buffer.infinispan.cache.rollbacks`, and `log.mining.buffer.ehcache.rollbacks.config` | Remove them. Debezium 3.7 has no replacement. |
+
+The new properties count redo logs, not SCNs, so you can't convert an old batch size to a log
+count. Start with the defaults, and raise the values in small steps if the collector falls behind.
+This example shows the new properties with their default values:
+
+```yaml
+sources:
+  <source-name>:
+    advanced:
+      source:
+        log.mining.log.count.min: 2
+        log.mining.log.count.growth.max: 4
+```
+
+The log count properties don't apply when `log.mining.strategy` is set to `redo_log_catalog`.
+
+`log.mining.strategy: redo_log_catalog` still works in Debezium 3.7, but Debezium has deprecated
+it and plans to remove it. Use the default `online_catalog` instead, or `hybrid` if `lob.enabled`
+is not set to `true`.
+
+### Change Oracle tables after the snapshot completes
+
+With the default `snapshot.locking.mode: shared`, Oracle sources now hold a shared lock on each
+captured table until the initial snapshot finishes. Other sessions can still read and write the
+tables, but schema changes that need an exclusive table lock are blocked while the locks are held.
+Some nonblocking schema changes, such as `ALTER TABLE ... ADD COLUMN` on Oracle 23.3 and later,
+can still succeed and stop the snapshot with an `ORA-01466` error. Run schema changes on the
+captured tables after the initial snapshot finishes.
+
+RDI 2.4.0 also ignores `snapshot.database.errors.max.retries`. Remove it from your configuration:
+
+```yaml
+sources:
+  <source-name>:
+    advanced:
+      source:
+        snapshot.database.errors.max.retries: <value> # Ignored since RDI 2.4.0
+```
+
+### Check MySQL and MariaDB sources
+
+RDI 2.4.0 rejects `snapshot.mode: never` for MySQL and MariaDB sources, and a source that uses it
+fails at startup. Use `no_data`, which also skips the initial snapshot, if it suits your case.
+
+In addition, MySQL sources parse DDL statements with a new parser. If a MySQL source fails on a
+DDL statement that it parsed before, set `ddl.parser.type: legacy` in the `advanced.source`
+section of the source.
+
+### Update the database.ssl.mode values of MariaDB sources
+
+MariaDB sources now use the MariaDB connector, which takes MariaDB values for `database.ssl.mode`.
+Replace `disabled` and `preferred` with `disable`, `required` with `trust`, `verify_ca` with
+`verify-ca`, and `verify_identity` with `verify-full`. The default is now `disable`.
+`disable` turns off encryption. `trust` requires encryption but doesn't verify the server
+certificate.
+
+### Check SQL Server jobs that read previous values
+
+When an update leaves a large column unchanged, SQL Server change data capture doesn't record
+the previous value of the column. This applies to columns such as `VARCHAR(MAX)`,
+`NVARCHAR(MAX)`, and `VARBINARY(MAX)`. The `before` field of the update now contains the value
+of `unavailable.value.placeholder` for such a column, which is `__debezium_unavailable_value`
+by default. The placeholder means that the previous value is unavailable. It isn't a database
+`NULL` or the content of the column.
+
+The `after` field still contains the value that SQL Server recorded, including `null`, so jobs
+that use the default row format aren't affected. If a job uses
+[`row_format: full`](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format.md#full)
+and reads `before`, check that it handles the placeholder.
+
+### Review the heartbeat settings of your sources
+
+The Debezium collector now sends a heartbeat every 60 seconds. This applies to every source that
+uses the Debezium collector: MySQL, MariaDB, Oracle, PostgreSQL, SQL Server, and MongoDB. To
+change the interval, set `heartbeat.interval.ms` in the `advanced.source` section of the source.
+Set it to `0` to turn heartbeats off.
+
+If a source sets `heartbeat.action.query` without `heartbeat.interval.ms`, RDI now runs the query
+every 60 seconds. To keep the query from running, set `heartbeat.interval.ms` to `0` or remove
+the query.
 
 ## Upgrading to RDI 2.2.0
 

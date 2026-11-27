@@ -162,6 +162,8 @@ The example configuration contains the following data:
   - `source`: Properties for reading from the source database.
     See the Debezium [Source connectors](https://debezium.io/documentation/reference/stable/connectors/)
     pages for more information about the properties available for each database type.
+    The Debezium collector sends a heartbeat every 60 seconds by default. To change the interval, see
+    [Review the heartbeat settings of your sources](/content/integrate/redis-data-integration/installation/upgrade.md#review-the-heartbeat-settings-of-your-sources).
   - `sink`: Properties for writing to Redis streams in the RDI database.
     See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
     page for the full set of available properties.
@@ -205,11 +207,20 @@ targets:
       password: ${TARGET_DB_PASSWORD}
 ```
 
-RDI 1.19.1 and RDI 2.0.0 bundle Debezium 3.5. The comparison and connector
-notes in this section apply to those releases. RDI 2.2.0 is planned to use
-Debezium 3.7.
+RDI 2.4.0 bundles Debezium 3.7.1. The connector references in this section apply
+to that release.
 
 {{< embed-md "rdi-snapshot-modes.md" >}}
+
+Use the default `initial` mode unless you have a specific reason to choose another.
+The supported modes and their behavior differ by connector. For the modes your source
+supports, see `snapshot.mode` in the Debezium 3.7 reference for
+[MariaDB](https://debezium.io/documentation/reference/3.7/connectors/mariadb.html#mariadb-property-snapshot-mode),
+[MongoDB](https://debezium.io/documentation/reference/3.7/connectors/mongodb.html#mongodb-property-snapshot-mode),
+[MySQL](https://debezium.io/documentation/reference/3.7/connectors/mysql.html#mysql-property-snapshot-mode),
+[Oracle](https://debezium.io/documentation/reference/3.7/connectors/oracle.html#oracle-property-snapshot-mode),
+[PostgreSQL](https://debezium.io/documentation/reference/3.7/connectors/postgresql.html#postgresql-property-snapshot-mode),
+and [SQL Server](https://debezium.io/documentation/reference/3.7/connectors/sqlserver.html#sqlserver-property-snapshot-mode).
 
 A reset clears saved positions without changing `snapshot.mode` or flushing the target
 Redis database. If you need to reload existing rows, select a mode that takes a data

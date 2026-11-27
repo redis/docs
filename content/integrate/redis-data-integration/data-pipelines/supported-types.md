@@ -277,10 +277,12 @@ available to map `NUMBER(1)` columns to booleans.
 
 ## MySQL and MariaDB
 
-RDI captures both `mysql` and `mariadb` sources with the
-[Debezium MySQL connector](https://debezium.io/documentation/reference/stable/connectors/mysql.html)
-(`io.debezium.connector.mysql.MySqlConnector`) — it does not use Debezium's separate
-MariaDB connector. The mappings below therefore apply to both source types. See
+RDI captures `mysql` sources with the
+[Debezium MySQL connector](https://debezium.io/documentation/reference/3.7/connectors/mysql.html)
+(`io.debezium.connector.mysql.MySqlConnector`) and `mariadb` sources with the
+[Debezium MariaDB connector](https://debezium.io/documentation/reference/3.7/connectors/mariadb.html)
+(`io.debezium.connector.mariadb.MariaDbConnector`). Both connectors map data types the
+same way, so the mappings below apply to both source types. See
 [Prepare MySQL/MariaDB for RDI](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb.md)
 for setup. Enable the binary log in **ROW** mode.
 
@@ -310,10 +312,10 @@ for setup. Enable the binary log in **ROW** mode.
 
 ### Booleans
 
-MySQL and MariaDB both represent `BOOLEAN`/`BOOL` as `TINYINT(1)`. Because RDI uses
-the MySQL connector for both, the connector may report these columns as `TINYINT(1)`
-rather than `BOOLEAN` (especially during snapshots). Use the
-`TinyIntOneToBooleanConverter` for consistent boolean fidelity.
+MySQL and MariaDB both represent `BOOLEAN`/`BOOL` as `TINYINT(1)`, so both connectors
+may report these columns as `TINYINT(1)` rather than `BOOLEAN` (especially during
+snapshots). Use the `TinyIntOneToBooleanConverter` for consistent boolean fidelity. It
+works with both connectors.
 
 ## PostgreSQL, Supabase, and AlloyDB
 
@@ -404,6 +406,10 @@ CDC must be enabled at both the database and table level. See
 | `DATETIME2(7)` | `NanoTimestamp` (ns) | |
 | `DATETIMEOFFSET` | `ZonedTimestamp` (`STRING`, GMT) | See [Time zones](#time-zones). |
 | `BINARY`, `VARBINARY` | `BYTES` | Encoded per `binary.handling.mode` (default `bytes`). Not in the reference's mapping tables, but handled via the `binary.handling.mode` property. |
+
+When an update leaves a `VARCHAR(MAX)`, `NVARCHAR(MAX)`, or `VARBINARY(MAX)` column unchanged,
+the `before` field contains a placeholder instead of the previous value. See
+[Check SQL Server jobs that read previous values](/content/integrate/redis-data-integration/installation/upgrade.md#check-sql-server-jobs-that-read-previous-values).
 
 ### Types requiring confirmation
 
