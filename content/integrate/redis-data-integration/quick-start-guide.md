@@ -18,7 +18,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 - [Redis Insight](/content/develop/tools/insight/_index.md)
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
-  {{< embed-md "rdi-os-reqs.md" >}}
+  {{< embed-md "rdi-os-reqs-2.4.md" >}}
 
 ## Overview
 
