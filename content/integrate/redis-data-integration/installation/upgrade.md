@@ -85,7 +85,7 @@ described in
 ### Recovering from failure during a VM upgrade
 
 Go to the `rdi_install/<PREVIOUS_VERSION>` directory and run `sudo ./upgrade.sh` to revert to
-that version, as described in [Upgrading a VM installation](#upgrading-a-vm-installation).
+that version.
 
 ## Upgrading a Kubernetes installation
 
@@ -135,9 +135,8 @@ kubectl get all -n rdi
 ```
 
 If you find that the upgrade did not work as expected for any reason, 
-then run the `helm upgrade` command again (as described in the section
-[Upgrading a Kubernetes installation](#upgrading-a-kubernetes-installation) above),
-but this time with the previous version you were upgrading from, and using
+then run the `helm upgrade` command again, but this time with the previous version you were
+upgrading from, and using
 your saved `rdi-values.yaml` for that version. This will restore your previous working state.
 
 ## Upgrading and downgrading HA and DR setups
