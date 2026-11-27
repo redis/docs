@@ -51,6 +51,11 @@ You can:
 
 In practice, each session is stored as a Redis hash — one hash per session ID — and the key is set to expire automatically so inactive sessions are cleaned up without any external job.
 
+The animation shows a user, Andrew, who logs in to a web app from a browser. The app runs on two
+servers, and each request can go to either one. Both servers store sessions in the same Redis database.
+
+{{< use-case-animation name="session-store" >}}
+
 Redis provides the following features that make it a good fit for session storage:
 
 -   [Hashes](/content/develop/data-types/hashes.md) for field-level session access without 

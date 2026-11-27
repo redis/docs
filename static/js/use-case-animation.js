@@ -9,8 +9,13 @@
    2). A scene follows the same rules as the data type animations: nothing
    is drawn before the first command has its reply, a step draws only what
    its own command caused, and every step stays on screen for the same time.
-   Something that happens outside Redis, such as a worker crashing, is a
-   step of its own with no command.
+   Something that no command causes, such as a worker crashing or time
+   passing, is a step of its own with no command. One thing comes before a
+   command: what makes the application send it, such as a request from a
+   browser. A step draws that before its command is typed, and a scene
+   whose first step starts that way shows its drawing from the start. The
+   first sentence of such a step's note shows with the request, and the
+   rest of the note shows with the reply.
    ========================================================================= */
 (function () {
   "use strict";
@@ -71,7 +76,7 @@
     };
     g.wire = function (a, b) { return svg.appendChild(s("path", { class: "dta-uc-wire", d: "M" + a + "L" + b })); };
     /* A message crosses from point `a` to point `b`: a command going out, or its answer coming back.
-       `kind` is "write" or "read", as for a mark. */
+       `kind` is "write" or "read", as for a mark, or "plain" for a message that isn't a Redis command. */
     g.send = function (c, a, b, text, kind) {
       const m = el.appendChild(h("div", "dta-uc-msg is-" + kind, text));
       function at(p) { return "translate(" + p[0] + "px," + p[1] + "px) translate(-50%,-50%)"; }
@@ -451,6 +456,140 @@
         sub.a.say("offline");
         sub.wire.classList.add("is-off");
         return hold(c, sub.to);
+      };
+      return st;
+    },
+  };
+
+  /* ---- session store ---- */
+
+  const SESSION = "session:9f2c41", COOKIE = "sid=9f2c41";   // the hash that holds the session, and the cookie that holds the session's ID
+  D.scenes["session-store"] = {
+    label: "a session store with a Redis hash",
+    h: 122,
+    steps: [
+      { who: "server-1", cmd: "HSET " + SESSION + " username andrew page_views 0", reply: "(integer) 2", note: ["Andrew logs in.", "Server 1 creates a random session ID, 9f2c41, and saves the session in a hash."],
+        before: function (c, st) { return st.request(c, 0, "log in"); },
+        run: async function (c, st) {
+          await st.ask(c, 0, "HSET", "write");
+          return st.create(c, [["username", "andrew"], ["page_views", "0"]]);
+        } },
+      { who: "server-1", cmd: "EXPIRE " + SESSION + " 1800", reply: "(integer) 1", note: "The session now has 1800 seconds (30 minutes) to live. The browser gets only the ID, in a cookie.",
+        run: async function (c, st) {
+          await st.ask(c, 0, "EXPIRE", "write");
+          await st.expire(c, 30);
+          await st.respond(c, 0, COOKIE);
+          return st.cookie(c, COOKIE);
+        } },
+      { event: "20 minutes pass", note: "Andrew sends no request for 20 minutes. The session now has 10 minutes left.",
+        run: function (c, st) { return st.pass(c, 20); } },
+      { who: "server-2", cmd: "HGETALL " + SESSION, reply: '1) "username"\n2) "andrew"\n3) "page_views"\n4) "0"', note: ["Server 2 gets the next request.", "The ID in the cookie lets it read the session that Server 1 saved."],
+        before: function (c, st) { return st.request(c, 1, COOKIE); },
+        run: async function (c, st) {
+          await st.ask(c, 1, "HGETALL", "read");
+          for (const k in st.fields) c.mark(st.fields[k].row, "read");
+          return st.answer(c, 1, "andrew");
+        } },
+      { who: "server-2", cmd: "HINCRBY " + SESSION + " page_views 1", reply: "(integer) 1", note: "Server 2 also updates the session. HINCRBY adds 1 to page_views and returns the new count.",
+        run: async function (c, st) {
+          await st.ask(c, 1, "HINCRBY", "write");
+          return st.set(c, "page_views", "1");
+        } },
+      { who: "server-2", cmd: "EXPIRE " + SESSION + " 1800", reply: "(integer) 1", note: "Then Server 2 sends EXPIRE again to restart the 30 minutes. The app does this on every request.",
+        run: async function (c, st) {
+          await st.ask(c, 1, "EXPIRE", "write");
+          await st.expire(c, 30);
+          return st.respond(c, 1, "page");
+        } },
+      { event: "30 minutes pass with no request", note: "Andrew stops using the app. When the 30 minutes are up, Redis deletes the session by itself.",
+        run: function (c, st) { return st.pass(c, 30); } },
+      { who: "server-1", cmd: "HGETALL " + SESSION, reply: "(empty array)", note: ["Andrew comes back.", "The reply is empty, so Server 1 clears the cookie and sends the login page."],
+        before: function (c, st) { return st.request(c, 0, COOKIE); },
+        run: async function (c, st) {
+          await st.ask(c, 0, "HGETALL", "read");
+          c.mark(st.none, "no");
+          await c.wait(300);
+          await st.respond(c, 0, "login page");
+          return st.cookie(c, "");
+        } },
+    ],
+    build: function (c) {
+      /* The browser, then the app's two servers, then the session's hash in Redis. The gaps between them
+         get the room that the card doesn't need. */
+      const W = Math.max(c.W, 300), narrow = W < 430, bw = narrow ? 66 : 96, aw = narrow ? 62 : 84, most = narrow ? 148 : 250;   // 300 is the least it fits in
+      const gap = Math.max(narrow ? 12 : 20, Math.min(narrow ? 40 : 84, Math.floor((W - bw - aw - most) / 2)));
+      const cw = Math.min(most, W - bw - aw - 2 * gap), ax = bw + gap, x = ax + aw + gap, g = stage(c, x + cw);
+      const card = g.store("Redis", SESSION, x, 0, cw, narrow ? "70px 1fr" : "84px 1fr", 2, 22);   // room for two fields and the line that says when the session expires
+      const key = card.body.parentNode, browser = g.actor("Browser", 0, Math.round(card.l[1]) - 22, bw, 44), st = { fields: {}, left: 0 };
+      g.label("App servers", ax, 0);
+      /* Every request from the browser goes to one of the servers, and each server talks to Redis. */
+      const servers = [18, 83].map(function (y, i) {
+        const a = g.actor("Server " + (i + 1), ax, y, aw, 38);
+        g.wire(browser.r, a.l);
+        g.wire(a.r, card.l);
+        return a;
+      });
+      browser.say("no cookie");   // the line under its name is the cookie it holds
+      /* The card's title bar says what its two parts are: the key's name, and the type of the key's value. */
+      key.firstChild.insertBefore(h("span", "dta-uc-kind is-key", "key"), key.firstChild.firstChild);
+      key.firstChild.appendChild(h("span", "dta-uc-kind", "hash"));
+      /* The hash doesn't exist until a command creates it, and it is gone again once it has expired. An
+         outline behind the card shows where it would be. */
+      st.none = card.el.insertBefore(h("div", "dta-uc-none", "no " + SESSION), key);
+      card.el.classList.add("is-gone");
+      /* How long the hash has left, as a line under its fields: a clock, then the time in minutes. */
+      const min = h("b"), ttl = add(h("div", "dta-uc-ttl"),
+        add(s("svg", { viewBox: "0 0 10 10", width: 10, height: 10 }), s("circle", { cx: 5, cy: 5, r: 4 }), s("path", { d: "M5 2.8V5l1.7 1" })),
+        add(h("span"), h("span", "", "expires in "), min, h("span", "", " min")));
+
+      /* A request from the browser to a server, and the server's answer. Neither is a Redis command. */
+      st.request = function (c, i, text) { return g.send(c, browser.r, servers[i].l, text, "plain"); };
+      st.respond = function (c, i, text) { return g.send(c, servers[i].l, browser.r, text, "plain"); };
+      /* A command from a server to Redis, and what Redis answers. */
+      st.ask = function (c, i, text, kind) { return g.send(c, servers[i].r, card.l, text, kind); };
+      st.answer = function (c, i, text) { return g.send(c, card.l, servers[i].r, text, "read"); };
+      /* The browser keeps the cookie that a server gives it, or drops it when the server clears it. */
+      st.cookie = function (c, text) {
+        browser.say(text || "no cookie");
+        c.mark(browser.el, "new");
+        return c.enter(browser.line, "scale(.8)");
+      };
+      /* A command creates the hash with these fields. */
+      st.create = async function (c, fields) {
+        card.el.classList.remove("is-gone");
+        c.enter(key, "scale(.97)");
+        for (const f of fields) {
+          const val = h("span", "dta-v", f[1]), r = card.body.appendChild(row(h("span", "dta-f", f[0]), val));
+          st.fields[f[0]] = { row: r, val: val };
+          c.enter(c.mark(r, "write"), "translateY(-6px)");
+          await c.wait(110);
+        }
+      };
+      /* A command changes one field. */
+      st.set = function (c, field, value) {
+        const f = st.fields[field];
+        c.mark(f.row, "write");
+        f.val.textContent = value;
+        return c.anim(f.val, [{ transform: "scale(1.5)" }, { transform: "none" }], 320);
+      };
+      /* EXPIRE gives the hash `left` minutes to live, whatever it had before. */
+      st.expire = function (c, left) {
+        const was = st.left;
+        st.left = left;
+        c.mark(ttl, "write");
+        if (ttl.isConnected) return c.count(min, was, left, 450);
+        min.textContent = left;
+        return c.enter(card.body.appendChild(ttl), "translateY(-6px)");
+      };
+      /* Minutes pass, and the hash has that much less time to live. When none is left, Redis deletes it. */
+      st.pass = async function (c, minutes) {
+        const was = st.left;
+        st.left = Math.max(0, was - minutes);
+        await c.count(min, was, st.left, 1100);
+        if (st.left) return;
+        await c.wait(250);
+        await c.anim(key, [{ opacity: 1 }, { opacity: 0 }], 420, { fill: "forwards" });
+        card.el.classList.add("is-gone");
       };
       return st;
     },

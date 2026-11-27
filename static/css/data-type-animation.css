@@ -74,6 +74,8 @@
 /* A step with no command: something happens outside Redis, and this text says what. Nothing is typed. */
 .dta-event { color: #8493a8; font-style: italic; }
 .dta.is-event .dta-prompt, .dta.is-event .dta-caret { display: none; }
+/* A named client isn't at the prompt while what makes it send its command is still happening. */
+.dta.is-idle .dta-who, .dta.is-idle .dta-prompt, .dta.is-idle .dta-caret { display: none; }
 .dta-reply { min-height: 20px; color: #cbd5e1; white-space: pre-wrap; overflow-wrap: anywhere; }
 /* The caret takes no room in the line, so it can't wrap to a line of its own after a command that fills one. */
 .dta-caret { position: relative; display: inline-block; width: 0; height: 1em; vertical-align: -.15em; }
@@ -116,6 +118,9 @@
   opacity: 0; transition: opacity .25s;
 }
 .dta-note.is-on { opacity: 1; }
+/* The second part of a note in two parts. It shows later than the first part, with the reply. */
+.dta-note-rest { opacity: 0; transition: opacity .25s; }
+.dta-note-rest.is-on { opacity: 1; }
 
 /* ---- marks: what a step wrote, read, or looked for and didn't find ---- */
 .dta .is-write { border-color: var(--dta-write); background-color: var(--dta-write-bg); box-shadow: 0 0 0 2px var(--dta-write-ring); }
