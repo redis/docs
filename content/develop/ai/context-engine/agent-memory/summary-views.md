@@ -94,7 +94,19 @@ For `groupBy: ["ownerId", "namespaceId"]`, use this partition refresh body:
 
 Send the same scope as query parameters on result reads. `target: FULL` reconciles current and previous partitions.
 
-`evictionPolicy.maxPartitions` bounds grouped results within the deployment limit. Grouped views use the operator's partition limit when the policy is omitted; singleton views omit it. Matching source mutations make a scope recent; reads do not. Evicted scopes can return `COLD`. `timeWindowSeconds` selects sources by creation time in a rolling window; it does not change source retention.
+`evictionPolicy.maxPartitions` bounds grouped results within the deployment limit. Grouped views use the operator's partition limit when the policy is omitted; singleton views omit it. Matching source mutations make a scope recent; reads do not. Evicted scopes can return `COLD`.
+
+`timeWindowSeconds` sets a rolling window for source selection. The default time basis, `createdAt`, uses the time when Agent Memory stored each memory. The window only affects which memories the view uses.
+
+To keep historical session imports out of a recent view, set `"timeBasis": "eventTime"` when you create the view and include a `timeWindowSeconds` value. For example, use `1209600` for a 14-day window. Agent Memory ranks eligible memories by event time before applying source limits.
+
+- For a session-derived memory, event time is the newest rendered message time from its recorded extraction sources. Send original message timestamps when importing sessions.
+- For a new direct memory, event time is the memory's creation time.
+- The view skips memories without a stored event time, including records written before the feature was available. Agent Memory does not backfill timestamps.
+
+Create a new view to choose a different time basis. On self-managed deployments, upgrade the Agent Memory control plane, data-plane servers, and workers before creating an event-time view.
+
+When a source used in a cached result ages out of the window, the result reports `stale: true`. Continuous views refresh at the next reconciliation. For a manual view, request a refresh.
 
 ## Choose structured output and continuous refresh
 
@@ -147,7 +159,7 @@ This example updates the description, which does not trigger generation, and lis
 | Name or description | Does not trigger generation. |
 | Filter, output, or refresh policy | Increments `definitionVersion`. |
 | `groupBy` | Increments `definitionVersion` and replaces the partition layout. |
-| Owner, visibility, or source | Cannot be changed. Create a new definition. |
+| Owner, visibility, source, or time basis | Create a new definition to change these fields. |
 | `state: DISABLED` | Disables the view. Re-enabling requests refresh work. |
 
 `clearFilter: true` and `clearTimeWindow: true` remove those settings; do not also supply replacements.
