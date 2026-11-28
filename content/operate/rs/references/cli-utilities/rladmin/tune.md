@@ -268,7 +268,7 @@ tune node  { <id> | all }
 | max_redis_forks      | integer    | Maximum number of background processes forked from shards that may exist on the node at any given time                           |
 | max_redis_servers    | integer    | Maximum number of shards allowed to reside on the node                                                                           |
 | max_slave_full_syncs | integer    | Maximum number of simultaneous replica full-syncs that may be running at any given time (0: Unlimited, -1: Use cluster settings) |
-| quorum_only          | `enabled`<br /> `disabled` | If activated, configures the node as a [quorum-only node](/content/glossary/_index.md#letter-p)                         |
+| quorum_only          | `enabled`<br /> `disabled` | If activated, configures the node as a [quorum-only node](/content/operate/rs/clusters/quorum-node.md) |
 
 ### Returns
 

@@ -14,6 +14,9 @@ Clusters require an odd number of nodes to maintain [quorum](https://en.wikipedi
 
 Quorum nodes participate in cluster quorum decisions and can act as a tiebreaker. However, they do not host database shards or endpoints, which reduces their resource requirements. A quorum node should have at least 2 cores and 8 GB of RAM. See the [hardware requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md) for more details and considerations.
 
+> [!NOTE]
+> Use the `quorum_only` setting, not [maintenance mode](/content/operate/rs/clusters/maintenance-mode.md), to create a quorum node. Maintenance mode is for temporary server maintenance. It takes a snapshot of the node's configuration and restores the node's shards and endpoints when you turn it off.
+
 ## Enable quorum_only setting
 
 1. Run [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-nodes) and find a node with no shards.

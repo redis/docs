@@ -5,18 +5,21 @@ categories:
 - docs
 - operate
 - rs
-description: Turns quorum-only mode on or off for a node.
+description: Turns maintenance mode on or off for a node.
 headerRange: '[1-2]'
 linkTitle: maintenance_mode
 toc: 'true'
 weight: $weight
 ---
 
-Configures [quorum-only mode](/content/operate/rs/clusters/maintenance-mode.md#activate-maintenance-mode) on a node.
+Configures [maintenance mode](/content/operate/rs/clusters/maintenance-mode.md) on a node.
+
+> [!NOTE]
+> Maintenance mode is temporary. To configure a node as a permanent quorum node, use `rladmin tune node <ID> quorum_only enabled` instead. See [Set up a quorum node](/content/operate/rs/clusters/quorum-node.md).
 
 ## `node maintenance_mode on`
 
-Migrates shards out of the node and turns the node into a quorum node to prevent shards from returning to it.
+Migrates shards and endpoints out of the node and prevents them from migrating back to it until you turn maintenance mode off.
 
 ```sh
 rladmin node <ID> maintenance_mode on
@@ -33,7 +36,7 @@ rladmin node <ID> maintenance_mode on
 
 | Parameter             | Type/Value                     | Description                                                                               |
 |-----------------------|--------------------------------|-------------------------------------------------------------------------------------------|
-| node                  | integer                        | Turns the specified node into a quorum node                                              |
+| node                  | integer                        | Puts the specified node into maintenance mode                                            |
 | demote_node           |                                | If the node is a primary node, changes the node to replica                                |
 | evict_ha_replica | `enabled`<br />`disabled` | Migrates the HA replica shards in the node |
 | evict_active_active_replica | `enabled`<br />`disabled` | Migrates the Active-Active replica shards in the node |
@@ -46,7 +49,7 @@ rladmin node <ID> maintenance_mode on
 
 Returns `OK` if the node was converted successfully. If the cluster does not have enough resources to migrate the shards, the process returns a warning.
 
-Use [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-nodes) to verify the node became a quorum node.
+Use [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-nodes) to verify the node is in maintenance mode. The node's `SHARDS` field shows `0/0`.
 
 ### Example
 
