@@ -33,10 +33,10 @@ The pipeline name is an optional argument that defaults to `default`.
 
 ## Options
 
-| Option    | Description                                                                 |
-| :-------- | :-------------------------------------------------------------------------- |
-| `--dir`   | Directory to export `config.yaml` and `jobs/*.yaml` to (default `.`).       |
-| `--force` | Replace an existing configuration in the directory without confirmation.    |
+| Option    | Description                                                              |
+| :-------- | :----------------------------------------------------------------------- |
+| `--dir`   | Directory to export `config.yaml` and `jobs/*.yaml` to (default `.`).    |
+| `--force` | Replace an existing configuration in the directory without confirmation. |
 
 This command also accepts the
 [global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).

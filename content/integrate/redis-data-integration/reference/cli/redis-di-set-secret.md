@@ -30,15 +30,15 @@ redis-di set-secret <key> [value] [flags]
 
 ## Options
 
-| Option             | Description                                                                       |
-| :----------------- | :-------------------------------------------------------------------------------- |
-| `-p`, `--pipeline` | Pipeline to target (default `default`).                                           |
-| `--db`             | Database the secret belongs to: a source name, or `target`.                       |
+| Option             | Description                                                                                                                                                                                                                  |
+| :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-p`, `--pipeline` | Pipeline to target (default `default`).                                                                                                                                                                                      |
+| `--db`             | Database the secret belongs to: a source name, or `target`.                                                                                                                                                                  |
 | `--type`           | Secret type, `simple` or `file`, for a key whose type is not fixed. `CACERT`, `CERT`, and `KEY` are always `file`, the other standard keys are always `simple`, and a generic key is `simple` unless you pass `--type file`. |
-| `--file`           | Read the secret value from the file at this path.                                 |
-| `--literal`        | Use this literal string as the secret value.                                      |
-| `--wait`           | Wait for the pipeline to reach the expected state (default `true`).               |
-| `--timeout`        | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
+| `--file`           | Read the secret value from the file at this path.                                                                                                                                                                            |
+| `--literal`        | Use this literal string as the secret value.                                                                                                                                                                                 |
+| `--wait`           | Wait for the pipeline to reach the expected state (default `true`).                                                                                                                                                          |
+| `--timeout`        | Maximum time to wait for the pipeline to reach the expected state (default `2m`).                                                                                                                                            |
 
 This command also accepts the
 [global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
