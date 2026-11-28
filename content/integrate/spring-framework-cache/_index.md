@@ -56,3 +56,4 @@ The pages in this section describe recipes for using Redis from Spring Data Redi
 - [Process Redis streams with Spring](/content/integrate/spring-framework-cache/streams.md) shows how to add entries to a stream and consume them with a consumer group.
 - [Store sessions with Spring Session](/content/integrate/spring-framework-cache/session.md) shows how to keep HTTP session data in Redis.
 - [Client-side geographic failover](/content/integrate/spring-framework-cache/geo-failover.md) shows how to configure resilient connections that automatically fail over between Redis endpoints.
+- [Use JSON documents with Spring Data Redis](/content/integrate/spring-framework-cache/json.md) shows how to store, retrieve, and update JSON documents with the template-based JSON API.
