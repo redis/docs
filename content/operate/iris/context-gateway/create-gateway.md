@@ -15,6 +15,9 @@ aliases:
 
 A Context Gateway gives your agents one Model Context Protocol (MCP) endpoint for the tools of the systems behind it. Each of those systems is an *Upstream*: an MCP server you run or use, or a Context Surface that generates search tools from a data model over your Redis data. This guide walks you through creating a Gateway in the Redis Cloud console, adding its first Upstream, and connecting an agent.
 
+> [!TIP]
+> To manage Context Gateways from the command line, see [Set up the CLI for Redis Cloud](/content/operate/iris/cloud-cli.md).
+
 ## Before you begin
 
 To add an MCP server, you need its endpoint URL, and its credentials if it requires them. The server must use the Streamable HTTP transport and be reachable from Redis Cloud.

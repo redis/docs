@@ -38,6 +38,8 @@ Create and manage Redis Iris services through the Redis Cloud console without de
 - [Create a Redis Intent Router]({{< relref "/operate/iris/intent-router/create-router" >}})
 - [Create Lens]({{< relref "/operate/iris/lens/create-lens" >}})
 
+To script the same tasks, [set up the CLI for Redis Cloud](/content/operate/iris/cloud-cli.md) with a Redis Cloud API key pair.
+
 ### Self-managed
 
 Deploy Redis Iris services on Kubernetes when you need to operate them on your own infrastructure. [Install the Redis Iris suite](/content/operate/iris/self-managed/_index.md) with one Helm release, then configure each service from its guide:

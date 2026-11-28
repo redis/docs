@@ -13,6 +13,9 @@ weight: 5
 
 A playbook is a registry of the frequently asked questions (FAQs) and skills your agents can use, with its own access grants and retrieval settings. Agents receive only the versions you publish. This guide walks you through creating a playbook in the Redis Cloud console and giving an agent access to it.
 
+> [!TIP]
+> To manage Agent Playbooks from the command line, see [Set up the CLI for Redis Cloud](/content/operate/iris/cloud-cli.md).
+
 ## Before you begin
 
 The playbook stores its data in a Redis Cloud database. Use one of your databases, or let the console create a free database when you create the playbook. To create one yourself, see [Create a database](/content/operate/rc/databases/create-database/_index.md).

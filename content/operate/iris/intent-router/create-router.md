@@ -13,6 +13,9 @@ weight: 5
 
 An Intent Router classifies each incoming request by intent, so your application can send it to the right tool, model, agent, or guardrail. You define intents with example phrases, and your application sends each request to the Router to find the closest match. This guide walks you through creating a Router in the Redis Cloud console, adding its first intents, and connecting an application.
 
+> [!TIP]
+> To manage Intent Routers from the command line, see [Set up the CLI for Redis Cloud](/content/operate/iris/cloud-cli.md).
+
 ## Before you begin
 
 You need an active Redis Cloud database that Intent Router can use to store the Router's intents, examples, and search index. If your account has no eligible database, the console disables **New Intent Router** and asks you to create one that meets the prerequisites.
