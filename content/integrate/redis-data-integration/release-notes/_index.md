@@ -19,4 +19,7 @@ weight: 100
 
 Here's what changed recently in Redis Data Integration (RDI):
 
+For proposed support dates by release family, see
+[RDI lifecycle and compatibility](/content/integrate/rdi-lifecycle.md).
+
 {{< table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle" >}}
