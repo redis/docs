@@ -240,7 +240,7 @@ Add two members with a TTL of 15 minutes, add a third member with no expiration,
 
 Set a member's TTL in milliseconds, retrieve the remaining TTL in milliseconds, and then remove the expiration:
 
-```redis
+{{< clients-example set="sets_tutorial" step="member_expiration_ms" lang_filter="Java-Sync,Node.js,PHP" description="Member expiration in milliseconds: Set a member's TTL with SPEXPIRE, read it with SPTTL, then remove it with SPERSIST" difficulty="intermediate" buildsUpon="member_expiration" >}}
 > DEL bikes:reserved
 (integer) 1
 > SADD bikes:reserved bike:1 bike:2
@@ -254,11 +254,11 @@ Set a member's TTL in milliseconds, retrieve the remaining TTL in milliseconds, 
 1) (integer) 1
 > SPTTL bikes:reserved MEMBERS 1 bike:1
 1) (integer) -1
-```
+{{< /clients-example >}}
 
 Set a member's expiration to a specific timestamp and then retrieve that expiration time (both as a Unix time in seconds):
 
-```redis
+{{< clients-example set="sets_tutorial" step="member_expiration_at" lang_filter="Java-Sync,Node.js,PHP" description="Member expiration at a timestamp: Set an exact expiration time with SEXPIREAT, then read it back with SEXPIRETIME" difficulty="intermediate" buildsUpon="member_expiration" >}}
 > DEL bikes:reserved
 (integer) 1
 > SADD bikes:reserved bike:1 bike:2
@@ -270,7 +270,7 @@ Set a member's expiration to a specific timestamp and then retrieve that expirat
 > SEXPIRETIME bikes:reserved MEMBERS 2 bike:1 bike:2
 1) (integer) 4102444800
 2) (integer) -1
-```
+{{< /clients-example >}}
 
 ## Limits
 

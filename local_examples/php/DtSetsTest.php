@@ -216,5 +216,51 @@ extends PredisTestCase
         $this->assertEquals([900, 900, -1], $res25);
         $r->del('bikes:reserved');
         // REMOVE_END
+
+        // STEP_START member_expiration_ms
+        $r->del('bikes:reserved');
+        $r->sadd('bikes:reserved', ['bike:1', 'bike:2']);
+
+        $res26 = $r->spexpire('bikes:reserved', 60000, ['bike:1']);
+        echo json_encode($res26) . PHP_EOL;
+        // >>> [1]
+
+        $res27 = $r->spttl('bikes:reserved', ['bike:1', 'bike:2']);
+        echo json_encode($res27) . PHP_EOL;
+        // >>> [59994,-1] (for example)
+
+        $res28 = $r->spersist('bikes:reserved', ['bike:1']);
+        echo json_encode($res28) . PHP_EOL;
+        // >>> [1]
+
+        $res29 = $r->spttl('bikes:reserved', ['bike:1']);
+        echo json_encode($res29) . PHP_EOL;
+        // >>> [-1]
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals([1], $res26);
+        $this->assertEquals([1], $res28);
+        $this->assertEquals([-1], $res29);
+        $r->del('bikes:reserved');
+        // REMOVE_END
+
+        // STEP_START member_expiration_at
+        $r->del('bikes:reserved');
+        $r->sadd('bikes:reserved', ['bike:1', 'bike:2']);
+
+        // 4102444800 is an example Unix time in the future.
+        $res30 = $r->sexpireat('bikes:reserved', 4102444800, ['bike:1']);
+        echo json_encode($res30) . PHP_EOL;
+        // >>> [1]
+
+        $res31 = $r->sexpiretime('bikes:reserved', ['bike:1', 'bike:2']);
+        echo json_encode($res31) . PHP_EOL;
+        // >>> [4102444800,-1]
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals([1], $res30);
+        $this->assertEquals([4102444800, -1], $res31);
+        $r->del('bikes:reserved');
+        // REMOVE_END
     }
 }
