@@ -84,16 +84,16 @@ The set members to retrieve the remaining TTL for. `nummembers` is the number of
 
 ## Examples
 
-```redis
-redis> SADD myset member1 member2
+{{< clients-example set="cmds_set_expiration" step="spttl" lang_filter="Python,Node.js,ioredis,Java-Sync,Go,PHP,Ruby" description="Remaining TTL in milliseconds: Check how many milliseconds are left before set members expire using SPTTL" difficulty="beginner" >}}
+> SADD myset member1 member2
 (integer) 2
-redis> SPEXPIRE myset 300000 MEMBERS 1 member1
+> SPEXPIRE myset 300000 MEMBERS 1 member1
 1) (integer) 1
-redis> SPTTL myset MEMBERS 3 member1 member2 member3
+> SPTTL myset MEMBERS 3 member1 member2 member3
 1) (integer) 299993
 2) (integer) -1
 3) (integer) -2
-```
+{{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility
 

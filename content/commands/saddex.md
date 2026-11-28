@@ -168,29 +168,29 @@ Retain the TTL of members that already exist in the set. New members are added w
 
 ## Examples
 
-```redis
-redis> SADDEX myset EX 300 MEMBERS 2 member1 member2
+{{< clients-example set="cmds_set_expiration" step="saddex" lang_filter="Python,Node.js,ioredis,Java-Sync,Go,PHP,Ruby" description="Conditional add with expiration: Add set members with a TTL using SADDEX, with MNX and KEEPTTL to control what happens to existing members" difficulty="intermediate" >}}
+> SADDEX myset EX 300 MEMBERS 2 member1 member2
 (integer) 1
-redis> STTL myset MEMBERS 2 member1 member2
+> STTL myset MEMBERS 2 member1 member2
 1) (integer) 300
 2) (integer) 300
-redis> SADDEX myset MNX EX 60 MEMBERS 2 member2 member3
+> SADDEX myset MNX EX 60 MEMBERS 2 member2 member3
 (integer) 0
-redis> SADDEX myset KEEPTTL MEMBERS 2 member1 member3
+> SADDEX myset KEEPTTL MEMBERS 2 member1 member3
 (integer) 1
-redis> STTL myset MEMBERS 3 member1 member2 member3
+> STTL myset MEMBERS 3 member1 member2 member3
 1) (integer) 300
 2) (integer) 300
 3) (integer) -1
-redis> SADDEX myset MEMBERS 1 member1
+> SADDEX myset MEMBERS 1 member1
 (integer) 1
-redis> STTL myset MEMBERS 1 member1
+> STTL myset MEMBERS 1 member1
 1) (integer) -1
-redis> SADDEX myset MXX PX 1 MEMBERS 2 member2 member4
+> SADDEX myset MXX PX 1 MEMBERS 2 member2 member4
 (integer) 0
-redis> SADDEX myset EX 10 KEEPTTL MEMBERS 1 member1
+> SADDEX myset EX 10 KEEPTTL MEMBERS 1 member1
 (error) ERR Only one of EX, PX, EXAT, PXAT or KEEPTTL arguments can be specified
-```
+{{< /clients-example >}}
 
 ## Details
 

@@ -140,17 +140,17 @@ For each specified member, apply the expiration only when the new expiration is 
 
 ## Examples
 
-```redis
-redis> SADD myset member1 member2
+{{< clients-example set="cmds_set_expiration" step="spexpireat" lang_filter="Python,Node.js,ioredis,Java-Sync,Go,PHP,Ruby" description="Member expiration at a millisecond timestamp: Expire set members at an exact Unix time in milliseconds using SPEXPIREAT, with the XX option" difficulty="intermediate" >}}
+> SADD myset member1 member2
 (integer) 2
-redis> SPEXPIREAT myset 4102444800000 MEMBERS 1 member1
+> SPEXPIREAT myset 4102444800000 MEMBERS 1 member1
 1) (integer) 1
-redis> SPEXPIREAT myset 4102444800000 XX MEMBERS 1 member2
+> SPEXPIREAT myset 4102444800000 XX MEMBERS 1 member2
 1) (integer) 0
-redis> SPEXPIRETIME myset MEMBERS 2 member1 member2
+> SPEXPIRETIME myset MEMBERS 2 member1 member2
 1) (integer) 4102444800000
 2) (integer) -1
-```
+{{< /clients-example >}}
 
 ## Details
 

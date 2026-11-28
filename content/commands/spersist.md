@@ -82,21 +82,21 @@ The set members to remove the expiration from. `nummembers` is the number of mem
 
 ## Examples
 
-```redis
-redis> SADD myset member1 member2
+{{< clients-example set="cmds_set_expiration" step="spersist" lang_filter="Python,Node.js,ioredis,Java-Sync,Go,PHP,Ruby" description="Remove expiration: Make set members permanent using SPERSIST, including the codes for members with no expiration and missing members" difficulty="intermediate" >}}
+> SADD myset member1 member2
 (integer) 2
-redis> SEXPIRE myset 300 MEMBERS 2 member1 member2
+> SEXPIRE myset 300 MEMBERS 2 member1 member2
 1) (integer) 1
 2) (integer) 1
-redis> SPERSIST myset MEMBERS 1 member2
+> SPERSIST myset MEMBERS 1 member2
 1) (integer) 1
-redis> STTL myset MEMBERS 2 member1 member2
+> STTL myset MEMBERS 2 member1 member2
 1) (integer) 300
 2) (integer) -1
-redis> SPERSIST myset MEMBERS 2 member2 member3
+> SPERSIST myset MEMBERS 2 member2 member3
 1) (integer) -1
 2) (integer) -2
-```
+{{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -82,16 +82,16 @@ The set members to retrieve the expiration time for. `nummembers` is the number 
 
 ## Examples
 
-```redis
-redis> SADD myset member1 member2
+{{< clients-example set="cmds_set_expiration" step="spexpiretime" lang_filter="Python,Node.js,ioredis,Java-Sync,Go,PHP,Ruby" description="Expiration timestamp in milliseconds: Read the Unix time in milliseconds at which set members expire using SPEXPIRETIME" difficulty="beginner" >}}
+> SADD myset member1 member2
 (integer) 2
-redis> SPEXPIRE myset 300000 MEMBERS 1 member1
+> SPEXPIRE myset 300000 MEMBERS 1 member1
 1) (integer) 1
-redis> SPEXPIRETIME myset MEMBERS 3 member1 member2 member3
+> SPEXPIRETIME myset MEMBERS 3 member1 member2 member3
 1) (integer) 1792684427589
 2) (integer) -1
 3) (integer) -2
-```
+{{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility
 
