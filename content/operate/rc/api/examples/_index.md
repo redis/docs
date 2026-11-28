@@ -11,3 +11,4 @@ linkTitle: Examples
 weight: 30
 ---
 
+[Create a Cloud RDI pipeline with the API](/content/operate/rc/rdi/api-quick-start.md) shows how to create a Pro subscription, Redis cache database, workspace, and pipeline, using PostgreSQL as an example.
