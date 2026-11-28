@@ -73,6 +73,25 @@ This example finds memories about the user's food preferences. `recall` restrict
 
 {{< clients-example set="iris_agent_memory_long_term_memory" step="ltm-search" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
+A semantic search hit can include a `score` from 0 to 1. A higher score means the memory is more similar to the query. Filter-only searches omit `score`. Python clients expose `score` in `redis-agent-memory` 1.2.0 and later.
+
+### Combine keyword and semantic search
+
+Set `hybrid: true` to search by both the words in your query and its meaning. This helps when a name or product code matters as much as the topic. Redis combines the keyword and vector rankings with reciprocal rank fusion. Each hit includes `hybridScore`. A higher score ranks the hit closer to the top for that query.
+
+```json
+{
+  "query": "Atlas Pro refund policy",
+  "hybrid": true,
+  "filter": {"ownerId": {"eq": "<user-id>"}},
+  "limit": 10
+}
+```
+
+The query must contain a searchable term. It can have up to 4,096 UTF-8 bytes and 256 searchable terms. Hybrid search cannot use `minScore` or `filter.unnamespaced`. Reuse the same query, filters, and hybrid setting when you follow a cursor. Hybrid cursors support offsets up to 1,000.
+
+Hybrid search requires the Redis [`FT.HYBRID`](/content/commands/ft.hybrid.md) command on the content database. The API returns `501` when the command is unavailable. The first search scoped to an owner can return a retryable `424` while Redis indexes existing records. Retry with backoff. For self-managed upgrades, update every data-plane replica before sending hybrid requests.
+
 ### Filter and sort without semantic search
 
 Omit `query` to retrieve records by filters without a semantic query. For example, retrieve the user's most recently updated memories:
@@ -105,6 +124,20 @@ For example, this search request combines the owner, type, and dietary requireme
 
 Use exactly one typed clause per attribute: `string`, `number`, `boolean`, or `list`, matching the registered field type.
 
+### Refresh memory expiry on retrieval
+
+To refresh expiry on retrieval, send `"refreshTtl": true` in a search request or to [`RetrieveLongTermMemory`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/RetrieveLongTermMemory):
+
+```bash
+memory_api="${IRIS_AGENT_MEMORY_URL%/}/iris/data/v1/agent-memory/stores/$IRIS_AGENT_MEMORY_STORE_ID"
+curl --fail-with-body -X POST "$memory_api/memories/<memory-id>/retrieve" \
+  -H "Authorization: Bearer $IRIS_AGENT_MEMORY_API_KEY" \
+  -H 'Content-Type: application/json' \
+  --data '{"refreshTtl": true}'
+```
+
+The credential needs store write permission. Search can refresh expiry for the memories on the returned page. Document-managed memories keep their own expiry. A refresh sets expiry to the current time plus the store's long-term memory TTL unless the memory already expires later. Ordinary searches and `GET` requests leave expiry unchanged.
+
 ## Update a memory
 
 Redis Agent Memory provides two ways to change a memory you manage:
@@ -124,7 +157,7 @@ Change the text and topics with a partial update:
 
 Replace the whole memory with `PUT`:
 
-{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-put" description="" lang_filter="cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-put" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 ### Prevent lost updates
 
@@ -132,11 +165,11 @@ Send `expectedRevision` with the `revision` you read to apply a `PATCH` or `PUT`
 
 This request reuses the revision read before the partial update, so it fails:
 
-{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-stale-revision" description="" lang_filter="cURL (Iris)" footer="hide" />}}
+{{< clients-example set="iris_agent_memory_long_term_memory_update" step="ltm-stale-revision" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 `PATCH` and `PUT` also accept an `idempotencyKey`. Reuse the key with the same request to retry safely; Redis Agent Memory replays the saved result during the retry window, which lasts at most 24 hours and no longer than the store's memory TTL. Reusing a key with a different request returns `409 Conflict`.
 
-The Python SDK does not yet expose `revision`, `expectedRevision`, update idempotency keys, or the `PUT` operation. Use the HTTP API for replacement and conditional writes.
+In Python, read `revision` from `get_long_term_memory`. Pass it as `expected_revision` to `update_long_term_memory` or `upsert_long_term_memory`, and use `idempotency_key` to retry the same write safely. The partial update and replacement examples use these fields.
 
 ## Delete memories
 
@@ -217,6 +250,12 @@ Inspect the structured fields. The examples collect dietary requirements for the
 
 If results remain empty, check that the type is enabled and that the owner ID matches the stored records. An empty result does not mean the user has no dietary requirements.
 
+### Unregister a custom memory type
+
+Use the [Control Plane API](/content/operate/iris/agent-memory/self-managed/control-plane-api-reference.md#operation/RemoveMemoryType) to unregister a custom memory type. First disable the type's session extraction strategy and remove any document extractors that use it. A remaining dependency returns `409 Conflict`.
+
+Send the type's current `revision` as the `expectedRevision` query parameter to protect the deletion from concurrent updates. On `412 Precondition Failed`, read the type again before retrying. A successful removal returns `204 No Content`. The service retains existing memories and their indexed fields. You can’t register a new type with that name in this store. Extraction jobs that had already started can finish.
+
 ### Create a custom memory directly
 
 If your application already has structured trip data, write it directly using the registered `trip_preference` type. This example represents data from a form and uses the same user identifier:
@@ -228,6 +267,8 @@ Inspect the response's `errors` array for per-record errors. Run the custom-memo
 See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
 
 ## Direct-write exclusions
+
+Self-managed Redis Iris 1.0.1 applies exclusions only during extraction.
 
 Enabled built-in and custom detectors check direct creates, replacements, and content updates before embedding or saving. Extraction prompts and semantic exclusions apply only during automatic extraction.
 

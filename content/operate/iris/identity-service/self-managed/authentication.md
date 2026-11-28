@@ -57,7 +57,7 @@ A data plane caches each key check. After you revoke a key, it can keep working 
 
 ### Subject grants
 
-The control API also has routes for subject grants, `/v1/subject-grants`. They have no effect in a `redis-iris` installation. By default the chart allows no subject-grant shape, so the Identity Service refuses new subject grants. The chart also gives no data plane the `subject-grant-lookup` operation, so no data plane reads them. IdP users get access from their roles in each service, and agents use agent keys.
+Use the `/v1/subject-grants` routes to grant a verified token subject access to a service resource. The default `redis-iris` installation accepts no subject grants and gives data planes no permission to look them up. For a data plane configured to use subject grants, allow the grant's product, resource type, and actions in `identityService.subjectGrants.allowed`. Give the data plane's runtime credential `subject-grant-lookup`.
 
 ## Tenants
 
@@ -65,7 +65,7 @@ A tenant is a boundary for keys, grants, and service data, such as one customer 
 
 The Identity Service has no tenant object, and no API creates, lists, or deletes tenants. A tenant is only an ID that each key, grant, and service resource carries.
 
-A `redis-iris` release serves one tenant, set once in `global.iris.tenantId`. The chart gives this ID to the Identity Service and to each service. To serve more than one tenant, install one release for each tenant, each in its own namespace.
+In a fixed-tenant `redis-iris` release, `global.iris.tenantId` sets the tenant in the Identity Service and every service. The tables below apply to that setup. To serve multiple tenants in one release, see [Use a tenant claim](/content/operate/iris/self-managed/_index.md#use-a-tenant-claim).
 
 | Task | What to do |
 | --- | --- |
@@ -166,6 +166,22 @@ The console sends the operator's access token to the Identity Service. The chart
 | `403` | No role binding gives `suite_admin`, or `product_admin` for that service, to the operator's groups. |
 
 Don't use `GET /v1/api-keys` for this check: without a role, it returns `200` with an empty list. Keep the control token for recovery.
+
+## Configure a tenant identity provider
+
+Requires self-managed Redis Iris 1.1 or later.
+
+Register an identity provider (IdP) to bind its issuer to one tenant. The service takes the tenant from the record. An issuer already configured directly on a service keeps using that service's settings.
+
+As a deployment admin, send `POST /v1/tenants/<tenant>/identity-providers` to the Identity Service control API. Set `name`, the token `issuer` and `audience`, and the provider's HTTPS `jwksUri`. The issuer and key set URL must match the provider's OpenID Connect discovery document exactly.
+
+- Set `roleClaims` to the claims that contain role values. The defaults are `roles` and `groups`. In `roleMappings`, map each accepted `claimValue` to an Iris `role`. For example, map `memory-admins` to `product_admin` for operators who manage resources in the tenant.
+- Set `userIdClaim` to the claim that contains the stable memory owner ID. If you set it, each token must contain a valid string value in that claim. Without this setting, a data-plane token has no owner ID.
+- To attach group IDs as identity metadata, set `groupsClaim` and add `groupMappings` entries with `claimValue` and `groupId`. Group mappings grant no permissions.
+
+To accept these tokens, enable `auth.tenant_identity_providers.enabled` in the service configuration. On the control plane, configure `auth.tenant_identity_providers.identity_service` with a runtime credential that can call `identity-provider-resolve`. Operators send the IdP token as a bearer token. Their mapped roles apply only to the record's tenant. `product_admin` is the highest role a tenant record can grant on a product control plane.
+
+For data-plane access, give its Identity Service runtime credential `identity-provider-resolve` and `subject-grant-lookup`. Create a [subject grant](#subject-grants) for the token's issuer and `sub` on each target resource. `userIdClaim` sets the memory owner identity. The grant lookup still uses `sub`.
 
 ## Recover from a lockout
 

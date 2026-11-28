@@ -150,6 +150,24 @@ A store may define at most 32 custom detectors. Update an existing store's polic
 
 For what each mechanism does, how a match is handled, and which memory paths exclusions apply to, see [exclude sensitive data from automatic extraction]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#exclude-sensitive-data-from-automatic-extraction" >}}).
 
+### Change ownership or extraction for a store
+
+Requires self-managed Redis Iris 1.1 or later.
+
+Send a `PATCH /iris/v1/agent-memory/stores/{storeId}` request with an authorized Control Plane credential. For example, this body inherits the ownership policy and pauses built-in extraction:
+
+```json
+{
+  "ownership": {"mode": "INHERIT"},
+  "extractionEnabled": true,
+  "builtinExtractionEnabled": false
+}
+```
+
+Both extraction switches default to true on store creation. Turning off `extractionEnabled` pauses built-in extraction, custom extraction, and long-term session recaps. It preserves the value of `builtinExtractionEnabled`. To pause only built-in extraction, leave `extractionEnabled` on and turn off `builtinExtractionEnabled`. Automatic summarization, direct writes, and document ingestion have independent controls.
+
+If the server or worker caches store settings, allow up to `metadata.cache_ttl` for a change to take effect. For example, with a cache time to live of `1m`, allow up to one minute. Queued jobs use the settings they read when they start. Jobs already running can finish. Omit any field you want to preserve.
+
 ## Manage a service with the Control Plane SDK
 
 The same package supplies two independently configured clients:

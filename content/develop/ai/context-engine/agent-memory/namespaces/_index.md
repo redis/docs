@@ -112,7 +112,27 @@ List direct children with `parentId`:
 | Archive | Set `state` to `ARCHIVED` to stop new children and placements. You cannot unarchive a namespace. |
 | Delete | Delete an empty leaf namespace. A namespace with children or memory placements returns `409 Conflict`. |
 
-Creating a namespace at an occupied location returns `409 Conflict`, including when the existing namespace is archived. Save and reuse the returned ID instead of creating the same namespace on each agent turn. For request fields and error responses, see the [namespace API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/CreateNamespace).
+Creating or renaming a namespace can return `409 Conflict` when the name is occupied. `existingId` appears only when the existing namespace is active and you can access it. Retrieve it by ID and check that it matches the namespace you intended to use. If a duplicate conflict omits the ID, list the relevant roots or direct children and look for the exact name. Save and reuse the ID on subsequent agent turns. See the [namespace API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/CreateNamespace).
+
+## Find namespaces by name
+
+Use [`SearchNamespaces`](/content/develop/ai/context-engine/agent-memory/api-reference.md#operation/SearchNamespaces) to populate a namespace picker. This example finds direct children of a selected namespace:
+
+```bash
+memory_api="${IRIS_AGENT_MEMORY_URL%/}/iris/data/v1/agent-memory/stores/$IRIS_AGENT_MEMORY_STORE_ID"
+curl --fail-with-body -X POST "$memory_api/namespaces/search" \
+  -H "Authorization: Bearer $IRIS_AGENT_MEMORY_API_KEY" \
+  -H 'Content-Type: application/json' \
+  --data '{"query":"trip","match":"PREFIX","filter":{"parentId":"<parent-id>"},"limit":20}'
+```
+
+`EXACT` matches the entire name and is the default when you supply a query. `PREFIX` matches the start of the name. Both are case-sensitive. Omit the query and match mode for a filter-only search. Omit the hierarchy filter to search at every depth, or use `rootsOnly: true` for roots.
+
+Use each item's ID for placement and its current path for display. Access checks run before paging. Redis result limits can shorten a page, so follow `nextCursor` with the same request until the response omits it.
+
+Prefixes accept 2–64 characters. If the prefix is shorter than the database's [`search-min-prefix`](/content/develop/ai/search-and-query/administration/configuration.md#search-min-prefix), the result can be empty. [`search-max-prefix-expansions`](/content/develop/ai/search-and-query/administration/configuration.md#search-max-prefix-expansions) defaults to 200 and can exclude matches from a broad prefix search. Paging cannot recover those matches.
+
+On self-managed Redis, set [`search-on-timeout`](/content/develop/ai/search-and-query/administration/configuration.md#search-on-timeout) to `FAIL`. A timed-out search then returns an error. Retry with the same filters and cursor to fetch that page.
 
 ## Sort namespaces
 

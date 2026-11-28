@@ -82,6 +82,8 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 | **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 
+Under **Long-Term Memory**, turn off **Background extraction** to pause all automatic session extraction. Turn off **Built-in extraction** to pause only built-in extraction and keep enabled custom types running. The console preserves your extraction settings while extraction is paused. Automatic summarization, direct writes, and MemoryETL continue under their own settings.
+
 ### AI model and credentials {#ai-model-and-credentials}
 
 The **AI model and credentials** section appears when the service uses your model provider key.
@@ -183,6 +185,8 @@ The view also shows **Latency by phase**, with charts for **Retrieval latency**,
 
 The **Token consumption** view shows how many large language model (LLM) and embedding tokens the service used, with a breakdown by feature, such as extraction and session summaries. Select **Export** to download the data as a comma-separated values (CSV) file.
 
+To open the **Metrics** tab, you need the Redis Cloud permission `agent_memory_metrics_get`. Self-managed deployments use their own observability stack.
+
 ## Create an API key {#create-an-api-key}
 
 Agents call the Agent Memory API with an API key that has access to the service. To create a key for one service, select **Create API key** or **Connect** in the service's [connect banner](#configuration-tab). To create a key that can reach several services, or to manage existing keys, use **Access & Identity**:
@@ -197,3 +201,11 @@ Agents call the Agent Memory API with an API key that has access to the service.
 > The console shows the key's token only once, when you create it. Save it to a secure location before you close the page. If you lose it, create a new key.
 
 To remove an agent's access, delete its key in **Access & Identity**.
+
+### Bind a key to a user
+
+An account Owner or Manager with `agent_memory_token_update` can bind a new Agent Memory key to a user in the account through the Identity Service API. The caller needs permission to create keys for every product on the key. User binding for new keys is off by default.
+
+On `POST /v1/api-keys`, send either `userId` with the exact memory owner ID or `applicationUserId` with your application's ID. For example, `applicationUserId: "42"` produces the owner ID `app-42`. The key metadata returns the effective `userId` and, when supplied, `applicationUserId`. When a request supplies `ownerId` or `actorId`, use the effective `userId`.
+
+With ownership enforcement on, the key can read or write the selected user's private records within its store grants. Rotating the key preserves the user binding, even if new user bindings are disabled.

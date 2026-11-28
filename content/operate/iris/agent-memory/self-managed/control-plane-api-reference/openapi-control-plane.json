@@ -335,6 +335,12 @@
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
                         "type": "string"
+                    },
+                    "revision": {
+                        "description": "Opaque revision returned on reads. Server assigned; ignored on creation.",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "type": "string"
                     }
                 },
                 "required": [
@@ -345,6 +351,11 @@
             },
             "CreateStoreRequestContent": {
                 "properties": {
+                    "builtinExtractionEnabled": {
+                        "default": true,
+                        "description": "Enable built-in Instruct extraction. Defaults to true. When false,\ncustom extraction can still run if extractionEnabled is true.",
+                        "type": "boolean"
+                    },
                     "customMemoryTypes": {
                         "description": "Custom memory types to register on the store. Optional; when omitted the\nstore uses only built-in memory types.",
                         "items": {
@@ -357,6 +368,11 @@
                     },
                     "extractionCadence": {
                         "$ref": "#/components/schemas/ExtractionCadenceConfig"
+                    },
+                    "extractionEnabled": {
+                        "default": true,
+                        "description": "Enable automatic long-term memory extraction from sessions, including\nInstruct, custom types and opted-in session recaps. Defaults to true.\nMemoryETL document ingestion and direct memory writes are independent.",
+                        "type": "boolean"
                     },
                     "extractionStrategy": {
                         "$ref": "#/components/schemas/ExtractionStrategy"
@@ -372,6 +388,9 @@
                         "maxLength": 128,
                         "minLength": 1,
                         "type": "string"
+                    },
+                    "ownership": {
+                        "$ref": "#/components/schemas/OwnershipConfigInput"
                     },
                     "shortMemory": {
                         "$ref": "#/components/schemas/ShortMemoryConfigInput"
@@ -389,6 +408,10 @@
             "CreateStoreResponseContent": {
                 "description": "Memory store configuration and status.",
                 "properties": {
+                    "builtinExtractionEnabled": {
+                        "description": "Configured Instruct switch. Effective only when extractionEnabled=true.",
+                        "type": "boolean"
+                    },
                     "createdAt": {
                         "description": "The UTC timestamp when the memory store was created.",
                         "format": "date-time",
@@ -408,6 +431,10 @@
                     "extractionCadence": {
                         "$ref": "#/components/schemas/ExtractionCadenceConfig"
                     },
+                    "extractionEnabled": {
+                        "description": "Configured master switch for automatic session extraction.",
+                        "type": "boolean"
+                    },
                     "extractionStrategy": {
                         "$ref": "#/components/schemas/ExtractionStrategy"
                     },
@@ -425,6 +452,9 @@
                         "maxLength": 128,
                         "minLength": 1,
                         "type": "string"
+                    },
+                    "ownership": {
+                        "$ref": "#/components/schemas/OwnershipConfigStatus"
                     },
                     "shortMemory": {
                         "$ref": "#/components/schemas/ShortMemoryConfigStatus"
@@ -455,7 +485,9 @@
                     "longTermMemory",
                     "name",
                     "state",
-                    "storeId"
+                    "storeId",
+                    "extractionEnabled",
+                    "builtinExtractionEnabled"
                 ],
                 "type": "object"
             },
@@ -602,6 +634,12 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "type": "string"
+                    },
+                    "revision": {
+                        "description": "Opaque revision returned on reads. Server assigned; ignored on creation.",
+                        "maxLength": 64,
+                        "minLength": 1,
                         "type": "string"
                     }
                 },
@@ -1009,6 +1047,12 @@
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
                         "type": "string"
+                    },
+                    "revision": {
+                        "description": "Opaque revision returned on reads. Server assigned; ignored on creation.",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "type": "string"
                     }
                 },
                 "required": [
@@ -1020,6 +1064,10 @@
             "GetStoreResponseContent": {
                 "description": "Memory store configuration and status.",
                 "properties": {
+                    "builtinExtractionEnabled": {
+                        "description": "Configured Instruct switch. Effective only when extractionEnabled=true.",
+                        "type": "boolean"
+                    },
                     "createdAt": {
                         "description": "The UTC timestamp when the memory store was created.",
                         "format": "date-time",
@@ -1039,6 +1087,10 @@
                     "extractionCadence": {
                         "$ref": "#/components/schemas/ExtractionCadenceConfig"
                     },
+                    "extractionEnabled": {
+                        "description": "Configured master switch for automatic session extraction.",
+                        "type": "boolean"
+                    },
                     "extractionStrategy": {
                         "$ref": "#/components/schemas/ExtractionStrategy"
                     },
@@ -1056,6 +1108,9 @@
                         "maxLength": 128,
                         "minLength": 1,
                         "type": "string"
+                    },
+                    "ownership": {
+                        "$ref": "#/components/schemas/OwnershipConfigStatus"
                     },
                     "shortMemory": {
                         "$ref": "#/components/schemas/ShortMemoryConfigStatus"
@@ -1086,7 +1141,9 @@
                     "longTermMemory",
                     "name",
                     "state",
-                    "storeId"
+                    "storeId",
+                    "extractionEnabled",
+                    "builtinExtractionEnabled"
                 ],
                 "type": "object"
             },
@@ -1590,6 +1647,96 @@
                 ],
                 "type": "string"
             },
+            "OwnershipConfigInput": {
+                "description": "Controls server-side ownership checks. INHERIT uses the tenant default, then ownership.enabled. Omitted on create means inherit; omitted on update leaves the setting unchanged. When enabled, agent keys need a bound userId or verified delegated user token to access personal content; keys without a user ID can access only shared content within their store grants. Existing ownerless records become hidden and Summary Views with a different ownership policy must be recreated. Disabling restores legacy access. Changes propagate through the metadata cache.",
+                "properties": {
+                    "mode": {
+                        "$ref": "#/components/schemas/OwnershipMode"
+                    }
+                },
+                "required": [
+                    "mode"
+                ],
+                "type": "object"
+            },
+            "OwnershipConfigSource": {
+                "enum": [
+                    "STORE",
+                    "TENANT",
+                    "GLOBAL"
+                ],
+                "type": "string"
+            },
+            "OwnershipConfigStatus": {
+                "properties": {
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "mode": {
+                        "$ref": "#/components/schemas/OwnershipMode"
+                    },
+                    "source": {
+                        "$ref": "#/components/schemas/OwnershipConfigSource"
+                    }
+                },
+                "required": [
+                    "enabled",
+                    "mode",
+                    "source"
+                ],
+                "type": "object"
+            },
+            "OwnershipMode": {
+                "enum": [
+                    "INHERIT",
+                    "ENABLED",
+                    "DISABLED"
+                ],
+                "type": "string"
+            },
+            "PayloadTooLargeErrorResponseContent": {
+                "description": "The request payload exceeds the maximum supported size.",
+                "externalDocs": {
+                    "description": "RFC 9457",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+                },
+                "properties": {
+                    "detail": {
+                        "description": "A human-readable explanation specific to this occurrence of the problem.",
+                        "type": "string"
+                    },
+                    "instance": {
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.",
+                        "type": "string"
+                    },
+                    "status": {
+                        "default": 413,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4).",
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/PayloadTooLargeErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ],
+                "type": "object"
+            },
+            "PayloadTooLargeErrorType": {
+                "description": "Problem type URI for payload-too-large errors.",
+                "enum": [
+                    "/errors/payload-too-large"
+                ],
+                "type": "string"
+            },
             "PreconditionFailedErrorResponseContent": {
                 "description": "The write named an expected revision (expectedRevision or If-Match) that is no longer current. Read the resource again and retry.",
                 "properties": {
@@ -1896,6 +2043,10 @@
             "StoreOutput": {
                 "description": "Memory store configuration and status.",
                 "properties": {
+                    "builtinExtractionEnabled": {
+                        "description": "Configured Instruct switch. Effective only when extractionEnabled=true.",
+                        "type": "boolean"
+                    },
                     "createdAt": {
                         "description": "The UTC timestamp when the memory store was created.",
                         "format": "date-time",
@@ -1915,6 +2066,10 @@
                     "extractionCadence": {
                         "$ref": "#/components/schemas/ExtractionCadenceConfig"
                     },
+                    "extractionEnabled": {
+                        "description": "Configured master switch for automatic session extraction.",
+                        "type": "boolean"
+                    },
                     "extractionStrategy": {
                         "$ref": "#/components/schemas/ExtractionStrategy"
                     },
@@ -1932,6 +2087,9 @@
                         "maxLength": 128,
                         "minLength": 1,
                         "type": "string"
+                    },
+                    "ownership": {
+                        "$ref": "#/components/schemas/OwnershipConfigStatus"
                     },
                     "shortMemory": {
                         "$ref": "#/components/schemas/ShortMemoryConfigStatus"
@@ -1962,7 +2120,9 @@
                     "longTermMemory",
                     "name",
                     "state",
-                    "storeId"
+                    "storeId",
+                    "extractionEnabled",
+                    "builtinExtractionEnabled"
                 ],
                 "type": "object"
             },
@@ -2186,6 +2346,12 @@
             },
             "UpdateMemoryTypeRequestContent": {
                 "properties": {
+                    "expectedRevision": {
+                        "description": "The revision as last read. Omitted skips the client revision check.",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "type": "string"
+                    },
                     "extractionStrategy": {
                         "$ref": "#/components/schemas/CustomExtractionStrategyUpdate"
                     }
@@ -2220,6 +2386,12 @@
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
                         "type": "string"
+                    },
+                    "revision": {
+                        "description": "Opaque revision returned on reads. Server assigned; ignored on creation.",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "type": "string"
                     }
                 },
                 "required": [
@@ -2230,8 +2402,16 @@
             },
             "UpdateStoreRequestContent": {
                 "properties": {
+                    "builtinExtractionEnabled": {
+                        "description": "Enable built-in Instruct extraction independently of custom types.\nextractionEnabled=false overrides this switch without changing it.",
+                        "type": "boolean"
+                    },
                     "extractionCadence": {
                         "$ref": "#/components/schemas/ExtractionCadenceConfig"
+                    },
+                    "extractionEnabled": {
+                        "description": "Enable automatic long-term memory extraction from sessions. Disabling\nalso skips queued runs after settings propagate through the deployment's\nmetadata cache. Active runs may finish.\nMemoryETL, direct writes and session compaction are independent.",
+                        "type": "boolean"
                     },
                     "longTermMemory": {
                         "$ref": "#/components/schemas/LongTermMemoryConfigUpdate"
@@ -2245,6 +2425,9 @@
                         "minLength": 1,
                         "type": "string"
                     },
+                    "ownership": {
+                        "$ref": "#/components/schemas/OwnershipConfigInput"
+                    },
                     "shortMemory": {
                         "$ref": "#/components/schemas/ShortMemoryConfigInput"
                     },
@@ -2257,6 +2440,10 @@
             "UpdateStoreResponseContent": {
                 "description": "Memory store configuration and status.",
                 "properties": {
+                    "builtinExtractionEnabled": {
+                        "description": "Configured Instruct switch. Effective only when extractionEnabled=true.",
+                        "type": "boolean"
+                    },
                     "createdAt": {
                         "description": "The UTC timestamp when the memory store was created.",
                         "format": "date-time",
@@ -2276,6 +2463,10 @@
                     "extractionCadence": {
                         "$ref": "#/components/schemas/ExtractionCadenceConfig"
                     },
+                    "extractionEnabled": {
+                        "description": "Configured master switch for automatic session extraction.",
+                        "type": "boolean"
+                    },
                     "extractionStrategy": {
                         "$ref": "#/components/schemas/ExtractionStrategy"
                     },
@@ -2293,6 +2484,9 @@
                         "maxLength": 128,
                         "minLength": 1,
                         "type": "string"
+                    },
+                    "ownership": {
+                        "$ref": "#/components/schemas/OwnershipConfigStatus"
                     },
                     "shortMemory": {
                         "$ref": "#/components/schemas/ShortMemoryConfigStatus"
@@ -2323,7 +2517,9 @@
                     "longTermMemory",
                     "name",
                     "state",
-                    "storeId"
+                    "storeId",
+                    "extractionEnabled",
+                    "builtinExtractionEnabled"
                 ],
                 "type": "object"
             }
@@ -4295,6 +4491,16 @@
                         },
                         "description": "ConflictError 409 response"
                     },
+                    "412": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "PreconditionFailedError 412 response"
+                    },
                     "424": {
                         "content": {
                             "application/json": {
@@ -4342,6 +4548,178 @@
             }
         },
         "/iris/v1/agent-memory/stores/{storeId}/memory-types/{memoryTypeName}": {
+            "delete": {
+                "description": "Unregister a custom memory type without deleting existing memories or Search\nindex fields. First disable its session extraction strategy and remove every\ndocument Extractor bound to it; otherwise this returns 409. The removed name\nis permanently reserved within this store to protect stored attribute schemas.\nRequests or extraction jobs already admitted with an older store configuration\nmay finish. This operation is not a write barrier or a data purge.\nAn optional expectedRevision protects against stale deletion (412 on mismatch).\nEven when omitted, a concurrent registry change may return 412; read and retry.",
+                "operationId": "RemoveMemoryType",
+                "parameters": [
+                    {
+                        "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters.",
+                        "in": "path",
+                        "name": "storeId",
+                        "required": true,
+                        "schema": {
+                            "description": "Server-generated store identifier: st_ followed by 32 lowercase hex characters.",
+                            "maxLength": 35,
+                            "minLength": 35,
+                            "pattern": "^st_[0-9a-f]{32}$",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Name of a memory type or custom field (1-64 chars): a letter followed by letters, digits, underscores, or dashes.",
+                        "in": "path",
+                        "name": "memoryTypeName",
+                        "required": true,
+                        "schema": {
+                            "description": "Name of a memory type or custom field (1-64 chars): a letter followed by letters, digits, underscores, or dashes.",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "The project. Not supported yet; omit it.",
+                        "in": "query",
+                        "name": "projectId",
+                        "schema": {
+                            "description": "The project. Not supported yet; omit it.",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "The revision as last read. Omitted skips the client revision check.",
+                        "in": "query",
+                        "name": "expectedRevision",
+                        "schema": {
+                            "description": "The revision as last read. Omitted skips the client revision check.",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "RemoveMemoryType 204 response"
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "BadRequestError 400 response"
+                    },
+                    "401": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "AuthenticationError 401 response"
+                    },
+                    "403": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "ForbiddenError 403 response"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "NotFoundError 404 response"
+                    },
+                    "409": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "ConflictError 409 response"
+                    },
+                    "412": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "PreconditionFailedError 412 response"
+                    },
+                    "413": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "PayloadTooLargeError 413 response"
+                    },
+                    "424": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "FailedDependencyError 424 response"
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "UnexpectedError 500 response"
+                    },
+                    "501": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "NotImplementedError 501 response"
+                    },
+                    "503": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "ServiceUnavailableError 503 response"
+                    }
+                },
+                "tags": [
+                    "memory-types"
+                ]
+            },
             "get": {
                 "description": "Get one of a store's custom memory types.",
                 "operationId": "GetMemoryType",
@@ -4572,6 +4950,16 @@
                             }
                         },
                         "description": "NotFoundError 404 response"
+                    },
+                    "412": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PreconditionFailedErrorResponseContent"
+                                }
+                            }
+                        },
+                        "description": "PreconditionFailedError 412 response"
                     },
                     "424": {
                         "content": {

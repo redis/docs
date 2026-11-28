@@ -66,6 +66,12 @@ Call `tools/list` on an initialized connection to get the input schemas. Tool ar
 
 `edit_long_term_memory` and `upsert_long_term_memory` accept `expected_revision` to apply a change only when the memory's `revision` is current. The write tools accept `idempotency_key` so a retry replays the original result instead of writing twice.
 
+Semantic results can include a `score` between 0 and 1. For example, `"score": 0.87` indicates a higher similarity than `"score": 0.63`. Filter-only results omit it.
+
+Set `hybrid: true` with `text` to combine keyword and vector rankings. Results include `hybrid_score`. Omit `similarity_threshold` from hybrid requests. An unsupported database returns the tool error `hybrid_search_unsupported`. See [Combine keyword and semantic search](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#combine-keyword-and-semantic-search) for query limits and retry behavior.
+
+Call `search_long_term_memory` with `refresh_ttl: true` to refresh expiry for the returned memories. Document-managed memories keep their own expiry. Use a credential with store write permission. See [Refresh memory expiry on retrieval](/content/develop/ai/context-engine/agent-memory/long-term-memory.md#refresh-memory-expiry-on-retrieval) for the expiry rule.
+
 ## Connect a client
 
 This client connects, lists the tools, creates a memory, searches for it, and then deletes it.
