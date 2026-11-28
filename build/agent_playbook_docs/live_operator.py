@@ -16,8 +16,7 @@ from urllib.error import HTTPError
 from uuid import uuid4
 
 from redis_agent_memory import AgentMemory, AgentMemoryService
-from redis_agent_playbook import AgentPlaybooksService, Playbook
-from redis_agent_playbook.errors import PlaybookError
+from redis_iris.agent_playbooks import AgentPlaybooks, AgentPlaybooksSettings, errors
 
 from live_examples import create_key, request
 
@@ -28,7 +27,7 @@ PLAYBOOKS = "/iris/v1/agent-playbooks/playbooks"
 def expect_status(status, operation):
     try:
         operation()
-    except (PlaybookError, HTTPError) as error:
+    except (errors.PlaybookError, HTTPError) as error:
         assert getattr(error, "status_code", getattr(error, "code", None)) == status
     else:
         raise AssertionError(f"Expected HTTP {status}")
@@ -39,7 +38,8 @@ def validate(args, record):
     identity = os.environ["PLAYBOOK_IDS_CONTROL_TOKEN"]
     key_ids = []
     playbook_id = store_id = binding_id = None
-    control = AgentPlaybooksService(server_url=args.cp_url, token=admin, retry_config=None)
+    control = AgentPlaybooks(AgentPlaybooksSettings(service_url=args.cp_url, service_token=admin)).service
+    control.sdk_configuration.retry_config = None
     memory_control = None
     clients = []
     try:
@@ -58,8 +58,9 @@ def validate(args, record):
         writer_key = create_key(args.ids_url, identity, playbook_id, ["write"], args.tenant_id, key_ids)
 
         def connect(key):
-            client = Playbook(server_url=args.dp_url, playbook_id=playbook_id,
-                              api_key=key, retry_config=None)
+            settings = AgentPlaybooksSettings(url=args.dp_url, playbook_id=playbook_id, api_key=key)
+            client = AgentPlaybooks(settings).client
+            client.sdk_configuration.retry_config = None
             clients.append(client)
             return client
 

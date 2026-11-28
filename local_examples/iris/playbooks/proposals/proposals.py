@@ -1,7 +1,6 @@
 # EXAMPLE: iris_playbook_proposals
 # HIDE_START
 import os
-from redis_agent_playbook import models
 from redis_iris.agent_playbooks import AgentPlaybooks
 
 playbook = AgentPlaybooks.from_env()
@@ -121,7 +120,7 @@ print(final_review.action, final_review.evidence)
 # STEP_END
 
 # STEP_START playbook-proposal-accept
-from redis_agent_playbook import models
+from redis_iris.agent_playbooks import models
 
 accepted = playbook.client.accept_proposal(
     proposal_id=proposal_id,
@@ -195,6 +194,8 @@ print(template_bytes.decode("utf-8"))
 # STEP_END
 
 # STEP_START playbook-proposal-skill-accept
+from redis_iris.agent_playbooks import models
+
 accepted_skill = playbook.client.accept_proposal(
     proposal_id=skill_proposal_id, expected_revision=skill_review.revision,
 )

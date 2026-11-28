@@ -4,35 +4,39 @@ categories:
 - docs
 - develop
 - ai
-description: Turn suggested answers from agents and applications into reviewed FAQs for your playbook.
+description: Review and publish proposals to add or update FAQs and skills in a playbook.
 hideListLinks: true
 linktitle: Proposals
 title: Proposals
 weight: 40
+exampleClientOrder:
+- Python (Iris)
+- TypeScript (Iris)
+- CLI (Iris)
+- cURL (Iris)
 aliases:
 - /develop/ai/context-engine/agent-playbook/proposals/
 ---
 
-Use proposals to review suggested frequently asked questions (FAQs) and skills before publishing them. An agent or application submits candidate content; a reviewer checks its content, resources, and evidence before acceptance creates an unpublished entry.
+Use proposals to review suggested frequently asked questions (FAQs) and skills before publishing them. An `ADD` proposal creates an entry. An [UPDATE proposal](#update-an-existing-entry) appends a version to an existing entry. Both produce an unpublished version on acceptance.
 
-Proposals create new entries. They do not revise existing entries. To correct existing content, use [FAQ versioning](/content/develop/ai/context-engine/agent-playbooks/manage-faqs.md#update-an-answer) or [skill versioning](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#update-a-skill).
+Start with the FAQ walkthrough or [review a skill proposal](#review-skill-proposals). [Automatic extraction](#automate-proposal-generation) from Redis Agent Memory creates FAQ ADD proposals.
 
-Start with the FAQ walkthrough or [review a skill proposal](#review-skill-proposals). [Automatic extraction](#automate-proposal-generation) from Redis Agent Memory suggests FAQs only. Neither path affects agent responses until you publish the accepted entry.
-
-![A proposal enters the inbox with candidate content and evidence. Acceptance creates an unpublished FAQ, which publication serves to agents. Dismissal or inbox expiration moves the proposal to trash, where it can be restored before its retention deadline.](/images/ai/context-engine/agent-playbook-proposals.svg)
+![In this ADD example, a proposal enters the inbox with candidate content and evidence. Acceptance creates an unpublished FAQ. Publication makes it available to agents. Dismissal or inbox expiration moves the proposal to trash, where it can be restored before its retention deadline.](/images/ai/context-engine/agent-playbook-proposals.svg)
 {width="700"}
 
 ## Before you begin
 
 Use an existing playbook and application programming interface (API) keys with these permissions:
 
+- `read` to inspect review material.
 - `propose` to create candidates and attach evidence.
 - `write` to edit, accept, dismiss, restore, or purge proposals.
 - `publish` to publish the entry returned by acceptance.
 
-For this walkthrough, give `IRIS_AGENT_PLAYBOOKS_API_KEY` all three permissions and follow the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}). Append the snippets in order and run each write once. In your application, you can separate suggestion, review, and publication across keys.
+Follow the quickstart's [client setup]({{< relref "/develop/ai/context-engine/agent-playbooks/quickstart#connect-to-the-playbook" >}}) with `redis-iris>=1.2.0` for Python and the CLI. For this walkthrough, give `IRIS_AGENT_PLAYBOOKS_API_KEY` these permissions. Append the snippets in order and run each write once. In your application, you can separate suggestion, review, and publication across keys.
 
-For the skill examples and complete Python or cURL program, first [prepare the sample skill package](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#prepare-a-skill-package). The pinned CLI's proposal commands support FAQs; use the SDK or cURL for skill proposals.
+For the skill examples, first [prepare the sample skill package](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#prepare-a-skill-package). The CLI takes the complete skill directory with `proposals create --entry-type skill`.
 
 ## Find proposals to review
 
@@ -46,6 +50,8 @@ Search before submitting another candidate. Compare similar questions to decide 
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-search" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
+To find updates, set `actionType` to `UPDATE` when listing or searching proposals. The CLI uses `--action-type update`.
+
 ## Create a proposal
 
 Write a self-contained question and answer. Add intents for the task and attributes for its audience, then call `create_proposal` with an `add` action targeting `newEntry`. You can supply an entry key for the resulting FAQ and immutable source context that a reviewer can check.
@@ -54,7 +60,7 @@ Save the proposal identifier and `revision`. Use the revision to identify the ca
 
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-create" description="" lang_filter="Python (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
-The CLI takes a flat FAQ candidate file and a separate source file in JavaScript Object Notation (JSON), and constructs the proposal action for you.
+The CLI defaults to ADD. Pass a flat FAQ candidate file in JavaScript Object Notation (JSON) or a skill directory with `--entry-type skill`. Use `--source` to attach a separate source file.
 
 ### Handle an existing candidate
 
@@ -164,6 +170,73 @@ Publish the reviewed skill version with `publish_skill`:
 {{< clients-example set="iris_playbook_proposals" step="playbook-proposal-skill-publish" description="" lang_filter="Python (Iris),cURL (Iris)" footer="hide" />}}
 
 The accepted skill remains published. Use its returned entry identifier with the [skill cleanup procedure](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#withdraw-or-delete-a-skill) when you finish. Purging a proposal's review record does not delete its accepted entry.
+
+## Update an existing entry
+
+Use a Playbooks deployment that supports UPDATE proposals. For TypeScript, install `@redis-iris/agent-playbook@1.3.0`.
+
+### Submit a complete candidate
+
+Choose an FAQ or skill in a test playbook. Set the entry ID and the version you edited.
+
+```bash
+export PLAYBOOK_ENTRY_ID='<entry-id>'
+export PLAYBOOK_BASED_ON_VERSION=1
+```
+
+The basis version records what you edited. You can still accept the proposal if a newer draft exists. The entry keeps its ID, key, and version history.
+
+For Python, TypeScript, and cURL, save the full authored content as `proposal-content.json`. For an FAQ, include the question, answer, and any intents, attributes, and metadata you want to retain.
+
+```json
+{
+  "intents": ["Check when to contact support about a refund"],
+  "attributes": {"topic": "refund"},
+  "payload": {
+    "faq": {
+      "question": "What should I send support about a missing refund?",
+      "answer": "Send your order number and the date you requested the refund."
+    }
+  }
+}
+```
+
+For a skill, [prepare the sample ZIP](/content/develop/ai/context-engine/agent-playbooks/manage-skills.md#prepare-a-skill-package), which includes the reply template you’ll review. Save the archive and its attributes in the candidate file.
+
+```bash
+jq -n --rawfile package <(base64 < refund-support-reply.zip | tr -d '\n') '{
+  attributes: {topic: "refund"},
+  payload: {skillPackage: {packageBase64: $package}}
+}' > proposal-content.json
+```
+
+The candidate is a full replacement. Omitted intents, attributes, metadata, and skill files are removed from the new version.
+
+In Python, pass `entry_id` and `based_on_version` to `propose_faq` or `propose_skill`. Use a JSON object if you include `metadata`. Use `playbook.client` to review, accept, and publish.
+
+For the CLI, set `PLAYBOOK_ENTRY_TYPE` to `faq` or `skill`. Set `PLAYBOOK_UPDATE_CANDIDATE` to a FAQ JSON file from `iris agent-playbooks faqs export` or a complete skill directory. `--update ENTRY` accepts a key or ID. If you omit `--based-on`, the CLI reads the latest version. Supply the entry ID and `--based-on` to submit without a lookup.
+
+{{< clients-example set="iris_playbook_proposals_update" step="playbook-update-submit" description="" lang_filter="Python (Iris),TypeScript (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
+
+### Review and replace the candidate
+
+Compare the candidate with the basis version, the latest draft, and the published version. Save the complete corrected content as `proposal-content-reviewed.json`. For the CLI, set `PLAYBOOK_UPDATE_REVISED` to the revised FAQ file or skill directory.
+
+Replace the candidate with a key that has `write` permission. Keep the action, entry ID, basis version, and entry kind. The CLI reads the target from the stored proposal. Pass the proposal revision you reviewed as `expectedRevision`. If the service returns HTTP 412, review the current revision before retrying.
+
+Inspect the replacement before accepting it. For skills, use Python, TypeScript, or cURL to read the revised files. The sample checks the reply template against its digest.
+
+{{< clients-example set="iris_playbook_proposals_update" step="playbook-update-review" description="" lang_filter="Python (Iris),TypeScript (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
+
+### Accept and publish the new version
+
+Accept the reviewed revision to append an unpublished version. If you lose the response, repeat acceptance with the same proposal ID and revision to recover the receipt. Acceptance fails if the entry was deleted before the write. Read the version in the receipt before publishing it.
+
+{{< clients-example set="iris_playbook_proposals_update" step="playbook-update-accept" description="" lang_filter="Python (Iris),TypeScript (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
+
+Use the entry identifier and version from `result.versionCreated` to publish with a key that has `publish` permission. Acceptance leaves the current publication in place.
+
+{{< clients-example set="iris_playbook_proposals_update" step="playbook-update-publish" description="" lang_filter="Python (Iris),TypeScript (Iris),CLI (Iris),cURL (Iris)" footer="hide" />}}
 
 ## Automate proposal generation
 

@@ -4647,7 +4647,7 @@
     },
     "/iris/data/v1/agent-playbooks/playbooks/{playbookId}/proposals": {
       "post": {
-        "description": "Submit an FAQ for human review. Extraction and agent submissions share proposalPolicy.maxOpenProposals. When the Inbox is full, HTTP 409 content-limit-exceeded identifies the configured limit and observed open count; the proposal was not saved. Review/dismiss existing proposals or ask an administrator to increase the configured limit before retrying. Capacity is advisory because Search is eventually consistent.",
+        "description": "Submits a complete FAQ or skill candidate for review. Use add to propose a new entry.\nUse update to propose a new version of an existing entry and supply its entryId and basedOnVersion.\nExtraction and agent submissions share proposalPolicy.maxOpenProposals. When the inbox is full, HTTP 409 content-limit-exceeded identifies the configured limit and observed open count. Dismiss existing proposals or ask an administrator to raise the limit before retrying. The open count is advisory because search is eventually consistent.",
         "operationId": "CreateProposal",
         "requestBody": {
           "content": {
@@ -5760,7 +5760,7 @@
           "Proposals"
         ],
         "summary": "Replace a proposal candidate",
-        "description": "Replaces an open proposal's candidate with the complete action supplied.\nexpectedRevision is required and must match the revision you reviewed.\nA stale revision returns HTTP 412 /errors/revision-conflict."
+        "description": "Replaces an open proposal's complete candidate while preserving its action and target.\nexpectedRevision is required and must match the revision you reviewed.\nA stale revision returns HTTP 412 /errors/revision-conflict."
       },
       "delete": {
         "operationId": "PurgeProposal",
@@ -6149,7 +6149,7 @@
     },
     "/iris/data/v1/agent-playbooks/playbooks/{playbookId}/proposals/{proposalId}/acceptance": {
       "post": {
-        "description": "Promotes the reviewed FAQ or skill candidate into one canonical unpublished entry.\nexpectedRevision is required and must match the revision you reviewed.\nConcurrent calls and retries resume or return the proposal's recorded target.\nA complete target may be visible to management before the proposal reaches\npromoted, but remains absent from serving until separately published.",
+        "description": "Creates an unpublished entry for ADD or appends an unpublished version to an existing entry for UPDATE.\nexpectedRevision is required and must match the revision you reviewed.\nConcurrent calls and retries resume acceptance or return the same versionCreated receipt.\nThe accepted version may be visible to management before the proposal reaches\npromoted, but remains absent from serving until separately published.",
         "operationId": "AcceptProposal",
         "requestBody": {
           "content": {
@@ -7478,9 +7478,9 @@
         "properties": {
           "packageBase64": {
             "type": "string",
-            "maxLength": 6990508,
+            "maxLength": 7689560,
             "minLength": 1,
-            "description": "Base64-encoded ZIP with exactly one enclosing Skill directory. Place SKILL.md directly inside it, for example demo/SKILL.md, and put all resources beneath demo/. The SKILL.md frontmatter name must match the directory name. A flat ZIP with SKILL.md at archive root is not supported. Invalid layout returns HTTP 400 with an errors entry pointing to /packageBase64."
+            "description": "Base64-encoded ZIP with exactly one enclosing Skill directory. Place SKILL.md directly inside it, for example demo/SKILL.md, and put all resources beneath demo/. The SKILL.md frontmatter name must match the directory name. A flat ZIP with SKILL.md at archive root is not supported. The optional <skill-root>/.iris-playbook.json authoring settings file is ignored; supply settings through the existing request fields. Skill content remains limited to 5 MiB compressed, with up to 512 KiB additional ZIP overhead for settings. Invalid layout returns HTTP 400 with an errors entry pointing to /packageBase64."
           },
           "content": {
             "$ref": "#/components/schemas/ContentMetadata"
@@ -7541,7 +7541,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "AuthenticationErrorType": {
         "type": "string",
@@ -7616,7 +7620,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "BadRequestErrorType": {
         "type": "string",
@@ -7665,7 +7673,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "CandidatePreviewContent": {
         "type": "object",
@@ -7743,7 +7755,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "ConflictErrorType": {
         "type": "string",
@@ -7952,9 +7968,9 @@
         "properties": {
           "packageBase64": {
             "type": "string",
-            "maxLength": 6990508,
+            "maxLength": 7689560,
             "minLength": 1,
-            "description": "Base64-encoded ZIP with exactly one enclosing Skill directory. Place SKILL.md directly inside it, for example demo/SKILL.md, and put all resources beneath demo/. The SKILL.md frontmatter name must match the directory name. A flat ZIP with SKILL.md at archive root is not supported. Invalid layout returns HTTP 400 with an errors entry pointing to /packageBase64."
+            "description": "Base64-encoded ZIP with exactly one enclosing Skill directory. Place SKILL.md directly inside it, for example demo/SKILL.md, and put all resources beneath demo/. The SKILL.md frontmatter name must match the directory name. A flat ZIP with SKILL.md at archive root is not supported. The optional <skill-root>/.iris-playbook.json authoring settings file is ignored; supply settings through the existing request fields. Skill content remains limited to 5 MiB compressed, with up to 512 KiB additional ZIP overhead for settings. Invalid layout returns HTTP 400 with an errors entry pointing to /packageBase64."
           },
           "content": {
             "$ref": "#/components/schemas/ContentMetadata"
@@ -8485,6 +8501,43 @@
           "name"
         ]
       },
+      "ExistingEntryTarget": {
+        "type": "object",
+        "description": "UPDATE names an existing entry and an existing immutable basis. The basis is\nprovenance, not a latest-version precondition. Acceptance appends a full snapshot.",
+        "properties": {
+          "entryId": {
+            "type": "string"
+          },
+          "basedOnVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "format": "int32"
+          }
+        },
+        "required": [
+          "basedOnVersion",
+          "entryId"
+        ]
+      },
+      "ExistingEntryTargetInput": {
+        "type": "object",
+        "properties": {
+          "entryId": {
+            "type": "string",
+            "pattern": "^ent_[0-9a-f]{32}$",
+            "description": "Opaque stable entry identifier."
+          },
+          "basedOnVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "format": "int32"
+          }
+        },
+        "required": [
+          "basedOnVersion",
+          "entryId"
+        ]
+      },
       "FailedDependencyErrorResponseContent": {
         "type": "object",
         "description": "A dependent resource required to process the request is unavailable or unhealthy.",
@@ -8515,7 +8568,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "FailedDependencyErrorType": {
         "type": "string",
@@ -8705,7 +8762,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "ForbiddenErrorType": {
         "type": "string",
@@ -9277,7 +9338,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "NotFoundErrorType": {
         "type": "string",
@@ -9335,7 +9400,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "PayloadTooLargeErrorType": {
         "type": "string",
@@ -9427,11 +9496,15 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "PreconditionFailedErrorType": {
         "type": "string",
-        "description": "Problem type URI for a write whose expected revision is no longer current. A write guarded by an If-Match header on an HTTP entity tag uses a different type; see the Identity Service API.",
+        "description": "Problem type URI for a write whose expected revision is no longer current. The Identity Service product grants API uses a different type for its If-Match header; see the Identity Service API.",
         "enum": [
           "/errors/revision-conflict"
         ]
@@ -9482,7 +9555,6 @@
         ]
       },
       "ProposalAction": {
-        "description": "Exactly one action. Response clients must preserve unrecognized members.",
         "oneOf": [
           {
             "type": "object",
@@ -9494,6 +9566,18 @@
             },
             "required": [
               "add"
+            ]
+          },
+          {
+            "type": "object",
+            "title": "update",
+            "properties": {
+              "update": {
+                "$ref": "#/components/schemas/UpdateProposalAction"
+              }
+            },
+            "required": [
+              "update"
             ]
           }
         ]
@@ -9512,6 +9596,19 @@
               "add"
             ],
             "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "title": "update",
+            "properties": {
+              "update": {
+                "$ref": "#/components/schemas/UpdateProposalActionInput"
+              }
+            },
+            "required": [
+              "update"
+            ],
+            "additionalProperties": false
           }
         ]
       },
@@ -9528,13 +9625,26 @@
             "required": [
               "add"
             ]
+          },
+          {
+            "type": "object",
+            "title": "update",
+            "properties": {
+              "update": {
+                "$ref": "#/components/schemas/UpdateProposalActionPreview"
+              }
+            },
+            "required": [
+              "update"
+            ]
           }
         ]
       },
       "ProposalActionType": {
         "type": "string",
         "enum": [
-          "ADD"
+          "ADD",
+          "UPDATE"
         ]
       },
       "ProposalCandidate": {
@@ -9850,10 +9960,11 @@
       },
       "ProposalSkillPackage": {
         "type": "object",
+        "description": "Skill ZIP processing and authoring settings follow the same rules as direct Skill uploads.",
         "properties": {
           "packageBase64": {
             "type": "string",
-            "maxLength": 6990508,
+            "maxLength": 7689560,
             "minLength": 1
           }
         },
@@ -9909,7 +10020,7 @@
         }
       },
       "ProposalTarget": {
-        "description": "Exactly one target. Launch supports creating a new entry.",
+        "description": "Exactly one destination, paired with its matching action.",
         "oneOf": [
           {
             "type": "object",
@@ -9921,6 +10032,18 @@
             },
             "required": [
               "newEntry"
+            ]
+          },
+          {
+            "type": "object",
+            "title": "existingEntry",
+            "properties": {
+              "existingEntry": {
+                "$ref": "#/components/schemas/ExistingEntryTarget"
+              }
+            },
+            "required": [
+              "existingEntry"
             ]
           }
         ]
@@ -9938,6 +10061,19 @@
             },
             "required": [
               "newEntry"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "title": "existingEntry",
+            "properties": {
+              "existingEntry": {
+                "$ref": "#/components/schemas/ExistingEntryTargetInput"
+              }
+            },
+            "required": [
+              "existingEntry"
             ],
             "additionalProperties": false
           }
@@ -10293,7 +10429,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "ResourceSuspendedErrorType": {
         "type": "string",
@@ -10570,7 +10710,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "ServiceUnavailableErrorType": {
         "type": "string",
@@ -10824,7 +10968,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "TimeoutErrorType": {
         "type": "string",
@@ -10863,7 +11011,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "TooManyRequestsErrorType": {
         "type": "string",
@@ -10902,7 +11054,11 @@
           "status",
           "title",
           "type"
-        ]
+        ],
+        "externalDocs": {
+          "description": "RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+        }
       },
       "UnexpectedErrorType": {
         "type": "string",
@@ -10910,6 +11066,52 @@
         "enum": [
           "/errors/unexpected-error",
           "/errors/content-integrity-failed"
+        ]
+      },
+      "UpdateProposalAction": {
+        "type": "object",
+        "description": "Exactly one action. Response clients must preserve unrecognized members.",
+        "properties": {
+          "target": {
+            "$ref": "#/components/schemas/ProposalTarget"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/ProposalCandidate"
+          }
+        },
+        "required": [
+          "candidate",
+          "target"
+        ]
+      },
+      "UpdateProposalActionInput": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "$ref": "#/components/schemas/ProposalTargetInput"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/ProposalCandidateInput"
+          }
+        },
+        "required": [
+          "candidate",
+          "target"
+        ]
+      },
+      "UpdateProposalActionPreview": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "$ref": "#/components/schemas/ProposalTarget"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/ProposalCandidatePreview"
+          }
+        },
+        "required": [
+          "candidate",
+          "target"
         ]
       },
       "Version": {

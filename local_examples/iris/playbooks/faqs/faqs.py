@@ -89,7 +89,7 @@ while True:
 # STEP_END
 
 # STEP_START playbook-faq-lookup
-from redis_agent_playbook.models import Found
+from redis_iris.agent_playbooks import models
 
 lookup = playbook.client.lookup_entries(
     references=[
@@ -99,7 +99,7 @@ lookup = playbook.client.lookup_entries(
 )
 print("Version limit:", lookup.max_versions)
 for result in lookup.items:
-    if isinstance(result, Found):
+    if isinstance(result, models.Found):
         state = result.found.entry
         print(state.entry_id, state.version_count, state.latest, state.publication)
     else:
